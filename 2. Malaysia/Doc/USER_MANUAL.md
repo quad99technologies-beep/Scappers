@@ -127,8 +127,13 @@ All required packages are installed automatically via `setup.bat`:
 **Details**:
 - National Pharmaceutical Regulatory Agency (NPRA) database
 - Official product registration information
-- Each product accessed via: `detail.php?type=product&id={registration_number}`
-- Contains complete regulatory information
+- **HYBRID SCRAPING APPROACH** (optimized to reduce web hits):
+  - **Stage 1**: Keyword-based search via `index.php` (fast, efficient)
+    - Selects "Product Name" search criteria from dropdown
+    - Enters product keyword in search box
+    - Parses search results table
+  - **Stage 2**: Direct detail page scraping via `detail.php?type=product&id={registration_number}` (fallback for missing data)
+  - This ensures 100% coverage while minimizing server load
 
 ### Source 3: FUKKM (Formulari Ubat KKM)
 **URL**: https://pharmacy.moh.gov.my/ms/apps/fukkm
@@ -204,21 +209,27 @@ MAL09102913AZ,289099
 **Expected Output**: ~3,000-5,000 products
 **Browser**: Visible Selenium window
 
-#### Script 02: Get Product Details from QUEST3+
+#### Script 02: Get Product Details from QUEST3+ (HYBRID APPROACH)
 **File**: `02_Product_Details.py`
-**Purpose**: Get company/holder info for each product
+**Purpose**: Get company/holder info for each product using optimized two-stage approach
 **Process**:
-1. Reads registration numbers from Script 01 output
-2. For EACH registration number:
-   - Opens `https://quest3plus.bpfk.gov.my/pmo2/detail.php?type=product&id={reg_no}`
-   - Extracts Product Name, Holder, Manufacturer
-   - Waits 2 seconds between requests (rate limiting)
+1. Reads registration numbers and product names from Script 01 output
+2. For EACH product:
+   - **STAGE 1**: Tries keyword-based search first (faster)
+     - Searches by product name on `search_product.php`
+     - Matches registration number in search results
+     - If found: extracts Product Name and Holder
+   - **STAGE 2**: If Stage 1 fails, uses direct detail page (guaranteed)
+     - Opens `https://quest3plus.bpfk.gov.my/pmo2/detail.php?type=product&id={reg_no}`
+     - Extracts complete details: Product Name, Holder, Manufacturer, Addresses, Phone
+   - Waits 1.5 seconds between requests (rate limiting)
 3. Saves to `quest3_product_details.csv`
 
-**Expected Runtime**: 2-4 hours (depending on number of products)
-**Expected Output**: Same count as Script 01
+**Expected Runtime**: 1-3 hours (optimized - majority resolved in Stage 1)
+**Expected Output**: Same count as Script 01 with 100% coverage
 **Browser**: Visible Playwright window
-**Note**: This is the LONGEST running script
+**Note**: This is still the LONGEST running script, but significantly faster than pure detail scraping
+**Statistics**: Script shows Stage 1 vs Stage 2 success rates at completion
 
 #### Script 03: Consolidate Product Details
 **File**: `03_Consolidate_Results.py`

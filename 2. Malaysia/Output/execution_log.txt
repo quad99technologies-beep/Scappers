@@ -1,50 +1,50 @@
 ======================================== 
 Script Execution Log 
-Execution Date: 23-12-2025 22:19:34.41 
+Execution Date: 24-12-2025 12:00:32.03 
 ======================================== 
  
 Python 3.14.2
  
-Creating backup at: D:\quad99\Scappers\2. Malaysia\Backup\backup_20251223_221934 
+Creating backup at: D:\quad99\Scappers\2. Malaysia\Backup\backup_20251224_120032 
 Backup created successfully 
 Clearing output folder 
  
 [1/5] Running: 01_Product_Registration_Number.py 
-Start Time: 22:19:34.74 
+Start Time: 12:00:32.47 
 [SUCCESS] Script 01 completed 
-End Time: 22:19:34.74 
+End Time: 12:00:32.47 
 Output file: malaysia_drug_prices_view_all.csv (approx. 1363 lines
  
 [SKIPPED] Script not found: 01_Product_Registration_Number.py 
  
 [2/5] Running: 02_Product_Details.py 
-Start Time: 22:21:00.06 
+Start Time: 12:02:05.07 
 [SUCCESS] Script 02 completed 
-End Time: 22:21:00.06 
-Output file: quest3_product_details.csv (approx. 1363 lines
+End Time: 12:02:05.07 
+Output file: quest3_product_details.csv (approx. 19865 lines
  
 [SKIPPED] Script not found: 02_Product_Details.py 
  
 [3/5] Running: 03_Consolidate_Results.py 
-Start Time:  6:42:15.75 
+Start Time: 12:36:51.11 
 [SUCCESS] Script 03 completed 
-End Time:  6:42:15.75 
-Output file: consolidated_products.csv (approx. 1357 lines
+End Time: 12:36:51.11 
+Output file: consolidated_products.csv (approx. 19864 lines
  
 [SKIPPED] Script not found: 03_Consolidate_Results.py 
  
 [4/5] Running: 04_Get_Fully_Reimbursable.py 
-Start Time:  6:42:16.73 
+Start Time: 12:36:51.76 
 [SUCCESS] Script 04 completed 
-End Time:  6:42:16.73 
+End Time: 12:36:51.76 
 Output file: malaysia_fully_reimbursable_drugs.csv (approx. 1665 lines
  
 [SKIPPED] Script not found: 04_Get_Fully_Reimbursable.py 
  
 [5/5] Running: 05_Generate_PCID_Mapped.py 
-Start Time:  6:47:03.15 
+Start Time: 12:41:17.35 
 [SUCCESS] Script 05 completed 
-End Time:  6:47:03.15 
+End Time: 12:41:17.35 
 Output file: malaysia_pcid_mapped.csv (approx. 1304 lines
 Output file: malaysia_pcid_not_mapped.csv (approx. 60 lines
  
@@ -54,7 +54,7 @@ Output file: malaysia_pcid_not_mapped.csv (approx. 60 lines
 Execution Summary 
 ======================================== 
 Status: ALL SCRIPTS COMPLETED SUCCESSFULLY 
-End Time: 24-12-2025  6:47:04.68 
+End Time: 24-12-2025 12:41:18.12 
  
  
 Output Files: 

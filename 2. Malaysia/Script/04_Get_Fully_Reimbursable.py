@@ -221,17 +221,22 @@ def write_csv(results: List[PageResult], out_csv: str) -> None:
 
 
 def main():
+    """Main function to scrape all FUKKM pages and save results."""
+    print("Starting FUKKM scraper...")
+    print(f"Target URL: {BASE_URL}")
+    
     results = scrape_all_pages(delay_s=0.2, fail_fast=False)
 
     total_rows = sum(len(r.rows) for r in results)
-    print(f"Total rows scraped: {total_rows}")
+    print(f"\nTotal rows scraped: {total_rows}")
 
     if total_rows == 0:
-        print("No rows scraped. The table selector may have changed or content is blocked.", file=sys.stderr)
+        print("⚠️  WARNING: No rows scraped. The table selector may have changed or content is blocked.", file=sys.stderr)
+        return
 
     write_csv(results, OUT_CSV)
 
-    print(f"Wrote: {OUT_CSV}")
+    print(f"✅ Wrote {total_rows} rows to: {OUT_CSV}")
 
 
 if __name__ == "__main__":

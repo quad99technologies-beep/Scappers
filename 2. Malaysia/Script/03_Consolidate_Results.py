@@ -35,6 +35,12 @@ def consolidate_product_details() -> None:
     try:
         df = pd.read_csv(QUEST3_DETAILS, dtype=str, keep_default_na=False)
 
+        # Check required columns exist
+        required_cols = ["Registration No", "Product Name", "Holder"]
+        missing_cols = [col for col in required_cols if col not in df.columns]
+        if missing_cols:
+            raise ValueError(f"Missing required columns in input file: {', '.join(missing_cols)}")
+
         # Rename columns to match expected format for Script 05
         # Expected columns: Registration No / Notification No, Product Name, Holder
         df_consolidated = pd.DataFrame()

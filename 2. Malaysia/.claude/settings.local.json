@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir /s Input Output)",
+      "Bash(python:*)",
+      "Bash(dir:*)"
+    ]
+  }
+}

@@ -14,6 +14,7 @@ OUT_DIR = Path("../Output")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 def main():
+    """Scrape all drug prices from MyPriMe website."""
     options = webdriver.ChromeOptions()
     options.add_argument("--start-maximized")
     options.add_argument("--disable-blink-features=AutomationControlled")
@@ -24,11 +25,13 @@ def main():
     )
 
     try:
+        print("Opening MyPriMe website...")
         driver.get(URL)
 
         wait = WebDriverWait(driver, 20)
 
         # Wait until "View All" is clickable
+        print("Waiting for 'View All' button...")
         view_all_btn = wait.until(
             EC.element_to_be_clickable((
                 By.XPATH,
@@ -37,12 +40,14 @@ def main():
         )
 
         # Click "View All"
+        print("Clicking 'View All' to load all products...")
         driver.execute_script("arguments[0].click();", view_all_btn)
 
         # Give JS time to render full table
         time.sleep(5)
 
         # Locate table
+        print("Extracting table data...")
         table = wait.until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "table.tinytable"))
         )
@@ -67,9 +72,12 @@ def main():
         output_path = OUT_DIR / "malaysia_drug_prices_view_all.csv"
         df.to_csv(output_path, index=False, encoding="utf-8")
 
-        print(f"Scraped {len(df)} rows")
-        print(f"Saved to {output_path}")
+        print(f"✅ Scraped {len(df)} rows")
+        print(f"✅ Saved to {output_path}")
 
+    except Exception as e:
+        print(f"❌ ERROR: {e}")
+        raise
     finally:
         driver.quit()
 

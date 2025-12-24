@@ -373,6 +373,216 @@ def main() -> None:
     print(f"   Total records: {len(report):,}")
     print(f"   Mapped: {len(mapped_report):,}")
     print(f"   Not Mapped: {len(not_mapped_report):,}")
+    
+    # Generate comprehensive final report
+    generate_final_report(report, mapped_report, not_mapped_report, cons, prices, pcid_mapping, fully_reimbursable, output_dir)
+
+
+def generate_final_report(
+    report: pd.DataFrame,
+    mapped_report: pd.DataFrame,
+    not_mapped_report: pd.DataFrame,
+    cons: pd.DataFrame,
+    prices: pd.DataFrame,
+    pcid_mapping: pd.DataFrame,
+    fully_reimbursable: pd.DataFrame,
+    output_dir: Path
+) -> None:
+    """Generate comprehensive human-readable final report."""
+    report_path = output_dir / "final_data_coverage_report.txt"
+    
+    # Calculate statistics
+    total_products = len(report)
+    mapped_count = len(mapped_report)
+    not_mapped_count = len(not_mapped_report)
+    pcid_coverage = (mapped_count / total_products * 100) if total_products > 0 else 0
+    
+    # Missing company information
+    missing_company = report[report["Company"].isna() | (report["Company"].str.strip() == "")]
+    missing_company_count = len(missing_company)
+    
+    # Missing product names
+    missing_product_name = report[report["Product Group"].isna() | (report["Product Group"].str.strip() == "")]
+    missing_product_name_count = len(missing_product_name)
+    
+    # Missing generic names
+    missing_generic = report[report["Generic Name"].isna() | (report["Generic Name"].str.strip() == "")]
+    missing_generic_count = len(missing_generic)
+    
+    # Missing prices
+    missing_price = report[report["Public with VAT Price"].isna()]
+    missing_price_count = len(missing_price)
+    
+    # Reimbursable statistics
+    reimbursable_count = len(report[report["Reimbursable Status"] == "FULLY REIMBURSABLE"])
+    non_reimbursable_count = len(report[report["Reimbursable Status"] == "NON REIMBURSABLE"])
+    
+    # Expected vs actual
+    expected_from_prices = len(prices)
+    expected_from_cons = len(cons)
+    expected_pcid = len(pcid_mapping)
+    expected_reimbursable = len(fully_reimbursable)
+    
+    # Products not found in consolidated (missing company)
+    missing_in_cons = prices[~prices["LOCAL_PACK_CODE"].isin(cons["LOCAL_PACK_CODE"])]
+    missing_in_cons_count = len(missing_in_cons)
+    
+    # Products in consolidated but not in prices
+    missing_in_prices = cons[~cons["LOCAL_PACK_CODE"].isin(prices["LOCAL_PACK_CODE"])]
+    missing_in_prices_count = len(missing_in_prices)
+    
+    # Products without PCID mapping
+    products_without_pcid = sorted(not_mapped_report["LOCAL_PACK_CODE"].dropna().unique().tolist())
+    
+    # Generate report
+    with open(report_path, "w", encoding="utf-8") as f:
+        f.write("=" * 80 + "\n")
+        f.write("MALAYSIA MEDICINE PRICE SCRAPER - FINAL DATA COVERAGE REPORT\n")
+        f.write("=" * 80 + "\n")
+        f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write("\n")
+        
+        # Executive Summary
+        f.write("=" * 80 + "\n")
+        f.write("EXECUTIVE SUMMARY\n")
+        f.write("=" * 80 + "\n")
+        f.write(f"Total Products Processed:       {total_products:,}\n")
+        f.write(f"Products with PCID Mapping:     {mapped_count:,} ({pcid_coverage:.2f}%)\n")
+        f.write(f"Products without PCID Mapping:  {not_mapped_count:,} ({100-pcid_coverage:.2f}%)\n")
+        f.write(f"Reimbursable Products:          {reimbursable_count:,}\n")
+        f.write(f"Non-Reimbursable Products:      {non_reimbursable_count:,}\n")
+        f.write("\n")
+        
+        # Data Source Statistics
+        f.write("=" * 80 + "\n")
+        f.write("DATA SOURCE STATISTICS\n")
+        f.write("=" * 80 + "\n")
+        f.write(f"Products from MyPriMe (Prices): {expected_from_prices:,}\n")
+        f.write(f"Products from QUEST3+ (Details): {expected_from_cons:,}\n")
+        f.write(f"PCID Mappings Available:        {expected_pcid:,}\n")
+        f.write(f"Reimbursable Drugs in FUKKM:    {expected_reimbursable:,}\n")
+        f.write("\n")
+        
+        # Data Quality Metrics
+        f.write("=" * 80 + "\n")
+        f.write("DATA QUALITY METRICS\n")
+        f.write("=" * 80 + "\n")
+        f.write(f"Products with Company Info:     {total_products - missing_company_count:,} ({((total_products - missing_company_count) / total_products * 100):.2f}%)\n")
+        f.write(f"Products missing Company Info:   {missing_company_count:,} ({((missing_company_count / total_products * 100) if total_products > 0 else 0):.2f}%)\n")
+        f.write(f"Products with Product Name:      {total_products - missing_product_name_count:,} ({((total_products - missing_product_name_count) / total_products * 100):.2f}%)\n")
+        f.write(f"Products missing Product Name:  {missing_product_name_count:,} ({((missing_product_name_count / total_products * 100) if total_products > 0 else 0):.2f}%)\n")
+        f.write(f"Products with Generic Name:     {total_products - missing_generic_count:,} ({((total_products - missing_generic_count) / total_products * 100):.2f}%)\n")
+        f.write(f"Products missing Generic Name:  {missing_generic_count:,} ({((missing_generic_count / total_products * 100) if total_products > 0 else 0):.2f}%)\n")
+        f.write(f"Products with Price:            {total_products - missing_price_count:,} ({((total_products - missing_price_count) / total_products * 100):.2f}%)\n")
+        f.write(f"Products missing Price:         {missing_price_count:,} ({((missing_price_count / total_products * 100) if total_products > 0 else 0):.2f}%)\n")
+        f.write("\n")
+        
+        # Missing Data Analysis
+        f.write("=" * 80 + "\n")
+        f.write("MISSING DATA ANALYSIS\n")
+        f.write("=" * 80 + "\n")
+        
+        # Missing in consolidated
+        if missing_in_cons_count > 0:
+            f.write(f"\n⚠️  Products in MyPriMe but NOT in QUEST3+ ({missing_in_cons_count:,} products):\n")
+            f.write("   These products have prices but no company/holder information.\n")
+            f.write("   First 20 registration numbers:\n")
+            for i, regno in enumerate(missing_in_cons["LOCAL_PACK_CODE"].head(20).tolist(), 1):
+                f.write(f"     {i:3d}. {regno}\n")
+            if missing_in_cons_count > 20:
+                f.write(f"     ... and {missing_in_cons_count - 20} more\n")
+        else:
+            f.write("\n✅ All products from MyPriMe have corresponding QUEST3+ entries.\n")
+        
+        # Missing in prices
+        if missing_in_prices_count > 0:
+            f.write(f"\n⚠️  Products in QUEST3+ but NOT in MyPriMe ({missing_in_prices_count:,} products):\n")
+            f.write("   These products have company info but no price information.\n")
+            f.write("   First 20 registration numbers:\n")
+            for i, regno in enumerate(missing_in_prices["LOCAL_PACK_CODE"].head(20).tolist(), 1):
+                f.write(f"     {i:3d}. {regno}\n")
+            if missing_in_prices_count > 20:
+                f.write(f"     ... and {missing_in_prices_count - 20} more\n")
+        else:
+            f.write("\n✅ All products from QUEST3+ have corresponding MyPriMe entries.\n")
+        
+        f.write("\n")
+        
+        # PCID Mapping Analysis
+        f.write("=" * 80 + "\n")
+        f.write("PCID MAPPING ANALYSIS\n")
+        f.write("=" * 80 + "\n")
+        f.write(f"Total PCID Mappings Available:   {expected_pcid:,}\n")
+        f.write(f"Products Successfully Mapped:    {mapped_count:,}\n")
+        f.write(f"Products NOT Mapped:             {not_mapped_count:,}\n")
+        f.write(f"Mapping Coverage:                {pcid_coverage:.2f}%\n")
+        f.write("\n")
+        
+        if products_without_pcid:
+            f.write(f"⚠️  Products WITHOUT PCID Mapping ({len(products_without_pcid):,} unique products):\n")
+            f.write("   These products need PCID mapping added to Input/Malaysia_PCID.csv\n")
+            f.write("   First 50 registration numbers:\n")
+            for i, regno in enumerate(products_without_pcid[:50], 1):
+                f.write(f"     {i:3d}. {regno}\n")
+            if len(products_without_pcid) > 50:
+                f.write(f"     ... and {len(products_without_pcid) - 50} more (see malaysia_pcid_not_mapped.csv)\n")
+        else:
+            f.write("✅ All products have PCID mappings!\n")
+        f.write("\n")
+        
+        # Reimbursable Analysis
+        f.write("=" * 80 + "\n")
+        f.write("REIMBURSABLE STATUS ANALYSIS\n")
+        f.write("=" * 80 + "\n")
+        f.write(f"Total Reimbursable Drugs:        {reimbursable_count:,} ({((reimbursable_count / total_products * 100) if total_products > 0 else 0):.2f}%)\n")
+        f.write(f"Total Non-Reimbursable Drugs:    {non_reimbursable_count:,} ({((non_reimbursable_count / total_products * 100) if total_products > 0 else 0):.2f}%)\n")
+        f.write(f"Reimbursable Drugs in FUKKM:     {expected_reimbursable:,}\n")
+        f.write("\n")
+        
+        # Recommendations
+        f.write("=" * 80 + "\n")
+        f.write("RECOMMENDATIONS\n")
+        f.write("=" * 80 + "\n")
+        
+        if missing_company_count > 0:
+            f.write(f"⚠️  {missing_company_count:,} products are missing company information.\n")
+            f.write("   Action: Re-run Script 02 to retry extraction from QUEST3+.\n")
+            f.write("\n")
+        
+        if not_mapped_count > 0:
+            f.write(f"⚠️  {not_mapped_count:,} products are missing PCID mappings.\n")
+            f.write("   Action: Add PCID mappings to Input/Malaysia_PCID.csv for these products.\n")
+            f.write("   See malaysia_pcid_not_mapped.csv for the complete list.\n")
+            f.write("\n")
+        
+        if missing_in_cons_count > 0:
+            f.write(f"⚠️  {missing_in_cons_count:,} products from MyPriMe were not found in QUEST3+.\n")
+            f.write("   These may be deprecated products or registration number mismatches.\n")
+            f.write("\n")
+        
+        if pcid_coverage >= 90:
+            f.write("✅ Excellent PCID mapping coverage! (>90%)\n")
+        elif pcid_coverage >= 70:
+            f.write("⚠️  Good PCID mapping coverage, but improvements possible.\n")
+        else:
+            f.write("❌ Low PCID mapping coverage. Consider adding more mappings.\n")
+        f.write("\n")
+        
+        # Output Files
+        f.write("=" * 80 + "\n")
+        f.write("OUTPUT FILES\n")
+        f.write("=" * 80 + "\n")
+        f.write("Generated Files:\n")
+        f.write("  - malaysia_pcid_mapped.csv (products WITH PCID mapping)\n")
+        f.write("  - malaysia_pcid_not_mapped.csv (products WITHOUT PCID mapping)\n")
+        f.write("  - final_data_coverage_report.txt (this report)\n")
+        f.write("\n")
+        
+        f.write("=" * 80 + "\n")
+        f.write("END OF REPORT\n")
+        f.write("=" * 80 + "\n")
+    
+    print(f"\n📊 Final report generated: {report_path}")
 
 
 if __name__ == "__main__":
