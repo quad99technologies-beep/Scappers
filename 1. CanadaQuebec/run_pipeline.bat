@@ -1,28 +1,32 @@
 @echo off
 REM ============================================================================
-REM Enterprise PDF Processing Pipeline - Canada Quebec RAMQ Scraper
+REM Canada Quebec RAMQ - Complete Annexe Extraction Pipeline
 REM ============================================================================
-REM Executes all extraction, normalization, and verification steps in sequence
-REM
-REM Pipeline Steps:
-REM   step_00_* - Utility modules (encoding, database) - imported by other steps
-REM   step_01   - Backup and clean output folder
-REM   step_02   - Extract legend section from PDF
-REM   step_03   - Validate PDF structure
-REM   step_04   - Extract DIN data to CSV
-REM   step_05   - Normalize CSV data
-REM   step_06   - Verify encoding
-REM   step_07   - Transform to standard format
+REM This script:
+REM   step_00 - Backs up output folder before each run (in doc/)
+REM   step_01 - Splits PDF into annexes (IV.1, IV.2, V)
+REM   step_02 - Validates PDF structure (optional)
+REM   step_03 - Extracts Annexe IV.1 data
+REM   step_04 - Extracts Annexe IV.2 data
+REM   step_05 - Extracts Annexe V data
+REM   step_06 - Merges all annexe outputs into final CSV
 REM ============================================================================
 
+setlocal enabledelayedexpansion
+
 echo ========================================
-echo Enterprise PDF Processing Pipeline
-echo Canada Quebec RAMQ Scraper
+echo Canada Quebec RAMQ - Complete Pipeline
 echo ========================================
 echo.
 
-echo [Step 1/7] Backing up and cleaning output folder...
-python Script\step_01_backup_and_clean.py
+REM Change to script directory
+cd /d "%~dp0"
+
+REM ============================================================================
+REM Step 00: Backup Output Folder
+REM ============================================================================
+echo [Step 00/06] Backing up output folder...
+python doc\step_01_backup_and_clean.py
 if errorlevel 1 (
     echo ERROR: Backup failed!
     pause
@@ -30,8 +34,33 @@ if errorlevel 1 (
 )
 echo.
 
-echo [Step 2/7] Extracting Annexe IV.1 section from PDF...
-python Script\step_02_extract_legend_section.py
+REM ============================================================================
+REM Step 01: Split PDF into Annexes
+REM ============================================================================
+echo [Step 01/06] Splitting PDF into annexes (IV.1, IV.2, V)...
+python Script\step_01_split_pdf_into_annexes.py
+if errorlevel 1 (
+    echo ERROR: PDF splitting failed!
+    pause
+    exit /b 1
+)
+echo.
+
+REM ============================================================================
+REM Step 02: Validate PDF Structure (Optional - can be skipped)
+REM ============================================================================
+echo [Step 02/06] Validating PDF structure...
+python Script\step_02_validate_pdf_structure.py
+if errorlevel 1 (
+    echo WARNING: PDF validation failed, but continuing...
+)
+echo.
+
+REM ============================================================================
+REM Step 03: Extract Annexe IV.1
+REM ============================================================================
+echo [Step 03/06] Extracting Annexe IV.1...
+python Script\step_03_extract_annexe_iv1.py
 if errorlevel 1 (
     echo ERROR: Annexe IV.1 extraction failed!
     pause
@@ -39,46 +68,37 @@ if errorlevel 1 (
 )
 echo.
 
-echo [Step 3/7] Validating PDF structure...
-python Script\step_03_validate_pdf_structure.py
+REM ============================================================================
+REM Step 04: Extract Annexe IV.2
+REM ============================================================================
+echo [Step 04/06] Extracting Annexe IV.2...
+python Script\step_04_extract_annexe_iv2.py
 if errorlevel 1 (
-    echo ERROR: PDF validation failed!
+    echo ERROR: Annexe IV.2 extraction failed!
     pause
     exit /b 1
 )
 echo.
 
-echo [Step 4/7] Extracting DIN data to CSV...
-python Script\step_04_extract_din_data.py
+REM ============================================================================
+REM Step 05: Extract Annexe V
+REM ============================================================================
+echo [Step 05/06] Extracting Annexe V...
+python Script\step_05_extract_annexe_v.py
 if errorlevel 1 (
-    echo ERROR: DIN extraction failed!
+    echo ERROR: Annexe V extraction failed!
     pause
     exit /b 1
 )
 echo.
 
-echo [Step 5/7] Normalizing CSV data...
-python Script\step_05_normalize_csv_data.py
+REM ============================================================================
+REM Step 06: Merge All Annexes
+REM ============================================================================
+echo [Step 06/06] Merging all annexe outputs...
+python Script\step_06_merge_all_annexes.py
 if errorlevel 1 (
-    echo ERROR: CSV normalization failed!
-    pause
-    exit /b 1
-)
-echo.
-
-echo [Step 6/7] Verifying encoding...
-python Script\step_06_verify_encoding.py
-if errorlevel 1 (
-    echo ERROR: Encoding verification failed!
-    pause
-    exit /b 1
-)
-echo.
-
-echo [Step 7/7] Transforming to standard format...
-python Script\step_07_transform_to_standard_format.py
-if errorlevel 1 (
-    echo ERROR: Format transformation failed!
+    echo ERROR: Merge failed!
     pause
     exit /b 1
 )
@@ -88,8 +108,14 @@ echo ========================================
 echo Pipeline completed successfully!
 echo ========================================
 echo.
-echo Output files are in: output\csv\
-echo Documentation is in: Script\doc\
+echo Output files:
+echo   - Annexe IV.1: output\csv\annexe_iv1_extracted.csv
+echo   - Annexe IV.2: output\csv\annexe_iv2_extracted.csv
+echo   - Annexe V:    output\csv\annexe_v_extracted.csv
+echo   - Final Report: output\csv\canadaquebecreport_ddmmyyyy.csv
+echo     (Filename includes today's date in ddmmyyyy format)
+echo.
+echo Backups saved in: backups\
 echo.
 pause
 

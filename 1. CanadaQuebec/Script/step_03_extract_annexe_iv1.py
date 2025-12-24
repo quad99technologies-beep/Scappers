@@ -7,11 +7,11 @@ import pandas as pd
 from openai import OpenAI
 
 # ----------------------------
-# Paths (your layout)
+# Paths (relative to script location)
 # ----------------------------
-PROJECT_ROOT = Path(r"D:\quad99\Scappers\1. CanadaQuebec")
-PDF_PATH = PROJECT_ROOT / "output" / "split_pdf" / "annexe_iv1.pdf"
-OUT_CSV = PROJECT_ROOT / "output" / "csv" / "annexe_iv1_openai_extracted.csv"
+BASE_DIR = Path(__file__).resolve().parents[1]
+PDF_PATH = BASE_DIR / "output" / "split_pdf" / "annexe_iv1.pdf"
+OUT_CSV = BASE_DIR / "output" / "csv" / "annexe_iv1_extracted.csv"
 OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
 
 # ----------------------------

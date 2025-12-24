@@ -19,8 +19,20 @@ from PyPDF2 import PdfReader, PdfWriter
 try:
     from step_00_utils_encoding import clean_extracted_text
 except ImportError:
-    def clean_extracted_text(text: str, enforce_utf8: bool = True) -> str:
-        return unicodedata.normalize('NFC', str(text)) if text else ""
+    # Try importing from doc directory
+    import sys
+    from pathlib import Path
+    doc_path = Path(__file__).resolve().parents[1] / "doc"
+    if doc_path.exists():
+        sys.path.insert(0, str(doc_path))
+        try:
+            from step_00_utils_encoding import clean_extracted_text
+        except ImportError:
+            def clean_extracted_text(text: str, enforce_utf8: bool = True) -> str:
+                return unicodedata.normalize('NFC', str(text)) if text else ""
+    else:
+        def clean_extracted_text(text: str, enforce_utf8: bool = True) -> str:
+            return unicodedata.normalize('NFC', str(text)) if text else ""
 
 # Configuration
 BASE_DIR = Path(__file__).resolve().parents[1]

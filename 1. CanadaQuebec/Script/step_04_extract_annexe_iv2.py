@@ -9,8 +9,9 @@ from openai import OpenAI
 # =========================
 # CONFIG
 # =========================
-PDF_PATH = Path(r"D:\quad99\Scappers\1. CanadaQuebec\output\split_pdf\annexe_iv2.pdf")
-OUT_CSV = Path(r"D:\quad99\Scappers\1. CanadaQuebec\output\csv\annexe_iv2_final_expected_format.csv")
+BASE_DIR = Path(__file__).resolve().parents[1]
+PDF_PATH = BASE_DIR / "output" / "split_pdf" / "annexe_iv2.pdf"
+OUT_CSV = BASE_DIR / "output" / "csv" / "annexe_iv2_extracted.csv"
 OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
 
 STATIC_CURRENCY = "CAD"
