@@ -1,0 +1,128 @@
+
+================================================================================
+PAGE 231 (Index 230)
+================================================================================
+Error reading page 230: 'charmap' codec can't encode character '\uf0a8' in position 498: character maps to <undefined>
+
+================================================================================
+PAGE 232 (Index 231)
+================================================================================
+Error reading page 231: 'charmap' codec can't encode character '\uf0a8' in position 20: character maps to <undefined>
+
+================================================================================
+PAGE 233 (Index 232)
+================================================================================
+Error reading page 232: 'charmap' codec can't encode character '\uf0a8' in position 137: character maps to <undefined>
+
+================================================================================
+PAGE 234 (Index 233)
+================================================================================
+Error reading page 233: 'charmap' codec can't encode character '\uf0a8' in position 126: character maps to <undefined>
+
+================================================================================
+PAGE 235 (Index 234)
+================================================================================
+Error reading page 234: 'charmap' codec can't encode character '\uf0a8' in position 499: character maps to <undefined>
+
+================================================================================
+PAGE 236 (Index 235)
+================================================================================
+Error reading page 235: 'charmap' codec can't encode character '\uf0a8' in position 20: character maps to <undefined>
+
+================================================================================
+PAGE 237 (Index 236)
+================================================================================
+Error reading page 236: 'charmap' codec can't encode character '\uf0a8' in position 182: character maps to <undefined>
+
+================================================================================
+PAGE 238 (Index 237)
+================================================================================
+Error reading page 237: 'charmap' codec can't encode character '\uf0a8' in position 345: character maps to <undefined>
+
+================================================================================
+PAGE 239 (Index 238)
+================================================================================
+Error reading page 238: 'charmap' codec can't encode character '\uf0a8' in position 736: character maps to <undefined>
+
+================================================================================
+PAGE 240 (Index 239)
+================================================================================
+Error reading page 239: 'charmap' codec can't encode character '\uf0a8' in position 1210: character maps to <undefined>
+
+================================================================================
+PAGE 241 (Index 240)
+================================================================================
+Error reading page 240: 'charmap' codec can't encode character '\uf0a8' in position 33: character maps to <undefined>
+
+================================================================================
+PAGE 242 (Index 241)
+================================================================================
+Error reading page 241: 'charmap' codec can't encode character '\uf0a8' in position 445: character maps to <undefined>
+
+================================================================================
+PAGE 243 (Index 242)
+================================================================================
+Error reading page 242: 'charmap' codec can't encode character '\uf0a8' in position 33: character maps to <undefined>
+
+================================================================================
+PAGE 244 (Index 243)
+================================================================================
+Error reading page 243: 'charmap' codec can't encode character '\uf0a8' in position 21: character maps to <undefined>
+
+================================================================================
+PAGE 245 (Index 244)
+================================================================================
+ANNEXE IV. 2 
+ Annexe IV.2  – 1 MÉDICAMENTS D’EXCEPTION DONT LA COUVERTURE  
+D’ASSURANCE EST MAINTENUE POUR LES P ERSONNES EN COURS DE TRAITEMENT  SELON LES 
+CONDITIONS PRÉVUES AU POINT  4.2.3  DE LA LISTE DES MÉDICAMENTS  
+ 
+ÉNOXAPARINE (Lovenox)  
+ 
+Sol. Inj. S.C.  
+   100 mg/mL   
+02236564  Lovenox  SanofiAven  3 ml 62,51   
+      
+ 
+Sol. Inj. S.C. (ser.)  
+   30 mg/0,3  mL  
+02012472  Lovenox  SanofiAven  10 62,90  6,2900  
+      
+ 
+Sol. Inj. S.C. (ser.)  
+   40 mg/0,4  mL  
+02236883  Lovenox  SanofiAven  10 83,30  8,3300  
+      
+ 
+Sol. Inj. S.C. ( ser.) 
+   60 mg/0,6  mL  
+02378426  Lovenox  SanofiAven  10 124,97  12,4970  
+      
+ 
+Sol. Inj. S.C. (ser.)  
+   80 mg/0,8  mL  
+02378434  Lovenox  SanofiAven  10 166,60  16,6600  
+      
+ 
+Sol. Inj. S.C. (ser.)  
+   100 mg/1,0  mL  
+02378442  Lovenox  SanofiAven  10 208,28  20,8280  
+      
+ 
+Sol. Inj. S.C. (ser.)  
+   120 mg/0,8  mL  
+02242692  Lovenox HP  SanofiAven  10 249,90  24,9900  
+      
+ 
+Sol. Inj. S.C. (ser.)  
+   150 mg/1,0  mL  
+02378469  Lovenox HP  SanofiAven  10 312,40  31,2400  
+      
+ 
+La personne doit avoir commencé un traitement et reçu un remboursement dans les douze  (12) mois précédent 
+le 15  décembre  2021.  
+
+... (truncated, total length: 1204 chars)
+
+
+Samples saved to output/qa/annexe_iv1_structure_sample.json

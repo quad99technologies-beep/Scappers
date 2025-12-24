@@ -1,0 +1,21 @@
+{
+  "input": "D:\\quad99\\Scappers\\1. CanadaQuebec\\input\\liste-med.pdf",
+  "total_pages": 792,
+  "annexes": {
+    "IV.1": {
+      "start_page": 230,
+      "end_page": 243,
+      "output_file": "D:\\quad99\\Scappers\\1. CanadaQuebec\\output\\split_pdf\\annexe_iv1.pdf"
+    },
+    "IV.2": {
+      "start_page": 244,
+      "end_page": 247,
+      "output_file": "D:\\quad99\\Scappers\\1. CanadaQuebec\\output\\split_pdf\\annexe_iv2.pdf"
+    },
+    "V": {
+      "start_page": 248,
+      "end_page": 791,
+      "output_file": "D:\\quad99\\Scappers\\1. CanadaQuebec\\output\\split_pdf\\annexe_v.pdf"
+    }
+  }
+}
