@@ -1,0 +1,139 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Verificación de Seguridad - Alfa Beta</title>
+    <style>
+        body {
+            font-family: Verdana, Helvetica, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .info-text {
+            color: #666;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .captcha-container {
+            display: flex;
+            justify-content: center;
+            margin: 25px 0;
+        }
+        .submit-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 12px 24px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .submit-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #f44336;
+            font-size: 14px;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-width: 200px;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link a {
+            color: #2196F3;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="/img/logo.gif" alt="Alfa Beta">
+        </div>
+
+        <h2>Verificación de Seguridad</h2>
+
+        <div class="info-text">
+            Para continuar consultando precios de medicamentos,<br>
+            por favor complete la verificación de seguridad.
+        </div>
+
+        
+
+        <form id="captchaForm" action="/precio/verify-captcha" method="POST">
+            <div class="captcha-container">
+                <div class="h-captcha" data-sitekey="9b285204-7db6-4336-8302-fee4c0b0faa6" data-callback="onCaptchaSuccess" data-error-callback="onCaptchaError"><iframe src="https://newassets.hcaptcha.com/captcha/v1/13a948065e01b6100efd3266e69e8db867f5d462/static/hcaptcha.html#frame=checkbox&amp;id=01dq6hb3gbh6&amp;host=www.alfabeta.net&amp;sentry=true&amp;reportapi=https%3A%2F%2Faccounts.hcaptcha.com&amp;recaptchacompat=true&amp;custom=false&amp;hl=es&amp;tplinks=on&amp;andint=off&amp;pstissuer=https%3A%2F%2Fpst-issuer.hcaptcha.com&amp;sitekey=9b285204-7db6-4336-8302-fee4c0b0faa6&amp;theme=light&amp;origin=https%3A%2F%2Fwww.alfabeta.net" tabindex="0" frameborder="0" scrolling="no" allow="private-state-token-redemption" title="Widget que contiene una casilla de verificación para el desafío de seguridad de hCaptcha" data-hcaptcha-widget-id="01dq6hb3gbh6" data-hcaptcha-response="" style="pointer-events: auto; background-color: rgba(255, 255, 255, 0); border-radius: 4px; width: 302px; height: 76px; overflow: hidden;"></iframe><textarea id="g-recaptcha-response-01dq6hb3gbh6" name="g-recaptcha-response" style="display: none;"></textarea><textarea id="h-captcha-response-01dq6hb3gbh6" name="h-captcha-response" style="display: none;"></textarea></div>
+            </div>
+
+            <input type="hidden" name="originalUrl" value="http://www.alfabeta.net/precio/srv-pr.jsp">
+            <input type="hidden" name="productName" value="">
+            <input type="hidden" name="labId" value="">
+
+            <button type="submit" class="submit-btn" id="submitBtn" disabled="">
+                Verificar y Continuar
+            </button>
+        </form>
+
+        <div class="back-link">
+            <a href="/precio/">Volver al buscador de precios</a>
+        </div>
+    </div>
+
+    <script src="https://js.hcaptcha.com/1/api.js" async="" defer=""></script>
+    <script>
+        function onCaptchaSuccess(token) {
+            // Habilitar el botÃ³n de envÃ­o cuando el captcha se complete
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function onCaptchaError() {
+            // Deshabilitar el botÃ³n si hay un error
+            document.getElementById('submitBtn').disabled = true;
+            alert('Error al cargar el captcha. Por favor, recargue la pÃ¡gina.');
+        }
+
+        // Auto-enviar el formulario cuando se complete el captcha (opcional)
+        // function onCaptchaSuccess(token) {
+        //     document.getElementById('captchaForm').submit();
+        // }
+    </script>
+
+<div aria-hidden="true" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(215, 215, 215); box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 4px; border-radius: 4px; left: auto; top: -10000px; z-index: -2147483648; position: absolute; pointer-events: auto; transition: opacity 0.15s ease-out; opacity: 0; visibility: hidden;"><div style="position: relative; z-index: 1;"><iframe src="https://newassets.hcaptcha.com/captcha/v1/13a948065e01b6100efd3266e69e8db867f5d462/static/hcaptcha.html#frame=challenge&amp;id=01dq6hb3gbh6&amp;host=www.alfabeta.net&amp;sentry=true&amp;reportapi=https%3A%2F%2Faccounts.hcaptcha.com&amp;recaptchacompat=true&amp;custom=false&amp;hl=es&amp;tplinks=on&amp;andint=off&amp;pstissuer=https%3A%2F%2Fpst-issuer.hcaptcha.com&amp;sitekey=9b285204-7db6-4336-8302-fee4c0b0faa6&amp;theme=light&amp;origin=https%3A%2F%2Fwww.alfabeta.net" frameborder="0" scrolling="no" allow="private-state-token-redemption" title="Contenido principal del desafío hCaptcha" style="border: 0px; z-index: 2000000000; position: relative;"></iframe></div><div style="width: 100%; height: 100%; position: fixed; pointer-events: none; top: 0px; left: 0px; z-index: 0; background-color: rgb(255, 255, 255); opacity: 0.05;"></div><div style="border-width: 11px; position: absolute; pointer-events: none; margin-top: -11px; z-index: 1; right: 100%;"><div style="border-width: 10px; border-style: solid; border-color: transparent rgb(255, 255, 255) transparent transparent; position: relative; top: 10px; z-index: 1;"></div><div style="border-width: 11px; border-style: solid; border-color: transparent rgb(215, 215, 215) transparent transparent; position: relative; top: -11px; z-index: 0;"></div></div></div></body></html>

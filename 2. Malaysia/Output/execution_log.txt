@@ -1,0 +1,68 @@
+======================================== 
+Script Execution Log 
+Execution Date: 23-12-2025 22:19:34.41 
+======================================== 
+ 
+Python 3.14.2
+ 
+Creating backup at: D:\quad99\Scappers\2. Malaysia\Backup\backup_20251223_221934 
+Backup created successfully 
+Clearing output folder 
+ 
+[1/5] Running: 01_Product_Registration_Number.py 
+Start Time: 22:19:34.74 
+[SUCCESS] Script 01 completed 
+End Time: 22:19:34.74 
+Output file: malaysia_drug_prices_view_all.csv (approx. 1363 lines
+ 
+[SKIPPED] Script not found: 01_Product_Registration_Number.py 
+ 
+[2/5] Running: 02_Product_Details.py 
+Start Time: 22:21:00.06 
+[SUCCESS] Script 02 completed 
+End Time: 22:21:00.06 
+Output file: quest3_product_details.csv (approx. 1363 lines
+ 
+[SKIPPED] Script not found: 02_Product_Details.py 
+ 
+[3/5] Running: 03_Consolidate_Results.py 
+Start Time:  6:42:15.75 
+[SUCCESS] Script 03 completed 
+End Time:  6:42:15.75 
+Output file: consolidated_products.csv (approx. 1357 lines
+ 
+[SKIPPED] Script not found: 03_Consolidate_Results.py 
+ 
+[4/5] Running: 04_Get_Fully_Reimbursable.py 
+Start Time:  6:42:16.73 
+[SUCCESS] Script 04 completed 
+End Time:  6:42:16.73 
+Output file: malaysia_fully_reimbursable_drugs.csv (approx. 1665 lines
+ 
+[SKIPPED] Script not found: 04_Get_Fully_Reimbursable.py 
+ 
+[5/5] Running: 05_Generate_PCID_Mapped.py 
+Start Time:  6:47:03.15 
+[SUCCESS] Script 05 completed 
+End Time:  6:47:03.15 
+Output file: malaysia_pcid_mapped.csv (approx. 1304 lines
+Output file: malaysia_pcid_not_mapped.csv (approx. 60 lines
+ 
+[SKIPPED] Script not found: 05_Generate_PCID_Mapped.py 
+ 
+======================================== 
+Execution Summary 
+======================================== 
+Status: ALL SCRIPTS COMPLETED SUCCESSFULLY 
+End Time: 24-12-2025  6:47:04.68 
+ 
+ 
+Output Files: 
+- malaysia_drug_prices_view_all.csv 
+- quest3_product_details.csv 
+- consolidated_products.csv 
+- malaysia_fully_reimbursable_drugs.csv 
+- malaysia_pcid_mapped.csv (MAPPED records) 
+- malaysia_pcid_not_mapped.csv (NOT MAPPED records) 
+ 
+Log completed successfully 
