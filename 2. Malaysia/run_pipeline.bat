@@ -1,17 +1,39 @@
 @echo off
 setlocal enabledelayedexpansion
-REM Batch file to run all numbered scripts in sequence with stats tracking
+REM ============================================================================
+REM Malaysia Medicine Price Scraper - Complete Pipeline
+REM ============================================================================
+REM This script runs all steps of the Malaysia scraper pipeline.
+REM Updated to use platform paths (Documents/ScraperPlatform/)
+REM
+REM Steps:
+REM   00 - Backup and Clean
+REM   01 - Product Registration Number (MyPriMe)
+REM   02 - Product Details (QUEST3+)
+REM   03 - Consolidate Results
+REM   04 - Get Fully Reimbursable
+REM   05 - Generate PCID Mapped (FINAL REPORT)
+REM ============================================================================
 
 echo ========================================
-echo Running Scripts in Sequence
+echo Malaysia Medicine Price Scraper
 echo ========================================
 echo.
 
-REM Get the directory where the batch file is located
+REM Change to script directory (ensure CWD is scraper root)
+cd /d "%~dp0"
+
+REM Platform paths (scripts now write here automatically via config_loader)
+set "PLATFORM_ROOT=%USERPROFILE%\Documents\ScraperPlatform"
 set "SCRIPT_DIR=%~dp0"
-set "PYTHON_SCRIPT_DIR=%SCRIPT_DIR%Script"
-set "OUTPUT_DIR=%SCRIPT_DIR%Output"
-set "BACKUP_DIR=%SCRIPT_DIR%Backup"
+set "PYTHON_SCRIPT_DIR=%SCRIPT_DIR%scripts"
+echo Platform Root: %PLATFORM_ROOT%
+echo Script Directory: %PYTHON_SCRIPT_DIR%
+echo.
+
+REM Legacy paths for compatibility (not used by scripts anymore)
+set "OUTPUT_DIR=%PLATFORM_ROOT%\output"
+set "BACKUP_DIR=%PLATFORM_ROOT%\output\backups"
 set "LOG_FILE=%OUTPUT_DIR%\execution_log.txt"
 
 REM Create Output directory if it doesn't exist
@@ -167,24 +189,57 @@ REM Change to script directory
 cd /d "%PYTHON_SCRIPT_DIR%"
 
 REM ========================================
+REM STEP 00: BACKUP AND CLEAN (MANDATORY FIRST STEP)
+REM ========================================
+echo.
+echo ========================================
+echo [00/05] Backup and Clean Output Folder
+echo ========================================
+set "SCRIPT_00=00_backup_and_clean.py"
+if exist "%SCRIPT_00%" (
+    echo Running: %SCRIPT_00%
+    echo [00/05] Running: %SCRIPT_00% >> "%LOG_FILE%"
+    echo Start Time: %time% >> "%LOG_FILE%"
+
+    python "%SCRIPT_00%"
+    set "PYTHON_EXIT_CODE=!ERRORLEVEL!"
+    if !PYTHON_EXIT_CODE! geq 1 (
+        echo [FAILED] Script 00 failed >> "%LOG_FILE%"
+        echo ERROR: Script 00 Backup failed
+        echo End Time: %time% >> "%LOG_FILE%"
+        echo. >> "%LOG_FILE%"
+        goto :script_failed
+    ) else (
+        echo [SUCCESS] Script 00 completed >> "%LOG_FILE%"
+        echo End Time: %time% >> "%LOG_FILE%"
+        echo. >> "%LOG_FILE%"
+    )
+) else (
+    echo Script not found: %SCRIPT_00%
+    echo [SKIPPED] Script not found: %SCRIPT_00% >> "%LOG_FILE%"
+    echo. >> "%LOG_FILE%"
+)
+
+REM ========================================
 REM RUN SCRIPTS IN ORDER
 REM ========================================
 
 REM Script 01: Get Drug Prices from MyPriMe
 echo.
 echo ========================================
-echo [1/5] Getting Drug Prices from MyPriMe
+echo [01/05] Getting Drug Prices from MyPriMe
 echo ========================================
 set "SCRIPT_01=01_Product_Registration_Number.py"
 if exist "%SCRIPT_01%" (
     echo Running: %SCRIPT_01%
-    echo [1/5] Running: %SCRIPT_01% >> "%LOG_FILE%"
+    echo [01/05] Running: %SCRIPT_01% >> "%LOG_FILE%"
     echo Start Time: %time% >> "%LOG_FILE%"
 
     python "%SCRIPT_01%"
-    if errorlevel 1 (
-        echo [FAILED] Script 01 failed! >> "%LOG_FILE%"
-        echo ERROR: Script 01 failed!
+    set "PYTHON_EXIT_CODE=!ERRORLEVEL!"
+    if !PYTHON_EXIT_CODE! geq 1 (
+        echo [FAILED] Script 01 failed >> "%LOG_FILE%"
+        echo ERROR: Script 01 failed
         echo End Time: %time% >> "%LOG_FILE%"
         echo. >> "%LOG_FILE%"
         goto :script_failed
@@ -209,18 +264,19 @@ if exist "%SCRIPT_01%" (
 REM Script 02: Get Product Details from QUEST3+
 echo.
 echo ========================================
-echo [2/5] Getting Product Details from QUEST3+
+echo [02/05] Getting Product Details from QUEST3+
 echo ========================================
 set "SCRIPT_02=02_Product_Details.py"
 if exist "%SCRIPT_02%" (
     echo Running: %SCRIPT_02%
-    echo [2/5] Running: %SCRIPT_02% >> "%LOG_FILE%"
+    echo [02/05] Running: %SCRIPT_02% >> "%LOG_FILE%"
     echo Start Time: %time% >> "%LOG_FILE%"
 
     python "%SCRIPT_02%"
-    if errorlevel 1 (
-        echo [FAILED] Script 02 failed! >> "%LOG_FILE%"
-        echo ERROR: Script 02 failed!
+    set "PYTHON_EXIT_CODE=!ERRORLEVEL!"
+    if !PYTHON_EXIT_CODE! geq 1 (
+        echo [FAILED] Script 02 failed >> "%LOG_FILE%"
+        echo ERROR: Script 02 failed
         echo End Time: %time% >> "%LOG_FILE%"
         echo. >> "%LOG_FILE%"
         goto :script_failed
@@ -245,18 +301,19 @@ if exist "%SCRIPT_02%" (
 REM Script 03: Consolidate Results
 echo.
 echo ========================================
-echo [3/5] Running Consolidate Results
+echo [03/05] Running Consolidate Results
 echo ========================================
 set "SCRIPT_03=03_Consolidate_Results.py"
 if exist "%SCRIPT_03%" (
     echo Running: %SCRIPT_03%
-    echo [3/5] Running: %SCRIPT_03% >> "%LOG_FILE%"
+    echo [03/05] Running: %SCRIPT_03% >> "%LOG_FILE%"
     echo Start Time: %time% >> "%LOG_FILE%"
 
     python "%SCRIPT_03%"
-    if errorlevel 1 (
-        echo [FAILED] Script 03 failed! >> "%LOG_FILE%"
-        echo ERROR: Script 03 failed!
+    set "PYTHON_EXIT_CODE=!ERRORLEVEL!"
+    if !PYTHON_EXIT_CODE! geq 1 (
+        echo [FAILED] Script 03 failed >> "%LOG_FILE%"
+        echo ERROR: Script 03 failed
         echo End Time: %time% >> "%LOG_FILE%"
         echo. >> "%LOG_FILE%"
         goto :script_failed
@@ -281,18 +338,19 @@ if exist "%SCRIPT_03%" (
 REM Script 04: Get Fully Reimbursable
 echo.
 echo ========================================
-echo [4/5] Running Get Fully Reimbursable
+echo [04/05] Running Get Fully Reimbursable
 echo ========================================
 set "SCRIPT_04=04_Get_Fully_Reimbursable.py"
 if exist "%SCRIPT_04%" (
     echo Running: %SCRIPT_04%
-    echo [4/5] Running: %SCRIPT_04% >> "%LOG_FILE%"
+    echo [04/05] Running: %SCRIPT_04% >> "%LOG_FILE%"
     echo Start Time: %time% >> "%LOG_FILE%"
 
     python "%SCRIPT_04%"
-    if errorlevel 1 (
-        echo [FAILED] Script 04 failed! >> "%LOG_FILE%"
-        echo ERROR: Script 04 failed!
+    set "PYTHON_EXIT_CODE=!ERRORLEVEL!"
+    if !PYTHON_EXIT_CODE! geq 1 (
+        echo [FAILED] Script 04 failed >> "%LOG_FILE%"
+        echo ERROR: Script 04 failed
         echo End Time: %time% >> "%LOG_FILE%"
         echo. >> "%LOG_FILE%"
         goto :script_failed
@@ -314,21 +372,22 @@ if exist "%SCRIPT_04%" (
     echo. >> "%LOG_FILE%"
 )
 
-REM Script 05: Generate PCID Mapped (FINAL)
+REM Script 05: Generate PCID Mapped (FINAL REPORT)
 echo.
 echo ========================================
-echo [5/5] Running Generate PCID Mapped (FINAL)
+echo [05/05] Running Generate PCID Mapped (FINAL REPORT)
 echo ========================================
 set "SCRIPT_05=05_Generate_PCID_Mapped.py"
 if exist "%SCRIPT_05%" (
     echo Running: %SCRIPT_05%
-    echo [5/5] Running: %SCRIPT_05% >> "%LOG_FILE%"
+    echo [05/05] Running: %SCRIPT_05% >> "%LOG_FILE%"
     echo Start Time: %time% >> "%LOG_FILE%"
 
     python "%SCRIPT_05%"
-    if errorlevel 1 (
-        echo [FAILED] Script 05 failed! >> "%LOG_FILE%"
-        echo ERROR: Script 05 failed!
+    set "PYTHON_EXIT_CODE=!ERRORLEVEL!"
+    if !PYTHON_EXIT_CODE! geq 1 (
+        echo [FAILED] Script 05 failed >> "%LOG_FILE%"
+        echo ERROR: Script 05 failed
         echo End Time: %time% >> "%LOG_FILE%"
         echo. >> "%LOG_FILE%"
         goto :script_failed
@@ -417,7 +476,7 @@ exit /b 0
 cd /d "%SCRIPT_DIR%"
 echo.
 echo ========================================
-echo Script execution failed!
+echo Script execution failed
 echo ========================================
 echo Please check the errors above and the log file: Output\execution_log.txt
 echo.
