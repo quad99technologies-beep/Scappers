@@ -6,8 +6,8 @@ Platform Configuration & Path Management
 Centralized configuration resolver and path manager for the Scraper Platform.
 Provides single source of truth for:
 - Configuration loading with precedence
-- Path resolution (all paths under Documents/ScraperPlatform/)
-- Platform root detection
+- Path resolution (all paths under repository root/)
+- Repository root detection
 """
 
 import os
@@ -24,57 +24,81 @@ class PathManager:
     """Centralized path management for platform"""
     
     _platform_root: Optional[Path] = None
+    _repo_root: Optional[Path] = None
+    
+    @classmethod
+    def _detect_repo_root(cls) -> Path:
+        """Detect repository root directory (where scraper_gui.py is located)"""
+        if cls._repo_root is None:
+            # Try to find repo root by locating this file (platform_config.py) or scraper_gui.py
+            try:
+                # This file is in repo root
+                this_file = Path(__file__).resolve()
+                # Check if scraper_gui.py exists in the same directory
+                if (this_file.parent / "scraper_gui.py").exists():
+                    cls._repo_root = this_file.parent
+                else:
+                    # Fallback: assume this file is in repo root
+                    cls._repo_root = this_file.parent
+            except Exception:
+                # Last resort: use current working directory
+                cls._repo_root = Path.cwd()
+        return cls._repo_root
     
     @classmethod
     def get_platform_root(cls) -> Path:
-        """Get platform root directory (Documents/ScraperPlatform/)"""
-        if cls._platform_root is None:
-            # Check environment variable first
-            env_root = os.getenv("SCRAPER_PLATFORM_ROOT")
-            if env_root:
-                cls._platform_root = Path(env_root).resolve()
-            else:
-                # Default: Documents/ScraperPlatform
-                docs = Path.home() / "Documents"
-                cls._platform_root = docs / "ScraperPlatform"
-            
-            # Ensure platform root exists
-            cls._platform_root.mkdir(parents=True, exist_ok=True)
-            logger.info(f"Platform root: {cls._platform_root}")
-        
-        return cls._platform_root
+        """Get platform root directory - now uses repo root instead of Documents/ScraperPlatform"""
+        # For backward compatibility, return repo root
+        # All directories now use repo root
+        return cls._detect_repo_root()
     
     @classmethod
     def get_config_dir(cls) -> Path:
-        """Get config directory"""
-        config_dir = cls.get_platform_root() / "config"
+        """Get config directory (uses repo root instead of Documents/ScraperPlatform)"""
+        repo_root = cls._detect_repo_root()
+        config_dir = repo_root / "config"
         config_dir.mkdir(parents=True, exist_ok=True)
         return config_dir
     
     @classmethod
     def get_input_dir(cls, scraper_id: str) -> Path:
-        """Get input directory for scraper"""
-        input_dir = cls.get_platform_root() / "input" / scraper_id
+        """Get input directory for scraper (uses scraper's own input directory)"""
+        repo_root = cls._detect_repo_root()
+        
+        # Map scraper IDs to their directory names
+        scraper_dirs = {
+            "CanadaQuebec": "1. CanadaQuebec",
+            "Malaysia": "2. Malaysia",
+            "Argentina": "3. Argentina"
+        }
+        
+        scraper_dir_name = scraper_dirs.get(scraper_id, scraper_id)
+        scraper_root = repo_root / scraper_dir_name
+        
+        # Return scraper's own input directory (lowercase 'input' for consistency)
+        # Note: On Windows, 'input' and 'Input' refer to the same directory
+        input_dir = scraper_root / "input"
         input_dir.mkdir(parents=True, exist_ok=True)
         return input_dir
     
     @classmethod
     def get_output_dir(cls) -> Path:
-        """Get output directory"""
-        output_dir = cls.get_platform_root() / "output"
+        """Get output directory (uses repo root instead of Documents/ScraperPlatform)"""
+        repo_root = cls._detect_repo_root()
+        output_dir = repo_root / "output"
         output_dir.mkdir(parents=True, exist_ok=True)
         return output_dir
     
     @classmethod
     def get_backups_dir(cls) -> Path:
-        """Get backups directory"""
+        """Get backups directory (uses repo root instead of Documents/ScraperPlatform)"""
         backups_dir = cls.get_output_dir() / "backups"
         backups_dir.mkdir(parents=True, exist_ok=True)
         return backups_dir
     
     @classmethod
     def get_runs_dir(cls) -> Path:
-        """Get runs directory"""
+        """Get runs directory (uses repo root instead of Documents/ScraperPlatform)"""
         runs_dir = cls.get_output_dir() / "runs"
         runs_dir.mkdir(parents=True, exist_ok=True)
         return runs_dir
@@ -92,29 +116,33 @@ class PathManager:
     
     @classmethod
     def get_sessions_dir(cls) -> Path:
-        """Get sessions directory"""
-        sessions_dir = cls.get_platform_root() / "sessions"
+        """Get sessions directory (uses repo root instead of Documents/ScraperPlatform)"""
+        repo_root = cls._detect_repo_root()
+        sessions_dir = repo_root / "sessions"
         sessions_dir.mkdir(parents=True, exist_ok=True)
         return sessions_dir
     
     @classmethod
     def get_logs_dir(cls) -> Path:
-        """Get logs directory"""
-        logs_dir = cls.get_platform_root() / "logs"
+        """Get logs directory (uses repo root instead of Documents/ScraperPlatform)"""
+        repo_root = cls._detect_repo_root()
+        logs_dir = repo_root / "logs"
         logs_dir.mkdir(parents=True, exist_ok=True)
         return logs_dir
     
     @classmethod
     def get_cache_dir(cls) -> Path:
-        """Get cache directory"""
-        cache_dir = cls.get_platform_root() / "cache"
+        """Get cache directory (uses repo root instead of Documents/ScraperPlatform)"""
+        repo_root = cls._detect_repo_root()
+        cache_dir = repo_root / "cache"
         cache_dir.mkdir(parents=True, exist_ok=True)
         return cache_dir
     
     @classmethod
     def get_locks_dir(cls) -> Path:
-        """Get locks directory"""
-        locks_dir = cls.get_platform_root() / ".locks"
+        """Get locks directory (uses repo root instead of Documents/ScraperPlatform)"""
+        repo_root = cls._detect_repo_root()
+        locks_dir = repo_root / ".locks"
         locks_dir.mkdir(parents=True, exist_ok=True)
         return locks_dir
     
@@ -454,7 +482,7 @@ if __name__ == "__main__":
                 print("[ X] Missing required configuration (see above)")
                 print()
                 print("To fix:")
-                print("  1. Copy .env.example to Documents/ScraperPlatform/config/{scraper}.env.json")
+                print(f"  1. Copy .env.example to {pm.get_config_dir()}/{{scraper}}.env.json")
                 print("  2. Edit the file and add your actual secrets")
                 print("  3. Run 'python platform_config.py config-check' again")
                 print("=" * 70)

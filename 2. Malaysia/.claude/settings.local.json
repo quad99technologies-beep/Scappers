@@ -3,7 +3,8 @@
     "allow": [
       "Bash(dir /s Input Output)",
       "Bash(python:*)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(cmd /c \"dir /b /ad /o-d \"\"d:\\\\quad99\\\\Scappers\\\\2. Malaysia\\\\backup\"\"\")"
     ]
   }
 }

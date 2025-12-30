@@ -13,12 +13,11 @@ REM - Max row extraction limits
 REM
 REM Steps:
 REM   00 - Backup and Clean
-REM   01 - Get Company List
-REM   02 - Get Product List
-REM   03 - Scrape Products (supports --max-rows)
-REM   04 - Translate Using Dictionary
-REM   05 - Generate Output (FINAL REPORT)
-REM   06 - PCID Missing
+REM   01 - Get Product List
+REM   02 - Scrape Products (supports --max-rows)
+REM   03 - Translate Using Dictionary
+REM   04 - Generate Output (FINAL REPORT)
+REM   05 - PCID Missing
 REM ============================================================================
 
 setlocal enabledelayedexpansion
@@ -64,7 +63,7 @@ if /i "%~1"=="--loop" (
 )
 if /i "%~1"=="--help" (
     echo Usage: run_pipeline.bat [--max-rows N] [--loop]
-    echo   --max-rows N  : Maximum rows to extract in step 3 (0 = unlimited)
+    echo   --max-rows N  : Maximum rows to extract in step 2 (0 = unlimited)
     echo   --loop        : Run pipeline in continuous loop
     exit /b 0
 )
@@ -110,14 +109,14 @@ echo.
     echo [%date% %time%] Starting pipeline from step %LAST_STEP% >> "%LOG_FILE%"
     echo [%date% %time%] Starting pipeline from step %LAST_STEP%
 
-    REM Step 1: Get Company List
+    REM Step 1: Get Product List
     if %LAST_STEP% LSS 1 (
         echo. >> "%LOG_FILE%"
         echo ============================================================================ >> "%LOG_FILE%"
-        echo [%date% %time%] STEP 01: Getting Company List >> "%LOG_FILE%"
+        echo [%date% %time%] STEP 01: Getting Product List >> "%LOG_FILE%"
         echo ============================================================================ >> "%LOG_FILE%"
-        echo [%date% %time%] STEP 01: Getting Company List...
-        python "%SCRIPT_DIR%script\01_getCompanyList.py" >> "%LOG_FILE%" 2>&1
+        echo [%date% %time%] STEP 01: Getting Product List...
+        python "%SCRIPT_DIR%script\01_getProdList.py" >> "%LOG_FILE%" 2>&1
         if errorlevel 1 (
             echo [%date% %time%] ERROR: Step 1 failed! >> "%LOG_FILE%"
             echo [%date% %time%] ERROR: Step 1 failed!
@@ -130,14 +129,18 @@ echo.
         echo 1 > "%STATE_FILE%"
     )
 
-    REM Step 2: Get Product List
+    REM Step 2: Scrape Products (with max-rows limit)
     if %LAST_STEP% LSS 2 (
         echo. >> "%LOG_FILE%"
         echo ============================================================================ >> "%LOG_FILE%"
-        echo [%date% %time%] STEP 02: Getting Product List >> "%LOG_FILE%"
+        echo [%date% %time%] STEP 02: Scraping Products (Max Rows: %MAX_ROWS%) >> "%LOG_FILE%"
         echo ============================================================================ >> "%LOG_FILE%"
-        echo [%date% %time%] STEP 02: Getting Product List...
-        python "%SCRIPT_DIR%script\02_getProdList.py" >> "%LOG_FILE%" 2>&1
+        echo [%date% %time%] STEP 02: Scraping Products (Max Rows: %MAX_ROWS%)...
+        if %MAX_ROWS% EQU 0 (
+            python "%SCRIPT_DIR%script\02_alfabeta_scraper_labs.py" --headless >> "%LOG_FILE%" 2>&1
+        ) else (
+            python "%SCRIPT_DIR%script\02_alfabeta_scraper_labs.py" --headless --max-rows %MAX_ROWS% >> "%LOG_FILE%" 2>&1
+        )
         if errorlevel 1 (
             echo [%date% %time%] ERROR: Step 2 failed! >> "%LOG_FILE%"
             echo [%date% %time%] ERROR: Step 2 failed!
@@ -150,18 +153,14 @@ echo.
         echo 2 > "%STATE_FILE%"
     )
 
-    REM Step 3: Scrape Products (with max-rows limit)
+    REM Step 3: Translate Using Dictionary
     if %LAST_STEP% LSS 3 (
         echo. >> "%LOG_FILE%"
         echo ============================================================================ >> "%LOG_FILE%"
-        echo [%date% %time%] STEP 03: Scraping Products (Max Rows: %MAX_ROWS%) >> "%LOG_FILE%"
+        echo [%date% %time%] STEP 03: Translating Using Dictionary >> "%LOG_FILE%"
         echo ============================================================================ >> "%LOG_FILE%"
-        echo [%date% %time%] STEP 03: Scraping Products (Max Rows: %MAX_ROWS%)...
-        if %MAX_ROWS% EQU 0 (
-            python "%SCRIPT_DIR%script\03_alfabeta_scraper_labs.py" --headless >> "%LOG_FILE%" 2>&1
-        ) else (
-            python "%SCRIPT_DIR%script\03_alfabeta_scraper_labs.py" --headless --max-rows %MAX_ROWS% >> "%LOG_FILE%" 2>&1
-        )
+        echo [%date% %time%] STEP 03: Translating Using Dictionary...
+        python "%SCRIPT_DIR%script\03_TranslateUsingDictionary.py" >> "%LOG_FILE%" 2>&1
         if errorlevel 1 (
             echo [%date% %time%] ERROR: Step 3 failed! >> "%LOG_FILE%"
             echo [%date% %time%] ERROR: Step 3 failed!
@@ -174,14 +173,14 @@ echo.
         echo 3 > "%STATE_FILE%"
     )
 
-    REM Step 4: Translate Using Dictionary
+    REM Step 4: Generate Output (FINAL REPORT)
     if %LAST_STEP% LSS 4 (
         echo. >> "%LOG_FILE%"
         echo ============================================================================ >> "%LOG_FILE%"
-        echo [%date% %time%] STEP 04: Translating Using Dictionary >> "%LOG_FILE%"
+        echo [%date% %time%] STEP 04: Generating Output (FINAL REPORT) >> "%LOG_FILE%"
         echo ============================================================================ >> "%LOG_FILE%"
-        echo [%date% %time%] STEP 04: Translating Using Dictionary...
-        python "%SCRIPT_DIR%script\04_TranslateUsingDictionary.py" >> "%LOG_FILE%" 2>&1
+        echo [%date% %time%] STEP 04: Generating Output (FINAL REPORT)...
+        python "%SCRIPT_DIR%script\04_GenerateOutput.py" >> "%LOG_FILE%" 2>&1
         if errorlevel 1 (
             echo [%date% %time%] ERROR: Step 4 failed! >> "%LOG_FILE%"
             echo [%date% %time%] ERROR: Step 4 failed!
@@ -194,14 +193,14 @@ echo.
         echo 4 > "%STATE_FILE%"
     )
 
-    REM Step 5: Generate Output (FINAL REPORT)
+    REM Step 5: PCID Missing
     if %LAST_STEP% LSS 5 (
         echo. >> "%LOG_FILE%"
         echo ============================================================================ >> "%LOG_FILE%"
-        echo [%date% %time%] STEP 05: Generating Output (FINAL REPORT) >> "%LOG_FILE%"
+        echo [%date% %time%] STEP 05: Processing PCID Missing >> "%LOG_FILE%"
         echo ============================================================================ >> "%LOG_FILE%"
-        echo [%date% %time%] STEP 05: Generating Output (FINAL REPORT)...
-        python "%SCRIPT_DIR%script\05_GenerateOutput.py" >> "%LOG_FILE%" 2>&1
+        echo [%date% %time%] STEP 05: Processing PCID Missing...
+        python "%SCRIPT_DIR%script\05_PCIDmissing.py" >> "%LOG_FILE%" 2>&1
         if errorlevel 1 (
             echo [%date% %time%] ERROR: Step 5 failed! >> "%LOG_FILE%"
             echo [%date% %time%] ERROR: Step 5 failed!
@@ -212,26 +211,6 @@ echo.
         call :backup_step 5
         timeout /t 1 /nobreak >nul
         echo 5 > "%STATE_FILE%"
-    )
-
-    REM Step 6: PCID Missing
-    if %LAST_STEP% LSS 6 (
-        echo. >> "%LOG_FILE%"
-        echo ============================================================================ >> "%LOG_FILE%"
-        echo [%date% %time%] STEP 06: Processing PCID Missing >> "%LOG_FILE%"
-        echo ============================================================================ >> "%LOG_FILE%"
-        echo [%date% %time%] STEP 06: Processing PCID Missing...
-        python "%SCRIPT_DIR%script\06_PCIDmissing.py" >> "%LOG_FILE%" 2>&1
-        if errorlevel 1 (
-            echo [%date% %time%] ERROR: Step 6 failed! >> "%LOG_FILE%"
-            echo [%date% %time%] ERROR: Step 6 failed!
-            goto error_handler
-        )
-        echo [%date% %time%] STEP 06: Completed successfully >> "%LOG_FILE%"
-        echo [%date% %time%] STEP 06: Completed successfully
-        call :backup_step 6
-        timeout /t 1 /nobreak >nul
-        echo 6 > "%STATE_FILE%"
     )
 
     REM Pipeline completed successfully
@@ -333,16 +312,10 @@ echo.
         echo [%date% %time%] No Output folder to backup >> "%LOG_FILE%"
     )
     
-    echo [%date% %time%] Cleaning Input files (Companylist.csv, Productlist.csv)... >> "%LOG_FILE%"
-    echo [%date% %time%] Cleaning Input files (Companylist.csv, Productlist.csv)...
+    echo [%date% %time%] Cleaning Input files (Productlist.csv)... >> "%LOG_FILE%"
+    echo [%date% %time%] Cleaning Input files (Productlist.csv)...
     
-    REM Delete Companylist.csv and Productlist.csv
-    if exist "%SCRIPT_DIR%Input\Companylist.csv" (
-        del /F /Q "%SCRIPT_DIR%Input\Companylist.csv" >nul 2>&1
-        echo [%date% %time%] Deleted: Input\Companylist.csv >> "%LOG_FILE%"
-        echo [%date% %time%] Deleted: Input\Companylist.csv
-    )
-    
+    REM Delete Productlist.csv
     if exist "%SCRIPT_DIR%Input\Productlist.csv" (
         del /F /Q "%SCRIPT_DIR%Input\Productlist.csv" >nul 2>&1
         echo [%date% %time%] Deleted: Input\Productlist.csv >> "%LOG_FILE%"

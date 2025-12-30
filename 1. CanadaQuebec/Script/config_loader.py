@@ -23,6 +23,19 @@ _repo_root = Path(__file__).resolve().parents[2]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
+
+def get_repo_root() -> Path:
+    """Get repository root directory (parent of scraper directories)."""
+    return _repo_root
+
+
+def get_central_output_dir() -> Path:
+    """Get central output directory at repo root level for final reports."""
+    repo_root = get_repo_root()
+    central_output = repo_root / "output"
+    central_output.mkdir(parents=True, exist_ok=True)
+    return central_output
+
 # Try to import platform_config (preferred)
 try:
     from platform_config import PathManager, ConfigResolver, get_path_manager, get_config_resolver
@@ -145,19 +158,20 @@ def get_input_dir() -> Path:
 
 
 def get_output_dir() -> Path:
-    """Get output directory."""
-    if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        # For now, return base output dir
-        # Individual scripts can use get_csv_output_dir, get_split_pdf_dir, etc.
-        return pm.get_output_dir()
-    else:
-        # Legacy mode
-        base = get_base_dir()
-        output_subdir = get_env("OUTPUT_DIR", "output")
-        if Path(output_subdir).is_absolute():
-            return Path(output_subdir)
-        return base / output_subdir
+    """Get output directory. Always prefers local scraper output directory over platform directory."""
+    # First check if OUTPUT_DIR is explicitly set (absolute path or environment variable)
+    output_dir_str = get_env("OUTPUT_DIR", "")
+    if output_dir_str and Path(output_dir_str).is_absolute():
+        return Path(output_dir_str)
+    
+    # Always prefer local scraper output directory (parent of Script directory)
+    # Get scraper root (parent of Script directory)
+    scraper_root = Path(__file__).resolve().parents[1]
+    local_output = scraper_root / "output"
+    
+    # Use local output directory (create if it doesn't exist)
+    local_output.mkdir(parents=True, exist_ok=True)
+    return local_output
 
 
 def get_split_pdf_dir() -> Path:
@@ -166,7 +180,9 @@ def get_split_pdf_dir() -> Path:
     split_subdir = get_env("SPLIT_PDF_DIR", "split_pdf")
     if Path(split_subdir).is_absolute():
         return Path(split_subdir)
-    return base / split_subdir
+    result = base / split_subdir
+    result.mkdir(parents=True, exist_ok=True)
+    return result
 
 
 def get_csv_output_dir() -> Path:
@@ -175,7 +191,9 @@ def get_csv_output_dir() -> Path:
     csv_subdir = get_env("CSV_OUTPUT_DIR", "csv")
     if Path(csv_subdir).is_absolute():
         return Path(csv_subdir)
-    return base / csv_subdir
+    result = base / csv_subdir
+    result.mkdir(parents=True, exist_ok=True)
+    return result
 
 
 def get_qa_output_dir() -> Path:
@@ -184,7 +202,9 @@ def get_qa_output_dir() -> Path:
     qa_subdir = get_env("QA_OUTPUT_DIR", "qa")
     if Path(qa_subdir).is_absolute():
         return Path(qa_subdir)
-    return base / qa_subdir
+    result = base / qa_subdir
+    result.mkdir(parents=True, exist_ok=True)
+    return result
 
 
 def get_backup_dir() -> Path:

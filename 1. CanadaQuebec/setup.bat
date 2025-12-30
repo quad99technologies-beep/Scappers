@@ -137,7 +137,7 @@ echo.
 echo Next steps:
 echo   1. Place your PDF file in the 'input' folder
 echo      (Default expected name: liste-med.pdf)
-echo   2. Run 'run_annexe_extraction.bat' to start extraction
+echo   2. Run 'run_pipeline.bat' to start extraction
 echo.
 echo Directory structure:
 echo   - input\              : Place your PDF files here
@@ -146,9 +146,8 @@ echo   - output\split_pdf\   : Split PDF files will be saved here
 echo   - backups\            : Automatic backups will be saved here
 echo.
 echo Important files:
-echo   - run_annexe_extraction.bat : Main execution script
-echo   - Script\                  : Contains all extraction scripts
-echo   - doc\                     : Documentation and utilities
+echo   - run_pipeline.bat : Main execution script
+echo   - Script\          : Contains all extraction scripts
+echo   - doc\             : Documentation and utilities
 echo.
-pause
 

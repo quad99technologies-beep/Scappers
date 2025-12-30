@@ -21,6 +21,19 @@ _repo_root = Path(__file__).resolve().parents[2]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
+
+def get_repo_root() -> Path:
+    """Get repository root directory (parent of scraper directories)."""
+    return _repo_root
+
+
+def get_central_output_dir() -> Path:
+    """Get central output directory at repo root level for final reports."""
+    repo_root = get_repo_root()
+    central_output = repo_root / "output"
+    central_output.mkdir(parents=True, exist_ok=True)
+    return central_output
+
 # Try to import platform_config (preferred)
 try:
     from platform_config import PathManager, ConfigResolver, get_path_manager, get_config_resolver
@@ -193,19 +206,25 @@ def get_input_dir(subpath: str = None) -> Path:
 
 def get_output_dir(subpath: str = None) -> Path:
     """
-    Get output directory.
+    Get output directory. Always prefers local scraper output directory over platform directory.
 
     Args:
         subpath: Optional subdirectory under output/
     """
-    if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        base = pm.get_output_dir()
+    # First check if OUTPUT_DIR is explicitly set (absolute path or environment variable)
+    output_dir_str = getenv("OUTPUT_DIR", "")
+    if output_dir_str and Path(output_dir_str).is_absolute():
+        base = Path(output_dir_str)
     else:
-        base = get_base_dir() / "Output"  # Note: Malaysia uses capital O
+        # Always prefer local scraper output directory (parent of scripts directory)
+        scraper_root = Path(__file__).resolve().parents[1]
+        base = scraper_root / "Output"  # Note: Malaysia uses capital O
+        base.mkdir(parents=True, exist_ok=True)
 
     if subpath:
-        return base / subpath
+        result = base / subpath
+        result.mkdir(parents=True, exist_ok=True)
+        return result
     return base
 
 

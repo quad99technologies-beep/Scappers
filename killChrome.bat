@@ -8,6 +8,8 @@ taskkill /F /IM chrome.exe /T
 taskkill /F /IM GoogleDriveFS.exe /T
 taskkill /F /IM googledrivesync.exe /T
 taskkill /F /IM drive.exe /T
+taskkill /F /IM python.exe
+taskkill /F /IM pythonw.exe
 
 echo Done. All Chrome and Drive processes have been terminated.
 pause

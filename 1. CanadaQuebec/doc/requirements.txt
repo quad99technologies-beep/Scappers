@@ -1,8 +1,0 @@
-# Core dependencies
-PyPDF2>=3.0.0
-pdfplumber>=0.9.0
-
-# Optional database support (only needed if DB_ENABLED=1)
-# Uncomment the line below if you want to use database features
-# psycopg2-binary>=2.9.0
-

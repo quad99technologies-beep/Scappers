@@ -1,0 +1,12 @@
+{
+  "platform": {
+    "version": "1.0.0",
+    "log_level": "INFO",
+    "max_concurrent_runs": 1
+  },
+  "paths": {
+    "input_base": "input",
+    "output_base": "output",
+    "cache_base": "cache"
+  }
+}

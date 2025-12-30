@@ -187,10 +187,10 @@ echo.
 echo All dependencies have been installed successfully.
 echo.
 echo Next steps:
-echo   1. Ensure Input/Malaysia_PCID.csv exists
+echo   1. Ensure input/Malaysia_PCID.csv exists
 echo   2. Run 'run_scripts.bat' to execute the scripts
 echo.
-echo For help, see Doc/USER_MANUAL.md
+echo For help, see docs/USER_MANUAL.md
 echo.
 endlocal
 pause
