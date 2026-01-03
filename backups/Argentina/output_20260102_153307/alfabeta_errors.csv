@@ -1,0 +1,2 @@
+input_company,input_product_name,timestamp,error_message
+Roemmers,ACALIX,2026-01-02T15:31:47,API Error: [Errno 13] Permission denied: 'D:\\quad99\\Scappers\\output\\Argentina\\alfabeta_products_by_product.csv'

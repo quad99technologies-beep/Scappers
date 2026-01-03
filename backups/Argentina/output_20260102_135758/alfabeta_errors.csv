@@ -1,0 +1,52 @@
+ISA,+50,2026-01-02T13:33:37,"API Error: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=143.0.7499.170)
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xf612d3
+	0xf61314
+	0xd4e6dd
+	0xd2ca8d
+	0xdc1ffb
+	0xddd44c
+	0xdbb2e6
+	0xd8d321
+	0xd8e1d4
+	0x11b5314
+	0x11b08cb
+	0x11cd1aa
+	0xf7b1d8
+	0xf831dd
+	0xf695d8
+	0xf69799
+	0xf53b28
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Laboratorio ENA,100% WHEY PROTEIN,2026-01-02T13:33:48,"API Error: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=143.0.7499.170)
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xf612d3
+	0xf61314
+	0xd4e6dd
+	0xd2ca8d
+	0xdc1ffb
+	0xddd44c
+	0xdbb2e6
+	0xd8d321
+	0xd8e1d4
+	0x11b5314
+	0x11b08cb
+	0x11cd1aa
+	0xf7b1d8
+	0xf831dd
+	0xf695d8
+	0xf69799
+	0xf53b28
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"

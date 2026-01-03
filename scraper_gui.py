@@ -18,6 +18,42 @@ from datetime import datetime
 import json
 import time
 
+# CRITICAL: Initialize ConfigManager FIRST before any other imports
+# Add repo root to path for core.config_manager
+repo_root = Path(__file__).resolve().parent
+if str(repo_root) not in sys.path:
+    sys.path.insert(0, str(repo_root))
+
+try:
+    from core.config_manager import ConfigManager
+    
+    # Ensure directories exist
+    ConfigManager.ensure_dirs()
+    
+    # Try to acquire single-instance lock (prevents EXE runaway sessions)
+    # If lock exists, show warning but allow GUI to start (user can clear stale locks)
+    _app_lock_acquired = False
+    if ConfigManager:
+        try:
+            _app_lock_acquired = ConfigManager.acquire_lock()
+            if not _app_lock_acquired:
+                print("WARNING: Another instance may be running, or stale lock file exists.")
+                print("You can clear stale locks using the 'Clear Lock' button in the GUI.")
+                print("Continuing anyway...")
+                # Don't exit - allow GUI to start so user can clear the lock
+        except Exception as e:
+            print(f"WARNING: Could not acquire app lock: {e}")
+            print("Continuing anyway...")
+            # Continue anyway - lock is for preventing duplicate instances, not critical
+except ImportError as e:
+    print(f"WARNING: Failed to import ConfigManager: {e}")
+    print("Continuing with legacy mode...")
+    ConfigManager = None
+except Exception as e:
+    print(f"WARNING: ConfigManager initialization failed: {e}")
+    print("Continuing with legacy mode...")
+    ConfigManager = None
+
 # Try to import OpenAI
 try:
     from openai import OpenAI
@@ -49,6 +85,11 @@ class ScraperGUI:
         self.running_processes = {}  # Track processes per scraper: {scraper_name: process}
         self.running_scrapers = set()  # Track which scrapers are running from GUI
         self.scraper_logs = {}  # Store logs per scraper: {scraper_name: log_text}
+        self._pipeline_lock_files = {}  # Track lock files created for pipeline runs: {scraper_name: lock_file_path}
+        self._stopped_by_user = set()  # Track scrapers that were stopped by user: {scraper_name}
+        
+        # Start periodic cleanup task to check for stale locks
+        self.start_periodic_lock_cleanup()
         
         # Step explanations cache (key: script_path, value: explanation text)
         self.step_explanations = {}
@@ -59,9 +100,9 @@ class ScraperGUI:
         # Define scrapers and their steps
         self.scrapers = {
             "CanadaQuebec": {
-                "path": self.repo_root / "1. CanadaQuebec",
-                "scripts_dir": "Script",
-                "docs_dir": "doc",
+                "path": self.repo_root / "scripts" / "CanadaQuebec",
+                "scripts_dir": "",
+                "docs_dir": None,  # All docs now in root doc/ folder
                 "steps": [
                     {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
                     {"name": "01 - Split PDF into Annexes", "script": "01_split_pdf_into_annexes.py", "desc": "Split PDF into annexes (IV.1, IV.2, V)"},
@@ -74,9 +115,9 @@ class ScraperGUI:
                 "pipeline_bat": "run_pipeline.bat"
             },
             "Malaysia": {
-                "path": self.repo_root / "2. Malaysia",
-                "scripts_dir": "scripts",
-                "docs_dir": "docs",
+                "path": self.repo_root / "scripts" / "Malaysia",
+                "scripts_dir": "",
+                "docs_dir": None,  # All docs now in root doc/ folder
                 "steps": [
                     {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
                     {"name": "01 - Product Registration Number", "script": "01_Product_Registration_Number.py", "desc": "Get drug prices from MyPriMe"},
@@ -88,12 +129,13 @@ class ScraperGUI:
                 "pipeline_bat": "run_pipeline.bat"
             },
             "Argentina": {
-                "path": self.repo_root / "3. Argentina",
-                "scripts_dir": "script",
-                "docs_dir": "doc",
+                "path": self.repo_root / "scripts" / "Argentina",
+                "scripts_dir": "",
+                "docs_dir": None,  # All docs now in root doc/ folder
                 "steps": [
-                    {"name": "01 - Get Company List", "script": "01_getCompanyList.py", "desc": "Extract company list from AlfaBeta"},
-                    {"name": "02 - Get Product List", "script": "02_getProdList.py", "desc": "Extract product list for each company"},
+                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
+                    {"name": "01 - Get Product List", "script": "01_getProdList.py", "desc": "Extract product list for each company"},
+                    {"name": "02 - Prepare URLs", "script": "02_prepare_urls.py", "desc": "Prepare URLs and determine sources"},
                     {"name": "03 - Scrape Products", "script": "03_alfabeta_scraper_labs.py", "desc": "Scrape product details (supports --max-rows)"},
                     {"name": "04 - Translate Using Dictionary", "script": "04_TranslateUsingDictionary.py", "desc": "Translate Spanish to English"},
                     {"name": "05 - Generate Output", "script": "05_GenerateOutput.py", "desc": "Generate final output report"},
@@ -167,16 +209,36 @@ class ScraperGUI:
         pipeline_frame = ttk.LabelFrame(parent, text="Pipeline Control", padding=10)
         pipeline_frame.pack(fill=tk.X, padx=5, pady=5)
 
-        self.run_button = ttk.Button(pipeline_frame, text="Run Full Pipeline",
-                  command=self.run_full_pipeline, width=25, state=tk.NORMAL)
-        self.run_button.pack(pady=5)
+        # Checkpoint status label
+        self.checkpoint_status_label = ttk.Label(pipeline_frame, text="Checkpoint: Not checked", 
+                                                 font=("Segoe UI", 9))
+        self.checkpoint_status_label.pack(pady=(0, 5))
+
+        self.run_button = ttk.Button(pipeline_frame, text="Resume Pipeline",
+                  command=lambda: self.run_full_pipeline(resume=True), width=25, state=tk.NORMAL)
+        self.run_button.pack(pady=2)
+
+        self.run_fresh_button = ttk.Button(pipeline_frame, text="Run Fresh Pipeline",
+                  command=lambda: self.run_full_pipeline(resume=False), width=25, state=tk.NORMAL)
+        self.run_fresh_button.pack(pady=2)
 
         self.stop_button = ttk.Button(pipeline_frame, text="Stop Pipeline",
                   command=self.stop_pipeline, width=25, state=tk.DISABLED)
         self.stop_button.pack(pady=5)
 
         ttk.Button(pipeline_frame, text="Clear Run Lock",
-                  command=self.clear_run_lock, width=25).pack(pady=5)
+                  command=self.clear_run_lock, width=25).pack(pady=2)
+        
+        button_row = ttk.Frame(pipeline_frame)
+        button_row.pack(pady=2, fill=tk.X)
+        
+        self.view_checkpoint_button = ttk.Button(button_row, text="View Checkpoint",
+                  command=self.view_checkpoint_file, width=20)
+        self.view_checkpoint_button.pack(side=tk.LEFT, padx=2)
+        
+        self.clear_checkpoint_button = ttk.Button(button_row, text="Clear Checkpoint",
+                  command=self.clear_checkpoint, width=20)
+        self.clear_checkpoint_button.pack(side=tk.LEFT, padx=2)
         
         # Steps frame (read-only view)
         steps_frame = ttk.LabelFrame(parent, text="Pipeline Steps", padding=10)
@@ -407,12 +469,18 @@ class ScraperGUI:
         final_output_path_entry = ttk.Entry(toolbar, textvariable=self.final_output_path_var, width=50)
         final_output_path_entry.pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
         
-        # Set default to root output folder (final reports only)
-        root_output = self.repo_root / "output"
-        self.final_output_path_var.set(str(root_output))
+        # Set default to exports directory (will be updated when scraper is selected)
+        # Default to repo root/exports for now, will be updated per scraper
+        try:
+            from platform_config import get_path_manager
+            pm = get_path_manager()
+            default_exports = pm.get_exports_dir()
+            self.final_output_path_var.set(str(default_exports))
+        except Exception:
+            # Fallback to repo root/exports
+            default_exports = self.repo_root / "exports"
+            self.final_output_path_var.set(str(default_exports))
         
-        ttk.Button(toolbar, text="Refresh", command=self.refresh_final_output_files).pack(side=tk.LEFT, padx=5)
-        ttk.Button(toolbar, text="Open Folder", command=self.open_final_output_folder).pack(side=tk.LEFT, padx=5)
         ttk.Button(toolbar, text="Search", command=self.search_final_output).pack(side=tk.LEFT, padx=5)
         
         # File list
@@ -432,6 +500,7 @@ class ScraperGUI:
         scrollbar.config(command=self.final_output_listbox.yview)
 
         self.final_output_listbox.bind("<Double-Button-1>", self.open_final_output_file)
+        self.final_output_listbox.bind("<<ListboxSelect>>", self.on_final_output_file_selected)
 
         # File preview/info
         file_info_frame = ttk.LabelFrame(parent, text="Final Output Information", padding=10)
@@ -440,6 +509,13 @@ class ScraperGUI:
         self.final_output_info_text = tk.Text(file_info_frame, wrap=tk.WORD,
                                               font=("Segoe UI", 9), state=tk.DISABLED)
         self.final_output_info_text.pack(fill=tk.BOTH, expand=True)
+        
+        # Buttons below the information table
+        button_frame = ttk.Frame(parent)
+        button_frame.pack(fill=tk.X, padx=5, pady=5)
+        
+        ttk.Button(button_frame, text="Refresh", command=self.refresh_final_output_files).pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text="Push to DB", command=self.push_to_database).pack(side=tk.LEFT, padx=5)
     
     def setup_config_tab(self, parent):
         """Setup configuration/environment editing tab"""
@@ -447,7 +523,7 @@ class ScraperGUI:
         toolbar = ttk.Frame(parent)
         toolbar.pack(fill=tk.X, padx=5, pady=5)
         
-        ttk.Label(toolbar, text="Platform Configuration:").pack(side=tk.LEFT, padx=5)
+        ttk.Label(toolbar, text="Scraper Configuration:").pack(side=tk.LEFT, padx=5)
         
         ttk.Button(toolbar, text="Load", command=self.load_config_file).pack(side=tk.LEFT, padx=5)
         ttk.Button(toolbar, text="Save", command=self.save_config_file).pack(side=tk.LEFT, padx=5)
@@ -463,46 +539,58 @@ class ScraperGUI:
         self.config_text.pack(fill=tk.BOTH, expand=True)
         
         # Status
-        self.config_status = ttk.Label(parent, text="Platform .env file (shared across all scrapers)", 
+        self.config_status = ttk.Label(parent, text="Scraper-specific configuration file", 
                                        relief=tk.SUNKEN, anchor=tk.W)
         self.config_status.pack(fill=tk.X, padx=5, pady=5)
         
-        # Store current config file path (always platform root)
-        self.current_config_file = self.repo_root / ".env"
+        # Store current config file path (will be set when scraper is selected)
+        self.current_config_file = None
         
-        # Auto-load on tab creation
-        self.load_config_file()
+        # Don't auto-load - wait for scraper selection
     
     
     def load_config_file(self):
-        """Load platform root .env file (shared across all scrapers)"""
-        # Always use platform root .env file (where scraper_gui.py is located)
-        env_file = self.repo_root / ".env"
+        """Load scraper-specific config file (config/{scraper_id}.env.json)"""
+        scraper_name = self.scraper_var.get() if hasattr(self, 'scraper_var') else None
+        if not scraper_name:
+            messagebox.showwarning("Warning", "Please select a scraper first to load its configuration.")
+            return
         
-        if env_file.exists():
+        # Use scraper-specific config file from config directory
+        try:
+            from platform_config import get_path_manager
+            pm = get_path_manager()
+            config_dir = pm.get_config_dir()
+            config_file = config_dir / f"{scraper_name}.env.json"
+        except Exception:
+            # Fallback to repo root config directory
+            config_dir = self.repo_root / "config"
+            config_file = config_dir / f"{scraper_name}.env.json"
+        
+        # Update current config file path
+        self.current_config_file = config_file
+        
+        if config_file.exists():
             try:
-                with open(env_file, "r", encoding="utf-8") as f:
+                with open(config_file, "r", encoding="utf-8") as f:
                     content = f.read()
                 self.config_text.delete(1.0, tk.END)
                 self.config_text.insert(1.0, content)
-                self.current_config_file = env_file
-                self.config_status.config(text=f"Loaded platform .env: {env_file}")
+                self.config_status.config(text=f"Loaded: {config_file.name} ({scraper_name} configuration)")
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to load config file:\n{str(e)}")
                 self.config_status.config(text=f"Error loading config: {str(e)}")
         else:
             # File doesn't exist, show empty editor with template
             self.config_text.delete(1.0, tk.END)
-            template = "# Platform Configuration File (.env)\n"
-            template += "# This file is shared across all scrapers (CanadaQuebec, Malaysia, Argentina)\n"
-            template += "# Add configuration variables here\n\n"
-            template += "# Example:\n"
-            template += "# OPENAI_API_KEY=your_key_here\n"
-            template += "# ALFABETA_USER=your_email@example.com\n"
-            template += "# ALFABETA_PASS=your_password\n\n"
+            template = "{\n"
+            template += f'  "{scraper_name}": {{\n'
+            template += '    "OPENAI_API_KEY": "",\n'
+            template += '    "OPENAI_MODEL": "gpt-4o-mini"\n'
+            template += "  }\n"
+            template += "}\n"
             self.config_text.insert(1.0, template)
-            self.current_config_file = env_file
-            self.config_status.config(text=f"Platform .env not found. Will create: {env_file}")
+            self.config_status.config(text=f"Config file not found. Will create: {config_file.name}")
     
     def save_config_file(self):
         """Save .env file for selected scraper"""
@@ -540,27 +628,40 @@ class ScraperGUI:
             messagebox.showinfo("Information", f"Configuration file does not exist:\n{self.current_config_file}\n\nUse 'Save' to create the file.")
     
     def create_config_from_template(self):
-        """Create platform .env file from .env.example template"""
-        # Look for .env.example in platform root
-        template_file = self.repo_root / ".env.example"
-        env_file = self.repo_root / ".env"
+        """Create scraper config file from template"""
+        scraper_name = self.scraper_var.get() if hasattr(self, 'scraper_var') else None
+        if not scraper_name:
+            messagebox.showwarning("Warning", "Please select a scraper first.")
+            return
+        
+        # Try to find template in config directory
+        try:
+            from platform_config import get_path_manager
+            pm = get_path_manager()
+            config_dir = pm.get_config_dir()
+            template_file = config_dir / f"{scraper_name}.env.json.example"
+        except Exception:
+            config_dir = self.repo_root / "config"
+            template_file = config_dir / f"{scraper_name}.env.json.example"
         
         if not template_file.exists():
-            # Try to find any .env.example in scraper directories
-            for scraper_name, scraper_info in self.scrapers.items():
+            # Try scraper directory
+            scraper_info = self.scrapers.get(scraper_name, {})
+            if scraper_info:
                 scraper_template = scraper_info["path"] / ".env.example"
                 if scraper_template.exists():
                     template_file = scraper_template
-                    break
         
         if not template_file.exists():
             messagebox.showwarning("Warning", f"Template file not found:\n{template_file}\n\nCreating empty config file instead.")
             self.config_text.delete(1.0, tk.END)
-            template = "# Platform Configuration File (.env)\n"
-            template += "# This file is shared across all scrapers\n"
-            template += "# Add your configuration variables here\n\n"
+            template = "{\n"
+            template += f'  "{scraper_name}": {{\n'
+            template += '    "OPENAI_API_KEY": "",\n'
+            template += '    "OPENAI_MODEL": "gpt-4o-mini"\n'
+            template += "  }\n"
+            template += "}\n"
             self.config_text.insert(1.0, template)
-            self.current_config_file = env_file
             return
         
         try:
@@ -570,9 +671,8 @@ class ScraperGUI:
             # Load into editor
             self.config_text.delete(1.0, tk.END)
             self.config_text.insert(1.0, template_content)
-            self.current_config_file = env_file
-            self.config_status.config(text=f"Loaded template from: {template_file}")
-            messagebox.showinfo("Information", f"Template loaded from:\n{template_file}\n\nUse 'Save' to create platform .env file.")
+            self.config_status.config(text=f"Loaded template from: {template_file.name}")
+            messagebox.showinfo("Information", f"Template loaded from:\n{template_file}\n\nUse 'Save' to create config file.")
         except Exception as e:
             messagebox.showerror("Error", f"Failed to load template:\n{str(e)}")
     
@@ -617,30 +717,45 @@ class ScraperGUI:
         self.update_rest_info()
         
     def load_documentation(self):
-        """Load all documentation files"""
+        """Load all documentation files from unified doc/ folder"""
         self.docs = {}
         
-        for scraper_name, scraper_info in self.scrapers.items():
-            docs_path = scraper_info["path"] / scraper_info["docs_dir"]
-            if docs_path.exists():
-                for doc_file in docs_path.rglob("*"):
-                    if doc_file.is_file() and doc_file.suffix in [".md", ".txt", ".py"]:
-                        rel_path = doc_file.relative_to(docs_path)
-                        key = f"{scraper_name} - {rel_path}"
+        # Load from unified doc/ folder at root
+        doc_root = self.repo_root / "doc"
+        if doc_root.exists():
+            # Load platform-level docs (root of doc/)
+            for doc_file in doc_root.glob("*.md"):
+                if doc_file.is_file():
+                    key = f"Platform - {doc_file.stem}"
+                    self.docs[key] = doc_file
+            
+            # Load scraper-specific docs from doc/scrapers/ or doc/{scraper_name}/
+            scrapers_doc_dir = doc_root / "scrapers"
+            if scrapers_doc_dir.exists():
+                for doc_file in scrapers_doc_dir.glob("*"):
+                    if doc_file.is_file() and doc_file.suffix in [".md", ".txt"]:
+                        # Extract scraper name from filename or use filename
+                        scraper_name = doc_file.stem.upper()
+                        if "CANADA" in scraper_name:
+                            scraper_name = "CanadaQuebec"
+                        elif "MALAYSIA" in scraper_name:
+                            scraper_name = "Malaysia"
+                        elif "ARGENTINA" in scraper_name or "PIPELINE" in scraper_name:
+                            scraper_name = "Argentina"
+                        key = f"{scraper_name} - {doc_file.name}"
                         self.docs[key] = doc_file
+            
+            # Also check for scraper-specific doc directories (doc/CanadaQuebec/, doc/Malaysia/, etc.)
+            for scraper_name in ["CanadaQuebec", "Malaysia", "Argentina"]:
+                scraper_doc_dir = doc_root / scraper_name
+                if scraper_doc_dir.exists():
+                    for doc_file in scraper_doc_dir.glob("*.md"):
+                        if doc_file.is_file():
+                            key = f"{scraper_name} - {doc_file.name}"
+                            self.docs[key] = doc_file
         
         # Update combo box
         self.doc_combo["values"] = sorted(self.docs.keys())
-        
-        # Also add root-level docs if any
-        for doc_file in self.repo_root.rglob("*.md"):
-            if "doc" in str(doc_file) or "docs" in str(doc_file):
-                key = f"Root - {doc_file.name}"
-                self.docs[key] = doc_file
-                if key not in self.doc_combo["values"]:
-                    current_values = list(self.doc_combo["values"])
-                    current_values.append(key)
-                    self.doc_combo["values"] = sorted(current_values)
     
     def on_scraper_selected(self, event=None):
         """Handle scraper selection"""
@@ -659,27 +774,14 @@ class ScraperGUI:
         for step in scraper_info["steps"]:
             self.steps_listbox.insert(tk.END, step["name"])
         
-        # Update output path to latest run directory
+        # Update output path to scraper output directory (not runs directory)
         if hasattr(self, 'output_path_var'):
-            # Get latest run directory for this scraper
+            # Use scraper-specific output directory
             try:
                 from platform_config import get_path_manager
                 pm = get_path_manager()
-                runs_dir = pm.get_runs_dir()
-                # Find latest run for this scraper
-                latest_run = None
-                latest_time = None
-                for run_dir in runs_dir.iterdir():
-                    if run_dir.is_dir() and run_dir.name.startswith(scraper_name):
-                        mtime = run_dir.stat().st_mtime
-                        if latest_time is None or mtime > latest_time:
-                            latest_time = mtime
-                            latest_run = run_dir
-                if latest_run:
-                    self.output_path_var.set(str(latest_run))
-                else:
-                    # No runs yet, show runs directory
-                    self.output_path_var.set(str(runs_dir))
+                output_dir = pm.get_output_dir(scraper_name)
+                self.output_path_var.set(str(output_dir))
             except Exception:
                 # Fallback to scraper output directory
                 output_dir = scraper_info["path"] / "output"
@@ -687,10 +789,26 @@ class ScraperGUI:
             
             # Refresh output files
             self.refresh_output_files()
+        
+        # Update Final Output path to scraper-specific exports directory
+        if hasattr(self, 'final_output_path_var'):
+            try:
+                from platform_config import get_path_manager
+                pm = get_path_manager()
+                exports_dir = pm.get_exports_dir(scraper_name)
+                self.final_output_path_var.set(str(exports_dir))
+            except Exception:
+                # Fallback to repo root/exports/{scraper_name}
+                exports_dir = self.repo_root / "exports" / scraper_name
+                self.final_output_path_var.set(str(exports_dir))
             
             # Refresh final output files (filtered by scraper)
             if hasattr(self, 'refresh_final_output_files'):
                 self.refresh_final_output_files()
+        
+        # Load scraper-specific config file
+        if hasattr(self, 'load_config_file'):
+            self.load_config_file()
         
         # Always update log display when scraper selection changes
         # This ensures the user sees the selected scraper's progress
@@ -723,12 +841,17 @@ class ScraperGUI:
         self.step_info_text.delete(1.0, tk.END)
         info = f"Script: {step['script']}\n"
         info += f"Description: {step['desc']}\n"
-        script_path = scraper_info["path"] / scraper_info["scripts_dir"] / step["script"]
+        # Scripts are directly in the scraper path, not in a subdirectory
+        if scraper_info.get("scripts_dir"):
+            script_path = scraper_info["path"] / scraper_info["scripts_dir"] / step["script"]
+        else:
+            script_path = scraper_info["path"] / step["script"]
         info += f"Path: {script_path}"
         self.step_info_text.insert(1.0, info)
         self.step_info_text.config(state=tk.DISABLED)
         
         # Enable explain button if script exists
+        
         if script_path.exists():
             self.explain_button.config(state=tk.NORMAL)
         else:
@@ -800,7 +923,11 @@ class ScraperGUI:
             return
         
         scraper_info = self.scrapers[scraper_name]
-        script_path = scraper_info["path"] / scraper_info["scripts_dir"] / self.current_step["script"]
+        # Scripts are directly in the scraper path, not in a subdirectory
+        if scraper_info.get("scripts_dir"):
+            script_path = scraper_info["path"] / scraper_info["scripts_dir"] / self.current_step["script"]
+        else:
+            script_path = scraper_info["path"] / self.current_step["script"]
         
         if not script_path.exists():
             messagebox.showerror("Error", f"Script file not found:\n{script_path}")
@@ -845,6 +972,7 @@ class ScraperGUI:
         
         if not api_key:
             messagebox.showerror("Error", "OPENAI_API_KEY not found. Configure it in environment or .env file.")
+            self.explain_button.config(state=tk.NORMAL, text="Explain This Step")
             return
         
         # Read script content
@@ -853,6 +981,7 @@ class ScraperGUI:
                 script_content = f.read()
         except Exception as e:
             messagebox.showerror("Error", f"Failed to read script file:\n{str(e)}")
+            self.explain_button.config(state=tk.NORMAL, text="Explain This Step")
             return
         
         # Show loading message
@@ -893,7 +1022,14 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     max_tokens=1000
                 )
                 
+                # Extract explanation from response
+                if not response.choices or len(response.choices) == 0:
+                    raise ValueError("OpenAI API returned no choices in response")
+                
                 explanation = response.choices[0].message.content
+                
+                if not explanation:
+                    raise ValueError("OpenAI API returned empty explanation")
                 
                 # Get current file modification time
                 current_file_mtime = self.get_file_mtime(script_path)
@@ -1067,7 +1203,40 @@ Provide a clear, concise explanation suitable for users who want to understand w
             pm = get_path_manager()
             lock_file = pm.get_lock_file(scraper_name)
 
-            if lock_file.exists():
+            # Check if lock file exists and if it's stale (process not running)
+            lock_exists = lock_file.exists()
+            if lock_exists:
+                # Check if the lock is stale (process that created it is not running)
+                try:
+                    with open(lock_file, 'r') as f:
+                        lock_content = f.read().strip().split('\n')
+                        if lock_content and lock_content[0].isdigit():
+                            lock_pid = int(lock_content[0])
+                            # Check if process is still running
+                            import subprocess
+                            if sys.platform == "win32":
+                                result = subprocess.run(
+                                    ['tasklist', '/FI', f'PID eq {lock_pid}'],
+                                    capture_output=True,
+                                    text=True,
+                                    timeout=2
+                                )
+                                # If PID not found in tasklist, process is dead - remove stale lock
+                                if str(lock_pid) not in result.stdout:
+                                    try:
+                                        lock_file.unlink()
+                                        lock_exists = False
+                                    except:
+                                        pass
+                except:
+                    # If we can't read the lock file, assume it's stale and try to remove it
+                    try:
+                        lock_file.unlink()
+                        lock_exists = False
+                    except:
+                        pass
+
+            if lock_exists:
                 self.update_status(f"Selected scraper: {scraper_name} (RUNNING - lock file exists)")
                 # Disable run button, enable stop button if lock exists
                 self.run_button.config(state=tk.DISABLED, text="⏸ Running...")
@@ -1080,27 +1249,149 @@ Provide a clear, concise explanation suitable for users who want to understand w
             else:
                 # No lock and not running - enable run button, disable stop button
                 self.update_status(f"Selected scraper: {scraper_name}")
-                self.run_button.config(state=tk.NORMAL, text="Run Full Pipeline")
+                self.run_button.config(state=tk.NORMAL, text="Resume Pipeline")
+                if hasattr(self, 'run_fresh_button'):
+                    self.run_fresh_button.config(state=tk.NORMAL)
                 self.stop_button.config(state=tk.DISABLED)
         except Exception:
             # On error, enable run button and disable stop button if not running from GUI
             if scraper_name not in self.running_scrapers:
-                self.run_button.config(state=tk.NORMAL, text="Run Full Pipeline")
+                self.run_button.config(state=tk.NORMAL, text="Resume Pipeline")
+                if hasattr(self, 'run_fresh_button'):
+                    self.run_fresh_button.config(state=tk.NORMAL)
                 self.stop_button.config(state=tk.DISABLED)
             self.update_status(f"Selected scraper: {scraper_name}")
+        
+        # Update checkpoint status
+        self.update_checkpoint_status()
     
-    def finish_scraper_run(self, scraper_name: str, return_code: int):
+    def start_periodic_lock_cleanup(self):
+        """Start a periodic task to check for and clean up stale lock files"""
+        def periodic_check():
+            try:
+                # Check all scrapers for stale locks
+                for scraper_name in self.scrapers.keys():
+                    # Skip if scraper is actually running from GUI
+                    if scraper_name in self.running_scrapers:
+                        continue
+                    
+                    try:
+                        from platform_config import get_path_manager
+                        pm = get_path_manager()
+                        lock_file = pm.get_lock_file(scraper_name)
+                        
+                        if lock_file.exists():
+                            # Check if lock is stale
+                            try:
+                                with open(lock_file, 'r') as f:
+                                    lock_content = f.read().strip().split('\n')
+                                    if lock_content and lock_content[0].isdigit():
+                                        lock_pid = int(lock_content[0])
+                                        # Check if process is still running
+                                        if sys.platform == "win32":
+                                            result = subprocess.run(
+                                                ['tasklist', '/FI', f'PID eq {lock_pid}'],
+                                                capture_output=True,
+                                                text=True,
+                                                timeout=2,
+                                                creationflags=subprocess.CREATE_NO_WINDOW if hasattr(subprocess, 'CREATE_NO_WINDOW') else 0
+                                            )
+                                            # If PID not found, process is dead - remove stale lock
+                                            if str(lock_pid) not in result.stdout:
+                                                try:
+                                                    lock_file.unlink()
+                                                    # Refresh button state if this is the selected scraper
+                                                    if scraper_name == self.scraper_var.get():
+                                                        self.root.after(0, self.refresh_run_button_state)
+                                                except:
+                                                    pass
+                            except:
+                                # If we can't read the lock file, it might be corrupted - try to remove it
+                                try:
+                                    lock_file.unlink()
+                                    if scraper_name == self.scraper_var.get():
+                                        self.root.after(0, self.refresh_run_button_state)
+                                except:
+                                    pass
+                    except:
+                        pass
+            except:
+                pass
+            
+            # Schedule next check in 5 seconds
+            self.root.after(5000, periodic_check)
+        
+        # Start the periodic check after 5 seconds
+        self.root.after(5000, periodic_check)
+    
+    def finish_scraper_run(self, scraper_name: str, return_code: int, stopped: bool = False):
         """Finish scraper run and update display if selected"""
+        # Ensure scraper is removed from running sets
+        self.running_scrapers.discard(scraper_name)
+        
+        # Final cleanup of any remaining lock files (safety net with retries)
+        import time
+        max_retries = 5
+        for attempt in range(max_retries):
+            try:
+                from platform_config import get_path_manager
+                pm = get_path_manager()
+                lock_file = pm.get_lock_file(scraper_name)
+                if lock_file.exists():
+                    lock_file.unlink()
+                    # Verify deletion
+                    if lock_file.exists() and attempt < max_retries - 1:
+                        time.sleep(0.2 * (attempt + 1))
+                        continue
+                
+                # Also check old lock location
+                old_lock = self.repo_root / f".{scraper_name}_run.lock"
+                if old_lock.exists():
+                    old_lock.unlink()
+                    # Verify deletion
+                    if old_lock.exists() and attempt < max_retries - 1:
+                        time.sleep(0.2 * (attempt + 1))
+                        continue
+                
+                # If we get here, cleanup was successful
+                break
+            except Exception as e:
+                if attempt < max_retries - 1:
+                    time.sleep(0.2 * (attempt + 1))
+                else:
+                    print(f"Warning: Could not remove lock files in finish_scraper_run: {e}")
+        
         if scraper_name == self.scraper_var.get():
             self.update_log_display(scraper_name)
-            if return_code == 0:
+            if stopped:
+                self.update_status(f"{scraper_name} execution stopped by user")
+            elif return_code == 0:
                 self.update_status(f"{scraper_name} execution completed")
+                # Save log automatically after successful completion
+                self.save_log_automatically(scraper_name)
             else:
                 self.update_status(f"{scraper_name} execution failed")
             self.refresh_output_files()
         
-        # Refresh button state after run completes (lock should be released by workflow runner)
-        self.refresh_run_button_state()
+        # Refresh button state - use a longer delay to ensure lock files are gone
+        def refresh_with_delay():
+            """Refresh button state after ensuring cleanup is complete"""
+            # Double-check lock files are gone before refreshing
+            try:
+                from platform_config import get_path_manager
+                pm = get_path_manager()
+                lock_file = pm.get_lock_file(scraper_name)
+                if lock_file.exists():
+                    # Lock still exists, try to remove it one more time
+                    try:
+                        lock_file.unlink()
+                    except:
+                        pass
+            except:
+                pass
+            self.refresh_run_button_state()
+        
+        self.root.after(500, refresh_with_delay)  # 500ms delay to ensure file system updates
     
     def handle_scraper_error(self, scraper_name: str, error: str):
         """Handle scraper execution error and update display if selected"""
@@ -1287,8 +1578,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 new_end = self.doc_text.index(f"{tag_start}+{len(text)}c")
                 self.doc_text.tag_add("italic", tag_start, new_end)
     
-    def run_full_pipeline(self):
-        """Run the full pipeline for selected scraper using shared workflow runner"""
+    def run_full_pipeline(self, resume=True):
+        """Run the full pipeline for selected scraper with resume/checkpoint support"""
         # Check if THIS scraper is already running (not other scrapers)
         scraper_name = self.scraper_var.get()
         if not scraper_name:
@@ -1313,28 +1604,60 @@ Provide a clear, concise explanation suitable for users who want to understand w
         
         scraper_info = self.scrapers[scraper_name]
         
-        # Use new workflow runner
-        workflow_script = scraper_info["path"] / "run_workflow.py"
+        # Try resume script first
+        resume_script = scraper_info["path"] / "run_pipeline_resume.py"
         
-        if workflow_script.exists():
-            # Use new unified workflow
-            if not messagebox.askyesno("Confirm", f"Run full pipeline for {scraper_name}?\n\nThis will:\n- Create a backup first\n- Run all steps\n- Organize outputs in run folder"):
-                return
+        if resume_script.exists():
+            # Use resume script with resume/fresh flag
+            mode = "resume" if resume else "fresh"
+            if resume:
+                # Get checkpoint info for confirmation
+                try:
+                    from core.pipeline_checkpoint import get_checkpoint_manager
+                    cp = get_checkpoint_manager(scraper_name)
+                    info = cp.get_checkpoint_info()
+                    if info["total_completed"] > 0:
+                        msg = f"Resume pipeline for {scraper_name}?\n\n"
+                        msg += f"Last completed step: {info['last_completed_step']}\n"
+                        msg += f"Will start from step: {info['next_step']}\n"
+                        msg += f"Completed steps: {info['total_completed']}"
+                        if not messagebox.askyesno("Confirm Resume", msg):
+                            return
+                    else:
+                        if not messagebox.askyesno("Confirm", f"Run pipeline for {scraper_name}?\n\nNo checkpoint found - will start from step 0."):
+                            return
+                except Exception as e:
+                    if not messagebox.askyesno("Confirm", f"Run pipeline for {scraper_name}?"):
+                        return
+            else:
+                if not messagebox.askyesno("Confirm Fresh Run", f"Run fresh pipeline for {scraper_name}?\n\nThis will:\n- Clear checkpoint\n- Start from step 0\n- Create backup and clean output"):
+                    return
             
-            self.run_script_in_thread(workflow_script, scraper_info["path"], is_pipeline=True, extra_args=[])
+            extra_args = [] if resume else ["--fresh"]
+            self.run_script_in_thread(resume_script, scraper_info["path"], is_pipeline=True, extra_args=extra_args)
         else:
-            # Fallback to old batch file
-            pipeline_bat = scraper_info["path"] / scraper_info["pipeline_bat"]
+            # Fallback to workflow script or batch file
+            workflow_script = scraper_info["path"] / "run_workflow.py"
             
-            if not pipeline_bat.exists():
-                messagebox.showerror("Error", f"Pipeline script not found:\n{pipeline_bat}")
-                return
-            
-            # Confirm
-            if not messagebox.askyesno("Confirm", f"Run full pipeline for {scraper_name}?"):
-                return
-            
-            self.run_script_in_thread(pipeline_bat, scraper_info["path"], is_pipeline=True, extra_args=[])
+            if workflow_script.exists():
+                # Use new unified workflow
+                if not messagebox.askyesno("Confirm", f"Run full pipeline for {scraper_name}?\n\nThis will:\n- Create a backup first\n- Run all steps\n- Organize outputs in run folder"):
+                    return
+                
+                self.run_script_in_thread(workflow_script, scraper_info["path"], is_pipeline=True, extra_args=[])
+            else:
+                # Fallback to old batch file
+                pipeline_bat = scraper_info["path"] / scraper_info["pipeline_bat"]
+                
+                if not pipeline_bat.exists():
+                    messagebox.showerror("Error", f"Pipeline script not found:\n{pipeline_bat}")
+                    return
+                
+                # Confirm
+                if not messagebox.askyesno("Confirm", f"Run full pipeline for {scraper_name}?"):
+                    return
+                
+                self.run_script_in_thread(pipeline_bat, scraper_info["path"], is_pipeline=True, extra_args=[])
     
     
     def run_script_in_thread(self, script_path, working_dir, is_pipeline=False, extra_args=None):
@@ -1358,6 +1681,24 @@ Provide a clear, concise explanation suitable for users who want to understand w
         
         def run():
             try:
+                # Create lock file for pipeline runs
+                if is_pipeline:
+                    try:
+                        from platform_config import get_path_manager
+                        pm = get_path_manager()
+                        lock_file = pm.get_lock_file(scraper_name)
+                        # Ensure lock file directory exists
+                        lock_file.parent.mkdir(parents=True, exist_ok=True)
+                        # Create lock file with current PID
+                        import os
+                        with open(lock_file, 'w') as f:
+                            f.write(f"{os.getpid()}\n{datetime.now().isoformat()}\n")
+                        # Store lock file path for cleanup
+                        self._pipeline_lock_files[scraper_name] = lock_file
+                    except Exception as e:
+                        # If lock file creation fails, log but continue
+                        print(f"Warning: Could not create lock file: {e}")
+                
                 # Initialize log for this scraper
                 log_header = f"Starting execution at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
                 log_header += f"Scraper: {scraper_name}\n"
@@ -1390,7 +1731,23 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     )
                 else:
                     # Run Python script
-                    cmd = ["python", str(script_path)] + extra_args
+                    # In packaged EXE mode, use sys.executable to prevent recursive relaunch
+                    if getattr(sys, 'frozen', False):
+                        # Packaged EXE mode - use sys.executable (the EXE itself)
+                        # But we're launching a script, so we need Python interpreter
+                        # Check if we can find python.exe in the same directory
+                        exe_dir = Path(sys.executable).parent
+                        python_exe = exe_dir / "python.exe"
+                        if not python_exe.exists():
+                            # Fallback to sys.executable (might work if it's a Python launcher)
+                            python_cmd = sys.executable
+                        else:
+                            python_cmd = str(python_exe)
+                    else:
+                        # Development mode - use "python" command
+                        python_cmd = "python"
+                    
+                    cmd = [python_cmd, str(script_path)] + extra_args
                     process = subprocess.Popen(
                         cmd,
                         cwd=str(working_dir),
@@ -1461,18 +1818,135 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 except:
                     pass
 
-                # Final status
+                # Wait for all child processes to complete (especially important for batch files)
+                # On Windows, batch files spawn child Python processes that may still be running
+                if script_path.suffix == ".bat" and sys.platform == "win32":
+                    import time
+                    # Wait longer for batch files to ensure all child Python processes complete
+                    # Batch files spawn Python processes that need time to fully terminate
+                    time.sleep(3.0)  # Wait 3 seconds for child processes to complete
+
+                # Get return code BEFORE cleanup
+                return_code = process.returncode
+                was_stopped = scraper_name in self._stopped_by_user
+                
+                # Clean up lock files IMMEDIATELY after process completes (before status message)
+                if is_pipeline:
+                    # Remove from tracking sets immediately
+                    self.running_scrapers.discard(scraper_name)
+                    if scraper_name in self.running_processes:
+                        del self.running_processes[scraper_name]
+                    
+                    # Clean up ALL lock files with retry mechanism
+                    def cleanup_locks():
+                        """Clean up all lock files with retries"""
+                        import time
+                        max_retries = 10  # Increased retries
+                        lock_cleared = False
+                        
+                        for attempt in range(max_retries):
+                            try:
+                                all_cleared = True
+                                
+                                # Clean up GUI-created lock file
+                                if scraper_name in self._pipeline_lock_files:
+                                    lock_file = self._pipeline_lock_files[scraper_name]
+                                    if lock_file and lock_file.exists():
+                                        try:
+                                            lock_file.unlink()
+                                            # Verify deletion
+                                            if lock_file.exists():
+                                                all_cleared = False
+                                        except Exception as e:
+                                            all_cleared = False
+                                    del self._pipeline_lock_files[scraper_name]
+                                
+                                # Clean up WorkflowRunner lock files
+                                from platform_config import get_path_manager
+                                pm = get_path_manager()
+                                lock_file = pm.get_lock_file(scraper_name)
+                                if lock_file.exists():
+                                    try:
+                                        lock_file.unlink()
+                                        # Verify deletion
+                                        if lock_file.exists():
+                                            all_cleared = False
+                                    except Exception as e:
+                                        all_cleared = False
+                                
+                                # Clean up old lock location
+                                old_lock = self.repo_root / f".{scraper_name}_run.lock"
+                                if old_lock.exists():
+                                    try:
+                                        old_lock.unlink()
+                                        # Verify deletion
+                                        if old_lock.exists():
+                                            all_cleared = False
+                                    except Exception as e:
+                                        all_cleared = False
+                                
+                                # If all locks are cleared, we're done
+                                if all_cleared:
+                                    lock_cleared = True
+                                    break
+                                    
+                            except Exception as e:
+                                if attempt < max_retries - 1:
+                                    time.sleep(0.3 * (attempt + 1))  # Exponential backoff
+                                else:
+                                    print(f"Warning: Could not remove lock files after {max_retries} attempts: {e}")
+                            
+                            # Wait before retry
+                            if attempt < max_retries - 1:
+                                time.sleep(0.2)
+                        
+                        if not lock_cleared:
+                            print(f"Warning: Some lock files may still exist for {scraper_name}")
+                    
+                    cleanup_locks()
+                    
+                    # Longer delay to ensure file system updates on Windows
+                    # Especially important after batch files where child processes need time to fully terminate
+                    import time
+                    if script_path.suffix == ".bat":
+                        time.sleep(2.0)  # Longer delay for batch files
+                    else:
+                        time.sleep(0.5)  # Standard delay for Python scripts
+
+                # Final status - check if stopped by user
                 status_msg = "\n" + "=" * 80 + "\n"
-                if process.returncode == 0:
+                if was_stopped:
+                    status_msg += f"Execution stopped by user at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+                    self._stopped_by_user.discard(scraper_name)  # Remove from set after using
+                elif return_code == 0:
                     status_msg += f"Execution completed at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+                    # Simple lock file deletion after successful run
+                    try:
+                        from platform_config import get_path_manager
+                        pm = get_path_manager()
+                        lock_file = pm.get_lock_file(scraper_name)
+                        if lock_file.exists():
+                            lock_file.unlink()
+                        # Also clean up old lock location
+                        old_lock = self.repo_root / f".{scraper_name}_run.lock"
+                        if old_lock.exists():
+                            old_lock.unlink()
+                        # Clean up GUI-created lock file
+                        if scraper_name in self._pipeline_lock_files:
+                            gui_lock = self._pipeline_lock_files[scraper_name]
+                            if gui_lock and gui_lock.exists():
+                                gui_lock.unlink()
+                            del self._pipeline_lock_files[scraper_name]
+                    except Exception as e:
+                        pass  # Ignore errors, will be cleaned up by periodic task
                 else:
-                    status_msg += f"Execution failed with return code {process.returncode}\n"
+                    status_msg += f"Execution failed with return code {return_code}\n"
 
                 self.scraper_logs[scraper_name] += status_msg
 
                 # Update display if this scraper is selected
-                return_code = process.returncode
-                self.root.after(0, lambda sn=scraper_name, rc=return_code: self.finish_scraper_run(sn, rc))
+                # Schedule finish_scraper_run on GUI thread
+                self.root.after(0, lambda sn=scraper_name, rc=return_code, stopped=was_stopped: self.finish_scraper_run(sn, rc, stopped))
 
             except Exception as e:
                 error_msg = f"\nError: {str(e)}\n"
@@ -1480,6 +1954,63 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 error_str = str(e)
                 self.root.after(0, lambda sn=scraper_name, err=error_str: self.handle_scraper_error(sn, err))
             finally:
+                # Final cleanup - ensure everything is cleaned up even if there was an exception
+                # (Most cleanup happens above after process.wait(), but this is a safety net)
+                self.running_scrapers.discard(scraper_name)
+                if scraper_name in self.running_processes:
+                    del self.running_processes[scraper_name]
+                
+                # Final button state refresh (with delay to ensure lock files are gone)
+                if is_pipeline:
+                    def delayed_refresh():
+                        """Refresh button state after a short delay to ensure lock files are deleted"""
+                        import time
+                        # Try multiple times to ensure lock is cleared
+                        for attempt in range(5):
+                            try:
+                                from platform_config import get_path_manager
+                                pm = get_path_manager()
+                                lock_file = pm.get_lock_file(scraper_name)
+                                if lock_file.exists():
+                                    # Lock still exists, try to remove it
+                                    try:
+                                        lock_file.unlink()
+                                        # Wait a bit and check again
+                                        time.sleep(0.3)
+                                        if not lock_file.exists():
+                                            break
+                                    except Exception as e:
+                                        # If deletion fails, wait longer
+                                        time.sleep(0.5)
+                                else:
+                                    # Lock is gone, we're good
+                                    break
+                            except:
+                                pass
+                            time.sleep(0.5)  # Give file system time to update
+                        
+                        # Final refresh
+                        self.refresh_run_button_state()
+                        
+                        # Schedule another check after a longer delay as a safety net
+                        def final_check():
+                            try:
+                                from platform_config import get_path_manager
+                                pm = get_path_manager()
+                                lock_file = pm.get_lock_file(scraper_name)
+                                if lock_file.exists():
+                                    try:
+                                        lock_file.unlink()
+                                    except:
+                                        pass
+                                self.refresh_run_button_state()
+                            except:
+                                pass
+                        
+                        self.root.after(2000, final_check)  # Check again after 2 seconds
+                    
+                    self.root.after(500, delayed_refresh)  # Schedule after 500ms
+                
                 # Clean up process resources
                 try:
                     if 'process' in locals() and process:
@@ -1520,15 +2051,97 @@ Provide a clear, concise explanation suitable for users who want to understand w
             messagebox.showwarning("Warning", "Select a scraper first")
             return
 
-        # Check if this scraper is actually running
+        # First, try to stop the process tracked by GUI (if running from GUI)
+        if scraper_name in self.running_processes:
+            process = self.running_processes[scraper_name]
+            if process and process.poll() is None:  # Process is still running
+                # Confirm stop
+                if not messagebox.askyesno("Confirm Stop", f"Stop {scraper_name} pipeline?\n\nThis will terminate the running process."):
+                    return
+                
+                self.update_status(f"Stopping {scraper_name}...")
+                
+                try:
+                    # Terminate the process
+                    process.terminate()
+                    # Wait a bit for graceful shutdown
+                    import time
+                    time.sleep(1)
+                    if process.poll() is None:
+                        # Force kill if still running
+                        process.kill()
+                    
+                    # Clean up lock file if it exists
+                    try:
+                        from platform_config import get_path_manager
+                        pm = get_path_manager()
+                        lock_file = pm.get_lock_file(scraper_name)
+                        if lock_file.exists():
+                            lock_file.unlink()
+                    except:
+                        pass
+                    
+                    # Also check old lock location
+                    try:
+                        old_lock = self.repo_root / f".{scraper_name}_run.lock"
+                        if old_lock.exists():
+                            old_lock.unlink()
+                    except:
+                        pass
+                    
+                    # Mark as stopped by user
+                    self._stopped_by_user.add(scraper_name)
+                    
+                    # Remove from tracking
+                    del self.running_processes[scraper_name]
+                    self.running_scrapers.discard(scraper_name)
+                    
+                    # Clean up pipeline lock file if created by GUI
+                    if scraper_name in self._pipeline_lock_files:
+                        try:
+                            lock_file = self._pipeline_lock_files[scraper_name]
+                            if lock_file and lock_file.exists():
+                                lock_file.unlink()
+                            del self._pipeline_lock_files[scraper_name]
+                        except:
+                            pass
+                    
+                    # Update log
+                    stop_msg = f"\n{'='*80}\n[STOPPED] Pipeline stopped by user at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n{'='*80}\n"
+                    if scraper_name in self.scraper_logs:
+                        self.scraper_logs[scraper_name] += stop_msg
+                    if scraper_name == self.scraper_var.get():
+                        self.append_to_log_display(stop_msg)
+                    
+                    # Refresh button state
+                    self.refresh_run_button_state()
+                    self.update_status(f"Stopped {scraper_name}")
+                    messagebox.showinfo("Success", f"Stopped {scraper_name} pipeline")
+                    return
+                except Exception as e:
+                    messagebox.showerror("Error", f"Failed to stop {scraper_name}:\n{str(e)}")
+                    self.update_status(f"Error stopping {scraper_name}: {str(e)}")
+                    return
+
+        # If not tracked by GUI, try to stop via lock file (external process)
+        lock_file = None
+        old_lock_file = None
         try:
             from platform_config import get_path_manager
             pm = get_path_manager()
             lock_file = pm.get_lock_file(scraper_name)
+            # Also check old location as fallback
+            old_lock_file = self.repo_root / f".{scraper_name}_run.lock"
         except Exception:
-            lock_file = self.repo_root / f".{scraper_name}_run.lock"
+            old_lock_file = self.repo_root / f".{scraper_name}_run.lock"
+        
+        # Use the lock file that exists, or prefer new location
+        if lock_file and not lock_file.exists() and old_lock_file and old_lock_file.exists():
+            lock_file = old_lock_file
+        elif not lock_file:
+            lock_file = old_lock_file
 
-        if not lock_file.exists() and scraper_name not in self.running_scrapers:
+        if (not lock_file or not lock_file.exists()) and scraper_name not in self.running_scrapers:
             messagebox.showinfo("Information", f"{scraper_name} is not currently running.")
             return
 
@@ -1561,6 +2174,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
 
                 # Refresh button state
                 self.refresh_run_button_state()
+                self.update_checkpoint_status()
             else:
                 messagebox.showerror("Error", f"Failed to stop {scraper_name}:\n{result['message']}")
                 self.update_status(f"Failed to stop {scraper_name}")
@@ -1568,6 +2182,134 @@ Provide a clear, concise explanation suitable for users who want to understand w
             messagebox.showerror("Error", f"Failed to stop {scraper_name}:\n{str(e)}")
             self.update_status(f"Error stopping {scraper_name}: {str(e)}")
 
+    def update_checkpoint_status(self):
+        """Update checkpoint status label"""
+        scraper_name = self.scraper_var.get()
+        if not scraper_name:
+            if hasattr(self, 'checkpoint_status_label'):
+                self.checkpoint_status_label.config(text="Checkpoint: No scraper selected")
+            return
+        
+        try:
+            from core.pipeline_checkpoint import get_checkpoint_manager
+            cp = get_checkpoint_manager(scraper_name)
+            info = cp.get_checkpoint_info()
+            
+            if info["total_completed"] > 0:
+                status_text = f"Checkpoint: Step {info['last_completed_step']} completed (resume from step {info['next_step']})"
+            else:
+                status_text = "Checkpoint: No checkpoint (will start from step 0)"
+            
+            if hasattr(self, 'checkpoint_status_label'):
+                self.checkpoint_status_label.config(text=status_text)
+        except Exception as e:
+            if hasattr(self, 'checkpoint_status_label'):
+                self.checkpoint_status_label.config(text=f"Checkpoint: Error - {str(e)[:50]}")
+    
+    def view_checkpoint_file(self):
+        """View checkpoint file location and contents"""
+        scraper_name = self.scraper_var.get()
+        if not scraper_name:
+            messagebox.showwarning("Warning", "Select a scraper first")
+            return
+        
+        try:
+            from core.pipeline_checkpoint import get_checkpoint_manager
+            cp = get_checkpoint_manager(scraper_name)
+            checkpoint_file = cp.checkpoint_file
+            checkpoint_dir = cp.checkpoint_dir
+            
+            # Get checkpoint info
+            info = cp.get_checkpoint_info()
+            
+            # Create a detailed message
+            msg = f"Checkpoint File Location:\n{checkpoint_file}\n\n"
+            msg += f"Checkpoint Directory:\n{checkpoint_dir}\n\n"
+            msg += f"Checkpoint Status:\n"
+            msg += f"  Scraper: {info['scraper']}\n"
+            msg += f"  Last Run: {info['last_run'] or 'Never'}\n"
+            msg += f"  Completed Steps: {info['completed_steps']}\n"
+            msg += f"  Last Completed Step: {info['last_completed_step'] or 'None'}\n"
+            msg += f"  Next Step: {info['next_step']}\n"
+            msg += f"  Total Completed: {info['total_completed']}\n\n"
+            
+            if checkpoint_file.exists():
+                # Read and show file contents (first 2000 chars)
+                try:
+                    with open(checkpoint_file, 'r', encoding='utf-8') as f:
+                        contents = f.read()
+                    if len(contents) > 2000:
+                        contents = contents[:2000] + "\n\n... (truncated, file is too long)"
+                    msg += f"File Contents:\n{contents}"
+                except Exception as e:
+                    msg += f"Could not read file contents: {e}"
+            else:
+                msg += "Checkpoint file does not exist yet."
+            
+            # Create a new window to display this
+            view_window = tk.Toplevel(self.root)
+            view_window.title(f"Checkpoint Details - {scraper_name}")
+            view_window.geometry("700x500")
+            
+            # Text widget with scrollbar
+            text_frame = ttk.Frame(view_window)
+            text_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+            
+            scrollbar = ttk.Scrollbar(text_frame)
+            scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+            
+            text_widget = tk.Text(text_frame, wrap=tk.WORD, yscrollcommand=scrollbar.set, 
+                                 font=("Consolas", 9))
+            text_widget.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+            scrollbar.config(command=text_widget.yview)
+            
+            text_widget.insert("1.0", msg)
+            text_widget.config(state=tk.DISABLED)
+            
+            # Button to open file location
+            button_frame = ttk.Frame(view_window)
+            button_frame.pack(fill=tk.X, padx=10, pady=5)
+            
+            def open_file_location():
+                import os
+                import subprocess
+                try:
+                    if sys.platform == "win32":
+                        os.startfile(checkpoint_dir)
+                    elif sys.platform == "darwin":
+                        subprocess.run(["open", str(checkpoint_dir)])
+                    else:
+                        subprocess.run(["xdg-open", str(checkpoint_dir)])
+                except Exception as e:
+                    messagebox.showerror("Error", f"Could not open file location:\n{e}")
+            
+            ttk.Button(button_frame, text="Open Folder in Explorer", 
+                      command=open_file_location).pack(side=tk.LEFT, padx=5)
+            ttk.Button(button_frame, text="Close", 
+                      command=view_window.destroy).pack(side=tk.RIGHT, padx=5)
+            
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to view checkpoint:\n{e}")
+    
+    def clear_checkpoint(self):
+        """Clear checkpoint for selected scraper"""
+        scraper_name = self.scraper_var.get()
+        if not scraper_name:
+            messagebox.showwarning("Warning", "Select a scraper first")
+            return
+        
+        if not messagebox.askyesno("Confirm", f"Clear checkpoint for {scraper_name}?\n\nThis will reset the pipeline to start from step 0 on next run."):
+            return
+        
+        try:
+            from core.pipeline_checkpoint import get_checkpoint_manager
+            cp = get_checkpoint_manager(scraper_name)
+            cp.clear_checkpoint()
+            messagebox.showinfo("Success", f"Checkpoint cleared for {scraper_name}")
+            self.update_checkpoint_status()
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to clear checkpoint:\n{e}")
+    
     def clear_run_lock(self):
         """Clear run lock file for the currently selected scraper only"""
         scraper_name = self.scraper_var.get()
@@ -1575,16 +2317,26 @@ Provide a clear, concise explanation suitable for users who want to understand w
             messagebox.showwarning("Warning", "Select a scraper first")
             return
 
-        # Find lock file for the selected scraper only
+        # Find lock file for the selected scraper only - check both new and old locations
+        lock_file = None
+        old_lock_file = None
         try:
             from platform_config import get_path_manager
             pm = get_path_manager()
             lock_file = pm.get_lock_file(scraper_name)
+            # Also check old location as fallback
+            old_lock_file = self.repo_root / f".{scraper_name}_run.lock"
         except Exception:
             # Fallback to old location
-            lock_file = self.repo_root / f".{scraper_name}_run.lock"
+            old_lock_file = self.repo_root / f".{scraper_name}_run.lock"
+        
+        # Use the lock file that exists, or prefer new location
+        if lock_file and not lock_file.exists() and old_lock_file and old_lock_file.exists():
+            lock_file = old_lock_file
+        elif not lock_file:
+            lock_file = old_lock_file
 
-        if not lock_file.exists():
+        if not lock_file or not lock_file.exists():
             messagebox.showinfo("Information", f"No lock file found for {scraper_name}. Scraper is unlocked.")
             self.update_status(f"No lock file to clear for {scraper_name}")
             return
@@ -1659,21 +2411,37 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 
                 for attempt in range(max_retries):
                     try:
+                        # On Windows, try to close any open handles first
+                        if sys.platform == "win32" and lock_file.exists():
+                            # Try to open the file in exclusive mode to release any handles
+                            try:
+                                with open(lock_file, 'r+') as f:
+                                    f.close()
+                            except:
+                                pass  # Ignore if we can't open it
+                        
                         lock_file.unlink()
                         deleted.append(scraper_name)
                         deleted_successfully = True
                         break
-                    except (PermissionError, OSError) as e:
-                        # File might still be locked by a closing process
+                    except (PermissionError, OSError, FileNotFoundError) as e:
+                        # File might still be locked by a closing process, or already deleted
+                        if isinstance(e, FileNotFoundError):
+                            # File was already deleted, consider it successful
+                            deleted.append(scraper_name)
+                            deleted_successfully = True
+                            break
+                        
                         if attempt < max_retries - 1:
-                            # Increasing wait time with each retry: 0.5s, 1s, 1.5s, 2s
+                            # Increasing wait time with each retry: 0.5s, 1s, 1.5s, 2s, 2.5s
                             wait_time = 0.5 * (attempt + 1)
                             time.sleep(wait_time)
                         else:
                             # Final attempt failed, try renaming as fallback
                             try:
                                 # Try renaming the file (sometimes works when delete doesn't)
-                                backup_name = lock_file.with_suffix('.lock.old')
+                                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                                backup_name = lock_file.with_name(f"{lock_file.stem}_{timestamp}.lock.old")
                                 if backup_name.exists():
                                     backup_name.unlink()
                                 lock_file.rename(backup_name)
@@ -1689,14 +2457,20 @@ Provide a clear, concise explanation suitable for users who want to understand w
                                 break
                             except Exception as rename_error:
                                 # Rename also failed, report original error
-                                failed.append((scraper_name, f"{str(e)} (tried {max_retries} times, rename also failed)"))
+                                failed.append((scraper_name, f"{str(e)} (tried {max_retries} times, rename also failed: {rename_error})"))
                     except Exception as e:
                         failed.append((scraper_name, str(e)))
                         break
             else:
                 # Unix-like: straightforward deletion
-                lock_file.unlink()
-                deleted.append(scraper_name)
+                try:
+                    lock_file.unlink()
+                    deleted.append(scraper_name)
+                except FileNotFoundError:
+                    # File was already deleted, consider it successful
+                    deleted.append(scraper_name)
+                except Exception as e:
+                    failed.append((scraper_name, str(e)))
         except Exception as e:
             failed.append((scraper_name, str(e)))
         
@@ -1722,10 +2496,17 @@ Provide a clear, concise explanation suitable for users who want to understand w
             return
         
         scraper_info = self.scrapers[scraper_name]
-        docs_path = scraper_info["path"] / scraper_info["docs_dir"]
+        # All docs are now in root doc/ folder, not scraper-specific folders
+        docs_path = self.repo_root / "doc"
         
         if docs_path.exists():
-            os.startfile(str(docs_path))
+            # Open the doc folder in file explorer
+            if sys.platform == "win32":
+                os.startfile(str(docs_path))
+            else:
+                # Unix-like systems
+                import subprocess
+                subprocess.run(["xdg-open", str(docs_path)])
         else:
             messagebox.showwarning("Warning", f"Documentation folder not found:\n{docs_path}")
     
@@ -1757,24 +2538,76 @@ Provide a clear, concise explanation suitable for users who want to understand w
             messagebox.showerror("Error", f"Failed to copy to clipboard:\n{str(e)}")
     
     def save_log(self):
-        """Save current log to file"""
+        """Save current log to file in logs directory"""
         content = self.log_text.get(1.0, tk.END)
         if not content.strip():
             messagebox.showwarning("Warning", "No log content to save")
             return
         
-        filename = filedialog.asksaveasfilename(
-            defaultextension=".txt",
-            filetypes=[("Text files", "*.txt"), ("All files", "*.*")]
-        )
-        
-        if filename:
+        try:
+            # Get logs directory from platform config
             try:
-                with open(filename, "w", encoding="utf-8") as f:
-                    f.write(content)
-                messagebox.showinfo("Information", f"Log saved to:\n{filename}")
-            except Exception as e:
-                messagebox.showerror("Error", f"Failed to save log:\n{str(e)}")
+                from platform_config import get_path_manager
+                pm = get_path_manager()
+                logs_dir = pm.get_logs_dir()
+            except Exception:
+                # Fallback to repo root logs directory
+                logs_dir = self.repo_root / "logs"
+            
+            # Ensure logs directory exists
+            logs_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Generate filename with timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            log_filename = logs_dir / f"log_{timestamp}.txt"
+            
+            # Save log file
+            with open(log_filename, "w", encoding="utf-8") as f:
+                f.write(content)
+            
+            messagebox.showinfo("Information", f"Log saved to:\n{log_filename}")
+            self.update_status(f"Log saved to: {log_filename.name}")
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to save log:\n{str(e)}")
+    
+    def save_log_automatically(self, scraper_name: str):
+        """Automatically save log to output directory after successful run"""
+        try:
+            # Get log content for this scraper
+            log_content = self.scraper_logs.get(scraper_name, "")
+            if not log_content.strip():
+                return  # No log content to save
+            
+            # Get output directory for this scraper
+            try:
+                from platform_config import get_path_manager
+                pm = get_path_manager()
+                output_dir = pm.get_output_dir(scraper_name)
+            except Exception:
+                # Fallback to scraper output directory
+                scraper_info = self.scrapers.get(scraper_name, {})
+                if scraper_info:
+                    output_dir = scraper_info["path"] / "output"
+                else:
+                    output_dir = self.repo_root / "output" / scraper_name
+            
+            # Ensure output directory exists
+            output_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Create log filename with timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            log_filename = output_dir / f"{scraper_name}_run_{timestamp}.log"
+            
+            # Save log file
+            with open(log_filename, "w", encoding="utf-8") as f:
+                f.write(log_content)
+            
+            # Update status to show log was saved
+            self.update_status(f"{scraper_name} execution completed - Log saved to: {log_filename.name}")
+            
+        except Exception as e:
+            # Don't show error dialog for automatic saves, just log it
+            print(f"Warning: Failed to automatically save log for {scraper_name}: {e}")
     
     def refresh_output_files(self):
         """Refresh output files list for the currently selected scraper"""
@@ -1796,30 +2629,25 @@ Provide a clear, concise explanation suitable for users who want to understand w
         if not output_dir.exists():
             return
         
-        # Verify the output directory belongs to the selected scraper
-        # (for run directories, they should start with scraper name)
-        if scraper_name and not output_dir.name.startswith(scraper_name):
-            # Try to find the correct run directory for this scraper
-            try:
-                from platform_config import get_path_manager
-                pm = get_path_manager()
-                runs_dir = pm.get_runs_dir()
-                # Find latest run for this scraper
-                latest_run = None
-                latest_time = None
-                for run_dir in runs_dir.iterdir():
-                    if run_dir.is_dir() and run_dir.name.startswith(scraper_name):
-                        mtime = run_dir.stat().st_mtime
-                        if latest_time is None or mtime > latest_time:
-                            latest_time = mtime
-                            latest_run = run_dir
-                if latest_run:
-                    output_dir = latest_run
-                    self.output_path_var.set(str(latest_run))
-            except Exception:
-                pass  # Use the original output_dir if we can't find a better one
+        # Verify the output directory is correct for the selected scraper
+        # If path doesn't match, update to correct output directory
+        try:
+            from platform_config import get_path_manager
+            pm = get_path_manager()
+            correct_output_dir = pm.get_output_dir(scraper_name)
+            if output_dir != correct_output_dir:
+                output_dir = correct_output_dir
+                self.output_path_var.set(str(correct_output_dir))
+        except Exception:
+            # Fallback: check if it's the scraper's output directory
+            scraper_info = self.scrapers.get(scraper_name, {})
+            if scraper_info:
+                scraper_output = scraper_info["path"] / "output"
+                if output_dir != scraper_output:
+                    output_dir = scraper_output
+                    self.output_path_var.set(str(scraper_output))
         
-        # List all files recursively from run directory
+        # List all files recursively from output directory
         for file_path in sorted(output_dir.rglob("*")):
             if file_path.is_file():
                 rel_path = file_path.relative_to(output_dir)
@@ -1914,14 +2742,18 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     files.append((file_path.name, file_path))
                     self.final_output_listbox.insert(tk.END, file_path.name)
         
-        # Update info
+        # Update info with general information
         self.final_output_info_text.config(state=tk.NORMAL)
         self.final_output_info_text.delete(1.0, tk.END)
-        info = f"Total files: {len(files)}\n"
+        info = "Final Output Information\n"
+        info += "=" * 50 + "\n\n"
         info += f"Directory: {output_dir}\n"
-        if files:
-            total_size = sum(f[1].stat().st_size for f in files)
-            info += f"Total size: {total_size:,} bytes ({total_size / 1024 / 1024:.2f} MB)\n"
+        info += f"Files Found: {len(files)}\n\n"
+        info += "Select a file from the list above to view its data summary.\n"
+        info += "The summary will show:\n"
+        info += "  • Total rows and columns\n"
+        info += "  • Column names and data types\n"
+        info += "  • Basic statistics for numeric columns\n"
         self.final_output_info_text.insert(1.0, info)
         self.final_output_info_text.config(state=tk.DISABLED)
     
@@ -1954,17 +2786,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
         
         if file_path.exists():
             try:
-                size = file_path.stat().st_size
-                modified = datetime.fromtimestamp(file_path.stat().st_mtime)
-                info = f"File: {file_path.name}\n"
-                info += f"Path: {file_path}\n"
-                info += f"Size: {size:,} bytes ({size / 1024:.2f} KB)\n"
-                info += f"Modified: {modified.strftime('%Y-%m-%d %H:%M:%S')}"
-                
-                self.final_output_info_text.config(state=tk.NORMAL)
-                self.final_output_info_text.delete(1.0, tk.END)
-                self.final_output_info_text.insert(1.0, info)
-                self.final_output_info_text.config(state=tk.DISABLED)
+                # Show summary first
+                self.show_file_data_summary(file_path)
                 
                 # Open file
                 os.startfile(str(file_path))
@@ -1972,6 +2795,81 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 messagebox.showerror("Error", f"Failed to open file:\n{str(e)}")
         else:
             messagebox.showwarning("Warning", f"File not found:\n{file_path}")
+    
+    def on_final_output_file_selected(self, event=None):
+        """Show data summary when a file is selected (single click)"""
+        selection = self.final_output_listbox.curselection()
+        if not selection:
+            return
+        
+        final_output_path = self.final_output_path_var.get()
+        if not final_output_path:
+            return
+        
+        output_dir = Path(final_output_path)
+        file_name = self.final_output_listbox.get(selection[0])
+        file_path = output_dir / file_name
+        
+        if file_path.exists():
+            self.show_file_data_summary(file_path)
+    
+    def show_file_data_summary(self, file_path: Path):
+        """Show data summary for a file"""
+        try:
+            modified = datetime.fromtimestamp(file_path.stat().st_mtime)
+            info = f"File: {file_path.name}\n"
+            info += f"Path: {file_path}\n"
+            info += f"Last Modified: {modified.strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+            
+            # Read file and show data summary
+            try:
+                import pandas as pd
+                
+                # Read file based on extension
+                if file_path.suffix.lower() == '.csv':
+                    df = pd.read_csv(file_path, encoding='utf-8', on_bad_lines='skip', low_memory=False)
+                elif file_path.suffix.lower() in ['.xlsx', '.xls']:
+                    df = pd.read_excel(file_path, engine='openpyxl')
+                else:
+                    df = None
+                
+                if df is not None and not df.empty:
+                    info += "Data Summary\n"
+                    info += "=" * 50 + "\n\n"
+                    info += f"Total Rows: {len(df):,}\n"
+                    info += f"Total Columns: {len(df.columns)}\n\n"
+                    info += "Columns:\n"
+                    for i, col in enumerate(df.columns, 1):
+                        # Show column name and data type
+                        dtype = str(df[col].dtype)
+                        non_null = df[col].notna().sum()
+                        info += f"  {i}. {col} ({dtype}) - {non_null:,} non-null values\n"
+                    
+                    # Show some basic statistics for numeric columns
+                    numeric_cols = df.select_dtypes(include=['number']).columns
+                    if len(numeric_cols) > 0:
+                        info += "\nNumeric Columns Summary:\n"
+                        for col in numeric_cols[:5]:  # Limit to first 5 numeric columns
+                            info += f"  • {col}: min={df[col].min():.2f}, max={df[col].max():.2f}, mean={df[col].mean():.2f}\n"
+                else:
+                    info += "Unable to read file or file is empty.\n"
+                    
+            except ImportError:
+                info += "Note: Install pandas and openpyxl to view data summary.\n"
+            except Exception as e:
+                info += f"Error reading file: {str(e)}\n"
+            
+            info += "\nDouble-click to open the file in your default application."
+            
+            self.final_output_info_text.config(state=tk.NORMAL)
+            self.final_output_info_text.delete(1.0, tk.END)
+            self.final_output_info_text.insert(1.0, info)
+            self.final_output_info_text.config(state=tk.DISABLED)
+        except Exception as e:
+            self.final_output_info_text.config(state=tk.NORMAL)
+            self.final_output_info_text.delete(1.0, tk.END)
+            self.final_output_info_text.insert(1.0, f"Error reading file: {str(e)}")
+            self.final_output_info_text.config(state=tk.DISABLED)
     
     def search_final_output(self):
         """Search for files in final output directory"""
@@ -2009,6 +2907,258 @@ Provide a clear, concise explanation suitable for users who want to understand w
                         self.final_output_listbox.insert(tk.END, file_path.name)
         
         self.update_status(f"Found {len(matches)} files matching '{search_term}'")
+    
+    def push_to_database(self):
+        """Push selected final output file to database"""
+        # Get selected file
+        selection = self.final_output_listbox.curselection()
+        if not selection:
+            messagebox.showwarning("Warning", "Please select a file from the list to push to database.")
+            return
+        
+        # Get file path
+        final_output_path = self.final_output_path_var.get()
+        if not final_output_path:
+            messagebox.showwarning("Warning", "No output path specified.")
+            return
+        
+        output_dir = Path(final_output_path)
+        file_name = self.final_output_listbox.get(selection[0])
+        file_path = output_dir / file_name
+        
+        if not file_path.exists():
+            messagebox.showerror("Error", f"File not found:\n{file_path}")
+            return
+        
+        # Get scraper name
+        scraper_name = self.scraper_var.get()
+        if not scraper_name:
+            messagebox.showwarning("Warning", "No scraper selected.")
+            return
+        
+        # Confirm action
+        if not messagebox.askyesno("Confirm", f"Push '{file_name}' to database?\n\nThis will insert all rows from the file into the database table."):
+            return
+        
+        # Push to database in a separate thread to avoid blocking UI
+        def push_thread():
+            try:
+                self.update_status(f"Pushing {file_name} to database...")
+                
+                # Load database config from scraper's config_loader
+                scraper_scripts_dir = self.repo_root / "scripts" / scraper_name
+                config_loader_path = scraper_scripts_dir / "config_loader.py"
+                
+                if not config_loader_path.exists():
+                    raise ImportError(f"config_loader.py not found for {scraper_name}")
+                
+                # Add scraper scripts directory to path
+                import sys
+                import importlib.util
+                if str(scraper_scripts_dir) not in sys.path:
+                    sys.path.insert(0, str(scraper_scripts_dir))
+                
+                # Import config_loader dynamically
+                spec = importlib.util.spec_from_file_location("config_loader", config_loader_path)
+                config_loader = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(config_loader)
+                
+                # Get database config
+                DB_ENABLED = getattr(config_loader, 'DB_ENABLED', False)
+                if not DB_ENABLED:
+                    raise ValueError(f"Database is not enabled for {scraper_name}. Set DB_ENABLED=true in config.")
+                
+                DB_HOST = getattr(config_loader, 'DB_HOST', 'localhost')
+                DB_PORT = getattr(config_loader, 'DB_PORT', 5432)
+                DB_NAME = getattr(config_loader, 'DB_NAME', 'scraper_db')
+                DB_USER = getattr(config_loader, 'DB_USER', 'postgres')
+                DB_PASSWORD = getattr(config_loader, 'DB_PASSWORD', '')
+                SCRAPER_ID_DB = getattr(config_loader, 'SCRAPER_ID_DB', scraper_name.lower().replace(' ', '_'))
+                
+                # Determine table name based on scraper
+                table_name_map = {
+                    "CanadaQuebec": "canada_quebec_reports",
+                    "Malaysia": "malaysia_reports",
+                    "Argentina": "argentina_reports"
+                }
+                table_name = table_name_map.get(scraper_name, f"{scraper_name.lower().replace(' ', '_')}_reports")
+                
+                # Read CSV file
+                import pandas as pd
+                if file_path.suffix.lower() == '.csv':
+                    df = pd.read_csv(file_path, encoding='utf-8-sig', on_bad_lines='skip', low_memory=False)
+                elif file_path.suffix.lower() in ['.xlsx', '.xls']:
+                    df = pd.read_excel(file_path, engine='openpyxl')
+                else:
+                    raise ValueError(f"Unsupported file format: {file_path.suffix}")
+                
+                if df.empty:
+                    raise ValueError("File is empty or could not be read.")
+                
+                # Connect to database
+                try:
+                    import psycopg2
+                    from psycopg2.extras import execute_values
+                    from psycopg2 import sql
+                except ImportError:
+                    raise ImportError("psycopg2 is required for database operations. Install with: pip install psycopg2-binary")
+                
+                # First, try to connect to PostgreSQL server to check if database exists
+                try:
+                    # Connect to postgres database to check if target database exists
+                    admin_conn = psycopg2.connect(
+                        host=DB_HOST,
+                        port=DB_PORT,
+                        database='postgres',  # Connect to default postgres database
+                        user=DB_USER,
+                        password=DB_PASSWORD
+                    )
+                    admin_cur = admin_conn.cursor()
+                    admin_cur.execute("SELECT 1 FROM pg_database WHERE datname = %s", (DB_NAME,))
+                    db_exists = admin_cur.fetchone() is not None
+                    admin_cur.close()
+                    admin_conn.close()
+                    
+                    if not db_exists:
+                        raise ValueError(f"Database '{DB_NAME}' does not exist. Please create it first.")
+                except psycopg2.OperationalError as e:
+                    # If we can't connect to postgres database, try connecting to target database directly
+                    # This handles cases where user doesn't have access to postgres database
+                    pass
+                except Exception as e:
+                    # If checking fails, proceed with connection attempt - will fail with better error
+                    pass
+                
+                # Connect to target database
+                try:
+                    conn = psycopg2.connect(
+                        host=DB_HOST,
+                        port=DB_PORT,
+                        database=DB_NAME,
+                        user=DB_USER,
+                        password=DB_PASSWORD
+                    )
+                except psycopg2.OperationalError as e:
+                    if "database" in str(e).lower() and "does not exist" in str(e).lower():
+                        raise ValueError(f"Database '{DB_NAME}' does not exist. Please create it first using:\nCREATE DATABASE {DB_NAME};")
+                    elif "password" in str(e).lower() or "authentication" in str(e).lower():
+                        raise ValueError(f"Database authentication failed. Please check DB_USER and DB_PASSWORD in config.")
+                    elif "could not connect" in str(e).lower():
+                        raise ValueError(f"Could not connect to database server at {DB_HOST}:{DB_PORT}. Please check DB_HOST and DB_PORT in config.")
+                    else:
+                        raise ValueError(f"Database connection error: {str(e)}")
+                
+                try:
+                    cur = conn.cursor()
+                    
+                    # Add scraper_id and import_timestamp columns if they don't exist
+                    df['scraper_id'] = SCRAPER_ID_DB
+                    df['import_timestamp'] = datetime.now()
+                    
+                    # Prepare data for insertion
+                    # Replace NaN with None for proper NULL handling
+                    df = df.where(pd.notnull(df), None)
+                    
+                    # Get column names (sanitize for SQL)
+                    columns = [str(col).strip() for col in df.columns]
+                    
+                    # Check if table exists
+                    cur.execute("""
+                        SELECT EXISTS (
+                            SELECT FROM information_schema.tables 
+                            WHERE table_schema = 'public' 
+                            AND table_name = %s
+                        )
+                    """, (table_name,))
+                    table_exists = cur.fetchone()[0]
+                    
+                    if not table_exists:
+                        # Create new table with all columns
+                        # Start with required columns
+                        column_defs = [
+                            "id SERIAL PRIMARY KEY",
+                            "scraper_id VARCHAR(100)",
+                            "import_timestamp TIMESTAMP"
+                        ]
+                        # Add data columns
+                        for col in columns:
+                            if col not in ['scraper_id', 'import_timestamp', 'id']:
+                                # Sanitize column name and add as TEXT
+                                safe_col = col.replace('"', '""')  # Escape quotes
+                                column_defs.append(f'"{safe_col}" TEXT')
+                        
+                        create_table_sql = f"""
+                        CREATE TABLE {table_name} (
+                            {', '.join(column_defs)}
+                        );
+                        """
+                        cur.execute(create_table_sql)
+                        conn.commit()
+                    else:
+                        # Table exists - check and add missing columns
+                        cur.execute("""
+                            SELECT column_name 
+                            FROM information_schema.columns 
+                            WHERE table_schema = 'public' 
+                            AND table_name = %s
+                        """, (table_name,))
+                        existing_columns = [row[0] for row in cur.fetchall()]
+                        
+                        for col in columns:
+                            if col not in existing_columns and col not in ['id']:
+                                try:
+                                    safe_col = col.replace('"', '""')  # Escape quotes
+                                    cur.execute(f'ALTER TABLE {table_name} ADD COLUMN "{safe_col}" TEXT')
+                                    conn.commit()
+                                except Exception as e:
+                                    # Column might already exist or other error
+                                    conn.rollback()
+                                    # If it's not a duplicate column error, re-raise
+                                    if "already exists" not in str(e).lower() and "duplicate" not in str(e).lower():
+                                        raise
+                    
+                    # Insert data
+                    # Prepare column list with proper escaping
+                    safe_columns = []
+                    for col in columns:
+                        escaped_col = col.replace('"', '""')  # Escape quotes
+                        safe_columns.append(f'"{escaped_col}"')
+                    values = [tuple(row) for row in df.values]
+                    
+                    insert_sql = f"""
+                        INSERT INTO {table_name} ({', '.join(safe_columns)})
+                        VALUES %s
+                    """
+                    execute_values(cur, insert_sql, values)
+                    
+                    conn.commit()
+                    rows_inserted = len(df)
+                    
+                    # Update UI in main thread
+                    self.root.after(0, lambda: messagebox.showinfo(
+                        "Success", 
+                        f"Successfully pushed {rows_inserted:,} rows to database table '{table_name}'.\n\n"
+                        f"Table '{table_name}' was created if it didn't exist."
+                    ))
+                    self.root.after(0, lambda: self.update_status(
+                        f"Pushed {rows_inserted:,} rows from {file_name} to {table_name}"
+                    ))
+                    
+                except Exception as e:
+                    conn.rollback()
+                    raise e
+                finally:
+                    cur.close()
+                    conn.close()
+                    
+            except Exception as e:
+                error_msg = f"Error pushing to database: {str(e)}"
+                self.root.after(0, lambda: messagebox.showerror("Error", error_msg))
+                self.root.after(0, lambda: self.update_status(f"Database push failed: {str(e)}"))
+        
+        # Start push in background thread
+        thread = threading.Thread(target=push_thread, daemon=True)
+        thread.start()
     
     def refresh_all_outputs(self):
         """Refresh all output tabs"""
@@ -2164,5 +3314,23 @@ def main():
 
 
 if __name__ == "__main__":
+    # Initialize ConfigManager if available
+    if ConfigManager:
+        try:
+            ConfigManager.ensure_dirs()
+        except:
+            pass
+    
+    def cleanup_on_exit():
+        """Cleanup function to release lock on exit"""
+        # Only release lock if we actually acquired it
+        if ConfigManager and _app_lock_acquired:
+            try:
+                ConfigManager.release_lock()
+            except:
+                pass
+    
+    import atexit
+    atexit.register(cleanup_on_exit)
     main()
 

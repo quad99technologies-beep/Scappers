@@ -1,0 +1,226 @@
+input_company,input_product_name,timestamp,error_message
+Laboratorio ENA,COLAGENO SPORT,2026-01-02T16:13:24,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xee12d3
+	0xee1314
+	0xcce52b
+	0xd0c635
+	0xd3b3a6
+	0xd36ed1
+	0xd36846
+	0xc9ebfd
+	0xc9f18e
+	0xc9f65d
+	0x1135314
+	0x11308cb
+	0x114d1aa
+	0xefb1d8
+	0xf031dd
+	0xc9e7ab
+	0xc9ddf7
+	0x12817af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Pharmamerican S.R.L.,COLAGENO SPORT,2026-01-02T16:14:24,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xee12d3
+	0xee1314
+	0xcce52b
+	0xd0c635
+	0xd3b3a6
+	0xd36ed1
+	0xd36846
+	0xc9ebfd
+	0xc9f18e
+	0xc9f65d
+	0x1135314
+	0x11308cb
+	0x114d1aa
+	0xefb1d8
+	0xf031dd
+	0xc9e7ab
+	0xc9ddf7
+	0x12817af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+PGN,CREATINA,2026-01-02T16:15:24,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xee12d3
+	0xee1314
+	0xcce52b
+	0xd0c635
+	0xd3b3a6
+	0xd36ed1
+	0xd36846
+	0xc9ebfd
+	0xc9f18e
+	0xc9f65d
+	0x1135314
+	0x11308cb
+	0x114d1aa
+	0xefb1d8
+	0xf031dd
+	0xc9e7ab
+	0xc9ddf7
+	0x12817af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Teingro,CREATINA,2026-01-02T16:16:24,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xee12d3
+	0xee1314
+	0xcce52b
+	0xd0c635
+	0xd3b3a6
+	0xd36ed1
+	0xd36846
+	0xc9ebfd
+	0xc9f18e
+	0xc9f65d
+	0x1135314
+	0x11308cb
+	0x114d1aa
+	0xefb1d8
+	0xf031dd
+	0xc9e7ab
+	0xc9ddf7
+	0x12817af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Laboratorio ENA,CREATINA MICRONIZADA,2026-01-02T16:17:24,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xee12d3
+	0xee1314
+	0xcce52b
+	0xd0c635
+	0xd3b3a6
+	0xd36ed1
+	0xd36846
+	0xc9ebfd
+	0xc9f18e
+	0xc9f65d
+	0x1135314
+	0x11308cb
+	0x114d1aa
+	0xefb1d8
+	0xf031dd
+	0xc9e7ab
+	0xc9ddf7
+	0x12817af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Lafarmen,CREATINA MICRONIZADA,2026-01-02T16:18:24,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xee12d3
+	0xee1314
+	0xcce52b
+	0xd0c635
+	0xd3b3a6
+	0xd36ed1
+	0xd36846
+	0xc9ebfd
+	0xc9f18e
+	0xc9f65d
+	0x1135314
+	0x11308cb
+	0x114d1aa
+	0xefb1d8
+	0xf031dd
+	0xc9e7ab
+	0xc9ddf7
+	0x12817af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Cassará,DELTACORT,2026-01-02T16:19:24,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xee12d3
+	0xee1314
+	0xcce52b
+	0xd0c635
+	0xd3b3a6
+	0xd36ed1
+	0xd36846
+	0xc9ebfd
+	0xc9f18e
+	0xc9f65d
+	0x1135314
+	0x11308cb
+	0x114d1aa
+	0xefb1d8
+	0xf031dd
+	0xc9e7ab
+	0xc9ddf7
+	0x12817af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Medisol,DELTACORT,2026-01-02T16:20:24,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xee12d3
+	0xee1314
+	0xcce52b
+	0xd0c635
+	0xd3b3a6
+	0xd36ed1
+	0xd36846
+	0xc9ebfd
+	0xc9f18e
+	0xc9f65d
+	0x1135314
+	0x11308cb
+	0x114d1aa
+	0xefb1d8
+	0xf031dd
+	0xc9e7ab
+	0xc9ddf7
+	0x12817af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Laboratorio Millet,DUOMAX,2026-01-02T16:21:24,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xee12d3
+	0xee1314
+	0xcce52b
+	0xd0c635
+	0xd3b3a6
+	0xd36ed1
+	0xd36846
+	0xc9ebfd
+	0xc9f18e
+	0xc9f65d
+	0x1135314
+	0x11308cb
+	0x114d1aa
+	0xefb1d8
+	0xf031dd
+	0xc9e7ab
+	0xc9ddf7
+	0x12817af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"

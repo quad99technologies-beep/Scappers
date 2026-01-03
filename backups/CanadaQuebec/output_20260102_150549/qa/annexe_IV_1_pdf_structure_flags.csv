@@ -1,0 +1,11 @@
+page,din_rows,ok_rows,issues
+1,2,2,Header calibration weak
+2,1,0,"Few prices detected for DIN rows, Header calibration weak"
+3,3,2,Header calibration weak
+5,3,3,Header calibration weak
+6,1,0,"Few prices detected for DIN rows, Header calibration weak"
+7,2,2,"Header calibration weak, Manufacturer pack leaks (2)"
+8,2,2,"Header calibration weak, Manufacturer pack leaks (2)"
+9,1,1,"Header calibration weak, Manufacturer pack leaks (1)"
+10,5,5,"Header calibration weak, Manufacturer pack leaks (5)"
+13,2,2,"Header calibration weak, Manufacturer pack leaks (2)"

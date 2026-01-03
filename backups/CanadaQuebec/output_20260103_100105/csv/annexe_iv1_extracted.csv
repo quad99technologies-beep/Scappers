@@ -1,0 +1,21 @@
+﻿Generic Name,Currency,Ex Factory Wholesale Price,Region,Product Group,Marketing Authority,Local Pack Description,Formulation,Fill Size,Strength,Strength Unit,LOCAL_PACK_CODE
+ADALIMUMAB,CAD,1428.48,NORTH AMERICA,Humira (seringue),AbbVie,Sol. Inj. S.C 50 mg/mL (0.8 ml),Sol. Inj. S.C,2,50,MG,02258595
+ADALIMUMAB,CAD,1428.48,NORTH AMERICA,Humira (stylo),AbbVie,Sol. Inj. S.C 50 mg/mL (0.8 ml),Sol. Inj. S.C,2,50,MG,99100385
+DENOSUMAB,CAD,330.0,NORTH AMERICA,Prolia,Amgen,Sol. Inj. S.C.(ser) 60 mg/mL,Sol. Inj. S.C.(ser),1,60,MG,02343541
+DENOSUMAB,CAD,538.45,NORTH AMERICA,Xgeva,Amgen,Sol. Inj. S.C. 120 mg/1.7 mL,Sol. Inj. S.C.,1,120,MG,02368153
+ÉTANERCEPT,CAD,1437.13,NORTH AMERICA,Enbrel (seringue),Amgen,Sol. Inj. S.C 50 mg/mL (1 ml),Sol. Inj. S.C,4,50,MG,02274728
+ÉTANERCEPT,CAD,1437.13,NORTH AMERICA,Enbrel SureClick,Amgen,Sol. Inj. S.C 50 mg/mL (1 ml),Sol. Inj. S.C,4,50,MG,99100373
+FILGRASTIM,CAD,1731.89,NORTH AMERICA,Neupogen,Amgen,Sol. Inj. 300 mcg/mL (1.0 ml),Sol. Inj.,10,300,MCG,01968017
+FILGRASTIM,CAD,2771.02,NORTH AMERICA,Neupogen,Amgen,Sol. Inj. 300 mcg/mL (1.6 ml),Sol. Inj.,10,300,MCG,99001454
+GLATIRAMÈRE,CAD,1296.0,NORTH AMERICA,Copaxone,Teva Innov,Sol. Inj. S.C.(ser) 20 mg/mL,Sol. Inj. S.C.(ser),30,20,MG,02245619
+INFLIXIMAB,CAD,940.0,NORTH AMERICA,Remicade,Janss. Inc,Pd. Perf. I.V. 100 mg,Pd. Perf. I.V.,1,100,MG,02244016
+RANIBIZUMAB,CAD,1575.0,NORTH AMERICA,Lucentis,Novartis,Sol. Inj. 10 mg/mL (0.23 ml),Sol. Inj.,1,10,MG,02296810
+RITUXIMAB,CAD,453.1,NORTH AMERICA,Rituxan,Roche,Sol. Perf. I.V. 10 mg/mL,Sol. Perf. I.V.,1,10,MG,02241927
+RITUXIMAB,CAD,2265.5,NORTH AMERICA,Rituxan,Roche,Sol. Perf. I.V. 10 mg/mL,Sol. Perf. I.V.,1,10,MG,02241927
+TOCILIZUMAB,CAD,1420.0,NORTH AMERICA,Actemra,Roche,Sol. Inj. S.C. (ser) 162 mg/0.9 mL,Sol. Inj. S.C. (ser),4,162,MG,02424770
+TOCILIZUMAB,CAD,1420.0,NORTH AMERICA,Actemra,Roche,Sol. Inj. S.C. (stylo) 162 mg/0.9 mL,Sol. Inj. S.C. (stylo),4,162,MG,02483327
+TOCILIZUMAB,CAD,179.2,NORTH AMERICA,Actemra,Roche,Sol. Perf. I.V. 20 mg/mL (4 ml),Sol. Perf. I.V.,1,20,MG,02350092
+TOCILIZUMAB,CAD,448.0,NORTH AMERICA,Actemra,Roche,Sol. Perf. I.V. 20 mg/mL (10 ml),Sol. Perf. I.V.,1,20,MG,02350106
+TOCILIZUMAB,CAD,896.0,NORTH AMERICA,Actemra,Roche,Sol. Perf. I.V. 20 mg/mL (20 ml),Sol. Perf. I.V.,1,20,MG,02350114
+USTEKINUMAB,CAD,4311.72,NORTH AMERICA,Stelara,Janss. Inc,Sol. Inj. S.C. (ser) 45 mg/0.5 mL,Sol. Inj. S.C. (ser),1,45,MG,02320673
+USTEKINUMAB,CAD,4311.72,NORTH AMERICA,Stelara,Janss. Inc,Sol. Inj. S.C. (ser) 90 mg/1 mL,Sol. Inj. S.C. (ser),1,90,MG,02320681

@@ -1,0 +1,57 @@
+================================================================================
+QUEST3+ PRODUCT DETAILS - DATA COVERAGE REPORT
+================================================================================
+Generated: 2026-01-02 18:38:20
+
+================================================================================
+SUMMARY STATISTICS
+================================================================================
+Total Expected Products:        1,362
+Total Products Found:           3,634
+Total Products Missing:          0
+Coverage Percentage:            266.81%
+
+================================================================================
+DATA QUALITY STATISTICS
+================================================================================
+Products with Product Name:     3,633
+Products missing Product Name:  1
+Products with Holder:           3,634
+Products missing Holder:        0
+Products missing both:          0
+
+================================================================================
+BULK SEARCH STATISTICS
+================================================================================
+Products found in bulk search:   2,539
+Bulk search coverage:           186.42%
+Products requiring individual:  1,105
+
+================================================================================
+MISSING REGISTRATION NUMBERS
+================================================================================
+[OK] All expected registration numbers were found!
+
+================================================================================
+PRODUCTS MISSING PRODUCT NAME (1 products)
+================================================================================
+These products were found but are missing Product Name:
+
+     1. MAL20020795AZ
+
+================================================================================
+PRODUCTS MISSING HOLDER
+================================================================================
+[OK] All products have Holder information!
+
+================================================================================
+RECOMMENDATIONS
+================================================================================
+[WARNING] Some products are missing Product Name or Holder information.
+   Consider re-running Script 02 to retry extraction.
+
+[OK] Excellent coverage! (>95%)
+
+================================================================================
+END OF REPORT
+================================================================================

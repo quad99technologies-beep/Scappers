@@ -30,20 +30,55 @@ __pycache__/
 *.swo
 *~
 
+# ============================================================================
 # Environment files with secrets (keep .env.example templates only)
+# ============================================================================
+# CRITICAL: .env files contain secrets and MUST NOT be committed to git
+# All .env files should be in: %USERPROFILE%/Documents/ScraperPlatform/config/
 .env
 *.env
 !.env.example
+!*.env.example
 */.env
 */*.env
+**/.env
+**/*.env
+platform.env
+*/platform.env
+**/platform.env
 
+# Explicitly ignore .env in specific locations
+1. CanadaQuebec/.env
+2. Malaysia/.env
+3. Argentina/.env
+config/*.env
+!config/*.env.example
+# Ignore config JSON files with secrets (keep only .env.example templates)
+config/*.env.json
+!config/*.env.json.example
+
+# ============================================================================
 # Platform runtime data (user-specific, not in repo)
+# ============================================================================
 # Note: Documents/ScraperPlatform/ is typically outside repo anyway
+# These directories should ONLY exist in %USERPROFILE%/Documents/ScraperPlatform/
 /output/runs/
 /output/backups/
+/output/exports/
 /.locks/
 /sessions/
 /cache/
+/logs/
+
+# Runtime files under Documents/ScraperPlatform/ (outside repo, but ignore if accidentally created)
+# These should NEVER be in the repo - they live in %USERPROFILE%/Documents/ScraperPlatform/
+**/Documents/ScraperPlatform/
+
+# OLD/LEGACY locations - should not exist but ignore anyway
+**/output/**/*.env
+**/backups/**/*.env
+**/runs/**/*.env
+**/sessions/**/*.env
 
 # OS
 .DS_Store

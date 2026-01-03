@@ -36,6 +36,15 @@ except ImportError:
     PathManager = None
     ConfigResolver = None
 
+# Import Chrome manager for cleanup
+try:
+    from core.chrome_manager import cleanup_all_chrome_instances
+    _CHROME_MANAGER_AVAILABLE = True
+except ImportError:
+    _CHROME_MANAGER_AVAILABLE = False
+    def cleanup_all_chrome_instances(silent=False):
+        pass  # No-op if Chrome manager not available
+
 
 class ScraperInterface(ABC):
     """Interface that all scrapers must implement"""
@@ -81,7 +90,7 @@ class WorkflowRunner:
         # Use PathManager if available, otherwise fall back to repo-relative paths
         if _PLATFORM_CONFIG_AVAILABLE:
             pm = get_path_manager()
-            self.backup_dir = pm.get_backups_dir()
+            self.backup_dir = pm.get_backups_dir(scraper_name)  # Scraper-specific backups
             self.runs_dir = pm.get_runs_dir()
             self.lock_file = pm.get_lock_file(scraper_name)
         else:
@@ -93,6 +102,9 @@ class WorkflowRunner:
         # Ensure directories exist
         self.backup_dir.mkdir(parents=True, exist_ok=True)
         self.runs_dir.mkdir(parents=True, exist_ok=True)
+        # Ensure lock file directory exists
+        if self.lock_file:
+            self.lock_file.parent.mkdir(parents=True, exist_ok=True)
 
         self.lock_handle = None
         self._lock_released = False  # Track if lock has been released
@@ -328,15 +340,20 @@ class WorkflowRunner:
             # Auto-detect repo root (assuming this file is in repo root)
             repo_root = Path(__file__).resolve().parent
 
-        # Get lock file path
+        # Get lock file path - check both new and old locations
+        lock_file = None
         if _PLATFORM_CONFIG_AVAILABLE:
             pm = get_path_manager()
             lock_file = pm.get_lock_file(scraper_name)
+            # Also check old location as fallback
+            old_lock_file = repo_root / f".{scraper_name}_run.lock"
+            if not lock_file.exists() and old_lock_file.exists():
+                lock_file = old_lock_file
         else:
             lock_file = repo_root / f".{scraper_name}_run.lock"
 
         # Check if lock file exists
-        if not lock_file.exists():
+        if not lock_file or not lock_file.exists():
             return {
                 "status": "error",
                 "message": f"No running pipeline found for {scraper_name} (lock file not found)"
@@ -443,6 +460,13 @@ class WorkflowRunner:
                         # Process terminated gracefully
                         pass
 
+                    # Clean up Chrome instances before cleaning up lock file
+                    try:
+                        cleanup_all_chrome_instances(silent=True)
+                    except Exception as e:
+                        # Log but don't fail if Chrome cleanup has issues
+                        pass
+                    
                     # Clean up lock file
                     try:
                         lock_file.unlink()
@@ -491,49 +515,18 @@ class WorkflowRunner:
                 }
             }
             
-            # Backup config files (platform config, then scraper-specific configs)
-            config_files = []
+            # CRITICAL: Do NOT backup config files (.env, platform.env, etc.)
+            # Config files must NEVER be written to backups, output/, runs/, or sessions/
+            # They live ONLY in Documents/ScraperPlatform/config/ (single source of truth)
+            # Only backup metadata about config location for reference
+            config_metadata = {
+                "note": "Config files are NOT backed up. They must remain in Documents/ScraperPlatform/config/",
+                "config_location": "Documents/ScraperPlatform/config/",
+                "platform_env": "Documents/ScraperPlatform/config/platform.env",
+                "scraper_env": f"Documents/ScraperPlatform/config/{self.scraper_name}.env"
+            }
             
-            # Backup platform config (if available)
-            if _PLATFORM_CONFIG_AVAILABLE:
-                pm = get_path_manager()
-                cr = get_config_resolver()
-                
-                # Backup platform.json
-                platform_config_file = pm.get_config_dir() / "platform.json"
-                if platform_config_file.exists():
-                    backup_path = backup_dir / "config" / "platform.json"
-                    backup_path.parent.mkdir(parents=True, exist_ok=True)
-                    shutil.copy2(platform_config_file, backup_path)
-                    config_files.append("platform.json")
-                
-                # Backup scraper config
-                scraper_config_file = pm.get_config_dir() / f"{self.scraper_name}.env.json"
-                if scraper_config_file.exists():
-                    backup_path = backup_dir / "config" / f"{self.scraper_name}.env.json"
-                    backup_path.parent.mkdir(parents=True, exist_ok=True)
-                    shutil.copy2(scraper_config_file, backup_path)
-                    config_files.append(f"{self.scraper_name}.env.json")
-            
-            # Also backup legacy .env files if they exist (for migration)
-            platform_root_env = self.repo_root / ".env"
-            if platform_root_env.exists():
-                backup_path = backup_dir / "config" / "platform.env"
-                backup_path.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(platform_root_env, backup_path)
-                config_files.append("platform.env (legacy)")
-            
-            # Backup scraper-specific config files from repo
-            for pattern in ["*.env", "config*.py", "config*.json"]:
-                for f in self.scraper_root.rglob(pattern):
-                    if f.is_file() and f.name not in ["__pycache__"]:
-                        rel_path = f.relative_to(self.scraper_root)
-                        backup_path = backup_dir / "config" / rel_path
-                        backup_path.parent.mkdir(parents=True, exist_ok=True)
-                        shutil.copy2(f, backup_path)
-                        config_files.append(str(rel_path))
-            
-            backup_manifest["backed_up"]["config"] = config_files
+            backup_manifest["backed_up"]["config"] = config_metadata
             
             # Backup input files (from platform root if available, else scraper root)
             if _PLATFORM_CONFIG_AVAILABLE:
@@ -567,10 +560,12 @@ class WorkflowRunner:
                         shutil.copy2(item, backup_path)
                         backup_manifest["backed_up"]["outputs"].append(str(rel_path))
             
-            # Backup final output files (from central output directory) for this scraper
+            # Backup final output files (from exports directory) for this scraper
             if _PLATFORM_CONFIG_AVAILABLE:
                 pm = get_path_manager()
-                central_output_dir = pm.get_output_dir()
+                # Use exports directory for final reports (scraper-specific)
+                from core.config_manager import ConfigManager
+                central_output_dir = ConfigManager.get_exports_dir(self.scraper_name)
                 
                 # Scraper-specific final output patterns
                 scraper_patterns = {
@@ -761,6 +756,14 @@ class WorkflowRunner:
                     logger.info(f"Run completed successfully: {self.run_id}")
                 progress(f"[{self.scraper_name}] Run completed: {self.run_id}")
                 
+                # Clean up Chrome instances before releasing lock
+                progress(f"[{self.scraper_name}] Cleaning up Chrome instances...")
+                try:
+                    cleanup_all_chrome_instances(silent=True)
+                except Exception as e:
+                    if logger:
+                        logger.warning(f"Error during Chrome cleanup: {e}")
+                
                 # Release and delete lock after successful completion
                 # Suppress any lock deletion warnings since workflow succeeded
                 progress(f"[{self.scraper_name}] Releasing execution lock...")
@@ -778,6 +781,13 @@ class WorkflowRunner:
                 }
 
             finally:
+                # Clean up Chrome instances before releasing lock
+                try:
+                    cleanup_all_chrome_instances(silent=True)
+                except Exception as e:
+                    if logger:
+                        logger.warning(f"Error during Chrome cleanup: {e}")
+                
                 # Always release lock (in case of early return or error)
                 # Will no-op if already released due to _lock_released flag
                 self.release_lock(silent=True)

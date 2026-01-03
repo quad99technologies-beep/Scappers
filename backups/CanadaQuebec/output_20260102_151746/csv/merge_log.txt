@@ -1,0 +1,23 @@
+2026-01-02 15:17:41,168 - INFO - ================================================================================
+2026-01-02 15:17:41,168 - INFO - MERGING ALL ANNEXES
+2026-01-02 15:17:41,168 - INFO - Start time: 2026-01-02 15:17:41
+2026-01-02 15:17:41,168 - INFO - ================================================================================
+2026-01-02 15:17:41,168 - INFO - Reading IV.1: D:\quad99\Scappers\output\CanadaQuebec\csv\annexe_iv1_extracted.csv
+2026-01-02 15:17:41,168 - INFO - Read 20 rows from IV.1
+2026-01-02 15:17:41,168 - INFO -   \u2192 20 rows from IV.1
+2026-01-02 15:17:41,168 - INFO - Reading IV.2: D:\quad99\Scappers\output\CanadaQuebec\csv\annexe_iv2_extracted.csv
+2026-01-02 15:17:41,169 - INFO - Read 31 rows from IV.2
+2026-01-02 15:17:41,169 - INFO -   \u2192 31 rows from IV.2
+2026-01-02 15:17:41,169 - INFO - Reading V: D:\quad99\Scappers\output\CanadaQuebec\csv\annexe_v_extracted.csv
+2026-01-02 15:17:41,209 - INFO - Read 12081 rows from V
+2026-01-02 15:17:41,209 - INFO -   \u2192 12081 rows from V
+2026-01-02 15:17:41,245 - INFO - Final report also saved to central location: D:\quad99\Scappers\exports\CanadaQuebec\canadaquebecreport_02012026.csv
+2026-01-02 15:17:41,245 - INFO - ================================================================================
+2026-01-02 15:17:41,246 - INFO - MERGE COMPLETED
+2026-01-02 15:17:41,246 - INFO - Total rows: 12132
+2026-01-02 15:17:41,246 - INFO -   IV.1: 20 rows
+2026-01-02 15:17:41,246 - INFO -   IV.2: 31 rows
+2026-01-02 15:17:41,246 - INFO -   V: 12081 rows
+2026-01-02 15:17:41,246 - INFO - Output: D:\quad99\Scappers\output\CanadaQuebec\csv\canadaquebecreport_02012026.csv
+2026-01-02 15:17:41,246 - INFO - Central Output: D:\quad99\Scappers\exports\CanadaQuebec\canadaquebecreport_02012026.csv
+2026-01-02 15:17:41,246 - INFO - ================================================================================
