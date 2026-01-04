@@ -224,9 +224,9 @@ PROXY_3 = getenv("PROXY_3", "")
 SCRAPINGDOG_API_KEY = getenv("SCRAPINGDOG_API_KEY", "")
 
 # Account rotation configuration
-ACCOUNT_ROTATION_SEARCH_LIMIT = getenv_int("ACCOUNT_ROTATION_SEARCH_LIMIT", 200)  # For Selenium products
-ACCOUNT_ROTATION_SEARCH_LIMIT_API = getenv_int("ACCOUNT_ROTATION_SEARCH_LIMIT_API", 100)  # For API products
-SELENIUM_ROTATION_LIMIT = getenv_int("SELENIUM_ROTATION_LIMIT", 20)  # Rotate account every N products for Selenium workers
+ACCOUNT_ROTATION_SEARCH_LIMIT = getenv_int("ACCOUNT_ROTATION_SEARCH_LIMIT", 50)  # For Selenium products
+ACCOUNT_ROTATION_SEARCH_LIMIT_API = getenv_int("ACCOUNT_ROTATION_SEARCH_LIMIT_API", 50)  # For API products
+SELENIUM_ROTATION_LIMIT = getenv_int("SELENIUM_ROTATION_LIMIT", 50)  # Rotate account every N products for Selenium workers
 
 # Rate limiting configuration
 RATE_LIMIT_PRODUCTS = getenv_int("RATE_LIMIT_PRODUCTS", 1)

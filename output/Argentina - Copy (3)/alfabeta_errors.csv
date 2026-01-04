@@ -1,0 +1,36 @@
+input_company,input_product_name,timestamp,error_message
+Sanofi-Aventis,INSULINA LANTUS SOLOSTAR,2026-01-04T08:46:29,API Worker Error: task_done() called too many times
+Provefarma,HERBA MATE ENERGIA,2026-01-04T08:46:29,API Worker Error: task_done() called too many times
+Novo Nordisk,INSULINA LEVEMIR FLEXPEN,2026-01-04T08:46:29,API Worker Error: task_done() called too many times
+Novo Nordisk,INSULINA NOVOLIN N,2026-01-04T08:46:29,API Worker Error: task_done() called too many times
+Novo Nordisk,INSULINA NOVOLIN R,2026-01-04T08:46:29,API Worker Error: task_done() called too many times
+Medisol,ERISOL,2026-01-04T08:47:11,ValueError: task_done() called too many times
+Aspen,NIOSIDE,2026-01-04T10:30:03,"RuntimeError: Login failed: Message: 
+"
+B. Braun,NUTRIFLEX LIPID PERI,2026-01-04T10:31:31,"RuntimeError: Login failed: Message: 
+"
+Teva Argentina,OLANZAPINA TEVA,2026-01-04T10:32:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xdb12d3
+	0xdb1314
+	0xb9e52b
+	0xbdc635
+	0xc0b3a6
+	0xc06ed1
+	0xc06846
+	0xb6ebfd
+	0xb6f18e
+	0xb6f65d
+	0x1005314
+	0x10008cb
+	0x101d1aa
+	0xdcb1d8
+	0xdd31dd
+	0xb6e7ab
+	0xb6ddf7
+	0x11517af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"

@@ -287,12 +287,36 @@ def ensure_headers():
             csv.writer(f).writerow(["input_company","input_product_name","timestamp","error_message"])
 
 def load_progress_set() -> set:
+    """Load products from progress file (alfabeta_progress.csv)."""
     done = set()
     if PROGRESS.exists():
-        with open(PROGRESS, encoding="utf-8") as f:
-            r = csv.DictReader(f)
-            for row in r:
-                done.add((nk(row["input_company"]), nk(row["input_product_name"])) )
+        try:
+            with open(PROGRESS, encoding="utf-8") as f:
+                r = csv.DictReader(f)
+                for row in r:
+                    company = (row.get("input_company") or "").strip()
+                    product = (row.get("input_product_name") or "").strip()
+                    if company and product:
+                        done.add((nk(company), nk(product)))
+        except Exception as e:
+            log.warning(f"[PROGRESS] Failed to load progress file: {e}")
+    return done
+
+def load_output_set() -> set:
+    """Load products from output file (alfabeta_products_by_product.csv).
+    Returns a set of normalized (company, product) tuples that already have data."""
+    done = set()
+    if OUT_CSV.exists():
+        try:
+            with open(OUT_CSV, encoding="utf-8-sig") as f:
+                r = csv.DictReader(f)
+                for row in r:
+                    company = (row.get("input_company") or "").strip()
+                    product = (row.get("input_product_name") or "").strip()
+                    if company and product:
+                        done.add((nk(company), nk(product)))
+        except Exception as e:
+            log.warning(f"[OUTPUT] Failed to load output file: {e}")
     return done
 
 def load_ignore_list() -> set:
@@ -341,6 +365,73 @@ def save_debug(driver, folder: Path, tag: str):
         html.write_text(driver.page_source, encoding="utf-8")
     except Exception as e:
         log.warning(f"Could not save debug for {tag}: {e}")
+
+def update_prepared_urls_source(company: str, product: str, new_source: str = "selenium"):
+    """Update the Source column in Productlist_with_urls.csv to selenium when API returns null.
+    Thread-safe: uses CSV_LOCK to prevent race conditions when multiple threads update the file.
+    """
+    if not PREPARED_URLS_FILE_PATH.exists():
+        return  # File doesn't exist, skip update
+    
+    try:
+        # Use lock for both read and write to make operation atomic
+        with CSV_LOCK:
+            # Read all rows
+            rows = []
+            with open(PREPARED_URLS_FILE_PATH, "r", encoding="utf-8-sig", newline="") as f:
+                reader = csv.DictReader(f)
+                fieldnames = reader.fieldnames
+                if not fieldnames:
+                    return
+                
+                updated = False
+                for row in reader:
+                    # Normalize for comparison
+                    row_company = (row.get("Company") or "").strip()
+                    row_product = (row.get("Product") or "").strip()
+                    
+                    # Update source if match found
+                    if nk(row_company) == nk(company) and nk(row_product) == nk(product):
+                        if row.get("Source", "").lower() != new_source.lower():
+                            row["Source"] = new_source
+                            updated = True
+                            log.info(f"[CSV_UPDATE] Updated source to '{new_source}' for {company} | {product}")
+                    
+                    rows.append(row)
+            
+            # Write back all rows only if update was made
+            if updated:
+                with open(PREPARED_URLS_FILE_PATH, "w", encoding="utf-8", newline="") as f:
+                    writer = csv.DictWriter(f, fieldnames=fieldnames)
+                    writer.writeheader()
+                    writer.writerows(rows)
+    except Exception as e:
+        log.warning(f"[CSV_UPDATE] Failed to update source for {company} | {product}: {e}")
+
+def is_captcha_page(driver) -> bool:
+    """Check if current page is a captcha page."""
+    try:
+        page_source_lower = driver.page_source.lower()
+        url_lower = driver.current_url.lower()
+        
+        # Check for common captcha indicators
+        captcha_indicators = [
+            "captcha",
+            "recaptcha",
+            "cloudflare",
+            "challenge",
+            "verify you are human",
+            "access denied",
+            "checking your browser"
+        ]
+        
+        for indicator in captcha_indicators:
+            if indicator in page_source_lower or indicator in url_lower:
+                return True
+        
+        return False
+    except Exception:
+        return False
 
 # ====== DRIVER / LOGIN ======
 
@@ -982,7 +1073,6 @@ def api_worker(api_queue: Queue, selenium_queue: Queue, args, skip_set: set):
         try:
             if (nk(in_company), nk(in_product)) in skip_set:
                 log.debug(f"[API_WORKER] [SKIPPED] {in_company} | {in_product} (already processed)")
-                api_queue.task_done()
                 continue
             
             log.info(f"[API_WORKER] Processing: {in_company} | {in_product}")
@@ -996,8 +1086,9 @@ def api_worker(api_queue: Queue, selenium_queue: Queue, args, skip_set: set):
                 append_progress(in_company, in_product, len(rows))
                 log.info(f"[API_WORKER] [SUCCESS] {in_company} | {in_product} → {len(rows)} rows")
             else:
-                # API returned null - add to Selenium queue
-                log.warning(f"[API_WORKER] [NULL] API returned null for {in_company} | {in_product}, adding to Selenium queue")
+                # API returned null - update CSV source to selenium and add to Selenium queue
+                log.warning(f"[API_WORKER] [NULL] API returned null for {in_company} | {in_product}, updating source to selenium and adding to Selenium queue")
+                update_prepared_urls_source(in_company, in_product, "selenium")
                 selenium_queue.put((in_product, in_company, product_url))
             
             # Apply API rate limit
@@ -1074,6 +1165,12 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                 driver, account_idx, username, password = rotate_account(driver, account_idx, proxy, args.headless)
                 search_count = 0
             
+            # Check for captcha and rotate account if detected
+            if is_captcha_page(driver):
+                log.warning(f"[SELENIUM_WORKER] [CAPTCHA_DETECTED] Captcha detected for {in_company} | {in_product}, rotating account")
+                driver, account_idx, username, password = rotate_account(driver, account_idx, proxy, args.headless)
+                search_count = 0  # Reset search count after rotation
+            
             # Retry logic for TimeoutException
             max_retries = MAX_RETRIES_TIMEOUT
             retry_count = 0
@@ -1090,6 +1187,15 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                             pass
                     
                     search_in_products(driver, in_product, username=username, password=password)
+                    
+                    # Check for captcha after search and rotate if detected
+                    if is_captcha_page(driver):
+                        log.warning(f"[SELENIUM_WORKER] [CAPTCHA_DETECTED] Captcha detected after search for {in_company} | {in_product}, rotating account")
+                        driver, account_idx, username, password = rotate_account(driver, account_idx, proxy, args.headless)
+                        search_count = 0
+                        # Retry the search with new account
+                        search_in_products(driver, in_product, username=username, password=password)
+                    
                     if not open_exact_pair(driver, in_product, in_company, username=username, password=password):
                         save_debug(driver, DEBUG_NF, f"{in_company}_{in_product}")
                         append_progress(in_company, in_product, 0)
@@ -1097,6 +1203,21 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                         success = True
                         search_count += 1
                         break
+                    
+                    # Check for captcha after opening product page
+                    if is_captcha_page(driver):
+                        log.warning(f"[SELENIUM_WORKER] [CAPTCHA_DETECTED] Captcha detected on product page for {in_company} | {in_product}, rotating account")
+                        driver, account_idx, username, password = rotate_account(driver, account_idx, proxy, args.headless)
+                        search_count = 0
+                        # Retry the entire flow with new account
+                        search_in_products(driver, in_product, username=username, password=password)
+                        if not open_exact_pair(driver, in_product, in_company, username=username, password=password):
+                            save_debug(driver, DEBUG_NF, f"{in_company}_{in_product}")
+                            append_progress(in_company, in_product, 0)
+                            log.info(f"[SELENIUM_WORKER] [NOT_FOUND] {in_company} | {in_product}")
+                            success = True
+                            search_count += 1
+                            break
                     
                     rows = extract_rows(driver, in_company, in_product, username=username, password=password)
                     if rows:
@@ -1203,6 +1324,12 @@ def worker(q: Queue, args, skip_set: set):
             if search_count >= rotation_limit:
                 driver, account_idx, username, password = rotate_account(driver, account_idx, proxy, args.headless)
                 search_count = 0
+            
+            # Check for captcha and rotate account if detected
+            if is_captcha_page(driver):
+                log.warning(f"[WORKER] [CAPTCHA_DETECTED] Captcha detected for {in_company} | {in_product}, rotating account")
+                driver, account_idx, username, password = rotate_account(driver, account_idx, proxy, args.headless)
+                search_count = 0  # Reset search count after rotation
 
             # Handle single products with API
             if not is_duplicate:
@@ -1220,24 +1347,55 @@ def worker(q: Queue, args, skip_set: set):
                         log.info(f"[SUCCESS] [API] {in_company} | {in_product} → {len(rows)}")
                     else:
                         # Fallback to Selenium if API returns null/empty
-                        log.warning(f"[API] API returned no results (null), falling back to Selenium for {in_company} | {in_product}")
+                        log.warning(f"[API] API returned no results (null), updating source to selenium and falling back to Selenium for {in_company} | {in_product}")
+                        update_prepared_urls_source(in_company, in_product, "selenium")
                         # Apply rate limit: 1 minute per product per thread for Selenium fallback
                         selenium_fallback_rate_limit_wait(thread_id)
                         search_in_products(driver, in_product, username=username, password=password)
+                        
+                        # Check for captcha after search and rotate if detected
+                        if is_captcha_page(driver):
+                            log.warning(f"[WORKER] [CAPTCHA_DETECTED] Captcha detected after search for {in_company} | {in_product}, rotating account")
+                            driver, account_idx, username, password = rotate_account(driver, account_idx, proxy, args.headless)
+                            search_count = 0
+                            # Retry the search with new account
+                            search_in_products(driver, in_product, username=username, password=password)
                         if not open_exact_pair(driver, in_product, in_company, username=username, password=password):
                             save_debug(driver, DEBUG_NF, f"{in_company}_{in_product}")
                             append_progress(in_company, in_product, 0)
                             log.info(f"[NOT_FOUND] {in_company} | {in_product}")
                         else:
-                            rows = extract_rows(driver, in_company, in_product, username=username, password=password)
-                            if rows:
-                                append_rows(rows)
-                                append_progress(in_company, in_product, len(rows))
-                                log.info(f"[SUCCESS] [SELENIUM_FALLBACK] {in_company} | {in_product} → {len(rows)}")
+                            # Check for captcha after opening product page
+                            if is_captcha_page(driver):
+                                log.warning(f"[WORKER] [CAPTCHA_DETECTED] Captcha detected on product page for {in_company} | {in_product}, rotating account")
+                                driver, account_idx, username, password = rotate_account(driver, account_idx, proxy, args.headless)
+                                search_count = 0
+                                # Retry the entire flow with new account
+                                search_in_products(driver, in_product, username=username, password=password)
+                                if not open_exact_pair(driver, in_product, in_company, username=username, password=password):
+                                    save_debug(driver, DEBUG_NF, f"{in_company}_{in_product}")
+                                    append_progress(in_company, in_product, 0)
+                                    log.info(f"[NOT_FOUND] {in_company} | {in_product}")
+                                else:
+                                    rows = extract_rows(driver, in_company, in_product, username=username, password=password)
+                                    if rows:
+                                        append_rows(rows)
+                                        append_progress(in_company, in_product, len(rows))
+                                        log.info(f"[SUCCESS] [SELENIUM_FALLBACK] {in_company} | {in_product} → {len(rows)}")
+                                    else:
+                                        save_debug(driver, DEBUG_NF, f"{in_company}_{in_product}")
+                                        append_progress(in_company, in_product, 0)
+                                        log.info(f"[NOT_FOUND] (0 rows) {in_company} | {in_product}")
                             else:
-                                save_debug(driver, DEBUG_NF, f"{in_company}_{in_product}")
-                                append_progress(in_company, in_product, 0)
-                                log.info(f"[NOT_FOUND] (0 rows) {in_company} | {in_product}")
+                                rows = extract_rows(driver, in_company, in_product, username=username, password=password)
+                                if rows:
+                                    append_rows(rows)
+                                    append_progress(in_company, in_product, len(rows))
+                                    log.info(f"[SUCCESS] [SELENIUM_FALLBACK] {in_company} | {in_product} → {len(rows)}")
+                                else:
+                                    save_debug(driver, DEBUG_NF, f"{in_company}_{in_product}")
+                                    append_progress(in_company, in_product, 0)
+                                    log.info(f"[NOT_FOUND] (0 rows) {in_company} | {in_product}")
                     
                     search_count += 1
                     rate_limit_wait()  # API rate limit
@@ -1270,6 +1428,15 @@ def worker(q: Queue, args, skip_set: set):
                             pass  # Continue even if re-auth fails
                     
                     search_in_products(driver, in_product, username=username, password=password)
+                    
+                    # Check for captcha after search and rotate if detected
+                    if is_captcha_page(driver):
+                        log.warning(f"[WORKER] [CAPTCHA_DETECTED] Captcha detected after search for {in_company} | {in_product}, rotating account")
+                        driver, account_idx, username, password = rotate_account(driver, account_idx, proxy, args.headless)
+                        search_count = 0
+                        # Retry the search with new account
+                        search_in_products(driver, in_product, username=username, password=password)
+                    
                     if not open_exact_pair(driver, in_product, in_company, username=username, password=password):
                         save_debug(driver, DEBUG_NF, f"{in_company}_{in_product}")
                         append_progress(in_company, in_product, 0)
@@ -1277,6 +1444,21 @@ def worker(q: Queue, args, skip_set: set):
                         success = True
                         search_count += 1
                         break
+                    
+                    # Check for captcha after opening product page
+                    if is_captcha_page(driver):
+                        log.warning(f"[WORKER] [CAPTCHA_DETECTED] Captcha detected on product page for {in_company} | {in_product}, rotating account")
+                        driver, account_idx, username, password = rotate_account(driver, account_idx, proxy, args.headless)
+                        search_count = 0
+                        # Retry the entire flow with new account
+                        search_in_products(driver, in_product, username=username, password=password)
+                        if not open_exact_pair(driver, in_product, in_company, username=username, password=password):
+                            save_debug(driver, DEBUG_NF, f"{in_company}_{in_product}")
+                            append_progress(in_company, in_product, 0)
+                            log.info(f"[NOT_FOUND] {in_company} | {in_product}")
+                            success = True
+                            search_count += 1
+                            break
 
                     rows = extract_rows(driver, in_company, in_product, username=username, password=password)
                     if rows:
@@ -1402,6 +1584,10 @@ def main():
                 is_dup_str = (row.get(dup_col) or "").strip().lower()
                 is_duplicate = is_dup_str == "true"
                 
+                # If source contains "selenium", use Selenium instead of API
+                if "selenium" in source:
+                    is_duplicate = True
+                
                 if prod and comp:
                     all_products.append((prod, comp))
                     # Use the prepared URL, or construct if missing
@@ -1415,7 +1601,7 @@ def main():
             
             log.info(f"[FILTER] Using prepared URLs: {len(targets)} products")
             log.info(f"[FILTER] API source (singles): {api_count}")
-            log.info(f"[FILTER] Selenium source (duplicates): {selenium_count}")
+            log.info(f"[FILTER] Selenium source (duplicates + selenium-marked): {selenium_count}")
         else:
             # Fallback: use original Productlist.csv and determine duplicates
             log.info("[INPUT] Using original Productlist.csv, determining duplicates and constructing URLs")
