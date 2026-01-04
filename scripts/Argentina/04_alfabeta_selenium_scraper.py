@@ -14,7 +14,6 @@ import random
 import logging
 import argparse
 import tempfile
-import zipfile
 import threading
 import signal
 import sys
@@ -47,7 +46,7 @@ from config_loader import (
     DUPLICATE_RATE_LIMIT_SECONDS,
     REQUEST_PAUSE_BASE, REQUEST_PAUSE_JITTER_MIN, REQUEST_PAUSE_JITTER_MAX,
     WAIT_ALERT, WAIT_SEARCH_FORM, WAIT_SEARCH_RESULTS, WAIT_PAGE_LOAD,
-    PAGE_LOAD_TIMEOUT, MAX_RETRIES_TIMEOUT, MAX_RETRIES_AUTH, CPU_THROTTLE_HIGH, PAUSE_CPU_THROTTLE,
+    PAGE_LOAD_TIMEOUT, MAX_RETRIES_TIMEOUT, CPU_THROTTLE_HIGH, PAUSE_CPU_THROTTLE,
     QUEUE_GET_TIMEOUT,
     PRODUCTLIST_FILE, PREPARED_URLS_FILE,
     OUTPUT_PRODUCTS_CSV, OUTPUT_PROGRESS_CSV, OUTPUT_ERRORS_CSV
@@ -262,7 +261,7 @@ def save_debug(driver, folder: Path, tag: str):
 
 # ====== DRIVER / LOGIN ======
 
-def setup_driver(headless=True, proxy_url: Optional[str] = None):
+def setup_driver(headless=False):
     opts = webdriver.ChromeOptions()
     if headless:
         opts.add_argument("--headless=new")
@@ -278,74 +277,6 @@ def setup_driver(headless=True, proxy_url: Optional[str] = None):
     opts.add_argument("--window-size=1400,900")
     opts.add_argument("--lang=es-AR")
     opts.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-    
-    # Configure proxy if provided
-    if proxy_url:
-        try:
-            proxy_info = parse_proxy_url(proxy_url)
-            log.info(f"Using proxy: {proxy_info['host']}:{proxy_info['port']}")
-            
-            # For authenticated proxies, use Chrome extension
-            if proxy_info['username'] and proxy_info['password']:
-                # Create a Chrome extension for proxy authentication
-                manifest_json = """{
-                    "version": "1.0.0",
-                    "manifest_version": 2,
-                    "name": "Chrome Proxy",
-                    "permissions": [
-                        "proxy",
-                        "tabs",
-                        "unlimitedStorage",
-                        "storage",
-                        "<all_urls>",
-                        "webRequest",
-                        "webRequestBlocking"
-                    ],
-                    "background": {
-                        "scripts": ["background.js"]
-                    },
-                    "minimum_chrome_version":"22.0.0"
-                }"""
-                
-                background_js = f"""
-                var config = {{
-                    mode: "fixed_servers",
-                    rules: {{
-                        singleProxy: {{
-                            scheme: "{proxy_info['scheme']}",
-                            host: "{proxy_info['host']}",
-                            port: parseInt({proxy_info['port']})
-                        }},
-                        bypassList: ["localhost"]
-                    }}
-                }};
-                chrome.proxy.settings.set({{value: config, scope: "regular"}}, function() {{}});
-                function callbackFn(details) {{
-                    return {{
-                        authCredentials: {{
-                            username: "{proxy_info['username']}",
-                            password: "{proxy_info['password']}"
-                        }}
-                    }};
-                }}
-                chrome.webRequest.onAuthRequired.addListener(
-                    callbackFn,
-                    {{urls: ["<all_urls>"]}},
-                    ['blocking']
-                );
-                """
-                
-                pluginfile = tempfile.NamedTemporaryFile(delete=False, suffix='.zip')
-                with zipfile.ZipFile(pluginfile.name, 'w') as zip_file:
-                    zip_file.writestr("manifest.json", manifest_json)
-                    zip_file.writestr("background.js", background_js)
-                opts.add_extension(pluginfile.name)
-            else:
-                # Non-authenticated proxy
-                proxy_server = f"{proxy_info['host']}:{proxy_info['port']}"
-                opts.add_argument(f"--proxy-server={proxy_info['scheme']}://{proxy_server}")
-        except Exception as e:
-            log.warning(f"Failed to configure proxy {proxy_url}: {e}")
     
     # Check if shutdown was requested before creating new driver
     if _shutdown_requested.is_set():
@@ -367,138 +298,43 @@ def setup_driver(headless=True, proxy_url: Optional[str] = None):
     return drv
 
 def is_login_page(driver) -> bool:
+    """Check if current page is a login page"""
     try:
         return bool(driver.find_elements(By.ID, "usuario")) and bool(driver.find_elements(By.ID, "clave"))
     except Exception:
         return False
 
-def do_login(driver, username: Optional[str] = None, password: Optional[str] = None):
-    """Login with provided credentials or use defaults"""
-    u = username or ALFABETA_USER
-    p = password or ALFABETA_PASS
+def wait_for_user_resume():
+    """Wait for user to press Enter key after changing VPN location"""
+    log.warning("[CAPTCHA_PAUSE] Session closed.")
+    log.info("[CAPTCHA_PAUSE] Please change your VPN location and press ENTER to resume...")
     try:
-        login_url = driver.current_url
-        log.info(f"[LOGIN_URL] Attempting login at: {login_url} (username: {u})")
-        
-        # Check for captcha before attempting login
-        if is_captcha_page(driver):
-            log.warning("[LOGIN] Captcha detected on login page - login may fail")
-        
-        user = driver.find_element(By.ID, "usuario")
-        pwd = driver.find_element(By.ID, "clave")
-        user.clear()
-        user.send_keys(u)
-        pwd.clear()
-        pwd.send_keys(p)
-        
-        # Wait a moment before submitting
-        time.sleep(1)
-        
-        try:
-            submit_btn = driver.find_element(By.XPATH, "//input[@value='Enviar']")
-            submit_btn.click()
-            log.debug("[LOGIN] Clicked submit button")
-        except Exception as e1:
-            log.debug(f"[LOGIN] Submit button not found, trying ENTER key: {e1}")
-            pwd.send_keys(Keys.ENTER)
-        
-        # Wait a moment for page to start loading
-        time.sleep(2)
-        
-        # Check for alerts
-        try:
-            WebDriverWait(driver, WAIT_ALERT).until(EC.alert_is_present())
-            alert_text = Alert(driver).text
-            log.warning(f"[LOGIN] Alert detected: {alert_text}")
-            Alert(driver).accept()
-        except Exception:
-            pass
-        
-        # Wait for page to redirect away from login page
-        try:
-            WebDriverWait(driver, WAIT_PAGE_LOAD).until(lambda d: not is_login_page(d))
-            final_url = driver.current_url
-            log.info(f"[LOGIN_SUCCESS] Login successful, redirected to: {final_url}")
-        except Exception as timeout_e:
-            # Login didn't redirect - check what's on the page
-            current_url = driver.current_url
-            page_source_snippet = driver.page_source[:500] if len(driver.page_source) > 500 else driver.page_source
-            
-            # Check for error messages
-            error_elements = driver.find_elements(By.CSS_SELECTOR, ".error, .alert, .warning, [class*='error'], [class*='alert']")
-            error_texts = [elem.text for elem in error_elements if elem.text.strip()]
-            
-            # Check if still on login page
-            still_login = is_login_page(driver)
-            captcha_detected = is_captcha_page(driver)
-            
-            log.error(f"[LOGIN_FAILED] Login timeout - still on login page: {still_login}")
-            log.error(f"[LOGIN_FAILED] Current URL: {current_url}")
-            if captcha_detected:
-                log.error("[LOGIN_FAILED] Captcha detected on page")
-            if error_texts:
-                log.error(f"[LOGIN_FAILED] Error messages found: {error_texts}")
-            log.debug(f"[LOGIN_FAILED] Page source snippet: {page_source_snippet[:200]}")
-            
-            raise RuntimeError(f"Login failed: Page did not redirect after {WAIT_PAGE_LOAD}s. "
-                             f"Still on login page: {still_login}, Captcha: {captcha_detected}, "
-                             f"Errors: {error_texts if error_texts else 'None'}")
-        
-    except RuntimeError:
-        raise  # Re-raise RuntimeError as-is
-    except Exception as e:
-        login_url = driver.current_url if 'driver' in locals() else "unknown"
-        log.error(f"[LOGIN_FAILED] Login failed at URL: {login_url} - {e}")
-        raise RuntimeError(f"Login failed: {e}")
-
-def go_hub_authenticated(driver, username: Optional[str] = None, password: Optional[str] = None):
-    """Authenticate and navigate to hub with provided credentials"""
-    # Use provided credentials or fall back to config defaults
-    if username is None:
-        username = ACCOUNTS[0][0] if ACCOUNTS else ALFABETA_USER
-    if password is None:
-        password = ACCOUNTS[0][1] if ACCOUNTS else ALFABETA_PASS
-    
-    log.info(f"[AUTH] Navigating to HUB_URL: {HUB_URL}")
-    for attempt in range(MAX_RETRIES_AUTH):
-        driver.get(HUB_URL)
-        if is_login_page(driver):
-            log.info(f"[AUTH] Login page detected, attempting login (username: {username})")
-            do_login(driver, username, password)
-            driver.get(HUB_URL)
-        if not is_login_page(driver):
-            log.info(f"[AUTH] Successfully authenticated, final URL: {driver.current_url}")
-            return
-    raise RuntimeError(f"Could not get authenticated access to HUB. Last URL: {driver.current_url}")
-
-def guard_auth_and(func):
-    def wrapper(driver, *a, username=None, password=None, **kw):
-        if is_login_page(driver):
-            go_hub_authenticated(driver, username, password)
-        try:
-            out = func(driver, *a, username=username, password=password, **kw)
-        except Exception:
-            if is_login_page(driver):
-                go_hub_authenticated(driver, username, password)
-                out = func(driver, *a, username=username, password=password, **kw)
-            else:
-                raise
-        if is_login_page(driver):
-            go_hub_authenticated(driver, username, password)
-        return out
-    return wrapper
+        input()  # Wait for Enter key press
+        log.info("[CAPTCHA_PAUSE] Resuming with new session...")
+    except (EOFError, KeyboardInterrupt):
+        log.warning("[CAPTCHA_PAUSE] Input interrupted, exiting...")
+        _shutdown_requested.set()
+        raise
 
 # ====== SEARCH / RESULTS ======
 
-@guard_auth_and
-def search_in_products(driver, product_term: str, username=None, password=None):
+def search_in_products(driver, product_term: str):
+    """Navigate to products page and search for product term"""
     log.info(f"[SEARCH] Searching for product: {product_term}")
-    go_hub_authenticated(driver, username, password)
+    driver.get(PRODUCTS_URL)
+    
+    # Check for login page after navigation
+    if is_login_page(driver):
+        raise RuntimeError("Login page detected after navigating to products URL")
+    
     try:
         form = WebDriverWait(driver, WAIT_SEARCH_FORM).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "form#srvPr"))
         )
     except TimeoutException:
+        # Check again for login page in case it appeared during wait
+        if is_login_page(driver):
+            raise RuntimeError("Login page detected while waiting for search form")
         log.error(f"[SEARCH] Form not found after {WAIT_SEARCH_FORM}s. Current URL: {driver.current_url}")
         log.error(f"[SEARCH] Page source snippet: {driver.page_source[:500]}")
         raise
@@ -532,8 +368,8 @@ def enumerate_pairs(driver) -> List[Dict[str, Any]]:
         out.append({"prod": prod_txt, "comp": comp_txt, "pr_form": pr_form})
     return out
 
-@guard_auth_and
-def open_exact_pair(driver, product: str, company: str, username=None, password=None) -> bool:
+def open_exact_pair(driver, product: str, company: str) -> bool:
+    """Open exact product-company pair from search results"""
     rows = enumerate_pairs(driver)
     matches = [r for r in rows if nk(r["prod"]) == nk(product) and nk(r["comp"]) == nk(company)]
     if not matches:
@@ -602,8 +438,7 @@ def collect_coverage(pres_el) -> Dict[str, Any]:
                 pass
     return cov
 
-@guard_auth_and
-def extract_rows(driver, in_company, in_product, username=None, password=None):
+def extract_rows(driver, in_company, in_product):
     # Header/meta from the product page
     active = get_text_safe(driver, "tr.sproducto td.textoe i")
     therap = get_text_safe(driver, "tr.sproducto td.textor i")
@@ -685,37 +520,6 @@ def is_captcha_page(driver) -> bool:
         return False
     except Exception:
         return False
-
-# ====== ACCOUNT ROTATION ======
-
-def rotate_account(driver, current_account_idx: int, proxy: Optional[str], headless: bool) -> Tuple[Any, int, str, str]:
-    """Close current driver, switch to next account, create new driver and login.
-    Returns: (new_driver, new_account_idx, username, password)
-    """
-    # Close old driver
-    try:
-        driver.quit()
-    except Exception:
-        pass
-    
-    # Switch to next account (round-robin)
-    next_account_idx = (current_account_idx + 1) % len(ACCOUNTS)
-    username, password = ACCOUNTS[next_account_idx]
-    
-    log.info(f"[ACCOUNT_ROTATION] Switching from account {current_account_idx + 1} to account {next_account_idx + 1} (username: {username})")
-    log.info(f"[ACCOUNT_ROTATION] Will use HUB_URL: {HUB_URL}")
-    
-    # Create new driver
-    new_driver = setup_driver(headless=headless, proxy_url=proxy)
-    
-    # Login with new account
-    go_hub_authenticated(new_driver, username, password)
-    
-    # Log final URL after account rotation
-    final_url = new_driver.current_url
-    log.info(f"[ACCOUNT_ROTATION] Account rotation complete, final URL: {final_url}")
-    
-    return new_driver, next_account_idx, username, password
 
 # ====== RATE LIMITING ======
 
@@ -817,15 +621,9 @@ def main():
         selenium_targets = selenium_targets[:args.max_rows]
         log.info(f"Max rows limit applied: {args.max_rows} targets")
     
-    # Get available proxies
-    proxy_list = get_proxy_list()
-    if not proxy_list:
-        log.warning("[SELENIUM] No proxies available, using single thread without proxy")
-        proxy_list = [None]  # Use None as a placeholder
-    
-    # Determine number of threads (one per proxy)
-    num_threads = len(proxy_list)
-    log.info(f"[SELENIUM] Using {num_threads} threads (one per proxy, {len(proxy_list)} proxies available)")
+    # Use 3 threads (no proxy, no authentication)
+    num_threads = 3
+    log.info(f"[SELENIUM] Using {num_threads} threads (no proxy, no authentication)")
     
     # Create queue and add all products
     selenium_queue = Queue()
@@ -834,24 +632,18 @@ def main():
     
     log.info(f"[QUEUE] Added {selenium_queue.qsize()} products to queue")
     
-    # Create and start worker threads (one per proxy)
+    # Create and start worker threads
     threads = []
     for thread_idx in range(num_threads):
-        proxy = proxy_list[thread_idx]
-        # Assign account (round-robin through accounts)
-        account_idx = thread_idx % len(ACCOUNTS)
-        username, password = ACCOUNTS[account_idx]
-        
         thread = threading.Thread(
             target=selenium_worker,
-            args=(selenium_queue, thread_idx, proxy, account_idx, args, skip_set),
+            args=(selenium_queue, args, skip_set),
             name=f"SeleniumWorker-{thread_idx + 1}",
             daemon=False
         )
         threads.append(thread)
         thread.start()
-        proxy_info = f"proxy: {proxy}" if proxy else "no proxy"
-        log.info(f"[SELENIUM] Started thread {thread_idx + 1}/{num_threads} with {proxy_info}, account {account_idx + 1}/{len(ACCOUNTS)} (username: {username})")
+        log.info(f"[SELENIUM] Started thread {thread_idx + 1}/{num_threads} (no proxy, no authentication)")
     
     # Wait for all threads to complete
     log.info("[SELENIUM] Waiting for all worker threads to complete...")
@@ -872,12 +664,10 @@ def main():
 
 # ====== SELENIUM WORKER ======
 
-def selenium_worker(selenium_queue: Queue, thread_idx: int, assigned_proxy: Optional[str], account_idx: int, args, skip_set: set):
-    """Selenium worker: processes products from queue using assigned proxy and account"""
+def selenium_worker(selenium_queue: Queue, args, skip_set: set):
+    """Selenium worker: processes products from queue (no proxy, no authentication)"""
     thread_id = threading.get_ident()
-    username, password = ACCOUNTS[account_idx]
-    proxy_info = f"proxy: {assigned_proxy}" if assigned_proxy else "no proxy"
-    log.info(f"[SELENIUM_WORKER] Thread {thread_id} (thread #{thread_idx + 1}) started with {proxy_info}, account {account_idx + 1}/{len(ACCOUNTS)} (username: {username})")
+    log.info(f"[SELENIUM_WORKER] Thread {thread_id} started (no proxy, no authentication)")
     
     driver = None
     try:
@@ -886,11 +676,8 @@ def selenium_worker(selenium_queue: Queue, thread_idx: int, assigned_proxy: Opti
             log.warning(f"[SELENIUM_WORKER] Shutdown requested, thread {thread_id} exiting before initialization")
             return
         
-        # Initialize driver for this thread with assigned proxy
-        driver = setup_driver(headless=args.headless, proxy_url=assigned_proxy)
-        go_hub_authenticated(driver, username, password)
-        
-        search_count = 0
+        # Initialize driver (no proxy, no authentication)
+        driver = setup_driver(headless=args.headless)
         
         while True:
             # Check for shutdown before processing next item
@@ -914,43 +701,23 @@ def selenium_worker(selenium_queue: Queue, thread_idx: int, assigned_proxy: Opti
                     continue
                 
                 product_type = "DUPLICATE" if is_duplicate else "NON-DUPLICATE"
-                log.info(f"[SELENIUM_WORKER] [SEARCH_START] [{product_type}] {in_company} | {in_product} (thread: {account_idx + 1}, search #{search_count + 1})")
+                log.info(f"[SELENIUM_WORKER] [SEARCH_START] [{product_type}] {in_company} | {in_product}")
                 search_attempted = True
                 
                 # Apply rate limit
                 duplicate_rate_limit_wait(thread_id)
                 
-                # Check if we need to rotate account (after SELENIUM_ROTATION_LIMIT searches)
-                if search_count >= SELENIUM_ROTATION_LIMIT:
-                    log.info(f"[SELENIUM_WORKER] Reached rotation limit ({SELENIUM_ROTATION_LIMIT}), rotating account")
+                # Check for captcha before processing
+                if driver and is_captcha_page(driver):
+                    log.warning(f"[SELENIUM_WORKER] [CAPTCHA_DETECTED] Captcha detected for {in_company} | {in_product}")
                     unregister_driver(driver)
                     driver.quit()
-                    # Check shutdown before creating new driver
+                    driver = None
+                    wait_for_user_resume()
                     if _shutdown_requested.is_set():
-                        log.warning(f"[SELENIUM_WORKER] Shutdown requested, skipping account rotation")
                         break
-                    # Rotate to next account (round-robin), keep same proxy
-                    account_idx = (account_idx + 1) % len(ACCOUNTS)
-                    username, password = ACCOUNTS[account_idx]
-                    driver = setup_driver(headless=args.headless, proxy_url=assigned_proxy)
-                    go_hub_authenticated(driver, username, password)
-                    search_count = 0
-                    log.info(f"[SELENIUM_WORKER] Rotated to account {account_idx + 1}/{len(ACCOUNTS)} (username: {username})")
-                
-                # Check for captcha and rotate account if detected
-                if is_captcha_page(driver):
-                    log.warning(f"[SELENIUM_WORKER] [CAPTCHA_DETECTED] Captcha detected for {in_company} | {in_product}, rotating account")
-                    unregister_driver(driver)
-                    driver.quit()
-                    if _shutdown_requested.is_set():
-                        log.warning(f"[SELENIUM_WORKER] Shutdown requested, skipping account rotation")
-                        break
-                    account_idx = (account_idx + 1) % len(ACCOUNTS)
-                    username, password = ACCOUNTS[account_idx]
-                    driver = setup_driver(headless=args.headless, proxy_url=assigned_proxy)
-                    go_hub_authenticated(driver, username, password)
-                    search_count = 0
-                    log.info(f"[SELENIUM_WORKER] Rotated to account {account_idx + 1}/{len(ACCOUNTS)} (username: {username})")
+                    # Create new driver after user resumes
+                    driver = setup_driver(headless=args.headless)
                 
                 # Retry logic for TimeoutException
                 max_retries = MAX_RETRIES_TIMEOUT
@@ -962,63 +729,87 @@ def selenium_worker(selenium_queue: Queue, thread_idx: int, assigned_proxy: Opti
                         if retry_count > 0:
                             log.info(f"[SELENIUM_WORKER] [RETRY {retry_count}/{max_retries}] {in_company} | {in_product}")
                             time.sleep(10)  # PAUSE_RETRY
-                            try:
-                                go_hub_authenticated(driver, username, password)
-                            except Exception:
-                                pass
                         
-                        search_in_products(driver, in_product, username=username, password=password)
+                        try:
+                            search_in_products(driver, in_product)
+                        except RuntimeError as e:
+                            if "Login page detected" in str(e):
+                                log.warning(f"[SELENIUM_WORKER] [LOGIN_REQUIRED] Login page detected during search for {in_company} | {in_product}")
+                                unregister_driver(driver)
+                                driver.quit()
+                                driver = None
+                                wait_for_user_resume()
+                                if _shutdown_requested.is_set():
+                                    break
+                                driver = setup_driver(headless=args.headless)
+                                continue  # Retry the search
+                            else:
+                                raise
                         
-                        # Check for captcha after search and rotate if detected
-                        if is_captcha_page(driver):
-                            log.warning(f"[SELENIUM_WORKER] [CAPTCHA_DETECTED] Captcha detected after search for {in_company} | {in_product}, rotating account")
+                        # Check for login page or captcha after search
+                        if is_login_page(driver):
+                            log.warning(f"[SELENIUM_WORKER] [LOGIN_REQUIRED] Login page detected after search for {in_company} | {in_product}")
                             unregister_driver(driver)
                             driver.quit()
+                            driver = None
+                            wait_for_user_resume()
                             if _shutdown_requested.is_set():
-                                log.warning(f"[SELENIUM_WORKER] Shutdown requested, skipping account rotation")
                                 break
-                            account_idx = (account_idx + 1) % len(ACCOUNTS)
-                            username, password = ACCOUNTS[account_idx]
-                            driver = setup_driver(headless=args.headless, proxy_url=assigned_proxy)
-                            go_hub_authenticated(driver, username, password)
-                            search_count = 0
-                            log.info(f"[SELENIUM_WORKER] Rotated to account {account_idx + 1}/{len(ACCOUNTS)} (username: {username})")
-                            # Retry the search with new account
-                            search_in_products(driver, in_product, username=username, password=password)
+                            driver = setup_driver(headless=args.headless)
+                            search_in_products(driver, in_product)
+                        elif is_captcha_page(driver):
+                            log.warning(f"[SELENIUM_WORKER] [CAPTCHA_DETECTED] Captcha detected after search for {in_company} | {in_product}")
+                            unregister_driver(driver)
+                            driver.quit()
+                            driver = None
+                            wait_for_user_resume()
+                            if _shutdown_requested.is_set():
+                                break
+                            driver = setup_driver(headless=args.headless)
+                            search_in_products(driver, in_product)
                         
-                        if not open_exact_pair(driver, in_product, in_company, username=username, password=password):
+                        if not open_exact_pair(driver, in_product, in_company):
                             save_debug(driver, DEBUG_NF, f"{in_company}_{in_product}")
                             append_progress(in_company, in_product, 0)
                             log.info(f"[SELENIUM_WORKER] [NOT_FOUND] {in_company} | {in_product}")
                             success = True
-                            search_count += 1
                             break
                         
-                        # Check for captcha after opening product page
-                        if is_captcha_page(driver):
-                            log.warning(f"[SELENIUM_WORKER] [CAPTCHA_DETECTED] Captcha detected on product page for {in_company} | {in_product}, rotating account")
+                        # Check for login page or captcha after opening product page
+                        if is_login_page(driver):
+                            log.warning(f"[SELENIUM_WORKER] [LOGIN_REQUIRED] Login page detected on product page for {in_company} | {in_product}")
                             unregister_driver(driver)
                             driver.quit()
+                            driver = None
+                            wait_for_user_resume()
                             if _shutdown_requested.is_set():
-                                log.warning(f"[SELENIUM_WORKER] Shutdown requested, skipping account rotation")
                                 break
-                            account_idx = (account_idx + 1) % len(ACCOUNTS)
-                            username, password = ACCOUNTS[account_idx]
-                            driver = setup_driver(headless=args.headless, proxy_url=assigned_proxy)
-                            go_hub_authenticated(driver, username, password)
-                            search_count = 0
-                            log.info(f"[SELENIUM_WORKER] Rotated to account {account_idx + 1}/{len(ACCOUNTS)} (username: {username})")
-                            # Retry the entire flow with new account
-                            search_in_products(driver, in_product, username=username, password=password)
-                            if not open_exact_pair(driver, in_product, in_company, username=username, password=password):
+                            driver = setup_driver(headless=args.headless)
+                            search_in_products(driver, in_product)
+                            if not open_exact_pair(driver, in_product, in_company):
                                 save_debug(driver, DEBUG_NF, f"{in_company}_{in_product}")
                                 append_progress(in_company, in_product, 0)
                                 log.info(f"[SELENIUM_WORKER] [NOT_FOUND] {in_company} | {in_product}")
                                 success = True
-                                search_count += 1
+                                break
+                        elif is_captcha_page(driver):
+                            log.warning(f"[SELENIUM_WORKER] [CAPTCHA_DETECTED] Captcha detected on product page for {in_company} | {in_product}")
+                            unregister_driver(driver)
+                            driver.quit()
+                            driver = None
+                            wait_for_user_resume()
+                            if _shutdown_requested.is_set():
+                                break
+                            driver = setup_driver(headless=args.headless)
+                            search_in_products(driver, in_product)
+                            if not open_exact_pair(driver, in_product, in_company):
+                                save_debug(driver, DEBUG_NF, f"{in_company}_{in_product}")
+                                append_progress(in_company, in_product, 0)
+                                log.info(f"[SELENIUM_WORKER] [NOT_FOUND] {in_company} | {in_product}")
+                                success = True
                                 break
                         
-                        rows = extract_rows(driver, in_company, in_product, username=username, password=password)
+                        rows = extract_rows(driver, in_company, in_product)
                         if rows:
                             append_rows(rows)
                             append_progress(in_company, in_product, len(rows))
@@ -1028,13 +819,11 @@ def selenium_worker(selenium_queue: Queue, thread_idx: int, assigned_proxy: Opti
                             append_progress(in_company, in_product, 0)
                             log.info(f"[SELENIUM_WORKER] [NOT_FOUND] (0 rows) {in_company} | {in_product}")
                         success = True
-                        search_count += 1
                         
                     except TimeoutException as te:
                         retry_count += 1
                         if retry_count > max_retries:
                             log.error(f"[SELENIUM_WORKER] [TIMEOUT] {in_company} | {in_product} - All {max_retries} retries exhausted")
-                            search_count += 1
                             raise
                         log.warning(f"[SELENIUM_WORKER] [TIMEOUT] {in_company} | {in_product} - Retry {retry_count}/{max_retries}")
                     except Exception as e:
@@ -1045,7 +834,6 @@ def selenium_worker(selenium_queue: Queue, thread_idx: int, assigned_proxy: Opti
                 append_error(in_company, in_product, msg)
                 save_debug(driver, DEBUG_ERR, f"{in_company}_{in_product}")
                 log.error(f"[SELENIUM_WORKER] [ERROR] {in_company} | {in_product}: {msg}")
-                search_count += 1
             finally:
                 selenium_queue.task_done()
                 if search_attempted:
@@ -1066,7 +854,7 @@ def selenium_worker(selenium_queue: Queue, thread_idx: int, assigned_proxy: Opti
             except Exception as e:
                 log.warning(f"[SELENIUM_WORKER] Error closing driver: {e}")
     
-    log.info(f"[SELENIUM_WORKER] Thread {thread_id} finished (account {account_idx + 1})")
+    log.info(f"[SELENIUM_WORKER] Thread {thread_id} finished")
 
 if __name__ == "__main__":
     main()

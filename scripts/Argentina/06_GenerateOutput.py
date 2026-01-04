@@ -134,7 +134,7 @@ def detect_encoding(path: Path) -> str:
     result = from_path(path).best()
     if result:
         enc = result.encoding
-        print(f"ℹ Detected encoding for {path.name}: {enc}")
+        print(f"[INFO] Detected encoding for {path.name}: {enc}")
         return enc
     return "latin1"
 
@@ -143,7 +143,7 @@ def safe_read_csv(path: Path, dtype=None) -> pd.DataFrame:
     try:
         return pd.read_csv(path, dtype=dtype, encoding=enc)
     except UnicodeDecodeError:
-        print(f"⚠ Failed with {enc}, retrying with latin1...")
+        print(f"[WARNING] Failed with {enc}, retrying with latin1...")
         return pd.read_csv(path, dtype=dtype, encoding="latin1")
 
 # ---------- PCID mapping (STRICT 4-key match) ----------
