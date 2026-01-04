@@ -32,6 +32,8 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
     print(f"\n{'='*80}")
     print(f"Step {step_num}/6: {step_name}")
     print(f"{'='*80}\n")
+    print(f"[PIPELINE] Executing: {script_name}")
+    print(f"[PIPELINE] This step will run until completion before moving to next step.\n")
     
     script_path = Path(__file__).parent / script_name
     if not script_path.exists():
@@ -95,18 +97,33 @@ def main():
         (0, "00_backup_and_clean.py", "Backup and Clean", None),
         (1, "01_getProdList.py", "Get Product List", None),  # Output is in input dir
         (2, "02_prepare_urls.py", "Prepare URLs", [str(output_dir / PREPARED_URLS_FILE)]),
-        (3, "03_alfabeta_scraper_labs.py", "Scrape Products", [str(output_dir / OUTPUT_PRODUCTS_CSV)]),
-        (4, "04_TranslateUsingDictionary.py", "Translate Using Dictionary", [str(output_dir / OUTPUT_TRANSLATED_CSV)]),
-        (5, "05_GenerateOutput.py", "Generate Output", None),  # Output files vary by date
-        (6, "06_PCIDmissing.py", "PCID Missing", None),
+        (3, "03_alfabeta_api_scraper.py", "Scrape Products (API)", [str(output_dir / OUTPUT_PRODUCTS_CSV)]),
+        (4, "04_alfabeta_selenium_scraper.py", "Scrape Products (Selenium)", [str(output_dir / OUTPUT_PRODUCTS_CSV)]),
+        (5, "05_TranslateUsingDictionary.py", "Translate Using Dictionary", [str(output_dir / OUTPUT_TRANSLATED_CSV)]),
+        (6, "06_GenerateOutput.py", "Generate Output", None),  # Output files vary by date
     ]
     
     # Run steps starting from start_step
+    print(f"\n{'='*80}")
+    print(f"PIPELINE EXECUTION PLAN")
+    print(f"{'='*80}")
     for step_num, script_name, step_name, output_files in steps:
         if step_num < start_step:
             # Skip completed steps
             if cp.is_step_complete(step_num):
-                print(f"\nStep {step_num}/6: {step_name} - SKIPPED (already completed)")
+                print(f"Step {step_num}/6: {step_name} - SKIPPED (already completed in checkpoint)")
+            else:
+                print(f"Step {step_num}/6: {step_name} - SKIPPED (before start step {start_step})")
+        elif step_num == start_step:
+            print(f"Step {step_num}/6: {step_name} - WILL RUN NOW (starting from here)")
+        else:
+            print(f"Step {step_num}/6: {step_name} - WILL RUN AFTER previous steps complete")
+    print(f"{'='*80}\n")
+    
+    # Now execute the steps
+    for step_num, script_name, step_name, output_files in steps:
+        if step_num < start_step:
+            # Skip completed steps
             continue
         
         success = run_step(step_num, script_name, step_name, output_files)

@@ -76,25 +76,38 @@ if %PYTHON_EXIT% neq 0 (
     exit /b 1
 )
 
-REM Step 3: Scrape Products
+REM Step 3: Scrape Products (API)
 echo. >> "%log_file%"
-echo [Step 3/6] Scrape Products... >> "%log_file%"
+echo [Step 3/6] Scrape Products (API)... >> "%log_file%"
 echo.
-echo [Step 3/6] Scrape Products...
-python -u "03_alfabeta_scraper_labs.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
+echo [Step 3/6] Scrape Products (API)...
+python -u "03_alfabeta_api_scraper.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
 set PYTHON_EXIT=%errorlevel%
 if %PYTHON_EXIT% neq 0 (
-    echo ERROR: Scrape Products failed >> "%log_file%"
-    echo ERROR: Scrape Products failed
+    echo ERROR: Scrape Products (API) failed >> "%log_file%"
+    echo ERROR: Scrape Products (API) failed
     exit /b 1
 )
 
-REM Step 4: Translate Using Dictionary
+REM Step 4: Scrape Products (Selenium)
 echo. >> "%log_file%"
-echo [Step 4/6] Translate Using Dictionary... >> "%log_file%"
+echo [Step 4/6] Scrape Products (Selenium)... >> "%log_file%"
 echo.
-echo [Step 4/6] Translate Using Dictionary...
-python -u "04_TranslateUsingDictionary.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
+echo [Step 4/6] Scrape Products (Selenium)...
+python -u "04_alfabeta_selenium_scraper.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
+set PYTHON_EXIT=%errorlevel%
+if %PYTHON_EXIT% neq 0 (
+    echo ERROR: Scrape Products (Selenium) failed >> "%log_file%"
+    echo ERROR: Scrape Products (Selenium) failed
+    exit /b 1
+)
+
+REM Step 5: Translate Using Dictionary
+echo. >> "%log_file%"
+echo [Step 5/6] Translate Using Dictionary... >> "%log_file%"
+echo.
+echo [Step 5/6] Translate Using Dictionary...
+python -u "05_TranslateUsingDictionary.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
 set PYTHON_EXIT=%errorlevel%
 if %PYTHON_EXIT% neq 0 (
     echo ERROR: Translate Using Dictionary failed >> "%log_file%"
@@ -102,29 +115,17 @@ if %PYTHON_EXIT% neq 0 (
     exit /b 1
 )
 
-REM Step 5: Generate Output
+REM Step 6: Generate Output
 echo. >> "%log_file%"
-echo [Step 5/6] Generate Output... >> "%log_file%"
+echo [Step 6/6] Generate Output... >> "%log_file%"
 echo.
-echo [Step 5/6] Generate Output...
-python -u "05_GenerateOutput.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
+echo [Step 6/6] Generate Output...
+python -u "06_GenerateOutput.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
 set PYTHON_EXIT=%errorlevel%
 if %PYTHON_EXIT% neq 0 (
     echo ERROR: Generate Output failed >> "%log_file%"
     echo ERROR: Generate Output failed
     exit /b 1
-)
-
-REM Step 6: PCID Missing
-echo. >> "%log_file%"
-echo [Step 6/6] PCID Missing... >> "%log_file%"
-echo.
-echo [Step 6/6] PCID Missing...
-python -u "06_PCIDmissing.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
-set PYTHON_EXIT=%errorlevel%
-if %PYTHON_EXIT% neq 0 (
-    echo WARNING: PCID Missing step failed (continuing...) >> "%log_file%"
-    echo WARNING: PCID Missing step failed (continuing...)
 )
 
 echo. >> "%log_file%"

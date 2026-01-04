@@ -64,9 +64,10 @@ scripts/Argentina/
 ├── 00_backup_and_clean.py
 ├── 01_getProdList.py
 ├── 02_prepare_urls.py
-├── 03_alfabeta_scraper_labs.py
-├── 04_TranslateUsingDictionary.py
-├── 05_GenerateOutput.py
+├── 03_alfabeta_api_scraper.py
+├── 04_alfabeta_selenium_scraper.py
+├── 05_TranslateUsingDictionary.py
+├── 06_GenerateOutput.py
 ├── 06_PCIDmissing.py
 ├── config_loader.py
 ├── run_pipeline.bat          ✅ Resume script integration

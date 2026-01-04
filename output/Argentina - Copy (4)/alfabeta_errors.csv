@@ -1,0 +1,2720 @@
+input_company,input_product_name,timestamp,error_message
+Sanofi-Aventis,INSULINA LANTUS SOLOSTAR,2026-01-04T08:46:29,API Worker Error: task_done() called too many times
+Provefarma,HERBA MATE ENERGIA,2026-01-04T08:46:29,API Worker Error: task_done() called too many times
+Novo Nordisk,INSULINA LEVEMIR FLEXPEN,2026-01-04T08:46:29,API Worker Error: task_done() called too many times
+Novo Nordisk,INSULINA NOVOLIN N,2026-01-04T08:46:29,API Worker Error: task_done() called too many times
+Novo Nordisk,INSULINA NOVOLIN R,2026-01-04T08:46:29,API Worker Error: task_done() called too many times
+Medisol,ERISOL,2026-01-04T08:47:11,ValueError: task_done() called too many times
+Aspen,NIOSIDE,2026-01-04T10:30:03,"RuntimeError: Login failed: Message: 
+"
+B. Braun,NUTRIFLEX LIPID PERI,2026-01-04T10:31:31,"RuntimeError: Login failed: Message: 
+"
+Teva Argentina,OLANZAPINA TEVA,2026-01-04T10:32:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xdb12d3
+	0xdb1314
+	0xb9e52b
+	0xbdc635
+	0xc0b3a6
+	0xc06ed1
+	0xc06846
+	0xb6ebfd
+	0xb6f18e
+	0xb6f65d
+	0x1005314
+	0x10008cb
+	0x101d1aa
+	0xdcb1d8
+	0xdd31dd
+	0xb6e7ab
+	0xb6ddf7
+	0x11517af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Elea,OLDINOT,2026-01-04T10:33:16,"NoSuchWindowException: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=143.0.7499.170)
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xdb12d3
+	0xdb1314
+	0xb9e6dd
+	0xb7ca8d
+	0xc11ffb
+	0xc2d44c
+	0xc0b2e6
+	0xbdd321
+	0xbde1d4
+	0x1005314
+	0x10008cb
+	0x101d1aa
+	0xdcb1d8
+	0xdd31dd
+	0xdb95d8
+	0xdb9799
+	0xda3b28
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Baliarda,RIATUL 0.5,2026-01-04T10:33:41,API Worker Error: [Errno 13] Permission denied: 'D:\\quad99\\Scappers\\output\\Argentina\\alfabeta_products_by_product.csv'
+Nolter,PROCTYL,2026-01-04T10:33:49,API Worker Error: [Errno 13] Permission denied: 'D:\\quad99\\Scappers\\output\\Argentina\\alfabeta_products_by_product.csv'
+Elea,OMATEX,2026-01-04T10:34:18,"NoSuchWindowException: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=143.0.7499.170)
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xdb12d3
+	0xdb1314
+	0xb9e6dd
+	0xb7ca8d
+	0xc11ffb
+	0xc2d44c
+	0xc0b2e6
+	0xbdd321
+	0xbde1d4
+	0x1005314
+	0x10008cb
+	0x101d1aa
+	0xdcb1d8
+	0xdd31dd
+	0xdb95d8
+	0xdb9799
+	0xda3b28
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Kemex,OXALIPLATINO KEMEX,2026-01-04T10:35:43,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xdb12d3
+	0xdb1314
+	0xb9e52b
+	0xbdc635
+	0xc0b3a6
+	0xc06ed1
+	0xc06846
+	0xb6ebfd
+	0xb6f18e
+	0xb6f65d
+	0x1005314
+	0x10008cb
+	0x101d1aa
+	0xdcb1d8
+	0xdd31dd
+	0xb6e7ab
+	0xb6ddf7
+	0x11517af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Rigecin,SOLUC. MOLAR BICARBONATO SODIO,2026-01-04T14:51:56,"InvalidSessionIdException: Message: invalid session id: session deleted as the browser has closed the connection
+from disconnected: not connected to DevTools
+  (Session info: chrome=143.0.7499.170); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e6dd
+	0xa6d99e
+	0xa8c4e6
+	0xaf21d8
+	0xb0d44c
+	0xaeb2e6
+	0xabd321
+	0xabe1d4
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xc995d8
+	0xc99799
+	0xc83b28
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Fada Pharma,SOLUC.GLUCOSADA HIPERTONICA,2026-01-04T14:51:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Veinfar,SOLUC.GLUCOSADA HIPERTONICA,2026-01-04T14:52:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Cassará,SUAVICORT,2026-01-04T14:52:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Medisol,SUAVICORT,2026-01-04T14:53:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Rigecin,SOLUC. MOLAR BICARBONATO SODIO,2026-01-04T14:53:40,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Fada Pharma,SOLUC.GLUCOSADA HIPERTONICA,2026-01-04T14:53:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Elea,SUPOSITORIOS DE GLICERINA,2026-01-04T14:53:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Veinfar,SOLUC.GLUCOSADA HIPERTONICA,2026-01-04T14:54:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Fecofar,SUPOSITORIOS DE GLICERINA,2026-01-04T14:54:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Cassará,SUAVICORT,2026-01-04T14:54:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Natufarma,VALERIANA,2026-01-04T14:54:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Medisol,SUAVICORT,2026-01-04T14:55:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Provefarma,VALERIANA,2026-01-04T14:55:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Elea,SUPOSITORIOS DE GLICERINA,2026-01-04T14:55:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Laboratorio WPN,VITAMINA C,2026-01-04T14:55:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Fecofar,SUPOSITORIOS DE GLICERINA,2026-01-04T14:56:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Natural Life,VITAMINA C,2026-01-04T14:56:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Natufarma,VALERIANA,2026-01-04T14:56:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Laboratorio WPN,VITAMINA D,2026-01-04T14:56:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Provefarma,VALERIANA,2026-01-04T14:57:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Provefarma,VITAMINA D,2026-01-04T14:57:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Laboratorio WPN,VITAMINA C,2026-01-04T14:57:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Elea,3 TC + AZT ELEA,2026-01-04T14:57:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Natural Life,VITAMINA C,2026-01-04T14:58:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+ISA,4 x 4,2026-01-04T14:58:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Laboratorio WPN,VITAMINA D,2026-01-04T14:58:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Domínguez,5-ASA 1000,2026-01-04T14:58:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Rigecin,SOLUC. MOLAR BICARBONATO SODIO,2026-01-04T14:59:06,"NoSuchWindowException: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=143.0.7499.170)
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e6dd
+	0xa5ca8d
+	0xaf1ffb
+	0xb0d44c
+	0xaeb2e6
+	0xabd321
+	0xabe1d4
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xc995d8
+	0xc99799
+	0xc83b28
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Fada Pharma,SOLUC.GLUCOSADA HIPERTONICA,2026-01-04T14:59:06,"NoSuchWindowException: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=143.0.7499.170)
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e6dd
+	0xa5ca8d
+	0xaf1ffb
+	0xb0d44c
+	0xaeb2e6
+	0xabd321
+	0xabe1d4
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xc995d8
+	0xc99799
+	0xc83b28
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Provefarma,VITAMINA D,2026-01-04T14:59:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Domínguez,5-ASA 2000,2026-01-04T14:59:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Elea,3 TC + AZT ELEA,2026-01-04T14:59:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Domínguez,5-ASA 400,2026-01-04T14:59:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+ISA,4 x 4,2026-01-04T15:00:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Domínguez,5-ASA 4000,2026-01-04T15:00:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Domínguez,5-ASA 1000,2026-01-04T15:00:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Domínguez,5-ASA 500,2026-01-04T15:00:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Domínguez,5-ASA 2000,2026-01-04T15:01:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Domínguez,5-ASA 800,2026-01-04T15:01:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Domínguez,5-ASA 400,2026-01-04T15:01:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+ISA,50,2026-01-04T15:01:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Domínguez,5-ASA 4000,2026-01-04T15:02:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Medipharma,A-VITEL,2026-01-04T15:02:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Domínguez,5-ASA 500,2026-01-04T15:02:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Medipharma,A-VITEL E,2026-01-04T15:02:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Domínguez,5-ASA 800,2026-01-04T15:03:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Sempre Giovane,A.H.A,2026-01-04T15:03:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+ISA,50,2026-01-04T15:03:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Lafedar,ABIRATERON-A,2026-01-04T15:03:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Medipharma,A-VITEL,2026-01-04T15:04:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK ACTIVE GLUCOSA,2026-01-04T15:04:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Medipharma,A-VITEL E,2026-01-04T15:04:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK ACTIVE KIT,2026-01-04T15:04:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Sempre Giovane,A.H.A,2026-01-04T15:05:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK FASTCLIX,2026-01-04T15:05:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Lafedar,ABIRATERON-A,2026-01-04T15:05:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK FASTCLIX KIT,2026-01-04T15:05:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK ACTIVE GLUCOSA,2026-01-04T15:06:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK FASTCLIX KIT NP,2026-01-04T15:06:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK ACTIVE KIT,2026-01-04T15:06:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK GUIDE,2026-01-04T15:06:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK FASTCLIX,2026-01-04T15:07:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK GUIDE CONTROL,2026-01-04T15:07:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK FASTCLIX KIT,2026-01-04T15:07:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK GUIDE KIT,2026-01-04T15:07:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK FASTCLIX KIT NP,2026-01-04T15:08:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK PERFORMA 25,2026-01-04T15:08:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK GUIDE,2026-01-04T15:08:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK PERFORMA 50,2026-01-04T15:08:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK GUIDE CONTROL,2026-01-04T15:09:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK PERFORMA CONTROL,2026-01-04T15:09:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK GUIDE KIT,2026-01-04T15:09:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK SOFTCLIX NEW,2026-01-04T15:09:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK PERFORMA 25,2026-01-04T15:10:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK SOFTCLIX PUNZADOR,2026-01-04T15:10:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK PERFORMA 50,2026-01-04T15:10:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Siegfried,ACI-TIP,2026-01-04T15:10:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK PERFORMA CONTROL,2026-01-04T15:11:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Novoplos,ACILAC OMEGA 3-6,2026-01-04T15:11:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK SOFTCLIX NEW,2026-01-04T15:11:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Novarum Pharma,ACROSS GEL DEPORTIVO C/CAFEINA,2026-01-04T15:11:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK SOFTCLIX PUNZADOR,2026-01-04T15:12:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Bayer Consumer,ACTRON 400 RAPIDA ACCION NF,2026-01-04T15:12:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Siegfried,ACI-TIP,2026-01-04T15:12:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Bayer Consumer,ACTRON PEDIATRICO 4%,2026-01-04T15:12:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Novoplos,ACILAC OMEGA 3-6,2026-01-04T15:13:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+A.M. Farma Activ,ADELGAR SILUETA A.M.,2026-01-04T15:13:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Novarum Pharma,ACROSS GEL DEPORTIVO C/CAFEINA,2026-01-04T15:13:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+San Ceferino,ADELGAZA-T,2026-01-04T15:13:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Bayer Consumer,ACTRON 400 RAPIDA ACCION NF,2026-01-04T15:14:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Adium,AEROTINA JARABE PEDIATRICO C/DOSIFICADOR,2026-01-04T15:14:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Bayer Consumer,ACTRON PEDIATRICO 4%,2026-01-04T15:14:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Elea,AEROXINA U.D.,2026-01-04T15:14:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+A.M. Farma Activ,ADELGAR SILUETA A.M.,2026-01-04T15:15:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Cassará,AG-B 10,2026-01-04T15:15:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK FASTCLIX KIT,2026-01-04T15:15:42,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+San Ceferino,ADELGAZA-T,2026-01-04T15:15:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Cassará,AG-B 20,2026-01-04T15:15:57,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK FASTCLIX KIT NP,2026-01-04T15:16:12,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Adium,AEROTINA JARABE PEDIATRICO C/DOSIFICADOR,2026-01-04T15:16:19,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Roche Diabetes,ACCU-CHEK GUIDE,2026-01-04T15:16:42,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+Elea,AEROXINA U.D.,2026-01-04T15:16:49,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e52b
+	0xabc635
+	0xaeb3a6
+	0xae6ed1
+	0xae6846
+	0xa4ebfd
+	0xa4f18e
+	0xa4f65d
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xa4e7ab
+	0xa4ddf7
+	0x10317af
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"
+B. Braun,AGUA DESTILADA INYECTABLE SIST.CERRADO EP,2026-01-04T15:16:51,"NoSuchWindowException: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=143.0.7499.170)
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xc912d3
+	0xc91314
+	0xa7e6dd
+	0xa5ca8d
+	0xaf1ffb
+	0xb0d44c
+	0xaeb2e6
+	0xabd321
+	0xabe1d4
+	0xee5314
+	0xee08cb
+	0xefd1aa
+	0xcab1d8
+	0xcb31dd
+	0xc995d8
+	0xc99799
+	0xc83b28
+	0x76355d49
+	0x777ad5db
+	0x777ad561
+"

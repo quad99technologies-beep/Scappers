@@ -136,10 +136,10 @@ class ScraperGUI:
                     {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
                     {"name": "01 - Get Product List", "script": "01_getProdList.py", "desc": "Extract product list for each company"},
                     {"name": "02 - Prepare URLs", "script": "02_prepare_urls.py", "desc": "Prepare URLs and determine sources"},
-                    {"name": "03 - Scrape Products", "script": "03_alfabeta_scraper_labs.py", "desc": "Scrape product details (supports --max-rows)"},
-                    {"name": "04 - Translate Using Dictionary", "script": "04_TranslateUsingDictionary.py", "desc": "Translate Spanish to English"},
-                    {"name": "05 - Generate Output", "script": "05_GenerateOutput.py", "desc": "Generate final output report"},
-                    {"name": "06 - PCID Missing", "script": "06_PCIDmissing.py", "desc": "Process missing PCIDs"},
+                    {"name": "03 - Scrape Products (API)", "script": "03_alfabeta_api_scraper.py", "desc": "Scrape products using API (supports --max-rows)"},
+                    {"name": "04 - Scrape Products (Selenium)", "script": "04_alfabeta_selenium_scraper.py", "desc": "Scrape products using Selenium"},
+                    {"name": "05 - Translate Using Dictionary", "script": "05_TranslateUsingDictionary.py", "desc": "Translate Spanish to English"},
+                    {"name": "06 - Generate Output", "script": "06_GenerateOutput.py", "desc": "Generate final output report"},
                 ],
                 "pipeline_bat": "run_pipeline.bat"
             }
