@@ -69,13 +69,13 @@ def nk(s: Optional[str]) -> str:
 def ensure_headers():
     """Ensure output CSV files have headers."""
     if not OUT_CSV.exists():
-        with open(OUT_CSV, "w", newline="", encoding="utf-8") as f:
+        with open(OUT_CSV, "w", newline="", encoding="utf-8-sig") as f:
             csv.DictWriter(f, fieldnames=OUT_FIELDS).writeheader()
     if not PROGRESS.exists():
-        with open(PROGRESS, "w", newline="", encoding="utf-8") as f:
+        with open(PROGRESS, "w", newline="", encoding="utf-8-sig") as f:
             csv.writer(f).writerow(["input_company","input_product_name","timestamp","records_found"])
     if not ERRORS.exists():
-        with open(ERRORS, "w", newline="", encoding="utf-8") as f:
+        with open(ERRORS, "w", newline="", encoding="utf-8-sig") as f:
             csv.writer(f).writerow(["input_company","input_product_name","timestamp","error_message"])
 
 def load_progress_set() -> Set[Tuple[str, str]]:
@@ -130,16 +130,22 @@ def load_ignore_list() -> Set[Tuple[str, str]]:
     ignore_file = INPUT_DIR / IGNORE_LIST_FILE
     if ignore_file.exists():
         try:
-            with open(ignore_file, encoding="utf-8-sig") as f:
-                r = csv.DictReader(f)
-                headers = {nk(h): h for h in (r.fieldnames or [])}
-                pcol = headers.get(nk("Product")) or headers.get("product") or "Product"
-                ccol = headers.get(nk("Company")) or headers.get("company") or "Company"
-                for row in r:
-                    prod = (row.get(pcol) or "").strip()
-                    comp = (row.get(ccol) or "").strip()
-                    if prod and comp:
-                        ignore_set.add((nk(comp), nk(prod)))
+            # Try multiple encodings to handle different file encodings
+            for encoding in ["utf-8-sig", "utf-8", "latin-1", "windows-1252", "cp1252"]:
+                try:
+                    with open(ignore_file, encoding=encoding) as f:
+                        r = csv.DictReader(f)
+                        headers = {nk(h): h for h in (r.fieldnames or [])}
+                        pcol = headers.get(nk("Product")) or headers.get("product") or "Product"
+                        ccol = headers.get(nk("Company")) or headers.get("company") or "Company"
+                        for row in r:
+                            prod = (row.get(pcol) or "").strip()
+                            comp = (row.get(ccol) or "").strip()
+                            if prod and comp:
+                                ignore_set.add((nk(comp), nk(prod)))
+                    break  # Success, exit encoding loop
+                except UnicodeDecodeError:
+                    continue  # Try next encoding
             log.info(f"[IGNORE_LIST] Loaded {len(ignore_set)} combinations from {IGNORE_LIST_FILE}")
         except Exception as e:
             log.warning(f"[IGNORE_LIST] Failed to load {IGNORE_LIST_FILE}: {e}")
@@ -148,41 +154,39 @@ def load_ignore_list() -> Set[Tuple[str, str]]:
     return ignore_set
 
 def combine_skip_sets() -> Set[Tuple[str, str]]:
-    """Combine all three skip sources: progress, output, and ignore list."""
+    """Combine all three skip sources: progress, output, and ignore list.
+    Returns a set of normalized (company, product) tuples."""
     progress_set = load_progress_set()
     output_set = load_output_set()
     ignore_set = load_ignore_list()
     
     skip_set = progress_set | output_set | ignore_set
     
-    log.info(f"[SKIP_SET] Loaded skip combinations:")
-    log.info(f"[SKIP_SET]   - Progress file: {len(progress_set)} combinations")
-    log.info(f"[SKIP_SET]   - Output file: {len(output_set)} combinations")
-    log.info(f"[SKIP_SET]   - Ignore list: {len(ignore_set)} combinations")
-    log.info(f"[SKIP_SET]   - Total unique combinations to skip: {len(skip_set)}")
+    log.info(f"[SKIP_SET] Loaded skip_set size = {len(skip_set)} (progress={len(progress_set)}, products={len(output_set)}, ignore={len(ignore_set)})")
     
     return skip_set
 
 def append_progress(company: str, product: str, count: int):
     """Append progress entry to progress file."""
-    with PROGRESS_LOCK, open(PROGRESS, "a", newline="", encoding="utf-8") as f:
+    with PROGRESS_LOCK, open(PROGRESS, "a", newline="", encoding="utf-8-sig") as f:
         csv.writer(f).writerow([company, product, ts(), count])
 
 def append_error(company: str, product: str, msg: str):
     """Append error entry to error file."""
-    with ERROR_LOCK, open(ERRORS, "a", newline="", encoding="utf-8") as f:
+    with ERROR_LOCK, open(ERRORS, "a", newline="", encoding="utf-8-sig") as f:
         csv.writer(f).writerow([company, product, ts(), msg[:5000]])
 
 def append_rows(rows: list):
     """Append rows to output CSV file."""
     if not rows:
         return
-    with CSV_LOCK, open(OUT_CSV, "a", newline="", encoding="utf-8") as f:
+    with CSV_LOCK, open(OUT_CSV, "a", newline="", encoding="utf-8-sig") as f:
         csv.DictWriter(f, fieldnames=OUT_FIELDS, extrasaction="ignore").writerows(rows)
 
 def update_prepared_urls_source(company: str, product: str, new_source: str = "selenium"):
     """Update the Source column in Productlist_with_urls.csv to selenium when API returns null.
     Thread-safe: uses CSV_LOCK to prevent race conditions when multiple threads update the file.
+    Handles multiple encodings when reading, writes with utf-8-sig.
     """
     if not PREPARED_URLS_FILE_PATH.exists():
         return  # File doesn't exist, skip update
@@ -190,32 +194,51 @@ def update_prepared_urls_source(company: str, product: str, new_source: str = "s
     try:
         # Use lock for both read and write to make operation atomic
         with CSV_LOCK:
-            # Read all rows
+            # Read all rows - try multiple encodings
             rows = []
-            with open(PREPARED_URLS_FILE_PATH, "r", encoding="utf-8-sig", newline="") as f:
-                reader = csv.DictReader(f)
-                fieldnames = reader.fieldnames
-                if not fieldnames:
-                    return
-                
-                updated = False
-                for row in reader:
-                    # Normalize for comparison
-                    row_company = (row.get("Company") or "").strip()
-                    row_product = (row.get("Product") or "").strip()
-                    
-                    # Update source if match found
-                    if nk(row_company) == nk(company) and nk(row_product) == nk(product):
-                        if row.get("Source", "").lower() != new_source.lower():
-                            row["Source"] = new_source
-                            updated = True
-                            log.info(f"[CSV_UPDATE] Updated source to '{new_source}' for {company} | {product}")
-                    
-                    rows.append(row)
+            fieldnames = None
+            encoding_used = None
             
-            # Write back all rows only if update was made
+            encoding_attempts = ["utf-8-sig", "utf-8", "latin-1", "windows-1252", "cp1252"]
+            for encoding in encoding_attempts:
+                try:
+                    with open(PREPARED_URLS_FILE_PATH, "r", encoding=encoding, newline="") as f:
+                        reader = csv.DictReader(f)
+                        fieldnames = reader.fieldnames
+                        if not fieldnames:
+                            return
+                        
+                        for row in reader:
+                            rows.append(row)
+                        encoding_used = encoding
+                        break  # Success, exit encoding loop
+                except UnicodeDecodeError:
+                    continue  # Try next encoding
+                except Exception as e:
+                    log.warning(f"[CSV_UPDATE] Error reading with {encoding}: {e}")
+                    continue
+            
+            if encoding_used is None:
+                log.warning(f"[CSV_UPDATE] Failed to read file with any encoding")
+                return
+            
+            # Process rows to find and update matching entry
+            updated = False
+            for row in rows:
+                # Normalize for comparison
+                row_company = (row.get("Company") or "").strip()
+                row_product = (row.get("Product") or "").strip()
+                
+                # Update source if match found
+                if nk(row_company) == nk(company) and nk(row_product) == nk(product):
+                    if row.get("Source", "").lower() != new_source.lower():
+                        row["Source"] = new_source
+                        updated = True
+                        log.info(f"[CSV_UPDATE] Updated source to '{new_source}' for {company} | {product}")
+            
+            # Write back all rows only if update was made (always use utf-8-sig for writing)
             if updated:
-                with open(PREPARED_URLS_FILE_PATH, "w", encoding="utf-8", newline="") as f:
+                with open(PREPARED_URLS_FILE_PATH, "w", encoding="utf-8-sig", newline="") as f:
                     writer = csv.DictWriter(f, fieldnames=fieldnames)
                     writer.writeheader()
                     writer.writerows(rows)

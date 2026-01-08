@@ -231,7 +231,7 @@ SELENIUM_ROTATION_LIMIT = getenv_int("SELENIUM_ROTATION_LIMIT", 50)  # Rotate ac
 # Rate limiting configuration
 RATE_LIMIT_PRODUCTS = getenv_int("RATE_LIMIT_PRODUCTS", 1)
 RATE_LIMIT_SECONDS = getenv_float("RATE_LIMIT_SECONDS", 10.0)
-DUPLICATE_RATE_LIMIT_SECONDS = getenv_float("DUPLICATE_RATE_LIMIT_SECONDS", 30.0)  # 30 seconds per product for Selenium
+DUPLICATE_RATE_LIMIT_SECONDS = getenv_float("DUPLICATE_RATE_LIMIT_SECONDS", 10.0)  # 10 seconds per product for Selenium
 SELENIUM_FALLBACK_RATE_LIMIT_SECONDS = getenv_float("SELENIUM_FALLBACK_RATE_LIMIT_SECONDS", 60.0)  # 60 seconds (1 minute) per product for Selenium fallback when API returns null
 
 # Threading configuration

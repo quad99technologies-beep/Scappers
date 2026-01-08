@@ -97,8 +97,8 @@ def main():
         (0, "00_backup_and_clean.py", "Backup and Clean", None),
         (1, "01_getProdList.py", "Get Product List", None),  # Output is in input dir
         (2, "02_prepare_urls.py", "Prepare URLs", [str(output_dir / PREPARED_URLS_FILE)]),
-        (3, "03_alfabeta_api_scraper.py", "Scrape Products (API)", [str(output_dir / OUTPUT_PRODUCTS_CSV)]),
-        (4, "04_alfabeta_selenium_scraper.py", "Scrape Products (Selenium)", [str(output_dir / OUTPUT_PRODUCTS_CSV)]),
+        (3, "03_alfabeta_selenium_scraper.py", "Scrape Products (Selenium)", [str(output_dir / OUTPUT_PRODUCTS_CSV)]),
+        (4, "04_alfabeta_api_scraper.py", "Scrape Products (API)", [str(output_dir / OUTPUT_PRODUCTS_CSV)]),
         (5, "05_TranslateUsingDictionary.py", "Translate Using Dictionary", [str(output_dir / OUTPUT_TRANSLATED_CSV)]),
         (6, "06_GenerateOutput.py", "Generate Output", None),  # Output files vary by date
     ]

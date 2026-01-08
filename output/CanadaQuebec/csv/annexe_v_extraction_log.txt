@@ -1,0 +1,899 @@
+2026-01-06 22:28:26,290 - INFO - ================================================================================
+2026-01-06 22:28:26,290 - INFO - ANNEXE V PIPELINE STARTED (EXTRACT + POST AI REPAIR)
+2026-01-06 22:28:26,290 - INFO - Start: 2026-01-06 22:28:26
+2026-01-06 22:28:26,290 - INFO - Input PDF: D:\quad99\Scappers\output\CanadaQuebec\split_pdf\annexe_v.pdf
+2026-01-06 22:28:26,290 - INFO - Output CSV: D:\quad99\Scappers\output\CanadaQuebec\csv\annexe_v_extracted.csv
+2026-01-06 22:28:26,290 - INFO - ================================================================================
+2026-01-06 22:28:26,584 - INFO - Page 7/544 done | rows=3
+2026-01-06 22:28:26,712 - INFO - Page 11/544 done | rows=20
+2026-01-06 22:28:26,840 - INFO - Page 12/544 done | rows=42
+2026-01-06 22:28:26,966 - INFO - Page 13/544 done | rows=56
+2026-01-06 22:28:27,092 - INFO - Page 14/544 done | rows=74
+2026-01-06 22:28:27,222 - INFO - Page 15/544 done | rows=88
+2026-01-06 22:28:27,347 - INFO - Page 16/544 done | rows=105
+2026-01-06 22:28:27,474 - INFO - Page 17/544 done | rows=122
+2026-01-06 22:28:27,592 - INFO - Page 18/544 done | rows=146
+2026-01-06 22:28:27,715 - INFO - Page 19/544 done | rows=175
+2026-01-06 22:28:27,843 - INFO - Page 20/544 done | rows=196
+2026-01-06 22:28:27,972 - INFO - Page 21/544 done | rows=226
+2026-01-06 22:28:28,096 - INFO - Page 22/544 done | rows=243
+2026-01-06 22:28:28,224 - INFO - Page 23/544 done | rows=259
+2026-01-06 22:28:28,345 - INFO - Page 24/544 done | rows=280
+2026-01-06 22:28:28,462 - INFO - Page 25/544 done | rows=295
+2026-01-06 22:28:28,694 - INFO - Page 26/544 done | rows=323
+2026-01-06 22:28:28,855 - INFO - Page 27/544 done | rows=354
+2026-01-06 22:28:28,990 - INFO - Page 28/544 done | rows=372
+2026-01-06 22:28:29,144 - INFO - Page 29/544 done | rows=396
+2026-01-06 22:28:29,301 - INFO - Page 30/544 done | rows=419
+2026-01-06 22:28:29,464 - INFO - Page 31/544 done | rows=439
+2026-01-06 22:28:29,619 - INFO - Page 32/544 done | rows=468
+2026-01-06 22:28:29,742 - INFO - Page 33/544 done | rows=479
+2026-01-06 22:28:29,862 - INFO - Page 34/544 done | rows=491
+2026-01-06 22:28:30,083 - INFO - Page 35/544 done | rows=513
+2026-01-06 22:28:30,206 - INFO - Page 36/544 done | rows=525
+2026-01-06 22:28:30,331 - INFO - Page 37/544 done | rows=540
+2026-01-06 22:28:30,483 - INFO - Page 38/544 done | rows=561
+2026-01-06 22:28:30,628 - INFO - Page 39/544 done | rows=576
+2026-01-06 22:28:30,777 - INFO - Page 40/544 done | rows=597
+2026-01-06 22:28:30,993 - INFO - Page 41/544 done | rows=621
+2026-01-06 22:28:31,222 - INFO - Page 42/544 done | rows=646
+2026-01-06 22:28:31,388 - INFO - Page 43/544 done | rows=669
+2026-01-06 22:28:31,528 - INFO - Page 44/544 done | rows=684
+2026-01-06 22:28:31,748 - INFO - Page 45/544 done | rows=702
+2026-01-06 22:28:31,892 - INFO - Page 46/544 done | rows=716
+2026-01-06 22:28:31,917 - INFO - Page 47/544 done | rows=717
+2026-01-06 22:28:31,925 - INFO - Page 50/544 done | rows=717
+2026-01-06 22:28:32,090 - INFO - Page 51/544 done | rows=743
+2026-01-06 22:28:32,204 - INFO - Page 52/544 done | rows=754
+2026-01-06 22:28:32,356 - INFO - Page 53/544 done | rows=771
+2026-01-06 22:28:32,579 - INFO - Page 54/544 done | rows=792
+2026-01-06 22:28:32,790 - INFO - Page 55/544 done | rows=815
+2026-01-06 22:28:32,838 - INFO - Page 56/544 done | rows=818
+2026-01-06 22:28:33,072 - INFO - Page 59/544 done | rows=832
+2026-01-06 22:28:33,287 - INFO - Page 60/544 done | rows=851
+2026-01-06 22:28:33,419 - INFO - Page 61/544 done | rows=863
+2026-01-06 22:28:33,565 - INFO - Page 62/544 done | rows=882
+2026-01-06 22:28:33,684 - INFO - Page 63/544 done | rows=894
+2026-01-06 22:28:33,806 - INFO - Page 64/544 done | rows=910
+2026-01-06 22:28:33,931 - INFO - Page 65/544 done | rows=931
+2026-01-06 22:28:34,071 - INFO - Page 66/544 done | rows=954
+2026-01-06 22:28:34,207 - INFO - Page 67/544 done | rows=967
+2026-01-06 22:28:34,321 - INFO - Page 68/544 done | rows=975
+2026-01-06 22:28:34,444 - INFO - Page 71/544 done | rows=991
+2026-01-06 22:28:34,562 - INFO - Page 72/544 done | rows=1,011
+2026-01-06 22:28:34,687 - INFO - Page 73/544 done | rows=1,034
+2026-01-06 22:28:34,822 - INFO - Page 74/544 done | rows=1,052
+2026-01-06 22:28:34,966 - INFO - Page 75/544 done | rows=1,081
+2026-01-06 22:28:35,086 - INFO - Page 76/544 done | rows=1,091
+2026-01-06 22:28:35,302 - INFO - Page 77/544 done | rows=1,121
+2026-01-06 22:28:35,515 - INFO - Page 78/544 done | rows=1,142
+2026-01-06 22:28:35,738 - INFO - Page 79/544 done | rows=1,157
+2026-01-06 22:28:35,849 - INFO - Page 80/544 done | rows=1,165
+2026-01-06 22:28:35,988 - INFO - Page 81/544 done | rows=1,186
+2026-01-06 22:28:36,119 - INFO - Page 82/544 done | rows=1,206
+2026-01-06 22:28:36,337 - INFO - Page 85/544 done | rows=1,231
+2026-01-06 22:28:36,489 - INFO - Page 86/544 done | rows=1,248
+2026-01-06 22:28:36,538 - INFO - Page 87/544 done | rows=1,252
+2026-01-06 22:28:36,681 - INFO - Page 88/544 done | rows=1,276
+2026-01-06 22:28:36,835 - INFO - Page 89/544 done | rows=1,295
+2026-01-06 22:28:36,952 - INFO - Page 90/544 done | rows=1,310
+2026-01-06 22:28:37,180 - INFO - Page 91/544 done | rows=1,339
+2026-01-06 22:28:37,341 - INFO - Page 92/544 done | rows=1,368
+2026-01-06 22:28:37,503 - INFO - Page 93/544 done | rows=1,397
+2026-01-06 22:28:37,732 - INFO - Page 94/544 done | rows=1,427
+2026-01-06 22:28:37,869 - INFO - Page 95/544 done | rows=1,447
+2026-01-06 22:28:37,981 - INFO - Page 96/544 done | rows=1,464
+2026-01-06 22:28:38,092 - INFO - Page 97/544 done | rows=1,481
+2026-01-06 22:28:38,237 - INFO - Page 98/544 done | rows=1,506
+2026-01-06 22:28:38,360 - INFO - Page 99/544 done | rows=1,531
+2026-01-06 22:28:38,489 - INFO - Page 100/544 done | rows=1,556
+2026-01-06 22:28:38,613 - INFO - Page 101/544 done | rows=1,580
+2026-01-06 22:28:38,740 - INFO - Page 102/544 done | rows=1,606
+2026-01-06 22:28:38,870 - INFO - Page 103/544 done | rows=1,634
+2026-01-06 22:28:38,991 - INFO - Page 104/544 done | rows=1,654
+2026-01-06 22:28:39,123 - INFO - Page 105/544 done | rows=1,673
+2026-01-06 22:28:39,269 - INFO - Page 106/544 done | rows=1,691
+2026-01-06 22:28:39,412 - INFO - Page 107/544 done | rows=1,711
+2026-01-06 22:28:39,537 - INFO - Page 108/544 done | rows=1,734
+2026-01-06 22:28:39,672 - INFO - Page 109/544 done | rows=1,761
+2026-01-06 22:28:39,842 - INFO - Page 110/544 done | rows=1,797
+2026-01-06 22:28:39,972 - INFO - Page 111/544 done | rows=1,818
+2026-01-06 22:28:40,104 - INFO - Page 112/544 done | rows=1,843
+2026-01-06 22:28:40,223 - INFO - Page 113/544 done | rows=1,856
+2026-01-06 22:28:40,353 - INFO - Page 114/544 done | rows=1,875
+2026-01-06 22:28:40,472 - INFO - Page 115/544 done | rows=1,896
+2026-01-06 22:28:40,630 - INFO - Page 116/544 done | rows=1,922
+2026-01-06 22:28:40,763 - INFO - Page 117/544 done | rows=1,950
+2026-01-06 22:28:40,900 - INFO - Page 118/544 done | rows=1,973
+2026-01-06 22:28:41,021 - INFO - Page 119/544 done | rows=1,992
+2026-01-06 22:28:41,168 - INFO - Page 120/544 done | rows=2,023
+2026-01-06 22:28:41,340 - INFO - Page 121/544 done | rows=2,059
+2026-01-06 22:28:41,486 - INFO - Page 122/544 done | rows=2,081
+2026-01-06 22:28:41,617 - INFO - Page 123/544 done | rows=2,096
+2026-01-06 22:28:41,769 - INFO - Page 124/544 done | rows=2,125
+2026-01-06 22:28:41,903 - INFO - Page 125/544 done | rows=2,152
+2026-01-06 22:28:42,026 - INFO - Page 126/544 done | rows=2,177
+2026-01-06 22:28:42,272 - INFO - Page 127/544 done | rows=2,201
+2026-01-06 22:28:42,393 - INFO - Page 128/544 done | rows=2,221
+2026-01-06 22:28:42,507 - INFO - Page 129/544 done | rows=2,241
+2026-01-06 22:28:42,643 - INFO - Page 130/544 done | rows=2,269
+2026-01-06 22:28:42,776 - INFO - Page 131/544 done | rows=2,289
+2026-01-06 22:28:42,901 - INFO - Page 132/544 done | rows=2,303
+2026-01-06 22:28:43,026 - INFO - Page 133/544 done | rows=2,319
+2026-01-06 22:28:43,140 - INFO - Page 134/544 done | rows=2,335
+2026-01-06 22:28:43,274 - INFO - Page 135/544 done | rows=2,360
+2026-01-06 22:28:43,422 - INFO - Page 136/544 done | rows=2,389
+2026-01-06 22:28:43,542 - INFO - Page 137/544 done | rows=2,414
+2026-01-06 22:28:43,688 - INFO - Page 138/544 done | rows=2,447
+2026-01-06 22:28:43,820 - INFO - Page 139/544 done | rows=2,471
+2026-01-06 22:28:43,960 - INFO - Page 140/544 done | rows=2,499
+2026-01-06 22:28:44,107 - INFO - Page 141/544 done | rows=2,530
+2026-01-06 22:28:44,231 - INFO - Page 142/544 done | rows=2,556
+2026-01-06 22:28:44,352 - INFO - Page 143/544 done | rows=2,580
+2026-01-06 22:28:44,469 - INFO - Page 144/544 done | rows=2,600
+2026-01-06 22:28:44,609 - INFO - Page 145/544 done | rows=2,630
+2026-01-06 22:28:44,735 - INFO - Page 146/544 done | rows=2,653
+2026-01-06 22:28:44,863 - INFO - Page 147/544 done | rows=2,680
+2026-01-06 22:28:44,992 - INFO - Page 148/544 done | rows=2,699
+2026-01-06 22:28:45,125 - INFO - Page 149/544 done | rows=2,726
+2026-01-06 22:28:45,256 - INFO - Page 150/544 done | rows=2,747
+2026-01-06 22:28:45,401 - INFO - Page 151/544 done | rows=2,771
+2026-01-06 22:28:45,540 - INFO - Page 155/544 done | rows=2,790
+2026-01-06 22:28:45,650 - INFO - Page 156/544 done | rows=2,809
+2026-01-06 22:28:45,775 - INFO - Page 157/544 done | rows=2,828
+2026-01-06 22:28:45,914 - INFO - Page 158/544 done | rows=2,853
+2026-01-06 22:28:46,042 - INFO - Page 159/544 done | rows=2,867
+2026-01-06 22:28:46,167 - INFO - Page 160/544 done | rows=2,891
+2026-01-06 22:28:46,292 - INFO - Page 161/544 done | rows=2,905
+2026-01-06 22:28:46,425 - INFO - Page 162/544 done | rows=2,921
+2026-01-06 22:28:46,558 - INFO - Page 163/544 done | rows=2,940
+2026-01-06 22:28:46,688 - INFO - Page 164/544 done | rows=2,959
+2026-01-06 22:28:46,813 - INFO - Page 165/544 done | rows=2,977
+2026-01-06 22:28:46,945 - INFO - Page 166/544 done | rows=2,993
+2026-01-06 22:28:47,131 - INFO - Page 167/544 done | rows=3,013
+2026-01-06 22:28:47,261 - INFO - Page 168/544 done | rows=3,032
+2026-01-06 22:28:47,391 - INFO - Page 169/544 done | rows=3,051
+2026-01-06 22:28:47,521 - INFO - Page 170/544 done | rows=3,066
+2026-01-06 22:28:47,647 - INFO - Page 171/544 done | rows=3,081
+2026-01-06 22:28:47,768 - INFO - Page 172/544 done | rows=3,090
+2026-01-06 22:28:47,894 - INFO - Page 173/544 done | rows=3,108
+2026-01-06 22:28:48,018 - INFO - Page 174/544 done | rows=3,117
+2026-01-06 22:28:48,147 - INFO - Page 175/544 done | rows=3,133
+2026-01-06 22:28:48,272 - INFO - Page 176/544 done | rows=3,150
+2026-01-06 22:28:48,397 - INFO - Page 177/544 done | rows=3,166
+2026-01-06 22:28:48,522 - INFO - Page 178/544 done | rows=3,187
+2026-01-06 22:28:48,649 - INFO - Page 179/544 done | rows=3,208
+2026-01-06 22:28:48,761 - INFO - Page 180/544 done | rows=3,229
+2026-01-06 22:28:48,884 - INFO - Page 181/544 done | rows=3,250
+2026-01-06 22:28:49,028 - INFO - Page 182/544 done | rows=3,277
+2026-01-06 22:28:49,179 - INFO - Page 183/544 done | rows=3,308
+2026-01-06 22:28:49,343 - INFO - Page 184/544 done | rows=3,343
+2026-01-06 22:28:49,493 - INFO - Page 185/544 done | rows=3,379
+2026-01-06 22:28:49,749 - INFO - Page 186/544 done | rows=3,401
+2026-01-06 22:28:49,911 - INFO - Page 187/544 done | rows=3,441
+2026-01-06 22:28:50,047 - INFO - Page 188/544 done | rows=3,466
+2026-01-06 22:28:50,178 - INFO - Page 189/544 done | rows=3,482
+2026-01-06 22:28:50,302 - INFO - Page 190/544 done | rows=3,499
+2026-01-06 22:28:50,424 - INFO - Page 191/544 done | rows=3,514
+2026-01-06 22:28:50,551 - INFO - Page 192/544 done | rows=3,538
+2026-01-06 22:28:50,779 - INFO - Page 193/544 done | rows=3,564
+2026-01-06 22:28:50,890 - INFO - Page 194/544 done | rows=3,570
+2026-01-06 22:28:51,015 - INFO - Page 195/544 done | rows=3,591
+2026-01-06 22:28:51,142 - INFO - Page 196/544 done | rows=3,612
+2026-01-06 22:28:51,284 - INFO - Page 197/544 done | rows=3,635
+2026-01-06 22:28:51,422 - INFO - Page 198/544 done | rows=3,658
+2026-01-06 22:28:51,652 - INFO - Page 199/544 done | rows=3,694
+2026-01-06 22:28:51,801 - INFO - Page 200/544 done | rows=3,713
+2026-01-06 22:28:51,928 - INFO - Page 201/544 done | rows=3,737
+2026-01-06 22:28:52,060 - INFO - Page 202/544 done | rows=3,762
+2026-01-06 22:28:52,177 - INFO - Page 203/544 done | rows=3,781
+2026-01-06 22:28:52,302 - INFO - Page 204/544 done | rows=3,800
+2026-01-06 22:28:52,425 - INFO - Page 205/544 done | rows=3,820
+2026-01-06 22:28:52,550 - INFO - Page 206/544 done | rows=3,839
+2026-01-06 22:28:52,670 - INFO - Page 207/544 done | rows=3,859
+2026-01-06 22:28:52,814 - INFO - Page 208/544 done | rows=3,888
+2026-01-06 22:28:52,935 - INFO - Page 209/544 done | rows=3,903
+2026-01-06 22:28:53,054 - INFO - Page 210/544 done | rows=3,919
+2026-01-06 22:28:53,169 - INFO - Page 211/544 done | rows=3,935
+2026-01-06 22:28:53,297 - INFO - Page 212/544 done | rows=3,957
+2026-01-06 22:28:53,424 - INFO - Page 213/544 done | rows=3,981
+2026-01-06 22:28:53,552 - INFO - Page 214/544 done | rows=4,005
+2026-01-06 22:28:53,702 - INFO - Page 215/544 done | rows=4,031
+2026-01-06 22:28:53,829 - INFO - Page 216/544 done | rows=4,046
+2026-01-06 22:28:53,948 - INFO - Page 217/544 done | rows=4,059
+2026-01-06 22:28:54,071 - INFO - Page 218/544 done | rows=4,079
+2026-01-06 22:28:54,195 - INFO - Page 219/544 done | rows=4,103
+2026-01-06 22:28:54,312 - INFO - Page 220/544 done | rows=4,128
+2026-01-06 22:28:54,433 - INFO - Page 221/544 done | rows=4,155
+2026-01-06 22:28:54,558 - INFO - Page 222/544 done | rows=4,182
+2026-01-06 22:28:54,698 - INFO - Page 223/544 done | rows=4,226
+2026-01-06 22:28:54,819 - INFO - Page 224/544 done | rows=4,238
+2026-01-06 22:28:54,873 - INFO - Page 225/544 done | rows=4,244
+2026-01-06 22:28:54,982 - INFO - Page 226/544 done | rows=4,266
+2026-01-06 22:28:55,111 - INFO - Page 227/544 done | rows=4,289
+2026-01-06 22:28:55,226 - INFO - Page 228/544 done | rows=4,309
+2026-01-06 22:28:55,338 - INFO - Page 229/544 done | rows=4,342
+2026-01-06 22:28:55,473 - INFO - Page 230/544 done | rows=4,381
+2026-01-06 22:28:55,585 - INFO - Page 231/544 done | rows=4,407
+2026-01-06 22:28:55,697 - INFO - Page 232/544 done | rows=4,433
+2026-01-06 22:28:55,817 - INFO - Page 233/544 done | rows=4,459
+2026-01-06 22:28:55,935 - INFO - Page 234/544 done | rows=4,481
+2026-01-06 22:28:56,056 - INFO - Page 235/544 done | rows=4,495
+2026-01-06 22:28:56,182 - INFO - Page 236/544 done | rows=4,508
+2026-01-06 22:28:56,307 - INFO - Page 237/544 done | rows=4,526
+2026-01-06 22:28:56,427 - INFO - Page 238/544 done | rows=4,544
+2026-01-06 22:28:56,546 - INFO - Page 239/544 done | rows=4,560
+2026-01-06 22:28:56,666 - INFO - Page 240/544 done | rows=4,579
+2026-01-06 22:28:56,785 - INFO - Page 241/544 done | rows=4,596
+2026-01-06 22:28:56,911 - INFO - Page 242/544 done | rows=4,617
+2026-01-06 22:28:57,042 - INFO - Page 243/544 done | rows=4,658
+2026-01-06 22:28:57,224 - INFO - Page 244/544 done | rows=4,687
+2026-01-06 22:28:57,346 - INFO - Page 245/544 done | rows=4,710
+2026-01-06 22:28:57,465 - INFO - Page 246/544 done | rows=4,721
+2026-01-06 22:28:57,575 - INFO - Page 247/544 done | rows=4,742
+2026-01-06 22:28:57,703 - INFO - Page 248/544 done | rows=4,772
+2026-01-06 22:28:57,829 - INFO - Page 249/544 done | rows=4,792
+2026-01-06 22:28:57,882 - INFO - Page 250/544 done | rows=4,804
+2026-01-06 22:28:57,931 - INFO - Page 253/544 done | rows=4,810
+2026-01-06 22:28:58,050 - INFO - Page 254/544 done | rows=4,833
+2026-01-06 22:28:58,070 - INFO - Page 255/544 done | rows=4,834
+2026-01-06 22:28:58,196 - INFO - Page 259/544 done | rows=4,853
+2026-01-06 22:28:58,321 - INFO - Page 260/544 done | rows=4,870
+2026-01-06 22:28:58,446 - INFO - Page 261/544 done | rows=4,901
+2026-01-06 22:28:58,572 - INFO - Page 262/544 done | rows=4,925
+2026-01-06 22:28:58,700 - INFO - Page 263/544 done | rows=4,942
+2026-01-06 22:28:58,829 - INFO - Page 264/544 done | rows=4,969
+2026-01-06 22:28:58,960 - INFO - Page 265/544 done | rows=4,982
+2026-01-06 22:28:59,074 - INFO - Page 266/544 done | rows=5,002
+2026-01-06 22:28:59,202 - INFO - Page 267/544 done | rows=5,021
+2026-01-06 22:28:59,331 - INFO - Page 268/544 done | rows=5,049
+2026-01-06 22:28:59,457 - INFO - Page 269/544 done | rows=5,062
+2026-01-06 22:28:59,585 - INFO - Page 273/544 done | rows=5,094
+2026-01-06 22:28:59,711 - INFO - Page 274/544 done | rows=5,111
+2026-01-06 22:28:59,836 - INFO - Page 277/544 done | rows=5,123
+2026-01-06 22:28:59,966 - INFO - Page 278/544 done | rows=5,136
+2026-01-06 22:29:00,097 - INFO - Page 279/544 done | rows=5,153
+2026-01-06 22:29:00,224 - INFO - Page 280/544 done | rows=5,169
+2026-01-06 22:29:00,348 - INFO - Page 281/544 done | rows=5,192
+2026-01-06 22:29:00,479 - INFO - Page 282/544 done | rows=5,208
+2026-01-06 22:29:00,771 - INFO - Page 283/544 done | rows=5,231
+2026-01-06 22:29:00,897 - INFO - Page 284/544 done | rows=5,248
+2026-01-06 22:29:00,924 - INFO - Page 285/544 done | rows=5,250
+2026-01-06 22:29:01,057 - INFO - Page 289/544 done | rows=5,269
+2026-01-06 22:29:01,182 - INFO - Page 290/544 done | rows=5,281
+2026-01-06 22:29:01,306 - INFO - Page 291/544 done | rows=5,294
+2026-01-06 22:29:01,434 - INFO - Page 292/544 done | rows=5,319
+2026-01-06 22:29:01,562 - INFO - Page 293/544 done | rows=5,337
+2026-01-06 22:29:01,696 - INFO - Page 294/544 done | rows=5,353
+2026-01-06 22:29:01,825 - INFO - Page 295/544 done | rows=5,376
+2026-01-06 22:29:01,951 - INFO - Page 296/544 done | rows=5,405
+2026-01-06 22:29:02,078 - INFO - Page 297/544 done | rows=5,430
+2026-01-06 22:29:02,203 - INFO - Page 298/544 done | rows=5,455
+2026-01-06 22:29:02,335 - INFO - Page 299/544 done | rows=5,472
+2026-01-06 22:29:02,388 - INFO - Page 300/544 done | rows=5,479
+2026-01-06 22:29:02,509 - INFO - Page 303/544 done | rows=5,496
+2026-01-06 22:29:02,637 - INFO - Page 307/544 done | rows=5,511
+2026-01-06 22:29:02,766 - INFO - Page 308/544 done | rows=5,528
+2026-01-06 22:29:02,891 - INFO - Page 309/544 done | rows=5,545
+2026-01-06 22:29:03,017 - INFO - Page 310/544 done | rows=5,558
+2026-01-06 22:29:03,144 - INFO - Page 311/544 done | rows=5,572
+2026-01-06 22:29:03,272 - INFO - Page 312/544 done | rows=5,587
+2026-01-06 22:29:03,396 - INFO - Page 313/544 done | rows=5,606
+2026-01-06 22:29:03,523 - INFO - Page 314/544 done | rows=5,634
+2026-01-06 22:29:03,654 - INFO - Page 315/544 done | rows=5,653
+2026-01-06 22:29:03,778 - INFO - Page 316/544 done | rows=5,668
+2026-01-06 22:29:03,835 - INFO - Page 317/544 done | rows=5,674
+2026-01-06 22:29:03,954 - INFO - Page 318/544 done | rows=5,696
+2026-01-06 22:29:04,082 - INFO - Page 319/544 done | rows=5,725
+2026-01-06 22:29:04,214 - INFO - Page 320/544 done | rows=5,737
+2026-01-06 22:29:04,339 - INFO - Page 321/544 done | rows=5,749
+2026-01-06 22:29:04,467 - INFO - Page 322/544 done | rows=5,768
+2026-01-06 22:29:04,596 - INFO - Page 323/544 done | rows=5,793
+2026-01-06 22:29:04,723 - INFO - Page 324/544 done | rows=5,809
+2026-01-06 22:29:04,848 - INFO - Page 325/544 done | rows=5,826
+2026-01-06 22:29:04,977 - INFO - Page 326/544 done | rows=5,847
+2026-01-06 22:29:05,103 - INFO - Page 327/544 done | rows=5,871
+2026-01-06 22:29:05,222 - INFO - Page 328/544 done | rows=5,888
+2026-01-06 22:29:05,348 - INFO - Page 329/544 done | rows=5,906
+2026-01-06 22:29:05,473 - INFO - Page 330/544 done | rows=5,921
+2026-01-06 22:29:05,605 - INFO - Page 331/544 done | rows=5,939
+2026-01-06 22:29:05,642 - INFO - Page 332/544 done | rows=5,944
+2026-01-06 22:29:05,765 - INFO - Page 335/544 done | rows=5,953
+2026-01-06 22:29:05,895 - INFO - Page 336/544 done | rows=5,963
+2026-01-06 22:29:06,023 - INFO - Page 337/544 done | rows=5,972
+2026-01-06 22:29:06,148 - INFO - Page 338/544 done | rows=5,984
+2026-01-06 22:29:06,275 - INFO - Page 339/544 done | rows=5,998
+2026-01-06 22:29:06,404 - INFO - Page 340/544 done | rows=6,014
+2026-01-06 22:29:06,530 - INFO - Page 341/544 done | rows=6,024
+2026-01-06 22:29:06,660 - INFO - Page 342/544 done | rows=6,038
+2026-01-06 22:29:06,786 - INFO - Page 343/544 done | rows=6,051
+2026-01-06 22:29:06,912 - INFO - Page 344/544 done | rows=6,064
+2026-01-06 22:29:07,038 - INFO - Page 345/544 done | rows=6,078
+2026-01-06 22:29:07,100 - INFO - Page 346/544 done | rows=6,088
+2026-01-06 22:29:07,230 - INFO - Page 349/544 done | rows=6,109
+2026-01-06 22:29:07,356 - INFO - Page 350/544 done | rows=6,133
+2026-01-06 22:29:07,418 - INFO - Page 351/544 done | rows=6,142
+2026-01-06 22:29:07,547 - INFO - Page 355/544 done | rows=6,157
+2026-01-06 22:29:07,674 - INFO - Page 356/544 done | rows=6,176
+2026-01-06 22:29:07,799 - INFO - Page 357/544 done | rows=6,201
+2026-01-06 22:29:07,925 - INFO - Page 358/544 done | rows=6,224
+2026-01-06 22:29:08,055 - INFO - Page 361/544 done | rows=6,249
+2026-01-06 22:29:08,181 - INFO - Page 362/544 done | rows=6,277
+2026-01-06 22:29:08,305 - INFO - Page 363/544 done | rows=6,294
+2026-01-06 22:29:08,326 - INFO - Page 364/544 done | rows=6,295
+2026-01-06 22:29:08,359 - INFO - Page 367/544 done | rows=6,299
+2026-01-06 22:29:08,481 - INFO - Page 371/544 done | rows=6,323
+2026-01-06 22:29:08,598 - INFO - Page 372/544 done | rows=6,357
+2026-01-06 22:29:08,723 - INFO - Page 373/544 done | rows=6,391
+2026-01-06 22:29:08,853 - INFO - Page 374/544 done | rows=6,414
+2026-01-06 22:29:08,979 - INFO - Page 375/544 done | rows=6,435
+2026-01-06 22:29:09,104 - INFO - Page 376/544 done | rows=6,452
+2026-01-06 22:29:09,230 - INFO - Page 377/544 done | rows=6,474
+2026-01-06 22:29:09,358 - INFO - Page 378/544 done | rows=6,491
+2026-01-06 22:29:09,485 - INFO - Page 379/544 done | rows=6,518
+2026-01-06 22:29:09,548 - INFO - Page 380/544 done | rows=6,528
+2026-01-06 22:29:09,674 - INFO - Page 381/544 done | rows=6,546
+2026-01-06 22:29:09,804 - INFO - Page 382/544 done | rows=6,561
+2026-01-06 22:29:09,826 - INFO - Page 385/544 done | rows=6,562
+2026-01-06 22:29:09,960 - INFO - Page 389/544 done | rows=6,583
+2026-01-06 22:29:10,088 - INFO - Page 390/544 done | rows=6,599
+2026-01-06 22:29:10,215 - INFO - Page 391/544 done | rows=6,619
+2026-01-06 22:29:10,339 - INFO - Page 392/544 done | rows=6,648
+2026-01-06 22:29:10,470 - INFO - Page 393/544 done | rows=6,678
+2026-01-06 22:29:10,585 - INFO - Page 394/544 done | rows=6,706
+2026-01-06 22:29:10,708 - INFO - Page 395/544 done | rows=6,721
+2026-01-06 22:29:10,833 - INFO - Page 396/544 done | rows=6,732
+2026-01-06 22:29:11,090 - INFO - Page 397/544 done | rows=6,751
+2026-01-06 22:29:11,216 - INFO - Page 398/544 done | rows=6,774
+2026-01-06 22:29:11,343 - INFO - Page 399/544 done | rows=6,790
+2026-01-06 22:29:11,472 - INFO - Page 400/544 done | rows=6,820
+2026-01-06 22:29:11,598 - INFO - Page 401/544 done | rows=6,844
+2026-01-06 22:29:11,724 - INFO - Page 402/544 done | rows=6,854
+2026-01-06 22:29:11,852 - INFO - Page 403/544 done | rows=6,868
+2026-01-06 22:29:11,981 - INFO - Page 404/544 done | rows=6,888
+2026-01-06 22:29:12,105 - INFO - Page 405/544 done | rows=6,905
+2026-01-06 22:29:12,232 - INFO - Page 406/544 done | rows=6,919
+2026-01-06 22:29:12,360 - INFO - Page 407/544 done | rows=6,934
+2026-01-06 22:29:12,487 - INFO - Page 408/544 done | rows=6,944
+2026-01-06 22:29:12,613 - INFO - Page 409/544 done | rows=6,958
+2026-01-06 22:29:12,740 - INFO - Page 410/544 done | rows=6,975
+2026-01-06 22:29:12,867 - INFO - Page 411/544 done | rows=6,997
+2026-01-06 22:29:12,993 - INFO - Page 412/544 done | rows=7,016
+2026-01-06 22:29:13,120 - INFO - Page 413/544 done | rows=7,026
+2026-01-06 22:29:13,249 - INFO - Page 414/544 done | rows=7,050
+2026-01-06 22:29:13,375 - INFO - Page 415/544 done | rows=7,065
+2026-01-06 22:29:13,502 - INFO - Page 416/544 done | rows=7,084
+2026-01-06 22:29:13,630 - INFO - Page 417/544 done | rows=7,104
+2026-01-06 22:29:13,758 - INFO - Page 418/544 done | rows=7,128
+2026-01-06 22:29:13,885 - INFO - Page 419/544 done | rows=7,145
+2026-01-06 22:29:14,009 - INFO - Page 420/544 done | rows=7,165
+2026-01-06 22:29:14,138 - INFO - Page 421/544 done | rows=7,190
+2026-01-06 22:29:14,265 - INFO - Page 422/544 done | rows=7,207
+2026-01-06 22:29:14,390 - INFO - Page 423/544 done | rows=7,219
+2026-01-06 22:29:14,517 - INFO - Page 424/544 done | rows=7,229
+2026-01-06 22:29:14,646 - INFO - Page 425/544 done | rows=7,244
+2026-01-06 22:29:14,771 - INFO - Page 426/544 done | rows=7,263
+2026-01-06 22:29:14,897 - INFO - Page 427/544 done | rows=7,288
+2026-01-06 22:29:15,026 - INFO - Page 428/544 done | rows=7,306
+2026-01-06 22:29:15,154 - INFO - Page 429/544 done | rows=7,325
+2026-01-06 22:29:15,279 - INFO - Page 430/544 done | rows=7,340
+2026-01-06 22:29:15,408 - INFO - Page 431/544 done | rows=7,357
+2026-01-06 22:29:15,535 - INFO - Page 432/544 done | rows=7,368
+2026-01-06 22:29:15,648 - INFO - Page 433/544 done | rows=7,381
+2026-01-06 22:29:15,776 - INFO - Page 434/544 done | rows=7,391
+2026-01-06 22:29:15,902 - INFO - Page 435/544 done | rows=7,426
+2026-01-06 22:29:16,030 - INFO - Page 436/544 done | rows=7,447
+2026-01-06 22:29:16,154 - INFO - Page 437/544 done | rows=7,467
+2026-01-06 22:29:16,536 - INFO - Page 438/544 done | rows=7,485
+2026-01-06 22:29:16,662 - INFO - Page 439/544 done | rows=7,498
+2026-01-06 22:29:16,790 - INFO - Page 440/544 done | rows=7,508
+2026-01-06 22:29:16,919 - INFO - Page 441/544 done | rows=7,526
+2026-01-06 22:29:17,043 - INFO - Page 442/544 done | rows=7,537
+2026-01-06 22:29:17,169 - INFO - Page 443/544 done | rows=7,571
+2026-01-06 22:29:17,299 - INFO - Page 444/544 done | rows=7,581
+2026-01-06 22:29:17,424 - INFO - Page 445/544 done | rows=7,597
+2026-01-06 22:29:17,551 - INFO - Page 446/544 done | rows=7,608
+2026-01-06 22:29:17,679 - INFO - Page 447/544 done | rows=7,646
+2026-01-06 22:29:17,806 - INFO - Page 448/544 done | rows=7,672
+2026-01-06 22:29:17,919 - INFO - Page 449/544 done | rows=7,691
+2026-01-06 22:29:18,044 - INFO - Page 450/544 done | rows=7,722
+2026-01-06 22:29:18,172 - INFO - Page 451/544 done | rows=7,733
+2026-01-06 22:29:18,299 - INFO - Page 452/544 done | rows=7,756
+2026-01-06 22:29:18,426 - INFO - Page 453/544 done | rows=7,777
+2026-01-06 22:29:18,555 - INFO - Page 454/544 done | rows=7,788
+2026-01-06 22:29:18,683 - INFO - Page 455/544 done | rows=7,805
+2026-01-06 22:29:18,807 - INFO - Page 456/544 done | rows=7,823
+2026-01-06 22:29:18,935 - INFO - Page 457/544 done | rows=7,841
+2026-01-06 22:29:19,062 - INFO - Page 458/544 done | rows=7,853
+2026-01-06 22:29:19,188 - INFO - Page 459/544 done | rows=7,867
+2026-01-06 22:29:19,314 - INFO - Page 460/544 done | rows=7,880
+2026-01-06 22:29:19,442 - INFO - Page 461/544 done | rows=7,891
+2026-01-06 22:29:19,568 - INFO - Page 462/544 done | rows=7,915
+2026-01-06 22:29:19,696 - INFO - Page 463/544 done | rows=7,944
+2026-01-06 22:29:19,822 - INFO - Page 464/544 done | rows=7,964
+2026-01-06 22:29:19,953 - INFO - Page 465/544 done | rows=7,984
+2026-01-06 22:29:20,078 - INFO - Page 466/544 done | rows=8,002
+2026-01-06 22:29:20,204 - INFO - Page 467/544 done | rows=8,021
+2026-01-06 22:29:20,259 - INFO - Page 468/544 done | rows=8,035
+2026-01-06 22:29:20,382 - INFO - Page 469/544 done | rows=8,050
+2026-01-06 22:29:20,507 - INFO - Page 470/544 done | rows=8,075
+2026-01-06 22:29:20,634 - INFO - Page 471/544 done | rows=8,100
+2026-01-06 22:29:20,763 - INFO - Page 472/544 done | rows=8,120
+2026-01-06 22:29:20,891 - INFO - Page 473/544 done | rows=8,139
+2026-01-06 22:29:21,015 - INFO - Page 474/544 done | rows=8,159
+2026-01-06 22:29:21,050 - INFO - Page 475/544 done | rows=8,165
+2026-01-06 22:29:21,175 - INFO - Page 476/544 done | rows=8,191
+2026-01-06 22:29:21,301 - INFO - Page 477/544 done | rows=8,206
+2026-01-06 22:29:21,361 - INFO - Page 478/544 done | rows=8,220
+2026-01-06 22:29:21,494 - INFO - Page 479/544 done | rows=8,239
+2026-01-06 22:29:21,619 - INFO - Page 480/544 done | rows=8,259
+2026-01-06 22:29:21,745 - INFO - Page 481/544 done | rows=8,280
+2026-01-06 22:29:21,802 - INFO - Page 482/544 done | rows=8,289
+2026-01-06 22:29:21,924 - INFO - Page 483/544 done | rows=8,303
+2026-01-06 22:29:22,050 - INFO - Page 484/544 done | rows=8,322
+2026-01-06 22:29:22,175 - INFO - Page 485/544 done | rows=8,337
+2026-01-06 22:29:22,301 - INFO - Page 486/544 done | rows=8,353
+2026-01-06 22:29:22,428 - INFO - Page 487/544 done | rows=8,365
+2026-01-06 22:29:22,555 - INFO - Page 488/544 done | rows=8,377
+2026-01-06 22:29:22,681 - INFO - Page 489/544 done | rows=8,393
+2026-01-06 22:29:22,807 - INFO - Page 490/544 done | rows=8,414
+2026-01-06 22:29:22,936 - INFO - Page 491/544 done | rows=8,438
+2026-01-06 22:29:23,064 - INFO - Page 492/544 done | rows=8,467
+2026-01-06 22:29:23,189 - INFO - Page 493/544 done | rows=8,480
+2026-01-06 22:29:23,318 - INFO - Page 494/544 done | rows=8,492
+2026-01-06 22:29:23,444 - INFO - Page 495/544 done | rows=8,508
+2026-01-06 22:29:23,571 - INFO - Page 496/544 done | rows=8,531
+2026-01-06 22:29:23,700 - INFO - Page 497/544 done | rows=8,556
+2026-01-06 22:29:23,825 - INFO - Page 498/544 done | rows=8,572
+2026-01-06 22:29:23,944 - INFO - Page 499/544 done | rows=8,585
+2026-01-06 22:29:24,071 - INFO - Page 500/544 done | rows=8,601
+2026-01-06 22:29:24,201 - INFO - Page 501/544 done | rows=8,615
+2026-01-06 22:29:24,328 - INFO - Page 502/544 done | rows=8,627
+2026-01-06 22:29:24,457 - INFO - Page 503/544 done | rows=8,651
+2026-01-06 22:29:24,584 - INFO - Page 504/544 done | rows=8,665
+2026-01-06 22:29:24,708 - INFO - Page 505/544 done | rows=8,691
+2026-01-06 22:29:24,835 - INFO - Page 506/544 done | rows=8,711
+2026-01-06 22:29:24,966 - INFO - Page 507/544 done | rows=8,734
+2026-01-06 22:29:25,090 - INFO - Page 508/544 done | rows=8,746
+2026-01-06 22:29:25,217 - INFO - Page 509/544 done | rows=8,759
+2026-01-06 22:29:25,345 - INFO - Page 510/544 done | rows=8,771
+2026-01-06 22:29:25,472 - INFO - Page 511/544 done | rows=8,791
+2026-01-06 22:29:25,599 - INFO - Page 512/544 done | rows=8,808
+2026-01-06 22:29:25,713 - INFO - Page 513/544 done | rows=8,823
+2026-01-06 22:29:25,840 - INFO - Page 514/544 done | rows=8,835
+2026-01-06 22:29:25,970 - INFO - Page 515/544 done | rows=8,852
+2026-01-06 22:29:26,095 - INFO - Page 516/544 done | rows=8,865
+2026-01-06 22:29:26,221 - INFO - Page 517/544 done | rows=8,885
+2026-01-06 22:29:26,348 - INFO - Page 518/544 done | rows=8,900
+2026-01-06 22:29:26,474 - INFO - Page 519/544 done | rows=8,911
+2026-01-06 22:29:26,592 - INFO - Page 520/544 done | rows=8,925
+2026-01-06 22:29:26,644 - INFO - Page 521/544 done | rows=8,936
+2026-01-06 22:29:26,769 - INFO - Page 525/544 done | rows=8,943
+2026-01-06 22:29:26,897 - INFO - Page 526/544 done | rows=8,952
+2026-01-06 22:29:27,022 - INFO - Page 527/544 done | rows=8,963
+2026-01-06 22:29:27,153 - INFO - Page 528/544 done | rows=8,973
+2026-01-06 22:29:27,280 - INFO - Page 531/544 done | rows=8,982
+2026-01-06 22:29:27,405 - INFO - Page 532/544 done | rows=8,991
+2026-01-06 22:29:27,534 - INFO - Page 533/544 done | rows=8,999
+2026-01-06 22:29:27,661 - INFO - Page 537/544 done | rows=9,007
+2026-01-06 22:29:27,728 - INFO - Page 538/544 done | rows=9,015
+2026-01-06 22:29:27,855 - INFO - Page 539/544 done | rows=9,024
+2026-01-06 22:29:27,984 - INFO - Page 540/544 done | rows=9,033
+2026-01-06 22:29:28,098 - INFO - Page 541/544 done | rows=9,043
+2026-01-06 22:29:28,224 - INFO - Page 542/544 done | rows=9,052
+2026-01-06 22:29:28,285 - INFO - Page 543/544 done | rows=9,059
+2026-01-06 22:29:32,188 - INFO - Snippet captured for DIN=00012750 on page 54
+2026-01-06 22:29:34,512 - INFO - Snippet captured for DIN=02239864 on page 89
+2026-01-06 22:29:34,512 - INFO - Snippet captured for DIN=02269082 on page 89
+2026-01-06 22:29:34,512 - INFO - Snippet captured for DIN=02241602 on page 89
+2026-01-06 22:29:34,513 - INFO - Snippet captured for DIN=02454696 on page 89
+2026-01-06 22:29:36,422 - INFO - Snippet captured for DIN=02248855 on page 111
+2026-01-06 22:29:36,512 - INFO - Snippet captured for DIN=00618640 on page 112
+2026-01-06 22:29:36,512 - INFO - Snippet captured for DIN=00751170 on page 112
+2026-01-06 22:29:36,512 - INFO - Snippet captured for DIN=02350408 on page 112
+2026-01-06 22:29:36,512 - INFO - Snippet captured for DIN=00618632 on page 112
+2026-01-06 22:29:36,512 - INFO - Snippet captured for DIN=00749354 on page 112
+2026-01-06 22:29:36,512 - INFO - Snippet captured for DIN=02350394 on page 112
+2026-01-06 22:29:40,041 - INFO - Snippet captured for DIN=02427176 on page 155
+2026-01-06 22:29:40,041 - INFO - Snippet captured for DIN=02427206 on page 155
+2026-01-06 22:29:40,041 - INFO - Snippet captured for DIN=02250675 on page 155
+2026-01-06 22:29:40,281 - INFO - Snippet captured for DIN=00839183 on page 158
+2026-01-06 22:29:40,282 - INFO - Snippet captured for DIN=02091194 on page 158
+2026-01-06 22:29:40,282 - INFO - Snippet captured for DIN=02224127 on page 158
+2026-01-06 22:29:40,282 - INFO - Snippet captured for DIN=00808547 on page 158
+2026-01-06 22:29:40,282 - INFO - Snippet captured for DIN=02048698 on page 158
+2026-01-06 22:29:40,282 - INFO - Snippet captured for DIN=02302624 on page 158
+2026-01-06 22:29:40,282 - INFO - Snippet captured for DIN=02261960 on page 158
+2026-01-06 22:29:40,282 - INFO - Snippet captured for DIN=00514012 on page 158
+2026-01-06 22:29:40,282 - INFO - Snippet captured for DIN=00881635 on page 158
+2026-01-06 22:29:40,282 - INFO - Snippet captured for DIN=00590827 on page 158
+2026-01-06 22:29:40,282 - INFO - Snippet captured for DIN=00839175 on page 158
+2026-01-06 22:29:40,282 - INFO - Snippet captured for DIN=02162814 on page 158
+2026-01-06 22:29:40,282 - INFO - Snippet captured for DIN=02158582 on page 158
+2026-01-06 22:29:40,282 - INFO - Snippet captured for DIN=02302616 on page 158
+2026-01-06 22:29:40,367 - INFO - Snippet captured for DIN=00842664 on page 159
+2026-01-06 22:29:40,368 - INFO - Snippet captured for DIN=02172577 on page 159
+2026-01-06 22:29:40,461 - INFO - Snippet captured for DIN=00522651 on page 160
+2026-01-06 22:29:40,551 - INFO - Snippet captured for DIN=00600806 on page 161
+2026-01-06 22:29:40,551 - INFO - Snippet captured for DIN=02246700 on page 161
+2026-01-06 22:29:41,334 - INFO - Snippet captured for DIN=02252805 on page 169
+2026-01-06 22:29:41,334 - INFO - Snippet captured for DIN=02255251 on page 169
+2026-01-06 22:29:41,334 - INFO - Snippet captured for DIN=02252813 on page 169
+2026-01-06 22:29:47,215 - INFO - Snippet captured for DIN=02238162 on page 238
+2026-01-06 22:29:47,216 - INFO - Snippet captured for DIN=99113825 on page 238
+2026-01-06 22:29:47,216 - INFO - Snippet captured for DIN=99113826 on page 238
+2026-01-06 22:29:48,532 - INFO - Snippet captured for DIN=80103904 on page 259
+2026-01-06 22:29:48,532 - INFO - Snippet captured for DIN=80001122 on page 259
+2026-01-06 22:29:48,596 - INFO - Snippet captured for DIN=80007304 on page 260
+2026-01-06 22:29:48,865 - INFO - Snippet captured for DIN=80131668 on page 261
+2026-01-06 22:29:48,952 - INFO - Snippet captured for DIN=80059293 on page 262
+2026-01-06 22:29:48,953 - INFO - Snippet captured for DIN=80021369 on page 262
+2026-01-06 22:29:48,953 - INFO - Snippet captured for DIN=80048609 on page 262
+2026-01-06 22:29:48,953 - INFO - Snippet captured for DIN=80055435 on page 262
+2026-01-06 22:29:49,208 - INFO - Snippet captured for DIN=99100498 on page 265
+2026-01-06 22:29:50,203 - INFO - Snippet captured for DIN=00545015 on page 282
+2026-01-06 22:29:51,376 - INFO - Snippet captured for DIN=02112795 on page 300
+2026-01-06 22:29:51,376 - INFO - Snippet captured for DIN=02153556 on page 300
+2026-01-06 22:29:51,376 - INFO - Snippet captured for DIN=02112809 on page 300
+2026-01-06 22:29:52,964 - INFO - Snippet captured for DIN=02461528 on page 324
+2026-01-06 22:29:54,923 - INFO - Snippet captured for DIN=80110453 on page 357
+2026-01-06 22:29:55,010 - INFO - Snippet captured for DIN=80100936 on page 358
+2026-01-06 22:29:57,883 - INFO - Snippet captured for DIN=02410893 on page 403
+2026-01-06 22:29:58,066 - INFO - Snippet captured for DIN=02483645 on page 405
+2026-01-06 22:29:59,834 - INFO - Snippet captured for DIN=02526670 on page 423
+2026-01-06 22:29:59,834 - INFO - Snippet captured for DIN=02542285 on page 423
+2026-01-06 22:29:59,834 - INFO - Snippet captured for DIN=02517140 on page 423
+2026-01-06 22:29:59,834 - INFO - Snippet captured for DIN=02542277 on page 423
+2026-01-06 22:29:59,996 - INFO - Snippet captured for DIN=02548909 on page 425
+2026-01-06 22:30:00,375 - INFO - Snippet captured for DIN=02541769 on page 429
+2026-01-06 22:30:01,227 - INFO - Snippet captured for DIN=02506343 on page 439
+2026-01-06 22:30:01,298 - INFO - Snippet captured for DIN=99100357 on page 440
+2026-01-06 22:30:01,802 - INFO - Snippet captured for DIN=02397412 on page 446
+2026-01-06 22:30:02,488 - INFO - Snippet captured for DIN=02525755 on page 453
+2026-01-06 22:30:02,569 - INFO - Snippet captured for DIN=99002868 on page 454
+2026-01-06 22:30:02,569 - INFO - Snippet captured for DIN=99100716 on page 454
+2026-01-06 22:30:02,569 - INFO - Snippet captured for DIN=99002450 on page 454
+2026-01-06 22:30:02,569 - INFO - Snippet captured for DIN=99002574 on page 454
+2026-01-06 22:30:02,569 - INFO - Snippet captured for DIN=99002442 on page 454
+2026-01-06 22:30:02,982 - INFO - Snippet captured for DIN=99002493 on page 459
+2026-01-06 22:30:02,983 - INFO - Snippet captured for DIN=99002507 on page 459
+2026-01-06 22:30:04,994 - INFO - Snippet captured for DIN=02489252 on page 488
+2026-01-06 22:30:05,257 - INFO - Snippet captured for DIN=02378329 on page 491
+2026-01-06 22:30:05,257 - INFO - Snippet captured for DIN=99100717 on page 491
+2026-01-06 22:30:05,435 - INFO - Snippet captured for DIN=99002876 on page 493
+2026-01-06 22:30:05,506 - INFO - Snippet captured for DIN=02533456 on page 494
+2026-01-06 22:30:05,679 - INFO - Snippet captured for DIN=02514931 on page 496
+2026-01-06 22:30:06,297 - INFO - Snippet captured for DIN=80079884 on page 503
+2026-01-06 22:30:06,297 - INFO - Snippet captured for DIN=80054498 on page 503
+2026-01-06 22:30:07,192 - INFO - Snippet captured for DIN=99002396 on page 514
+2026-01-06 22:30:07,192 - INFO - Snippet captured for DIN=99002418 on page 514
+2026-01-06 22:30:07,192 - INFO - Snippet captured for DIN=99002426 on page 514
+2026-01-06 22:30:07,192 - INFO - Snippet captured for DIN=99100202 on page 514
+2026-01-06 22:30:07,282 - INFO - Snippet captured for DIN=99002469 on page 515
+2026-01-06 22:30:07,700 - INFO - Snippet captured for DIN=02542420 on page 520
+2026-01-06 22:30:07,805 - INFO - Snippet captured for DIN=99100517 on page 525
+2026-01-06 22:30:07,805 - INFO - Snippet captured for DIN=99002108 on page 525
+2026-01-06 22:30:07,805 - INFO - Snippet captured for DIN=99101194 on page 525
+2026-01-06 22:30:07,805 - INFO - Snippet captured for DIN=99002116 on page 525
+2026-01-06 22:30:07,805 - INFO - Snippet captured for DIN=99002124 on page 525
+2026-01-06 22:30:07,805 - INFO - Snippet captured for DIN=99113729 on page 525
+2026-01-06 22:30:07,805 - INFO - Snippet captured for DIN=99113726 on page 525
+2026-01-06 22:30:07,871 - INFO - Snippet captured for DIN=99113862 on page 526
+2026-01-06 22:30:07,871 - INFO - Snippet captured for DIN=99003643 on page 526
+2026-01-06 22:30:07,871 - INFO - Snippet captured for DIN=99114343 on page 526
+2026-01-06 22:30:07,871 - INFO - Snippet captured for DIN=99002132 on page 526
+2026-01-06 22:30:07,871 - INFO - Snippet captured for DIN=99002140 on page 526
+2026-01-06 22:30:07,871 - INFO - Snippet captured for DIN=99002159 on page 526
+2026-01-06 22:30:07,871 - INFO - Snippet captured for DIN=99002167 on page 526
+2026-01-06 22:30:07,943 - INFO - Snippet captured for DIN=99101335 on page 527
+2026-01-06 22:30:07,943 - INFO - Snippet captured for DIN=99002345 on page 527
+2026-01-06 22:30:07,943 - INFO - Snippet captured for DIN=99002558 on page 527
+2026-01-06 22:30:07,943 - INFO - Snippet captured for DIN=99002205 on page 527
+2026-01-06 22:30:07,943 - INFO - Snippet captured for DIN=99002213 on page 527
+2026-01-06 22:30:07,943 - INFO - Snippet captured for DIN=99002221 on page 527
+2026-01-06 22:30:07,943 - INFO - Snippet captured for DIN=99002337 on page 527
+2026-01-06 22:30:07,943 - INFO - Snippet captured for DIN=99002531 on page 527
+2026-01-06 22:30:07,943 - INFO - Snippet captured for DIN=99002175 on page 527
+2026-01-06 22:30:07,943 - INFO - Snippet captured for DIN=99002183 on page 527
+2026-01-06 22:30:07,943 - INFO - Snippet captured for DIN=99002191 on page 527
+2026-01-06 22:30:08,007 - INFO - Snippet captured for DIN=99100668 on page 528
+2026-01-06 22:30:08,007 - INFO - Snippet captured for DIN=99100669 on page 528
+2026-01-06 22:30:08,007 - INFO - Snippet captured for DIN=99114344 on page 528
+2026-01-06 22:30:08,007 - INFO - Snippet captured for DIN=99114345 on page 528
+2026-01-06 22:30:08,007 - INFO - Snippet captured for DIN=99114346 on page 528
+2026-01-06 22:30:08,007 - INFO - Snippet captured for DIN=99114347 on page 528
+2026-01-06 22:30:08,007 - INFO - Snippet captured for DIN=99114348 on page 528
+2026-01-06 22:30:08,007 - INFO - Snippet captured for DIN=99114349 on page 528
+2026-01-06 22:30:08,079 - INFO - Snippet captured for DIN=99100416 on page 531
+2026-01-06 22:30:08,079 - INFO - Snippet captured for DIN=99113918 on page 531
+2026-01-06 22:30:08,079 - INFO - Snippet captured for DIN=99100387 on page 531
+2026-01-06 22:30:08,079 - INFO - Snippet captured for DIN=99113753 on page 531
+2026-01-06 22:30:08,079 - INFO - Snippet captured for DIN=99114475 on page 531
+2026-01-06 22:30:08,079 - INFO - Snippet captured for DIN=99113920 on page 531
+2026-01-06 22:30:08,079 - INFO - Snippet captured for DIN=99100163 on page 531
+2026-01-06 22:30:08,080 - INFO - Snippet captured for DIN=99100435 on page 531
+2026-01-06 22:30:08,080 - INFO - Snippet captured for DIN=00897361 on page 531
+2026-01-06 22:30:08,144 - INFO - Snippet captured for DIN=00908169 on page 532
+2026-01-06 22:30:08,144 - INFO - Snippet captured for DIN=00900761 on page 532
+2026-01-06 22:30:08,144 - INFO - Snippet captured for DIN=00906689 on page 532
+2026-01-06 22:30:08,144 - INFO - Snippet captured for DIN=99100776 on page 532
+2026-01-06 22:30:08,144 - INFO - Snippet captured for DIN=00903256 on page 532
+2026-01-06 22:30:08,145 - INFO - Snippet captured for DIN=00907561 on page 532
+2026-01-06 22:30:08,145 - INFO - Snippet captured for DIN=99100428 on page 532
+2026-01-06 22:30:08,145 - INFO - Snippet captured for DIN=99004518 on page 532
+2026-01-06 22:30:08,145 - INFO - Snippet captured for DIN=99113740 on page 532
+2026-01-06 22:30:08,201 - INFO - Snippet captured for DIN=99114476 on page 533
+2026-01-06 22:30:08,201 - INFO - Snippet captured for DIN=99114478 on page 533
+2026-01-06 22:30:08,201 - INFO - Snippet captured for DIN=00901164 on page 533
+2026-01-06 22:30:08,201 - INFO - Snippet captured for DIN=99101236 on page 533
+2026-01-06 22:30:08,201 - INFO - Snippet captured for DIN=00901725 on page 533
+2026-01-06 22:30:08,201 - INFO - Snippet captured for DIN=00901733 on page 533
+2026-01-06 22:30:08,201 - INFO - Snippet captured for DIN=00896217 on page 533
+2026-01-06 22:30:08,202 - INFO - Snippet captured for DIN=99100176 on page 533
+2026-01-06 22:30:08,262 - INFO - Snippet captured for DIN=99001500 on page 537
+2026-01-06 22:30:08,262 - INFO - Snippet captured for DIN=99005077 on page 537
+2026-01-06 22:30:08,262 - INFO - Snippet captured for DIN=99114269 on page 537
+2026-01-06 22:30:08,262 - INFO - Snippet captured for DIN=99101014 on page 537
+2026-01-06 22:30:08,262 - INFO - Snippet captured for DIN=99100058 on page 537
+2026-01-06 22:30:08,262 - INFO - Snippet captured for DIN=99100673 on page 537
+2026-01-06 22:30:08,262 - INFO - Snippet captured for DIN=99114270 on page 537
+2026-01-06 22:30:08,263 - INFO - Snippet captured for DIN=99114271 on page 537
+2026-01-06 22:30:08,318 - INFO - Snippet captured for DIN=00897175 on page 538
+2026-01-06 22:30:08,318 - INFO - Snippet captured for DIN=99002248 on page 538
+2026-01-06 22:30:08,318 - INFO - Snippet captured for DIN=99113917 on page 538
+2026-01-06 22:30:08,318 - INFO - Snippet captured for DIN=99002752 on page 538
+2026-01-06 22:30:08,318 - INFO - Snippet captured for DIN=99114309 on page 538
+2026-01-06 22:30:08,318 - INFO - Snippet captured for DIN=99002256 on page 538
+2026-01-06 22:30:08,318 - INFO - Snippet captured for DIN=00921289 on page 538
+2026-01-06 22:30:08,318 - INFO - Snippet captured for DIN=00906719 on page 538
+2026-01-06 22:30:08,378 - INFO - Snippet captured for DIN=00905178 on page 539
+2026-01-06 22:30:08,378 - INFO - Snippet captured for DIN=00905186 on page 539
+2026-01-06 22:30:08,378 - INFO - Snippet captured for DIN=00906077 on page 539
+2026-01-06 22:30:08,378 - INFO - Snippet captured for DIN=00402257 on page 539
+2026-01-06 22:30:08,378 - INFO - Snippet captured for DIN=00905445 on page 539
+2026-01-06 22:30:08,378 - INFO - Snippet captured for DIN=99101431 on page 539
+2026-01-06 22:30:08,379 - INFO - Snippet captured for DIN=00920282 on page 539
+2026-01-06 22:30:08,379 - INFO - Snippet captured for DIN=99100407 on page 539
+2026-01-06 22:30:08,379 - INFO - Snippet captured for DIN=99002264 on page 539
+2026-01-06 22:30:08,443 - INFO - Snippet captured for DIN=99101432 on page 540
+2026-01-06 22:30:08,443 - INFO - Snippet captured for DIN=99002353 on page 540
+2026-01-06 22:30:08,443 - INFO - Snippet captured for DIN=99002388 on page 540
+2026-01-06 22:30:08,443 - INFO - Snippet captured for DIN=99001519 on page 540
+2026-01-06 22:30:08,443 - INFO - Snippet captured for DIN=00903159 on page 540
+2026-01-06 22:30:08,443 - INFO - Snippet captured for DIN=99002760 on page 540
+2026-01-06 22:30:08,443 - INFO - Snippet captured for DIN=00907448 on page 540
+2026-01-06 22:30:08,443 - INFO - Snippet captured for DIN=00906654 on page 540
+2026-01-06 22:30:08,513 - INFO - Snippet captured for DIN=00900834 on page 541
+2026-01-06 22:30:08,513 - INFO - Snippet captured for DIN=00902659 on page 541
+2026-01-06 22:30:08,513 - INFO - Snippet captured for DIN=00921270 on page 541
+2026-01-06 22:30:08,514 - INFO - Snippet captured for DIN=99101013 on page 541
+2026-01-06 22:30:08,514 - INFO - Snippet captured for DIN=99100243 on page 541
+2026-01-06 22:30:08,514 - INFO - Snippet captured for DIN=99003376 on page 541
+2026-01-06 22:30:08,514 - INFO - Snippet captured for DIN=00902365 on page 541
+2026-01-06 22:30:08,514 - INFO - Snippet captured for DIN=99001527 on page 541
+2026-01-06 22:30:08,514 - INFO - Snippet captured for DIN=00902691 on page 541
+2026-01-06 22:30:08,514 - INFO - Snippet captured for DIN=00902683 on page 541
+2026-01-06 22:30:08,577 - INFO - Snippet captured for DIN=99002272 on page 542
+2026-01-06 22:30:08,577 - INFO - Snippet captured for DIN=99002280 on page 542
+2026-01-06 22:30:08,577 - INFO - Snippet captured for DIN=00903353 on page 542
+2026-01-06 22:30:08,577 - INFO - Snippet captured for DIN=99002299 on page 542
+2026-01-06 22:30:08,577 - INFO - Snippet captured for DIN=99002302 on page 542
+2026-01-06 22:30:08,577 - INFO - Snippet captured for DIN=00905038 on page 542
+2026-01-06 22:30:08,577 - INFO - Snippet captured for DIN=99001535 on page 542
+2026-01-06 22:30:08,577 - INFO - Snippet captured for DIN=99002310 on page 542
+2026-01-06 22:30:08,577 - INFO - Snippet captured for DIN=00921300 on page 542
+2026-01-06 22:30:08,629 - INFO - Snippet captured for DIN=99002329 on page 543
+2026-01-06 22:30:08,629 - INFO - Snippet captured for DIN=99101482 on page 543
+2026-01-06 22:30:08,629 - INFO - Snippet captured for DIN=99002779 on page 543
+2026-01-06 22:30:08,629 - INFO - Snippet captured for DIN=99000555 on page 543
+2026-01-06 22:30:08,630 - INFO - Snippet captured for DIN=99002361 on page 543
+2026-01-06 22:30:08,630 - INFO - Snippet captured for DIN=99101192 on page 543
+2026-01-06 22:30:08,630 - INFO - Snippet captured for DIN=99101222 on page 543
+2026-01-06 22:30:08,651 - INFO - [CFG] USE_OPENAI_REPAIR='(not set)' | OPENAI_API_KEY=SET -> AI_REPAIR=ON (AUTO (OPENAI_API_KEY present))
+2026-01-06 22:30:12,423 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:15,336 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:18,078 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:20,617 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:22,922 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:24,677 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:27,137 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:29,901 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:32,582 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:34,725 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:36,717 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:39,610 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:41,149 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:43,764 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:45,291 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:47,488 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:49,302 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:51,792 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:53,843 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:55,807 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:30:58,087 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:00,776 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:03,040 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:05,939 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:08,100 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:10,258 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:12,729 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:15,252 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:17,809 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:19,979 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:22,973 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:24,555 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:26,708 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:28,491 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:30,412 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:32,256 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:34,035 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:36,226 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:38,084 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:40,757 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:42,935 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:46,331 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:48,335 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:50,355 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:53,787 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:55,697 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:31:56,999 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:01,456 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:03,612 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:05,524 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:07,006 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:08,843 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:11,000 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:13,079 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:15,359 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:17,611 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:19,665 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:21,721 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:25,016 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:27,006 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:29,234 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:31,420 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:33,969 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:35,814 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:37,555 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:39,322 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:41,588 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:43,676 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:45,310 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:47,469 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:49,894 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:52,350 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:55,629 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:57,489 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:32:59,255 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:00,882 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:02,537 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:04,387 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:06,510 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:08,945 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:11,587 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:13,242 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:15,029 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:17,674 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:19,518 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:21,961 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:24,261 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:26,523 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:28,589 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:30,406 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:32,505 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:34,266 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:35,895 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:37,437 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:39,746 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:41,355 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:45,207 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:47,049 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:49,644 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:52,123 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:54,394 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:56,251 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:33:57,896 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:00,064 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:02,325 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:05,311 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:07,260 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:09,341 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:11,093 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:13,150 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:17,283 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:19,109 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:21,702 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:23,675 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:25,838 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:28,209 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:30,230 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:32,156 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:34,069 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:37,277 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:39,223 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:42,660 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:44,455 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:46,153 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:48,316 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:50,858 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:52,936 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:54,874 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:56,825 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:34:58,587 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:00,147 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:02,054 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:03,905 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:06,193 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:07,915 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:10,066 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:12,140 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:13,003 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:15,110 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:16,639 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:18,439 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:19,971 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:22,152 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:24,088 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:26,105 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:28,428 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:30,049 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:32,063 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:34,431 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:38,209 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:39,886 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:41,519 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:43,195 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:45,039 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:46,461 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:47,969 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:49,923 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:51,639 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:53,420 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:54,902 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:56,620 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:35:58,571 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:00,174 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:02,704 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:04,977 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:07,047 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:09,413 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:11,504 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:13,892 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:15,763 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:17,695 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:19,651 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:22,472 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:24,375 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:25,874 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:27,525 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:29,829 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:31,706 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:33,520 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:35,139 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:37,129 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:39,090 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:39,995 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:41,984 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:43,557 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:47,176 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:49,151 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:51,325 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:53,488 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:55,497 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:56,324 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:58,454 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:36:59,968 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:37:02,029 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:37:03,772 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:37:05,305 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:37:07,379 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:37:09,358 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:37:11,407 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:37:13,085 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:37:14,817 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:37:17,200 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:37:19,154 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:37:21,066 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:37:22,942 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:37:25,134 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-06 22:37:27,364 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"

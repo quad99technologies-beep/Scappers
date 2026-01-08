@@ -1,0 +1,23 @@
+presentation_id,molecule_id,dosage_form_raw,strength_raw,ppb_marker,raw_line,page_no
+1,1034,Gel,Rectal 5 mg/mL,,Gel Rectal 5 mg/mL,238
+2,1212,Susp.Oph.,"ou Sol. Oph. 0,1 %",True,"Susp.Oph. ou Sol. Oph. 0,1 % PPB",278
+3,1224,Gel,Top. (Oral) 2 %,,Gel Top. (Oral) 2 %,279
+4,1382,Gel,"Top. 1% (2,5 g)",True,"Gel Top. 1% (2,5 g) PPB",312
+5,1382,Gel,"Top. 1 % (5,0 g)",True,"Gel Top. 1 % (5,0 g) PPB",312
+6,1416,Gel,"Top. 0,06 %",,"Gel Top. 0,06 %",317
+7,1512,Gel,"Top. 1,2% - 0,15% - 3,1%",,"Gel Top. 1,2% - 0,15% - 3,1%",335
+8,1517,Gel,Top. 1 %,,Gel Top. 1 %,335
+9,1559,Gel,"Top. 0,05 %",,"Gel Top. 0,05 %",341
+10,1564,Gel,"Top. 0,05 %",,"Gel Top. 0,05 %",342
+11,1577,Lotion,,,Lotion,344
+12,1587,GEL,HYDROCOLLOIDAL,,GEL HYDROCOLLOIDAL,345
+13,1587,Gel,Top.,,Gel Top.,345
+14,1591,Gel,Top.,,Gel Top.,346
+15,1593,Gel,Top. 20 % -3 %,,Gel Top. 20 % -3 %,346
+16,1803,Gel,Top. 15 %,,Gel Top. 15 %,402
+17,1834,Gel,"Top. 50 mcg/g -0,5 mg/g",True,"Gel Top. 50 mcg/g -0,5 mg/g PPB",406
+18,2184,Gel,"Vag. 0,75 %",,"Gel Vag. 0,75 %",457
+19,2355,Gel,vag. (App.) 8 %,,Gel vag. (App.) 8 %,493
+20,2379,Sol.Inj.S.C.(mini-doseur),"150 mg/mL (2,4 mL)",,"Sol.Inj.S.C.(mini-doseur) 150 mg/mL (2,4 mL)",496
+21,2504,Gel,"Top. 0,01 %",,"Gel Top. 0,01 %",516
+22,2677,SIROP,SIMPLE,,SIROP SIMPLE,542

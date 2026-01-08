@@ -76,29 +76,29 @@ if %PYTHON_EXIT% neq 0 (
     exit /b 1
 )
 
-REM Step 3: Scrape Products (API)
+REM Step 3: Scrape Products (Selenium) - First step
 echo. >> "%log_file%"
-echo [Step 3/6] Scrape Products (API)... >> "%log_file%"
+echo [Step 3/6] Scrape Products (Selenium)... >> "%log_file%"
 echo.
-echo [Step 3/6] Scrape Products (API)...
-python -u "03_alfabeta_api_scraper.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
-set PYTHON_EXIT=%errorlevel%
-if %PYTHON_EXIT% neq 0 (
-    echo ERROR: Scrape Products (API) failed >> "%log_file%"
-    echo ERROR: Scrape Products (API) failed
-    exit /b 1
-)
-
-REM Step 4: Scrape Products (Selenium)
-echo. >> "%log_file%"
-echo [Step 4/6] Scrape Products (Selenium)... >> "%log_file%"
-echo.
-echo [Step 4/6] Scrape Products (Selenium)...
-python -u "04_alfabeta_selenium_scraper.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
+echo [Step 3/6] Scrape Products (Selenium)...
+python -u "03_alfabeta_selenium_scraper.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
 set PYTHON_EXIT=%errorlevel%
 if %PYTHON_EXIT% neq 0 (
     echo ERROR: Scrape Products (Selenium) failed >> "%log_file%"
     echo ERROR: Scrape Products (Selenium) failed
+    exit /b 1
+)
+
+REM Step 4: Scrape Products (API) - Backup for blank Selenium results
+echo. >> "%log_file%"
+echo [Step 4/6] Scrape Products (API)... >> "%log_file%"
+echo.
+echo [Step 4/6] Scrape Products (API)...
+python -u "04_alfabeta_api_scraper.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
+set PYTHON_EXIT=%errorlevel%
+if %PYTHON_EXIT% neq 0 (
+    echo ERROR: Scrape Products (API) failed >> "%log_file%"
+    echo ERROR: Scrape Products (API) failed
     exit /b 1
 )
 

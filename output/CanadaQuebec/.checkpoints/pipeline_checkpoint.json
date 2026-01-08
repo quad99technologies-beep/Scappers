@@ -1,7 +1,34 @@
 {
   "scraper": "CanadaQuebec",
-  "last_run": "2026-01-03T14:05:48.841876",
-  "completed_steps": [],
-  "step_outputs": {},
+  "last_run": "2026-01-06T19:34:35.320746",
+  "completed_steps": [
+    0,
+    1,
+    2
+  ],
+  "step_outputs": {
+    "step_0": {
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "completed_at": "2026-01-06T19:33:10.001636",
+      "output_files": []
+    },
+    "step_1": {
+      "step_number": 1,
+      "step_name": "Split PDF into Annexes",
+      "completed_at": "2026-01-06T19:33:18.277283",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\CanadaQuebec\\split_pdf\\annexe_iv1.pdf",
+        "D:\\quad99\\Scappers\\output\\CanadaQuebec\\split_pdf\\annexe_iv2.pdf",
+        "D:\\quad99\\Scappers\\output\\CanadaQuebec\\split_pdf\\annexe_v.pdf"
+      ]
+    },
+    "step_2": {
+      "step_number": 2,
+      "step_name": "Validate PDF Structure",
+      "completed_at": "2026-01-06T19:34:35.320734",
+      "output_files": []
+    }
+  },
   "metadata": {}
 }

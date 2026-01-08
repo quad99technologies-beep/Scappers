@@ -1,0 +1,21 @@
+{
+  "scraper": "Argentina",
+  "last_run": "2026-01-04T21:43:55.619076",
+  "completed_steps": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "step_outputs": {
+    "step_3": {
+      "step_number": 3,
+      "step_name": "Scrape Products (API)",
+      "completed_at": "2026-01-04T21:43:55.619051",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\Argentina\\alfabeta_products_by_product.csv"
+      ]
+    }
+  },
+  "metadata": {}
+}

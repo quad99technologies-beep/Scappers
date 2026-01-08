@@ -170,7 +170,7 @@ def attach_pcid_strict(df: pd.DataFrame, pcid_path: Path) -> pd.DataFrame:
 
     # If mapping missing → leave blank
     if not pcid_path.exists():
-        df["pcid"] = ""
+        df["PCID"] = ""
         df.drop(columns=["n_company", "n_lprod", "n_generic", "n_desc"], inplace=True)
         return df
 
@@ -210,7 +210,7 @@ def attach_pcid_strict(df: pd.DataFrame, pcid_path: Path) -> pd.DataFrame:
     }
 
     # Lookup (strict)
-    df["pcid"] = df.apply(
+    df["PCID"] = df.apply(
         lambda r: key_to_pcid.get((r["n_company"], r["n_lprod"], r["n_generic"], r["n_desc"]), ""),
         axis=1,
     ).astype("string")
@@ -279,9 +279,9 @@ def main():
     # STRICT 4-key PCID attach
     df = attach_pcid_strict(df, PCID_PATH)
 
-    # Final selection (pcid first)
+    # Final selection (PCID first)
     base_cols = [
-        "pcid",
+        "PCID",
         "Country",
         "Company",
         "Local Product Name",
@@ -315,8 +315,8 @@ def main():
     except Exception as e:
         print("Could not write XLSX:", e)
 
-    print("✔ Wrote:", out_csv)
-    print("✔ Wrote:", out_xlsx)
+    print("[OK] Wrote:", out_csv)
+    print("[OK] Wrote:", out_xlsx)
     
     # Copy final report (CSV) to central output directory
     try:
@@ -331,7 +331,7 @@ def main():
         central_output_dir = get_central_output_dir()
         central_final_report = central_output_dir / out_csv.name
         shutil.copy2(out_csv, central_final_report)
-        print(f"✔ Central Output: {central_final_report}")
+        print(f"[OK] Central Output: {central_final_report}")
     except Exception as e:
         print(f"[WARNING] Could not copy to central output: {e}")
     if EXCLUDE_PRICE:

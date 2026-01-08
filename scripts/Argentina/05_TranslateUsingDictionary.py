@@ -299,14 +299,19 @@ def main():
     df.to_csv(OUT_TRANSLATED, index=False)
 
     if missing_counter:
+        unique_missing = len(missing_counter)
+        total_missing_occurrences = sum(missing_counter.values())
         rows = [{
             "value": v,
             "count": missing_counter[v],
             "example_columns": ",".join(sorted(missing_columns[v])),
         } for v in sorted(missing_counter, key=lambda k: (-missing_counter[k], k.lower()))]
         pd.DataFrame(rows).to_csv(OUT_MISSING, index=False)
+        log.info(f"[TRANSLATION] New translations needed: {unique_missing} unique values ({total_missing_occurrences} total occurrences)")
+        log.info(f"[TRANSLATION] Missing translations saved to: {OUT_MISSING}")
     else:
         pd.DataFrame(columns=["value", "count", "example_columns"]).to_csv(OUT_MISSING, index=False)
+        log.info(f"[TRANSLATION] All translations found! No new translations needed.")
 
     print(f"Done.\nTranslated → {OUT_TRANSLATED}\nMissing cells → {OUT_MISSING}")
 

@@ -168,13 +168,10 @@ def main():
         url = construct_product_url(prod)
         
         # Determine source:
-        # - Selenium for duplicates
-        # - Selenium if URL contains "--" (double hyphens)
-        # - API for single products with normal URLs
-        if is_duplicate or (url and "--" in url):
-            source = "selenium"
-        else:
-            source = "api"
+        # - All products start as "selenium" (first step)
+        # - API will be used as backup for blank Selenium results
+        # - Selenium handles duplicates and complex URLs better
+        source = "selenium"
         
         output_data.append({
             "Product": prod,

@@ -1,0 +1,165 @@
+﻿input_company,input_product_name,timestamp,error_message
+Grimberg,BUCALTAC CEPILLO DENTAL FUNNY BRUSH,2026-01-04T23:59:49,"TimeoutException: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL MAFALDA KIDS X 1 U,2026-01-05T00:00:20,"TimeoutException: Message: 
+"
+Bayer Consumer,ACTRON 400 RAPIDA ACCION NF,2026-01-05T00:00:33,"TimeoutException: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL ZOO BRUSH,2026-01-05T00:01:54,"TimeoutException: Message: 
+"
+San Ceferino,CIRUELAS LIGHT+VITAMINA C NUTRINAT,2026-01-05T00:02:26,"InvalidSessionIdException: Message: invalid session id: session deleted as the browser has closed the connection
+from disconnected: not connected to DevTools
+  (Session info: chrome=143.0.7499.170); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xe912d3
+	0xe91314
+	0xc7e6dd
+	0xc6d99e
+	0xc8c4e6
+	0xcf21d8
+	0xd0d44c
+	0xceb2e6
+	0xcbd321
+	0xcbe1d4
+	0x10e5314
+	0x10e08cb
+	0x10fd1aa
+	0xeab1d8
+	0xeb31dd
+	0xe995d8
+	0xe99799
+	0xe83b28
+	0x75175d49
+	0x7706d5db
+	0x7706d561
+"
+Elea,FALGOS EXPENDEDOR X 25 BL,2026-01-05T00:02:26,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xe912d3
+	0xe91314
+	0xc7e52b
+	0xcbc635
+	0xceb3a6
+	0xce6ed1
+	0xce6846
+	0xc4ebfd
+	0xc4f18e
+	0xc4f65d
+	0x10e5314
+	0x10e08cb
+	0x10fd1aa
+	0xeab1d8
+	0xeb31dd
+	0xc4e7ab
+	0xc4ddf7
+	0x12317af
+	0x75175d49
+	0x7706d5db
+	0x7706d561
+"
+San Ceferino,CIRUELAS+FIBRAS+VITAMINA C NUTRINAT,2026-01-05T00:02:26,"InvalidSessionIdException: Message: invalid session id: session deleted as the browser has closed the connection
+from disconnected: not connected to DevTools
+  (Session info: chrome=143.0.7499.170); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xe912d3
+	0xe91314
+	0xc7e6dd
+	0xc6d99e
+	0xc8c4e6
+	0xcf21d8
+	0xd0d44c
+	0xceb2e6
+	0xcbd321
+	0xcbe1d4
+	0x10e5314
+	0x10e08cb
+	0x10fd1aa
+	0xeab1d8
+	0xeb31dd
+	0xe995d8
+	0xe99799
+	0xe83b28
+	0x75175d49
+	0x7706d5db
+	0x7706d561
+"
+Sant Gall,GALCICLINA SANT GALL,2026-01-05T00:02:26,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xe912d3
+	0xe91314
+	0xc7e52b
+	0xcbc635
+	0xceb3a6
+	0xce6ed1
+	0xce6846
+	0xc4ebfd
+	0xc4f18e
+	0xc4f65d
+	0x10e5314
+	0x10e08cb
+	0x10fd1aa
+	0xeab1d8
+	0xeb31dd
+	0xc4e7ab
+	0xc4ddf7
+	0x12317af
+	0x75175d49
+	0x7706d5db
+	0x7706d561
+"
+Siegfried,EMPAX MET,2026-01-05T00:02:27,"InvalidSessionIdException: Message: invalid session id: session deleted as the browser has closed the connection
+from disconnected: not connected to DevTools
+  (Session info: chrome=143.0.7499.170); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xe912d3
+	0xe91314
+	0xc7e6dd
+	0xc6d99e
+	0xc8c4e6
+	0xcf21d8
+	0xd0d44c
+	0xceb2e6
+	0xcbd321
+	0xcbe1d4
+	0x10e5314
+	0x10e08cb
+	0x10fd1aa
+	0xeab1d8
+	0xeb31dd
+	0xe995d8
+	0xe99799
+	0xe83b28
+	0x75175d49
+	0x7706d5db
+	0x7706d561
+"
+Nestle,NAN 1 OPTIPRO HMO RTD,2026-01-05T00:02:27,"InvalidSessionIdException: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0xe912d3
+	0xe91314
+	0xc7e52b
+	0xcbc635
+	0xceb3a6
+	0xce6ed1
+	0xce6846
+	0xc4ebfd
+	0xc4f18e
+	0xc4f65d
+	0x10e5314
+	0x10e08cb
+	0x10fd1aa
+	0xeab1d8
+	0xeb31dd
+	0xc4e7ab
+	0xc4ddf7
+	0x12317af
+	0x75175d49
+	0x7706d5db
+	0x7706d561
+"

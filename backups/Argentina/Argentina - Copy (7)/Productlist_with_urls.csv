@@ -1,0 +1,737 @@
+﻿Product,Company,Source,URL,IsDuplicate
+50,ISA,selenium,https://www.alfabeta.net/precio/50.html,FALSE
+ACTRON 400 RAPIDA ACCION NF,Bayer Consumer,selenium,https://www.alfabeta.net/precio/actron-400-rapida-accion-nf.html,FALSE
+BUCALTAC CEPILLO DENTAL FUNNY BRUSH,Grimberg,selenium,https://www.alfabeta.net/precio/bucaltac-cepillo-dental-funny-brush.html,FALSE
+BUCALTAC CEPILLO DENTAL MAFALDA KIDS X 1 U,Grimberg,selenium,https://www.alfabeta.net/precio/bucaltac-cepillo-dental-mafalda-kids-x-1-u.html,FALSE
+BUCALTAC CEPILLO DENTAL ZOO BRUSH,Grimberg,selenium,https://www.alfabeta.net/precio/bucaltac-cepillo-dental-zoo-brush.html,FALSE
+CIRUELAS LIGHT+VITAMINA C NUTRINAT,San Ceferino,selenium,https://www.alfabeta.net/precio/ciruelas-lightvitamina-c-nutrinat.html,FALSE
+CIRUELAS+FIBRAS+VITAMINA C NUTRINAT,San Ceferino,selenium,https://www.alfabeta.net/precio/ciruelasfibrasvitamina-c-nutrinat.html,FALSE
+EMPAX MET,Siegfried,selenium,https://www.alfabeta.net/precio/empax-met.html,FALSE
+FALGOS EXPENDEDOR X 25 BL,Elea,selenium,https://www.alfabeta.net/precio/falgos-expendedor-x-25-bl.html,FALSE
+FOTO WET SKIN TRANSPARENT SPRAY SPF 50,Isdin,selenium,https://www.alfabeta.net/precio/foto-wet-skin-transparent-spray-spf-50.html,FALSE
+GALCICLINA SANT GALL,Sant Gall,selenium,https://www.alfabeta.net/precio/galciclina-sant-gall.html,FALSE
+LABSALERG ß,Labsa,selenium,https://www.alfabeta.net/precio/labsalerg.html,FALSE
+NAN 1 OPTIPRO HMO RTD,Nestle,selenium,https://www.alfabeta.net/precio/nan-1-optipro-hmo-rtd.html,FALSE
+NAN 2 OPTIPRO HMO RTD,Nestle,selenium,https://www.alfabeta.net/precio/nan-2-optipro-hmo-rtd.html,FALSE
+NAN 3 OPTIPRO HMO RTD,Nestle,selenium,https://www.alfabeta.net/precio/nan-3-optipro-hmo-rtd.html,FALSE
+NEWGEL+ LOLYPOP MAMARIAS NG-324,Valuge,selenium,https://www.alfabeta.net/precio/newgel-lolypop-mamarias-ng-324.html,FALSE
+NEWGEL+ LOLYPOP MAMARIAS NG-326,Valuge,selenium,https://www.alfabeta.net/precio/newgel-lolypop-mamarias-ng-326.html,FALSE
+OLANZAPINA ROSPAW,Rospaw,selenium,https://www.alfabeta.net/precio/olanzapina-rospaw.html,FALSE
+PARACETAMOL KABI,Fresenius Kabi,api,https://www.alfabeta.net/precio/paracetamol-kabi.html,FALSE
+PARACETAMOL LAFEDAR,Lafedar,api,https://www.alfabeta.net/precio/paracetamol-lafedar.html,FALSE
+PARACETAMOL LAZAR V.L.,Lazar,selenium,https://www.alfabeta.net/precio/paracetamol-lazar-vl.html,FALSE
+PARACETAMOL MONSERRAT Y ECLAIR,Monserrat,api,https://www.alfabeta.net/precio/paracetamol-monserrat-y-eclair.html,FALSE
+PARACETAMOL RAFFO 500,Adium,api,https://www.alfabeta.net/precio/paracetamol-raffo-500.html,FALSE
+PARACETAMOL SANT GALL FRIBURG GOTAS,Sant Gall,api,https://www.alfabeta.net/precio/paracetamol-sant-gall-friburg-gotas.html,FALSE
+PARACETAMOL SCHAFER GOTAS,Schafer,api,https://www.alfabeta.net/precio/paracetamol-schafer-gotas.html,FALSE
+PARACETAMOL T-PLUS,Vent 3,selenium,https://www.alfabeta.net/precio/paracetamol-t-plus.html,FALSE
+PARACETAMOL TE VENT-3,Vent 3,selenium,https://www.alfabeta.net/precio/paracetamol-te-vent-3.html,FALSE
+PARACETAMOL TEVA,Teva Argentina,api,https://www.alfabeta.net/precio/paracetamol-teva.html,FALSE
+PARACETAMOL VENT-3,Vent 3,selenium,https://www.alfabeta.net/precio/paracetamol-vent-3.html,FALSE
+PARACLIM 1.25,Elea,selenium,https://www.alfabeta.net/precio/paraclim-125.html,FALSE
+PARACLIM 2.5,Elea,selenium,https://www.alfabeta.net/precio/paraclim-25.html,FALSE
+PARATROPINA ANTIGAS V.L.,Lazar,selenium,https://www.alfabeta.net/precio/paratropina-antigas-vl.html,FALSE
+PARATROPINA FEM V.L.,Lazar,selenium,https://www.alfabeta.net/precio/paratropina-fem-vl.html,FALSE
+PARATROPINA V.L.,Lazar,selenium,https://www.alfabeta.net/precio/paratropina-vl.html,FALSE
+PARITOL,Tuteur,api,https://www.alfabeta.net/precio/paritol.html,FALSE
+PARKINEL 100/25,Bagó,selenium,https://www.alfabeta.net/precio/parkinel-10025.html,FALSE
+PARKINEL 250/25,Bagó,selenium,https://www.alfabeta.net/precio/parkinel-25025.html,FALSE
+PARODIUM,Pierre Fabre Oral Care,api,https://www.alfabeta.net/precio/parodium.html,FALSE
+PARODONTAX COMPLETE PROTECTION EXTRA FRESH,Haleon Argentina,selenium,https://www.alfabeta.net/precio/parodontax-complete-protection-extra-fresh.html,FALSE
+PASTA OSTOMIA STOMAHESIVE 56.7 GRS.,Convatec,selenium,https://www.alfabeta.net/precio/pasta-ostomia-stomahesive-567-grs.html,FALSE
+PASTA PARA OSTOMIA ADAPT 14 GR.,Hollister,selenium,https://www.alfabeta.net/precio/pasta-para-ostomia-adapt-14-gr.html,FALSE
+PASTA PARA OSTOMIA ADAPT 60 GR.,Hollister,selenium,https://www.alfabeta.net/precio/pasta-para-ostomia-adapt-60-gr.html,FALSE
+"PASTILLAS PROPOLEO, VITAMINA C Y LIMON",Natufarma,selenium,https://www.alfabeta.net/precio/pastillas-propoleo-vitamina-c-y-limon.html,FALSE
+PAXON,Gador,selenium,https://www.alfabeta.net/precio/paxon.html,FALSE
+PECTORAL HEBERT N.F.,Fecofar,selenium,https://www.alfabeta.net/precio/pectoral-hebert-nf.html,FALSE
+PEINE P/PIOJOS ACERO,San Ceferino,selenium,https://www.alfabeta.net/precio/peine-ppiojos-acero.html,FALSE
+PENTOL,Lafedar,selenium,https://www.alfabeta.net/precio/pentol.html,FALSE
+PERFORMA,Bagó,selenium,https://www.alfabeta.net/precio/performa.html,FALSE
+PERIDON,Lafedar,selenium,https://www.alfabeta.net/precio/peridon.html,FALSE
+PERPIEL AGUA MICELAR + BIFASICA,Laboratorios Bernabó,selenium,https://www.alfabeta.net/precio/perpiel-agua-micelar--bifasica.html,FALSE
+PETEZAM 4.5,Rivero,selenium,https://www.alfabeta.net/precio/petezam-45.html,FALSE
+PH LAGRIMAS,Elea,selenium,https://www.alfabeta.net/precio/ph-lagrimas.html,FALSE
+PHARMATON 50 + OMEGA 3,Opella Healthcare Arg.,selenium,https://www.alfabeta.net/precio/pharmaton-50--omega-3.html,FALSE
+PHELINUN,Varifarma,api,https://www.alfabeta.net/precio/phelinun.html,FALSE
+PICOLINATO DE CROMO,Lafarmen,api,https://www.alfabeta.net/precio/picolinato-de-cromo.html,FALSE
+PIECIDEX SPRAY C/TERBINAFINA,Genomma Lab.,selenium,https://www.alfabeta.net/precio/piecidex-spray-cterbinafina.html,FALSE
+PIEL VITAL A.M.,A.M. Farma Activ,selenium,https://www.alfabeta.net/precio/piel-vital-am.html,FALSE
+PINK,Craveri,selenium,https://www.alfabeta.net/precio/pink.html,FALSE
+PIOTAMAX MET 15/850,Francelab,selenium,https://www.alfabeta.net/precio/piotamax-met-15850.html,FALSE
+PIPERACILINA TAZOBACTAM GEMEPE,Gemepe,selenium,https://www.alfabeta.net/precio/piperacilina-tazobactam-gemepe.html,FALSE
+PIPERACILINA+TAZOBACTAM NORTHIA,Northia,selenium,https://www.alfabeta.net/precio/piperacilinatazobactam-northia.html,FALSE
+PIROCTOL,Valuge,selenium,https://www.alfabeta.net/precio/piroctol.html,FALSE
+PIROCTOL AS,Valuge,selenium,https://www.alfabeta.net/precio/piroctol-as.html,FALSE
+PITIRIAX,Medisol,api,https://www.alfabeta.net/precio/pitiriax.html,FALSE
+PIXATEMIS 2.5,Temis-Lostaló,selenium,https://www.alfabeta.net/precio/pixatemis-25.html,FALSE
+PKU ANAMIX JUNIOR ORANGE,AMN,selenium,https://www.alfabeta.net/precio/pku-anamix-junior-orange.html,FALSE
+PKU GMPRO MIX-IN,AMN,selenium,https://www.alfabeta.net/precio/pku-gmpro-mix-in.html,FALSE
+PKU GMPRO POLVO SABOR VAINILLA,AMN,api,https://www.alfabeta.net/precio/pku-gmpro-polvo-sabor-vainilla.html,FALSE
+PKU MED B FORMULA CREAM ORANGE-LEMON,B-Life,selenium,https://www.alfabeta.net/precio/pku-med-b-formula-cream-orange-lemon.html,FALSE
+PLAC OUT,Laboratorios Bernabó,selenium,https://www.alfabeta.net/precio/plac-out.html,FALSE
+PLAC OUT MANTENIMIENTO,Laboratorios Bernabó,api,https://www.alfabeta.net/precio/plac-out-mantenimiento.html,FALSE
+PLAN,Craveri,selenium,https://www.alfabeta.net/precio/plan.html,FALSE
+PLATSUL-A,Soubeiran Chobet,selenium,https://www.alfabeta.net/precio/platsul-a.html,FALSE
+PLATSUL-A AEROSOL,Soubeiran Chobet,selenium,https://www.alfabeta.net/precio/platsul-a-aerosol.html,FALSE
+PLATSUL-A GASA EN ROLLO,Soubeiran Chobet,selenium,https://www.alfabeta.net/precio/platsul-a-gasa-en-rollo.html,FALSE
+PLATSUL-A GASAS,Soubeiran Chobet,selenium,https://www.alfabeta.net/precio/platsul-a-gasas.html,FALSE
+PLATSUL-AG,Soubeiran Chobet,selenium,https://www.alfabeta.net/precio/platsul-ag.html,FALSE
+PLENACOR D 50/25/2.5,Bagó,selenium,https://www.alfabeta.net/precio/plenacor-d-502525.html,FALSE
+PLENOBIOTIC DUO,Fecofar,selenium,https://www.alfabeta.net/precio/plenobiotic-duo.html,FALSE
+PLIDEX AP,Roemmers,api,https://www.alfabeta.net/precio/plidex-ap.html,FALSE
+PLIDEX T 200,Roemmers,selenium,https://www.alfabeta.net/precio/plidex-t-200.html,FALSE
+PLUS A,Cassará,selenium,https://www.alfabeta.net/precio/plus-a.html,FALSE
+PLUSABCIR,LKM,selenium,https://www.alfabeta.net/precio/plusabcir.html,FALSE
+PLUSTAXANO ANHIDRO 20,LKM,api,https://www.alfabeta.net/precio/plustaxano-anhidro-20.html,FALSE
+PNEUMOVAX 23,MSD Argentina SRL,api,https://www.alfabeta.net/precio/pneumovax-23.html,FALSE
+POENTIMOL,Poen,api,https://www.alfabeta.net/precio/poentimol.html,FALSE
+POLI B FUERTE,Austral,api,https://www.alfabeta.net/precio/poli-b-fuerte.html,FALSE
+POLI-CARB,Nutentar,selenium,https://www.alfabeta.net/precio/poli-carb.html,FALSE
+POLILEP,Lepetit,api,https://www.alfabeta.net/precio/polilep.html,FALSE
+POLIRREUMIN,Trb-Pharma,api,https://www.alfabeta.net/precio/polirreumin.html,FALSE
+POLPER B12 A.F.,Casasco,selenium,https://www.alfabeta.net/precio/polper-b12-af.html,FALSE
+POLPER CALCIO-MAGNESIO,Casasco,selenium,https://www.alfabeta.net/precio/polper-calcio-magnesio.html,FALSE
+POLVO CONVATEC STOMAHESIVE 28.3 GRS.,Convatec,selenium,https://www.alfabeta.net/precio/polvo-convatec-stomahesive-283-grs.html,FALSE
+PONATIB,Varifarma,api,https://www.alfabeta.net/precio/ponatib.html,FALSE
+PONAZIC,Adium,api,https://www.alfabeta.net/precio/ponazic.html,FALSE
+PONSTIN 4%,Elea,selenium,https://www.alfabeta.net/precio/ponstin-4.html,FALSE
+POSACONAZOL SDZ,Biosidus S.A.U.,api,https://www.alfabeta.net/precio/posaconazol-sdz.html,FALSE
+POTASIUM,Innovapharma,api,https://www.alfabeta.net/precio/potasium.html,FALSE
+PRALUENT,Sanofi-Aventis,api,https://www.alfabeta.net/precio/praluent.html,FALSE
+PRAXANT,Elea,api,https://www.alfabeta.net/precio/praxant.html,FALSE
+PRAXED,Aspen,api,https://www.alfabeta.net/precio/praxed.html,FALSE
+PRAZODEX,Domínguez,api,https://www.alfabeta.net/precio/prazodex.html,FALSE
+PREDNEFRIN 0.12%,Abbvie,selenium,https://www.alfabeta.net/precio/prednefrin-012.html,FALSE
+PREDNICORT,Lafedar,api,https://www.alfabeta.net/precio/prednicort.html,FALSE
+PREDUAL L,Eurofarma,api,https://www.alfabeta.net/precio/predual-l.html,FALSE
+PREGABALINA VANNIER 75 MG,Vannier,api,https://www.alfabeta.net/precio/pregabalina-vannier-75-mg.html,FALSE
+PRESIMAX 50,Bagó,api,https://www.alfabeta.net/precio/presimax-50.html,FALSE
+PRESIPRIL,Lafedar,api,https://www.alfabeta.net/precio/presipril.html,FALSE
+PRETERAX 10,Servier,api,https://www.alfabeta.net/precio/preterax-10.html,FALSE
+PREVAX 0.5,Casasco,selenium,https://www.alfabeta.net/precio/prevax-05.html,FALSE
+PRIMAVERA-N,Fabra,selenium,https://www.alfabeta.net/precio/primavera-n.html,FALSE
+PRIMOSISTON,Adium,api,https://www.alfabeta.net/precio/primosiston.html,FALSE
+PRINCIPIA PRACTIDOSIS,Elea,api,https://www.alfabeta.net/precio/principia-practidosis.html,FALSE
+PRINOX 0.5 MG,Eurofarma,selenium,https://www.alfabeta.net/precio/prinox-05-mg.html,FALSE
+PRIOTIC,Montpellier,api,https://www.alfabeta.net/precio/priotic.html,FALSE
+PRISONIL 100,Lepetit,api,https://www.alfabeta.net/precio/prisonil-100.html,FALSE
+PROAIR BRONQUIAL 250/50,Montpellier,selenium,https://www.alfabeta.net/precio/proair-bronquial-25050.html,FALSE
+PROAIR BRONQUIAL 500/50,Montpellier,selenium,https://www.alfabeta.net/precio/proair-bronquial-50050.html,FALSE
+PROBIOTICOS + VITAMINAS VW,Pharmamerican S.R.L.,selenium,https://www.alfabeta.net/precio/probioticos--vitaminas-vw.html,FALSE
+PROBIOTICOS+PREBIOTICO 10K VITAMIN WAY,Pharmamerican S.R.L.,selenium,https://www.alfabeta.net/precio/probioticosprebiotico-10k-vitamin-way.html,FALSE
+PROBIOTICOS+PREBIOTICO VITAMIN WAY,Pharmamerican S.R.L.,selenium,https://www.alfabeta.net/precio/probioticosprebiotico-vitamin-way.html,FALSE
+PROCELAC 10,Teva Argentina,api,https://www.alfabeta.net/precio/procelac-10.html,TRUE
+PROCTO-IKATRAL,Baliarda,selenium,https://www.alfabeta.net/precio/procto-ikatral.html,TRUE
+PROCTO-METADYNE,Microsules Arg.,selenium,https://www.alfabeta.net/precio/procto-metadyne.html,FALSE
+PROLASTIN-C,Gemabiotech,selenium,https://www.alfabeta.net/precio/prolastin-c.html,FALSE
+PRONTOSAN SOLUCIÓN,B. Braun,selenium,https://www.alfabeta.net/precio/prontosan-solucion.html,FALSE
+PROPOFOL LIPURO 1%,B. Braun,selenium,https://www.alfabeta.net/precio/propofol-lipuro-1.html,FALSE
+PROPOFOL LIPURO 2%,B. Braun,selenium,https://www.alfabeta.net/precio/propofol-lipuro-2.html,FALSE
+PROREN 12.5,LKM,selenium,https://www.alfabeta.net/precio/proren-125.html,FALSE
+PROSTAMEN CON ARÁNDANO,Lafarmen,selenium,https://www.alfabeta.net/precio/prostamen-con-arandano.html,FALSE
+PROTECTOR LABIAL EWE CON FPS 30+,Sanitas,selenium,https://www.alfabeta.net/precio/protector-labial-ewe-con-fps-30.html,FALSE
+PROTEINAS + GLUCOSA,Lafarmen,selenium,https://www.alfabeta.net/precio/proteinas--glucosa.html,FALSE
+PROTEX JABON ANTIBACTERIANO LIQ.,Colgate,selenium,https://www.alfabeta.net/precio/protex-jabon-antibacteriano-liq.html,FALSE
+PROTEÍNA VEGETAL VW,Pharmamerican S.R.L.,selenium,https://www.alfabeta.net/precio/proteina-vegetal-vw.html,FALSE
+PROVAL,Medipharma,selenium,https://www.alfabeta.net/precio/proval.html,FALSE
+PSI-DESTUL,Savant Generic,selenium,https://www.alfabeta.net/precio/psi-destul.html,FALSE
+PSORI-BET,Panalab,selenium,https://www.alfabeta.net/precio/psori-bet.html,FALSE
+PTA,Sidus,selenium,https://www.alfabeta.net/precio/pta.html,FALSE
+PULMOZYME (Dnasa),Roche,selenium,https://www.alfabeta.net/precio/pulmozyme-dnasa.html,FALSE
+PURATROL EMULSIÓN FACIAL,Neo-Dermos,selenium,https://www.alfabeta.net/precio/puratrol-emulsion-facial.html,FALSE
+Q 10,Sempre Giovane,selenium,https://www.alfabeta.net/precio/q-10.html,FALSE
+Q-PROST,Ariston,selenium,https://www.alfabeta.net/precio/q-prost.html,FALSE
+Q-PROST ALOPEX,Ariston,selenium,https://www.alfabeta.net/precio/q-prost-alopex.html,FALSE
+QUELAT KIDS MULTIVITAMÍNICO,Megalabs Argentina,selenium,https://www.alfabeta.net/precio/quelat-kids-multivitaminico.html,FALSE
+R.I.C.CALCIO,Domínguez,selenium,https://www.alfabeta.net/precio/riccalcio.html,FALSE
+RAPIDERM CREMA DE ORDEÑE,E. J. Gezzi,selenium,https://www.alfabeta.net/precio/rapiderm-crema-de-ordene.html,FALSE
+RAPTOR PLANT PROTEIN VAIN/CAR,Bagó,selenium,https://www.alfabeta.net/precio/raptor-plant-protein-vaincar.html,FALSE
+REAFIRMANT,Lagos,selenium,https://www.alfabeta.net/precio/reafirmant.html,FALSE
+REDIUN-E 100,Baliarda,selenium,https://www.alfabeta.net/precio/rediun-e-100.html,FALSE
+REDIUN-E 25,Baliarda,selenium,https://www.alfabeta.net/precio/rediun-e-25.html,FALSE
+REDIUN-E 50,Baliarda,selenium,https://www.alfabeta.net/precio/rediun-e-50.html,FALSE
+REDUDIET A.M.,A.M. Farma Activ,selenium,https://www.alfabeta.net/precio/redudiet-am.html,FALSE
+REDUGLUC A.P.,Microsules Arg.,selenium,https://www.alfabeta.net/precio/redugluc-ap.html,FALSE
+REDUGLUC A.P. FORTE,Microsules Arg.,selenium,https://www.alfabeta.net/precio/redugluc-ap-forte.html,FALSE
+REFENAX COLIRIO,Monserrat,api,https://www.alfabeta.net/precio/refenax-colirio.html,FALSE
+REFLUX,Nolter,selenium,https://www.alfabeta.net/precio/reflux.html,FALSE
+REFRANE TOTAL,Neo-Dermos,api,https://www.alfabeta.net/precio/refrane-total.html,FALSE
+REGEN,San Ceferino,selenium,https://www.alfabeta.net/precio/regen.html,FALSE
+REGULACID V.L.,Lazar,selenium,https://www.alfabeta.net/precio/regulacid-vl.html,FALSE
+RELAX-IN,Teingro,selenium,https://www.alfabeta.net/precio/relax-in.html,FALSE
+REN-UR,Lafedar,selenium,https://www.alfabeta.net/precio/ren-ur.html,FALSE
+RENACENZ,Richmond,api,https://www.alfabeta.net/precio/renacenz.html,FALSE
+RENOVATEURS,Cepage,api,https://www.alfabeta.net/precio/renovateurs.html,FALSE
+RENVELA,Sanofi-Aventis,api,https://www.alfabeta.net/precio/renvela.html,FALSE
+REPLIGEN GEL 1%,Panalab,selenium,https://www.alfabeta.net/precio/repligen-gel-1.html,FALSE
+RESAQUIT V.L.,Lazar,selenium,https://www.alfabeta.net/precio/resaquit-vl.html,FALSE
+RESTINIL,Lazar,api,https://www.alfabeta.net/precio/restinil.html,FALSE
+RETI-SKIN 0.025%,Oxapharma,selenium,https://www.alfabeta.net/precio/reti-skin-0025.html,FALSE
+RETI-SKIN 0.050%,Oxapharma,selenium,https://www.alfabeta.net/precio/reti-skin-0050.html,FALSE
+RETI-SKIN 0.10%,Oxapharma,selenium,https://www.alfabeta.net/precio/reti-skin-010.html,FALSE
+RETI-SKIN 0.20%,Oxapharma,selenium,https://www.alfabeta.net/precio/reti-skin-020.html,FALSE
+REUMOL DICLO FORTE GEL,Cabuchi,api,https://www.alfabeta.net/precio/reumol-diclo-forte-gel.html,FALSE
+REVI-ATLAS,Lab Internacional Argentino,selenium,https://www.alfabeta.net/precio/revi-atlas.html,FALSE
+REVOLADE,Novartis,api,https://www.alfabeta.net/precio/revolade.html,FALSE
+RIATUL 0.25,Baliarda,selenium,https://www.alfabeta.net/precio/riatul-025.html,FALSE
+RIATUL 0.5,Baliarda,selenium,https://www.alfabeta.net/precio/riatul-05.html,FALSE
+RIBOCLER 0.5 MG,Monserrat,selenium,https://www.alfabeta.net/precio/ribocler-05-mg.html,FALSE
+RIFAMICINA-G,Klonal,selenium,https://www.alfabeta.net/precio/rifamicina-g.html,FALSE
+RINO-B 100,Elea,selenium,https://www.alfabeta.net/precio/rino-b-100.html,FALSE
+RINO-B NEBU,Elea,selenium,https://www.alfabeta.net/precio/rino-b-nebu.html,FALSE
+RIVEPARIN-HEPARINA RIVERO,Rivero,selenium,https://www.alfabeta.net/precio/riveparin-heparina-rivero.html,FALSE
+RIZOL,Aspen,selenium,https://www.alfabeta.net/precio/rizol.html,FALSE
+RODINAC B12 INY,Géminis Farmacéutica,api,https://www.alfabeta.net/precio/rodinac-b12-iny.html,FALSE
+ROLAST,Elea,selenium,https://www.alfabeta.net/precio/rolast.html,FALSE
+ROPI,IMA,selenium,https://www.alfabeta.net/precio/ropi.html,FALSE
+ROPIVACAINA B.BRAUN,B. Braun,selenium,https://www.alfabeta.net/precio/ropivacaina-bbraun.html,FALSE
+ROSTAN,Biotenk,selenium,https://www.alfabeta.net/precio/rostan.html,FALSE
+ROSUFEC 20,Fecofar,api,https://www.alfabeta.net/precio/rosufec-20.html,FALSE
+ROSUVAST EZ 10/10,Bagó,selenium,https://www.alfabeta.net/precio/rosuvast-ez-1010.html,FALSE
+ROSUVAST EZ 20/10,Bagó,selenium,https://www.alfabeta.net/precio/rosuvast-ez-2010.html,FALSE
+ROTATEQ,MSD Argentina SRL,api,https://www.alfabeta.net/precio/rotateq.html,FALSE
+ROTERONA,Varifarma,selenium,https://www.alfabeta.net/precio/roterona.html,FALSE
+RUBI,Gador,selenium,https://www.alfabeta.net/precio/rubi.html,FALSE
+RUBIFEN 10,Bagó,api,https://www.alfabeta.net/precio/rubifen-10.html,FALSE
+RUPE N,Duncan,api,https://www.alfabeta.net/precio/rupe-n.html,FALSE
+RUPE-N COMPUESTO,Duncan,selenium,https://www.alfabeta.net/precio/rupe-n-compuesto.html,FALSE
+RUPEDIOL,Duncan,api,https://www.alfabeta.net/precio/rupediol.html,FALSE
+SAIKEL 400,Bagó,api,https://www.alfabeta.net/precio/saikel-400.html,FALSE
+SAIZEN 12 MG,Merck Serono,api,https://www.alfabeta.net/precio/saizen-12-mg.html,FALSE
+SAIZEN 6 MG,Merck Serono,api,https://www.alfabeta.net/precio/saizen-6-mg.html,FALSE
+SALBUNEB,Valmax,api,https://www.alfabeta.net/precio/salbuneb.html,FALSE
+SALBUTRAL C/AEROMED,Cassará,selenium,https://www.alfabeta.net/precio/salbutral-caeromed.html,FALSE
+SALBUTRAL PLUS,Cassará,api,https://www.alfabeta.net/precio/salbutral-plus.html,FALSE
+SALBUTROP,Lafedar,api,https://www.alfabeta.net/precio/salbutrop.html,FALSE
+SALDIET DHARAM SINGH,Dharam Singh,api,https://www.alfabeta.net/precio/saldiet-dharam-singh.html,FALSE
+SALES P/REHIDRAT.ORAL OSMOLARIDAD REDUCIDA,Lafedar,selenium,https://www.alfabeta.net/precio/sales-prehidratoral-osmolaridad-reducida.html,FALSE
+SALPAD 2%,Pharmatrix,selenium,https://www.alfabeta.net/precio/salpad-2.html,FALSE
+SALPAD 6% GEL,Pharmatrix,selenium,https://www.alfabeta.net/precio/salpad-6-gel.html,FALSE
+SALVICUTAN,Lazar,api,https://www.alfabeta.net/precio/salvicutan.html,FALSE
+SAPOLAN BRONCEADOR C/ACEITE DE COCO,San Ceferino,selenium,https://www.alfabeta.net/precio/sapolan-bronceador-caceite-de-coco.html,FALSE
+SAPOLAN C/EXTR.ZANAHORIA,San Ceferino,selenium,https://www.alfabeta.net/precio/sapolan-cextrzanahoria.html,FALSE
+SAPOLAN CLASICO C/ALOE VERA,San Ceferino,selenium,https://www.alfabeta.net/precio/sapolan-clasico-caloe-vera.html,FALSE
+SARVAL D 160/12.5,Baliarda,selenium,https://www.alfabeta.net/precio/sarval-d-160125.html,FALSE
+SARVAL D 160/25,Baliarda,selenium,https://www.alfabeta.net/precio/sarval-d-16025.html,FALSE
+SARVAL D 320/12.5,Baliarda,selenium,https://www.alfabeta.net/precio/sarval-d-320125.html,FALSE
+SARVAL D 320/25,Baliarda,selenium,https://www.alfabeta.net/precio/sarval-d-32025.html,FALSE
+SARVAL D 80/12.5,Baliarda,selenium,https://www.alfabeta.net/precio/sarval-d-80125.html,FALSE
+SCLEROFIN U.D.,Teva Argentina,selenium,https://www.alfabeta.net/precio/sclerofin-ud.html,FALSE
+SCRUB-ATLAS,Lab Internacional Argentino,selenium,https://www.alfabeta.net/precio/scrub-atlas.html,FALSE
+SEA-BOND,Combe,selenium,https://www.alfabeta.net/precio/sea-bond.html,FALSE
+SECODAL SUBL,Rospaw,api,https://www.alfabeta.net/precio/secodal-subl.html,FALSE
+SECUFEM 1.5 MG,Elea,selenium,https://www.alfabeta.net/precio/secufem-15-mg.html,FALSE
+SELE200,Framingham Pharma,api,https://www.alfabeta.net/precio/sele200.html,FALSE
+SENSODYNE CEPILLO MULTIPROTECCION TB,Haleon Argentina,api,https://www.alfabeta.net/precio/sensodyne-cepillo-multiproteccion-tb.html,FALSE
+SENSODYNE PROTECCION COMPLETA + ANTISARRO,Haleon Argentina,selenium,https://www.alfabeta.net/precio/sensodyne-proteccion-completa--antisarro.html,FALSE
+SENSODYNE REPARA & PROTEGE,Haleon Argentina,selenium,https://www.alfabeta.net/precio/sensodyne-repara--protege.html,FALSE
+SENSOR FREESTYLE LIBRE 2 PLUS,Abbott Diabetes,api,https://www.alfabeta.net/precio/sensor-freestyle-libre-2-plus.html,FALSE
+SENSU,Bausch & Lomb Arg.,selenium,https://www.alfabeta.net/precio/sensu.html,FALSE
+SENSURA POST OP CON VENT 10-100 MM,Coloplast,selenium,https://www.alfabeta.net/precio/sensura-post-op-con-vent-10-100-mm.html,FALSE
+SENSURA POST OP SIN VENT 10-70 MM,Coloplast,selenium,https://www.alfabeta.net/precio/sensura-post-op-sin-vent-10-70-mm.html,FALSE
+SEPTOCORT,Fecofar,api,https://www.alfabeta.net/precio/septocort.html,FALSE
+SHAKER PLUS COMPARTIMENTO,Laboratorio ENA,api,https://www.alfabeta.net/precio/shaker-plus-compartimento.html,FALSE
+SHAMPOO AMINOACIDOS + CAPILMAX,Dr. Madaus,selenium,https://www.alfabeta.net/precio/shampoo-aminoacidos--capilmax.html,FALSE
+SHAMPOO AVENA + KERATINA,Dr. Madaus,selenium,https://www.alfabeta.net/precio/shampoo-avena--keratina.html,FALSE
+SHAMPOO ORTIGA + ROMERO,Dr. Madaus,selenium,https://www.alfabeta.net/precio/shampoo-ortiga--romero.html,FALSE
+SIFROL,Boehringer Ingelheim,api,https://www.alfabeta.net/precio/sifrol.html,FALSE
+SIFROL ER,Boehringer Ingelheim,api,https://www.alfabeta.net/precio/sifrol-er.html,FALSE
+SIMPLA,Elea,api,https://www.alfabeta.net/precio/simpla.html,FALSE
+SIMPLE CALCIO + VITAMINA D,Bagó-Arcor,selenium,https://www.alfabeta.net/precio/simple-calcio--vitamina-d.html,FALSE
+SIMPLE PROTEINA SA.ORIG.,Bagó-Arcor,selenium,https://www.alfabeta.net/precio/simple-proteina-saorig.html,FALSE
+SINCERUM BIOTIC,Dallas,api,https://www.alfabeta.net/precio/sincerum-biotic.html,FALSE
+SINDOLITO 4%,Microsules Arg.,selenium,https://www.alfabeta.net/precio/sindolito-4.html,FALSE
+SINEQUAN,Lafedar,api,https://www.alfabeta.net/precio/sinequan.html,FALSE
+SKIN HAIR & NAILS,Provefarma,selenium,https://www.alfabeta.net/precio/skin-hair--nails.html,FALSE
+SMOFKABIVEN S/ELECT CENTRAL,Fresenius Kabi,selenium,https://www.alfabeta.net/precio/smofkabiven-select-central.html,FALSE
+SMOFLIPID 20% 500 ML,Fresenius Kabi,selenium,https://www.alfabeta.net/precio/smoflipid-20-500-ml.html,FALSE
+SOL BRONCE VITAL A.M.,A.M. Farma Activ,selenium,https://www.alfabeta.net/precio/sol-bronce-vital-am.html,FALSE
+SOLE MIO FILTRO,Sempre Giovane,api,https://www.alfabeta.net/precio/sole-mio-filtro.html,FALSE
+SOLENIL +30 FACIAL COLOR,Fortbenton,selenium,https://www.alfabeta.net/precio/solenil-30-facial-color.html,FALSE
+SOLENIL +60 FACIAL,Fortbenton,selenium,https://www.alfabeta.net/precio/solenil-60-facial.html,FALSE
+SOLFIDIN FLASH,Rontag,api,https://www.alfabeta.net/precio/solfidin-flash.html,FALSE
+SOLIFENACINA TEVA,Teva Argentina,api,https://www.alfabeta.net/precio/solifenacina-teva.html,FALSE
+SOLIQUA 10-40,Sanofi-Aventis,selenium,https://www.alfabeta.net/precio/soliqua-10-40.html,FALSE
+SOLIQUA 30-60,Sanofi-Aventis,selenium,https://www.alfabeta.net/precio/soliqua-30-60.html,FALSE
+SOLUC. CIPROFLOXACINA JAYOR,Jayor,selenium,https://www.alfabeta.net/precio/soluc-ciprofloxacina-jayor.html,FALSE
+SOLUC. CLORURO DE SODIO 0.9%,Laboratorios Tecsolpar,selenium,https://www.alfabeta.net/precio/soluc-cloruro-de-sodio-09.html,FALSE
+SOLUC. DE DEXTROSA 10% RIGECIN,Rigecin,selenium,https://www.alfabeta.net/precio/soluc-de-dextrosa-10-rigecin.html,FALSE
+SOLUC. DE DEXTROSA 25% RIGECIN,Rigecin,selenium,https://www.alfabeta.net/precio/soluc-de-dextrosa-25-rigecin.html,FALSE
+SOLUC. DE DEXTROSA 5% RIGECIN,Rigecin,selenium,https://www.alfabeta.net/precio/soluc-de-dextrosa-5-rigecin.html,FALSE
+SOLUC. DE DEXTROSA 50% RIGECIN,Rigecin,selenium,https://www.alfabeta.net/precio/soluc-de-dextrosa-50-rigecin.html,FALSE
+SOLUC. DE MANITOL AL 15% RIGECIN,Rigecin,selenium,https://www.alfabeta.net/precio/soluc-de-manitol-al-15-rigecin.html,FALSE
+SOLUC. DEXTROSA 10% EN AGUA,Laboratorios Tecsolpar,selenium,https://www.alfabeta.net/precio/soluc-dextrosa-10-en-agua.html,FALSE
+SOLUC. DEXTROSA 10% JAYOR BOLSA SIMPLE,Jayor,selenium,https://www.alfabeta.net/precio/soluc-dextrosa-10-jayor-bolsa-simple.html,FALSE
+SOLUC. DEXTROSA 25% EN AGUA,Laboratorios Tecsolpar,selenium,https://www.alfabeta.net/precio/soluc-dextrosa-25-en-agua.html,FALSE
+SOLUC. DEXTROSA 5% EN AGUA,Laboratorios Tecsolpar,selenium,https://www.alfabeta.net/precio/soluc-dextrosa-5-en-agua.html,FALSE
+SOLUC. DEXTROSA 5% EN SOL. FISIOL.,Laboratorios Tecsolpar,selenium,https://www.alfabeta.net/precio/soluc-dextrosa-5-en-sol-fisiol.html,FALSE
+SOLUC. DEXTROSA 5% EN SOLUC. FISIOL. RIGECIN,Rigecin,selenium,https://www.alfabeta.net/precio/soluc-dextrosa-5-en-soluc-fisiol-rigecin.html,FALSE
+SOLUC. DEXTROSA 5% JAYOR BOLSA SIMPLE,Jayor,selenium,https://www.alfabeta.net/precio/soluc-dextrosa-5-jayor-bolsa-simple.html,FALSE
+SOLUC. DEXTROSA 50% EN AGUA,Laboratorios Tecsolpar,selenium,https://www.alfabeta.net/precio/soluc-dextrosa-50-en-agua.html,FALSE
+SOLUC. ELECTROLITICA BALANCEADA RIGECIN,Rigecin,selenium,https://www.alfabeta.net/precio/soluc-electrolitica-balanceada-rigecin.html,FALSE
+SOLUC. FISIOLOGICA CELTYC,Celtyc,selenium,https://www.alfabeta.net/precio/soluc-fisiologica-celtyc.html,FALSE
+SOLUC. FISIOLOGICA GEMEPE,Gemepe,selenium,https://www.alfabeta.net/precio/soluc-fisiologica-gemepe.html,FALSE
+SOLUC. FISIOLOGICA ISOTONICA RIGECIN,Rigecin,selenium,https://www.alfabeta.net/precio/soluc-fisiologica-isotonica-rigecin.html,FALSE
+SOLUC. FISIOLOGICA JAYOR BOLSA SIMPLE,Jayor,selenium,https://www.alfabeta.net/precio/soluc-fisiologica-jayor-bolsa-simple.html,FALSE
+SOLUC. GLICINA 1.5% EN AGUA,Laboratorios Tecsolpar,selenium,https://www.alfabeta.net/precio/soluc-glicina-15-en-agua.html,FALSE
+SOLUC. GLICINA BAXTER,Aponor,selenium,https://www.alfabeta.net/precio/soluc-glicina-baxter.html,FALSE
+SOLUC. GLUCOSALINA BOLSA SIMPLE,Jayor,selenium,https://www.alfabeta.net/precio/soluc-glucosalina-bolsa-simple.html,FALSE
+SOLUC. HIPERSALINA TECHSPERE 7%,Biosintex Tr. Esp.,selenium,https://www.alfabeta.net/precio/soluc-hipersalina-techspere-7.html,FALSE
+SOLUC. MANITOL 15% EN AGUA,Laboratorios Tecsolpar,selenium,https://www.alfabeta.net/precio/soluc-manitol-15-en-agua.html,FALSE
+SOLUC. METRONIDAZOL JAYOR,Jayor,selenium,https://www.alfabeta.net/precio/soluc-metronidazol-jayor.html,FALSE
+SOLUC. MOLAR CLORURO DE POTASIO,Laboratorios Tecsolpar,selenium,https://www.alfabeta.net/precio/soluc-molar-cloruro-de-potasio.html,FALSE
+SOLUC. MOLAR UPL,Ultra Pharma,selenium,https://www.alfabeta.net/precio/soluc-molar-upl.html,FALSE
+SOLUC. RINGER LACTATO,Laboratorios Tecsolpar,selenium,https://www.alfabeta.net/precio/soluc-ringer-lactato.html,FALSE
+SOLUC. RINGER LACTATO BOLSA SIMPLE,Jayor,selenium,https://www.alfabeta.net/precio/soluc-ringer-lactato-bolsa-simple.html,FALSE
+SOLUC. RINGER LACTATO RIGECIN,Rigecin,selenium,https://www.alfabeta.net/precio/soluc-ringer-lactato-rigecin.html,FALSE
+SOLUC.CLORURADA HIPERTONICA,Duncan,selenium,https://www.alfabeta.net/precio/solucclorurada-hipertonica.html,FALSE
+SOLUC.CLORURADA HIPERTONICA FADA,Fada Pharma,selenium,https://www.alfabeta.net/precio/solucclorurada-hipertonica-fada.html,FALSE
+SOLUC.DEXTROSA AL 5% SIST.CERRADO EP,B. Braun,selenium,https://www.alfabeta.net/precio/solucdextrosa-al-5-sistcerrado-ep.html,FALSE
+SOLUC.FISIOL.CLORURO DE SODIO BINA PHARMA,Bina Pharma S.A.,selenium,https://www.alfabeta.net/precio/solucfisiolcloruro-de-sodio-bina-pharma.html,FALSE
+SOLUC.FISIOLOGICA,Northia,selenium,https://www.alfabeta.net/precio/solucfisiologica.html,FALSE
+SOLUC.FISIOLOGICA 0.9% SIST.CERRADO EP,B. Braun,selenium,https://www.alfabeta.net/precio/solucfisiologica-09-sistcerrado-ep.html,FALSE
+SOLUC.FISIOLOGICA DRAWER,Drawer,selenium,https://www.alfabeta.net/precio/solucfisiologica-drawer.html,FALSE
+SOLUC.FISIOLOGICA KLONAL,Klonal,selenium,https://www.alfabeta.net/precio/solucfisiologica-klonal.html,FALSE
+SOLUC.FISIOLOGICA VEINFAR,Veinfar,selenium,https://www.alfabeta.net/precio/solucfisiologica-veinfar.html,FALSE
+SOLUC.P/CARDIOPLEGIA RIVERO,Rivero,selenium,https://www.alfabeta.net/precio/solucpcardioplegia-rivero.html,FALSE
+SOLUC.PARENT. MAXFUSOR PLUS,Rivero,selenium,https://www.alfabeta.net/precio/solucparent-maxfusor-plus.html,FALSE
+SOLUC.PARENT.PARENTGLASS,Rivero,selenium,https://www.alfabeta.net/precio/solucparentparentglass.html,FALSE
+SOLUC.PARENT.SOLUFLEX,Rivero,selenium,https://www.alfabeta.net/precio/solucparentsoluflex.html,FALSE
+SOLUC.RINGER CON LACTATO SIST.CERRADO EP,B. Braun,selenium,https://www.alfabeta.net/precio/solucringer-con-lactato-sistcerrado-ep.html,FALSE
+SOMACTIVE LF,Gemabiotech,api,https://www.alfabeta.net/precio/somactive-lf.html,FALSE
+SONDAS GENTLECATH 08 FEM 100% HIDROFILICAS,Convatec,selenium,https://www.alfabeta.net/precio/sondas-gentlecath-08-fem-100-hidrofilicas.html,FALSE
+SONDAS GENTLECATH 08 MASC 100% HIDROFILICAS,Convatec,selenium,https://www.alfabeta.net/precio/sondas-gentlecath-08-masc-100-hidrofilicas.html,FALSE
+SONDAS GENTLECATH 10 FEM 100% HIDROFILICAS,Convatec,selenium,https://www.alfabeta.net/precio/sondas-gentlecath-10-fem-100-hidrofilicas.html,FALSE
+SONDAS GENTLECATH 10 MASC 100% HIDROFILICAS,Convatec,selenium,https://www.alfabeta.net/precio/sondas-gentlecath-10-masc-100-hidrofilicas.html,FALSE
+SONDAS GENTLECATH 12 FEM 100% HIDROFILICAS,Convatec,selenium,https://www.alfabeta.net/precio/sondas-gentlecath-12-fem-100-hidrofilicas.html,FALSE
+SONDAS GENTLECATH 12 MASC 100% HIDROFILICAS,Convatec,selenium,https://www.alfabeta.net/precio/sondas-gentlecath-12-masc-100-hidrofilicas.html,TRUE
+SONDAS GENTLECATH 14 FEM 100% HIDROFILICAS,Convatec,selenium,https://www.alfabeta.net/precio/sondas-gentlecath-14-fem-100-hidrofilicas.html,TRUE
+SONDAS GENTLECATH 14 MASC 100% HIDROFILICAS,Convatec,selenium,https://www.alfabeta.net/precio/sondas-gentlecath-14-masc-100-hidrofilicas.html,FALSE
+SONDAS GENTLECATH 16 MASC 100% HIDROFILICAS,Convatec,selenium,https://www.alfabeta.net/precio/sondas-gentlecath-16-masc-100-hidrofilicas.html,FALSE
+SONDAS GENTLECATH GLIDE TIEMANN 12 100% HIDR,Convatec,selenium,https://www.alfabeta.net/precio/sondas-gentlecath-glide-tiemann-12-100-hidr.html,FALSE
+SONDAS GENTLECATH GLIDE TIEMANN 14 100% HIDR,Convatec,selenium,https://www.alfabeta.net/precio/sondas-gentlecath-glide-tiemann-14-100-hidr.html,FALSE
+SONDAS GENTLECATH GLIDE TIEMANN 16 100% HIDR,Convatec,selenium,https://www.alfabeta.net/precio/sondas-gentlecath-glide-tiemann-16-100-hidr.html,FALSE
+SPIRULINA + B1,Lafarmen,selenium,https://www.alfabeta.net/precio/spirulina--b1.html,FALSE
+SPIRULINA A.M.,A.M. Farma Activ,selenium,https://www.alfabeta.net/precio/spirulina-am.html,FALSE
+SPRAY CORPORAL CALMA MAGNESIO + LAVANDA,Dr. Madaus,selenium,https://www.alfabeta.net/precio/spray-corporal-calma-magnesio--lavanda.html,FALSE
+SPRAY QUITA AD. ADAPT PARA OSTOMIA,Hollister,selenium,https://www.alfabeta.net/precio/spray-quita-ad-adapt-para-ostomia.html,FALSE
+STOMACINE,Trb-Pharma,api,https://www.alfabeta.net/precio/stomacine.html,FALSE
+SUBLIMAZE S/CONSERVADOR,Janssen-Cilag,selenium,https://www.alfabeta.net/precio/sublimaze-sconservador.html,FALSE
+SUCCINILCOLINA PHARMAVIAL,IBC,api,https://www.alfabeta.net/precio/succinilcolina-pharmavial.html,FALSE
+SUCROX I.V. COMPLEX,Biocontrol,selenium,https://www.alfabeta.net/precio/sucrox-iv-complex.html,FALSE
+SUERO ANTIOFIDICO POLIVALENTE LIOF.BIOL,Biol,selenium,https://www.alfabeta.net/precio/suero-antiofidico-polivalente-liofbiol.html,FALSE
+SULFATO DE MAGNESIO 25% CELTYC,Celtyc,selenium,https://www.alfabeta.net/precio/sulfato-de-magnesio-25-celtyc.html,FALSE
+SULOCTEN D,Microsules Arg.,api,https://www.alfabeta.net/precio/sulocten-d.html,FALSE
+SUPER EGG'S PROTEIN,Teingro,selenium,https://www.alfabeta.net/precio/super-eggs-protein.html,FALSE
+SUPER-O,Biotenk,selenium,https://www.alfabeta.net/precio/super-o.html,FALSE
+SUPER-O 36,Biotenk,selenium,https://www.alfabeta.net/precio/super-o-36.html,FALSE
+SUPERMINOX 2%,Finadiet,selenium,https://www.alfabeta.net/precio/superminox-2.html,FALSE
+SUPERMINOX 5%,Finadiet,selenium,https://www.alfabeta.net/precio/superminox-5.html,FALSE
+SUPLEFORT NIÑOS,PGN,selenium,https://www.alfabeta.net/precio/suplefort-ninos.html,FALSE
+SUPRADYN KIDS,Bayer Consumer,api,https://www.alfabeta.net/precio/supradyn-kids.html,FALSE
+SUPRADYN PRONATAL,Bayer Consumer,api,https://www.alfabeta.net/precio/supradyn-pronatal.html,FALSE
+SUPRALER M,Panalab,api,https://www.alfabeta.net/precio/supraler-m.html,FALSE
+SURVANTA,Abbvie,api,https://www.alfabeta.net/precio/survanta.html,FALSE
+SUSTENTA DB NEUTRO DHA,Nutentar,api,https://www.alfabeta.net/precio/sustenta-db-neutro-dha.html,FALSE
+SUTENT 12.5,Pfizer,selenium,https://www.alfabeta.net/precio/sutent-125.html,FALSE
+SUTRICO TAR,Megalabs Argentina,api,https://www.alfabeta.net/precio/sutrico-tar.html,FALSE
+SVELTY 0% LACTOSE FREE,Nestle,selenium,https://www.alfabeta.net/precio/svelty-0-lactose-free.html,FALSE
+SVELTY ORGÁNICA,Nestle,selenium,https://www.alfabeta.net/precio/svelty-organica.html,FALSE
+SYMBICORT-FORTE TURBUHALER,AstraZeneca,selenium,https://www.alfabeta.net/precio/symbicort-forte-turbuhaler.html,FALSE
+SYSTANE COMPLETE SP,Alcon,api,https://www.alfabeta.net/precio/systane-complete-sp.html,FALSE
+T+D+H DORF,PharmaDorf,selenium,https://www.alfabeta.net/precio/tdh-dorf.html,FALSE
+TABCIN 1 G,Bayer Consumer,api,https://www.alfabeta.net/precio/tabcin-1-g.html,FALSE
+TABE,Laboratorios Bernabó,selenium,https://www.alfabeta.net/precio/tabe.html,FALSE
+TABTIL,Craveri,api,https://www.alfabeta.net/precio/tabtil.html,FALSE
+TACRO-TIC,Oxapharma,selenium,https://www.alfabeta.net/precio/tacro-tic.html,FALSE
+TAFIROL,Genomma Lab.,api,https://www.alfabeta.net/precio/tafirol.html,FALSE
+TAFIROL MAX,Genomma Lab.,api,https://www.alfabeta.net/precio/tafirol-max.html,FALSE
+TAKHZYRO,Takeda Argentina S.A.,api,https://www.alfabeta.net/precio/takhzyro.html,FALSE
+TALNIDOL 50,Bagó,api,https://www.alfabeta.net/precio/talnidol-50.html,FALSE
+TALNIF,Bagó,api,https://www.alfabeta.net/precio/talnif.html,FALSE
+TALOSIN,Aspen,api,https://www.alfabeta.net/precio/talosin.html,FALSE
+TAMOXIFENO MICROSULES,Microsules Arg.,api,https://www.alfabeta.net/precio/tamoxifeno-microsules.html,FALSE
+TAMSULOSINA RICHET,Richet,api,https://www.alfabeta.net/precio/tamsulosina-richet.html,FALSE
+TANESA,Rossmore Pharma,api,https://www.alfabeta.net/precio/tanesa.html,FALSE
+TANSILOPROST,Finadiet,api,https://www.alfabeta.net/precio/tansiloprost.html,FALSE
+TANVIMIL E,Megalabs Argentina,api,https://www.alfabeta.net/precio/tanvimil-e.html,FALSE
+TANVIMIL EBA,Megalabs Argentina,api,https://www.alfabeta.net/precio/tanvimil-eba.html,FALSE
+TANVIMIL FOLICO,Megalabs Argentina,api,https://www.alfabeta.net/precio/tanvimil-folico.html,FALSE
+TANVIMIL ISOFLAVONAS DUO,Megalabs Argentina,api,https://www.alfabeta.net/precio/tanvimil-isoflavonas-duo.html,FALSE
+TARGEL PLUS,Lagos,api,https://www.alfabeta.net/precio/targel-plus.html,FALSE
+TAURAL F 10,Roemmers,api,https://www.alfabeta.net/precio/taural-f-10.html,FALSE
+TE NATURAL,San Ceferino,selenium,https://www.alfabeta.net/precio/te-natural.html,FALSE
+TECTA,Adium,api,https://www.alfabeta.net/precio/tecta.html,FALSE
+TELMISARTAN RICHET,Richet,api,https://www.alfabeta.net/precio/telmisartan-richet.html,FALSE
+TELOMERINA NAD+,Framingham Pharma,selenium,https://www.alfabeta.net/precio/telomerina-nad.html,FALSE
+TELPRES PLUS,Siegfried,api,https://www.alfabeta.net/precio/telpres-plus.html,FALSE
+TEMASTE,Bioprofarma Bagó,api,https://www.alfabeta.net/precio/temaste.html,FALSE
+TEMAX,Sidus,selenium,https://www.alfabeta.net/precio/temax.html,FALSE
+TEMISARTAN DIUR 100/25,Temis-Lostaló,selenium,https://www.alfabeta.net/precio/temisartan-diur-10025.html,FALSE
+TEMISARTAN DIUR 50/12.5,Temis-Lostaló,selenium,https://www.alfabeta.net/precio/temisartan-diur-50125.html,FALSE
+TEMOXAN 250,Eczane,api,https://www.alfabeta.net/precio/temoxan-250.html,FALSE
+TENARON FLEX,Siegfried,api,https://www.alfabeta.net/precio/tenaron-flex.html,FALSE
+TENOMID,Richmond,api,https://www.alfabeta.net/precio/tenomid.html,FALSE
+TEPENAC,Techsphere,api,https://www.alfabeta.net/precio/tepenac.html,FALSE
+TERAZOSINA VANNIER,Vannier,api,https://www.alfabeta.net/precio/terazosina-vannier.html,FALSE
+TERBI-DERM,Oxapharma,selenium,https://www.alfabeta.net/precio/terbi-derm.html,FALSE
+TERBINAFINA (COMO CLORHIDRATO) RICHET,Richet,selenium,https://www.alfabeta.net/precio/terbinafina-como-clorhidrato-richet.html,FALSE
+TEREKOL PULSO,Panalab,api,https://www.alfabeta.net/precio/terekol-pulso.html,FALSE
+TERFANIB,Tuteur,api,https://www.alfabeta.net/precio/terfanib.html,FALSE
+TERMOKIDS 4%,E. J. Gezzi,selenium,https://www.alfabeta.net/precio/termokids-4.html,FALSE
+TERMOKIDS 4% FRUTILLA CEREZA,E. J. Gezzi,selenium,https://www.alfabeta.net/precio/termokids-4-frutilla-cereza.html,FALSE
+TESTOVIRON DEPOT,Bayer (PH),api,https://www.alfabeta.net/precio/testoviron-depot.html,FALSE
+TETABULIN S/D,Gobbi,selenium,https://www.alfabeta.net/precio/tetabulin-sd.html,FALSE
+TETRABENZ,Lafedar,api,https://www.alfabeta.net/precio/tetrabenz.html,FALSE
+TETRALGIN,Siegfried,api,https://www.alfabeta.net/precio/tetralgin.html,FALSE
+TETRALGIN APC,Siegfried,api,https://www.alfabeta.net/precio/tetralgin-apc.html,FALSE
+TEZSPIRE,AstraZeneca,api,https://www.alfabeta.net/precio/tezspire.html,FALSE
+THICK & EASY,Fresenius Kabi,selenium,https://www.alfabeta.net/precio/thick--easy.html,FALSE
+TIAL,Pharmalep S.A.,selenium,https://www.alfabeta.net/precio/tial.html,FALSE
+TIAMINA 300,Austral,api,https://www.alfabeta.net/precio/tiamina-300.html,FALSE
+TIARIX,Casasco,api,https://www.alfabeta.net/precio/tiarix.html,FALSE
+TINTURA DE FRUTOS DE ARÁNDANOS,A.M. Farma Activ,selenium,https://www.alfabeta.net/precio/tintura-de-frutos-de-arandanos.html,FALSE
+TIRIZ,Eurofarma,selenium,https://www.alfabeta.net/precio/tiriz.html,FALSE
+TISANA ADELGAZANTE SAINT GOTTARD,Pharmamerican S.R.L.,api,https://www.alfabeta.net/precio/tisana-adelgazante-saint-gottard.html,FALSE
+TISANA DIURETICO SAINT GOTTARD,Pharmamerican S.R.L.,api,https://www.alfabeta.net/precio/tisana-diuretico-saint-gottard.html,FALSE
+TISANA PRESION SAINT GOTTARD,Pharmamerican S.R.L.,api,https://www.alfabeta.net/precio/tisana-presion-saint-gottard.html,FALSE
+TIVICAY,GlaxoSmithKline Biopharma,api,https://www.alfabeta.net/precio/tivicay.html,FALSE
+TOALLITAS DERMOPROT. ADAPT,Hollister,selenium,https://www.alfabeta.net/precio/toallitas-dermoprot-adapt.html,FALSE
+TOALLITAS REMOV. DE AD. ADAPT,Hollister,selenium,https://www.alfabeta.net/precio/toallitas-remov-de-ad-adapt.html,FALSE
+TOBLAPTIN,Gador,api,https://www.alfabeta.net/precio/toblaptin.html,FALSE
+TOBRATLAS DEXA,Lab Internacional Argentino,api,https://www.alfabeta.net/precio/tobratlas-dexa.html,FALSE
+TOGREL,Roemmers,api,https://www.alfabeta.net/precio/togrel.html,FALSE
+TOLF,Poen,api,https://www.alfabeta.net/precio/tolf.html,FALSE
+TONIBRAL,Ariston,api,https://www.alfabeta.net/precio/tonibral.html,FALSE
+TOPICTAL,Adium,api,https://www.alfabeta.net/precio/topictal.html,FALSE
+TOSCALMIN TE,Omicron,api,https://www.alfabeta.net/precio/toscalmin-te.html,FALSE
+TOSTOP NIÑOS,Savant Consumer,selenium,https://www.alfabeta.net/precio/tostop-ninos.html,FALSE
+TOTAL MAGNESIANO VITAMINA C,Temis-Lostaló,api,https://www.alfabeta.net/precio/total-magnesiano-vitamina-c.html,FALSE
+TOTAL MAGNESIANO+50,Temis-Lostaló,selenium,https://www.alfabeta.net/precio/total-magnesiano50.html,FALSE
+TP COLGATE MAX WHITE LÁMINAS BLANQUEADORAS,Colgate,selenium,https://www.alfabeta.net/precio/tp-colgate-max-white-laminas-blanqueadoras.html,FALSE
+TRACTOLAX,Eurofarma,api,https://www.alfabeta.net/precio/tractolax.html,FALSE
+TRALI,Rontag,selenium,https://www.alfabeta.net/precio/trali.html,FALSE
+TRAMA KLOSIDOL 100,Bagó,api,https://www.alfabeta.net/precio/trama-klosidol-100.html,FALSE
+TRAMACET,Janssen-Cilag,api,https://www.alfabeta.net/precio/tramacet.html,FALSE
+TRANQUINAL 0.5,Bagó,selenium,https://www.alfabeta.net/precio/tranquinal-05.html,FALSE
+TREMFYA,Janssen-Cilag,api,https://www.alfabeta.net/precio/tremfya.html,FALSE
+TREONATO DE MAGNESIO 1000,Provefarma,api,https://www.alfabeta.net/precio/treonato-de-magnesio-1000.html,FALSE
+TRI-LUMA,Galderma,selenium,https://www.alfabeta.net/precio/tri-luma.html,FALSE
+TRI-ZEVUVIR,Richmond,selenium,https://www.alfabeta.net/precio/tri-zevuvir.html,FALSE
+TRICOLOCION 2%,Siegfried,selenium,https://www.alfabeta.net/precio/tricolocion-2.html,FALSE
+TRICUR,Lafedar,selenium,https://www.alfabeta.net/precio/tricur.html,FALSE
+TRIFACILINA 1000,Bagó,api,https://www.alfabeta.net/precio/trifacilina-1000.html,FALSE
+TRIFAMOX 250/500 JBE,Bagó,selenium,https://www.alfabeta.net/precio/trifamox-250500-jbe.html,FALSE
+TRIFAMOX BRONQUIAL DUO 875/60,Bagó,selenium,https://www.alfabeta.net/precio/trifamox-bronquial-duo-87560.html,FALSE
+TRIFAMOX IBL DUO 200/50,Bagó,selenium,https://www.alfabeta.net/precio/trifamox-ibl-duo-20050.html,FALSE
+TRIFAMOX IBL DUO 875/125,Bagó,selenium,https://www.alfabeta.net/precio/trifamox-ibl-duo-875125.html,FALSE
+TRIP +45,Siegfried,selenium,https://www.alfabeta.net/precio/trip-45.html,FALSE
+TRIPLE MAGNESIO +50 VW,Pharmamerican S.R.L.,selenium,https://www.alfabeta.net/precio/triple-magnesio-50-vw.html,FALSE
+TRIPLEX,Microsules Arg.,selenium,https://www.alfabeta.net/precio/triplex.html,FALSE
+TRIXNE 4%,Pharmatrix,selenium,https://www.alfabeta.net/precio/trixne-4.html,FALSE
+TRIXNE 4% GEL,Pharmatrix,selenium,https://www.alfabeta.net/precio/trixne-4-gel.html,FALSE
+TRYPTALGIN,Craveri,api,https://www.alfabeta.net/precio/tryptalgin.html,FALSE
+TUBARINE GEL,Ariston,api,https://www.alfabeta.net/precio/tubarine-gel.html,FALSE
+TUKOL BUC MIEL & LIMÓN,Genomma Lab.,selenium,https://www.alfabeta.net/precio/tukol-buc-miel--limon.html,FALSE
+TUMULAN,Lazar,api,https://www.alfabeta.net/precio/tumulan.html,FALSE
+TWINRIX,GlaxoSmithKline Biopharma,api,https://www.alfabeta.net/precio/twinrix.html,FALSE
+TYGACIL,Pfizer,api,https://www.alfabeta.net/precio/tygacil.html,FALSE
+TYGARONA,IMA,api,https://www.alfabeta.net/precio/tygarona.html,FALSE
+TYKERB,Novartis,api,https://www.alfabeta.net/precio/tykerb.html,FALSE
+TYSABRI SC,Biogen,api,https://www.alfabeta.net/precio/tysabri-sc.html,FALSE
+UCD ANAMIX INFANT (SABOR NEUTRO),AMN,selenium,https://www.alfabeta.net/precio/ucd-anamix-infant-sabor-neutro.html,FALSE
+UCD ANAMIX JUNIOR (SABOR NEUTRO),AMN,selenium,https://www.alfabeta.net/precio/ucd-anamix-junior-sabor-neutro.html,FALSE
+ULTIBRO BREEZHALER,Novartis,api,https://www.alfabeta.net/precio/ultibro-breezhaler.html,FALSE
+ULTRAFLEX HMB/3000,Trb-Pharma,selenium,https://www.alfabeta.net/precio/ultraflex-hmb3000.html,FALSE
+UMAN ALBUMIN,Biofactor,api,https://www.alfabeta.net/precio/uman-albumin.html,FALSE
+UMMA,Biotenk,selenium,https://www.alfabeta.net/precio/umma.html,FALSE
+UNESIA,Genomma Lab.,api,https://www.alfabeta.net/precio/unesia.html,FALSE
+UNESIA FORT.UÑAS,Genomma Lab.,selenium,https://www.alfabeta.net/precio/unesia-fortunas.html,FALSE
+UNESIA LAKESIA AMOROLFINA LACA,Genomma Lab.,api,https://www.alfabeta.net/precio/unesia-lakesia-amorolfina-laca.html,FALSE
+UNIFLOX 750,Adium,api,https://www.alfabeta.net/precio/uniflox-750.html,FALSE
+UP FOR MEN VITAMIN WAY,Pharmamerican S.R.L.,api,https://www.alfabeta.net/precio/up-for-men-vitamin-way.html,FALSE
+UP FOR WOMAN VITAMIN WAY,Pharmamerican S.R.L.,api,https://www.alfabeta.net/precio/up-for-woman-vitamin-way.html,FALSE
+URALOS PLUS,Casasco,api,https://www.alfabeta.net/precio/uralos-plus.html,FALSE
+URC MED A FORMULA,B-Life,api,https://www.alfabeta.net/precio/urc-med-a-formula.html,FALSE
+UROPROST-Q,Ariston,selenium,https://www.alfabeta.net/precio/uroprost-q.html,FALSE
+UROSEPTAL,Bagó,api,https://www.alfabeta.net/precio/uroseptal.html,FALSE
+URTIKALMA,Fecofar,api,https://www.alfabeta.net/precio/urtikalma.html,FALSE
+UZE ACTIVE-LINEA DR.UZE,Biosintex Retail,selenium,https://www.alfabeta.net/precio/uze-active-linea-druze.html,FALSE
+UÑA LIBRE DE HONGOS,Excelentia,selenium,https://www.alfabeta.net/precio/una-libre-de-hongos.html,FALSE
+UÑA LIBRE SERUM FORTIFICADOR,Formulab,selenium,https://www.alfabeta.net/precio/una-libre-serum-fortificador.html,FALSE
+VACUNA INACT.CONTRA POLIOMIELITIS CEPA SABIN,Richmond,selenium,https://www.alfabeta.net/precio/vacuna-inactcontra-poliomielitis-cepa-sabin.html,FALSE
+VAGISAN COMPUESTO,Sidus,api,https://www.alfabeta.net/precio/vagisan-compuesto.html,FALSE
+VALCAS,Casasco,api,https://www.alfabeta.net/precio/valcas.html,FALSE
+VALCATIL PIEL,Panalab,api,https://www.alfabeta.net/precio/valcatil-piel.html,FALSE
+VALERIANA+B1 GARDEN HOUSE,Garden House Argentina,selenium,https://www.alfabeta.net/precio/valerianab1-garden-house.html,FALSE
+VALIXA,Biopas Argentina,api,https://www.alfabeta.net/precio/valixa.html,FALSE
+VALMAFILO,Valmax,api,https://www.alfabeta.net/precio/valmafilo.html,FALSE
+VALTREX,GlaxoSmithKline Biopharma,api,https://www.alfabeta.net/precio/valtrex.html,FALSE
+VALUCNE E 4%,Valuge,selenium,https://www.alfabeta.net/precio/valucne-e-4.html,FALSE
+VALUCNE PB 10%,Valuge,selenium,https://www.alfabeta.net/precio/valucne-pb-10.html,FALSE
+VALUCNE PB 5%,Valuge,selenium,https://www.alfabeta.net/precio/valucne-pb-5.html,FALSE
+VANCOMICINA CELTYC 500,Celtyc,api,https://www.alfabeta.net/precio/vancomicina-celtyc-500.html,FALSE
+VANCOMICINA ENTEROCAPS SCHAFER,Schafer,api,https://www.alfabeta.net/precio/vancomicina-enterocaps-schafer.html,FALSE
+VANCOMICINA NORTHIA,Northia,api,https://www.alfabeta.net/precio/vancomicina-northia.html,FALSE
+VANCOMICINA RICHET,Richet,api,https://www.alfabeta.net/precio/vancomicina-richet.html,FALSE
+VANSAME,Valuge,api,https://www.alfabeta.net/precio/vansame.html,FALSE
+VANSAME SOLAR COLOR 50+,Valuge,selenium,https://www.alfabeta.net/precio/vansame-solar-color-50.html,FALSE
+VANSAME SOLAR EMULSION FLUIDA FPS50+,Valuge,selenium,https://www.alfabeta.net/precio/vansame-solar-emulsion-fluida-fps50.html,FALSE
+VANSAME SOLAR EMULSION FLUIDA FPS50+ COLOR,Valuge,selenium,https://www.alfabeta.net/precio/vansame-solar-emulsion-fluida-fps50-color.html,FALSE
+VANSAME SOLAR FACIAL 50+,Valuge,selenium,https://www.alfabeta.net/precio/vansame-solar-facial-50.html,FALSE
+VANSAME SOLAR FPS50+,Valuge,selenium,https://www.alfabeta.net/precio/vansame-solar-fps50.html,FALSE
+VARINON,Savant Generic,api,https://www.alfabeta.net/precio/varinon.html,FALSE
+VARITRINOX,Varifarma,api,https://www.alfabeta.net/precio/varitrinox.html,FALSE
+VASTAREL LP,Servier,api,https://www.alfabeta.net/precio/vastarel-lp.html,FALSE
+VECURON,Scott-Cassará,selenium,https://www.alfabeta.net/precio/vecuron.html,FALSE
+VEDILEP 12.5,Lepetit,selenium,https://www.alfabeta.net/precio/vedilep-125.html,FALSE
+VEDILEP 3.125,Lepetit,selenium,https://www.alfabeta.net/precio/vedilep-3125.html,FALSE
+VEDILEP 6.25,Lepetit,selenium,https://www.alfabeta.net/precio/vedilep-625.html,FALSE
+VEFREN 400,Baliarda,api,https://www.alfabeta.net/precio/vefren-400.html,FALSE
+VEGAONE 2000,Provefarma,api,https://www.alfabeta.net/precio/vegaone-2000.html,FALSE
+VENLIFAX XR 37.5,Baliarda,selenium,https://www.alfabeta.net/precio/venlifax-xr-375.html,FALSE
+VENTOLIN,GlaxoSmithKline Biopharma,api,https://www.alfabeta.net/precio/ventolin.html,FALSE
+VENZIDIAK GEL,Biosintex,api,https://www.alfabeta.net/precio/venzidiak-gel.html,FALSE
+VERAL,Siegfried,api,https://www.alfabeta.net/precio/veral.html,FALSE
+VERALDID,Soubeiran Chobet,api,https://www.alfabeta.net/precio/veraldid.html,FALSE
+VERALDID 500/150,Soubeiran Chobet,selenium,https://www.alfabeta.net/precio/veraldid-500150.html,FALSE
+VERMECTIN,Lafedar,selenium,https://www.alfabeta.net/precio/vermectin.html,FALSE
+VERQUVO,Bayer (PH),api,https://www.alfabeta.net/precio/verquvo.html,FALSE
+VERRUCLEAN,L.D.A.,api,https://www.alfabeta.net/precio/verruclean.html,FALSE
+VERRUDERM,Laboratorio Merlino,api,https://www.alfabeta.net/precio/verruderm.html,FALSE
+VERRUTOPIC AS,Andrómaco,api,https://www.alfabeta.net/precio/verrutopic-as.html,FALSE
+VERTIGMINE,Lafedar,api,https://www.alfabeta.net/precio/vertigmine.html,FALSE
+VERZENIO,Adium,api,https://www.alfabeta.net/precio/verzenio.html,FALSE
+VI-BALIGLUC,Baliarda,selenium,https://www.alfabeta.net/precio/vi-baligluc.html,FALSE
+VIASEK CANDIFENSE,Eurolab,api,https://www.alfabeta.net/precio/viasek-candifense.html,FALSE
+VIASEK DEFENSE,Eurolab,api,https://www.alfabeta.net/precio/viasek-defense.html,FALSE
+VIASEK ESPUMA PH3.5,Eurolab,selenium,https://www.alfabeta.net/precio/viasek-espuma-ph35.html,FALSE
+VIASEK ESPUMA PH6.8,Eurolab,selenium,https://www.alfabeta.net/precio/viasek-espuma-ph68.html,FALSE
+VIASEK EXPRESS ESPUMA,Eurolab,api,https://www.alfabeta.net/precio/viasek-express-espuma.html,FALSE
+VIASEK FRESH,Eurolab,api,https://www.alfabeta.net/precio/viasek-fresh.html,FALSE
+VIASEK KIT TOALLITAS,Eurolab,api,https://www.alfabeta.net/precio/viasek-kit-toallitas.html,FALSE
+VIDARA,Microsules Arg.,api,https://www.alfabeta.net/precio/vidara.html,FALSE
+VIENTRE PLANO SACIANT,Formulab,api,https://www.alfabeta.net/precio/vientre-plano-saciant.html,FALSE
+VIENTRE PLANO VL,Excelentia,api,https://www.alfabeta.net/precio/vientre-plano-vl.html,FALSE
+VIGAMOX,Novartis,api,https://www.alfabeta.net/precio/vigamox.html,FALSE
+VIGORCIN POTENCIA PLUS,Provefarma,api,https://www.alfabeta.net/precio/vigorcin-potencia-plus.html,FALSE
+VILAZID,Teva Argentina,api,https://www.alfabeta.net/precio/vilazid.html,FALSE
+VILDAP,Casasco,api,https://www.alfabeta.net/precio/vildap.html,FALSE
+VILZERMET,Adium,api,https://www.alfabeta.net/precio/vilzermet.html,FALSE
+VIMI,B-Life,selenium,https://www.alfabeta.net/precio/vimi.html,FALSE
+VINCRISTINA KEMEX,Kemex,api,https://www.alfabeta.net/precio/vincristina-kemex.html,FALSE
+VINCRISTINA LKM 1,LKM,api,https://www.alfabeta.net/precio/vincristina-lkm-1.html,FALSE
+VINORGEN ORAL,Bioprofarma Bagó,api,https://www.alfabeta.net/precio/vinorgen-oral.html,FALSE
+VINTEX,Rospaw,api,https://www.alfabeta.net/precio/vintex.html,FALSE
+VIPRAL,Teva Argentina,api,https://www.alfabeta.net/precio/vipral.html,FALSE
+VIRAMIXAL,Panalab,api,https://www.alfabeta.net/precio/viramixal.html,FALSE
+VIRIPOTENS,Microsules Arg.,api,https://www.alfabeta.net/precio/viripotens.html,FALSE
+VIRIPOTENS 100,Microsules Arg.,selenium,https://www.alfabeta.net/precio/viripotens-100.html,FALSE
+VIROBRON,Temis-Lostaló,api,https://www.alfabeta.net/precio/virobron.html,FALSE
+VIROSUPRIL 3.75,Megalabs Argentina,selenium,https://www.alfabeta.net/precio/virosupril-375.html,FALSE
+VISANNE,Bayer (PH),api,https://www.alfabeta.net/precio/visanne.html,FALSE
+VITA C 1 G (+ZINC+VITD),San Ceferino,selenium,https://www.alfabeta.net/precio/vita-c-1-g-zincvitd.html,FALSE
+VITA D,Medisol,api,https://www.alfabeta.net/precio/vita-d.html,FALSE
+VITA-C CREMA NUTRITIVA,L.D.A.,selenium,https://www.alfabeta.net/precio/vita-c-crema-nutritiva.html,FALSE
+VITAL 2 NF,Nutricia-Bagó,api,https://www.alfabeta.net/precio/vital-2-nf.html,FALSE
+VITAL AR (NF),Nutricia-Bagó,selenium,https://www.alfabeta.net/precio/vital-ar-nf.html,FALSE
+VITALGEN PELO Y UÑAS,Laboratorio ENA,selenium,https://www.alfabeta.net/precio/vitalgen-pelo-y-unas.html,FALSE
+VITAMIDERMUS,Biosintex Retail,api,https://www.alfabeta.net/precio/vitamidermus.html,FALSE
+VITAMIDERMUS CBD BÁLSAMO RELIPIDIZANTE,Biosintex,selenium,https://www.alfabeta.net/precio/vitamidermus-cbd-balsamo-relipidizante.html,FALSE
+VITAMINA B12 VEGANA VITAMIN WAY,Pharmamerican S.R.L.,api,https://www.alfabeta.net/precio/vitamina-b12-vegana-vitamin-way.html,FALSE
+VITAMINA C + ZINC NUTRICEUTIC,Eurolab,selenium,https://www.alfabeta.net/precio/vitamina-c--zinc-nutriceutic.html,FALSE
+VITAMINA C BEBIBLE VW,Pharmamerican S.R.L.,api,https://www.alfabeta.net/precio/vitamina-c-bebible-vw.html,FALSE
+VITAMINA C CALIHEPAT+,Calihepat,selenium,https://www.alfabeta.net/precio/vitamina-c-calihepat.html,FALSE
+VITAMINA C LAFARMEN,Lafarmen,api,https://www.alfabeta.net/precio/vitamina-c-lafarmen.html,FALSE
+VITAMINA C NATULIV,Laboratorio ENA,api,https://www.alfabeta.net/precio/vitamina-c-natuliv.html,FALSE
+VITAMINA D LAFARMEN,Lafarmen,api,https://www.alfabeta.net/precio/vitamina-d-lafarmen.html,FALSE
+VITAMINA D VANNIER,Vannier,api,https://www.alfabeta.net/precio/vitamina-d-vannier.html,FALSE
+VITAMINA D3 + K2 INCAICO,Donato Zurlo,selenium,https://www.alfabeta.net/precio/vitamina-d3--k2-incaico.html,FALSE
+VITAMINA D3-800 UI,Natural Life,selenium,https://www.alfabeta.net/precio/vitamina-d3-800-ui.html,FALSE
+VITAMINAS K2+D3,Innovapharma,selenium,https://www.alfabeta.net/precio/vitaminas-k2d3.html,FALSE
+VITAOL AROMATHERAPY SPRAY ORIENTAL CITRUS,Verrugol,api,https://www.alfabeta.net/precio/vitaol-aromatherapy-spray-oriental-citrus.html,FALSE
+VITAOL BERGAMOTA ARGAN & JOJOBA OIL,Verrugol,selenium,https://www.alfabeta.net/precio/vitaol-bergamota-argan--jojoba-oil.html,FALSE
+VITAOL LAVANDA ROSA MOSQUETA & JOJOBA OIL,Verrugol,selenium,https://www.alfabeta.net/precio/vitaol-lavanda-rosa-mosqueta--jojoba-oil.html,FALSE
+VITAOL SANDALO ROSA MOSQUETA & JOJOBA OIL,Verrugol,selenium,https://www.alfabeta.net/precio/vitaol-sandalo-rosa-mosqueta--jojoba-oil.html,FALSE
+VITARFIL,Monserrat,api,https://www.alfabeta.net/precio/vitarfil.html,FALSE
+VITENE ANTIAGE+40,Laboratorio Millet,selenium,https://www.alfabeta.net/precio/vitene-antiage40.html,FALSE
+VITRAKVI,Bayer (PH),api,https://www.alfabeta.net/precio/vitrakvi.html,FALSE
+VOLFORTE GEL 1.16 %,Omicron,selenium,https://www.alfabeta.net/precio/volforte-gel-116.html,FALSE
+VOLFORTE GEL 5%,Omicron,selenium,https://www.alfabeta.net/precio/volforte-gel-5.html,FALSE
+VOLFORTE GEL ROLL-ON 1.16 %,Omicron,selenium,https://www.alfabeta.net/precio/volforte-gel-roll-on-116.html,FALSE
+VOLFORTE GEL ROLL-ON 5 %,Omicron,selenium,https://www.alfabeta.net/precio/volforte-gel-roll-on-5.html,FALSE
+VOLFORTE SPRAY 1.16 %,Omicron,selenium,https://www.alfabeta.net/precio/volforte-spray-116.html,FALSE
+VOLIBRIS,GlaxoSmithKline Biopharma,api,https://www.alfabeta.net/precio/volibris.html,FALSE
+VORICONAZOL SANDOZ,Biosidus S.A.U.,api,https://www.alfabeta.net/precio/voriconazol-sandoz.html,FALSE
+VORST,Laboratorios Bernabó,api,https://www.alfabeta.net/precio/vorst.html,FALSE
+VORST-M,Laboratorios Bernabó,selenium,https://www.alfabeta.net/precio/vorst-m.html,FALSE
+VOSEVI,Gador,api,https://www.alfabeta.net/precio/vosevi.html,FALSE
+VOZAMA,Adium,api,https://www.alfabeta.net/precio/vozama.html,FALSE
+VP-GEN,Bioprofarma Bagó,selenium,https://www.alfabeta.net/precio/vp-gen.html,FALSE
+VRELAX,Provefarma,api,https://www.alfabeta.net/precio/vrelax.html,FALSE
+VSIQQ,Novartis,api,https://www.alfabeta.net/precio/vsiqq.html,FALSE
+VUNOT,Medipharma,api,https://www.alfabeta.net/precio/vunot.html,FALSE
+VYNDAMAX,Pfizer,api,https://www.alfabeta.net/precio/vyndamax.html,FALSE
+VYNDAQEL,Pfizer,api,https://www.alfabeta.net/precio/vyndaqel.html,FALSE
+VYZULTA,Bausch & Lomb Arg.,api,https://www.alfabeta.net/precio/vyzulta.html,FALSE
+WATERPIK DUCHA BUCAL AQUARIUS PRO WP660,Grimberg,selenium,https://www.alfabeta.net/precio/waterpik-ducha-bucal-aquarius-pro-wp660.html,FALSE
+WATERPIK DUCHA BUCAL CORDLESS ENHANCE,Grimberg,selenium,https://www.alfabeta.net/precio/waterpik-ducha-bucal-cordless-enhance.html,FALSE
+WATERPIK DUCHA BUCAL CORDLESS ION,Grimberg,selenium,https://www.alfabeta.net/precio/waterpik-ducha-bucal-cordless-ion.html,FALSE
+WATERPIK DUCHA BUCAL CORDLESS PEARL,Grimberg,selenium,https://www.alfabeta.net/precio/waterpik-ducha-bucal-cordless-pearl.html,FALSE
+WATERPIK DUCHA BUCAL CORDLESS PLUS BLANCA,Grimberg,selenium,https://www.alfabeta.net/precio/waterpik-ducha-bucal-cordless-plus-blanca.html,FALSE
+WATERPIK DUCHA BUCAL CORDLESS PLUS NEGRA,Grimberg,selenium,https://www.alfabeta.net/precio/waterpik-ducha-bucal-cordless-plus-negra.html,FALSE
+WELEDA ANTI-IMPERFECCIONES,Weleda,selenium,https://www.alfabeta.net/precio/weleda-anti-imperfecciones.html,FALSE
+WELEDA CABELLO,Weleda,api,https://www.alfabeta.net/precio/weleda-cabello.html,FALSE
+"WELEDA CALENDULA (BEBES,NÑ,PIEL SENS.)",Weleda,selenium,https://www.alfabeta.net/precio/weleda-calendula-bebesnnpiel-sens.html,FALSE
+WELEDA CAPILAR,Weleda,api,https://www.alfabeta.net/precio/weleda-capilar.html,FALSE
+"WELEDA DUCHA 2 EN 1 (BEBES,NÑ,PIEL SENS.)",Weleda,selenium,https://www.alfabeta.net/precio/weleda-ducha-2-en-1-bebesnnpiel-sens.html,FALSE
+WELEDA GEL CREMOSO DE DUCHA,Weleda,api,https://www.alfabeta.net/precio/weleda-gel-cremoso-de-ducha.html,FALSE
+WELEDA GENCIANA AZUL Y EDELWEISS,Weleda,api,https://www.alfabeta.net/precio/weleda-genciana-azul-y-edelweiss.html,FALSE
+WELEDA GRANADA Y PEPTIDOS DE MACA,Weleda,api,https://www.alfabeta.net/precio/weleda-granada-y-peptidos-de-maca.html,FALSE
+WELEDA LINEA CACTUS,Weleda,api,https://www.alfabeta.net/precio/weleda-linea-cactus.html,FALSE
+WELEDA NUEVA LINEA IRIS,Weleda,api,https://www.alfabeta.net/precio/weleda-nueva-linea-iris.html,FALSE
+WELEDA NUEVA LINEA ROSA MOSQUETA Y TE BLANCO,Weleda,api,https://www.alfabeta.net/precio/weleda-nueva-linea-rosa-mosqueta-y-te-blanco.html,FALSE
+WELLBUTRIN XL,GlaxoSmithKline Biopharma,api,https://www.alfabeta.net/precio/wellbutrin-xl.html,FALSE
+WHEY PROTEIN,Lafarmen,selenium,https://www.alfabeta.net/precio/whey-protein.html,FALSE
+WHEY PROTEIN + COLLAGEN,Pharmamerican S.R.L.,selenium,https://www.alfabeta.net/precio/whey-protein--collagen.html,FALSE
+WILATE,Infinity Pharma,api,https://www.alfabeta.net/precio/wilate.html,FALSE
+WINREVAIR,MSD Argentina SRL,api,https://www.alfabeta.net/precio/winrevair.html,TRUE
+WOHL CLA,Kassel Pharmaceutical,api,https://www.alfabeta.net/precio/wohl-cla.html,TRUE
+WOHL DIAMOND,Kassel Pharmaceutical,api,https://www.alfabeta.net/precio/wohl-diamond.html,TRUE
+WOHL GREEN MOLECULAS DE RESVERATROL,Kassel Pharmaceutical,api,https://www.alfabeta.net/precio/wohl-green-moleculas-de-resveratrol.html,TRUE
+WPN BEAUTY COMPLEX,Laboratorio WPN,api,https://www.alfabeta.net/precio/wpn-beauty-complex.html,TRUE
+WUNDERBALSAM ENGLISCHER,Wunder Pharm,api,https://www.alfabeta.net/precio/wunderbalsam-englischer.html,TRUE
+X-RAY COLAGENO,Genomma Lab.,selenium,https://www.alfabeta.net/precio/x-ray-colageno.html,FALSE
+XALATAN,Aspen Pharma,api,https://www.alfabeta.net/precio/xalatan.html,FALSE
+XALIPLAT,Richmond,selenium,https://www.alfabeta.net/precio/xaliplat.html,FALSE
+XALKORI 200,Pfizer,api,https://www.alfabeta.net/precio/xalkori-200.html,FALSE
+XALKORI 250,Pfizer,api,https://www.alfabeta.net/precio/xalkori-250.html,FALSE
+XANAES,Klonal,api,https://www.alfabeta.net/precio/xanaes.html,FALSE
+XANAX,Aspen Pharma,api,https://www.alfabeta.net/precio/xanax.html,FALSE
+XARDIAB AP,Richmond,api,https://www.alfabeta.net/precio/xardiab-ap.html,FALSE
+XATERON,Eczane,api,https://www.alfabeta.net/precio/xateron.html,FALSE
+XEDENOL GEL,Baliarda,api,https://www.alfabeta.net/precio/xedenol-gel.html,FALSE
+XEGREX LC,Poen,api,https://www.alfabeta.net/precio/xegrex-lc.html,FALSE
+XELEVIA MET,Gador,api,https://www.alfabeta.net/precio/xelevia-met.html,FALSE
+XELEVIA MET XR,Gador,api,https://www.alfabeta.net/precio/xelevia-met-xr.html,FALSE
+XELODA,Biopas Argentina,api,https://www.alfabeta.net/precio/xeloda.html,FALSE
+XENETIX 350,Temis-Lostaló,api,https://www.alfabeta.net/precio/xenetix-350.html,FALSE
+XICLOVIR H,Lazar,api,https://www.alfabeta.net/precio/xiclovir-h.html,FALSE
+XILANIC,Siegfried,api,https://www.alfabeta.net/precio/xilanic.html,FALSE
+XINA,Finadiet,selenium,https://www.alfabeta.net/precio/xina.html,FALSE
+XINPLEX,Craveri,api,https://www.alfabeta.net/precio/xinplex.html,FALSE
+XOLAIR,Bagó,api,https://www.alfabeta.net/precio/xolair.html,FALSE
+XP MAXAMUM (SABOR NARANJA),AMN,selenium,https://www.alfabeta.net/precio/xp-maxamum-sabor-naranja.html,FALSE
+XP MAXAMUM (SABOR NEUTRO),AMN,selenium,https://www.alfabeta.net/precio/xp-maxamum-sabor-neutro.html,FALSE
+XPHE ENERGY K NEUTRO,B-Life,api,https://www.alfabeta.net/precio/xphe-energy-k-neutro.html,FALSE
+XPHE INFANT MIX LCP,B-Life,api,https://www.alfabeta.net/precio/xphe-infant-mix-lcp.html,FALSE
+XYLISOL LAVAJE NASAL,Cassará,api,https://www.alfabeta.net/precio/xylisol-lavaje-nasal.html,FALSE
+YECTAFER,Rontag,api,https://www.alfabeta.net/precio/yectafer.html,FALSE
+YONDELIS,Adium,api,https://www.alfabeta.net/precio/yondelis.html,FALSE
+YONTAL,Duncan,api,https://www.alfabeta.net/precio/yontal.html,FALSE
+ZADIB,Aspen,api,https://www.alfabeta.net/precio/zadib.html,FALSE
+ZALTAG,Lafedar,api,https://www.alfabeta.net/precio/zaltag.html,FALSE
+ZANOSAR,Bioprofarma Bagó,api,https://www.alfabeta.net/precio/zanosar.html,FALSE
+ZEJULA,GlaxoSmithKline Biopharma,api,https://www.alfabeta.net/precio/zejula.html,FALSE
+ZELEV,Kemex,api,https://www.alfabeta.net/precio/zelev.html,FALSE
+ZERO MET MINIS,B-Life,api,https://www.alfabeta.net/precio/zero-met-minis.html,FALSE
+ZERO TP MINIS,B-Life,api,https://www.alfabeta.net/precio/zero-tp-minis.html,FALSE
+ZETROTAX RICHMOND,Richmond,api,https://www.alfabeta.net/precio/zetrotax-richmond.html,FALSE
+ZEVUVIR L PACK,Richmond,api,https://www.alfabeta.net/precio/zevuvir-l-pack.html,FALSE
+ZIAGENAVIR,GlaxoSmithKline Biopharma,api,https://www.alfabeta.net/precio/ziagenavir.html,FALSE
+ZINACID,Donato Zurlo,api,https://www.alfabeta.net/precio/zinacid.html,FALSE
+ZINC + VITAMINA D,Lafarmen,selenium,https://www.alfabeta.net/precio/zinc--vitamina-d.html,FALSE
+ZINC+SELENIO,Natural Life,selenium,https://www.alfabeta.net/precio/zincselenio.html,FALSE
+ZINNIA,Laboratorios Bernabó,api,https://www.alfabeta.net/precio/zinnia.html,FALSE
+ZIRABEV,Pfizer,api,https://www.alfabeta.net/precio/zirabev.html,FALSE
+ZMA,Laboratorio ENA,selenium,https://www.alfabeta.net/precio/zma.html,FALSE
+ZOLCEF,Klonal,api,https://www.alfabeta.net/precio/zolcef.html,FALSE
+ZOLDEM,Biotechno Pharma,api,https://www.alfabeta.net/precio/zoldem.html,FALSE
+ZOLENICO,LKM,api,https://www.alfabeta.net/precio/zolenico.html,FALSE
+ZOLOATLAS,Lab Internacional Argentino,api,https://www.alfabeta.net/precio/zoloatlas.html,FALSE
+ZOLPLAT,Nolter,api,https://www.alfabeta.net/precio/zolplat.html,FALSE
+ZOMETA,Novartis,api,https://www.alfabeta.net/precio/zometa.html,FALSE
+ZONA LIBRE DE OLORES,Formulab,api,https://www.alfabeta.net/precio/zona-libre-de-olores.html,FALSE
+ZONA LIBRE KIT LOCION+BIO-REPENTE,Formulab,selenium,https://www.alfabeta.net/precio/zona-libre-kit-locionbio-repente.html,FALSE
+ZYVALIX,LKM,api,https://www.alfabeta.net/precio/zyvalix.html,FALSE
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,

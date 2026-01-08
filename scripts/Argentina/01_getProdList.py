@@ -14,7 +14,6 @@ import os
 import csv
 import time
 import logging
-import random
 from pathlib import Path
 from typing import List, Tuple, Set, Optional
 
@@ -32,18 +31,25 @@ from selenium.common.exceptions import (
     UnexpectedAlertPresentException,
 )
 from webdriver_manager.chrome import ChromeDriverManager
-from config_loader import parse_proxy_url
 
 # ====== CONFIG ======
 from config_loader import (
-    get_input_dir, get_output_dir, get_proxy_list,
+    get_input_dir, get_output_dir,
     ALFABETA_USER as USERNAME, ALFABETA_PASS as PASSWORD,
     HEADLESS, PRODUCTS_URL, HUB_URL,
-    PRODUCTLIST_FILE, PROXY_LIST_FILE,
+    PRODUCTLIST_FILE,
     WAIT_SHORT, WAIT_LONG, WAIT_ALERT, PAUSE_BETWEEN_OPERATIONS,
     PAGE_LOAD_TIMEOUT, IMPLICIT_WAIT, MAX_RETRIES_SUBMIT,
     PAUSE_SHORT, PAUSE_MEDIUM, PAUSE_AFTER_ALERT
 )
+
+# Try to import requests for VPN check
+try:
+    import requests
+    REQUESTS_AVAILABLE = True
+except ImportError:
+    requests = None
+    REQUESTS_AVAILABLE = False
 
 # Use config values (aliased for backward compatibility)
 PAUSE = PAUSE_BETWEEN_OPERATIONS
@@ -62,21 +68,215 @@ ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 log = logging.getLogger("alfabeta-products-dump")
 
-# ====== PROXY ======
-def get_random_proxy() -> Optional[str]:
-    """Get a random proxy from the list"""
-    proxies = get_proxy_list()
-    if proxies:
-        proxy = random.choice(proxies)
-        log.info(f"Selected proxy from {len(proxies)} available proxies")
-        return proxy
-    else:
-        log.warning("No proxies found - running without proxy")
-        return None
+# ====== VPN CHECK ======
+def get_vpn_info() -> dict:
+    """Get detailed VPN connection information."""
+    vpn_info = {
+        "connected": False,
+        "provider": "Unknown",
+        "server": "Unknown",
+        "country": "Unknown",
+        "city": "Unknown",
+        "ip": "Unknown",
+        "method": "Unknown"
+    }
+    
+    try:
+        import subprocess
+        import platform
+        
+        # Method 1: Check Proton VPN CLI status (Linux/Mac)
+        if platform.system() != "Windows":
+            try:
+                result = subprocess.run(
+                    ["protonvpn-cli", "status"],
+                    capture_output=True,
+                    timeout=10,
+                    text=True
+                )
+                if result.returncode == 0:
+                    output = result.stdout
+                    output_lower = output.lower()
+                    if "connected" in output_lower or "active" in output_lower:
+                        vpn_info["connected"] = True
+                        vpn_info["provider"] = "Proton VPN"
+                        vpn_info["method"] = "Proton VPN CLI"
+                        
+                        # Parse server information from output
+                        lines = output.split('\n')
+                        for line in lines:
+                            line_lower = line.lower()
+                            if 'server' in line_lower and ':' in line:
+                                server = line.split(':', 1)[1].strip()
+                                if server:
+                                    vpn_info["server"] = server
+                            elif 'country' in line_lower and ':' in line:
+                                country = line.split(':', 1)[1].strip()
+                                if country:
+                                    vpn_info["country"] = country
+                            elif 'city' in line_lower and ':' in line:
+                                city = line.split(':', 1)[1].strip()
+                                if city:
+                                    vpn_info["city"] = city
+                            elif 'ip' in line_lower and ':' in line and 'server' not in line_lower:
+                                ip = line.split(':', 1)[1].strip()
+                                if ip and '.' in ip:
+                                    vpn_info["ip"] = ip
+                        
+                        return vpn_info
+            except (FileNotFoundError, subprocess.TimeoutExpired):
+                pass
+        
+        # Method 2: Check via IP geolocation (works for any VPN)
+        if REQUESTS_AVAILABLE:
+            try:
+                ip_check_services = [
+                    ("https://ipapi.co/json/", ["ip", "country_name", "city", "org"]),
+                    ("https://api.ipify.org?format=json", ["ip"]),
+                    ("https://api.myip.com", ["ip", "country"])
+                ]
+                
+                for service_url, fields in ip_check_services:
+                    try:
+                        response = requests.get(service_url, timeout=10)
+                        if response.status_code == 200:
+                            ip_info = response.json()
+                            
+                            vpn_info["connected"] = True
+                            vpn_info["method"] = "IP Geolocation"
+                            
+                            vpn_info["ip"] = ip_info.get("ip") or ip_info.get("query") or "Unknown"
+                            vpn_info["country"] = ip_info.get("country_name") or ip_info.get("country") or "Unknown"
+                            vpn_info["city"] = ip_info.get("city") or "Unknown"
+                            
+                            org = ip_info.get("org") or ip_info.get("isp") or ""
+                            if "proton" in org.lower():
+                                vpn_info["provider"] = "Proton VPN"
+                                if "#" in org:
+                                    vpn_info["server"] = org.split("#")[-1].strip()
+                            else:
+                                vpn_info["provider"] = org or "VPN Service"
+                            
+                            return vpn_info
+                    except Exception:
+                        continue
+            except Exception:
+                pass  # If IP check fails, continue to return default vpn_info
+        
+        return vpn_info
+    except Exception as e:
+        log.warning(f"[VPN_INFO] Error getting VPN info: {e}")
+        return vpn_info
 
+def check_vpn_connection() -> bool:
+    """Check if VPN is connected and working. Displays VPN connection details."""
+    print("\n" + "=" * 80)
+    print("[VPN_CHECK] Verifying VPN connection...")
+    print("=" * 80)
+    log.info("[VPN_CHECK] Verifying VPN connection...")
+    
+    try:
+        import subprocess
+        import platform
+        
+        # Method 1: Check Proton VPN CLI status (Linux/Mac)
+        if platform.system() != "Windows":
+            try:
+                result = subprocess.run(
+                    ["protonvpn-cli", "status"],
+                    capture_output=True,
+                    timeout=10,
+                    text=True
+                )
+                if result.returncode == 0:
+                    output = result.stdout
+                    output_lower = output.lower()
+                    if "connected" in output_lower or "active" in output_lower:
+                        print("\n[VPN_STATUS] [OK] VPN CONNECTED")
+                        print("-" * 80)
+                        lines = output.split('\n')
+                        for line in lines:
+                            if line.strip() and ':' in line:
+                                print(f"  {line.strip()}")
+                        print("-" * 80)
+                        log.info("[VPN_CHECK] [OK] VPN is connected (Proton VPN CLI)")
+                        return True
+                    else:
+                        print("\n[VPN_STATUS] [FAIL] VPN NOT CONNECTED")
+                        print("-" * 80)
+                        print("  Please connect Proton VPN before running the scraper")
+                        print("-" * 80)
+                        log.error("[VPN_CHECK] [FAIL] VPN is not connected (Proton VPN CLI)")
+                        return False
+            except (FileNotFoundError, subprocess.TimeoutExpired):
+                pass
+        
+        # Method 2: Check IP address and location
+        if not REQUESTS_AVAILABLE:
+            log.warning("[VPN_CHECK] requests library not available, skipping IP check")
+            try:
+                print("\n[VPN_CHECK] Cannot verify VPN automatically")
+                response = input("[VPN_CHECK] Is your VPN connected? (yes/no): ").strip().lower()
+                if response in ["yes", "y"]:
+                    print("[VPN_CHECK] [OK] Proceeding with user confirmation")
+                    log.info("[VPN_CHECK] Proceeding with user confirmation")
+                    return True
+                else:
+                    print("[VPN_CHECK] [FAIL] VPN connection not confirmed. Exiting.")
+                    log.error("[VPN_CHECK] VPN connection not confirmed. Exiting.")
+                    return False
+            except (EOFError, KeyboardInterrupt):
+                log.error("[VPN_CHECK] Input interrupted. Exiting.")
+                return False
+        
+        # Get VPN info via IP geolocation
+        vpn_info = get_vpn_info()
+        
+        if vpn_info["connected"]:
+            print("\n[VPN_STATUS] [OK] VPN CONNECTED")
+            print("-" * 80)
+            print(f"  Provider: {vpn_info['provider']}")
+            if vpn_info['server'] != "Unknown":
+                print(f"  Server: {vpn_info['server']}")
+            print(f"  IP Address: {vpn_info['ip']}")
+            print(f"  Location: {vpn_info['city']}, {vpn_info['country']}")
+            print(f"  Detection Method: {vpn_info['method']}")
+            print("-" * 80)
+            
+            log.info(f"[VPN_CHECK] [OK] VPN Connected - Provider: {vpn_info['provider']}, Server: {vpn_info['server']}, IP: {vpn_info['ip']}, Location: {vpn_info['city']}, {vpn_info['country']}")
+            
+            if vpn_info['ip'] and vpn_info['ip'] not in ["127.0.0.1", "localhost", "::1", "Unknown"]:
+                return True
+            else:
+                print("[VPN_CHECK] [FAIL] VPN connection failed (no valid external IP)")
+                log.error("[VPN_CHECK] [FAIL] VPN connection failed (no valid external IP)")
+                return False
+        else:
+            print("\n[VPN_STATUS] [FAIL] VPN NOT CONNECTED")
+            print("-" * 80)
+            print("  Could not detect VPN connection")
+            print("  Please connect your VPN (Proton VPN) and try again")
+            print("-" * 80)
+            log.error("[VPN_CHECK] [FAIL] VPN connection not detected")
+            return False
+            
+    except Exception as e:
+        log.error(f"[VPN_CHECK] VPN check failed: {e}")
+        log.warning("[VPN_CHECK] Cannot verify VPN connection. Please ensure VPN is connected before proceeding.")
+        try:
+            response = input("[VPN_CHECK] Is your VPN connected? (yes/no): ").strip().lower()
+            if response in ["yes", "y"]:
+                log.info("[VPN_CHECK] Proceeding with user confirmation")
+                return True
+            else:
+                log.error("[VPN_CHECK] VPN connection not confirmed. Exiting.")
+                return False
+        except (EOFError, KeyboardInterrupt):
+            log.error("[VPN_CHECK] Input interrupted. Exiting.")
+            return False
 
 # ====== DRIVER ======
-def setup_driver(headless: bool = HEADLESS, proxy_url: Optional[str] = None):
+def setup_driver(headless: bool = HEADLESS):
     opts = webdriver.ChromeOptions()
     if headless:
         opts.add_argument("--headless=new")
@@ -87,80 +287,8 @@ def setup_driver(headless: bool = HEADLESS, proxy_url: Optional[str] = None):
     opts.add_argument("--disable-background-networking")
     opts.add_argument("--disable-popup-blocking")
     
-    # Configure proxy if provided
-    if proxy_url:
-        try:
-            proxy_info = parse_proxy_url(proxy_url)
-            log.info(f"===== Configuring proxy: {proxy_info['host']}:{proxy_info['port']} =====")
-            
-            # For authenticated proxies, use Chrome extension
-            if proxy_info['username'] and proxy_info['password']:
-                log.info(f"Using authenticated proxy (user: {proxy_info['username']})")
-                import tempfile
-                import zipfile
-                
-                # Create a Chrome extension for proxy authentication
-                manifest_json = """{
-                    "version": "1.0.0",
-                    "manifest_version": 2,
-                    "name": "Chrome Proxy",
-                    "permissions": [
-                        "proxy",
-                        "tabs",
-                        "unlimitedStorage",
-                        "storage",
-                        "<all_urls>",
-                        "webRequest",
-                        "webRequestBlocking"
-                    ],
-                    "background": {
-                        "scripts": ["background.js"]
-                    },
-                    "minimum_chrome_version":"22.0.0"
-                }"""
-                
-                background_js = f"""
-                var config = {{
-                    mode: "fixed_servers",
-                    rules: {{
-                        singleProxy: {{
-                            scheme: "{proxy_info['scheme']}",
-                            host: "{proxy_info['host']}",
-                            port: parseInt({proxy_info['port']})
-                        }},
-                        bypassList: ["localhost"]
-                    }}
-                }};
-                chrome.proxy.settings.set({{value: config, scope: "regular"}}, function() {{}});
-                function callbackFn(details) {{
-                    return {{
-                        authCredentials: {{
-                            username: "{proxy_info['username']}",
-                            password: "{proxy_info['password']}"
-                        }}
-                    }};
-                }}
-                chrome.webRequest.onAuthRequired.addListener(
-                    callbackFn,
-                    {{urls: ["<all_urls>"]}},
-                    ['blocking']
-                );
-                """
-                
-                pluginfile = tempfile.NamedTemporaryFile(delete=False, suffix='.zip')
-                with zipfile.ZipFile(pluginfile.name, 'w') as zip_file:
-                    zip_file.writestr("manifest.json", manifest_json)
-                    zip_file.writestr("background.js", background_js)
-                opts.add_extension(pluginfile.name)
-            else:
-                # Non-authenticated proxy
-                proxy_server = f"{proxy_info['host']}:{proxy_info['port']}"
-                opts.add_argument(f"--proxy-server={proxy_info['scheme']}://{proxy_server}")
-                log.info(f"Configured non-authenticated proxy: {proxy_info['scheme']}://{proxy_server}")
-        except Exception as e:
-            log.warning(f"Failed to configure proxy {proxy_url}: {e}")
-    else:
-        log.warning("No proxy URL provided - running without proxy")
+    # Note: No proxy configuration - using VPN only
+    log.info("[DRIVER] No proxy configured - using VPN only")
     
     # prefer Spanish content, disable translate
     prefs = {
@@ -526,10 +654,25 @@ def extract_products_page(d) -> List[Tuple[str, str]]:
 # ====== MAIN ======
 def main():
     log.info("===== Starting AlfaBeta Products Scraper =====")
-    proxy = get_random_proxy()
-    if proxy:
-        log.info(f"Proxy will be used: {proxy.split('@')[-1] if '@' in proxy else proxy}")
-    d = setup_driver(headless=HEADLESS, proxy_url=proxy)
+    
+    # Check VPN connection before starting
+    if not check_vpn_connection():
+        print("\n" + "=" * 80)
+        print("[STARTUP] [FAIL] VPN connection check failed!")
+        print("[STARTUP] Please connect your VPN (Proton VPN) and try again.")
+        print("=" * 80 + "\n")
+        log.error("[STARTUP] VPN connection check failed!")
+        log.error("[STARTUP] Please connect your VPN (Proton VPN) and try again.")
+        return 1
+    
+    print("\n" + "=" * 80)
+    print("[STARTUP] [OK] VPN connection verified. Starting scraper...")
+    print("[STARTUP] Note: Proxies are NOT used - using VPN only")
+    print("=" * 80 + "\n")
+    log.info("[STARTUP] VPN connection verified. Starting scraper...")
+    log.info("[STARTUP] Note: Proxies are NOT used - using VPN only")
+    
+    d = setup_driver(headless=HEADLESS)
     try:
         # Go directly to alfabeta.net/precio/
         log.info(f"Navigating to {PRODUCTS_URL}")
@@ -604,13 +747,14 @@ def main():
                 w.writerow([prod, comp])
 
         log.info(f"Saved {len(acc)} rows → {OUT_PRODUCTS}")
+        return 0
     except Exception:
         log.exception("Fatal error during scraping; capturing artifacts")
         try:
             safe_screenshot_and_source(d, name_prefix="fatal")
         except Exception:
             pass
-        raise
+        return 1
     finally:
         try:
             d.quit()
@@ -619,4 +763,6 @@ def main():
         log.info("Done.")
 
 if __name__ == "__main__":
-    main()
+    import sys
+    exit_code = main()
+    sys.exit(exit_code if exit_code is not None else 0)
