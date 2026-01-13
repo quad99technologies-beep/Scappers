@@ -1,0 +1,19 @@
+﻿input_company,input_product_name,company,product_name,active_ingredient,therapeutic_class,description,price_ars,date,scraped_at,SIFAR_detail,PAMI_AF,PAMI_OS,IOMA_detail,IOMA_AF,IOMA_OS,import_status,coverage_json
+ISA,+50,ISA,+50,vit.+asoc.,Energizante psicofísico,comp.x 30 (VL),11533.0,2025-11-10,2026-01-12T12:13:34,,,,,,,,{}
+Laboratorio ENA,100% WHEY PROTEIN,Laboratorio ENA,100% WHEY PROTEIN,proteínas de suero de leche,Suplemento dietario,chocolate x 907 g (VL),59000.0,2026-01-01,2026-01-12T12:13:34,,,,,,,,{}
+Laboratorio ENA,100% WHEY PROTEIN,Laboratorio ENA,100% WHEY PROTEIN,proteínas de suero de leche,Suplemento dietario,frutilla x 907 g (VL),59000.0,2026-01-01,2026-01-12T12:13:35,,,,,,,,{}
+Laboratorio ENA,100% WHEY PROTEIN,Laboratorio ENA,100% WHEY PROTEIN,proteínas de suero de leche,Suplemento dietario,vainilla x 907 g (VL),59000.0,2026-01-01,2026-01-12T12:13:35,,,,,,,,{}
+Laboratorio Millet,102 FOCUS,Laboratorio Millet,102 FOCUS,magnesio+asoc.,Suplemento dietario,comp. rec. x 30 (VL),22851.48,2026-01-07,2026-01-12T12:13:35,,,,,,,,{}
+Laboratorio Millet,102 MAGNESIO,Laboratorio Millet,102 MAGNESIO,vit.+minerales+asoc.,Suplemento dietario,comp. rec. x 30 (VL),15590.67,2026-01-07,2026-01-12T12:13:35,,,,,,,,{}
+Laboratorio Millet,102 MAGNESIO CITRATO,Laboratorio Millet,102 MAGNESIO CITRATO,magnesio citrato,Suplemento dietario,comp. x 30 (VL),16539.37,2026-01-07,2026-01-12T12:13:46,,,,,,,,{}
+Laboratorio Millet,102 MAGNESIO GUMMIES,Laboratorio Millet,102 MAGNESIO GUMMIES,magnesio+asoc.,Suplemento dietario,gomitas x 90 (VL),19364.53,2026-01-07,2026-01-12T12:13:47,,,,,,,,{}
+Laboratorio Millet,102 PLUS,Laboratorio Millet,102 PLUS,vit.+minerales,Suplemento dietario,comp.x 30 (VL),17612.71,2026-01-07,2026-01-12T12:13:47,,,,,,,,{}
+Laboratorio Millet,102 PLUS,Laboratorio Millet,102 PLUS,vit.+minerales,Suplemento dietario,comp.x 60 (VL),30649.61,2026-01-07,2026-01-12T12:13:47,,,,,,,,{}
+Laboratorio Millet,102 PLUS,Laboratorio Millet,102 PLUS,vit.+minerales,Suplemento dietario,comp.x 90 (VL),42692.17,2026-01-07,2026-01-12T12:13:47,,,,,,,,{}
+Laboratorio Millet,102 MUJER,Laboratorio Millet,102 MUJER,vit.+minerales,Suplemento dietario,cáps.bl.x 30 (VL),21178.92,2026-01-07,2026-01-12T12:13:47,,,,,,,,{}
+GlaxoSmithKline Biopharma,3 TC,GlaxoSmithKline Biopharma,3 TC,lamivudina,Antiviral contra HIV,150 mg comp.rec.x 60,219142.56,2025-12-29,2026-01-12T12:13:57,,,,,,,Importado,{}
+GlaxoSmithKline Biopharma,3 TC,GlaxoSmithKline Biopharma,3 TC,lamivudina,Antiviral contra HIV,sol.x 240 ml,95978.22,2025-12-29,2026-01-12T12:13:57,,,,,,,Importado,{}
+Laboratorio Millet,102 VITAMINA C,Laboratorio Millet,102 VITAMINA C,vit.+asoc.,Suplemento dietario,comp.rec. x 30 (VL),17675.41,2026-01-07,2026-01-12T12:13:57,,,,,,,,{}
+Laboratorio Millet,102 VITAMINA C,Laboratorio Millet,102 VITAMINA C,vit.+asoc.,Suplemento dietario,sobres x 30 (VL),19831.1,2026-01-07,2026-01-12T12:13:57,,,,,,,,{}
+Laboratorio Millet,102 SPORT BCAA,Laboratorio Millet,102 SPORT BCAA,vit.+minerales,Suplemento dietario,sob.x 30 (VL),37017.37,2026-01-07,2026-01-12T12:13:58,,,,,,,,{}
+Laboratorio Millet,102 PLUS EFERVESCENTE,Laboratorio Millet,102 PLUS EFERVESCENTE,vit.+minerales,Suplemento dietario,sob.x 15 (VL),14761.68,2026-01-07,2026-01-12T12:13:58,,,,,,,,{}

@@ -71,17 +71,30 @@ class PipelineCheckpoint:
             return self._checkpoint_data
     
     def _save_checkpoint(self):
-        """Save checkpoint data to file."""
+        """Save checkpoint data to file (atomic write)."""
         try:
             checkpoint_data = self._load_checkpoint()
             checkpoint_data["last_run"] = datetime.now().isoformat()
             
-            with open(self.checkpoint_file, 'w', encoding='utf-8') as f:
-                json.dump(checkpoint_data, f, indent=2, ensure_ascii=False)
+            # Atomic write: write to temp file, then rename
+            import tempfile
+            import shutil
+            temp_file = self.checkpoint_file.with_suffix('.tmp')
+            try:
+                with open(temp_file, 'w', encoding='utf-8') as f:
+                    json.dump(checkpoint_data, f, indent=2, ensure_ascii=False)
+                # Atomic rename (Windows requires replace)
+                temp_file.replace(self.checkpoint_file)
+            except Exception as e:
+                # If atomic write fails, try direct write as fallback
+                if temp_file.exists():
+                    temp_file.unlink()
+                with open(self.checkpoint_file, 'w', encoding='utf-8') as f:
+                    json.dump(checkpoint_data, f, indent=2, ensure_ascii=False)
         except Exception as e:
             log.error(f"Failed to save checkpoint: {e}")
     
-    def mark_step_complete(self, step_number: int, step_name: str, output_files: List[str] = None):
+    def mark_step_complete(self, step_number: int, step_name: str, output_files: List[str] = None, duration_seconds: float = None):
         """
         Mark a step as completed.
         
@@ -89,6 +102,7 @@ class PipelineCheckpoint:
             step_number: Step number (0, 1, 2, ...)
             step_name: Name/description of the step
             output_files: List of output file paths (relative or absolute) created by this step
+            duration_seconds: Optional duration in seconds for this step
         """
         checkpoint_data = self._load_checkpoint()
         
@@ -97,15 +111,22 @@ class PipelineCheckpoint:
             checkpoint_data["completed_steps"].append(step_number)
             checkpoint_data["completed_steps"].sort()
         
-        checkpoint_data["step_outputs"][step_key] = {
+        step_output = {
             "step_number": step_number,
             "step_name": step_name,
             "completed_at": datetime.now().isoformat(),
             "output_files": output_files or []
         }
+        if duration_seconds is not None:
+            step_output["duration_seconds"] = duration_seconds
+        
+        checkpoint_data["step_outputs"][step_key] = step_output
         
         self._save_checkpoint()
-        log.info(f"[CHECKPOINT] Marked step {step_number} ({step_name}) as complete")
+        if duration_seconds is not None:
+            log.info(f"[CHECKPOINT] Marked step {step_number} ({step_name}) as complete (duration: {duration_seconds:.2f}s)")
+        else:
+            log.info(f"[CHECKPOINT] Marked step {step_number} ({step_name}) as complete")
     
     def is_step_complete(self, step_number: int) -> bool:
         """Check if a step has been completed."""
@@ -150,29 +171,105 @@ class PipelineCheckpoint:
             "total_completed": len(checkpoint_data["completed_steps"])
         }
     
-    def verify_output_files(self, step_number: int) -> bool:
+    def get_pipeline_timing(self) -> Dict:
+        """
+        Get timing information for the pipeline.
+        
+        Returns:
+            Dict with total duration and step durations:
+            {
+                "total_duration_seconds": float,
+                "step_durations": {step_num: duration_seconds, ...},
+                "pipeline_started_at": str (ISO format),
+                "pipeline_completed_at": str (ISO format)
+            }
+        """
+        checkpoint_data = self._load_checkpoint()
+        step_outputs = checkpoint_data.get("step_outputs", {})
+        
+        step_durations = {}
+        total_duration = 0.0
+        pipeline_started_at = None
+        pipeline_completed_at = checkpoint_data.get("last_run")
+        
+        for step_key, step_info in step_outputs.items():
+            step_num = step_info.get("step_number")
+            duration = step_info.get("duration_seconds")
+            completed_at = step_info.get("completed_at")
+            
+            if duration is not None:
+                step_durations[step_num] = duration
+                total_duration += duration
+            
+            # Track earliest completion as start (approximation)
+            if completed_at:
+                if pipeline_started_at is None or completed_at < pipeline_started_at:
+                    # Approximate start time by subtracting duration
+                    if duration is not None:
+                        try:
+                            from datetime import datetime, timedelta
+                            completed_dt = datetime.fromisoformat(completed_at.replace('Z', '+00:00'))
+                            started_dt = completed_dt - timedelta(seconds=duration)
+                            pipeline_started_at = started_dt.isoformat()
+                        except:
+                            pass
+        
+        return {
+            "total_duration_seconds": total_duration,
+            "step_durations": step_durations,
+            "pipeline_started_at": pipeline_started_at,
+            "pipeline_completed_at": pipeline_completed_at
+        }
+    
+    def verify_output_files(self, step_number: int, expected_output_files: Optional[List[str]] = None) -> bool:
         """
         Verify that output files for a step still exist.
         
         Args:
             step_number: Step number to check
+            expected_output_files: Optional list of expected output files for this step.
+                                   If provided, these files will be checked for existence.
+                                   If None, it will check files recorded in the checkpoint.
+                                   If empty list, it means no output files are expected.
             
         Returns:
-            True if all output files exist, False otherwise
+            True if all output files exist (or no files to verify), False otherwise
         """
         checkpoint_data = self._load_checkpoint()
-        step_key = f"step_{step_number}"
         
-        if step_key not in checkpoint_data["step_outputs"]:
+        # If step is not marked as complete, it shouldn't be skipped
+        if step_number not in checkpoint_data["completed_steps"]:
             return False
         
-        output_files = checkpoint_data["step_outputs"][step_key].get("output_files", [])
-        if not output_files:
+        step_key = f"step_{step_number}"
+        
+        # Determine which output files to check
+        files_to_check = []
+        if expected_output_files is not None:
+            # If expected files are explicitly provided, use them (even if empty list)
+            files_to_check = expected_output_files
+        elif step_key in checkpoint_data["step_outputs"]:
+            # Otherwise, use files recorded in the checkpoint
+            files_to_check = checkpoint_data["step_outputs"][step_key].get("output_files", [])
+        
+        # If expected_output_files was explicitly provided as empty list, that means no files expected
+        if expected_output_files is not None and len(expected_output_files) == 0:
+            return True
+        
+        # If no files to check and expected_output_files was not explicitly provided, assume valid
+        if not files_to_check and expected_output_files is None:
             # No output files recorded, assume step is valid if marked complete
-            return step_number in checkpoint_data["completed_steps"]
+            # This handles cases where steps are manually marked via manage checkpoint without output files
+            return True
+        
+        # If expected_output_files was provided but is empty, or files_to_check is empty, 
+        # and we're here, it means we should check but there are no files - this is an error case
+        if not files_to_check:
+            # This shouldn't happen, but if it does, assume valid
+            return True
         
         # Check if all output files exist
-        for file_path in output_files:
+        for file_path in files_to_check:
             file_obj = Path(file_path)
             if not file_obj.exists():
                 log.warning(f"[CHECKPOINT] Output file missing for step {step_number}: {file_path}")
@@ -180,7 +277,7 @@ class PipelineCheckpoint:
         
         return True
     
-    def should_skip_step(self, step_number: int, step_name: str, verify_outputs: bool = True) -> bool:
+    def should_skip_step(self, step_number: int, step_name: str, verify_outputs: bool = True, expected_output_files: List[str] = None) -> bool:
         """
         Determine if a step should be skipped (already completed).
         
@@ -188,6 +285,8 @@ class PipelineCheckpoint:
             step_number: Step number to check
             step_name: Step name (for logging)
             verify_outputs: If True, also verify output files exist
+            expected_output_files: List of expected output file paths (relative or absolute).
+                                  If provided and step has no recorded output files, these will be checked.
             
         Returns:
             True if step should be skipped, False if it should run
@@ -196,8 +295,9 @@ class PipelineCheckpoint:
             return False
         
         if verify_outputs:
-            if not self.verify_output_files(step_number):
-                log.warning(f"[CHECKPOINT] Step {step_number} ({step_name}) marked complete but output files missing. Will re-run.")
+            # Check output files - use expected_output_files if provided, otherwise check recorded files
+            if not self.verify_output_files(step_number, expected_output_files):
+                log.warning(f"[CHECKPOINT] Step {step_number} ({step_name}) marked complete but expected output files missing. Will re-run.")
                 return False
         
         log.info(f"[CHECKPOINT] Step {step_number} ({step_name}) already completed. Skipping.")

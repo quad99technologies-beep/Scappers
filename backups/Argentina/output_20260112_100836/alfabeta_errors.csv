@@ -1,0 +1,2218 @@
+input_company,input_product_name,timestamp,error_message
+IQUISA,420 CBD RELAX,2026-01-10T11:46:49,"Driver error during search: Message: 
+"
+IQUISA,420 CBD TETITA FELIZ PACK,2026-01-10T11:46:49,"Driver error during search: Message: 
+"
+Cassará,5 FU,2026-01-10T11:46:50,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 1000,2026-01-10T11:46:50,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 2000,2026-01-10T11:47:20,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 400,2026-01-10T11:47:20,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 4000,2026-01-10T11:47:21,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 500,2026-01-10T11:47:21,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 800,2026-01-10T11:47:51,"Driver error during search: Message: 
+"
+Domínguez,A ACIDO,2026-01-10T11:47:51,"Driver error during search: Message: 
+"
+Domínguez,A ACIDO EMOLIENTE,2026-01-10T11:47:52,"Driver error during search: Message: 
+"
+Domínguez,A ACIDO VITAL,2026-01-10T11:47:53,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,ABNOBA VISCUM FRAXINI,2026-01-10T11:48:22,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL,2026-01-10T11:48:22,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL 10,2026-01-10T11:48:23,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL 5,2026-01-10T11:48:24,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL B12,2026-01-10T11:49:18,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL FE,2026-01-10T11:49:19,"Driver error during search: Message: 
+"
+IQUISA,420 CBD RELAX,2026-01-10T11:54:21,"Driver error during search: Message: 
+"
+IQUISA,420 CBD TETITA FELIZ PACK,2026-01-10T11:54:22,"Driver error during search: Message: 
+"
+Cassará,5 FU,2026-01-10T11:54:22,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 1000,2026-01-10T11:54:22,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 2000,2026-01-10T11:54:53,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 400,2026-01-10T11:54:54,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 4000,2026-01-10T11:54:54,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 500,2026-01-10T11:54:54,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 800,2026-01-10T11:55:24,"Driver error during search: Message: 
+"
+Domínguez,A ACIDO EMOLIENTE,2026-01-10T11:55:25,"Driver error during search: Message: 
+"
+Domínguez,A ACIDO,2026-01-10T11:55:25,"Driver error during search: Message: 
+"
+Domínguez,A ACIDO VITAL,2026-01-10T11:55:25,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,ABNOBA VISCUM FRAXINI,2026-01-10T11:55:55,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL,2026-01-10T11:55:56,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL 10,2026-01-10T11:55:56,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL 5,2026-01-10T11:55:57,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL FE,2026-01-10T11:56:53,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL B12,2026-01-10T11:56:53,"Driver error during search: Message: 
+"
+IQUISA,420 CBD RELAX,2026-01-10T12:26:40,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 1000,2026-01-10T12:26:42,"Driver error during search: Message: 
+"
+Cassará,5 FU,2026-01-10T12:26:42,"Driver error during search: Message: 
+"
+IQUISA,420 CBD TETITA FELIZ PACK,2026-01-10T12:26:42,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 2000,2026-01-10T12:27:12,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 400,2026-01-10T12:27:14,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 500,2026-01-10T12:27:14,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 4000,2026-01-10T12:27:14,"Driver error during search: Message: 
+"
+Domínguez,5-ASA 800,2026-01-10T12:27:43,"Driver error during search: Message: 
+"
+Domínguez,A ACIDO,2026-01-10T12:27:45,"Driver error during search: Message: 
+"
+Domínguez,A ACIDO EMOLIENTE,2026-01-10T12:27:45,"Driver error during search: Message: 
+"
+Domínguez,A ACIDO VITAL,2026-01-10T12:27:45,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,ABNOBA VISCUM FRAXINI,2026-01-10T12:28:14,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL,2026-01-10T12:28:16,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL 10,2026-01-10T12:28:16,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL 5,2026-01-10T12:28:16,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL B12,2026-01-10T12:28:45,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL FE,2026-01-10T12:28:47,"Driver error during search: Message: 
+"
+Domínguez,ACIFOL GOTAS,2026-01-10T12:28:47,"Driver error during search: Message: 
+"
+Andrómaco,ACIFUSIN,2026-01-10T12:28:47,"Driver error during search: Message: 
+"
+Andrómaco,ACIFUSIN B,2026-01-10T12:29:16,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,ACTILUZOL,2026-01-10T12:29:18,"Driver error during search: Message: 
+"
+Andrómaco,ACNOXIN,2026-01-10T12:29:18,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,ACIVAL,2026-01-10T12:29:19,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,ACTIMIB,2026-01-10T12:29:48,"Driver error during search: Message: 
+"
+Bayer Consumer,ACTRON 400 RAPIDA ACCION NF,2026-01-10T12:29:50,"Driver error during search: Message: 
+"
+Química Luar,ADEVIT,2026-01-10T12:29:50,"Driver error during search: Message: 
+"
+Bagó,ACTINERVAL,2026-01-10T12:29:50,"Driver error during search: Message: 
+"
+Cassará,AEROMED CASSARA,2026-01-10T12:30:19,"Driver error during search: Message: 
+"
+Cassará,AEROTROP,2026-01-10T12:30:21,"Driver error during search: Message: 
+"
+Temis-Lostaló,AFENEXIL,2026-01-10T12:30:21,"Driver error during search: Message: 
+"
+Domínguez,AFLUSAN,2026-01-10T12:30:21,"Driver error during search: Message: 
+"
+Cassará,AG-B 10,2026-01-10T12:30:50,"Driver error during search: Message: 
+"
+Cassará,AG-B 20,2026-01-10T12:30:52,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,ALELI,2026-01-10T12:30:53,"Driver error during search: Message: 
+"
+Bagó,AKINETON,2026-01-10T12:30:53,"Driver error during search: Message: 
+"
+Cassará,ALFABASE,2026-01-10T12:31:21,"Driver error during search: Message: 
+"
+Cassará,ALFABASE 8,2026-01-10T12:31:23,"Driver error during search: Message: 
+"
+Cassará,ALFACORT,2026-01-10T12:31:24,"Driver error during search: Message: 
+"
+Nestlé Health Science,ALFAMINO,2026-01-10T12:31:24,"Driver error during search: Message: 
+"
+Nestlé Health Science,ALFARE,2026-01-10T12:31:52,"Driver error during search: Message: 
+"
+Bagó,ALFAXIN 100,2026-01-10T12:31:54,"Driver error during search: Message: 
+"
+Bagó,ALFAXIN 50,2026-01-10T12:31:55,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,ALIDASE,2026-01-10T12:31:55,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,ALIDASE 500,2026-01-10T12:32:23,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,ALIPAS,2026-01-10T12:32:25,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,ALIPAS DUO,2026-01-10T12:32:26,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,AMAPOLI,2026-01-10T12:32:26,"Driver error during search: Message: 
+"
+Bagó,AMITAX,2026-01-10T12:32:54,"Driver error during search: Message: 
+"
+Química Luar,AMITRIPTILINA LUAR,2026-01-10T12:32:56,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,AMIXEN,2026-01-10T12:32:57,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,AMIXEN AC,2026-01-10T12:32:58,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,AMIXEN CLAVULANICO,2026-01-10T12:33:26,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,AMIXEN CLAVULANICO 1 G,2026-01-10T12:33:28,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,AMIXEN DUO,2026-01-10T12:33:28,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,AMIXEN PLUS,2026-01-10T12:33:29,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,AMLODICORD 10,2026-01-10T12:33:56,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,AMLODICORD 5,2026-01-10T12:33:59,"Driver error during search: Message: 
+"
+Cassará,AMOXOL 500,2026-01-10T12:33:59,"Driver error during search: Message: 
+"
+Cassará,AMOXOL DUO,2026-01-10T12:34:00,"Driver error during search: Message: 
+"
+Bagó,ANAFLEX,2026-01-10T12:34:28,"Driver error during search: Message: 
+"
+Bagó,ANAFLEX PLUS RAPIDA ACCION,2026-01-10T12:34:30,"Driver error during search: Message: 
+"
+Cassará,ANAGEN 5%,2026-01-10T12:34:30,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,ANASTRADEX,2026-01-10T12:34:31,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,ANASTROZOL GP PHARM,2026-01-10T12:34:59,"Driver error during search: Message: 
+"
+Andrómaco,ANDRIODERMA,2026-01-10T12:35:01,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,ANDROSTAT,2026-01-10T12:35:01,"Driver error during search: Message: 
+"
+Bagó,ANGIOVEZ,2026-01-10T12:35:02,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,ANIMEX-ON,2026-01-10T12:35:30,"Driver error during search: Message: 
+"
+Laboratorio Merlino,ANTIMICOTICO LAURIA UÑAS,2026-01-10T12:35:32,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,ANTIXAN,2026-01-10T12:35:32,"Driver error during search: Message: 
+"
+Jayor,ARIA GLUCÓMETRO KIT,2026-01-10T12:35:33,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,ARTERIOSAN,2026-01-10T12:36:01,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,ARTERIOSAN COMPUESTO,2026-01-10T12:36:03,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,ARTERIOSAN PLUS,2026-01-10T12:36:04,"Driver error during search: Message: 
+"
+Bagó,ARTINOVO,2026-01-10T12:36:04,"Driver error during search: Message: 
+"
+Formulab,ARTROSTOP DEFENSE SIN AZÚCAR,2026-01-10T12:36:32,"Driver error during search: Message: 
+"
+Cassará,ARVAC,2026-01-10T12:36:34,"Driver error during search: Message: 
+"
+Laboratorio ENA,ARÁNDANOS NATULIV,2026-01-10T12:36:35,"Driver error during search: Message: 
+"
+Laboratorio Merlino,ASEPLUS SOLUCIÓN SANITIZANTE,2026-01-10T12:36:35,"Driver error during search: Message: 
+"
+Temis-Lostaló,ASEPTOBRON,2026-01-10T12:37:03,"Driver error during search: Message: 
+"
+Temis-Lostaló,ASEPTOBRON ANTIGRIPAL FORTE,2026-01-10T12:37:05,"Driver error during search: Message: 
+"
+Temis-Lostaló,ASEPTOBRON C PLUS,2026-01-10T12:37:06,"Driver error during search: Message: 
+"
+Temis-Lostaló,ASEPTOBRON INHALACIONES,2026-01-10T12:37:06,"Driver error during search: Message: 
+"
+Cassará,ATOPIX,2026-01-10T12:37:34,"Driver error during search: Message: 
+"
+Cassará,ATOPIX 50,2026-01-10T12:37:37,"Driver error during search: Message: 
+"
+Cassará,ATOPIX CREMA,2026-01-10T12:37:37,"Driver error during search: Message: 
+"
+Cassará,ATOPIX EMULSION,2026-01-10T12:37:37,"Driver error during search: Message: 
+"
+Cassará,ATOPIX ESPUMA DE LIMPIEZA,2026-01-10T12:38:05,"Driver error during search: Message: 
+"
+Cassará,ATOPIX L,2026-01-10T12:38:08,"Driver error during search: Message: 
+"
+Cassará,ATOPIX PASTA,2026-01-10T12:38:08,"Driver error during search: Message: 
+"
+Cassará,ATOPIX UNGUENTO,2026-01-10T12:38:08,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,ATORMAX 10,2026-01-10T12:38:36,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,ATORMAX 20,2026-01-10T12:38:38,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,ATORMAX 40,2026-01-10T12:38:39,"Driver error during search: Message: 
+"
+Cassará,AXNE 0.1%,2026-01-10T12:38:39,"Driver error during search: Message: 
+"
+Cassará,AXNE 0.3%,2026-01-10T12:39:07,"Driver error during search: Message: 
+"
+Bagó,AZECAR,2026-01-10T12:39:09,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,AZUCENA,2026-01-10T12:39:10,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,BACFURON,2026-01-10T12:39:10,"Driver error during search: Message: 
+"
+Bagó,BACTICEL,2026-01-10T12:39:38,"Driver error during search: Message: 
+"
+Bagó,BAGO B1 B6 B12,2026-01-10T12:39:41,"Driver error during search: Message: 
+"
+Bagó,BAGO B1 B6 B12 DETOX,2026-01-10T12:39:41,"Driver error during search: Message: 
+"
+Bagó,BAGO B6 B12 FOLICO,2026-01-10T12:39:42,"Driver error during search: Message: 
+"
+Bagó,BAGO+ACTIVAMENTE,2026-01-10T12:40:09,"Driver error during search: Message: 
+"
+Bagó,BAGO+CALMA,2026-01-10T12:40:11,"Driver error during search: Message: 
+"
+Bagó,BAGO+DESCANSO,2026-01-10T12:40:12,"Driver error during search: Message: 
+"
+Bagó,BAGO+ENERGIA,2026-01-10T12:40:13,"Driver error during search: Message: 
+"
+Bagó,BAGOHEPAT,2026-01-10T12:40:40,"Driver error during search: Message: 
+"
+Bagó,BAGOHEPAT RAPIDA ACCION,2026-01-10T12:40:43,"Driver error during search: Message: 
+"
+Bagó,BAGOTAZ,2026-01-10T12:40:43,"Driver error during search: Message: 
+"
+Bagó,BAGOVIT A PLUS,2026-01-10T12:40:44,"Driver error during search: Message: 
+"
+Bagó,BAGOVIT AE,2026-01-10T12:41:12,"Driver error during search: Message: 
+"
+Domínguez,BAREX KIT,2026-01-10T12:41:14,"Driver error during search: Message: 
+"
+Domínguez,BAREX 70,2026-01-10T12:41:14,"Driver error during search: Message: 
+"
+Domínguez,BAREX PLUS,2026-01-10T12:41:15,"Driver error during search: Message: 
+"
+Domínguez,BAREX S,2026-01-10T12:41:43,"Driver error during search: Message: 
+"
+Domínguez,BAREX SABORIZADO,2026-01-10T12:41:45,"Driver error during search: Message: 
+"
+Domínguez,BAREX UNIPEG,2026-01-10T12:41:45,"Driver error during search: Message: 
+"
+Temis-Lostaló,BARIO DIF CITRATADO,2026-01-10T12:41:46,"Driver error during search: Message: 
+"
+Temis-Lostaló,BEAPLEN 10,2026-01-10T12:42:14,"Driver error during search: Message: 
+"
+Temis-Lostaló,BEAPLEN 20,2026-01-10T12:42:16,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,BEGAN 12,2026-01-10T12:42:16,"Driver error during search: Message: 
+"
+Química Luar,BELBARMICINA INL,2026-01-10T12:42:17,"Driver error during search: Message: 
+"
+Bagó,BENAPROST,2026-01-10T12:42:45,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,BENZIMIR,2026-01-10T12:42:47,"Driver error during search: Message: 
+"
+Bayer Consumer,BEPANTHOL UNGÜENTO,2026-01-10T12:42:47,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,BERNAFOLIC 1,2026-01-10T12:42:48,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,BERNAFOLIC 5,2026-01-10T12:43:16,"Driver error during search: Message: 
+"
+Cassará,BETACORT CASSARA,2026-01-10T12:43:18,"Driver error during search: Message: 
+"
+Cassará,BETACORT INY CASSARA + JERINGA,2026-01-10T12:43:18,"Driver error during search: Message: 
+"
+Cassará,BETACORT PLUS CASSARA,2026-01-10T12:43:19,"Driver error during search: Message: 
+"
+Andrómaco,BETASALIC,2026-01-10T12:43:47,"Driver error during search: Message: 
+"
+Andrómaco,BETRIOL,2026-01-10T12:43:49,"Driver error during search: Message: 
+"
+Andrómaco,BETRIOL B,2026-01-10T12:43:49,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,BIALKO,2026-01-10T12:43:50,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,BIDROSTAT,2026-01-10T12:44:18,"Driver error during search: Message: 
+"
+Biferdil,BIFERDIL BIO COLOR COLORACIÓN 0% AMONÍACO,2026-01-10T12:44:20,"Driver error during search: Message: 
+"
+Biferdil,BIFERDIL COLORACIÓN TONO SOBRE TONO KIT,2026-01-10T12:44:20,"Driver error during search: Message: 
+"
+Biferdil,BIFERDIL LINEA CABELLO TEÑIDO,2026-01-10T12:44:22,"Driver error during search: Message: 
+"
+Biferdil,BIFERDIL LINEA NATURAL MIEL PARA NIÑOS,2026-01-10T12:44:49,"Driver error during search: Message: 
+"
+Nutricia-Bagó,BIFIDOSA,2026-01-10T12:44:51,"Driver error during search: Message: 
+"
+Roemmers,BIGLUCEM AP,2026-01-10T12:44:51,"Driver error during search: Message: 
+"
+Bagó,BIL 13,2026-01-10T12:44:53,"Driver error during search: Message: 
+"
+Bagó,BIL 13 ENZIMATICO,2026-01-10T12:45:20,"Driver error during search: Message: 
+"
+Cassará,BIOCASS PROTEC,2026-01-10T12:45:22,"Driver error during search: Message: 
+"
+Biosidus S.A.U.,BIOCLAVID 500/125,2026-01-10T12:45:22,"Driver error during search: Message: 
+"
+Biosidus S.A.U.,BIOCLAVID 875/125,2026-01-10T12:45:24,"Driver error during search: Message: 
+"
+Biosintex,BIOCORT,2026-01-10T12:45:51,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA CICABIO CREMA,2026-01-10T12:45:53,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA HIDRABIO H2O,2026-01-10T12:45:54,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA HYDRABIO HYALU+,2026-01-10T12:45:55,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA PHOTODERM AQUAFLUIDE,2026-01-10T12:46:22,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA PHOTODERM AR SPF50+,2026-01-10T12:46:24,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA PHOTODERM CREME,2026-01-10T12:46:25,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA PHOTODERM NUDE T MNRL,2026-01-10T12:46:26,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA PHOTODERM XDEFENSE ULTRAFLUID,2026-01-10T12:46:54,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA PIGMENTBIO C-CONCENTRATE,2026-01-10T12:46:56,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA PIGMENTBIO DAILY CARE SPF50+,2026-01-10T12:46:56,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA PIGMENTBIO H20,2026-01-10T12:46:57,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA PIGMENTBIO NIGHT RENEWER,2026-01-10T12:47:25,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA PIGMENTBIO SENSITIVE AREAS,2026-01-10T12:47:27,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SEBIUM GEL GOMMANT,2026-01-10T12:47:27,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SEBIUM GEL MOUSSANT,2026-01-10T12:47:29,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SEBIUM GLOBAL,2026-01-10T12:47:56,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SEBIUM GLOBAL COVER,2026-01-10T12:47:58,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SEBIUM H2O,2026-01-10T12:47:59,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SEBIUM H2O EDICION ESP.,2026-01-10T12:48:00,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SEBIUM HYDRA,2026-01-10T12:48:27,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SEBIUM KERATO+,2026-01-10T12:48:29,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SEBIUM MAT CONTROL,2026-01-10T12:48:30,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SEBIUM PORE REFINER,2026-01-10T12:48:31,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SEBIUM SERUM,2026-01-10T12:48:58,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SENSIBIO AR,2026-01-10T12:49:01,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SENSIBIO AR BB CREAM,2026-01-10T12:49:01,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SENSIBIO AR+ CREAM,2026-01-10T12:49:02,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SENSIBIO CONTORNO DE OJOS,2026-01-10T12:49:30,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SENSIBIO DEFENSIVE SERUM,2026-01-10T12:49:32,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SENSIBIO DS+,2026-01-10T12:49:32,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SENSIBIO FORTE,2026-01-10T12:49:33,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SENSIBIO GEL MOUSSANT,2026-01-10T12:50:01,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA SENSIBIO H2O,2026-01-10T12:50:03,"Driver error during search: Message: 
+"
+Laboratorio Millet,BIODROP,2026-01-10T12:50:04,"Driver error during search: Message: 
+"
+Biotenk,BIOFEM,2026-01-10T12:50:05,"Driver error during search: Message: 
+"
+Biosidus S.A.U.,BIOFERON,2026-01-10T12:50:32,"Driver error during search: Message: 
+"
+Lafedar,BIOFTAL,2026-01-10T12:50:34,"Driver error during search: Message: 
+"
+Ethical Nutrition,BIOGAIA,2026-01-10T12:50:35,"Driver error during search: Message: 
+"
+Ethical Nutrition,BIOGAIA C/VIT D,2026-01-10T12:50:36,"Driver error during search: Message: 
+"
+Abbott EPD,BIOGAIA GTI,2026-01-10T12:51:03,"Driver error during search: Message: 
+"
+Abbott EPD,BIOGAIA PRODT,2026-01-10T12:51:05,"Driver error during search: Message: 
+"
+Abbott EPD,BIOGAIA PROTECTIS + VIT D,2026-01-10T12:51:06,"Driver error during search: Message: 
+"
+Elea,BIOGRIP FORTE,2026-01-10T12:51:07,"Driver error during search: Message: 
+"
+Elea,BIOGRIP PLUS,2026-01-10T12:51:34,"Driver error during search: Message: 
+"
+Elea,BIOGRIP TE DESCONGESTIVO,2026-01-10T12:51:36,"Driver error during search: Message: 
+"
+Varifarma,BIOINSUGEN N,2026-01-10T12:51:37,"Driver error during search: Message: 
+"
+Varifarma,BIOINSUGEN R,2026-01-10T12:51:38,"Driver error during search: Message: 
+"
+Biol,BIOL PREO,2026-01-10T12:52:06,"Driver error during search: Message: 
+"
+Labsa,BIOLABSA 1000,2026-01-10T12:52:08,"Driver error during search: Message: 
+"
+Labsa,BIOLABSA 250,2026-01-10T12:52:08,"Driver error during search: Message: 
+"
+Labsa,BIOLABSA 500,2026-01-10T12:52:09,"Driver error during search: Message: 
+"
+Labsa,BIOLABSA BRONQUIAL,2026-01-10T12:52:37,"Driver error during search: Message: 
+"
+Labsa,BIOLABSA DUO,2026-01-10T12:52:39,"Driver error during search: Message: 
+"
+Labsa,BIOLABSA PLUS,2026-01-10T12:52:39,"Driver error during search: Message: 
+"
+Biotenk,BIOLUTAM,2026-01-10T12:52:41,"Driver error during search: Message: 
+"
+Baliarda,BIOMAG,2026-01-10T12:53:08,"Driver error during search: Message: 
+"
+Biosidus S.A.U.,BIOMONAR,2026-01-10T12:53:10,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,BIOPONIB,2026-01-10T12:53:11,"Driver error during search: Message: 
+"
+Fortbenton,BIOQUERATIN,2026-01-10T12:53:12,"Driver error during search: Message: 
+"
+Craveri,BIORGAN,2026-01-10T12:53:39,"Driver error during search: Message: 
+"
+Craveri,BIORGAN AP,2026-01-10T12:53:41,"Driver error during search: Message: 
+"
+Craveri,BIORGAN B,2026-01-10T12:53:42,"Driver error during search: Message: 
+"
+Craveri,BIORGAN S,2026-01-10T12:53:43,"Driver error during search: Message: 
+"
+Novoplos,BIOSOL GEL,2026-01-10T12:54:10,"Driver error during search: Message: 
+"
+Novoplos,BIOSOL GOTAS,2026-01-10T12:54:12,"Driver error during search: Message: 
+"
+Novoplos,BIOSOL LC,2026-01-10T12:54:13,"Driver error during search: Message: 
+"
+Siegfried,BIOTAER AN,2026-01-10T12:54:14,"Driver error during search: Message: 
+"
+Siegfried,BIOTAER NF,2026-01-10T12:54:42,"Driver error during search: Message: 
+"
+Northia,BIOTERAL,2026-01-10T12:54:43,"Driver error during search: Message: 
+"
+Trb-Pharma,BIOTIC PHARMA,2026-01-10T12:54:44,"Driver error during search: Message: 
+"
+Megalabs Argentina,BIOTIN-A,2026-01-10T12:54:45,"Driver error during search: Message: 
+"
+Bausch & Lomb Arg.,BIOTRUE,2026-01-10T12:55:13,"Driver error during search: Message: 
+"
+Elea,BIOVAC HB,2026-01-10T12:55:15,"Driver error during search: Message: 
+"
+Biosintex Retail,BIOXILINA,2026-01-10T12:55:15,"Driver error during search: Message: 
+"
+Biosintex Retail,BIOXILINA DUO,2026-01-10T12:55:16,"Driver error during search: Message: 
+"
+Biosintex Retail,BIOXILINA PLUS,2026-01-10T12:55:44,"Driver error during search: Message: 
+"
+Biosintex Retail,BIOXILINA PLUS DUO,2026-01-10T12:55:46,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,BIOZANIB,2026-01-10T12:55:46,"Driver error during search: Message: 
+"
+Lando,BIOZINC,2026-01-10T12:55:47,"Driver error during search: Message: 
+"
+Cassará,BIOZINC D,2026-01-10T12:56:15,"Driver error during search: Message: 
+"
+Lando,BIOZINC FORTE,2026-01-10T12:56:17,"Driver error during search: Message: 
+"
+Rospaw,BIPERIDENO ROSPAW,2026-01-10T12:56:17,"Driver error during search: Message: 
+"
+Vannier,BIPERIDENO VANNIER,2026-01-10T12:56:19,"Driver error during search: Message: 
+"
+Lepetit,BIPROSOL 10 MG,2026-01-10T12:56:46,"Driver error during search: Message: 
+"
+Lepetit,BIPROSOL 5 MG,2026-01-10T12:56:48,"Driver error during search: Message: 
+"
+Everex,BIRAT,2026-01-10T12:56:49,"Driver error during search: Message: 
+"
+Nestlé Health Science,BOOST,2026-01-10T12:56:50,"Driver error during search: Message: 
+"
+Nestlé Health Science,BOOST 1.5,2026-01-10T12:57:17,"Driver error during search: Message: 
+"
+Bagó,BOSENTAL,2026-01-10T12:57:19,"Driver error during search: Message: 
+"
+Bagó,BRIOTAZ,2026-01-10T12:57:20,"Driver error during search: Message: 
+"
+Casasco,BRONCHO-VAXOM NIÑOS,2026-01-10T12:57:21,"Driver error during search: Message: 
+"
+Temis-Lostaló,BRONCOLIUM,2026-01-10T12:57:48,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,BRONQ C,2026-01-10T12:57:50,"Driver error during search: Message: 
+"
+Elea,BRONQUISEDAN NIÑOS,2026-01-10T12:57:51,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL FUNNY BRUSH,2026-01-10T12:57:52,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL MAFALDA KIDS X 1 U,2026-01-10T12:58:19,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL ZOO BRUSH,2026-01-10T12:58:22,"Driver error during search: Message: 
+"
+Cassará,BUCATRAL,2026-01-10T12:58:22,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,BUCHEX FORTE,2026-01-10T12:58:23,"Driver error during search: Message: 
+"
+Scott-Cassará,BUFLOMED,2026-01-10T12:58:50,"Driver error during search: Message: 
+"
+Scott-Cassará,BUPICAINA,2026-01-10T12:58:53,"Driver error during search: Message: 
+"
+Scott-Cassará,BUPICAINA 0.50% HIPERBARICA,2026-01-10T12:58:53,"Driver error during search: Message: 
+"
+Cassará,BUTOCORT HFA,2026-01-10T12:58:54,"Driver error during search: Message: 
+"
+Pharmamerican S.R.L.,CABELLO PIEL Y UÑAS + PROBIOTICOS,2026-01-10T12:59:21,"Driver error during search: Message: 
+"
+Pharmamerican S.R.L.,"CABELLO, PIEL Y UÑAS VITAMIN WAY",2026-01-10T12:59:24,"Driver error during search: Message: 
+"
+Elea,CALADRYL EDIC.70 AÑOS,2026-01-10T12:59:24,"Driver error during search: Message: 
+"
+Temis-Lostaló,CALPRES,2026-01-10T12:59:26,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,CAMELIA,2026-01-10T12:59:53,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,CAPECITABINA GP PHARM,2026-01-10T12:59:55,"Driver error during search: Message: 
+"
+Cepage,CAPILLAIRE MAX ACIDÉ AMINÉ,2026-01-10T12:59:55,"Driver error during search: Message: 
+"
+Cepage,CAPILLAIRE MAX LOCIÓN ANTICAÍDA,2026-01-10T12:59:57,"Driver error during search: Message: 
+"
+San Ceferino,CARAMELOS MIX PROPÓLEO,2026-01-10T13:00:24,"Driver error during search: Message: 
+"
+San Ceferino,CARAMELOS PIEL DE NARANJ. Y ESTRÍAS,2026-01-10T13:00:26,"Driver error during search: Message: 
+"
+Domínguez,CARBETOCIN TA,2026-01-10T13:00:27,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,CARBOPLATINO GP PHARM,2026-01-10T13:00:28,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,CARBOXTIE,2026-01-10T13:00:55,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,CARCIVAC,2026-01-10T13:00:57,"Driver error during search: Message: 
+"
+Bagó,CARDIOPIL 10,2026-01-10T13:00:58,"Driver error during search: Message: 
+"
+Bagó,CARDIOPIL 2.5,2026-01-10T13:00:59,"Driver error during search: Message: 
+"
+Bagó,CARDIOPIL 5,2026-01-10T13:01:26,"Driver error during search: Message: 
+"
+Bagó,CARDIOREX 10,2026-01-10T13:01:28,"Driver error during search: Message: 
+"
+Bagó,CARDIOREX 5,2026-01-10T13:01:29,"Driver error during search: Message: 
+"
+Bagó,CARVEDIL 12.5,2026-01-10T13:01:30,"Driver error during search: Message: 
+"
+Bagó,CARVEDIL 25,2026-01-10T13:01:57,"Driver error during search: Message: 
+"
+Bagó,CARVEDIL 3.125,2026-01-10T13:02:00,"Driver error during search: Message: 
+"
+Bagó,CARVEDIL 50,2026-01-10T13:02:00,"Driver error during search: Message: 
+"
+Bagó,CARVEDIL 6.25,2026-01-10T13:02:01,"Driver error during search: Message: 
+"
+Bagó,CARVEDIL D,2026-01-10T13:02:28,"Driver error during search: Message: 
+"
+Bagó,CARVEDIL RETARD 10,2026-01-10T13:02:31,"Driver error during search: Message: 
+"
+Bagó,CARVEDIL RETARD 20,2026-01-10T13:02:31,"Driver error during search: Message: 
+"
+Bagó,CARVEDIL RETARD 40,2026-01-10T13:02:33,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,CARVICORD,2026-01-10T13:02:59,"Driver error during search: Message: 
+"
+Ariston,CASTAÑA DE INDIA S.C.,2026-01-10T13:03:02,"Driver error during search: Message: 
+"
+Synthon Bagó,CATIRA,2026-01-10T13:03:02,"Driver error during search: Message: 
+"
+Procter & Gamble,CEBIÓN VITAMINA C EFERVESCENTE FORTE,2026-01-10T13:03:04,"Driver error during search: Message: 
+"
+Temis-Lostaló,CEBROCAL,2026-01-10T13:03:30,"Driver error during search: Message: 
+"
+Cassará,CEFADROX 250,2026-01-10T13:03:33,"Driver error during search: Message: 
+"
+Bagó,CEFALEX VL,2026-01-10T13:03:33,"Driver error during search: Message: 
+"
+Bagó,CEFALOMICINA,2026-01-10T13:03:35,"Driver error during search: Message: 
+"
+Bagó,CEFTAAVI,2026-01-10T13:04:02,"Driver error during search: Message: 
+"
+Temis-Lostaló,CERNILTON PLUS,2026-01-10T13:04:04,"Driver error during search: Message: 
+"
+Galderma,CETAPHIL GEL BAÑO ULTRA SUAVE,2026-01-10T13:04:04,"Driver error during search: Message: 
+"
+Bagó,CHIA OMEGA-3 BAGO,2026-01-10T13:04:06,"Driver error during search: Message: 
+"
+Bagó,CHIA PLUS BAGO,2026-01-10T13:04:33,"Driver error during search: Message: 
+"
+B-Life,CHICK´N MIX,2026-01-10T13:04:36,"Driver error during search: Message: 
+"
+Labsa,CHICLE LAXANTE LABSA,2026-01-10T13:04:36,"Driver error during search: Message: 
+"
+Lafedar,CHIOSAN,2026-01-10T13:04:37,"Driver error during search: Message: 
+"
+Lafarmen,CHITO LAFARMEN,2026-01-10T13:05:04,"Driver error during search: Message: 
+"
+Ugal Farmacéutica,CIPROFLOXACINA UGAL,2026-01-10T13:05:07,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,CICLOFOSFAMIDA FILAXIS,2026-01-10T13:05:07,"Driver error during search: Message: 
+"
+San Ceferino,CIRUELAS LIGHT+VITAMINA C NUTRINAT,2026-01-10T13:05:09,"Driver error during search: Message: 
+"
+San Ceferino,CIRUELAS+FIBRAS+VITAMINA C NUTRINAT,2026-01-10T13:05:35,"Driver error during search: Message: 
+"
+Temis-Lostaló,CISTIL,2026-01-10T13:05:38,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,CISPLATINO FILAXIS,2026-01-10T13:05:38,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,CITOFIN,2026-01-10T13:05:40,"Driver error during search: Message: 
+"
+Cassará,CLAMOXOL DUO,2026-01-10T13:06:06,"Driver error during search: Message: 
+"
+Cepage,CLARITE CONTORNO DE OJOS,2026-01-10T13:06:09,"Driver error during search: Message: 
+"
+Cassará,CLIDAN,2026-01-10T13:06:09,"Driver error during search: Message: 
+"
+Cassará,CLIDAN 300,2026-01-10T13:06:11,"Driver error during search: Message: 
+"
+Cassará,CLIDAN B,2026-01-10T13:06:37,"Driver error during search: Message: 
+"
+Cassará,CLIDAN LOCION,2026-01-10T13:06:40,"Driver error during search: Message: 
+"
+Andrómaco,CLINAL,2026-01-10T13:06:40,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,CLINID,2026-01-10T13:06:42,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,CLOMIFEM,2026-01-10T13:07:09,"Driver error during search: Message: 
+"
+Elea,CLONOMAB,2026-01-10T13:07:11,"Driver error during search: Message: 
+"
+Andrómaco,CODELASA,2026-01-10T13:07:11,"Driver error during search: Message: 
+"
+Temis-Lostaló,COLPOESTRIENE,2026-01-10T13:07:13,"Driver error during search: Message: 
+"
+Temis-Lostaló,COLPOESTRIOL,2026-01-10T13:07:40,"Driver error during search: Message: 
+"
+Temis-Lostaló,CONTOUR PLUS ELITE,2026-01-10T13:07:42,"Driver error during search: Message: 
+"
+Temis-Lostaló,CONTOUR PLUS,2026-01-10T13:07:43,"Driver error during search: Message: 
+"
+Temis-Lostaló,CONTOUR PLUS METER KIT,2026-01-10T13:07:45,"Driver error during search: Message: 
+"
+Temis-Lostaló,CONTOUR TS,2026-01-10T13:08:11,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,CORAFEN,2026-01-10T13:08:14,"Driver error during search: Message: 
+"
+Bagó,CORTISTAMIN L,2026-01-10T13:08:14,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,COSMEGEN,2026-01-10T13:08:16,"Driver error during search: Message: 
+"
+Química Luar,COVADENIL,2026-01-10T13:08:42,"Driver error during search: Message: 
+"
+Química Luar,COVADENIL SPORT,2026-01-10T13:08:45,"Driver error during search: Message: 
+"
+San Ceferino,CREMA DE ORDEÑE,2026-01-10T13:08:45,"Driver error during search: Message: 
+"
+Nort,CREMA DE ORDEÑE NORT,2026-01-10T13:08:47,"Driver error during search: Message: 
+"
+Nort,CREMA DE ORDEÑE NORT CENTELLA-CAFEINA,2026-01-10T13:09:13,"Driver error during search: Message: 
+"
+Nort,CREMA DE ORDEÑE NORT CON BABA DE CARACOL,2026-01-10T13:09:16,"Driver error during search: Message: 
+"
+Pérez,CREMA DE ORDEÑE SPINEDA,2026-01-10T13:09:16,"Driver error during search: Message: 
+"
+Pérez,CREMA SPINEDA,2026-01-10T13:09:18,"Driver error during search: Message: 
+"
+Nutricia-Bagó,CUBITAN,2026-01-10T13:09:44,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,CUIDAFEM,2026-01-10T13:09:47,"Driver error during search: Message: 
+"
+Laboratorio Millet,CURFLEX ADVANCED,2026-01-10T13:09:47,"Driver error during search: Message: 
+"
+Cassará,CYCLOFEM INY,2026-01-10T13:09:49,"Driver error during search: Message: 
+"
+Pharmamerican S.R.L.,CÚRCUMA + JENGIBRE CON PIMIENTA VW,2026-01-10T13:10:16,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,DALCARA,2026-01-10T13:10:18,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,DAPABER,2026-01-10T13:10:18,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,DAPIBUS,2026-01-10T13:10:21,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,DARINAX 15,2026-01-10T13:10:47,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,DARINAX 7.5,2026-01-10T13:10:49,"Driver error during search: Message: 
+"
+Cassará,DELTACORT,2026-01-10T13:10:50,"Driver error during search: Message: 
+"
+Andrómaco,DEMACORT,2026-01-10T13:10:52,"Driver error during search: Message: 
+"
+Temis-Lostaló,DENDRITEX 100,2026-01-10T13:11:18,"Driver error during search: Message: 
+"
+Temis-Lostaló,DENDRITEX 25,2026-01-10T13:11:20,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,DENTILAC,2026-01-10T13:11:21,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,DENTILAC MENTA,2026-01-10T13:11:23,"Driver error during search: Message: 
+"
+Domínguez,DENURIX,2026-01-10T13:11:49,"Driver error during search: Message: 
+"
+Domínguez,DENURIX D3,2026-01-10T13:11:52,"Driver error during search: Message: 
+"
+Andrómaco,DERALBINE,2026-01-10T13:11:52,"Driver error during search: Message: 
+"
+Monserrat,DERMACLER PROT.SOLAR NIÑOS FPS45,2026-01-10T13:11:54,"Driver error during search: Message: 
+"
+Andrómaco,DERMAGLOS,2026-01-10T13:12:20,"Driver error during search: Message: 
+"
+Andrómaco,DERMAGLOS DELICADA FRAGANCIA,2026-01-10T13:12:23,"Driver error during search: Message: 
+"
+Cassará,DERMASEB,2026-01-10T13:12:23,"Driver error during search: Message: 
+"
+Teva Argentina,DEXALERGIN,2026-01-10T13:12:25,"Driver error during search: Message: 
+"
+Teva Argentina,DEXALERGIN C,2026-01-10T13:12:51,"Driver error during search: Message: 
+"
+Domínguez,DEXO,2026-01-10T13:12:54,"Driver error during search: Message: 
+"
+Domínguez,DEXO FORTE,2026-01-10T13:12:54,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,DEXOGASTEC,2026-01-10T13:12:56,"Driver error during search: Message: 
+"
+Temis-Lostaló,DIABEGLIPT,2026-01-10T13:13:23,"Driver error during search: Message: 
+"
+Nutricia-Bagó,DIASIP,2026-01-10T13:13:25,"Driver error during search: Message: 
+"
+Austral,DICLOLAM GEL TÓPICO AL 1%,2026-01-10T13:13:25,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,DIMERE,2026-01-10T13:13:28,"Driver error during search: Message: 
+"
+Domínguez,DINADOM,2026-01-10T13:13:54,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX 50,2026-01-10T13:13:56,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX 75,2026-01-10T13:13:57,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX 75 CB,2026-01-10T13:13:59,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX B12,2026-01-10T13:14:25,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX CB GESIC,2026-01-10T13:14:27,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX CB PLUS,2026-01-10T13:14:28,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX COMPLEX,2026-01-10T13:14:30,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX GEL,2026-01-10T13:14:56,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX GESIC,2026-01-10T13:14:58,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX INY,2026-01-10T13:14:59,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX MIGRA,2026-01-10T13:15:01,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX PARCHES,2026-01-10T13:15:28,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX PLUS,2026-01-10T13:15:30,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX PROTECT,2026-01-10T13:15:30,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX RAPID,2026-01-10T13:15:33,"Driver error during search: Message: 
+"
+Bagó,DIOXAFLEX VL,2026-01-10T13:15:59,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,DISIPAN 75 MG,2026-01-10T13:16:01,"Driver error during search: Message: 
+"
+Bagó,DIUREX 12.5,2026-01-10T13:16:01,"Driver error during search: Message: 
+"
+Bagó,DIUREX 25,2026-01-10T13:16:04,"Driver error during search: Message: 
+"
+Bagó,DIUREX 50,2026-01-10T13:16:30,"Driver error during search: Message: 
+"
+Bagó,DIUREX A 12.5,2026-01-10T13:16:32,"Driver error during search: Message: 
+"
+Bagó,DIUREX A 25,2026-01-10T13:16:32,"Driver error during search: Message: 
+"
+Bagó,DIUREX A 50,2026-01-10T13:16:35,"Driver error during search: Message: 
+"
+Scott-Cassará,DOBUCARD,2026-01-10T13:17:01,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,DOCETAXEL GP PHARM,2026-01-10T13:17:03,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,DOLONEUTIN,2026-01-10T13:17:03,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,DOLONEUTIN PRACTIDOSIS,2026-01-10T13:17:06,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,DONATAXEL,2026-01-10T13:17:32,"Driver error during search: Message: 
+"
+Scott-Cassará,DOPATROPIN,2026-01-10T13:17:34,"Driver error during search: Message: 
+"
+Scott-Cassará,DORMID,2026-01-10T13:17:34,"Driver error during search: Message: 
+"
+Temis-Lostaló,DOTAREM,2026-01-10T13:17:37,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,DOXIUM,2026-01-10T13:18:03,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,DOXTIE,2026-01-10T13:18:05,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,DREICO,2026-01-10T13:18:06,"Driver error during search: Message: 
+"
+Andrómaco,DRENIX 100,2026-01-10T13:18:09,"Driver error during search: Message: 
+"
+Andrómaco,DRENIX 100 AP,2026-01-10T13:18:34,"Driver error during search: Message: 
+"
+Andrómaco,DRENIX 50,2026-01-10T13:18:37,"Driver error during search: Message: 
+"
+Bagó,DRILYNA,2026-01-10T13:18:37,"Driver error during search: Message: 
+"
+Bagó,DRINAX R 10,2026-01-10T13:18:40,"Driver error during search: Message: 
+"
+Bagó,DRINAX R 15,2026-01-10T13:19:05,"Driver error during search: Message: 
+"
+Bagó,DRINAX R 20,2026-01-10T13:19:08,"Driver error during search: Message: 
+"
+Pharmatrix,DRUM ß,2026-01-10T13:19:08,"Driver error during search: Message: 
+"
+Cassará,DUOTEX,2026-01-10T13:19:11,"Driver error during search: Message: 
+"
+Cassará,DUOTEX FORTE,2026-01-10T13:19:37,"Driver error during search: Message: 
+"
+Garre Guevara,ECOHAIR BÁLSAMO ACONDICIONADOR,2026-01-10T13:19:39,"Driver error during search: Message: 
+"
+Temis-Lostaló,E Z CAT,2026-01-10T13:19:39,"Driver error during search: Message: 
+"
+Garre Guevara,ECOHAIR GEL MODELADOR DE PESTAÑAS,2026-01-10T13:19:42,"Driver error during search: Message: 
+"
+Garre Guevara,ECOHAIR LOCION RECUPERACIÓN CAPILAR PACK X 2,2026-01-10T13:20:08,"Driver error during search: Message: 
+"
+Garre Guevara,ECOHAIR LOCIÓN RECUPERACIÓN CAPILAR,2026-01-10T13:20:10,"Driver error during search: Message: 
+"
+Garre Guevara,ECOHAIR SHAMPOO ANTICAÍDA,2026-01-10T13:20:10,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,EFLEVAR,2026-01-10T13:20:13,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,EIBANTA,2026-01-10T13:20:39,"Driver error during search: Message: 
+"
+Pierre Fabre Oral Care,ELGYDIUM XTREM (+12 AÑOS),2026-01-10T13:20:41,"Driver error during search: Message: 
+"
+Domínguez,EMETIC,2026-01-10T13:20:41,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,EMGLIBER,2026-01-10T13:20:44,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,EMGLIBER MET,2026-01-10T13:21:10,"Driver error during search: Message: 
+"
+Siegfried,EMPAX MET,2026-01-10T13:21:12,"Driver error during search: Message: 
+"
+Bagó,ENTEROBACTICEL,2026-01-10T13:21:13,"Driver error during search: Message: 
+"
+Temis-Lostaló,EPIPEN,2026-01-10T13:21:15,"Driver error during search: Message: 
+"
+Temis-Lostaló,EPIPEN JR,2026-01-10T13:21:41,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,EPIXTIE,2026-01-10T13:21:44,"Driver error during search: Message: 
+"
+Cassará,EPOGEN,2026-01-10T13:21:44,"Driver error during search: Message: 
+"
+Epuyén,EPUYEN BUTTERFLY,2026-01-10T13:21:47,"Driver error during search: Message: 
+"
+Epuyén,EPUYEN CREMA DE ORDEÑE,2026-01-10T13:22:12,"Driver error during search: Message: 
+"
+Epuyén,EPUYEN EMULSION CORPORAL,2026-01-10T13:22:15,"Driver error during search: Message: 
+"
+Epuyén,EPUYEN HIDROGEL CICATRIZANTE,2026-01-10T13:22:15,"Driver error during search: Message: 
+"
+Epuyén,EPUYEN PIELES FRAGILES,2026-01-10T13:22:18,"Driver error during search: Message: 
+"
+Epuyén,EPUYEN POMADA,2026-01-10T13:22:43,"Driver error during search: Message: 
+"
+Epuyén,EPUYEN REGENERADOR DERMICO,2026-01-10T13:22:46,"Driver error during search: Message: 
+"
+Epuyén,EPUYEN PROTECTOR DERMICO AEROSOL,2026-01-10T13:22:46,"Driver error during search: Message: 
+"
+Epuyén,EPUYEN VITAMINA A NUTRITIVA,2026-01-10T13:22:49,"Driver error during search: Message: 
+"
+Temis-Lostaló,EQUILIBRANE,2026-01-10T13:23:14,"Driver error during search: Message: 
+"
+Andrómaco,ERI ACNE,2026-01-10T13:23:16,"Driver error during search: Message: 
+"
+Andrómaco,ERI LOCION,2026-01-10T13:23:17,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,ERICOB,2026-01-10T13:23:20,"Driver error during search: Message: 
+"
+Cassará,ERISOL,2026-01-10T13:23:46,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,ERITROGEN,2026-01-10T13:23:48,"Driver error during search: Message: 
+"
+Cassará,ESODAR,2026-01-10T13:23:48,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,ESOGASTEC,2026-01-10T13:23:51,"Driver error during search: Message: 
+"
+Bagó,ESOPRAZOL 20,2026-01-10T13:24:17,"Driver error during search: Message: 
+"
+Bagó,ESOPRAZOL 40,2026-01-10T13:24:18,"Driver error during search: Message: 
+"
+Nutricia-Bagó,ESPESAN +,2026-01-10T13:24:19,"Driver error during search: Message: 
+"
+Nutricia-Bagó,ESPESAN CLEAR,2026-01-10T13:24:22,"Driver error during search: Message: 
+"
+Bagó,ESTREPTOCARBOCAFTIAZOL,2026-01-10T13:24:48,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,ETILES,2026-01-10T13:24:49,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,ETOPOSIDO GP PHARM,2026-01-10T13:24:50,"Driver error during search: Message: 
+"
+Pierre Fabre Médicament,ETUMINA,2026-01-10T13:24:53,"Driver error during search: Message: 
+"
+Cassará,EUMICEL COLAGENO,2026-01-10T13:25:19,"Driver error during search: Message: 
+"
+Cassará,EUMICEL S,2026-01-10T13:25:20,"Driver error during search: Message: 
+"
+Bagó,EXIBRAL 250,2026-01-10T13:25:21,"Driver error during search: Message: 
+"
+Bagó,EXIBRAL 500,2026-01-10T13:25:24,"Driver error during search: Message: 
+"
+Bagó,EXIBRAL JBE,2026-01-10T13:25:50,"Driver error during search: Message: 
+"
+Biosintex Retail,EXILET REPELENTE NATURAL BEBES Y NIÑOS,2026-01-10T13:25:52,"Driver error during search: Message: 
+"
+Eximia,EXIMIA HYALU-N CONCENTRÉ,2026-01-10T13:25:52,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,EXTENSIL,2026-01-10T13:25:56,"Driver error during search: Message: 
+"
+Savant Consumer,FABOGESIC NIÑOS 2%,2026-01-10T13:26:21,"Driver error during search: Message: 
+"
+Savant Consumer,FABOGESIC NIÑOS 4%,2026-01-10T13:26:23,"Driver error during search: Message: 
+"
+Elea,FALGOS EXPENDEDOR X 25 BL,2026-01-10T13:26:23,"Driver error during search: Message: 
+"
+Excelentia,FARMACOLOR BAÑO DE CREMA,2026-01-10T13:26:26,"Driver error during search: Message: 
+"
+Temis-Lostaló,FERINJECT,2026-01-10T13:26:52,"Driver error during search: Message: 
+"
+Domínguez,FERIVE,2026-01-10T13:26:54,"Driver error during search: Message: 
+"
+Domínguez,FERIVE IM,2026-01-10T13:26:54,"Driver error during search: Message: 
+"
+Temis-Lostaló,FERRANIN,2026-01-10T13:26:58,"Driver error during search: Message: 
+"
+Nestlé Health Science,FIBER MAIS,2026-01-10T13:27:23,"Driver error during search: Message: 
+"
+Synthon Bagó,FIBRONEURINA,2026-01-10T13:27:25,"Driver error during search: Message: 
+"
+Andrómaco,FIL OLOR,2026-01-10T13:27:26,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,FILGEN,2026-01-10T13:27:28,"Driver error during search: Message: 
+"
+Temis-Lostaló,FINDOL,2026-01-10T13:27:54,"Driver error during search: Message: 
+"
+Temis-Lostaló,FINDOL PLUS,2026-01-10T13:27:56,"Driver error during search: Message: 
+"
+Andrómaco,FITONAL,2026-01-10T13:27:57,"Driver error during search: Message: 
+"
+Bagó,FLEBOTROPIN 300,2026-01-10T13:27:59,"Driver error during search: Message: 
+"
+Bagó,FLEBOTROPIN 500,2026-01-10T13:28:25,"Driver error during search: Message: 
+"
+Elea,FLENOMID XR,2026-01-10T13:28:26,"Driver error during search: Message: 
+"
+Bagó,FLOGOCOX 120,2026-01-10T13:28:28,"Driver error during search: Message: 
+"
+Bagó,FLOGOCOX 60,2026-01-10T13:28:30,"Driver error during search: Message: 
+"
+Bagó,FLOGOCOX 90,2026-01-10T13:28:57,"Driver error during search: Message: 
+"
+Bagó,FLOGOCOX CB 120,2026-01-10T13:28:58,"Driver error during search: Message: 
+"
+Bagó,FLOGOCOX CB 90,2026-01-10T13:28:59,"Driver error during search: Message: 
+"
+Temis-Lostaló,FLORATIL,2026-01-10T13:29:01,"Driver error during search: Message: 
+"
+Temis-Lostaló,FLORATIL 250,2026-01-10T13:29:28,"Driver error during search: Message: 
+"
+Cassará,FLUCODERM,2026-01-10T13:29:29,"Driver error during search: Message: 
+"
+Pérez,FLUIDO SPINEDA,2026-01-10T13:29:30,"Driver error during search: Message: 
+"
+Pérez,FLUIDO SPINEDA SPORT,2026-01-10T13:29:32,"Driver error during search: Message: 
+"
+Scott-Cassará,FLUMAZEN,2026-01-10T13:29:59,"Driver error during search: Message: 
+"
+Synthon Bagó,FLUNISOL,2026-01-10T13:30:00,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT,2026-01-10T13:30:01,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT B,2026-01-10T13:30:03,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT BABY,2026-01-10T13:30:30,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT CLASSIC ADULTOS,2026-01-10T13:30:31,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT CLASSIC NIÑOS,2026-01-10T13:30:32,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT FLOSS,2026-01-10T13:30:34,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT JUNIOR,2026-01-10T13:31:01,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT KIDS,2026-01-10T13:31:02,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT KIDS CEPILLO DENTAL,2026-01-10T13:31:03,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT KIDS ENJUAGUE BUCAL,2026-01-10T13:31:05,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT MULTICOMFORT,2026-01-10T13:31:32,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT PX,2026-01-10T13:31:33,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT PX COLUTORIO,2026-01-10T13:31:34,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT PX ENJUAGUE BUCAL,2026-01-10T13:31:36,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT SEMANAL,2026-01-10T13:32:04,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT SLIM BOX,2026-01-10T13:32:04,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT STICKS,2026-01-10T13:32:05,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,FLUORDENT TRIPLE ACCION,2026-01-10T13:32:07,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,FLUOROURACILO FILAXIS,2026-01-10T13:32:35,"Driver error during search: Message: 
+"
+Andrómaco,FLUPEC,2026-01-10T13:32:35,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,FLURADOSA,2026-01-10T13:32:36,"Driver error during search: Message: 
+"
+Cassará,FLUTICORT,2026-01-10T13:32:38,"Driver error during search: Message: 
+"
+Cassará,FLUTIVENT HFA,2026-01-10T13:33:06,"Driver error during search: Message: 
+"
+Cassará,FLUTIVENT+AEROMED HFA,2026-01-10T13:33:07,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,FOLFIRIMOX,2026-01-10T13:33:08,"Driver error during search: Message: 
+"
+Cassará,FORTILAC,2026-01-10T13:33:09,"Driver error during search: Message: 
+"
+Nutricia-Bagó,FORTINI COMPACT MULTIFIBRE,2026-01-10T13:33:37,"Driver error during search: Message: 
+"
+Nutricia-Bagó,FORTINI PLUS,2026-01-10T13:33:37,"Driver error during search: Message: 
+"
+Nutricia-Bagó,FORTISIP,2026-01-10T13:33:38,"Driver error during search: Message: 
+"
+Nutricia-Bagó,FORTISIP ADVANCED,2026-01-10T13:33:41,"Driver error during search: Message: 
+"
+Nutricia-Bagó,FORTISIP COMPACT PROTEIN,2026-01-10T13:34:40,"Driver error during search: Message: 
+"
+Nutricia-Bagó,FORTISIP COMPACT,2026-01-10T13:34:40,"Driver error during search: Message: 
+"
+Nutricia-Bagó,FORTISIP STANDARD,2026-01-10T13:34:43,"Driver error during search: Message: 
+"
+Nutricia-Bagó,FORTISIP MAX,2026-01-10T13:34:44,"Driver error during search: Message: 
+"
+Química Luar,FOSFOMICINA LUAR,2026-01-10T13:35:11,"Driver error during search: Message: 
+"
+Domínguez,FOSFO-DOM,2026-01-10T13:35:11,"Driver error during search: Message: 
+"
+Temis-Lostaló,FOSFOVITA,2026-01-10T13:35:15,"Driver error during search: Message: 
+"
+Temis-Lostaló,FOSFOVITA PLUS,2026-01-10T13:35:15,"Driver error during search: Message: 
+"
+Temis-Lostaló,FOSFOVITA SILVER,2026-01-10T13:35:42,"Driver error during search: Message: 
+"
+Isdin,FOTO WET SKIN TRANSPARENT SPRAY SPF 50,2026-01-10T13:35:42,"Driver error during search: Message: 
+"
+Cassará,FOTOSOL PLANO,2026-01-10T13:35:46,"Driver error during search: Message: 
+"
+Cassará,FOTOSOL PLANO 50+,2026-01-10T13:35:46,"Driver error during search: Message: 
+"
+Cassará,FOTOSOL ULTRA 50+ SPRAY,2026-01-10T13:36:13,"Driver error during search: Message: 
+"
+Cassará,FOTOSOL ULTRA 50+,2026-01-10T13:36:13,"Driver error during search: Message: 
+"
+Cassará,FOTOSOL ULTRA CASSARA,2026-01-10T13:36:17,"Driver error during search: Message: 
+"
+Bagó,FRUGAL,2026-01-10T13:36:17,"Driver error during search: Message: 
+"
+Andrómaco,FUNGIMAX,2026-01-10T13:36:44,"Driver error during search: Message: 
+"
+Bagó,FURADANTINA,2026-01-10T13:36:44,"Driver error during search: Message: 
+"
+Bagó,FURADANTINA MC,2026-01-10T13:36:48,"Driver error during search: Message: 
+"
+Cassará,FUSIMED,2026-01-10T13:36:48,"Driver error during search: Message: 
+"
+Cassará,FUSIMED B OTONASAL,2026-01-10T13:37:15,"Driver error during search: Message: 
+"
+Cassará,FUSIMED B,2026-01-10T13:37:15,"Driver error during search: Message: 
+"
+Química Luar,GALAVIT,2026-01-10T13:37:18,"Driver error during search: Message: 
+"
+Sant Gall,GALCICLINA SANT GALL,2026-01-10T13:37:20,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,GASTEC,2026-01-10T13:37:46,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,GASTEC RAPIDO,2026-01-10T13:37:47,"Driver error during search: Message: 
+"
+Temis-Lostaló,GASTROPAQUE F,2026-01-10T13:37:50,"Driver error during search: Message: 
+"
+Temis-Lostaló,GASTROPAQUE S,2026-01-10T13:37:50,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,GAUST,2026-01-10T13:38:18,"Driver error during search: Message: 
+"
+Temis-Lostaló,GASTROTEM,2026-01-10T13:38:18,"Driver error during search: Message: 
+"
+Eczane,GEFIXANE,2026-01-10T13:38:21,"Driver error during search: Message: 
+"
+Sertex,GEL ANTIINFLAMATORIO SERTEX,2026-01-10T13:38:21,"Driver error during search: Message: 
+"
+San Ceferino,GEL POST SOLAR,2026-01-10T13:38:49,"Driver error during search: Message: 
+"
+Nort,GEL POST SOLAR REFRESCANTE NORT,2026-01-10T13:38:49,"Driver error during search: Message: 
+"
+B. Braun,GELAFUNDIN,2026-01-10T13:38:52,"Driver error during search: Message: 
+"
+Megalabs Argentina,GELBIOTIC,2026-01-10T13:38:52,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,GEMBIO,2026-01-10T13:39:20,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,GEMI COMPLEX,2026-01-10T13:39:20,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,GEMISTATIN 10,2026-01-10T13:39:23,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,GEMISTATIN 20,2026-01-10T13:39:23,"Driver error during search: Message: 
+"
+Innovapharma,GENACOL FÓRMULA AVANZADA,2026-01-10T13:39:51,"Driver error during search: Message: 
+"
+Innovapharma,GENACOL FÓRMULA ORIGINAL,2026-01-10T13:39:51,"Driver error during search: Message: 
+"
+Andrómaco,GENTAREN,2026-01-10T13:39:53,"Driver error during search: Message: 
+"
+Cassará,GERMILISIN,2026-01-10T13:39:54,"Driver error during search: Message: 
+"
+Bagó,GLIFOSIN 10,2026-01-10T13:40:23,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,GESTFEM,2026-01-10T13:40:23,"Driver error during search: Message: 
+"
+Bagó,GLIFOSIN MET XR,2026-01-10T13:40:24,"Driver error during search: Message: 
+"
+Bagó,GLIOSARTAN 40,2026-01-10T13:40:26,"Driver error during search: Message: 
+"
+Bagó,GLIOSARTAN 80,2026-01-10T13:40:54,"Driver error during search: Message: 
+"
+Bagó,GLIOSARTAN PLUS 40/12.5,2026-01-10T13:40:54,"Driver error during search: Message: 
+"
+Bagó,GLIOSARTAN PLUS 80/12.5,2026-01-10T13:40:56,"Driver error during search: Message: 
+"
+Bagó,GLIOTEN 10,2026-01-10T13:40:56,"Driver error during search: Message: 
+"
+Bagó,GLIOTEN 2.5,2026-01-10T13:41:25,"Driver error during search: Message: 
+"
+Bagó,GLIOTEN 20,2026-01-10T13:41:25,"Driver error during search: Message: 
+"
+Bagó,GLIOTEN 5,2026-01-10T13:41:27,"Driver error during search: Message: 
+"
+Bagó,GLIOTENZIDE,2026-01-10T13:41:28,"Driver error during search: Message: 
+"
+Bagó,GLIOTENZIDE 10/25,2026-01-10T13:41:56,"Driver error during search: Message: 
+"
+Bagó,GLUCEMIX 50,2026-01-10T13:41:56,"Driver error during search: Message: 
+"
+Bagó,GLUCEMIX MET 50/1000,2026-01-10T13:41:58,"Driver error during search: Message: 
+"
+Bagó,GLUCEMIX MET 50/500,2026-01-10T13:41:59,"Driver error during search: Message: 
+"
+Bagó,GLUCEMIX MET 50/850,2026-01-10T13:42:27,"Driver error during search: Message: 
+"
+Abbott Nutricion,GLUCERNA LÍQUIDO,2026-01-10T13:42:27,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,GOMBRICH,2026-01-10T13:42:29,"Driver error during search: Message: 
+"
+Domínguez,GRAVIDAC,2026-01-10T13:42:30,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,GRINEVEL,2026-01-10T13:42:58,"Driver error during search: Message: 
+"
+Domínguez,GUTRON,2026-01-10T13:42:58,"Driver error during search: Message: 
+"
+Scott-Cassará,HALOTHANE,2026-01-10T13:43:00,"Driver error during search: Message: 
+"
+Provefarma,HASTA MAÑANA,2026-01-10T13:43:01,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,HAXANIT,2026-01-10T13:43:29,"Driver error during search: Message: 
+"
+Andrómaco,HIDROSAM T,2026-01-10T13:43:29,"Driver error during search: Message: 
+"
+Andrómaco,HIPOGLOS,2026-01-10T13:43:31,"Driver error during search: Message: 
+"
+Andrómaco,HIPOGLOS CICATRIZANTE,2026-01-10T13:43:32,"Driver error during search: Message: 
+"
+Andrómaco,HIPOGLOS CON HIDROCORTISONA,2026-01-10T13:44:00,"Driver error during search: Message: 
+"
+Andrómaco,HIPOGLOS MICO,2026-01-10T13:44:00,"Driver error during search: Message: 
+"
+Andrómaco,HIPOGLOS POMADA VL,2026-01-10T13:44:02,"Driver error during search: Message: 
+"
+Andrómaco,HIPOGLOS Q,2026-01-10T13:44:03,"Driver error during search: Message: 
+"
+Bagó,HUMORAP 40,2026-01-10T13:44:31,"Driver error during search: Message: 
+"
+Bagó,HUMORAP 20,2026-01-10T13:44:31,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,HUTUS,2026-01-10T13:44:33,"Driver error during search: Message: 
+"
+Bagó,HYALONE,2026-01-10T13:44:34,"Driver error during search: Message: 
+"
+Cassará,HYPERSOL,2026-01-10T13:45:02,"Driver error during search: Message: 
+"
+Cassará,HYPERSOL B 100,2026-01-10T13:45:02,"Driver error during search: Message: 
+"
+Cassará,HYPERSOL B 50,2026-01-10T13:45:04,"Driver error during search: Message: 
+"
+Cassará,HYPERSOL GOTAS,2026-01-10T13:45:05,"Driver error during search: Message: 
+"
+Cassará,HYPERSOL NEBU,2026-01-10T13:45:34,"Driver error during search: Message: 
+"
+Cassará,HYPERSOL UNIDOSIS,2026-01-10T13:45:34,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,IBANLEG,2026-01-10T13:45:36,"Driver error during search: Message: 
+"
+Domínguez,IBEPRAL 30,2026-01-10T13:45:36,"Driver error during search: Message: 
+"
+Domínguez,IBEPRAL 60,2026-01-10T13:46:04,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,IBRULEU,2026-01-10T13:46:05,"Driver error during search: Message: 
+"
+Laboratorio Millet,IBUMEJORAL NIÑOS 2%,2026-01-10T13:46:07,"Driver error during search: Message: 
+"
+Laboratorio Millet,IBUMEJORAL NIÑOS 4%,2026-01-10T13:46:07,"Driver error during search: Message: 
+"
+Bagó,IBUNASTIZOL,2026-01-10T13:46:35,"Driver error during search: Message: 
+"
+Cassará,IBUSOL,2026-01-10T13:46:36,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,IDELARA,2026-01-10T13:46:38,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,IFOSFAMIDA GP PHARM,2026-01-10T13:46:38,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,IMATINIB GP PHARM,2026-01-10T13:47:06,"Driver error during search: Message: 
+"
+Nestlé Health Science,IMPACT,2026-01-10T13:47:07,"Driver error during search: Message: 
+"
+Nestlé Health Science,IMPACT PEPTIDE 1.5,2026-01-10T13:47:09,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,IMPILO,2026-01-10T13:47:09,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,INARO,2026-01-10T13:47:37,"Driver error during search: Message: 
+"
+Bagó,INCORIL 60,2026-01-10T13:47:38,"Driver error during search: Message: 
+"
+Bagó,INCORIL AP 120,2026-01-10T13:47:40,"Driver error during search: Message: 
+"
+Bagó,INCORIL AP 90,2026-01-10T13:47:41,"Driver error during search: Message: 
+"
+Bagó,INCORIL MONODOSIS 180,2026-01-10T13:48:08,"Driver error during search: Message: 
+"
+Bagó,INCORIL MONODOSIS 240,2026-01-10T13:48:10,"Driver error during search: Message: 
+"
+Bagó,INCORIL MONODOSIS 300,2026-01-10T13:48:11,"Driver error during search: Message: 
+"
+Nutricia-Bagó,INFATRINI,2026-01-10T13:48:11,"Driver error during search: Message: 
+"
+Nutricia-Bagó,INFATRINI LIQUIDO,2026-01-10T13:48:40,"Driver error during search: Message: 
+"
+Synthon Bagó,INMUNOMAS NF,2026-01-10T13:48:41,"Driver error during search: Message: 
+"
+Intencional,INTENCIONAL CREMA DE ORDEÑE,2026-01-10T13:48:42,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,IRINOGEN,2026-01-10T13:48:43,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,IRINOTECAN FILAXIS,2026-01-10T13:49:11,"Driver error during search: Message: 
+"
+Cassará,IRONCAS,2026-01-10T13:49:12,"Driver error during search: Message: 
+"
+Scott-Cassará,ISOFLURANE,2026-01-10T13:49:13,"Driver error during search: Message: 
+"
+Scott-Cassará,ISOPROTERENOL,2026-01-10T13:49:13,"Driver error during search: Message: 
+"
+Nestlé Health Science,ISOSOURCE 1.5,2026-01-10T13:49:43,"Driver error during search: Message: 
+"
+Cassará,ITRAC 100,2026-01-10T13:49:43,"Driver error during search: Message: 
+"
+Cassará,IVERCASS,2026-01-10T13:49:44,"Driver error during search: Message: 
+"
+Cassará,ITRAC 200,2026-01-10T13:49:45,"Driver error during search: Message: 
+"
+Cassará,IVERCREM,2026-01-10T13:50:14,"Driver error during search: Message: 
+"
+Temis-Lostaló,KABIAN 100 MULTIDOSIS,2026-01-10T13:50:14,"Driver error during search: Message: 
+"
+Temis-Lostaló,KABIAN 150 MULTIDOSIS,2026-01-10T13:50:15,"Driver error during search: Message: 
+"
+Temis-Lostaló,KABIAN 75 MULTIDOSIS,2026-01-10T13:50:16,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,KALA,2026-01-10T13:50:45,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,KALA MD,2026-01-10T13:50:45,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,KALA MD 24,2026-01-10T13:50:47,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,KALI SIN ESTROGENOS,2026-01-10T13:50:47,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,KALISMA,2026-01-10T13:51:16,"Driver error during search: Message: 
+"
+Nutricia-Bagó,KAS 1000,2026-01-10T13:51:17,"Driver error during search: Message: 
+"
+Cassará,KERATOPIC 40,2026-01-10T13:51:18,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,KESTAVA,2026-01-10T13:51:18,"Driver error during search: Message: 
+"
+Omicron,KINDERVAL MAX EMULSIÓN,2026-01-10T13:51:47,"Driver error during search: Message: 
+"
+Omicron,KINDERVAL MAX LOCIÓN,2026-01-10T13:51:48,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,KINNED,2026-01-10T13:51:49,"Driver error during search: Message: 
+"
+Sant Gall,LA COMPAÑIA DEL BUEN ALIENTO,2026-01-10T13:51:49,"Driver error during search: Message: 
+"
+Labsa,LABSALERG ß,2026-01-10T13:52:18,"Driver error during search: Message: 
+"
+Domínguez,LACTAS,2026-01-10T13:52:19,"Driver error during search: Message: 
+"
+Temis-Lostaló,LAXAMIN,2026-01-10T13:52:20,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,LETROFARM,2026-01-10T13:52:20,"Driver error during search: Message: 
+"
+Bagó,LEUCOTROFINA,2026-01-10T13:52:50,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,LEUCOVORINA FILAXIS,2026-01-10T13:52:50,"Driver error during search: Message: 
+"
+Baliarda,LEVECOM SOLUCIÓN,2026-01-10T13:52:51,"Driver error during search: Message: 
+"
+Andrómaco,LEVOMINE,2026-01-10T13:52:52,"Driver error during search: Message: 
+"
+Cassará,LICEND,2026-01-10T13:53:21,"Driver error during search: Message: 
+"
+Scott-Cassará,LIDOCAINA,2026-01-10T13:53:21,"Driver error during search: Message: 
+"
+Scott-Cassará,LIDOCAINA 4%,2026-01-10T13:53:22,"Driver error during search: Message: 
+"
+Scott-Cassará,LIDOCAINA JALEA,2026-01-10T13:53:23,"Driver error during search: Message: 
+"
+Scott-Cassará,LIDOCAINA SPRAY,2026-01-10T13:53:52,"Driver error during search: Message: 
+"
+Scott-Cassará,LIDOCAINA VISCOSA,2026-01-10T13:53:53,"Driver error during search: Message: 
+"
+Scott-Cassará,LIDOPRIL,2026-01-10T13:53:53,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,LIPECELTE,2026-01-10T13:53:54,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,LIPOCAMBI,2026-01-10T13:54:23,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,LIPOCAMBI PLUS,2026-01-10T13:54:24,"Driver error during search: Message: 
+"
+Bagó,LIPOMAX 105,2026-01-10T13:54:24,"Driver error during search: Message: 
+"
+Bagó,LIPOMAX 35,2026-01-10T13:54:25,"Driver error during search: Message: 
+"
+Temis-Lostaló,LIPTUIN,2026-01-10T13:54:54,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,LISAC,2026-01-10T13:54:55,"Driver error during search: Message: 
+"
+Fortbenton,LISALER ß,2026-01-10T13:54:56,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,LIXATROM,2026-01-10T13:54:57,"Driver error during search: Message: 
+"
+Bagó,LONGEVITAL,2026-01-10T13:55:26,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,LOREBIL 100,2026-01-10T13:55:26,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,LOREBIL 50,2026-01-10T13:55:27,"Driver error during search: Message: 
+"
+Temis-Lostaló,LOSTAM,2026-01-10T13:55:28,"Driver error during search: Message: 
+"
+Temis-Lostaló,LOSTAMUCIL,2026-01-10T13:55:57,"Driver error during search: Message: 
+"
+Temis-Lostaló,LOSTAPRES,2026-01-10T13:55:57,"Driver error during search: Message: 
+"
+Temis-Lostaló,LOSTAPRES A,2026-01-10T13:55:58,"Driver error during search: Message: 
+"
+Temis-Lostaló,LOSTAPROLOL,2026-01-10T13:55:59,"Driver error during search: Message: 
+"
+Nutricia-Bagó,LP-DRINK,2026-01-10T13:56:28,"Driver error during search: Message: 
+"
+Química Luar,LUARPROFENO 40,2026-01-10T13:56:28,"Driver error during search: Message: 
+"
+Química Luar,LUARPROFENO SOFT,2026-01-10T13:56:29,"Driver error during search: Message: 
+"
+Bagó,LUCIDEX 10,2026-01-10T13:56:30,"Driver error during search: Message: 
+"
+Bagó,LUCIDEX 20,2026-01-10T13:56:59,"Driver error during search: Message: 
+"
+Bagó,LUCIDEX COMPLEX XR SPRINKLE,2026-01-10T13:57:00,"Driver error during search: Message: 
+"
+Bagó,LUCIDEX XR 28,2026-01-10T13:57:00,"Driver error during search: Message: 
+"
+Bagó,LUKAST 10,2026-01-10T13:57:01,"Driver error during search: Message: 
+"
+Bagó,LUKAST 4,2026-01-10T13:57:30,"Driver error during search: Message: 
+"
+Bagó,LUKAST 5,2026-01-10T13:57:31,"Driver error during search: Message: 
+"
+Bagó,LUKAST COMPUESTO 10/5,2026-01-10T13:57:31,"Driver error during search: Message: 
+"
+Cassará,MACODERM,2026-01-10T13:57:32,"Driver error during search: Message: 
+"
+Andrómaco,MACRIL,2026-01-10T13:58:02,"Driver error during search: Message: 
+"
+Andrómaco,MACRIL DUO,2026-01-10T13:58:02,"Driver error during search: Message: 
+"
+Andrómaco,MACRIL OVULOS,2026-01-10T13:58:03,"Driver error during search: Message: 
+"
+Domínguez,MAGNEBE,2026-01-10T13:58:04,"Driver error during search: Message: 
+"
+Temis-Lostaló,MAMOGRAF,2026-01-10T13:58:33,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,MATURUS,2026-01-10T13:58:33,"Driver error during search: Message: 
+"
+Laboratorio Albula,MAWUII CREMA DE ORDEÑE,2026-01-10T13:58:34,"Driver error during search: Message: 
+"
+Nutricia-Bagó,MCT OIL,2026-01-10T13:58:35,"Driver error during search: Message: 
+"
+Andrómaco,MEBUTAR 200,2026-01-10T13:59:04,"Driver error during search: Message: 
+"
+Andrómaco,MEBUTAR COMPUESTO,2026-01-10T13:59:04,"Driver error during search: Message: 
+"
+Laboratorio Millet,MEGACISTIN COLÁGENO,2026-01-10T13:59:05,"Driver error during search: Message: 
+"
+Laboratorio Millet,MEJORAL PARA NIÑOS,2026-01-10T13:59:06,"Driver error during search: Message: 
+"
+Laboratorio Millet,MEJORAL PARA NIÑOS GOTAS,2026-01-10T13:59:35,"Driver error during search: Message: 
+"
+Laboratorio Millet,MEJORAL PARA NIÑOS JUNIOR,2026-01-10T13:59:36,"Driver error during search: Message: 
+"
+Domínguez,MELASMAX,2026-01-10T13:59:36,"Driver error during search: Message: 
+"
+Pharmamerican S.R.L.,MELENA DE LEÓN VW,2026-01-10T13:59:37,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,MELFOMA,2026-01-10T14:00:06,"Driver error during search: Message: 
+"
+Temis-Lostaló,METFORMIN TEMIS,2026-01-10T14:00:07,"Driver error during search: Message: 
+"
+Cassará,METRAL,2026-01-10T14:00:07,"Driver error during search: Message: 
+"
+Ugal Farmacéutica,METRONIDAZOL UGAL,2026-01-10T14:00:08,"Driver error during search: Message: 
+"
+Bagó,MEZAVANT 1200,2026-01-10T14:00:37,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,MIASOMA,2026-01-10T14:00:38,"Driver error during search: Message: 
+"
+Cassará,MICOFORTILAC,2026-01-10T14:00:38,"Driver error during search: Message: 
+"
+Cassará,MICOSEP,2026-01-10T14:00:39,"Driver error during search: Message: 
+"
+Cassará,MICOSEP B,2026-01-10T14:01:08,"Driver error during search: Message: 
+"
+Cassará,MICOSEP DEO,2026-01-10T14:01:09,"Driver error during search: Message: 
+"
+Temis-Lostaló,MICROLET LANCETAS,2026-01-10T14:01:09,"Driver error during search: Message: 
+"
+Biosintex Retail,MIDERMUS CREMA DE ORDEÑE,2026-01-10T14:01:11,"Driver error during search: Message: 
+"
+Domínguez,MIFEP,2026-01-10T14:01:40,"Driver error during search: Message: 
+"
+Domínguez,MIFEP KIT,2026-01-10T14:01:40,"Driver error during search: Message: 
+"
+Bagó,MIGRA DIOXADOL,2026-01-10T14:01:40,"Driver error during search: Message: 
+"
+Cassará,MINOCASS,2026-01-10T14:01:42,"Driver error during search: Message: 
+"
+Temis-Lostaló,MIO VIROBRON,2026-01-10T14:02:11,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,MIOPROPAN,2026-01-10T14:02:11,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,MIOPROPAN 200,2026-01-10T14:02:12,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,MIOPROPAN LP,2026-01-10T14:02:13,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,MIOPROPAN PROCTOLOGICO,2026-01-10T14:02:42,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,MIOPROPAN S,2026-01-10T14:02:43,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,MIOPROPAN T,2026-01-10T14:02:43,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,MIOPROPAN T 200,2026-01-10T14:02:44,"Driver error during search: Message: 
+"
+Domínguez,MISOP 200,2026-01-10T14:03:13,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,MISULTINA,2026-01-10T14:03:14,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,MITOTIE,2026-01-10T14:03:14,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,MITOXGEN,2026-01-10T14:03:16,"Driver error during search: Message: 
+"
+Cassará,MODULCASS,2026-01-10T14:03:45,"Driver error during search: Message: 
+"
+Nestlé Health Science,MODULEN,2026-01-10T14:03:45,"Driver error during search: Message: 
+"
+Temis-Lostaló,MOLIVAL,2026-01-10T14:03:46,"Driver error during search: Message: 
+"
+Temis-Lostaló,MOLIVAL 1000,2026-01-10T14:03:47,"Driver error during search: Message: 
+"
+Temis-Lostaló,MOLIVAL 500,2026-01-10T14:04:16,"Driver error during search: Message: 
+"
+Cassará,MOXIBASE,2026-01-10T14:04:17,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,MUDANTIL F,2026-01-10T14:04:17,"Driver error during search: Message: 
+"
+Andrómaco,MUPIDERM,2026-01-10T14:04:19,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,MYELENZ,2026-01-10T14:04:47,"Driver error during search: Message: 
+"
+Química Luar,NACLIN,2026-01-10T14:04:48,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,NADENEL,2026-01-10T14:04:49,"Driver error during search: Message: 
+"
+Nestle,NAN 1 OPTIPRO HMO RTD,2026-01-10T14:04:50,"Driver error during search: Message: 
+"
+Nestle,NAN 2 OPTIPRO HMO RTD,2026-01-10T14:05:19,"Driver error during search: Message: 
+"
+Nestle,NAN 3 OPTIPRO HMO RTD,2026-01-10T14:05:19,"Driver error during search: Message: 
+"
+Andrómaco,NAPRUX,2026-01-10T14:05:20,"Driver error during search: Message: 
+"
+Andrómaco,NAPRUX 750 AP,2026-01-10T14:05:21,"Driver error during search: Message: 
+"
+Andrómaco,NAPRUX DISTEN,2026-01-10T14:05:50,"Driver error during search: Message: 
+"
+Andrómaco,NAPRUX RAPID,2026-01-10T14:05:51,"Driver error during search: Message: 
+"
+Scott-Cassará,NARXONA,2026-01-10T14:05:51,"Driver error during search: Message: 
+"
+Cassará,NASITRAL,2026-01-10T14:05:52,"Driver error during search: Message: 
+"
+Bagó,NASTIZOL,2026-01-10T14:06:21,"Driver error during search: Message: 
+"
+Bagó,NASTIZOL COMPOSITUM,2026-01-10T14:06:22,"Driver error during search: Message: 
+"
+Bagó,NEBIX 10,2026-01-10T14:06:23,"Driver error during search: Message: 
+"
+Bagó,NEBIX 5,2026-01-10T14:06:24,"Driver error during search: Message: 
+"
+Temis-Lostaló,NEO PELVICILLIN,2026-01-10T14:06:53,"Driver error during search: Message: 
+"
+Temis-Lostaló,NEOMAS BOWERS,2026-01-10T14:06:53,"Driver error during search: Message: 
+"
+Temis-Lostaló,NEOMAS L,2026-01-10T14:06:54,"Driver error during search: Message: 
+"
+Cassará,NEOQUIN,2026-01-10T14:06:55,"Driver error during search: Message: 
+"
+Cassará,NEOQUIN FORTE,2026-01-10T14:07:24,"Driver error during search: Message: 
+"
+Valuge,NEOSTRATA CLARIFY CORRECT. MARCAS POST ACNÉ,2026-01-10T14:07:25,"Driver error during search: Message: 
+"
+Cassará,NEOTRETIN D,2026-01-10T14:07:25,"Driver error during search: Message: 
+"
+Cassará,NEOTRETIN F,2026-01-10T14:07:27,"Driver error during search: Message: 
+"
+Cassará,NEOTRETIN M,2026-01-10T14:07:55,"Driver error during search: Message: 
+"
+Bagó,NEUMOBACTICEL,2026-01-10T14:07:56,"Driver error during search: Message: 
+"
+Cassará,NEUMOCORT + AEROMED,2026-01-10T14:07:57,"Driver error during search: Message: 
+"
+Cassará,NEUMOCORT HFA,2026-01-10T14:07:58,"Driver error during search: Message: 
+"
+Cassará,NEUMOCORT HFA+CAMARA ESP. NO ELECTROEST.,2026-01-10T14:08:27,"Driver error during search: Message: 
+"
+Cassará,NEUMOCORT PLUS,2026-01-10T14:08:27,"Driver error during search: Message: 
+"
+Cassará,NEUMOCORT PLUS+CAMARA ESP. NO ELECTROEST.,2026-01-10T14:08:28,"Driver error during search: Message: 
+"
+Bagó,NEUPAX,2026-01-10T14:08:29,"Driver error during search: Message: 
+"
+Bagó,NEUROACTIL,2026-01-10T14:08:58,"Driver error during search: Message: 
+"
+Temis-Lostaló,NEUROTEM 400,2026-01-10T14:08:59,"Driver error during search: Message: 
+"
+Temis-Lostaló,NEUROTEM 800,2026-01-10T14:09:00,"Driver error during search: Message: 
+"
+Bagó,NEURYL 0.25,2026-01-10T14:09:01,"Driver error during search: Message: 
+"
+Bagó,NEURYL 0.5,2026-01-10T14:09:30,"Driver error during search: Message: 
+"
+Bagó,NEURYL 1,2026-01-10T14:09:30,"Driver error during search: Message: 
+"
+Bagó,NEURYL 2,2026-01-10T14:09:31,"Driver error during search: Message: 
+"
+Bagó,NEURYL FLASH 0.5,2026-01-10T14:09:32,"Driver error during search: Message: 
+"
+Bagó,NEURYL GOTAS,2026-01-10T14:10:01,"Driver error during search: Message: 
+"
+Valuge,NEWGEL+ LOLYPOP MAMARIAS NG-324,2026-01-10T14:10:02,"Driver error during search: Message: 
+"
+Valuge,NEWGEL+ LOLYPOP MAMARIAS NG-326,2026-01-10T14:10:02,"Driver error during search: Message: 
+"
+Genomma Lab.,NEXT CB RÁPIDA ACCIÓN,2026-01-10T14:10:03,"Driver error during search: Message: 
+"
+Cassará,NIACIDER,2026-01-10T14:10:32,"Driver error during search: Message: 
+"
+Cassará,NIACIDER SERUM,2026-01-10T14:10:33,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,NIANEB,2026-01-10T14:10:34,"Driver error during search: Message: 
+"
+Temis-Lostaló,NICORVAS,2026-01-10T14:10:35,"Driver error during search: Message: 
+"
+Temis-Lostaló,NICORVAS A,2026-01-10T14:11:04,"Driver error during search: Message: 
+"
+Temis-Lostaló,NICORVAS DIUR,2026-01-10T14:11:05,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,NILTARA,2026-01-10T14:11:05,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,NIMIC 150,2026-01-10T14:11:06,"Driver error during search: Message: 
+"
+Domínguez,NITRODOM,2026-01-10T14:11:35,"Driver error during search: Message: 
+"
+Scott-Cassará,NITROPRUS,2026-01-10T14:11:36,"Driver error during search: Message: 
+"
+Cassará,NIUX,2026-01-10T14:11:37,"Driver error during search: Message: 
+"
+Temis-Lostaló,NIVELIPOL RESINA,2026-01-10T14:11:38,"Driver error during search: Message: 
+"
+Bagó,NOCTE 10,2026-01-10T14:12:06,"Driver error during search: Message: 
+"
+Temis-Lostaló,NODIS 10,2026-01-10T14:12:07,"Driver error during search: Message: 
+"
+Temis-Lostaló,NODIS 20,2026-01-10T14:12:08,"Driver error during search: Message: 
+"
+Temis-Lostaló,NODIS 40,2026-01-10T14:12:09,"Driver error during search: Message: 
+"
+Temis-Lostaló,NODIS 5,2026-01-10T14:12:38,"Driver error during search: Message: 
+"
+Temis-Lostaló,NODIS FENO 10/200,2026-01-10T14:12:39,"Driver error during search: Message: 
+"
+Temis-Lostaló,NODIS FENO 5/200,2026-01-10T14:12:39,"Driver error during search: Message: 
+"
+Temis-Lostaló,NORMOPROST PLUS,2026-01-10T14:12:40,"Driver error during search: Message: 
+"
+Nestlé Health Science,NOVASOURCE GC,2026-01-10T14:13:09,"Driver error during search: Message: 
+"
+Nestlé Health Science,NOVASOURCE PROLINE,2026-01-10T14:13:10,"Driver error during search: Message: 
+"
+Bagó,NOVO HUMORAP 10,2026-01-10T14:13:10,"Driver error during search: Message: 
+"
+Bagó,NOVO HUMORAP 20,2026-01-10T14:13:12,"Driver error during search: Message: 
+"
+Bagó,NOVO KLOSIDOL E-3,2026-01-10T14:13:41,"Driver error during search: Message: 
+"
+Andrómaco,NOVOCORT,2026-01-10T14:13:41,"Driver error during search: Message: 
+"
+Cassará,NOVOFLORA AC,2026-01-10T14:13:42,"Driver error during search: Message: 
+"
+Cassará,NOVOFLORA ALO,2026-01-10T14:13:43,"Driver error during search: Message: 
+"
+Domínguez,NOVOPREP,2026-01-10T14:14:12,"Driver error during search: Message: 
+"
+Bagó,NOXIBEL,2026-01-10T14:14:12,"Driver error during search: Message: 
+"
+Domínguez,NULITE,2026-01-10T14:14:13,"Driver error during search: Message: 
+"
+Nestlé Health Science,NUTREN 1.5 LIQUIDO,2026-01-10T14:14:14,"Driver error during search: Message: 
+"
+Nestlé Health Science,NUTREN CONTROL POLVOS,2026-01-10T14:14:43,"Driver error during search: Message: 
+"
+Nestlé Health Science,NUTREN PROTEIN LIQUIDO,2026-01-10T14:14:44,"Driver error during search: Message: 
+"
+Nestlé Health Science,NUTREN SENIOR LIQUIDO,2026-01-10T14:14:45,"Driver error during search: Message: 
+"
+Centro de Mezclas Intravenosas,NUTRICION PAREN TOTAL C/LÍP. AC. DE PESCADO,2026-01-10T14:14:46,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRILON 1 PROFUTURA,2026-01-10T14:15:15,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRILON 2 PROFUTURA,2026-01-10T14:15:15,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRILON 3 PROFUTURA,2026-01-10T14:15:16,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRILON 4 PROFUTURA,2026-01-10T14:15:17,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRILON A.R. 2,2026-01-10T14:15:46,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRILON A.R. O A.R.1,2026-01-10T14:15:47,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRILON COMFORT,2026-01-10T14:15:47,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRILON H.A.,2026-01-10T14:15:48,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRILON PEPTI JUNIOR HE,2026-01-10T14:16:17,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRILON PEPTI SYNEO,2026-01-10T14:16:18,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRILON PREMATUROS 1,2026-01-10T14:16:19,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRILON PREMATUROS 2,2026-01-10T14:16:20,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRILON SIN LACTOSA (NF),2026-01-10T14:16:49,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRINI,2026-01-10T14:16:49,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRINI ENERGY MULTIFIBRE 1.5,2026-01-10T14:16:50,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRIPREM FORTIFICADOR DE LECHE MATERNA,2026-01-10T14:16:51,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRISON 1.0,2026-01-10T14:17:20,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRISON ADVANCED CUBISON,2026-01-10T14:17:21,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRISON ADVANCED DIASON,2026-01-10T14:17:21,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRISON ADVANCED PEPTISORB,2026-01-10T14:17:23,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRISON ADVANCED PROTISON,2026-01-10T14:17:52,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRISON ENERGY,2026-01-10T14:17:52,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRISON MULTIFIBRE,2026-01-10T14:17:53,"Driver error during search: Message: 
+"
+Nutricia-Bagó,NUTRISON PROTEIN INTENSE,2026-01-10T14:17:54,"Driver error during search: Message: 
+"
+Bagó,OCTANYL 3,2026-01-10T14:18:23,"Driver error during search: Message: 
+"
+Bagó,OCTANYL 6,2026-01-10T14:18:24,"Driver error during search: Message: 
+"
+Scott-Cassará,OCYTOCIN,2026-01-10T14:18:24,"Driver error during search: Message: 
+"
+Vannier,ODONTOCALM GEL TÓPICO,2026-01-10T14:18:25,"Driver error during search: Message: 
+"
+Cassará,OILSOR,2026-01-10T14:18:54,"Driver error during search: Message: 
+"
+Rospaw,OLANZAPINA ROSPAW,2026-01-10T14:18:55,"Driver error during search: Message: 
+"
+Temis-Lostaló,OMMUNAL ADULTOS,2026-01-10T14:18:56,"Driver error during search: Message: 
+"
+Temis-Lostaló,OMMUNAL NIÑOS,2026-01-10T14:18:57,"Driver error during search: Message: 
+"
+Janssen-Cilag,OPSYNVI,2026-01-10T14:19:26,"Driver error during search: Message: 
+"
+Temis-Lostaló,OPTIMINA PLUS,2026-01-10T14:19:26,"Driver error during search: Message: 
+"
+Temis-Lostaló,OPTIRAY 240,2026-01-10T14:19:27,"Driver error during search: Message: 
+"
+Temis-Lostaló,OPTIRAY 320,2026-01-10T14:19:28,"Driver error during search: Message: 
+"
+Temis-Lostaló,OPTIRAY 350,2026-01-10T14:19:57,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,ORNATE,2026-01-10T14:19:58,"Driver error during search: Message: 
+"
+Géminis Farmacéutica,OSEUM,2026-01-10T14:19:59,"Driver error during search: Message: 
+"
+Synthon Bagó,OSIREN MS,2026-01-10T14:19:59,"Driver error during search: Message: 
+"
+Cassará,OTOCLEAN GOTAS OTICAS,2026-01-10T14:20:28,"Driver error during search: Message: 
+"
+Cassará,OTOFLOX,2026-01-10T14:20:29,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,OVUFEM,2026-01-10T14:20:30,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,OXALIPLATINO GP PHARM,2026-01-10T14:20:31,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,OXALTIE,2026-01-10T14:21:48,"Driver error during search: Message: 
+"
+Cassará,OXILER D,2026-01-10T14:21:49,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,PACLITAXEL GP PHARM,2026-01-10T14:21:50,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,PAKNIRA,2026-01-10T14:21:52,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,PANATAXEL,2026-01-10T14:22:19,"Driver error during search: Message: 
+"
+Bagó,PANTOMICINA 200,2026-01-10T14:22:20,"Driver error during search: Message: 
+"
+Scott-Cassará,PANCURON,2026-01-10T14:22:21,"Driver error during search: Message: 
+"
+Bagó,PANTOMICINA 400,2026-01-10T14:22:23,"Driver error during search: Message: 
+"
+Bagó,PANTOMICINA 500,2026-01-10T14:22:50,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,PAPASINE,2026-01-10T14:22:51,"Driver error during search: Message: 
+"
+Bagó,PARKINEL 100/25,2026-01-10T14:22:52,"Driver error during search: Message: 
+"
+Bagó,PARKINEL 250/25,2026-01-10T14:22:54,"Driver error during search: Message: 
+"
+Haleon Argentina,PARODONTAX COMPLETE PROTECTION EXTRA FRESH,2026-01-10T14:23:21,"Driver error during search: Message: 
+"
+Filaxis Farmacéutica,PEMETREXED GP PHARM,2026-01-10T14:23:23,"Driver error during search: Message: 
+"
+Bagó,PEN DI BEN 1200000,2026-01-10T14:23:23,"Driver error during search: Message: 
+"
+Bagó,PEN DI BEN 2400000,2026-01-10T14:23:25,"Driver error during search: Message: 
+"
+Química Luar,PENTAMIDINA LUAR,2026-01-10T14:23:52,"Driver error during search: Message: 
+"
+Nestlé Health Science,PEPTAMEN INTENSE,2026-01-10T14:23:53,"Driver error during search: Message: 
+"
+Pierre Fabre Médicament,PERCUTAFEINE,2026-01-10T14:23:54,"Driver error during search: Message: 
+"
+Pierre Fabre Médicament,PERCUTALFA,2026-01-10T14:23:57,"Driver error during search: Message: 
+"
+Bagó,PERFORMA,2026-01-10T14:24:24,"Driver error during search: Message: 
+"
+Bagó,PERMICAPS 160,2026-01-10T14:24:24,"Driver error during search: Message: 
+"
+Bagó,PERMICAPS 320,2026-01-10T14:24:25,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,PERPIEL,2026-01-10T14:24:28,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,PERPIEL ABSORCION INMEDIATA,2026-01-10T14:24:56,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,PERPIEL AGUA MICELAR,2026-01-10T14:24:56,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,PERPIEL AGUA MICELAR +,2026-01-10T14:24:57,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,PERPIEL AGUA MICELAR + BIFASICA,2026-01-10T14:24:59,"Driver error during search: Message: 
+"
+Bayer Consumer,ACTRON 400 RAPIDA ACCION NF,2026-01-10T14:58:08,"Driver error during search: Message: 
+"
+Bayer Consumer,ACTRON 400 RAPIDA ACCION NF,2026-01-11T14:57:33,"Driver error during search: Message: 
+"
+Bioprofarma Bagó,BIOPONIB,2026-01-11T15:13:21,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL FUNNY BRUSH,2026-01-11T15:23:22,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL MAFALDA KIDS X 1 U,2026-01-11T15:23:23,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL ZOO BRUSH,2026-01-11T15:23:23,"Driver error during search: Message: 
+"
+San Ceferino,CIRUELAS LIGHT+VITAMINA C NUTRINAT,2026-01-11T15:26:05,"Driver error during search: Message: 
+"
+San Ceferino,CIRUELAS+FIBRAS+VITAMINA C NUTRINAT,2026-01-11T15:26:09,"Driver error during search: Message: 
+"
+Garre Guevara,ECOHAIR BÁLSAMO ACONDICIONADOR,2026-01-11T15:30:28,"Driver error opening product page: Message: TypeError: can't access property ""outerHTML"", this.document.documentElement is null
+Stacktrace:
+getPageSource@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:500:5
+receiveMessage@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:251:31
+"
+Pharmatrix,DRUM ß,2026-01-11T15:30:44,"Driver error during search: Message: 
+"
+Bayer Consumer,ACTRON 400 RAPIDA ACCION NF,2026-01-11T15:39:37,"Driver error during search: Message: 
+"
+Siegfried,EMPAX MET,2026-01-11T15:40:20,"Driver error during search: Message: 
+"
+Elea,FALGOS EXPENDEDOR X 25 BL,2026-01-11T15:42:48,"Driver error during search: Message: 
+"
+Cassará,FLUTIVENT HFA,2026-01-11T15:46:46,"TimeoutException: Message: 
+"
+Cassará,FLUTIVENT+AEROMED HFA,2026-01-11T15:46:50,"TimeoutException: Message: 
+"
+Géminis Farmacéutica,FOLFIRIMOX,2026-01-11T15:46:55,"TimeoutException: Message: 
+"
+Cassará,FORTILAC,2026-01-11T15:46:58,"TimeoutException: Message: 
+"
+Nutricia-Bagó,FORTINI COMPACT MULTIFIBRE,2026-01-11T15:48:47,"TimeoutException: Message: 
+"
+Nutricia-Bagó,FORTINI PLUS,2026-01-11T15:48:50,"TimeoutException: Message: 
+"
+Nutricia-Bagó,FORTISIP,2026-01-11T15:48:55,"TimeoutException: Message: 
+"
+Nutricia-Bagó,FORTISIP ADVANCED,2026-01-11T15:48:58,"TimeoutException: Message: 
+"
+Nutricia-Bagó,FORTISIP COMPACT,2026-01-11T15:50:51,"TimeoutException: Message: 
+"
+Nutricia-Bagó,FORTISIP COMPACT PROTEIN,2026-01-11T15:50:53,"TimeoutException: Message: 
+"
+Nutricia-Bagó,FORTISIP MAX,2026-01-11T15:50:56,"TimeoutException: Message: 
+"
+Nutricia-Bagó,FORTISIP STANDARD,2026-01-11T15:51:01,"TimeoutException: Message: 
+"
+Domínguez,FOSFO-DOM,2026-01-11T15:52:50,"TimeoutException: Message: 
+"
+Química Luar,FOSFOMICINA LUAR,2026-01-11T15:52:55,"TimeoutException: Message: 
+"
+Temis-Lostaló,FOSFOVITA,2026-01-11T15:53:02,"TimeoutException: Message: 
+"
+Temis-Lostaló,FOSFOVITA PLUS,2026-01-11T15:53:04,"TimeoutException: Message: 
+"
+Isdin,FOTO WET SKIN TRANSPARENT SPRAY SPF 50,2026-01-11T15:53:26,"Driver error during search: Message: 
+"
+Temis-Lostaló,FOSFOVITA SILVER,2026-01-11T15:54:50,"TimeoutException: Message: 
+"
+Cassará,FOTOSOL PLANO 50+,2026-01-11T15:55:08,"TimeoutException: Message: 
+"
+Cassará,FOTOSOL PLANO,2026-01-11T15:55:09,"TimeoutException: Message: 
+"
+Cassará,FOTOSOL ULTRA 50+,2026-01-11T15:55:26,"TimeoutException: Message: 
+"
+Cassará,FOTOSOL ULTRA 50+ SPRAY,2026-01-11T15:56:50,"TimeoutException: Message: 
+"
+Cassará,FOTOSOL ULTRA CASSARA,2026-01-11T15:57:08,"TimeoutException: Message: 
+"
+Bagó,FRUGAL,2026-01-11T15:57:10,"TimeoutException: Message: 
+"
+Andrómaco,FUNGIMAX,2026-01-11T15:57:26,"TimeoutException: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL FUNNY BRUSH,2026-01-11T15:59:56,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL MAFALDA KIDS X 1 U,2026-01-11T15:59:57,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL ZOO BRUSH,2026-01-11T16:00:00,"Driver error during search: Message: 
+"
+San Ceferino,CIRUELAS LIGHT+VITAMINA C NUTRINAT,2026-01-11T16:00:01,"Driver error during search: Message: 
+"
+San Ceferino,CIRUELAS+FIBRAS+VITAMINA C NUTRINAT,2026-01-11T16:00:27,"Driver error during search: Message: 
+"
+Pharmatrix,DRUM ß,2026-01-11T16:00:28,"Driver error during search: Message: 
+"
+Sant Gall,GALCICLINA SANT GALL,2026-01-11T16:00:58,"Driver error during search: Message: 
+"
+Labsa,LABSALERG ß,2026-01-11T16:06:32,"Driver error during search: Message: 
+"
+Scott-Cassará,LIDOCAINA 4%,2026-01-11T16:08:44,"TimeoutException: Message: 
+"
+Scott-Cassará,LIDOCAINA JALEA,2026-01-11T16:08:44,"TimeoutException: Message: 
+"
+Scott-Cassará,LIDOCAINA SPRAY,2026-01-11T16:08:51,"TimeoutException: Message: 
+"
+Siegfried,EMPAX MET,2026-01-11T16:10:51,"Driver error during search: Message: 
+"
+Bayer Consumer,ACTRON 400 RAPIDA ACCION NF,2026-01-11T16:10:51,"Driver error during search: Message: 
+"
+Elea,FALGOS EXPENDEDOR X 25 BL,2026-01-11T16:10:52,"Driver error during search: Message: 
+"
+Isdin,FOTO WET SKIN TRANSPARENT SPRAY SPF 50,2026-01-11T16:12:04,"Driver error during search: Message: 
+"
+Fortbenton,LISALER ß,2026-01-11T16:12:54,"Driver error during search: Message: 
+"
+Nestlé Health Science,MODULEN,2026-01-11T16:17:21,"TimeoutException: Message: 
+"
+Temis-Lostaló,MOLIVAL,2026-01-11T16:17:27,"TimeoutException: Message: 
+"
+Temis-Lostaló,MOLIVAL 1000,2026-01-11T16:17:27,"TimeoutException: Message: 
+"
+Temis-Lostaló,MOLIVAL 500,2026-01-11T16:17:30,"TimeoutException: Message: 
+"
+Cassará,MOXIBASE,2026-01-11T16:19:22,"TimeoutException: Message: 
+"
+Géminis Farmacéutica,MUDANTIL F,2026-01-11T16:19:27,"TimeoutException: Message: 
+"
+Andrómaco,MUPIDERM,2026-01-11T16:19:28,"TimeoutException: Message: 
+"
+Bioprofarma Bagó,MYELENZ,2026-01-11T16:19:32,"TimeoutException: Message: 
+"
+Nestle,NAN 1 OPTIPRO HMO RTD,2026-01-11T16:19:58,"Driver error during search: Message: 
+"
+Nestle,NAN 2 OPTIPRO HMO RTD,2026-01-11T16:20:03,"Driver error during search: Message: 
+"
+Nestle,NAN 3 OPTIPRO HMO RTD,2026-01-11T16:20:29,"Driver error during search: Message: 
+"
+Química Luar,NACLIN,2026-01-11T16:21:23,"TimeoutException: Message: 
+"
+Géminis Farmacéutica,NADENEL,2026-01-11T16:21:28,"TimeoutException: Message: 
+"
+Andrómaco,NAPRUX,2026-01-11T16:22:03,"TimeoutException: Message: 
+"
+Andrómaco,NAPRUX 750 AP,2026-01-11T16:22:29,"TimeoutException: Message: 
+"
+Andrómaco,NAPRUX DISTEN,2026-01-11T16:23:23,"TimeoutException: Message: 
+"
+Andrómaco,NAPRUX RAPID,2026-01-11T16:23:28,"TimeoutException: Message: 
+"
+Scott-Cassará,NARXONA,2026-01-11T16:24:04,"TimeoutException: Message: 
+"
+Cassará,NASITRAL,2026-01-11T16:24:31,"TimeoutException: Message: 
+"
+Bagó,NASTIZOL,2026-01-11T16:25:25,"TimeoutException: Message: 
+"
+Bagó,NASTIZOL COMPOSITUM,2026-01-11T16:25:29,"TimeoutException: Message: 
+"
+Bagó,NEBIX 10,2026-01-11T16:26:05,"TimeoutException: Message: 
+"
+Bagó,NEBIX 5,2026-01-11T16:26:31,"TimeoutException: Message: 
+"
+Temis-Lostaló,NEO PELVICILLIN,2026-01-11T16:27:27,"TimeoutException: Message: 
+"
+Temis-Lostaló,NEOMAS BOWERS,2026-01-11T16:27:30,"TimeoutException: Message: 
+"
+Temis-Lostaló,NEOMAS L,2026-01-11T16:28:06,"TimeoutException: Message: 
+"
+Cassará,NEOQUIN,2026-01-11T16:28:39,"TimeoutException: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL FUNNY BRUSH,2026-01-11T16:37:12,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL MAFALDA KIDS X 1 U,2026-01-11T16:37:13,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL ZOO BRUSH,2026-01-11T16:37:13,"Driver error during search: Message: 
+"
+San Ceferino,CIRUELAS LIGHT+VITAMINA C NUTRINAT,2026-01-11T16:37:13,"Driver error during search: Message: 
+"
+San Ceferino,CIRUELAS+FIBRAS+VITAMINA C NUTRINAT,2026-01-11T16:37:43,"Driver error during search: Message: 
+"
+Pharmatrix,DRUM ß,2026-01-11T16:37:43,"Driver error during search: Message: 
+"
+Sant Gall,GALCICLINA SANT GALL,2026-01-11T16:37:43,"Driver error during search: Message: 
+"
+Labsa,LABSALERG ß,2026-01-11T16:37:43,"Driver error during search: Message: 
+"
+Valuge,NEWGEL+ LOLYPOP MAMARIAS NG-326,2026-01-11T16:39:47,"Driver error during search: Message: 
+"
+Genomma Lab.,NEXT CB RÁPIDA ACCIÓN,2026-01-11T16:39:48,"Driver error during search: Message: 
+"
+Valuge,NEWGEL+ LOLYPOP MAMARIAS NG-324,2026-01-11T16:39:48,"Driver error during search: Message: 
+"
+Cassará,NIACIDER,2026-01-11T16:39:48,"Driver error during search: Message: 
+"
+Rospaw,OLANZAPINA ROSPAW,2026-01-11T16:44:44,"Driver error during search: Message: 
+"
+Cassará,OTOFLOX,2026-01-11T16:46:51,"TimeoutException: Message: 
+"
+Filaxis Farmacéutica,OXALIPLATINO GP PHARM,2026-01-11T16:46:56,"TimeoutException: Message: 
+"
+Bioprofarma Bagó,OXALTIE,2026-01-11T16:46:56,"TimeoutException: Message: 
+"
+Cassará,OXILER D,2026-01-11T16:47:01,"TimeoutException: Message: 
+"
+Filaxis Farmacéutica,PACLITAXEL GP PHARM,2026-01-11T16:48:52,"TimeoutException: Message: 
+"
+Bioprofarma Bagó,PAKNIRA,2026-01-11T16:48:59,"TimeoutException: Message: 
+"
+Bioprofarma Bagó,PANATAXEL,2026-01-11T16:48:59,"TimeoutException: Message: 
+"
+Scott-Cassará,PANCURON,2026-01-11T16:49:01,"TimeoutException: Message: 
+"
+Bagó,PANTOMICINA 200,2026-01-11T16:50:51,"TimeoutException: Message: 
+"
+Bagó,PANTOMICINA 400,2026-01-11T16:51:01,"TimeoutException: Message: 
+"
+Laboratorios Bernabó,PAPASINE,2026-01-11T16:51:01,"TimeoutException: Message: 
+"
+Bagó,PANTOMICINA 500,2026-01-11T16:51:02,"TimeoutException: Message: 
+"
+Haleon Argentina,PARODONTAX COMPLETE PROTECTION EXTRA FRESH,2026-01-11T16:51:32,"Driver error during search: Message: 
+"
+Bagó,PARKINEL 100/25,2026-01-11T16:52:56,"TimeoutException: Message: 
+"
+Bagó,PARKINEL 250/25,2026-01-11T16:53:09,"TimeoutException: Message: 
+"
+Filaxis Farmacéutica,PEMETREXED GP PHARM,2026-01-11T16:53:11,"TimeoutException: Message: 
+"
+Bagó,PEN DI BEN 1200000,2026-01-11T16:53:35,"TimeoutException: Message: 
+"
+Bagó,PEN DI BEN 2400000,2026-01-11T16:54:56,"TimeoutException: Message: 
+"
+Química Luar,PENTAMIDINA LUAR,2026-01-11T16:55:10,"TimeoutException: Message: 
+"
+Nestlé Health Science,PEPTAMEN INTENSE,2026-01-11T16:55:16,"TimeoutException: Message: 
+"
+Pierre Fabre Médicament,PERCUTAFEINE,2026-01-11T16:55:35,"TimeoutException: Message: 
+"
+Pierre Fabre Médicament,PERCUTALFA,2026-01-11T16:56:56,"TimeoutException: Message: 
+"
+Bagó,PERFORMA,2026-01-11T16:57:16,"TimeoutException: Message: 
+"
+Bagó,PERMICAPS 160,2026-01-11T16:57:19,"TimeoutException: Message: 
+"
+Bagó,PERMICAPS 320,2026-01-11T16:57:35,"TimeoutException: Message: 
+"
+Bayer Consumer,ACTRON 400 RAPIDA ACCION NF,2026-01-11T17:00:02,"Driver error during search: Message: 
+"
+Siegfried,EMPAX MET,2026-01-11T17:00:03,"Driver error during search: Message: 
+"
+Elea,FALGOS EXPENDEDOR X 25 BL,2026-01-11T17:00:04,"Driver error during search: Message: 
+"
+Isdin,FOTO WET SKIN TRANSPARENT SPRAY SPF 50,2026-01-11T17:00:04,"Driver error during search: Message: 
+"
+Fortbenton,LISALER ß,2026-01-11T17:00:32,"Driver error during search: Message: 
+"
+Nestle,NAN 1 OPTIPRO HMO RTD,2026-01-11T17:01:07,"Driver error during search: Message: 
+"
+Nestle,NAN 2 OPTIPRO HMO RTD,2026-01-11T17:01:10,"Driver error during search: Message: 
+"
+Nestle,NAN 3 OPTIPRO HMO RTD,2026-01-11T17:01:16,"Driver error during search: Message: 
+"
+Bagó,RAPTOR PROTEIN PEANUT BUTTER,2026-01-11T17:07:27,"TimeoutException: Message: 
+"
+Bagó,RAPTOR WHEY PROTEIN CHOCOLATE,2026-01-11T17:07:33,"TimeoutException: Message: 
+"
+Cassará,RECUFIN,2026-01-11T17:07:38,"TimeoutException: Message: 
+"
+Bagó,RAPTOR WHEY PROTEIN CREMA VAINILLA,2026-01-11T17:07:38,"TimeoutException: Message: 
+"
+Cassará,RECUPEL,2026-01-11T17:09:26,"TimeoutException: Message: 
+"
+Cassará,RECUPLUS,2026-01-11T17:09:32,"TimeoutException: Message: 
+"
+Bagó,REMODULIN,2026-01-11T17:09:43,"TimeoutException: Message: 
+"
+Bagó,RELAXEDAN 4,2026-01-11T17:09:43,"TimeoutException: Message: 
+"
+Cassará,REPAK,2026-01-11T17:11:25,"TimeoutException: Message: 
+"
+Domínguez,RIFADOM,2026-01-11T17:11:31,"TimeoutException: Message: 
+"
+Laboratorios Bernabó,ROCIAMIN,2026-01-11T17:11:50,"TimeoutException: Message: 
+"
+Cassará,RINOGEL,2026-01-11T17:11:50,"TimeoutException: Message: 
+"
+Laboratorios Bernabó,ROCIAMIN 550,2026-01-11T17:13:25,"TimeoutException: Message: 
+"
+Géminis Farmacéutica,RODI RELAX,2026-01-11T17:13:31,"TimeoutException: Message: 
+"
+Géminis Farmacéutica,RODICOX 60,2026-01-11T17:13:57,"TimeoutException: Message: 
+"
+Géminis Farmacéutica,RODICOX 120,2026-01-11T17:13:57,"TimeoutException: Message: 
+"
+Géminis Farmacéutica,RODICOX 90,2026-01-11T17:15:27,"TimeoutException: Message: 
+"
+Géminis Farmacéutica,RODINAC 50,2026-01-11T17:15:35,"TimeoutException: Message: 
+"
+Géminis Farmacéutica,RODINAC 75,2026-01-11T17:16:05,"TimeoutException: Message: 
+"
+Géminis Farmacéutica,RODINAC 75 K,2026-01-11T17:16:05,"TimeoutException: Message: 
+"
+Géminis Farmacéutica,RODINAC B12,2026-01-11T17:17:32,"TimeoutException: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL FUNNY BRUSH,2026-01-11T17:18:43,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL MAFALDA KIDS X 1 U,2026-01-11T17:18:45,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL ZOO BRUSH,2026-01-11T17:18:47,"Driver error during search: Message: 
+"
+San Ceferino,CIRUELAS LIGHT+VITAMINA C NUTRINAT,2026-01-11T17:18:48,"Driver error during search: Message: 
+"
+San Ceferino,CIRUELAS+FIBRAS+VITAMINA C NUTRINAT,2026-01-11T17:19:13,"Driver error during search: Message: 
+"
+Pharmatrix,DRUM ß,2026-01-11T17:19:16,"Driver error during search: Message: 
+"
+Sant Gall,GALCICLINA SANT GALL,2026-01-11T17:19:17,"Driver error during search: Message: 
+"
+Labsa,LABSALERG ß,2026-01-11T17:19:19,"Driver error during search: Message: 
+"
+Valuge,NEWGEL+ LOLYPOP MAMARIAS NG-324,2026-01-11T17:19:44,"Driver error during search: Message: 
+"
+Valuge,NEWGEL+ LOLYPOP MAMARIAS NG-326,2026-01-11T17:19:46,"Driver error during search: Message: 
+"
+Rospaw,OLANZAPINA ROSPAW,2026-01-11T17:20:04,"Driver error during search: Message: 
+"
+Haleon Argentina,PARODONTAX COMPLETE PROTECTION EXTRA FRESH,2026-01-11T17:20:56,"Driver error during search: Message: 
+"
+Bagó,TETRAZOL 25,2026-01-11T17:28:13,"TimeoutException: Message: 
+"
+Richet,TIGECICLINA LIOFILIZADO RICHET,2026-01-11T17:28:17,"TimeoutException: Message: 
+"
+A.M. Farma Activ,TINTURA DE FRUTOS DE ARÁNDANOS,2026-01-11T17:28:25,"TimeoutException: Message: 
+"
+Temis-Lostaló,TOTAL MAGNESIANO LIMON,2026-01-11T17:30:20,"TimeoutException: Message: 
+"
+Temis-Lostaló,TOTAL MAGNESIANO SPORT,2026-01-11T17:30:23,"TimeoutException: Message: 
+"
+Temis-Lostaló,TOTAL MAGNESIANO VITALIZANTE,2026-01-11T17:30:30,"TimeoutException: Message: 
+"
+Bagó,TRANQUINAL 2,2026-01-11T17:32:21,"TimeoutException: Message: 
+"

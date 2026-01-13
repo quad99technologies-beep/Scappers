@@ -157,26 +157,48 @@ class ConfigManager:
             )
         
         logger.info(f"Loading platform config from: {platform_env}")
-        load_dotenv(platform_env, override=False)
+        try:
+            load_dotenv(platform_env, override=False)
+        except Exception as e:
+            logger.warning(f"Failed to parse platform.env file (line 6 or later may have syntax error): {e}")
+            logger.warning("Continuing with manual parsing...")
+        
         # Track what was loaded
-        with open(platform_env, 'r', encoding='utf-8') as f:
-            for line in f:
-                line = line.strip()
-                if line and not line.startswith('#') and '=' in line:
-                    key = line.split('=', 1)[0].strip()
-                    loaded_vars[key] = os.getenv(key, '')
+        try:
+            with open(platform_env, 'r', encoding='utf-8') as f:
+                for line_num, line in enumerate(f, 1):
+                    line = line.strip()
+                    if line and not line.startswith('#') and '=' in line:
+                        try:
+                            key = line.split('=', 1)[0].strip()
+                            loaded_vars[key] = os.getenv(key, '')
+                        except Exception as e:
+                            logger.warning(f"Skipping invalid line {line_num} in {platform_env}: {line[:50]}")
+        except Exception as e:
+            logger.error(f"Failed to read platform.env file: {e}")
         
         # Step 2: Load scraper-specific .env (optional, overrides platform)
         if scraper_env.exists():
             logger.info(f"Loading scraper config from: {scraper_env}")
-            load_dotenv(scraper_env, override=True)
+            try:
+                load_dotenv(scraper_env, override=True)
+            except Exception as e:
+                logger.warning(f"Failed to parse {scraper_env.name} file (may have syntax error): {e}")
+                logger.warning("Continuing with manual parsing...")
+            
             # Track overrides
-            with open(scraper_env, 'r', encoding='utf-8') as f:
-                for line in f:
-                    line = line.strip()
-                    if line and not line.startswith('#') and '=' in line:
-                        key = line.split('=', 1)[0].strip()
-                        loaded_vars[key] = os.getenv(key, '')
+            try:
+                with open(scraper_env, 'r', encoding='utf-8') as f:
+                    for line_num, line in enumerate(f, 1):
+                        line = line.strip()
+                        if line and not line.startswith('#') and '=' in line:
+                            try:
+                                key = line.split('=', 1)[0].strip()
+                                loaded_vars[key] = os.getenv(key, '')
+                            except Exception as e:
+                                logger.warning(f"Skipping invalid line {line_num} in {scraper_env.name}: {line[:50]}")
+            except Exception as e:
+                logger.error(f"Failed to read {scraper_env.name} file: {e}")
         else:
             logger.debug(f"Scraper config not found (optional): {scraper_env}")
         

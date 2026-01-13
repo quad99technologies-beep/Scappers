@@ -153,23 +153,30 @@ def merge_all_annexes() -> dict:
     
     all_rows = []
     annexe_stats = {}
+    total_annexes = len(INPUT_FILES)
     
     # Read each annexe
-    for annexe_name, file_path in INPUT_FILES.items():
+    for idx, (annexe_name, file_path) in enumerate(INPUT_FILES.items(), 1):
         logger.info(f"Reading {annexe_name}: {file_path}")
+        print(f"[PROGRESS] Merging annexes: Reading {annexe_name} ({idx}/{total_annexes})", flush=True)
         rows = read_csv_with_columns(file_path, annexe_name)
         all_rows.extend(rows)
         annexe_stats[annexe_name] = len(rows)
         logger.info(f"  → {len(rows)} rows from {annexe_name}")
     
     # Write merged output
+    print(f"[PROGRESS] Merging annexes: Writing output ({len(all_rows)} rows)", flush=True)
     try:
         with csv_writer_utf8(OUTPUT_CSV, add_bom=True) as f:
             writer = csv.DictWriter(f, fieldnames=STANDARD_COLUMNS)
             writer.writeheader()
             
-            for row in all_rows:
+            for idx, row in enumerate(all_rows, 1):
                 writer.writerow(row)
+                # Update progress every 100 rows
+                if idx % 100 == 0 or idx == len(all_rows):
+                    percent = round((idx / len(all_rows)) * 100, 1) if len(all_rows) > 0 else 0
+                    print(f"[PROGRESS] Merging annexes: Writing rows {idx}/{len(all_rows)} ({percent}%)", flush=True)
         
         # Also copy final report to central output directory
         import shutil

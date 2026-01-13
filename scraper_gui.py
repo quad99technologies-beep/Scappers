@@ -79,6 +79,20 @@ class ScraperGUI:
         # Get repository root
         self.repo_root = Path(__file__).resolve().parent
         
+        # Minimal color scheme for backward compatibility (most UI uses default ttk styles)
+        self.colors = {
+            'bg_main': '#F0F0F0',      # Light gray background
+            'bg_panel': '#FFFFFF',     # White panels
+            'bg_dark': '#808080',      # Dark gray
+            'bg_console': '#000000',    # Black console background
+            'text_black': '#000000',    # Black text
+            'text_blue': '#0000FF',     # Blue text
+            'text_green': '#008000',    # Green text
+            'text_red': '#FF0000',      # Red text
+            'text_console': '#FFFF00',  # Yellow console text
+            'border': '#C0C0C0',       # Light gray border
+        }
+        
         # Current scraper and step
         self.current_scraper = None
         self.current_step = None
@@ -87,6 +101,13 @@ class ScraperGUI:
         self.scraper_logs = {}  # Store logs per scraper: {scraper_name: log_text}
         self._pipeline_lock_files = {}  # Track lock files created for pipeline runs: {scraper_name: lock_file_path}
         self._stopped_by_user = set()  # Track scrapers that were stopped by user: {scraper_name}
+        self._stopping_scrapers = set()  # Track scrapers currently being stopped to prevent multiple simultaneous stop attempts
+        self.scraper_progress = {}  # Store progress state per scraper: {scraper_name: {"percent": float, "description": str}}
+        
+        # Network stats tracking for rate calculation
+        self._prev_net_sent = 0
+        self._prev_net_recv = 0
+        self._prev_net_time = None
         
         # Start periodic cleanup task to check for stale locks
         self.start_periodic_lock_cleanup()
@@ -136,10 +157,32 @@ class ScraperGUI:
                     {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
                     {"name": "01 - Get Product List", "script": "01_getProdList.py", "desc": "Extract product list for each company"},
                     {"name": "02 - Prepare URLs", "script": "02_prepare_urls.py", "desc": "Prepare URLs and determine sources"},
-                    {"name": "03 - Scrape Products (API)", "script": "03_alfabeta_api_scraper.py", "desc": "Scrape products using API (supports --max-rows)"},
-                    {"name": "04 - Scrape Products (Selenium)", "script": "04_alfabeta_selenium_scraper.py", "desc": "Scrape products using Selenium"},
+                    {"name": "03 - Scrape Products (API)", "script": "04_alfabeta_api_scraper.py", "desc": "Scrape products using API (supports --max-rows)"},
+                    {"name": "04 - Scrape Products (Selenium)", "script": "03_alfabeta_selenium_scraper.py", "desc": "Scrape products using Selenium"},
                     {"name": "05 - Translate Using Dictionary", "script": "05_TranslateUsingDictionary.py", "desc": "Translate Spanish to English"},
                     {"name": "06 - Generate Output", "script": "06_GenerateOutput.py", "desc": "Generate final output report"},
+                ],
+                "pipeline_bat": "run_pipeline.bat"
+            },
+            "CanadaOntario": {
+                "path": self.repo_root / "scripts" / "Canada Ontario",
+                "scripts_dir": "",
+                "docs_dir": None,  # All docs now in root doc/ folder
+                "steps": [
+                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
+                    {"name": "01 - Extract Product Details", "script": "01_extract_product_details.py", "desc": "Extract product details from Ontario Formulary"},
+                    {"name": "02 - Generate Final Output", "script": "02_GenerateOutput.py", "desc": "Generate final output report with standardized columns"},
+                ],
+                "pipeline_bat": "run_pipeline.bat"
+            },
+            "Netherlands": {
+                "path": self.repo_root / "scripts" / "Netherlands",
+                "scripts_dir": "",
+                "docs_dir": None,  # All docs now in root doc/ folder
+                "steps": [
+                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
+                    {"name": "01 - Collect URLs", "script": "01_collect_urls.py", "desc": "Collect product URLs from search terms"},
+                    {"name": "02 - Reimbursement Extraction", "script": "02_reimbursement_extraction.py", "desc": "Extract reimbursement data from collected URLs"},
                 ],
                 "pipeline_bat": "run_pipeline.bat"
             }
@@ -149,6 +192,18 @@ class ScraperGUI:
         self.load_documentation()
         # Load first documentation if available (after UI is set up)
         self.root.after(100, self.load_first_documentation)
+        # Install dependencies and show progress in GUI console
+        self.root.after(200, self.install_dependencies_in_gui)
+    
+    def setup_styles(self):
+        """Configure professional ttk styles"""
+        style = ttk.Style()
+        
+        # Use modern theme if available
+        try:
+            style.theme_use('clam')
+        except:
+            pass
     
     def load_first_documentation(self):
         """Load first available documentation file"""
@@ -159,16 +214,32 @@ class ScraperGUI:
         
     def setup_ui(self):
         """Setup the user interface"""
+        # Create header bar
+        header_frame = tk.Frame(self.root, bg='#E0E0E0', height=50)  # Light gray background
+        header_frame.pack(fill=tk.X, side=tk.TOP)
+        header_frame.pack_propagate(False)
+        
+        # Header title
+        title_label = tk.Label(header_frame,
+                              text="Scraper Management System",
+                              bg='#E0E0E0',  # Light gray background
+                              fg=self.colors['text_black'],
+                              font=('Segoe UI', 12, 'bold'),
+                              pady=15)
+        title_label.pack(side=tk.LEFT, padx=20)
+        
         # Create main container with horizontal split
         main_container = ttk.PanedWindow(self.root, orient=tk.HORIZONTAL)
-        main_container.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        main_container.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
         
         # Left panel - Execution (scraper selection, run controls, logs)
         left_panel = ttk.Frame(main_container)
+        left_panel.configure(style='TFrame')
         main_container.add(left_panel, weight=2)
         
         # Right panel - Documentation (read-only, formatted)
         right_panel = ttk.Frame(main_container)
+        right_panel.configure(style='TFrame')
         main_container.add(right_panel, weight=1)
         
         # Setup left panel (execution)
@@ -196,53 +267,82 @@ class ScraperGUI:
     def setup_execution_tab(self, parent):
         """Setup execution control panel"""
         # Scraper selection frame
-        scraper_frame = ttk.LabelFrame(parent, text="Select Scraper", padding=10)
-        scraper_frame.pack(fill=tk.X, padx=5, pady=5)
+        scraper_frame = ttk.LabelFrame(parent, text="Select Scraper", padding=15, style='Title.TLabelframe')
+        scraper_frame.pack(fill=tk.X, padx=8, pady=(8, 12))
         
         self.scraper_var = tk.StringVar()
         scraper_combo = ttk.Combobox(scraper_frame, textvariable=self.scraper_var, 
-                                     values=list(self.scrapers.keys()), state="readonly", width=25)
-        scraper_combo.pack(fill=tk.X, pady=5)
+                                     values=list(self.scrapers.keys()), state="readonly", width=25,
+                                     style='Modern.TCombobox')
+        scraper_combo.pack(fill=tk.X, pady=(5, 0))
         scraper_combo.bind("<<ComboboxSelected>>", self.on_scraper_selected)
         
         # Pipeline control frame
-        pipeline_frame = ttk.LabelFrame(parent, text="Pipeline Control", padding=10)
-        pipeline_frame.pack(fill=tk.X, padx=5, pady=5)
+        pipeline_frame = ttk.LabelFrame(parent, text="Pipeline Control", padding=15, style='Title.TLabelframe')
+        pipeline_frame.pack(fill=tk.X, padx=8, pady=(0, 12))
 
+        # Status labels frame
+        status_frame = ttk.Frame(pipeline_frame)
+        status_frame.pack(fill=tk.X, pady=(0, 15))
+        
         # Checkpoint status label
-        self.checkpoint_status_label = ttk.Label(pipeline_frame, text="Checkpoint: Not checked", 
-                                                 font=("Segoe UI", 9))
-        self.checkpoint_status_label.pack(pady=(0, 5))
-
-        self.run_button = ttk.Button(pipeline_frame, text="Resume Pipeline",
-                  command=lambda: self.run_full_pipeline(resume=True), width=25, state=tk.NORMAL)
-        self.run_button.pack(pady=2)
-
-        self.run_fresh_button = ttk.Button(pipeline_frame, text="Run Fresh Pipeline",
-                  command=lambda: self.run_full_pipeline(resume=False), width=25, state=tk.NORMAL)
-        self.run_fresh_button.pack(pady=2)
-
-        self.stop_button = ttk.Button(pipeline_frame, text="Stop Pipeline",
-                  command=self.stop_pipeline, width=25, state=tk.DISABLED)
-        self.stop_button.pack(pady=5)
-
-        ttk.Button(pipeline_frame, text="Clear Run Lock",
-                  command=self.clear_run_lock, width=25).pack(pady=2)
+        self.checkpoint_status_label = ttk.Label(status_frame, text="Checkpoint: Not checked", 
+                                                 anchor=tk.W)
+        self.checkpoint_status_label.pack(fill=tk.X, pady=(0, 5))
         
-        button_row = ttk.Frame(pipeline_frame)
-        button_row.pack(pady=2, fill=tk.X)
+        # Chrome instance count label
+        self.chrome_count_label = ttk.Label(status_frame, text="Chrome Instances: 0", 
+                                           anchor=tk.W)
+        self.chrome_count_label.pack(fill=tk.X, pady=(0, 5))
+
+        # Pipeline action buttons frame
+        action_frame = ttk.LabelFrame(pipeline_frame, text="Actions", padding=12, style='Title.TLabelframe')
+        action_frame.pack(fill=tk.X, pady=(0, 12))
+
+        self.run_button = ttk.Button(action_frame, text="Resume Pipeline",
+                  command=lambda: self.run_full_pipeline(resume=True), width=22, 
+                  state=tk.NORMAL, style='Primary.TButton')
+        self.run_button.pack(pady=4, anchor=tk.W, padx=5)
+
+        self.run_fresh_button = ttk.Button(action_frame, text="Run Fresh Pipeline",
+                  command=lambda: self.run_full_pipeline(resume=False), width=22, 
+                  state=tk.NORMAL, style='Primary.TButton')
+        self.run_fresh_button.pack(pady=4, anchor=tk.W, padx=5)
+
+        self.stop_button = ttk.Button(action_frame, text="Stop Pipeline",
+                  command=self.stop_pipeline, width=22, state=tk.DISABLED, style='Danger.TButton')
+        self.stop_button.pack(pady=4, anchor=tk.W, padx=5)
+
+        ttk.Button(action_frame, text="Clear Run Lock",
+                  command=self.clear_run_lock, width=22, style='Secondary.TButton').pack(pady=4, anchor=tk.W, padx=5)
         
-        self.view_checkpoint_button = ttk.Button(button_row, text="View Checkpoint",
-                  command=self.view_checkpoint_file, width=20)
-        self.view_checkpoint_button.pack(side=tk.LEFT, padx=2)
+        # Kill all Chrome instances button
+        self.kill_all_chrome_button = ttk.Button(action_frame, text="Kill All Chrome Instances",
+                  command=self.kill_all_chrome_instances, width=22, state=tk.NORMAL, style='Secondary.TButton')
+        self.kill_all_chrome_button.pack(pady=4, anchor=tk.W, padx=5)
         
-        self.clear_checkpoint_button = ttk.Button(button_row, text="Clear Checkpoint",
-                  command=self.clear_checkpoint, width=20)
-        self.clear_checkpoint_button.pack(side=tk.LEFT, padx=2)
+        # Checkpoint management frame
+        checkpoint_frame = ttk.LabelFrame(pipeline_frame, text="Checkpoint Management", padding=12, style='Title.TLabelframe')
+        checkpoint_frame.pack(fill=tk.X)
         
+        # Checkpoint management buttons - arranged vertically like Actions
+        self.view_checkpoint_button = ttk.Button(checkpoint_frame, text="View Checkpoint",
+                  command=self.view_checkpoint_file, width=22, style='Secondary.TButton')
+        self.view_checkpoint_button.pack(pady=4, anchor=tk.W, padx=5)
+        
+        self.manage_checkpoint_button = ttk.Button(checkpoint_frame, text="Manage Checkpoint",
+                  command=self.manage_checkpoint, width=22, style='Secondary.TButton')
+        self.manage_checkpoint_button.pack(pady=4, anchor=tk.W, padx=5)
+        
+        self.clear_checkpoint_button = ttk.Button(checkpoint_frame, text="Clear Checkpoint",
+                  command=self.clear_checkpoint, width=22, style='Secondary.TButton')
+        self.clear_checkpoint_button.pack(pady=4, anchor=tk.W, padx=5)
+    
+    def setup_pipeline_steps_tab(self, parent):
+        """Setup Pipeline Steps tab with step list, info, and explanation"""
         # Steps frame (read-only view)
-        steps_frame = ttk.LabelFrame(parent, text="Pipeline Steps", padding=10)
-        steps_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        steps_frame = ttk.LabelFrame(parent, text="Pipeline Steps", padding=12, style='Title.TLabelframe')
+        steps_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
         
         # Steps listbox with scrollbar (read-only)
         steps_container = ttk.Frame(steps_frame)
@@ -252,68 +352,110 @@ class ScraperGUI:
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
         self.steps_listbox = tk.Listbox(steps_container, yscrollcommand=scrollbar.set,
-                                        height=15, font=("Segoe UI", 9))
+                                        height=15, font=("Courier New", 9),
+                                        bg=self.colors['bg_panel'],
+                                        fg=self.colors['text_black'],
+                                        selectbackground=self.colors['bg_dark'],
+                                        selectforeground=self.colors['text_black'],
+                                        borderwidth=2,
+                                        relief='sunken',
+                                        highlightthickness=0)
         self.steps_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.config(command=self.steps_listbox.yview)
 
         self.steps_listbox.bind("<<ListboxSelect>>", self.on_step_selected)
 
-        # Step info frame
-        self.step_info_frame = ttk.LabelFrame(parent, text="Step Information", padding=10)
-        self.step_info_frame.pack(fill=tk.X, padx=5, pady=5)
+        # Step info frame - ALWAYS VISIBLE (never hidden)
+        self.step_info_frame = ttk.LabelFrame(parent, text="Step Information", padding=12, style='Title.TLabelframe')
+        self.step_info_frame.pack(fill=tk.X, padx=8, pady=8)
+        # Ensure it's always visible - never pack_forget this frame
 
         # Step info text (basic info)
-        self.step_info_text = tk.Text(self.step_info_frame, height=4, wrap=tk.WORD,
-                                     font=("Segoe UI", 9), state=tk.DISABLED)
-        self.step_info_text.pack(fill=tk.BOTH, expand=True)
+        self.step_info_text = tk.Text(self.step_info_frame, height=5, wrap=tk.WORD,
+                                     font=("Courier New", 9), state=tk.DISABLED,
+                                     bg=self.colors['bg_panel'],
+                                     fg=self.colors['text_black'],
+                                     borderwidth=2,
+                                     relief='sunken',
+                                     padx=8,
+                                     pady=8)
+        self.step_info_text.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
         
-        # Explain button frame
+        # Initialize with default message
+        self.step_info_text.config(state=tk.NORMAL)
+        self.step_info_text.insert(1.0, "Select a step from the list above to see details and get AI explanation.")
+        self.step_info_text.config(state=tk.DISABLED)
+        
+        # Explain button frame - ALWAYS VISIBLE and prominent
         self.explain_button_frame = ttk.Frame(self.step_info_frame)
         self.explain_button_frame.pack(fill=tk.X, pady=(5, 0))
         
-        self.explain_button = ttk.Button(self.explain_button_frame, text="Explain This Step",
-                                         command=self.explain_step, state=tk.DISABLED)
-        self.explain_button.pack(side=tk.LEFT, padx=5)
+        # Make button more prominent and ALWAYS VISIBLE
+        self.explain_button = ttk.Button(self.explain_button_frame, 
+                                         text="Explain This Step (OpenAI API)",
+                                         command=self.explain_step, 
+                                         state=tk.NORMAL,  # Always enabled, will show message if no step selected
+                                         width=38,
+                                         style='Secondary.TButton')
+        self.explain_button.pack(side=tk.LEFT, padx=5, pady=5)
+        
+        # Add helpful info label - ALWAYS VISIBLE
+        self.explain_info_label = tk.Label(self.explain_button_frame, 
+                                       text="Get AI-powered explanation using OpenAI",
+                                       font=("Courier New", 8), 
+                                       fg=self.colors['text_black'],
+                                       bg=self.colors['bg_panel'])
+        self.explain_info_label.pack(side=tk.LEFT, padx=(15, 5))
 
-        # Explanation panel (initially hidden, expandable)
-        # Store parent for later packing
+        # Explanation panel (below step info, not replacing it)
         self.exec_controls_parent = parent
-        self.explanation_frame = ttk.LabelFrame(parent, text="Step Explanation", padding=10)
+        self.explanation_frame = ttk.LabelFrame(parent, text="Step Explanation", padding=12, style='Title.TLabelframe')
         # Don't pack initially - will pack when explanation is shown
 
         self.explanation_text = scrolledtext.ScrolledText(
             self.explanation_frame,
             wrap=tk.WORD,
-            font=("Segoe UI", 9),
+            font=("Courier New", 9),
             state=tk.DISABLED,
-            height=8  # Initial height, will expand
+            height=8,  # Initial height, will expand
+            bg=self.colors['bg_panel'],
+            fg=self.colors['text_black'],
+            borderwidth=2,
+            relief='sunken',
+            padx=10,
+            pady=10
         )
         self.explanation_text.pack(fill=tk.BOTH, expand=True)
         
         self.explanation_visible = False
         
     def setup_right_panel(self, parent):
-        """Setup right panel with tabs for documentation and output files"""
+        """Setup right panel with tabs for pipeline steps, final output, configuration, output files, and documentation"""
         # Create notebook for right panel tabs
         notebook = ttk.Notebook(parent)
         notebook.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
         
-        # Final Output tab (first)
+        # Pipeline Steps tab (first)
+        pipeline_steps_frame = ttk.Frame(notebook)
+        notebook.add(pipeline_steps_frame, text="Pipeline Steps")
+        self.setup_pipeline_steps_tab(pipeline_steps_frame)
+        
+        # Final Output tab (second)
         final_output_frame = ttk.Frame(notebook)
         notebook.add(final_output_frame, text="Final Output")
         self.setup_final_output_tab(final_output_frame)
 
-        # Configuration tab (second)
+        # Configuration tab (third)
         config_frame = ttk.Frame(notebook)
         notebook.add(config_frame, text="Configuration")
         self.setup_config_tab(config_frame)
 
-        # Output Files tab (third)
+        # Output Files tab (fourth)
         output_frame = ttk.Frame(notebook)
         notebook.add(output_frame, text="Output Files")
         self.setup_output_tab(output_frame)
 
-        # Documentation tab (fourth)
+        # Documentation tab (fifth)
         doc_frame = ttk.Frame(notebook)
         notebook.add(doc_frame, text="Documentation")
         self.setup_documentation_tab(doc_frame)
@@ -321,8 +463,8 @@ class ScraperGUI:
     def setup_documentation_tab(self, parent):
         """Setup documentation viewer tab (read-only, formatted)"""
         # Documentation header
-        doc_header = ttk.LabelFrame(parent, text="Documentation", padding=10)
-        doc_header.pack(fill=tk.X, padx=5, pady=5)
+        doc_header = ttk.LabelFrame(parent, text="Documentation", padding=15, style='Title.TLabelframe')
+        doc_header.pack(fill=tk.X, padx=8, pady=8)
 
         # Documentation selector
         doc_selector_frame = ttk.Frame(doc_header)
@@ -336,11 +478,12 @@ class ScraperGUI:
         self.doc_combo.pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
         self.doc_combo.bind("<<ComboboxSelected>>", self.on_doc_selected)
 
-        ttk.Button(doc_selector_frame, text="Refresh", command=self.load_documentation).pack(side=tk.LEFT, padx=5)
+        ttk.Button(doc_selector_frame, text="Refresh", command=self.load_documentation, 
+                  style='Secondary.TButton').pack(side=tk.LEFT, padx=5)
         
         # Documentation viewer (read-only, formatted)
         doc_viewer_frame = ttk.Frame(parent)
-        doc_viewer_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        doc_viewer_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
         
         # Use Text widget with better formatting for markdown/readable docs
         self.doc_text = scrolledtext.ScrolledText(
@@ -348,8 +491,6 @@ class ScraperGUI:
             wrap=tk.WORD,
             font=("Segoe UI", 10),  # Increased from 9
             state=tk.DISABLED,  # Read-only
-            bg="#FFFFFF",
-            fg="#2C3E50",
             padx=20,  # Increased from 10
             pady=15,  # Increased from 10
             spacing1=3,  # Space above paragraphs
@@ -384,18 +525,83 @@ class ScraperGUI:
         
     def setup_logs_tab(self, parent):
         """Setup logs viewer panel"""
+        # System Status frame (FIRST - at the top)
+        stats_frame = ttk.LabelFrame(parent, text="System Status", padding=12, style='Title.TLabelframe')
+        stats_frame.pack(fill=tk.X, padx=8, pady=(8, 12))
+        
+        # Create container for formatted layout
+        stats_container = ttk.Frame(stats_frame)
+        stats_container.pack(fill=tk.X, padx=5, pady=8)
+        
+        # Line 1: Chrome, Tor, RAM, CPU
+        stats_line1 = ttk.Frame(stats_container)
+        stats_line1.pack(fill=tk.X, pady=3)
+        
+        self.system_stats_label_line1 = ttk.Label(stats_line1, 
+                                                   text="Chrome Instances: 0  |  Tor Instances: 0  |  RAM Usage: --  |  CPU Usage: --", 
+                                                   anchor=tk.W)
+        self.system_stats_label_line1.pack(side=tk.LEFT, padx=8)
+        
+        # Line 2: GPU, Network
+        stats_line2 = ttk.Frame(stats_container)
+        stats_line2.pack(fill=tk.X, pady=3)
+        
+        self.system_stats_label_line2 = ttk.Label(stats_line2, 
+                                                   text="GPU Usage: --  |  Network: --", 
+                                                   anchor=tk.W)
+        self.system_stats_label_line2.pack(side=tk.LEFT, padx=8)
+        
+        # Keep old label for backward compatibility (will be updated but not displayed)
+        self.system_stats_label = self.system_stats_label_line1
+        
+        # Start periodic system stats update
+        self.update_system_stats()
+        
+        # Execution Log section (BELOW System Status)
+        execution_log_frame = ttk.LabelFrame(parent, text="Execution Log", padding=12, style='Title.TLabelframe')
+        execution_log_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(0, 8))
+        
         # Toolbar
-        toolbar = ttk.Frame(parent)
-        toolbar.pack(fill=tk.X, padx=5, pady=5)
+        toolbar = ttk.Frame(execution_log_frame)
+        toolbar.pack(fill=tk.X, padx=5, pady=8)
 
-        ttk.Label(toolbar, text="Execution Log:").pack(side=tk.LEFT, padx=5)
+        ttk.Button(toolbar, text="Clear", command=self.clear_logs, style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
+        ttk.Button(toolbar, text="Copy to Clipboard", command=self.copy_logs_to_clipboard, style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
+        ttk.Button(toolbar, text="Save Log", command=self.save_log, style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
+        
+        # Progress description and bar frame
+        progress_frame = ttk.Frame(execution_log_frame)
+        progress_frame.pack(fill=tk.X, padx=5, pady=(5, 10))
+        
+        # Progress description label
+        self.progress_label = ttk.Label(
+            progress_frame,
+            text="Ready"
+        )
+        self.progress_label.pack(side=tk.LEFT, padx=(0, 10))
+        
+        # Progress percentage label (pack first to reserve space)
+        self.progress_percent = ttk.Label(
+            progress_frame,
+            text="0%",
+            width=5,
+            anchor=tk.E
+        )
+        self.progress_percent.pack(side=tk.RIGHT, padx=(10, 0))
+        
+        # Progress bar (between description and percentage)
+        self.progress_bar = ttk.Progressbar(
+            progress_frame,
+            mode='determinate',
+            maximum=100,
+            value=0,
+            style='Modern.Horizontal.TProgressbar',
+            length=300
+        )
+        self.progress_bar.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 10))
 
-        ttk.Button(toolbar, text="Clear", command=self.clear_logs).pack(side=tk.LEFT, padx=5)
-        ttk.Button(toolbar, text="Copy to Clipboard", command=self.copy_logs_to_clipboard).pack(side=tk.LEFT, padx=5)
-        ttk.Button(toolbar, text="Save Log", command=self.save_log).pack(side=tk.LEFT, padx=5)
-
-        # Log viewer with terminal color scheme
-        log_viewer_frame = ttk.Frame(parent)
+        # Log viewer with professional dark theme
+        log_viewer_frame = ttk.Frame(execution_log_frame)
         log_viewer_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
         self.log_text = scrolledtext.ScrolledText(
@@ -419,21 +625,35 @@ class ScraperGUI:
     def setup_output_tab(self, parent):
         """Setup output files viewer tab"""
         # Toolbar
-        toolbar = ttk.Frame(parent)
-        toolbar.pack(fill=tk.X, padx=5, pady=5)
+        toolbar = tk.Frame(parent, bg=self.colors['bg_main'])
+        toolbar.pack(fill=tk.X, padx=8, pady=8)
         
-        ttk.Label(toolbar, text="Output Directory:").pack(side=tk.LEFT, padx=5)
+        # Left side: Label and entry
+        left_frame = tk.Frame(toolbar, bg=self.colors['bg_main'])
+        left_frame.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 10))
+        
+        tk.Label(left_frame, text="Output Directory:", 
+                font=("Courier New", 9),
+                bg=self.colors['bg_main'],
+                fg=self.colors['text_black']).pack(side=tk.LEFT, padx=(0, 8))
         
         self.output_path_var = tk.StringVar()
-        output_path_entry = ttk.Entry(toolbar, textvariable=self.output_path_var, width=50)
-        output_path_entry.pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
+        output_path_entry = ttk.Entry(left_frame, textvariable=self.output_path_var, width=40, style='Modern.TEntry')
+        output_path_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 8))
         
-        ttk.Button(toolbar, text="Refresh", command=self.refresh_output_files).pack(side=tk.LEFT, padx=5)
-        ttk.Button(toolbar, text="Open Folder", command=self.open_output_folder).pack(side=tk.LEFT, padx=5)
+        # Right side: Buttons (always visible)
+        button_frame = tk.Frame(toolbar, bg=self.colors['bg_main'])
+        button_frame.pack(side=tk.RIGHT, padx=5)
+        
+        ttk.Button(button_frame, text="Refresh", command=self.refresh_output_files, 
+                  style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
+        self.open_folder_button = ttk.Button(button_frame, text="Open Folder", 
+                                           command=self.open_output_folder, style='Secondary.TButton')
+        self.open_folder_button.pack(side=tk.LEFT, padx=3)
         
         # File list
-        file_list_frame = ttk.Frame(parent)
-        file_list_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        file_list_frame = ttk.LabelFrame(parent, text="Output Files", padding=12, style='Title.TLabelframe')
+        file_list_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
         
         # Listbox with scrollbar
         list_container = ttk.Frame(file_list_frame)
@@ -443,30 +663,46 @@ class ScraperGUI:
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         
         self.output_listbox = tk.Listbox(list_container, yscrollcommand=scrollbar.set,
-                                        font=("Segoe UI", 9))
+                                        font=("Courier New", 9),
+                                        bg=self.colors['bg_panel'],
+                                        fg=self.colors['text_black'],
+                                        selectbackground=self.colors['bg_dark'],
+                                        selectforeground=self.colors['text_black'],
+                                        borderwidth=2,
+                                        relief='sunken',
+                                        highlightthickness=0)
         self.output_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.config(command=self.output_listbox.yview)
 
         self.output_listbox.bind("<Double-Button-1>", self.open_output_file)
 
         # File info
-        file_info_frame = ttk.LabelFrame(parent, text="File Information", padding=10)
-        file_info_frame.pack(fill=tk.X, padx=5, pady=5)
+        file_info_frame = ttk.LabelFrame(parent, text="File Information", padding=12, style='Title.TLabelframe')
+        file_info_frame.pack(fill=tk.X, padx=8, pady=8)
 
-        self.file_info_text = tk.Text(file_info_frame, height=3, wrap=tk.WORD,
-                                      font=("Segoe UI", 9), state=tk.DISABLED)
+        self.file_info_text = tk.Text(file_info_frame, height=8, wrap=tk.WORD,
+                                      font=("Courier New", 9), state=tk.DISABLED,
+                                      bg=self.colors['bg_panel'],
+                                      fg=self.colors['text_black'],
+                                      borderwidth=2,
+                                      relief='sunken',
+                                      padx=10,
+                                      pady=10)
         self.file_info_text.pack(fill=tk.BOTH, expand=True)
     
     def setup_final_output_tab(self, parent):
         """Setup final output viewer tab"""
         # Toolbar
-        toolbar = ttk.Frame(parent)
-        toolbar.pack(fill=tk.X, padx=5, pady=5)
+        toolbar = tk.Frame(parent, bg=self.colors['bg_main'])
+        toolbar.pack(fill=tk.X, padx=8, pady=8)
         
-        ttk.Label(toolbar, text="Final Output Directory:").pack(side=tk.LEFT, padx=5)
+        tk.Label(toolbar, text="Final Output Directory:", 
+                font=("Courier New", 9),
+                bg=self.colors['bg_main'],
+                fg=self.colors['text_black']).pack(side=tk.LEFT, padx=(0, 8))
         
         self.final_output_path_var = tk.StringVar()
-        final_output_path_entry = ttk.Entry(toolbar, textvariable=self.final_output_path_var, width=50)
+        final_output_path_entry = ttk.Entry(toolbar, textvariable=self.final_output_path_var, width=50, style='Modern.TEntry')
         final_output_path_entry.pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
         
         # Set default to exports directory (will be updated when scraper is selected)
@@ -481,11 +717,12 @@ class ScraperGUI:
             default_exports = self.repo_root / "exports"
             self.final_output_path_var.set(str(default_exports))
         
-        ttk.Button(toolbar, text="Search", command=self.search_final_output).pack(side=tk.LEFT, padx=5)
+        ttk.Button(toolbar, text="Search", command=self.search_final_output, 
+                  style='Secondary.TButton').pack(side=tk.LEFT, padx=5)
         
         # File list
-        file_list_frame = ttk.Frame(parent)
-        file_list_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        file_list_frame = ttk.LabelFrame(parent, text="Final Output Files", padding=12, style='Title.TLabelframe')
+        file_list_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
         
         # Listbox with scrollbar
         list_container = ttk.Frame(file_list_frame)
@@ -495,7 +732,14 @@ class ScraperGUI:
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         
         self.final_output_listbox = tk.Listbox(list_container, yscrollcommand=scrollbar.set,
-                                               font=("Segoe UI", 9))
+                                               font=("Courier New", 9),
+                                               bg=self.colors['bg_panel'],
+                                               fg=self.colors['text_black'],
+                                               selectbackground=self.colors['bg_dark'],
+                                               selectforeground=self.colors['text_black'],
+                                               borderwidth=2,
+                                               relief='sunken',
+                                               highlightthickness=0)
         self.final_output_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.config(command=self.final_output_listbox.yview)
 
@@ -503,45 +747,73 @@ class ScraperGUI:
         self.final_output_listbox.bind("<<ListboxSelect>>", self.on_final_output_file_selected)
 
         # File preview/info
-        file_info_frame = ttk.LabelFrame(parent, text="Final Output Information", padding=10)
-        file_info_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        file_info_frame = ttk.LabelFrame(parent, text="Final Output Information", padding=12, style='Title.TLabelframe')
+        file_info_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
 
         self.final_output_info_text = tk.Text(file_info_frame, wrap=tk.WORD,
-                                              font=("Segoe UI", 9), state=tk.DISABLED)
+                                              font=("Courier New", 9), state=tk.DISABLED,
+                                              bg=self.colors['bg_panel'],
+                                              fg=self.colors['text_black'],
+                                              borderwidth=2,
+                                              relief='sunken',
+                                              padx=10,
+                                              pady=10)
         self.final_output_info_text.pack(fill=tk.BOTH, expand=True)
         
         # Buttons below the information table
-        button_frame = ttk.Frame(parent)
-        button_frame.pack(fill=tk.X, padx=5, pady=5)
+        button_frame = tk.Frame(parent, bg=self.colors['bg_main'])
+        button_frame.pack(fill=tk.X, padx=8, pady=8)
         
-        ttk.Button(button_frame, text="Refresh", command=self.refresh_final_output_files).pack(side=tk.LEFT, padx=5)
-        ttk.Button(button_frame, text="Push to DB", command=self.push_to_database).pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text="Refresh", command=self.refresh_final_output_files, 
+                  style='Secondary.TButton').pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text="Push to DB", command=self.push_to_database, 
+                  style='Primary.TButton').pack(side=tk.LEFT, padx=5)
     
     def setup_config_tab(self, parent):
         """Setup configuration/environment editing tab"""
         # Toolbar
-        toolbar = ttk.Frame(parent)
-        toolbar.pack(fill=tk.X, padx=5, pady=5)
+        toolbar = tk.Frame(parent, bg=self.colors['bg_main'])
+        toolbar.pack(fill=tk.X, padx=8, pady=8)
         
-        ttk.Label(toolbar, text="Scraper Configuration:").pack(side=tk.LEFT, padx=5)
+        tk.Label(toolbar, text="Scraper Configuration:", 
+                font=("Courier New", 9),
+                bg=self.colors['bg_main'],
+                fg=self.colors['text_black']).pack(side=tk.LEFT, padx=(0, 8))
         
-        ttk.Button(toolbar, text="Load", command=self.load_config_file).pack(side=tk.LEFT, padx=5)
-        ttk.Button(toolbar, text="Save", command=self.save_config_file).pack(side=tk.LEFT, padx=5)
-        ttk.Button(toolbar, text="Open File", command=self.open_config_file).pack(side=tk.LEFT, padx=5)
-        ttk.Button(toolbar, text="Create from Template", command=self.create_config_from_template).pack(side=tk.LEFT, padx=5)
+        ttk.Button(toolbar, text="Load", command=self.load_config_file, 
+                  style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
+        ttk.Button(toolbar, text="Save", command=self.save_config_file, 
+                  style='Primary.TButton').pack(side=tk.LEFT, padx=3)
+        ttk.Button(toolbar, text="Open File", command=self.open_config_file, 
+                  style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
+        ttk.Button(toolbar, text="Create from Template", command=self.create_config_from_template, 
+                  style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
         
         # Config editor
-        editor_frame = ttk.Frame(parent)
-        editor_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        editor_frame = ttk.LabelFrame(parent, text="Configuration Editor", padding=12, style='Title.TLabelframe')
+        editor_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
         
         self.config_text = scrolledtext.ScrolledText(editor_frame, wrap=tk.WORD,
-                                                     font=("Consolas", 9))
+                                                     font=("Courier New", 9),
+                                                     bg=self.colors['bg_panel'],
+                                                     fg=self.colors['text_black'],
+                                                     borderwidth=2,
+                                                     relief='sunken',
+                                                     padx=10,
+                                                     pady=10,
+                                                     insertbackground=self.colors['text_black'],
+                                                     selectbackground=self.colors['bg_dark'],
+                                                     selectforeground=self.colors['text_black'])
         self.config_text.pack(fill=tk.BOTH, expand=True)
         
         # Status
-        self.config_status = ttk.Label(parent, text="Scraper-specific configuration file", 
-                                       relief=tk.SUNKEN, anchor=tk.W)
-        self.config_status.pack(fill=tk.X, padx=5, pady=5)
+        self.config_status = tk.Label(parent, text="Scraper-specific configuration file", 
+                                       relief=tk.SUNKEN, anchor=tk.W,
+                                       bg=self.colors['bg_panel'],
+                                       fg=self.colors['text_black'],
+                                       font=("Courier New", 9),
+                                       padx=10)
+        self.config_status.pack(fill=tk.X, padx=8, pady=8)
         
         # Store current config file path (will be set when scraper is selected)
         self.current_config_file = None
@@ -806,6 +1078,22 @@ class ScraperGUI:
             if hasattr(self, 'refresh_final_output_files'):
                 self.refresh_final_output_files()
         
+        # Reset progress state when switching scrapers (to avoid showing stale data from previous runs)
+        # Only reset if scraper is not currently running
+        if scraper_name not in self.running_scrapers and scraper_name not in self.running_processes:
+            # Check if scraper was stopped - keep stopped state, otherwise reset to ready
+            if scraper_name in self.scraper_logs:
+                log_content = self.scraper_logs[scraper_name]
+                if "[STOPPED]" in log_content or "Pipeline stopped" in log_content:
+                    # Keep stopped state
+                    self.scraper_progress[scraper_name] = {"percent": 0, "description": "Pipeline stopped"}
+                else:
+                    # Reset to ready state (no stale progress from previous runs)
+                    self.scraper_progress[scraper_name] = {"percent": 0, "description": f"Ready: {scraper_name}"}
+            else:
+                # No logs - initialize to ready
+                self.scraper_progress[scraper_name] = {"percent": 0, "description": f"Ready: {scraper_name}"}
+        
         # Load scraper-specific config file
         if hasattr(self, 'load_config_file'):
             self.load_config_file()
@@ -814,8 +1102,20 @@ class ScraperGUI:
         # This ensures the user sees the selected scraper's progress
         self.update_log_display(scraper_name)
         
+        # Update progress bar for the newly selected scraper
+        self.update_progress_for_scraper(scraper_name)
+        
         # Refresh button state
         self.refresh_run_button_state()
+        
+        # Update checkpoint status
+        self.update_checkpoint_status()
+        
+        # Update Chrome instance count
+        self.update_chrome_count()
+        
+        # Update kill all Chrome button state
+        self.update_kill_all_chrome_button_state()
     
     def on_step_selected(self, event=None):
         """Handle step selection"""
@@ -833,10 +1133,7 @@ class ScraperGUI:
         
         self.current_step = step
         
-        # Clear explanation when step changes (so user sees explanation for new step)
-        self.clear_explanation()
-        
-        # Update step info
+        # Update step info first (always show step info)
         self.step_info_text.config(state=tk.NORMAL)
         self.step_info_text.delete(1.0, tk.END)
         info = f"Script: {step['script']}\n"
@@ -850,12 +1147,29 @@ class ScraperGUI:
         self.step_info_text.insert(1.0, info)
         self.step_info_text.config(state=tk.DISABLED)
         
-        # Enable explain button if script exists
+        # Ensure step info frame is ALWAYS visible (should never be hidden)
+        if not self.step_info_frame.winfo_viewable():
+            self.step_info_frame.pack(fill=tk.X, padx=5, pady=5)
         
+        # Ensure explain button and frame are always visible
+        if hasattr(self, 'explain_button_frame') and not self.explain_button_frame.winfo_viewable():
+            self.explain_button_frame.pack(fill=tk.X, pady=(5, 0))
+        if hasattr(self, 'explain_button') and not self.explain_button.winfo_viewable():
+            self.explain_button.pack(side=tk.LEFT, padx=5, pady=3)
+        
+        # Clear explanation when step changes (so user sees explanation for new step)
+        self.clear_explanation()
+        
+        # Enable explain button if script exists (button is always visible and enabled)
         if script_path.exists():
-            self.explain_button.config(state=tk.NORMAL)
+            self.explain_button.config(state=tk.NORMAL, text="Explain This Step (OpenAI API)")
+            if hasattr(self, 'explain_info_label'):
+                self.explain_info_label.config(text="Get AI-powered explanation using OpenAI")
         else:
-            self.explain_button.config(state=tk.DISABLED)
+            # Keep button visible and enabled, but show warning when clicked
+            self.explain_button.config(state=tk.NORMAL, text="Explain This Step (Script not found)")
+            if hasattr(self, 'explain_info_label'):
+                self.explain_info_label.config(text="Script file not found - explanation unavailable")
     
     def on_doc_selected(self, event=None):
         """Handle documentation selection and format for display"""
@@ -915,7 +1229,9 @@ class ScraperGUI:
     def explain_step(self):
         """Explain the currently selected step using OpenAI"""
         if not self.current_step:
-            messagebox.showwarning("Warning", "Select a step first")
+            messagebox.showinfo("Info", 
+                "Please select a step from the 'Pipeline Steps' list above to get an AI explanation.\n\n"
+                "The explanation will use OpenAI API to analyze the step's script and provide a detailed explanation of what it does.")
             return
         
         scraper_name = self.scraper_var.get()
@@ -934,7 +1250,7 @@ class ScraperGUI:
             return
         
         # Disable button temporarily while fetching (will re-enable after)
-        self.explain_button.config(state=tk.DISABLED, text="Generating explanation...")
+        self.explain_button.config(state=tk.DISABLED, text="⏳ Generating explanation...")
         
         # Check if we have cached explanation and if file hasn't changed (using modification time)
         cache_key = str(script_path)
@@ -948,13 +1264,13 @@ class ScraperGUI:
             # Use cached explanation
             self.show_explanation(cached_explanation["explanation"])
             # Re-enable button (already disabled above)
-            self.explain_button.config(state=tk.NORMAL, text="Explain This Step")
+            self.explain_button.config(state=tk.NORMAL, text="Explain This Step (OpenAI API)")
             return
         
         # Need to get explanation from OpenAI
         if not _OPENAI_AVAILABLE:
             messagebox.showerror("Error", "OpenAI library not available. Install using: pip install openai")
-            self.explain_button.config(state=tk.NORMAL, text="Explain This Step")
+            self.explain_button.config(state=tk.NORMAL, text="Explain This Step (OpenAI API)")
             return
         
         # Get OpenAI API key
@@ -965,14 +1281,18 @@ class ScraperGUI:
                 from dotenv import load_dotenv
                 env_file = self.repo_root / ".env"
                 if env_file.exists():
-                    load_dotenv(env_file)
+                    try:
+                        load_dotenv(env_file)
+                    except Exception as e:
+                        # Silently ignore dotenv parse errors - API key might be in environment or config files
+                        print(f"Warning: Could not parse .env file: {e}")
                 api_key = os.getenv("OPENAI_API_KEY", "")
             except ImportError:
                 pass
         
         if not api_key:
             messagebox.showerror("Error", "OPENAI_API_KEY not found. Configure it in environment or .env file.")
-            self.explain_button.config(state=tk.NORMAL, text="Explain This Step")
+            self.explain_button.config(state=tk.NORMAL, text="Explain This Step (OpenAI API)")
             return
         
         # Read script content
@@ -981,7 +1301,7 @@ class ScraperGUI:
                 script_content = f.read()
         except Exception as e:
             messagebox.showerror("Error", f"Failed to read script file:\n{str(e)}")
-            self.explain_button.config(state=tk.NORMAL, text="Explain This Step")
+            self.explain_button.config(state=tk.NORMAL, text="Explain This Step (OpenAI API)")
             return
         
         # Show loading message
@@ -1046,14 +1366,14 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 # Update UI in main thread
                 self.root.after(0, lambda: self.show_explanation(explanation))
                 # Re-enable button after showing explanation
-                self.root.after(0, lambda: self.explain_button.config(state=tk.NORMAL, text="💡 Explain This Step"))
+                self.root.after(0, lambda: self.explain_button.config(state=tk.NORMAL, text="Explain This Step"))
                 
             except Exception as e:
                 error_msg = f"Failed to get explanation from OpenAI:\n{str(e)}"
                 self.root.after(0, lambda: messagebox.showerror("Error", error_msg))
                 self.root.after(0, lambda: self.hide_explanation())
                 # Re-enable button on error
-                self.root.after(0, lambda: self.explain_button.config(state=tk.NORMAL, text="💡 Explain This Step"))
+                self.root.after(0, lambda: self.explain_button.config(state=tk.NORMAL, text="Explain This Step"))
         
         thread = threading.Thread(target=get_explanation, daemon=True)
         thread.start()
@@ -1072,16 +1392,17 @@ Provide a clear, concise explanation suitable for users who want to understand w
         
         self.explanation_text.config(state=tk.DISABLED)
         
-        # Show explanation panel and hide step information
+        # Show explanation panel below step information (don't hide step info)
         if not self.explanation_visible:
-            # Hide step information when showing explanation
-            self.step_info_frame.pack_forget()
-            # Pack explanation frame in the same parent as step_info_frame (before where step_info_frame was)
+            # Ensure step info is visible
+            if not self.step_info_frame.winfo_viewable():
+                self.step_info_frame.pack(fill=tk.X, padx=5, pady=5)
+            # Pack explanation frame below step info
             self.explanation_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
             self.explanation_visible = True
         
         # Increase height when showing
-        self.explanation_text.config(height=12)
+        self.explanation_text.config(height=10)
     
     def format_explanation(self, explanation: str) -> str:
         """Format explanation to show TLDR first, then full explanation"""
@@ -1129,19 +1450,22 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 self.explanation_text.tag_add("full_header", f"{i}.0", f"{i}.end")
     
     def hide_explanation(self):
-        """Hide explanation panel and show step information"""
+        """Hide explanation panel (step information remains visible)"""
         if self.explanation_visible:
             self.explanation_frame.pack_forget()
             self.explanation_visible = False
-            # Show step information again when hiding explanation
-            self.step_info_frame.pack(fill=tk.X, padx=5, pady=5)
+            # Ensure step information is always visible
+            if not self.step_info_frame.winfo_viewable():
+                self.step_info_frame.pack(fill=tk.X, padx=5, pady=5)
     
     def clear_explanation(self):
-        """Clear explanation text and hide explanation panel, show step information"""
+        """Clear explanation text and hide explanation panel (step information remains visible)"""
         if self.explanation_visible:
             self.explanation_frame.pack_forget()
             self.explanation_visible = False
-            # Show step information again
+        
+        # Always ensure step information is visible
+        if not self.step_info_frame.winfo_viewable():
             self.step_info_frame.pack(fill=tk.X, padx=5, pady=5)
         
         self.explanation_text.config(state=tk.NORMAL)
@@ -1164,21 +1488,392 @@ Provide a clear, concise explanation suitable for users who want to understand w
     
     def schedule_log_refresh(self, scraper_name: str):
         """Schedule periodic refresh of log display for running scraper"""
-        # Only refresh if this scraper is still selected and still running
-        if scraper_name == self.scraper_var.get() and (scraper_name in self.running_scrapers or scraper_name in self.running_processes):
-            # Update display with latest log content
+        # Always update progress state for running scrapers (even if not selected)
+        if scraper_name in self.running_scrapers or scraper_name in self.running_processes:
             log_content = self.scraper_logs.get(scraper_name, "")
-            current_content = self.log_text.get(1.0, tk.END)
-            if log_content != current_content.rstrip('\n'):
-                # Log has been updated, refresh display
-                self.log_text.config(state=tk.NORMAL)
-                self.log_text.delete(1.0, tk.END)
-                self.log_text.insert(1.0, log_content)
-                self.log_text.see(tk.END)
-                self.log_text.config(state=tk.DISABLED)
+            # Always update progress state (stored state)
+            self.update_progress_from_log(log_content, scraper_name, update_display=False)
+            
+            # Only refresh display if this scraper is still selected
+            if scraper_name == self.scraper_var.get():
+                current_content = self.log_text.get(1.0, tk.END)
+                if log_content != current_content.rstrip('\n'):
+                    # Log has been updated, refresh display
+                    self.log_text.config(state=tk.NORMAL)
+                    self.log_text.delete(1.0, tk.END)
+                    self.log_text.insert(1.0, log_content)
+                    self.log_text.see(tk.END)
+                    self.log_text.config(state=tk.DISABLED)
+                
+                # Update display with stored progress state
+                progress_state = self.scraper_progress.get(scraper_name, {"percent": 0, "description": f"Running {scraper_name}..."})
+                self.progress_label.config(text=progress_state["description"])
+                self.progress_bar['value'] = progress_state["percent"]
+                self.progress_percent.config(text=f"{progress_state['percent']:.1f}%")
             
             # Schedule next refresh in 500ms
             self.root.after(500, lambda sn=scraper_name: self.schedule_log_refresh(sn))
+    
+    def update_progress_for_scraper(self, scraper_name: str):
+        """Update progress bar for a specific scraper based on its current log content"""
+        # Always update stored progress state (even if not selected)
+        if scraper_name not in self.scraper_logs:
+            # No logs yet - initialize stored progress if not exists
+            if scraper_name not in self.scraper_progress:
+                self.scraper_progress[scraper_name] = {"percent": 0, "description": f"Ready: {scraper_name}"}
+        else:
+            # Update progress from scraper's log content (updates stored state)
+            log_content = self.scraper_logs[scraper_name]
+            self.update_progress_from_log(log_content, scraper_name, update_display=False)
+        
+        # Always update display when this function is called (it's called when scraper is selected)
+        progress_state = self.scraper_progress.get(scraper_name, {"percent": 0, "description": f"Ready: {scraper_name}"})
+        self.progress_label.config(text=progress_state["description"])
+        self.progress_bar['value'] = progress_state["percent"]
+        self.progress_percent.config(text=f"{progress_state['percent']:.1f}%")
+    
+    def update_progress_from_log(self, log_content: str, scraper_name: str, update_display: bool = True):
+        """Parse log content for progress indicators and update progress state (and optionally display)"""
+        import re
+        
+        # Determine if we should update the display
+        is_selected = scraper_name == self.scraper_var.get()
+        should_update_display = update_display and is_selected
+        
+        # Check if scraper is currently running - if not, don't parse old progress
+        is_running = scraper_name in self.running_scrapers or scraper_name in self.running_processes
+        
+        # Reset progress if pipeline stopped - check this FIRST before parsing progress
+        if "[STOPPED]" in log_content or "Pipeline stopped" in log_content:
+            # Find the position of the stop message
+            stop_idx = max(
+                log_content.rfind("[STOPPED]"),
+                log_content.rfind("Pipeline stopped")
+            )
+            # Only parse progress messages that come AFTER the stop message
+            if stop_idx >= 0:
+                # If there are progress messages after stop, use them (scraper restarted)
+                # Otherwise, reset to 0
+                content_after_stop = log_content[stop_idx:]
+                if "[PROGRESS]" not in content_after_stop:
+                    # No progress after stop - reset to stopped state
+                    progress_state = {"percent": 0, "description": "Pipeline stopped"}
+                    self.scraper_progress[scraper_name] = progress_state
+                    if should_update_display:
+                        self.progress_label.config(text=progress_state["description"])
+                        self.progress_bar['value'] = progress_state["percent"]
+                        self.progress_percent.config(text="0%")
+                    return
+                # If progress exists after stop, continue parsing (scraper was restarted)
+                log_content = content_after_stop
+            else:
+                # Stop message found but position unclear - reset to stopped state
+                progress_state = {"percent": 0, "description": "Pipeline stopped"}
+                self.scraper_progress[scraper_name] = progress_state
+                if should_update_display:
+                    self.progress_label.config(text=progress_state["description"])
+                    self.progress_bar['value'] = progress_state["percent"]
+                    self.progress_percent.config(text="0%")
+                return
+        
+        # If scraper is not running and no stop message, check if it should show stale progress
+        # Don't show old progress from previous runs - only show if scraper is actively running
+        if not is_running:
+            # Check if this is a fresh start (no progress state exists) - initialize to 0
+            if scraper_name not in self.scraper_progress:
+                progress_state = {"percent": 0, "description": f"Ready: {scraper_name}"}
+                self.scraper_progress[scraper_name] = progress_state
+                if should_update_display:
+                    self.progress_label.config(text=progress_state["description"])
+                    self.progress_bar['value'] = progress_state["percent"]
+                    self.progress_percent.config(text="0%")
+                return
+            # If scraper has old progress state but is not running, don't re-parse old log
+            # Just use the existing progress state (which should be 0 if it was stopped)
+            existing_progress = self.scraper_progress.get(scraper_name)
+            if existing_progress and existing_progress.get("percent", 0) == 0:
+                # Already at 0 (stopped state) - don't re-parse old log
+                if should_update_display:
+                    self.progress_label.config(text=existing_progress.get("description", f"Ready: {scraper_name}"))
+                    self.progress_bar['value'] = 0
+                    self.progress_percent.config(text="0%")
+                return
+        
+        # Check if pipeline completed
+        if "Pipeline completed" in log_content or "Execution completed" in log_content or "Finished" in log_content:
+            progress_state = {"percent": 100, "description": "Pipeline completed"}
+            self.scraper_progress[scraper_name] = progress_state
+            if should_update_display:
+                self.progress_label.config(text=progress_state["description"])
+                self.progress_bar['value'] = progress_state["percent"]
+                self.progress_percent.config(text="100%")
+            return
+        
+        # Try to extract progress from various patterns
+        # Search from the end (most recent) to get latest progress
+        progress_percent = None
+        progress_desc = None
+        
+        # Split log into lines and search from the end
+        lines = log_content.split('\n')
+        
+        # If scraper is not running, only check for progress in lines after the last stop message
+        # This prevents showing stale progress from previous runs when switching scrapers
+        if not is_running:
+            # Find the last stop message position
+            last_stop_line_idx = -1
+            for idx, line in enumerate(lines):
+                if "[STOPPED]" in line or "Pipeline stopped" in line:
+                    last_stop_line_idx = idx
+            # If stop message found, only parse lines after it (ignore old progress before stop)
+            if last_stop_line_idx >= 0:
+                lines = lines[last_stop_line_idx + 1:]
+                # If no lines after stop, no progress to show - already handled above, but check again
+                if not lines or not any("[PROGRESS]" in line for line in lines):
+                    # No progress messages after stop - keep stopped state
+                    progress_state = self.scraper_progress.get(scraper_name, {"percent": 0, "description": "Pipeline stopped"})
+                    if progress_state.get("percent", 0) > 0:
+                        # Reset if somehow it has non-zero progress
+                        progress_state = {"percent": 0, "description": "Pipeline stopped"}
+                        self.scraper_progress[scraper_name] = progress_state
+                    if should_update_display:
+                        self.progress_label.config(text=progress_state.get("description", "Pipeline stopped"))
+                        self.progress_bar['value'] = 0
+                        self.progress_percent.config(text="0%")
+                    return
+        
+        # Pattern 1: "[PROGRESS] {step}: X/Y (Z%)" (highest priority - most specific, includes step details)
+        # Check from the END of log (most recent) to get latest progress
+        latest_progress_line = None
+        latest_progress_line_idx = None  # Track line index for recency comparison (lower = more recent)
+        latest_current = 0
+        latest_total = 0
+        latest_percent = 0.0
+        latest_step_desc = None
+        latest_is_pipeline_step = False  # Track if this is a "Pipeline Step" message (higher priority)
+        
+        # First pass: Look for "Pipeline Step" messages (highest priority - these represent overall pipeline progress)
+        for line in reversed(lines[-200:]):  # Check last 200 lines for better detection
+            # Match format: [PROGRESS] Pipeline Step: X/Y (Z%) - Description (description is optional)
+            pipeline_match = re.search(r'\[PROGRESS\]\s+Pipeline\s+Step\s*:\s*(\d+)\s*/\s*(\d+)\s*\(([\d.]+)%\)(?:\s*-\s*(.+))?', line, re.IGNORECASE)
+            if pipeline_match:
+                current = int(pipeline_match.group(1))
+                total = int(pipeline_match.group(2))
+                percent = float(pipeline_match.group(3))
+                description = pipeline_match.group(4).strip() if pipeline_match.group(4) else None
+                if total > 0:
+                    # Pipeline Step messages have highest priority - use this immediately
+                    latest_current = current
+                    latest_total = total
+                    latest_percent = percent
+                    # Use description if available, otherwise use default
+                    latest_step_desc = description if description else "Pipeline Step"
+                    latest_progress_line = line
+                    latest_is_pipeline_step = True
+                    break  # Found pipeline step progress, use it (highest priority)
+        
+        # Second pass: Look for other progress messages (only if no Pipeline Step found)
+        if not latest_is_pipeline_step:
+            # Track line index to prioritize more recent messages
+            for line_idx, line in enumerate(reversed(lines[-200:])):  # Check last 200 lines for better detection
+                # Match format: [PROGRESS] {step description}: {completed}/{total} ({percent}%)
+                # Examples: "[PROGRESS] Searching: ACIMED: 1/11503 (0.1%)"
+                #           "[PROGRESS] Extracting data: ACIMED: 1/11503 (0.1%)"
+                #           "[PROGRESS] Completed: ACIMED: 1/11503 (0.1%)"
+                #           "[PROGRESS] Searching: {product}: X/Y (Z%)"
+                #           "[PROGRESS] Bulk search: X/Y (Z%)"
+                #           "[PROGRESS] Individual search: X/Y (Z%)"
+                progress_match = re.search(r'\[PROGRESS\]\s+(.+?)\s*:\s*(\d+)\s*/\s*(\d+)\s*\(([\d.]+)%\)', line, re.IGNORECASE)
+                if progress_match:
+                    step_desc = progress_match.group(1).strip()
+                    current = int(progress_match.group(2))
+                    total = int(progress_match.group(3))
+                    percent = float(progress_match.group(4))
+                    if total > 0:
+                        # Since we're iterating in reverse (most recent first), use the FIRST match we find
+                        # This ensures we always show the most recent progress message
+                        if latest_progress_line is None:
+                            latest_current = current
+                            latest_total = total
+                            latest_percent = percent
+                            latest_step_desc = step_desc
+                            latest_progress_line = line
+                            latest_progress_line_idx = line_idx
+                        # If we already have a message, only update if this one is more recent (lower index)
+                        elif line_idx < latest_progress_line_idx:
+                            latest_current = current
+                            latest_total = total
+                            latest_percent = percent
+                            latest_step_desc = step_desc
+                            latest_progress_line = line
+                            latest_progress_line_idx = line_idx
+                
+                # Also match fraction format: [PROGRESS] {step}: {description} (X/Y) or {step}: X/Y (Z%)
+                # Examples: "[PROGRESS] Extracting Annexe IV.1: Loading PDF (1/3)"
+                #           "[PROGRESS] Extracting Annexe IV.1: 100/100 (100%)"
+                # Priority: Prefer percentage format, but also accept fraction format if no percentage found
+                if not progress_match:
+                    # Try fraction format: (X/Y) at the end
+                    fraction_match = re.search(r'\[PROGRESS\]\s+(.+?)\s*:\s*(.+?)\s*\((\d+)\s*/\s*(\d+)\)', line, re.IGNORECASE)
+                    if fraction_match:
+                        step_desc = fraction_match.group(1).strip()
+                        current = int(fraction_match.group(3))
+                        total = int(fraction_match.group(4))
+                        if total > 0:
+                            percent = (current / total) * 100
+                            # Only use this if we haven't found a better match or if this is more recent
+                            if current >= latest_current or latest_progress_line is None:
+                                latest_current = current
+                                latest_total = total
+                                latest_percent = percent
+                                latest_step_desc = step_desc
+                                latest_progress_line = line
+        
+        # Use the latest progress found
+        if latest_progress_line:
+            progress_percent = latest_percent
+            
+            # Handle "Pipeline Step" messages specially - they have descriptive text after the dash
+            if latest_is_pipeline_step:
+                # Use the description we already extracted (or default if none)
+                if latest_step_desc and latest_step_desc != "Pipeline Step":
+                    progress_desc = latest_step_desc
+                else:
+                    progress_desc = f"Pipeline Step {latest_current}/{latest_total}"
+            elif ':' in latest_step_desc:
+                # If step_desc contains product name (e.g., "Searching: ACIMED")
+                parts = latest_step_desc.split(':', 1)
+                if len(parts) == 2:
+                    step_name = parts[0].strip()
+                    product_name = parts[1].strip()
+                    # Truncate long product names
+                    if len(product_name) > 30:
+                        product_name = product_name[:27] + "..."
+                    progress_desc = f"{step_name}: {product_name} ({latest_current}/{latest_total})"
+                else:
+                    progress_desc = f"{latest_step_desc} ({latest_current}/{latest_total})"
+            else:
+                progress_desc = f"{latest_step_desc} ({latest_current}/{latest_total})"
+        
+        # Pattern 2: "Scraping products: X/Y" (legacy format, second priority)
+        if not progress_percent:
+            for line in reversed(lines[-50:]):  # Check last 50 lines
+                # Match both integer and decimal percentages: (0%) or (0.1%)
+                scraping_match = re.search(r'\[PROGRESS\]\s+Scraping\s+products?\s*:\s*(\d+)\s*/\s*(\d+)\s*\(([\d.]+)%\)', line, re.IGNORECASE)
+                if scraping_match:
+                    current = int(scraping_match.group(1))
+                    total = int(scraping_match.group(2))
+                    percent = float(scraping_match.group(3))
+                    if total > 0:
+                        progress_percent = percent
+                        progress_desc = f"Scraping products: {current}/{total}"
+                        break
+        
+        # Pattern 3: "Scraping products: X/Y" (without [PROGRESS] tag)
+        if not progress_percent:
+            for line in reversed(lines[-50:]):
+                scraping_match = re.search(r'Scraping\s+products?\s*:\s*(\d+)\s*/\s*(\d+)', line, re.IGNORECASE)
+                if scraping_match:
+                    current = int(scraping_match.group(1))
+                    total = int(scraping_match.group(2))
+                    if total > 0:
+                        progress_percent = int((current / total) * 100)
+                        progress_desc = f"Scraping products: {current}/{total}"
+                        break
+        
+        # Pattern 4: "Step X/Y" or "Step X of Y"
+        if not progress_percent:
+            for line in reversed(lines[-50:]):
+                step_match = re.search(r'Step\s+(\d+)\s*(?:of|/)\s*(\d+)', line, re.IGNORECASE)
+                if step_match:
+                    current = int(step_match.group(1))
+                    total = int(step_match.group(2))
+                    if total > 0:
+                        progress_percent = int((current / total) * 100)
+                        progress_desc = f"Step {current}/{total}"
+                        break
+        
+        # Pattern 5: "Processing X/Y" or "Processing X of Y"
+        if not progress_percent:
+            for line in reversed(lines[-50:]):
+                process_match = re.search(r'Processing\s+(\d+)\s*(?:of|/)\s*(\d+)', line, re.IGNORECASE)
+                if process_match:
+                    current = int(process_match.group(1))
+                    total = int(process_match.group(2))
+                    if total > 0:
+                        progress_percent = int((current / total) * 100)
+                        progress_desc = f"Processing {current}/{total}"
+                        break
+        
+        # Pattern 6: "X/Y products" or "X of Y products"
+        if not progress_percent:
+            for line in reversed(lines[-50:]):
+                product_match = re.search(r'(\d+)\s*(?:of|/)\s*(\d+)\s+product', line, re.IGNORECASE)
+                if product_match:
+                    current = int(product_match.group(1))
+                    total = int(product_match.group(2))
+                    if total > 0:
+                        progress_percent = int((current / total) * 100)
+                        progress_desc = f"Products: {current}/{total}"
+                        break
+        
+        # Pattern 6: "Progress: X%" or "X% complete"
+        if not progress_percent:
+            for line in reversed(lines[-50:]):
+                percent_match = re.search(r'(?:Progress|Complete)[:\s]+(\d+)%', line, re.IGNORECASE)
+                if percent_match:
+                    progress_percent = int(percent_match.group(1))
+                    progress_desc = f"Progress: {progress_percent}%"
+                    break
+        
+        # Pattern 6: Look for current step name in log (e.g., "Running step: X")
+        if not progress_desc:
+            step_name_match = re.search(r'(?:Running|Executing|Step)\s*:?\s*([^\n]+)', log_content, re.IGNORECASE)
+            if step_name_match:
+                step_name = step_name_match.group(1).strip()[:50]  # Limit length
+                progress_desc = f"Running: {step_name}"
+        
+        # Pattern 7: Look for last meaningful line (not empty, not just separators)
+        if not progress_desc:
+            lines = log_content.split('\n')
+            for line in reversed(lines[-10:]):  # Check last 10 lines
+                line = line.strip()
+                if line and not line.startswith('=') and len(line) > 5:
+                    # Skip common log prefixes
+                    if not re.match(r'^\[?\d{4}-\d{2}-\d{2}', line):  # Skip timestamps
+                        progress_desc = line[:60]  # Limit length
+                        break
+        
+        # Calculate final progress percent if we have description but no percent
+        if progress_desc and progress_percent is None:
+            # If we have description but no percent, try to extract from description
+            # Look for pattern like "Step: Product (X/Y)" in description
+            desc_match = re.search(r'\((\d+)/(\d+)\)', progress_desc)
+            if desc_match:
+                current = int(desc_match.group(1))
+                total = int(desc_match.group(2))
+                if total > 0:
+                    progress_percent = round((current / total) * 100, 1)
+                    if current > 0 and progress_percent < 0.1:
+                        progress_percent = 0.1
+        
+        # Determine final description
+        if not progress_desc:
+            if scraper_name in self.running_scrapers or scraper_name in self.running_processes:
+                progress_desc = f"Running {scraper_name}..."
+            else:
+                progress_desc = f"Ready: {scraper_name}"
+        
+        # Store progress state for this scraper
+        final_percent = progress_percent if progress_percent is not None else 0
+        progress_state = {"percent": final_percent, "description": progress_desc}
+        self.scraper_progress[scraper_name] = progress_state
+        
+        # Update display only if this scraper is selected
+        if should_update_display:
+            self.progress_bar['value'] = final_percent
+            self.progress_percent.config(text=f"{final_percent:.1f}%")
+            self.progress_label.config(text=progress_desc)
     
     def append_to_log_display(self, line: str):
         """Append a line to the log display (if scraper is selected)"""
@@ -1264,6 +1959,119 @@ Provide a clear, concise explanation suitable for users who want to understand w
         
         # Update checkpoint status
         self.update_checkpoint_status()
+        
+        # Update kill all Chrome button state
+        self.update_kill_all_chrome_button_state()
+    
+    def update_kill_all_chrome_button_state(self):
+        """Update the state of the 'Kill All Chrome Instances' button based on running scrapers"""
+        if not hasattr(self, 'kill_all_chrome_button'):
+            return
+        
+        # Check if any scraper is running
+        any_running = False
+        
+        # Check if any scraper is in running_scrapers set
+        if self.running_scrapers:
+            any_running = True
+        else:
+            # Check if any scraper has a lock file (might be running from outside GUI)
+            try:
+                from platform_config import get_path_manager
+                pm = get_path_manager()
+                for scraper_name in self.scrapers.keys():
+                    lock_file = pm.get_lock_file(scraper_name)
+                    if lock_file.exists():
+                        # Check if lock is stale
+                        try:
+                            with open(lock_file, 'r') as f:
+                                lock_content = f.read().strip().split('\n')
+                                if lock_content and lock_content[0].isdigit():
+                                    lock_pid = int(lock_content[0])
+                                    # Check if process is still running
+                                    import subprocess
+                                    if sys.platform == "win32":
+                                        result = subprocess.run(
+                                            ['tasklist', '/FI', f'PID eq {lock_pid}'],
+                                            capture_output=True,
+                                            text=True,
+                                            timeout=2
+                                        )
+                                        if str(lock_pid) in result.stdout:
+                                            any_running = True
+                                            break
+                        except:
+                            # If we can't read the lock, assume it might be active
+                            any_running = True
+                            break
+            except Exception:
+                pass
+        
+        # Enable button only if no scrapers are running
+        if any_running:
+            self.kill_all_chrome_button.config(state=tk.DISABLED)
+        else:
+            self.kill_all_chrome_button.config(state=tk.NORMAL)
+    
+    def kill_all_chrome_instances(self):
+        """Kill all Chrome instances for all scrapers"""
+        # Confirm action
+        if not messagebox.askyesno("Confirm", 
+            "Kill all Chrome instances for all scrapers?\n\n"
+            "This will terminate all Chrome processes tracked by the scrapers.\n"
+            "Make sure no scrapers are currently running."):
+            return
+        
+        try:
+            total_terminated = 0
+            
+            # Kill Chrome instances for each scraper
+            for scraper_name in self.scrapers.keys():
+                try:
+                    from core.chrome_pid_tracker import terminate_chrome_pids
+                    count = terminate_chrome_pids(scraper_name, self.repo_root, silent=True)
+                    total_terminated += count
+                except Exception:
+                    pass
+            
+            # Also use fallback method to catch any remaining Chrome instances with automation flags
+            try:
+                from core.chrome_pid_tracker import terminate_chrome_by_flags
+                fallback_count = terminate_chrome_by_flags(silent=True)
+                total_terminated += fallback_count
+            except Exception:
+                pass
+            
+            # Also try to kill ChromeDriver processes
+            try:
+                import psutil
+                chromedriver_count = 0
+                for proc in psutil.process_iter(['pid', 'name']):
+                    try:
+                        proc_name = (proc.info.get('name') or '').lower()
+                        if 'chromedriver' in proc_name:
+                            proc.kill()
+                            chromedriver_count += 1
+                    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                        pass
+                total_terminated += chromedriver_count
+            except Exception:
+                pass
+            
+            # Update Chrome count display
+            self.update_chrome_count()
+            
+            # Show result
+            if total_terminated > 0:
+                messagebox.showinfo("Success", 
+                    f"Terminated {total_terminated} Chrome process(es) across all scrapers.")
+                self.append_to_log_display(f"[KILL ALL] Terminated {total_terminated} Chrome process(es)\n")
+            else:
+                messagebox.showinfo("Information", 
+                    "No Chrome instances found to terminate.")
+                
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to kill Chrome instances:\n{e}")
     
     def start_periodic_lock_cleanup(self):
         """Start a periodic task to check for and clean up stale lock files"""
@@ -1318,6 +2126,18 @@ Provide a clear, concise explanation suitable for users who want to understand w
             except:
                 pass
             
+            # Update Chrome instance count for selected scraper
+            try:
+                self.root.after(0, self.update_chrome_count)
+            except:
+                pass
+            
+            # Update kill all Chrome button state
+            try:
+                self.root.after(0, self.update_kill_all_chrome_button_state)
+            except:
+                pass
+            
             # Schedule next check in 5 seconds
             self.root.after(5000, periodic_check)
         
@@ -1328,6 +2148,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
         """Finish scraper run and update display if selected"""
         # Ensure scraper is removed from running sets
         self.running_scrapers.discard(scraper_name)
+        # Update kill all Chrome button state
+        self.update_kill_all_chrome_button_state()
         
         # Final cleanup of any remaining lock files (safety net with retries)
         import time
@@ -1617,10 +2439,20 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     cp = get_checkpoint_manager(scraper_name)
                     info = cp.get_checkpoint_info()
                     if info["total_completed"] > 0:
+                        # Get total steps for this scraper
+                        scraper_info = self.scrapers.get(scraper_name)
+                        total_steps = len(scraper_info.get("steps", [])) if scraper_info else None
+                        
                         msg = f"Resume pipeline for {scraper_name}?\n\n"
-                        msg += f"Last completed step: {info['last_completed_step']}\n"
-                        msg += f"Will start from step: {info['next_step']}\n"
-                        msg += f"Completed steps: {info['total_completed']}"
+                        msg += f"Last completed step: {info['last_completed_step']}"
+                        if total_steps is not None:
+                            msg += f" (out of {total_steps - 1} total steps)"
+                        msg += f"\nWill start from step: {info['next_step']}"
+                        if info['next_step'] >= total_steps if total_steps else False:
+                            msg += " (pipeline completed)"
+                        msg += f"\nCompleted steps: {info['total_completed']}"
+                        if total_steps is not None:
+                            msg += f" / {total_steps}"
                         if not messagebox.askyesno("Confirm Resume", msg):
                             return
                     else:
@@ -1668,6 +2500,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
         # Set running state and disable run button for this scraper only
         scraper_name = self.scraper_var.get()
         self.running_scrapers.add(scraper_name)
+        # Update kill all Chrome button state (disable it)
+        self.update_kill_all_chrome_button_state()
         # Initialize log storage for this scraper
         if scraper_name not in self.scraper_logs:
             self.scraper_logs[scraper_name] = ""
@@ -1681,24 +2515,6 @@ Provide a clear, concise explanation suitable for users who want to understand w
         
         def run():
             try:
-                # Create lock file for pipeline runs
-                if is_pipeline:
-                    try:
-                        from platform_config import get_path_manager
-                        pm = get_path_manager()
-                        lock_file = pm.get_lock_file(scraper_name)
-                        # Ensure lock file directory exists
-                        lock_file.parent.mkdir(parents=True, exist_ok=True)
-                        # Create lock file with current PID
-                        import os
-                        with open(lock_file, 'w') as f:
-                            f.write(f"{os.getpid()}\n{datetime.now().isoformat()}\n")
-                        # Store lock file path for cleanup
-                        self._pipeline_lock_files[scraper_name] = lock_file
-                    except Exception as e:
-                        # If lock file creation fails, log but continue
-                        print(f"Warning: Could not create lock file: {e}")
-                
                 # Initialize log for this scraper
                 log_header = f"Starting execution at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
                 log_header += f"Scraper: {scraper_name}\n"
@@ -1709,6 +2525,15 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 log_header += "=" * 80 + "\n\n"
                 
                 self.scraper_logs[scraper_name] = log_header
+                
+                # Initialize progress state
+                self.scraper_progress[scraper_name] = {"percent": 0, "description": f"Starting {scraper_name}..."}
+                
+                # Update progress bar display only if this scraper is selected
+                if scraper_name == self.scraper_var.get():
+                    self.progress_label.config(text=f"Starting {scraper_name}...")
+                    self.progress_bar['value'] = 0
+                    self.progress_percent.config(text="0%")
                 
                 # Update log display if this scraper is selected
                 # Store current scraper before thread starts (GUI thread is safe here)
@@ -1757,6 +2582,22 @@ Provide a clear, concise explanation suitable for users who want to understand w
                         bufsize=1,
                         universal_newlines=True
                     )
+
+                # Create lock file for pipeline runs using the child process PID
+                if is_pipeline:
+                    try:
+                        from platform_config import get_path_manager
+                        pm = get_path_manager()
+                        lock_file = pm.get_lock_file(scraper_name)
+                        # Ensure lock file directory exists
+                        lock_file.parent.mkdir(parents=True, exist_ok=True)
+                        with open(lock_file, 'w') as f:
+                            f.write(f"{process.pid}\n{datetime.now().isoformat()}\n")
+                        # Store lock file path for cleanup
+                        self._pipeline_lock_files[scraper_name] = lock_file
+                    except Exception as e:
+                        # If lock file creation fails, log but continue
+                        print(f"Warning: Could not create lock file: {e}")
                 
                 self.running_processes[scraper_name] = process
                 
@@ -1817,6 +2658,21 @@ Provide a clear, concise explanation suitable for users who want to understand w
                         process.stdout.close()
                 except:
                     pass
+                
+                # Update progress state to completion
+                if process.returncode == 0:
+                    self.scraper_progress[scraper_name] = {"percent": 100, "description": "Pipeline completed successfully"}
+                else:
+                    # Keep current progress but update description
+                    current_progress = self.scraper_progress.get(scraper_name, {"percent": 0, "description": ""})
+                    self.scraper_progress[scraper_name] = {"percent": current_progress["percent"], "description": "Pipeline completed with errors"}
+                
+                # Update progress bar display only if this scraper is selected
+                if scraper_name == self.scraper_var.get():
+                    progress_state = self.scraper_progress[scraper_name]
+                    self.progress_label.config(text=progress_state["description"])
+                    self.progress_bar['value'] = progress_state["percent"]
+                    self.progress_percent.config(text=f"{progress_state['percent']:.1f}%")
 
                 # Wait for all child processes to complete (especially important for batch files)
                 # On Windows, batch files spawn child Python processes that may still be running
@@ -1836,6 +2692,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     self.running_scrapers.discard(scraper_name)
                     if scraper_name in self.running_processes:
                         del self.running_processes[scraper_name]
+                    # Update kill all Chrome button state
+                    self.update_kill_all_chrome_button_state()
                     
                     # Clean up ALL lock files with retry mechanism
                     def cleanup_locks():
@@ -2050,26 +2908,71 @@ Provide a clear, concise explanation suitable for users who want to understand w
         if not scraper_name:
             messagebox.showwarning("Warning", "Select a scraper first")
             return
+        
+        stop_confirmed = False
 
-        # First, try to stop the process tracked by GUI (if running from GUI)
-        if scraper_name in self.running_processes:
-            process = self.running_processes[scraper_name]
-            if process and process.poll() is None:  # Process is still running
-                # Confirm stop
-                if not messagebox.askyesno("Confirm Stop", f"Stop {scraper_name} pipeline?\n\nThis will terminate the running process."):
-                    return
+        # Prevent multiple simultaneous stop attempts for the same scraper
+        if scraper_name in self._stopping_scrapers:
+            return  # Already stopping this scraper, ignore duplicate request
+        
+        # Mark as stopping
+        self._stopping_scrapers.add(scraper_name)
+        
+        try:
+            # First, try to stop the process tracked by GUI (if running from GUI)
+            if scraper_name in self.running_processes:
+                process = self.running_processes[scraper_name]
+                if process and process.poll() is None:  # Process is still running
+                    # Confirm stop
+                    if not messagebox.askyesno("Confirm Stop", f"Stop {scraper_name} pipeline?\n\nThis will terminate the running process."):
+                        return
+                    stop_confirmed = True
                 
                 self.update_status(f"Stopping {scraper_name}...")
-                
+
                 try:
-                    # Terminate the process
-                    process.terminate()
-                    # Wait a bit for graceful shutdown
+                    # IMPORTANT: Clean up Chrome instances FIRST (scraper-specific) BEFORE killing main process
+                    # This prevents killing Chrome instances that belong to other scrapers
+                    try:
+                        from core.chrome_pid_tracker import terminate_chrome_pids
+                        terminated_count = terminate_chrome_pids(scraper_name, self.repo_root, silent=True)
+                        if terminated_count > 0:
+                            self.append_to_log_display(f"[STOP] Terminated {terminated_count} Chrome process(es) for {scraper_name} before process kill\n")
+                    except Exception:
+                        pass
+                    
+                    # Step 2: Terminate the process tree (pipeline + child Python processes)
+                    # Note: /T kills all child processes, so we clean up Chrome instances first above
                     import time
+                    if sys.platform == "win32":
+                        try:
+                            subprocess.run(
+                                ["taskkill", "/F", "/T", "/PID", str(process.pid)],
+                                capture_output=True,
+                                text=True,
+                                timeout=10
+                            )
+                        except Exception:
+                            # Fallback to direct terminate if taskkill fails
+                            process.terminate()
+                    else:
+                        process.terminate()
+
+                    # Wait a bit for shutdown
                     time.sleep(1)
                     if process.poll() is None:
                         # Force kill if still running
                         process.kill()
+                        time.sleep(0.5)  # Give it time to die
+                    
+                    # Step 3: Final cleanup - check for any remaining Chrome instances (in case some were missed)
+                    try:
+                        from core.chrome_pid_tracker import terminate_chrome_pids
+                        terminated_count = terminate_chrome_pids(scraper_name, self.repo_root, silent=True)
+                        if terminated_count > 0:
+                            self.append_to_log_display(f"[STOP] Terminated {terminated_count} remaining Chrome process(es) for {scraper_name} after process kill\n")
+                    except Exception:
+                        pass
                     
                     # Clean up lock file if it exists
                     try:
@@ -2095,6 +2998,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     # Remove from tracking
                     del self.running_processes[scraper_name]
                     self.running_scrapers.discard(scraper_name)
+                    # Update kill all Chrome button state
+                    self.update_kill_all_chrome_button_state()
                     
                     # Clean up pipeline lock file if created by GUI
                     if scraper_name in self._pipeline_lock_files:
@@ -2110,8 +3015,15 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     stop_msg = f"\n{'='*80}\n[STOPPED] Pipeline stopped by user at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n{'='*80}\n"
                     if scraper_name in self.scraper_logs:
                         self.scraper_logs[scraper_name] += stop_msg
+                    # Update progress state
+                    self.scraper_progress[scraper_name] = {"percent": 0, "description": "Pipeline stopped"}
+                    
                     if scraper_name == self.scraper_var.get():
                         self.append_to_log_display(stop_msg)
+                        # Reset progress bar display
+                        self.progress_label.config(text="Pipeline stopped")
+                        self.progress_bar['value'] = 0
+                        self.progress_percent.config(text="0%")
                     
                     # Refresh button state
                     self.refresh_run_button_state()
@@ -2123,64 +3035,110 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     self.update_status(f"Error stopping {scraper_name}: {str(e)}")
                     return
 
-        # If not tracked by GUI, try to stop via lock file (external process)
-        lock_file = None
-        old_lock_file = None
-        try:
-            from platform_config import get_path_manager
-            pm = get_path_manager()
-            lock_file = pm.get_lock_file(scraper_name)
-            # Also check old location as fallback
-            old_lock_file = self.repo_root / f".{scraper_name}_run.lock"
-        except Exception:
-            old_lock_file = self.repo_root / f".{scraper_name}_run.lock"
-        
-        # Use the lock file that exists, or prefer new location
-        if lock_file and not lock_file.exists() and old_lock_file and old_lock_file.exists():
-            lock_file = old_lock_file
-        elif not lock_file:
-            lock_file = old_lock_file
+            # If not tracked by GUI, try to stop via lock file (external process)
+            lock_file = None
+            old_lock_file = None
+            try:
+                from platform_config import get_path_manager
+                pm = get_path_manager()
+                lock_file = pm.get_lock_file(scraper_name)
+                # Also check old location as fallback
+                old_lock_file = self.repo_root / f".{scraper_name}_run.lock"
+            except Exception:
+                old_lock_file = self.repo_root / f".{scraper_name}_run.lock"
+            
+            # Use the lock file that exists, or prefer new location
+            if lock_file and not lock_file.exists() and old_lock_file and old_lock_file.exists():
+                lock_file = old_lock_file
+            elif not lock_file:
+                lock_file = old_lock_file
 
-        if (not lock_file or not lock_file.exists()) and scraper_name not in self.running_scrapers:
-            messagebox.showinfo("Information", f"{scraper_name} is not currently running.")
-            return
+            if (not lock_file or not lock_file.exists()) and scraper_name not in self.running_scrapers:
+                messagebox.showinfo("Information", f"{scraper_name} is not currently running.")
+                return
 
-        # Confirm stop
-        if not messagebox.askyesno("Confirm Stop", f"Stop {scraper_name} pipeline?\n\nThis will terminate the running process."):
-            return
+            # Confirm stop
+            if not messagebox.askyesno("Confirm Stop", f"Stop {scraper_name} pipeline?\n\nThis will terminate the running process."):
+                return
+            stop_confirmed = True
 
-        self.update_status(f"Stopping {scraper_name}...")
+            self.update_status(f"Stopping {scraper_name}...")
 
-        # Try to stop via shared workflow runner
-        try:
-            from shared_workflow_runner import WorkflowRunner
-            result = WorkflowRunner.stop_pipeline(scraper_name, self.repo_root)
+            # Try to stop via shared workflow runner
+            try:
+                from shared_workflow_runner import WorkflowRunner
+                result = WorkflowRunner.stop_pipeline(scraper_name, self.repo_root)
 
-            if result["status"] == "ok":
-                messagebox.showinfo("Success", result["message"])
-                self.update_status(f"Stopped {scraper_name}")
+                # Note: shared_workflow_runner.stop_pipeline already cleans up Chrome instances before killing process
+                # This is just a final check for any remaining instances
+                import time
+                time.sleep(0.5)
+                try:
+                    from core.chrome_pid_tracker import terminate_chrome_pids
+                    terminated_count = terminate_chrome_pids(scraper_name, self.repo_root, silent=True)
+                    if terminated_count > 0:
+                        self.append_to_log_display(f"[STOP] Terminated {terminated_count} remaining Chrome process(es) for {scraper_name} after pipeline stop\n")
+                except Exception:
+                    pass
 
-                # Remove from tracking
-                if scraper_name in self.running_processes:
-                    del self.running_processes[scraper_name]
-                self.running_scrapers.discard(scraper_name)
+                if result["status"] == "ok":
+                    messagebox.showinfo("Success", result["message"])
+                    self.update_status(f"Stopped {scraper_name}")
 
-                # Update log
-                stop_msg = f"\n{'='*80}\n[STOPPED] Pipeline stopped by user at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n{'='*80}\n"
-                if scraper_name in self.scraper_logs:
-                    self.scraper_logs[scraper_name] += stop_msg
-                if scraper_name == self.scraper_var.get():
-                    self.append_to_log_display(stop_msg)
+                    # Remove from tracking
+                    if scraper_name in self.running_processes:
+                        del self.running_processes[scraper_name]
+                    self.running_scrapers.discard(scraper_name)
+                    # Update kill all Chrome button state
+                    self.update_kill_all_chrome_button_state()
 
-                # Refresh button state
-                self.refresh_run_button_state()
-                self.update_checkpoint_status()
-            else:
-                messagebox.showerror("Error", f"Failed to stop {scraper_name}:\n{result['message']}")
-                self.update_status(f"Failed to stop {scraper_name}")
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to stop {scraper_name}:\n{str(e)}")
-            self.update_status(f"Error stopping {scraper_name}: {str(e)}")
+                    # Update log
+                    stop_msg = f"\n{'='*80}\n[STOPPED] Pipeline stopped by user at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n{'='*80}\n"
+                    if scraper_name in self.scraper_logs:
+                        self.scraper_logs[scraper_name] += stop_msg
+                    # Update progress state
+                    self.scraper_progress[scraper_name] = {"percent": 0, "description": "Pipeline stopped"}
+                    
+                    if scraper_name == self.scraper_var.get():
+                        self.append_to_log_display(stop_msg)
+                        # Reset progress bar display
+                        self.progress_label.config(text="Pipeline stopped")
+                        self.progress_bar['value'] = 0
+                        self.progress_percent.config(text="0%")
+
+                        # Refresh button state
+                        self.refresh_run_button_state()
+                        self.update_checkpoint_status()
+                        self.update_kill_all_chrome_button_state()
+                else:
+                    messagebox.showerror("Error", f"Failed to stop {scraper_name}:\n{result['message']}")
+                    self.update_status(f"Failed to stop {scraper_name}")
+            except Exception as e:
+                # Ensure Chrome cleanup happens even if there's an error (scraper-specific only)
+                try:
+                    from core.chrome_pid_tracker import terminate_chrome_pids
+                    terminate_chrome_pids(scraper_name, self.repo_root, silent=True)
+                except Exception:
+                    # Don't use general cleanup - it would kill all scrapers' Chrome instances
+                    pass
+                messagebox.showerror("Error", f"Failed to stop {scraper_name}:\n{str(e)}")
+                self.update_status(f"Error stopping {scraper_name}: {str(e)}")
+        finally:
+            # Final cleanup: Ensure all Chrome instances are killed (one last attempt)
+            if stop_confirmed:
+                try:
+                    import time
+                    time.sleep(0.5)  # Give processes time to die
+                    from core.chrome_pid_tracker import terminate_chrome_pids
+                    terminated_count = terminate_chrome_pids(scraper_name, self.repo_root, silent=True)
+                    if terminated_count > 0:
+                        if scraper_name == self.scraper_var.get():
+                            self.append_to_log_display(f"[STOP] Final cleanup: Terminated {terminated_count} remaining Chrome process(es)\n")
+                except Exception:
+                    pass
+            
+            # Always remove from stopping set, even if there was an error or early return
+            self._stopping_scrapers.discard(scraper_name)
 
     def update_checkpoint_status(self):
         """Update checkpoint status label"""
@@ -2196,7 +3154,14 @@ Provide a clear, concise explanation suitable for users who want to understand w
             info = cp.get_checkpoint_info()
             
             if info["total_completed"] > 0:
-                status_text = f"Checkpoint: Step {info['last_completed_step']} completed (resume from step {info['next_step']})"
+                # Get total steps for this scraper
+                scraper_info = self.scrapers.get(scraper_name)
+                total_steps = len(scraper_info.get("steps", [])) if scraper_info else None
+                
+                if total_steps is not None and info['next_step'] >= total_steps:
+                    status_text = f"Checkpoint: All {total_steps} steps completed (pipeline finished)"
+                else:
+                    status_text = f"Checkpoint: Step {info['last_completed_step']}/{total_steps - 1 if total_steps else '?'} completed (resume from step {info['next_step']})"
             else:
                 status_text = "Checkpoint: No checkpoint (will start from step 0)"
             
@@ -2309,6 +3274,422 @@ Provide a clear, concise explanation suitable for users who want to understand w
             self.update_checkpoint_status()
         except Exception as e:
             messagebox.showerror("Error", f"Failed to clear checkpoint:\n{e}")
+    
+    def update_system_stats(self):
+        """Update system statistics (Chrome, Tor, RAM, CPU, GPU, Network)"""
+        try:
+            import psutil
+            
+            # Count Chrome instances (all scrapers) - total running
+            chrome_count = 0
+            try:
+                # Count all Chrome processes
+                for proc in psutil.process_iter(['pid', 'name']):
+                    try:
+                        name = proc.info['name'] or ''
+                        if 'chrome' in name.lower() or 'chromedriver' in name.lower():
+                            chrome_count += 1
+                    except (psutil.NoSuchProcess, psutil.AccessDenied):
+                        pass
+            except Exception:
+                chrome_count = 0
+            
+            # Count Tor instances - total running
+            tor_count = 0
+            try:
+                for proc in psutil.process_iter(['pid', 'name']):
+                    try:
+                        name = proc.info['name'] or ''
+                        if 'tor' in name.lower():
+                            tor_count += 1
+                    except (psutil.NoSuchProcess, psutil.AccessDenied):
+                        pass
+            except Exception:
+                tor_count = 0
+            
+            # Get RAM usage
+            ram_str = "N/A"
+            try:
+                ram = psutil.virtual_memory()
+                ram_percent = ram.percent
+                ram_used_gb = ram.used / (1024**3)
+                ram_total_gb = ram.total / (1024**3)
+                ram_str = f"{ram_percent:.1f}% ({ram_used_gb:.1f}/{ram_total_gb:.1f}GB)"
+            except Exception:
+                ram_str = "N/A"
+            
+            # Get CPU usage
+            cpu_str = "N/A"
+            try:
+                cpu_percent = psutil.cpu_percent(interval=0.1)
+                cpu_str = f"{cpu_percent:.1f}%"
+            except Exception:
+                cpu_str = "N/A"
+            
+            # Get GPU usage (try multiple methods)
+            gpu_str = "N/A"
+            try:
+                # Try nvidia-ml-py for NVIDIA GPUs (most common)
+                try:
+                    import pynvml
+                    pynvml.nvmlInit()
+                    handle = pynvml.nvmlDeviceGetHandleByIndex(0)
+                    gpu_util = pynvml.nvmlDeviceGetUtilizationRates(handle)
+                    gpu_str = f"{gpu_util.gpu:.1f}%"
+                    pynvml.nvmlShutdown()
+                except (ImportError, AttributeError, Exception):
+                    # Try GPUtil as alternative (simpler API)
+                    try:
+                        import GPUtil
+                        gpus = GPUtil.getGPUs()
+                        if gpus and len(gpus) > 0:
+                            gpu_str = f"{gpus[0].load * 100:.1f}%"
+                    except (ImportError, Exception):
+                        # GPU libraries not available - show N/A
+                        gpu_str = "N/A"
+            except Exception:
+                gpu_str = "N/A"
+            
+            # Get network usage (bytes sent/received per second)
+            network_str = "N/A"
+            try:
+                import time
+                # Get network I/O stats
+                net_io = psutil.net_io_counters()
+                if net_io:
+                    current_time = time.time()
+                    current_sent = net_io.bytes_sent
+                    current_recv = net_io.bytes_recv
+                    
+                    if self._prev_net_time is not None:
+                        # Calculate rate (bytes per second)
+                        time_diff = current_time - self._prev_net_time
+                        if time_diff > 0:
+                            sent_rate = (current_sent - self._prev_net_sent) / time_diff
+                            recv_rate = (current_recv - self._prev_net_recv) / time_diff
+                            
+                            # Format to show KB/s or MB/s
+                            if sent_rate < 1024 and recv_rate < 1024:
+                                network_str = f"↑{sent_rate:.1f}KB/s ↓{recv_rate:.1f}KB/s"
+                            elif sent_rate < 1024**2 and recv_rate < 1024**2:
+                                sent_mb = sent_rate / 1024
+                                recv_mb = recv_rate / 1024
+                                network_str = f"↑{sent_mb:.2f}MB/s ↓{recv_mb:.2f}MB/s"
+                            else:
+                                sent_gb = sent_rate / (1024**2)
+                                recv_gb = recv_rate / (1024**2)
+                                network_str = f"↑{sent_gb:.2f}GB/s ↓{recv_gb:.2f}GB/s"
+                        else:
+                            network_str = "↑0KB/s ↓0KB/s"
+                    else:
+                        network_str = "Calculating..."
+                    
+                    # Store current values for next calculation
+                    self._prev_net_sent = current_sent
+                    self._prev_net_recv = current_recv
+                    self._prev_net_time = current_time
+            except Exception:
+                network_str = "N/A"
+            
+            # Update labels - show metrics in 2 lines with human-readable formatting
+            if hasattr(self, 'system_stats_label_line1'):
+                # Line 1: Chrome, Tor, RAM, CPU
+                line1_text = f"Chrome Instances: {chrome_count}  |  Tor Instances: {tor_count}  |  RAM Usage: {ram_str}  |  CPU Usage: {cpu_str}"
+                self.system_stats_label_line1.config(text=line1_text)
+            
+            if hasattr(self, 'system_stats_label_line2'):
+                # Line 2: GPU, Network
+                line2_text = f"GPU Usage: {gpu_str}  |  Network: {network_str}"
+                self.system_stats_label_line2.config(text=line2_text)
+        except ImportError:
+            # psutil not available
+            if hasattr(self, 'system_stats_label_line1'):
+                self.system_stats_label_line1.config(
+                    text="Chrome Instances: --  |  Tor Instances: --  |  RAM Usage: --  |  CPU Usage: -- (psutil not available)")
+            if hasattr(self, 'system_stats_label_line2'):
+                self.system_stats_label_line2.config(text="GPU Usage: --  |  Network: --")
+        except Exception:
+            if hasattr(self, 'system_stats_label_line1'):
+                self.system_stats_label_line1.config(text="Chrome Instances: --  |  Tor Instances: --  |  RAM Usage: --  |  CPU Usage: --")
+            if hasattr(self, 'system_stats_label_line2'):
+                self.system_stats_label_line2.config(text="GPU Usage: --  |  Network: --")
+        
+        # Schedule next update (every 2 seconds)
+        self.root.after(2000, self.update_system_stats)
+    
+    def update_chrome_count(self):
+        """Update Chrome instance count for selected scraper"""
+        scraper_name = self.scraper_var.get()
+        if not scraper_name:
+            if hasattr(self, 'chrome_count_label'):
+                self.chrome_count_label.config(text="Chrome Instances: 0")
+            return
+        
+        active_count = 0
+        try:
+            from core.chrome_pid_tracker import load_chrome_pids
+            import psutil
+            
+            # Load tracked PIDs for this scraper
+            pids = load_chrome_pids(scraper_name, self.repo_root)
+            
+            # Count active PIDs (processes that still exist)
+            if pids:
+                for pid in pids:
+                    try:
+                        proc = psutil.Process(pid)
+                        if proc.is_running():
+                            active_count += 1
+                    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                        pass
+            
+            # Also check ChromeManager as fallback (for in-process drivers)
+            try:
+                from core.chrome_manager import get_chrome_driver_count
+                manager_count = get_chrome_driver_count()
+                # Use the higher count (PID tracking is more accurate for multi-process scenarios)
+                if manager_count > active_count:
+                    active_count = manager_count
+            except Exception:
+                pass  # ChromeManager check failed, use PID count
+            
+            # Update label
+            if hasattr(self, 'chrome_count_label'):
+                self.chrome_count_label.config(text=f"Chrome Instances: {active_count}")
+        except ImportError:
+            # psutil not available, try alternative method
+            try:
+                from core.chrome_pid_tracker import load_chrome_pids
+                pids = load_chrome_pids(scraper_name, self.repo_root)
+                count = len(pids) if pids else 0
+                
+                # Also check ChromeManager
+                try:
+                    from core.chrome_manager import get_chrome_driver_count
+                    manager_count = get_chrome_driver_count()
+                    if manager_count > count:
+                        count = manager_count
+                except Exception:
+                    pass
+                
+                if hasattr(self, 'chrome_count_label'):
+                    self.chrome_count_label.config(text=f"Chrome Instances: {count} (estimated)")
+            except Exception:
+                # Last resort: check ChromeManager only
+                try:
+                    from core.chrome_manager import get_chrome_driver_count
+                    manager_count = get_chrome_driver_count()
+                    if hasattr(self, 'chrome_count_label'):
+                        self.chrome_count_label.config(text=f"Chrome Instances: {manager_count} (manager)")
+                except Exception:
+                    if hasattr(self, 'chrome_count_label'):
+                        self.chrome_count_label.config(text="Chrome Instances: Unknown")
+        except Exception as e:
+            # Try ChromeManager as fallback even on error
+            try:
+                from core.chrome_manager import get_chrome_driver_count
+                manager_count = get_chrome_driver_count()
+                if hasattr(self, 'chrome_count_label'):
+                    self.chrome_count_label.config(text=f"Chrome Instances: {manager_count} (manager)")
+            except Exception:
+                if hasattr(self, 'chrome_count_label'):
+                    self.chrome_count_label.config(text="Chrome Instances: Error")
+    
+    def manage_checkpoint(self):
+        """Open dialog to manage checkpoint steps (roll back or add steps)"""
+        scraper_name = self.scraper_var.get()
+        if not scraper_name:
+            messagebox.showwarning("Warning", "Select a scraper first")
+            return
+        
+        try:
+            from core.pipeline_checkpoint import get_checkpoint_manager
+            cp = get_checkpoint_manager(scraper_name)
+            info = cp.get_checkpoint_info()
+            
+            # Get scraper steps
+            scraper_info = self.scrapers.get(scraper_name)
+            if not scraper_info:
+                messagebox.showerror("Error", f"Scraper {scraper_name} not found")
+                return
+            
+            steps = scraper_info.get("steps", [])
+            if not steps:
+                messagebox.showwarning("Warning", f"No steps defined for {scraper_name}")
+                return
+            
+            # Create dialog window
+            dialog = tk.Toplevel(self.root)
+            dialog.title(f"Manage Checkpoint - {scraper_name}")
+            dialog.geometry("600x500")
+            dialog.transient(self.root)
+            dialog.grab_set()
+            
+            # Main frame
+            main_frame = ttk.Frame(dialog, padding=10)
+            main_frame.pack(fill=tk.BOTH, expand=True)
+            
+            # Instructions
+            instructions = ttk.Label(main_frame, 
+                text="Select steps to mark as complete. Uncheck to roll back.\nClick 'Apply' to save changes.",
+                font=("Segoe UI", 9))
+            instructions.pack(pady=(0, 10))
+            
+            # Scrollable frame for checkboxes
+            canvas_frame = ttk.Frame(main_frame)
+            canvas_frame.pack(fill=tk.BOTH, expand=True)
+            
+            canvas = tk.Canvas(canvas_frame, height=300)
+            scrollbar = ttk.Scrollbar(canvas_frame, orient="vertical", command=canvas.yview)
+            scrollable_frame = ttk.Frame(canvas)
+            
+            scrollable_frame.bind(
+                "<Configure>",
+                lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+            )
+            
+            canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+            canvas.configure(yscrollcommand=scrollbar.set)
+            
+            # Store checkboxes and their step numbers
+            step_vars = {}
+            completed_steps = set(info.get("completed_steps", []))
+            
+            # Flag to disable validation during programmatic updates
+            _updating_programmatically = False
+            
+            def on_checkbox_change(idx, var):
+                """Handle checkbox change with sequential validation"""
+                # Skip validation during programmatic updates
+                if _updating_programmatically:
+                    return
+                    
+                if var.get():
+                    # Checking a step - ensure all previous steps are checked
+                    for prev_idx in range(idx):
+                        if not step_vars[prev_idx].get():
+                            # Uncheck this step and show warning
+                            var.set(False)
+                            messagebox.showwarning("Invalid Selection", 
+                                f"Cannot skip steps!\n\n"
+                                f"You must complete steps sequentially.\n"
+                                f"Step {idx} cannot be marked complete until step {prev_idx} is complete.")
+                            return
+                else:
+                    # Unchecking a step - uncheck all subsequent steps
+                    for next_idx in range(idx + 1, len(steps)):
+                        if step_vars[next_idx].get():
+                            step_vars[next_idx].set(False)
+            
+            # Create checkbox for each step
+            for idx, step in enumerate(steps):
+                var = tk.BooleanVar(value=(idx in completed_steps))
+                step_vars[idx] = var
+                
+                step_frame = ttk.Frame(scrollable_frame)
+                step_frame.pack(fill=tk.X, padx=5, pady=2)
+                
+                checkbox = ttk.Checkbutton(step_frame, text=f"Step {idx}: {step['name']}", 
+                                           variable=var,
+                                           command=lambda i=idx, v=var: on_checkbox_change(i, v))
+                checkbox.pack(side=tk.LEFT, padx=5)
+                
+                # Show status
+                status_text = "✓ Complete" if idx in completed_steps else "○ Pending"
+                status_label = ttk.Label(step_frame, text=status_text, 
+                                         font=("Segoe UI", 8), foreground="#666666")
+                status_label.pack(side=tk.LEFT, padx=10)
+            
+            canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+            scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+            
+            # Button frame
+            button_frame = ttk.Frame(main_frame)
+            button_frame.pack(fill=tk.X, pady=(10, 0))
+            
+            def apply_changes():
+                """Apply checkpoint changes"""
+                try:
+                    # Get selected steps
+                    selected_steps = [step_num for step_num, var in step_vars.items() if var.get()]
+                    
+                    # Validate sequential selection (no gaps)
+                    if selected_steps:
+                        # Check if steps are sequential (0, 1, 2, ... with no gaps)
+                        expected_steps = list(range(len(selected_steps)))
+                        if selected_steps != expected_steps:
+                            messagebox.showerror("Invalid Selection", 
+                                f"Cannot skip steps!\n\n"
+                                f"Steps must be marked sequentially from the beginning.\n"
+                                f"Selected steps: {selected_steps}\n"
+                                f"Expected: {expected_steps}\n\n"
+                                f"Please uncheck steps from the end to roll back, or check steps sequentially from the beginning.")
+                            return
+                    
+                    # Clear checkpoint first
+                    cp.clear_checkpoint()
+                    
+                    # Mark selected steps as complete
+                    for step_num in selected_steps:
+                        if step_num < len(steps):
+                            step = steps[step_num]
+                            cp.mark_step_complete(step_num, step['name'])
+                    
+                    # Update checkpoint status in main window
+                    self.update_checkpoint_status()
+                    
+                    # Close dialog without showing success messagebox
+                    dialog.destroy()
+                except Exception as e:
+                    messagebox.showerror("Error", f"Failed to update checkpoint:\n{e}")
+            
+            def mark_all_up_to():
+                """Mark all steps up to a selected step as complete (sequential only)"""
+                nonlocal _updating_programmatically
+                try:
+                    step_str = simpledialog.askstring("Mark Steps", 
+                        f"Enter step number (0-{len(steps)-1}) to mark all steps up to and including it as complete:\n\n"
+                        f"Note: Steps must be marked sequentially (cannot skip steps).",
+                        parent=dialog)
+                    if step_str is None:
+                        return
+                    
+                    last_step = int(step_str)
+                    if last_step < 0 or last_step >= len(steps):
+                        messagebox.showerror("Error", f"Step number must be between 0 and {len(steps)-1}")
+                        return
+                    
+                    # Disable validation during programmatic update
+                    _updating_programmatically = True
+                    try:
+                        # First, uncheck all steps to reset state
+                        for step_num in step_vars:
+                            step_vars[step_num].set(False)
+                        
+                        # Then check all steps up to last_step sequentially
+                        for step_num in range(last_step + 1):
+                            if step_num in step_vars:
+                                step_vars[step_num].set(True)
+                    finally:
+                        # Re-enable validation
+                        _updating_programmatically = False
+                except ValueError:
+                    messagebox.showerror("Error", "Invalid step number")
+                except Exception as e:
+                    messagebox.showerror("Error", f"Error: {e}")
+                finally:
+                    # Ensure flag is reset even on error
+                    _updating_programmatically = False
+            
+            ttk.Button(button_frame, text="Mark All Up To...", 
+                     command=mark_all_up_to).pack(side=tk.LEFT, padx=5)
+            ttk.Button(button_frame, text="Apply", 
+                     command=apply_changes).pack(side=tk.RIGHT, padx=5)
+            ttk.Button(button_frame, text="Cancel", 
+                     command=dialog.destroy).pack(side=tk.RIGHT, padx=5)
+            
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to open checkpoint manager:\n{e}")
     
     def clear_run_lock(self):
         """Clear run lock file for the currently selected scraper only"""
@@ -2728,6 +4109,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
         # Filter by scraper-specific naming patterns
         scraper_patterns = {
             "CanadaQuebec": ["canadaquebecreport"],
+            "CanadaOntario": ["canadaontarioreport"],
             "Malaysia": ["malaysia"],
             "Argentina": ["alfabeta_report"]
         }
@@ -3305,12 +4687,241 @@ Provide a clear, concise explanation suitable for users who want to understand w
         """Update status bar"""
         self.status_bar.config(text=f"Status: {message}")
         self.root.update_idletasks()
+    
+    def install_dependencies_in_gui(self):
+        """Install dependencies and show progress in GUI console"""
+        def write_to_console(message, end="\n"):
+            """Write message to GUI console"""
+            self.log_text.config(state=tk.NORMAL)
+            self.log_text.insert(tk.END, message + end)
+            self.log_text.see(tk.END)
+            self.log_text.config(state=tk.DISABLED)
+            self.root.update_idletasks()
+        
+        def update_progress(description, percent=None):
+            """Update progress description and bar"""
+            if description:
+                self.progress_label.config(text=description)
+            if percent is not None:
+                self.progress_bar['value'] = percent
+                self.progress_percent.config(text=f"{int(percent)}%")
+            self.root.update_idletasks()
+        
+        # Run dependency installation in a separate thread to avoid blocking UI
+        def run_installation():
+            try:
+                update_progress("Installing dependencies...", 0)
+                write_to_console("=" * 70)
+                write_to_console("DEPENDENCY INSTALLATION")
+                write_to_console("=" * 70)
+                write_to_console("")
+                
+                result = install_dependencies(
+                    write_callback=write_to_console,
+                    progress_callback=update_progress
+                )
+                
+                if result:
+                    update_progress("Dependencies installed successfully", 100)
+                    write_to_console("")
+                    write_to_console("=" * 70)
+                    write_to_console("Dependency installation complete. Ready to use.")
+                    write_to_console("=" * 70)
+                    write_to_console("")
+                else:
+                    update_progress("Dependency installation failed", 0)
+                    write_to_console("")
+                    write_to_console("⚠ Warning: Some dependencies may have failed to install.")
+                    write_to_console("You can manually install them with: pip install -r requirements.txt")
+                    write_to_console("")
+            except Exception as e:
+                update_progress(f"Error: {str(e)}", 0)
+                write_to_console(f"\n[ERROR] Dependency installation failed: {e}\n")
+        
+        # Start installation in background thread
+        thread = threading.Thread(target=run_installation, daemon=True)
+        thread.start()
 
 
 def main():
     root = tk.Tk()
     app = ScraperGUI(root)
     root.mainloop()
+
+
+def install_dependencies(write_callback=None, progress_callback=None):
+    """
+    Install dependencies from requirements.txt if it exists.
+    
+    Args:
+        write_callback: Function to write messages (takes message, end="\n")
+        progress_callback: Function to update progress (takes description, percent=None)
+    
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    # Default to print if no callbacks provided
+    if write_callback is None:
+        write_callback = lambda msg, end="\n": print(msg, end=end, flush=True)
+    if progress_callback is None:
+        progress_callback = lambda desc, pct=None: None
+    
+    requirements_file = Path(__file__).parent / "requirements.txt"
+    
+    if not requirements_file.exists():
+        write_callback("=" * 70)
+        write_callback("No requirements.txt file found. Skipping dependency installation.")
+        write_callback("=" * 70)
+        write_callback("")
+        return True
+    
+    try:
+        import subprocess
+        import sys
+        import re
+        
+        # Step 1: Read requirements.txt
+        progress_callback("Reading requirements.txt...", 10)
+        write_callback("[Step 1/3] Reading requirements.txt...")
+        with open(requirements_file, 'r', encoding='utf-8') as f:
+            requirements = [line.strip() for line in f if line.strip() and not line.strip().startswith('#')]
+        
+        if not requirements:
+            write_callback("  ⚠ No packages found in requirements.txt")
+            write_callback("")
+            return True
+        
+        write_callback(f"  Found {len(requirements)} package(s):")
+        for req in requirements[:10]:  # Show first 10
+            if req and not req.startswith('#'):
+                write_callback(f"    • {req}")
+        if len(requirements) > 10:
+            write_callback(f"    ... and {len(requirements) - 10} more")
+        write_callback("")
+        
+        # Step 2: Check pip
+        progress_callback("Checking pip...", 20)
+        write_callback("[Step 2/3] Checking pip...")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-m", "pip", "--version"],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+            if result.returncode == 0:
+                pip_version = result.stdout.strip().split()[1] if len(result.stdout.split()) > 1 else "unknown"
+                write_callback(f"  ✓ pip is available (version: {pip_version})")
+            else:
+                write_callback("  ⚠ pip check failed")
+                return False
+        except Exception as e:
+            write_callback(f"  ⚠ pip check failed: {e}")
+            return False
+        write_callback("")
+        
+        # Step 3: Install dependencies
+        progress_callback("Installing dependencies...", 30)
+        write_callback("[Step 3/3] Installing dependencies...")
+        write_callback("-" * 70)
+        
+        # Use unbuffered output for real-time progress
+        process = subprocess.Popen(
+            [sys.executable, "-m", "pip", "install", "-r", str(requirements_file), "--disable-pip-version-check"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            universal_newlines=True,
+            bufsize=0
+        )
+        
+        # Track packages
+        packages_installing = []
+        packages_installed = []
+        packages_existing = []
+        current_package = None
+        total_packages = len(requirements)
+        packages_processed = 0
+        
+        # Stream output in real-time
+        for line in iter(process.stdout.readline, ''):
+            if not line:
+                break
+            
+            line = line.strip()
+            if not line:
+                continue
+            
+            # Show progress for collecting packages
+            if line.startswith("Collecting "):
+                package_match = re.search(r'Collecting ([^\s]+)', line)
+                if package_match:
+                    current_package = package_match.group(1).split('==')[0].split('>=')[0].split('<=')[0]
+                    write_callback(f"  → Installing {current_package}...")
+                    if current_package not in packages_installing:
+                        packages_installing.append(current_package)
+                        packages_processed += 1
+                        # Update progress: 30% + (packages_processed/total_packages * 60%)
+                        progress = 30 + int((packages_processed / total_packages) * 60)
+                        progress_callback(f"Installing {current_package}... ({packages_processed}/{total_packages})", min(progress, 90))
+            
+            # Show already installed packages
+            elif "Requirement already satisfied:" in line:
+                package_match = re.search(r'Requirement already satisfied: ([^\s]+)', line)
+                if package_match:
+                    package = package_match.group(1).split('==')[0].split('>=')[0].split('<=')[0]
+                    if package not in packages_existing:
+                        packages_existing.append(package)
+                        write_callback(f"  ✓ {package} (already installed)")
+            
+            # Show successfully installed packages
+            elif "Successfully installed" in line:
+                installed_match = re.findall(r'([a-zA-Z0-9_-]+)-([0-9.]+)', line)
+                for package_name, version in installed_match:
+                    if package_name not in packages_installed:
+                        packages_installed.append(package_name)
+                        write_callback(f"  ✓ {package_name} (v{version}) installed")
+            
+            # Show errors
+            elif "ERROR" in line or ("error" in line.lower() and "warning" not in line.lower()):
+                write_callback(f"  ⚠ {line}")
+        
+        process.wait()
+        write_callback("-" * 70)
+        
+        # Summary
+        progress_callback("Finishing installation...", 95)
+        if process.returncode == 0:
+            write_callback("")
+            if packages_installed:
+                write_callback(f"✓ Successfully installed {len(packages_installed)} new package(s)")
+            if packages_existing:
+                write_callback(f"✓ {len(packages_existing)} package(s) were already installed")
+            if not packages_installed and not packages_existing:
+                write_callback("✓ All packages were already installed")
+            progress_callback("Dependencies installed successfully", 100)
+            return True
+        else:
+            write_callback("⚠ Warning: Some dependencies may have failed to install.")
+            write_callback("  You can manually install them with:")
+            write_callback(f"  pip install -r {requirements_file}")
+            write_callback("  Continuing with application startup...")
+            progress_callback("Dependency installation completed with warnings", 100)
+            return True
+        
+    except FileNotFoundError:
+        write_callback("  ⚠ Error: pip not found. Please install Python and pip first.")
+        write_callback("  Skipping dependency installation.")
+        write_callback("")
+        progress_callback("Dependency installation failed - pip not found", 0)
+        return False
+    except Exception as e:
+        write_callback(f"  ⚠ Error: Failed to install dependencies: {e}")
+        write_callback("  You can manually install them with:")
+        write_callback(f"  pip install -r {requirements_file}")
+        write_callback("  Continuing with application startup...")
+        write_callback("")
+        progress_callback("Dependency installation failed", 0)
+        return False
 
 
 if __name__ == "__main__":

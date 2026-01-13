@@ -90,7 +90,9 @@ class PathManager:
         scraper_dirs = {
             "CanadaQuebec": "scripts/CanadaQuebec",
             "Malaysia": "scripts/Malaysia",
-            "Argentina": "scripts/Argentina"
+            "Argentina": "scripts/Argentina",
+            "CanadaOntario": "scripts/Canada Ontario",
+            "Netherlands": "scripts/Netherlands"
         }
         scraper_dir_name = scraper_dirs.get(scraper_id, scraper_id)
         scraper_root = repo_root / scraper_dir_name

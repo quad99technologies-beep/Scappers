@@ -51,6 +51,7 @@ def consolidate_product_details() -> None:
         print(f"  -> Loading CSV file...", flush=True)
         df = pd.read_csv(QUEST3_DETAILS, dtype=str, keep_default_na=False)
         print(f"  -> Loaded {len(df):,} rows, {len(df.columns)} columns", flush=True)
+        print(f"[PROGRESS] Consolidating: Loading data ({len(df):,} rows)", flush=True)
 
         # Check required columns exist
         from config_loader import getenv_list
@@ -94,6 +95,8 @@ def consolidate_product_details() -> None:
         # Save consolidated file
         print(f"  -> Saving consolidated file...", flush=True)
         df_consolidated.to_csv(CONSOLIDATED_FILE, index=False, encoding="utf-8")
+        
+        print(f"[PROGRESS] Consolidating: {len(df_consolidated)}/{len(df_consolidated)} (100%)", flush=True)
 
         print(f"\n[SUCCESS] Created {CONSOLIDATED_FILE}", flush=True)
         print(f"  Total rows: {len(df_consolidated):,}", flush=True)

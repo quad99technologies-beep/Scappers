@@ -6,11 +6,26 @@ sys.stdout.reconfigure(line_buffering=True) if hasattr(sys.stdout, 'reconfigure'
 os.environ.setdefault('PYTHONUNBUFFERED', '1')
 
 from playwright.sync_api import sync_playwright
-import pandas as pd
 from pathlib import Path
 import re
 import time
+import sys
 from config_loader import load_env_file, require_env, getenv, getenv_int, getenv_bool, get_input_dir
+
+# Import pandas with graceful error handling
+try:
+    import pandas as pd
+except ImportError as e:
+    print("=" * 80)
+    print("ERROR: Required module 'pandas' is not installed.")
+    print("=" * 80)
+    print("Please install dependencies by running:")
+    print("  pip install -r requirements.txt")
+    print("")
+    print("Or install pandas directly:")
+    print("  pip install pandas")
+    print("=" * 80)
+    sys.exit(1)
 
 # Load environment variables from .env file
 load_env_file()
@@ -92,192 +107,255 @@ def bulk_search(page):
     
     completed = 0
     skipped = 0
+    failed = 0
+    processed_keywords = set()  # Track processed keywords to prevent duplicates
+    
     for i, row in df.iterrows():
         keyword = first_words(row.iloc[0])
+        
+        # Check for duplicate keywords in the same run
+        if keyword in processed_keywords:
+            skipped += 1
+            print(f"[BULK] [{i+1}/{total_searches}] SKIP {keyword} (duplicate keyword in this run)", flush=True)
+            continue
+        
         csv_filename = bulk_csv_pattern.format(index=i+1, keyword=sanitize(keyword))
         out_csv = BULK_DIR / csv_filename
         # Ensure parent directory exists for this file
         out_csv.parent.mkdir(parents=True, exist_ok=True)
 
         if out_csv.exists():
-            skipped += 1
-            print(f"[BULK] [{i+1}/{total_searches}] SKIP {keyword} (already exists)", flush=True)
-            all_csvs.append(out_csv)
-            continue
+            # Check if file has content (not empty)
+            try:
+                file_size = out_csv.stat().st_size
+                if file_size > 0:
+                    skipped += 1
+                    print(f"[BULK] [{i+1}/{total_searches}] SKIP {keyword} (already exists with {file_size:,} bytes)", flush=True)
+                    all_csvs.append(out_csv)
+                    processed_keywords.add(keyword)
+                    continue
+                else:
+                    print(f"[BULK] [{i+1}/{total_searches}] RETRY {keyword} (file exists but is empty)", flush=True)
+            except Exception as e:
+                print(f"[BULK] [{i+1}/{total_searches}] RETRY {keyword} (error checking file: {e})", flush=True)
 
         completed += 1
-        print(f"[BULK] [{i+1}/{total_searches}] SEARCH {keyword} (Completed: {completed}, Skipped: {skipped})", flush=True)
-        print(f"  -> Navigating to search page: {SEARCH_URL}", flush=True)
-        page_timeout = int(require_env("SCRIPT_02_PAGE_TIMEOUT"))
-        page.goto(SEARCH_URL, timeout=page_timeout)
-        print(f"  -> Page loaded, waiting for search form...", flush=True)
-        search_by_selector = require_env("SCRIPT_02_SEARCH_BY_SELECTOR")
-        search_txt_selector = require_env("SCRIPT_02_SEARCH_TXT_SELECTOR")
-        search_button_selector = require_env("SCRIPT_02_SEARCH_BUTTON_SELECTOR")
-        
-        # Wait for search form to be ready
-        page.wait_for_selector(search_by_selector, timeout=page_timeout)
-        page.wait_for_selector(search_txt_selector, timeout=page_timeout)
-        page.wait_for_selector(search_button_selector, timeout=page_timeout)
-        print(f"  -> Search form ready", flush=True)
-        
-        print(f"  -> Selecting search option and entering keyword: '{keyword}'", flush=True)
-        page.select_option(search_by_selector, "1")
-        page.fill(search_txt_selector, keyword)
-        print(f"  -> Clicking search button...", flush=True)
-        page.click(search_button_selector)
-        
-        # Wait for loading indicator to disappear first
-        selector_timeout = int(require_env("SCRIPT_02_SELECTOR_TIMEOUT"))
-        print(f"  -> Waiting for 'loading please wait' to disappear...", flush=True)
-        try:
-            # Wait for loading text to disappear - both "loading" AND "please wait" must be gone
-            page.wait_for_function(
-                """
-                () => {
-                    const bodyText = document.body.innerText.toLowerCase();
-                    return !bodyText.includes('loading') && !bodyText.includes('please wait');
-                }
-                """,
-                timeout=selector_timeout
-            )
-            print(f"  -> Loading indicator disappeared", flush=True)
-        except Exception as e:
-            print(f"  -> Loading wait timed out, continuing: {e}", flush=True)
-        
-        # Also wait for network to be idle (no active requests)
-        print(f"  -> Waiting for network to be idle...", flush=True)
-        try:
-            page.wait_for_load_state("networkidle", timeout=selector_timeout)
-            print(f"  -> Network idle", flush=True)
-        except:
-            print(f"  -> Network idle timeout, continuing...", flush=True)
-        
-        result_table_selector = require_env("SCRIPT_02_RESULT_TABLE_SELECTOR")
-        csv_button_selector = require_env("SCRIPT_02_CSV_BUTTON_SELECTOR")
+        processed_keywords.add(keyword)  # Mark as processed
+        print(f"[BULK] [{i+1}/{total_searches}] SEARCH {keyword} (Completed: {completed}, Skipped: {skipped}, Failed: {failed})", flush=True)
+        # Output progress for bulk search
+        percent = round((i / total_searches) * 100, 1) if total_searches > 0 else 0
+        print(f"[PROGRESS] Bulk search: {i}/{total_searches} ({percent}%)", flush=True)
         
         try:
-            print(f"  -> Waiting for search results table to appear...", flush=True)
-            # Wait for table to appear (this waits for the data to load)
-            # If no results, table might not appear - check for "no results" message too
+            print(f"  -> Navigating to search page: {SEARCH_URL}", flush=True)
+            page_timeout = int(require_env("SCRIPT_02_PAGE_TIMEOUT"))
+            page.goto(SEARCH_URL, timeout=page_timeout)
+            print(f"  -> Page loaded, waiting for search form...", flush=True)
+            search_by_selector = require_env("SCRIPT_02_SEARCH_BY_SELECTOR")
+            search_txt_selector = require_env("SCRIPT_02_SEARCH_TXT_SELECTOR")
+            search_button_selector = require_env("SCRIPT_02_SEARCH_BUTTON_SELECTOR")
+            
+            # Wait for search form to be ready
+            page.wait_for_selector(search_by_selector, timeout=page_timeout)
+            page.wait_for_selector(search_txt_selector, timeout=page_timeout)
+            page.wait_for_selector(search_button_selector, timeout=page_timeout)
+            print(f"  -> Search form ready", flush=True)
+            
+            print(f"  -> Selecting search option and entering keyword: '{keyword}'", flush=True)
+            page.select_option(search_by_selector, "1")
+            page.fill(search_txt_selector, keyword)
+            print(f"  -> Clicking search button...", flush=True)
+            page.click(search_button_selector)
+            
+            # Wait for loading indicator to disappear first
+            selector_timeout = int(require_env("SCRIPT_02_SELECTOR_TIMEOUT"))
+            print(f"  -> Waiting for 'loading please wait' to disappear...", flush=True)
             try:
-                # First wait for table structure to appear
-                page.wait_for_selector(result_table_selector, timeout=selector_timeout, state="visible")
-                print(f"  -> Table structure found, waiting for data rows to load...", flush=True)
-                
-                # Wait for actual data rows with content to appear
-                # Check that rows have actual text content (not just empty rows)
+                # Wait for loading text to disappear - both "loading" AND "please wait" must be gone
                 page.wait_for_function(
                     """
                     () => {
-                        const rows = document.querySelectorAll('table.table tbody tr');
-                        if (rows.length === 0) return false;
-                        // Check if at least one row has actual text content
-                        for (let row of rows) {
-                            const text = row.innerText.trim();
-                            if (text.length > 10) { // At least some meaningful content
-                                return true;
-                            }
-                        }
-                        return false;
+                        const bodyText = document.body.innerText.toLowerCase();
+                        return !bodyText.includes('loading') && !bodyText.includes('please wait');
                     }
                     """,
                     timeout=selector_timeout
                 )
-                
-                # Wait for row count to stabilize (data fully loaded)
-                print(f"  -> Data rows found, waiting for data to fully load...", flush=True)
-                previous_count = 0
-                stable_count = 0
-                max_wait_time = selector_timeout
-                start_time = time.time()
-                current_count = 0
-                
-                while (time.time() - start_time < max_wait_time / 1000):
-                    current_rows = page.query_selector_all(result_table_selector)
-                    current_count = len(current_rows)
+                print(f"  -> Loading indicator disappeared", flush=True)
+            except Exception as e:
+                print(f"  -> Loading wait timed out, continuing: {e}", flush=True)
+            
+            # Also wait for network to be idle (no active requests)
+            print(f"  -> Waiting for network to be idle...", flush=True)
+            try:
+                page.wait_for_load_state("networkidle", timeout=selector_timeout)
+                print(f"  -> Network idle", flush=True)
+            except:
+                print(f"  -> Network idle timeout, continuing...", flush=True)
+            
+            result_table_selector = require_env("SCRIPT_02_RESULT_TABLE_SELECTOR")
+            csv_button_selector = require_env("SCRIPT_02_CSV_BUTTON_SELECTOR")
+            
+            try:
+                print(f"  -> Waiting for search results table to appear...", flush=True)
+                # Wait for table to appear (this waits for the data to load)
+                # If no results, table might not appear - check for "no results" message too
+                try:
+                    # First wait for table structure to appear
+                    page.wait_for_selector(result_table_selector, timeout=selector_timeout, state="visible")
+                    print(f"  -> Table structure found, waiting for data rows to load...", flush=True)
                     
-                    if current_count > 0:
-                        # Check if rows have actual data
-                        has_data = False
-                        for row in current_rows[:5]:  # Check first 5 rows
-                            text = row.inner_text().strip()
-                            if len(text) > 10:
-                                has_data = True
-                                break
+                    # Wait for actual data rows with content to appear
+                    # Check that rows have actual text content (not just empty rows)
+                    page.wait_for_function(
+                        """
+                        () => {
+                            const rows = document.querySelectorAll('table.table tbody tr');
+                            if (rows.length === 0) return false;
+                            // Check if at least one row has actual text content
+                            for (let row of rows) {
+                                const text = row.innerText.trim();
+                                if (text.length > 10) { // At least some meaningful content
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+                        """,
+                        timeout=selector_timeout
+                    )
+                    
+                    # Wait for row count to stabilize (data fully loaded)
+                    print(f"  -> Data rows found, waiting for data to fully load...", flush=True)
+                    previous_count = 0
+                    stable_count = 0
+                    max_wait_time = selector_timeout
+                    start_time = time.time()
+                    current_count = 0
+                    
+                    while (time.time() - start_time < max_wait_time / 1000):
+                        current_rows = page.query_selector_all(result_table_selector)
+                        current_count = len(current_rows)
                         
-                        if has_data:
-                            if current_count == previous_count:
-                                stable_count += 1
-                                if stable_count >= 3:  # Stable for 3 checks (about 1.5 seconds)
-                                    print(f"  -> Data fully loaded: {current_count} rows", flush=True)
+                        if current_count > 0:
+                            # Check if rows have actual data
+                            has_data = False
+                            for row in current_rows[:5]:  # Check first 5 rows
+                                text = row.inner_text().strip()
+                                if len(text) > 10:
+                                    has_data = True
                                     break
-                            else:
-                                stable_count = 0
-                                print(f"  -> Loading... {current_count} rows so far", flush=True)
-                            previous_count = current_count
+                            
+                            if has_data:
+                                if current_count == previous_count:
+                                    stable_count += 1
+                                    if stable_count >= 3:  # Stable for 3 checks (about 1.5 seconds)
+                                        print(f"  -> Data fully loaded: {current_count} rows", flush=True)
+                                        break
+                                else:
+                                    stable_count = 0
+                                    print(f"  -> Loading... {current_count} rows so far", flush=True)
+                                previous_count = current_count
+                        
+                        time.sleep(0.5)  # Check every 500ms
                     
-                    time.sleep(0.5)  # Check every 500ms
-                
-                # Additional wait to ensure all data is rendered
-                # Wait time depends on number of records - more records need more time
-                final_wait = getenv_int("SCRIPT_02_DATA_LOAD_WAIT", 3)  # Default 3 seconds
-                if current_count > 100:
-                    final_wait = max(final_wait, 5)  # At least 5 seconds for large datasets
-                elif current_count > 50:
-                    final_wait = max(final_wait, 4)  # 4 seconds for medium datasets
-                
-                print(f"  -> Waiting {final_wait}s for final data render ({current_count} rows)...", flush=True)
-                time.sleep(final_wait)  # Give extra time based on dataset size
-                
-                print(f"  -> Table found with data! Waiting for CSV button to be ready...", flush=True)
-                # Wait for CSV button to be visible and enabled
-                page.wait_for_selector(csv_button_selector, timeout=selector_timeout, state="visible")
-                # Additional wait to ensure button is clickable (not disabled)
-                page.wait_for_selector(f"{csv_button_selector}:not([disabled])", timeout=5000)
-                print(f"  -> CSV button ready", flush=True)
-                btn = page.query_selector(csv_button_selector)
-                if not btn:
-                    print(f"[WARNING] No CSV button found for {keyword} - may have no results", flush=True)
-                    out_csv.parent.mkdir(parents=True, exist_ok=True)
-                    out_csv.write_text("")
-                else:
-                    print(f"  -> Clicking CSV download button...", flush=True)
-                    with page.expect_download() as d:
-                        btn.click()
-                    out_csv.parent.mkdir(parents=True, exist_ok=True)
-                    d.value.save_as(out_csv)
-                    file_size = out_csv.stat().st_size if out_csv.exists() else 0
-                    print(f"[OK] Downloaded CSV for {keyword} ({file_size:,} bytes)", flush=True)
-            except Exception as table_error:
-                # Table didn't appear - check if it's because there are no results
-                print(f"  -> Table not found, checking for 'no results' message...", flush=True)
-                page_text = page.inner_text("body").lower()
-                if "no result" in page_text or "no data" in page_text or "tidak dijumpai" in page_text:
-                    print(f"[INFO] No results found for {keyword}", flush=True)
-                    out_csv.parent.mkdir(parents=True, exist_ok=True)
-                    out_csv.write_text("")
-                else:
-                    # Re-raise if it's a different error
-                    raise table_error
-        except Exception as e:
-            print(f"[ERROR] Failed to download CSV for {keyword}: {e}", flush=True)
-            out_csv.parent.mkdir(parents=True, exist_ok=True)
-            out_csv.write_text("")
-
-        # Ensure file exists (create empty file if it doesn't exist from any error)
+                    # Additional wait to ensure all data is rendered
+                    # Wait time depends on number of records - more records need more time
+                    final_wait = getenv_int("SCRIPT_02_DATA_LOAD_WAIT", 3)  # Default 3 seconds
+                    if current_count > 100:
+                        final_wait = max(final_wait, 5)  # At least 5 seconds for large datasets
+                    elif current_count > 50:
+                        final_wait = max(final_wait, 4)  # 4 seconds for medium datasets
+                    
+                    print(f"  -> Waiting {final_wait}s for final data render ({current_count} rows)...", flush=True)
+                    time.sleep(final_wait)  # Give extra time based on dataset size
+                    
+                    print(f"  -> Table found with data! Waiting for CSV button to be ready...", flush=True)
+                    # Wait for CSV button to be visible and enabled
+                    page.wait_for_selector(csv_button_selector, timeout=selector_timeout, state="visible")
+                    # Additional wait to ensure button is clickable (not disabled)
+                    page.wait_for_selector(f"{csv_button_selector}:not([disabled])", timeout=5000)
+                    print(f"  -> CSV button ready", flush=True)
+                    btn = page.query_selector(csv_button_selector)
+                    if not btn:
+                        print(f"[WARNING] No CSV button found for {keyword} - may have no results", flush=True)
+                        out_csv.parent.mkdir(parents=True, exist_ok=True)
+                        out_csv.write_text("")
+                        # Pause 1 second after handling no CSV button
+                        print(f"  -> Pausing 1s after handling no CSV button...", flush=True)
+                        time.sleep(1.0)
+                    else:
+                        print(f"  -> Clicking CSV download button...", flush=True)
+                        with page.expect_download() as d:
+                            btn.click()
+                        out_csv.parent.mkdir(parents=True, exist_ok=True)
+                        d.value.save_as(out_csv)
+                        file_size = out_csv.stat().st_size if out_csv.exists() else 0
+                        print(f"[OK] Downloaded CSV for {keyword} ({file_size:,} bytes)", flush=True)
+                        # Pause 1 second after data extraction before next search
+                        print(f"  -> Pausing 1s after data extraction...", flush=True)
+                        time.sleep(1.0)
+                except Exception as table_error:
+                    # Table didn't appear - check if it's because there are no results
+                    print(f"  -> Table not found, checking for 'no results' message...", flush=True)
+                    page_text = page.inner_text("body").lower()
+                    if "no result" in page_text or "no data" in page_text or "tidak dijumpai" in page_text:
+                        print(f"[INFO] No results found for {keyword}", flush=True)
+                        out_csv.parent.mkdir(parents=True, exist_ok=True)
+                        out_csv.write_text("")
+                        # Pause 1 second after handling no results
+                        print(f"  -> Pausing 1s after handling no results...", flush=True)
+                        time.sleep(1.0)
+                    else:
+                        # Re-raise if it's a different error
+                        raise table_error
+            except Exception as e:
+                print(f"[ERROR] Failed to download CSV for {keyword}: {e}", flush=True)
+                print(f"[ERROR] Error type: {type(e).__name__}", flush=True)
+                out_csv.parent.mkdir(parents=True, exist_ok=True)
+                out_csv.write_text("")
+                # Pause 1 second after error before continuing
+                print(f"  -> Pausing 1s after error before continuing...", flush=True)
+                time.sleep(1.0)
+            
+        except Exception as outer_error:
+            # Catch any unhandled errors in the search process
+            failed += 1
+            error_msg = str(outer_error)
+            print(f"[ERROR] Unexpected error during search for {keyword}: {error_msg}", flush=True)
+            print(f"[ERROR] Error type: {type(outer_error).__name__}", flush=True)
+            
+            # Ensure file exists (create empty file on error)
+            if not out_csv.exists():
+                out_csv.parent.mkdir(parents=True, exist_ok=True)
+                out_csv.write_text("")
+            
+            all_csvs.append(out_csv)
+            
+            # Pause 1 second after error before continuing
+            print(f"  -> Pausing 1s after error before continuing...", flush=True)
+            time.sleep(1.0)
+            
+            print(f"[BULK] [{i+1}/{total_searches}] Failed: {keyword} (Continuing with next search...)\n", flush=True)
+            continue
+        
+        # Success path - ensure file exists and add to list
         if not out_csv.exists():
             out_csv.parent.mkdir(parents=True, exist_ok=True)
             out_csv.write_text("")
+        
+        all_csvs.append(out_csv)
+        print(f"[BULK] [{i+1}/{total_searches}] Completed: {keyword}\n", flush=True)
+        
+        # Output progress after completion
+        percent = round(((i + 1) / total_searches) * 100, 1) if total_searches > 0 else 0
+        print(f"[PROGRESS] Bulk search: {i+1}/{total_searches} ({percent}%)", flush=True)
         
         # Small rate-limiting delay between searches (minimal, since we wait dynamically above)
         search_delay = float(require_env("SCRIPT_02_SEARCH_DELAY"))
         if search_delay > 0:
             print(f"  -> Waiting {search_delay}s before next search...", flush=True)
             time.sleep(search_delay)
-        
-        all_csvs.append(out_csv)
-        print(f"[BULK] [{i+1}/{total_searches}] Completed: {keyword}\n", flush=True)
 
     return all_csvs
 
@@ -421,6 +499,11 @@ def individual_phase(page, missing):
 
         processed_count += 1
         print(f"[INDIV] [{idx}/{len(missing)}] DETAIL {regno} (Processing: {processed_count}/{total_to_process})", flush=True)
+        
+        # Output progress for individual detail extraction
+        if total_to_process > 0:
+            percent = round((processed_count / total_to_process) * 100, 1)
+            print(f"[PROGRESS] Individual search: {processed_count}/{total_to_process} ({percent}%)", flush=True)
 
         try:
             product_name, holder = extract_product_details(page, regno)
@@ -437,6 +520,10 @@ def individual_phase(page, missing):
             # Save after each extraction
             final_df.to_csv(OUT_FINAL, index=False, encoding="utf-8")
             print(f"[SAVED] Saved {processed_count}/{total_to_process} products (just saved: {regno})", flush=True)
+            
+            # Pause 1 second after data extraction before next search
+            print(f"  -> Pausing 1s after data extraction...", flush=True)
+            time.sleep(1.0)
 
         except Exception as e:
             error_msg = str(e)
@@ -457,13 +544,18 @@ def individual_phase(page, missing):
             # Save progress after error
             final_df.to_csv(OUT_FINAL, index=False, encoding="utf-8")
             print(f"[SAVED] Progress saved. {len(done)}/{len(missing)} complete.", flush=True)
+            
+            # Pause 1 second after error before continuing
+            print(f"  -> Pausing 1s after error before continuing...", flush=True)
+            time.sleep(1.0)
 
             # Continue with next item instead of crashing
             continue
 
+        # Additional rate-limiting delay (if configured) - this is in addition to the 1s pause above
         individual_delay = float(require_env("SCRIPT_02_INDIVIDUAL_DELAY"))
         if individual_delay > 0:
-            print(f"  -> Waiting {individual_delay}s before next request...", flush=True)
+            print(f"  -> Waiting additional {individual_delay}s before next request...", flush=True)
             time.sleep(individual_delay)  # Rate limiting between requests
 
     # Final save
@@ -712,39 +804,75 @@ def main():
     print(f"Output directory: {OUT_DIR}", flush=True)
     print("=" * 70 + "\n", flush=True)
     
-    with sync_playwright() as p:
-        print("[BROWSER] Launching browser...", flush=True)
-        browser = p.chromium.launch(headless=HEADLESS)
-        page = browser.new_page(accept_downloads=True)
-        print(f"[BROWSER] Browser launched (headless={HEADLESS})", flush=True)
+    # Track Chrome process IDs for this pipeline run
+    browser_pids = set()
+    repo_root = None
+    scraper_name = None
+    try:
+        from core.chrome_pid_tracker import get_chrome_pids_from_playwright_browser, save_chrome_pids
+        from pathlib import Path
+        
+        # Get repo root (assuming script is in scripts/Malaysia/)
+        repo_root = Path(__file__).resolve().parent.parent.parent
+        scraper_name = "Malaysia"
+    except Exception:
+        pass
+    
+    browser = None
+    try:
+        with sync_playwright() as p:
+            print("[BROWSER] Launching browser...", flush=True)
+            browser = p.chromium.launch(headless=HEADLESS)
+            page = browser.new_page(accept_downloads=True)
+            print(f"[BROWSER] Browser launched (headless={HEADLESS})", flush=True)
+            
+            # Track Playwright browser PIDs
+            if repo_root and scraper_name:
+                try:
+                    from core.chrome_pid_tracker import get_chrome_pids_from_playwright_browser, save_chrome_pids
+                    browser_pids = get_chrome_pids_from_playwright_browser(browser)
+                    if browser_pids:
+                        save_chrome_pids(scraper_name, repo_root, browser_pids)
+                except Exception:
+                    pass  # PID tracking not critical
 
-        # Stage 1: Bulk search by product type
-        print("\n" + "=" * 70, flush=True)
-        print("STAGE 1: Bulk Search by Product Type", flush=True)
-        print("=" * 70, flush=True)
-        bulk_csvs = bulk_search(page)
-        print(f"\n[STAGE 1] Bulk search complete. Processing {len(bulk_csvs)} CSV files...", flush=True)
-        bulk_df = merge_bulk(bulk_csvs)
-        
-        # Find missing registration numbers
-        print(f"\n[STAGE 1] Finding missing registration numbers...", flush=True)
-        missing = find_missing(bulk_df)
-        print(f"\n[STAGE 1] Found {len(missing):,} registration numbers not in bulk results", flush=True)
-        
-        # Stage 2: Individual detail pages for missing products
-        if missing:
+            # Stage 1: Bulk search by product type
             print("\n" + "=" * 70, flush=True)
-            print(f"STAGE 2: Individual Detail Pages ({len(missing):,} products)", flush=True)
+            print("STAGE 1: Bulk Search by Product Type", flush=True)
             print("=" * 70, flush=True)
-            print(f"[STAGE 2] Starting individual detail extraction for {len(missing):,} products...", flush=True)
-            individual_phase(page, missing)
-            print(f"\n[STAGE 2] Individual detail extraction complete!", flush=True)
-        else:
-            print("\n[STAGE 2] All products found in bulk search. Skipping individual phase.", flush=True)
+            bulk_csvs = bulk_search(page)
+            print(f"\n[STAGE 1] Bulk search complete. Processing {len(bulk_csvs)} CSV files...", flush=True)
+            bulk_df = merge_bulk(bulk_csvs)
+            
+            # Find missing registration numbers
+            print(f"\n[STAGE 1] Finding missing registration numbers...", flush=True)
+            missing = find_missing(bulk_df)
+            print(f"\n[STAGE 1] Found {len(missing):,} registration numbers not in bulk results", flush=True)
+            
+            # Stage 2: Individual detail pages for missing products
+            if missing:
+                print("\n" + "=" * 70, flush=True)
+                print(f"STAGE 2: Individual Detail Pages ({len(missing):,} products)", flush=True)
+                print("=" * 70, flush=True)
+                print(f"[STAGE 2] Starting individual detail extraction for {len(missing):,} products...", flush=True)
+                individual_phase(page, missing)
+                print(f"\n[STAGE 2] Individual detail extraction complete!", flush=True)
+            else:
+                print("\n[STAGE 2] All products found in bulk search. Skipping individual phase.", flush=True)
 
-        print(f"[BROWSER] Closing browser...", flush=True)
-        browser.close()
-        print(f"[BROWSER] Browser closed", flush=True)
+            print(f"[BROWSER] Closing browser...", flush=True)
+            browser.close()
+            print(f"[BROWSER] Browser closed", flush=True)
+    except Exception as e:
+        # Ensure browser is closed on error
+        if browser:
+            try:
+                print(f"[BROWSER] Error occurred, closing browser...", flush=True)
+                browser.close()
+                print(f"[BROWSER] Browser closed after error", flush=True)
+            except Exception:
+                pass
+        raise  # Re-raise the exception after cleanup
 
     # Load individual results
     print(f"\n[MERGE] Loading individual results...", flush=True)

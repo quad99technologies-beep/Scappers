@@ -25,6 +25,7 @@ from pathlib import Path
 from typing import Optional, Tuple
 from datetime import datetime
 import re
+import json
 import pandas as pd
 from charset_normalizer import from_path
 from config_loader import (
@@ -221,15 +222,36 @@ def attach_pcid_strict(df: pd.DataFrame, pcid_path: Path) -> pd.DataFrame:
 
 # ---------- RI logic ----------
 def compute_ri_fields(row):
+    """Apply Argentina RI rules (as per AlfaBeta spec):
+    - Prefer IOMA whenever present (even if Importado also present).
+    - For IOMA: OS = Reimbursement Amount, AF = Co-Pay Amount.
+    - For PAMI-only (no IOMA): AF = Co-Pay Amount, Reimbursement Amount = NULL.
+    - If no IOMA/PAMI but Importado: category = IMPORTED.
+    """
     ioma_os      = get(row, "IOMA_OS")
     ioma_af      = get(row, "IOMA_AF")
     pami_af      = get(row, "PAMI_AF")
     ioma_detail  = get(row, "IOMA_detail", default="")
     import_stat  = get(row, "import_status", default="")
+    cov_json     = get(row, "coverage_json", default="")
 
-    has_ioma     = bool(ioma_os) or bool(ioma_af) or contains(ioma_detail, "ioma")
-    has_pami     = (not has_ioma) and bool(pami_af)
-    is_imported  = contains(import_stat, "importado", "imported")
+    # Detect payer presence robustly (amounts OR text OR coverage_json keys)
+    has_ioma = False
+    has_pami = False
+    try:
+        if cov_json:
+            cj = json.loads(str(cov_json))
+            if isinstance(cj, dict):
+                has_ioma = has_ioma or ("IOMA" in cj)
+                has_pami = has_pami or ("PAMI" in cj)
+    except Exception:
+        pass
+
+    has_ioma = has_ioma or bool(ioma_os) or bool(ioma_af) or contains(ioma_detail, "ioma")
+    # PAMI should be considered only if IOMA is not present (priority rule)
+    has_pami = (not has_ioma) and (has_pami or bool(pami_af))
+
+    is_imported = contains(import_stat, "importado", "imported")
 
     if has_ioma:
         return "IOMA", parse_money(ioma_os), parse_money(ioma_af), "IOMA-preferred (OS→Reimb, AF→Copay)"
@@ -248,9 +270,11 @@ def main():
         )
 
     # Read input as text (avoid implicit type casts)
+    print(f"[PROGRESS] Generating output: Loading data (1/4)", flush=True)
     df = safe_read_csv(INPUT_FILE, dtype=str)
 
     # Compute RI fields
+    print(f"[PROGRESS] Generating output: Computing RI fields (2/4)", flush=True)
     ri = df.apply(
         lambda r: pd.Series(
             compute_ri_fields(r),
@@ -277,9 +301,11 @@ def main():
     df["Co-Pay Amount"]        = df["Co-Pay Amount"].apply(parse_money)
 
     # STRICT 4-key PCID attach
+    print(f"[PROGRESS] Generating output: Attaching PCIDs (3/4)", flush=True)
     df = attach_pcid_strict(df, PCID_PATH)
 
     # Final selection (PCID first)
+    print(f"[PROGRESS] Generating output: Writing output (4/4)", flush=True)
     base_cols = [
         "PCID",
         "Country",
@@ -308,6 +334,7 @@ def main():
     out_xlsx = INPUT_FILE.parent / f"{OUT_PREFIX}.xlsx"
 
     df_final.to_csv(out_csv, index=False, encoding="utf-8-sig", float_format="%.2f")
+    print(f"[PROGRESS] Generating output: {len(df_final)}/{len(df_final)} (100%)", flush=True)
 
     try:
         with pd.ExcelWriter(out_xlsx, engine="openpyxl") as writer:

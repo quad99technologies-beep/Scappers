@@ -76,6 +76,11 @@ _rate_limit_count = 0
 # ====== SKIP SET LOCK ======
 _skip_lock = threading.Lock()  # Lock for updating skip_set during runtime
 
+# ====== PROGRESS TRACKING =====
+_progress_lock = threading.Lock()
+_api_products_completed = 0
+_api_total_products = 0
+
 def rate_limit_wait():
     """No rate limiting - process immediately"""
     # Rate limiting disabled - process API calls immediately
@@ -94,8 +99,12 @@ def ar_money_to_float(s: str) -> Optional[float]:
     t = re.sub(r"[^\d\.,]", "", s.strip())
     if not t:
         return None
-    # AR: dot thousands, comma decimals
-    t = t.replace(".", "").replace(",", ".")
+    if "," in t and "." in t:
+        # AR format: dot thousands, comma decimals
+        t = t.replace(".", "").replace(",", ".")
+    elif "," in t:
+        # Decimal comma
+        t = t.replace(",", ".")
     try:
         return float(t)
     except ValueError:
@@ -108,6 +117,13 @@ def parse_date(s: str) -> Optional[str]:
     if m:
         d, mn, y = map(int, m.groups())
         y += 2000
+        try:
+            return datetime(y, mn, d).date().isoformat()
+        except:
+            return None
+    m = re.search(r"\b(\d{4})-(\d{2})-(\d{2})\b", s)
+    if m:
+        y, mn, d = map(int, m.groups())
         try:
             return datetime(y, mn, d).date().isoformat()
         except:
@@ -153,6 +169,114 @@ def construct_product_url(product_name: str, base_url: str = None) -> str:
         return ""
     
     return f"{base_url}/{sanitized}"
+
+def extract_json_ld_rows(html: str, in_company: str, in_product: str) -> List[Dict[str, Any]]:
+    rows: List[Dict[str, Any]] = []
+    if not html:
+        return rows
+    for match in re.finditer(r"<script[^>]*type=[\"']application/ld\+json[\"'][^>]*>(.*?)</script>", html, flags=re.I | re.S):
+        payload = match.group(1).strip()
+        if not payload:
+            continue
+        try:
+            data = json.loads(payload)
+        except Exception:
+            continue
+        if isinstance(data, dict) and isinstance(data.get("@graph"), list):
+            items = data.get("@graph", [])
+        elif isinstance(data, list):
+            items = data
+        else:
+            items = [data]
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            type_val = item.get("@type") or item.get("type")
+            if isinstance(type_val, list):
+                type_str = " ".join(str(t) for t in type_val)
+            else:
+                type_str = str(type_val or "")
+            if "product" not in type_str.lower():
+                continue
+
+            product_name = item.get("name") or in_product
+            brand = item.get("brand")
+            if isinstance(brand, dict):
+                company = brand.get("name")
+            elif isinstance(brand, str):
+                company = brand
+            else:
+                company = None
+            if not company:
+                company = in_company
+
+            active = None
+            therap = None
+            for prop in item.get("additionalProperty") or []:
+                if not isinstance(prop, dict):
+                    continue
+                prop_name = prop.get("name") or ""
+                prop_val = prop.get("value")
+                key = nk(prop_name)
+                if prop_val is None:
+                    continue
+                if not active and ("monodroga" in key or "principio" in key or "droga" in key):
+                    active = str(prop_val)
+                if not therap and ("accion terapeutica" in key or ("accion" in key and "terapeutica" in key)):
+                    therap = str(prop_val)
+
+            offers = item.get("offers") or []
+            if isinstance(offers, dict):
+                offers = [offers]
+            if not offers:
+                rows.append({
+                    "input_company": in_company,
+                    "input_product_name": in_product,
+                    "company": company,
+                    "product_name": product_name,
+                    "active_ingredient": active,
+                    "therapeutic_class": therap,
+                    "description": item.get("description"),
+                    "price_ars": None,
+                    "date": None,
+                    "scraped_at": ts(),
+                    "SIFAR_detail": None,
+                    "PAMI_AF": None,
+                    "IOMA_detail": None,
+                    "IOMA_AF": None,
+                    "IOMA_OS": None,
+                    "import_status": None,
+                    "coverage_json": "{}"
+                })
+            else:
+                for offer in offers:
+                    if not isinstance(offer, dict):
+                        continue
+                    desc = offer.get("name")
+                    price_val = offer.get("price")
+                    date_val = offer.get("priceValidUntil") or ""
+                    rows.append({
+                        "input_company": in_company,
+                        "input_product_name": in_product,
+                        "company": company,
+                        "product_name": product_name,
+                        "active_ingredient": active,
+                        "therapeutic_class": therap,
+                        "description": desc,
+                        "price_ars": ar_money_to_float(str(price_val)) if price_val is not None else None,
+                        "date": parse_date(str(date_val)),
+                        "scraped_at": ts(),
+                        "SIFAR_detail": None,
+                        "PAMI_AF": None,
+                        "IOMA_detail": None,
+                        "IOMA_AF": None,
+                        "IOMA_OS": None,
+                        "import_status": None,
+                        "coverage_json": "{}"
+                    })
+            if rows:
+                return rows
+    return rows
 
 # ====== API SCRAPING ======
 
@@ -240,15 +364,24 @@ def parse_html_with_bs4(soup, in_company: str, in_product: str) -> List[Dict[str
 
 def parse_html_content(html_content: str, in_company: str, in_product: str) -> List[Dict[str, Any]]:
     """Parse HTML content from ScrapingDog API response and extract product rows."""
+    rows: List[Dict[str, Any]] = []
     if BEAUTIFULSOUP_AVAILABLE:
         try:
             soup = BeautifulSoup(html_content, 'html.parser')
-            return parse_html_with_bs4(soup, in_company, in_product)
+            rows = parse_html_with_bs4(soup, in_company, in_product)
         except Exception as e:
             log.warning(f"[API] BeautifulSoup parsing failed: {e}")
-            return []
-    
-    log.warning("[API] BeautifulSoup not available, cannot parse HTML")
+            rows = []
+
+    if rows:
+        return rows
+
+    json_rows = extract_json_ld_rows(html_content, in_company, in_product)
+    if json_rows:
+        return json_rows
+
+    if not BEAUTIFULSOUP_AVAILABLE:
+        log.warning("[API] BeautifulSoup not available, cannot parse HTML")
     return []
 
 def scrape_single_product_api_with_url(product_url: str, product_name: str, company: str) -> List[Dict[str, Any]]:
@@ -298,6 +431,7 @@ def scrape_single_product_api_with_url(product_url: str, product_name: str, comp
 
 def api_worker(api_queue: Queue, args, skip_set: set):
     """API worker: processes products via API, updates source to selenium if null"""
+    global _api_products_completed, _api_total_products
     thread_id = threading.get_ident()
     log.info(f"[API_WORKER] Thread {thread_id} started")
     
@@ -348,11 +482,33 @@ def api_worker(api_queue: Queue, args, skip_set: set):
                 # Update skip_set to prevent reprocessing in same run (only for SUCCESS cases)
                 with _skip_lock:
                     skip_set.add(key)
+                # Update Productlist_with_urls.csv: Scraped_By_API = "yes", API_Records = number of records
+                update_prepared_urls_source(
+                    in_company, in_product, 
+                    new_source="api",
+                    scraped_by_api="yes",
+                    api_records=str(len(rows_with_values))
+                )
                 log.info(f"[API_WORKER] [SUCCESS] {in_company} | {in_product} → {len(rows_with_values)} rows with values")
             else:
                 # API returned no values (null, no price, connection lost, not found) - move to selenium without recording
                 log.warning(f"[API_WORKER] [NO_VALUES] API returned no values for {in_company} | {in_product}, moving to selenium (not recording)")
-                update_prepared_urls_source(in_company, in_product, "selenium")
+                # Update source to selenium, keep Scraped_By_API="no" and API_Records="0"
+                update_prepared_urls_source(
+                    in_company, in_product, 
+                    new_source="selenium",
+                    scraped_by_api="no",
+                    api_records="0"
+                )
+            
+            # Update progress counter
+            with _progress_lock:
+                _api_products_completed += 1
+                completed = _api_products_completed
+                total = _api_total_products
+                if total > 0 and completed % 10 == 0:  # Update every 10 products
+                    percent = round((completed / total) * 100, 1)
+                    print(f"[PROGRESS] API scraping: {completed}/{total} ({percent}%)", flush=True)
             
             # Apply API rate limit
             rate_limit_wait()
@@ -360,7 +516,23 @@ def api_worker(api_queue: Queue, args, skip_set: set):
         except Exception as e:
             # Connection lost, timeout, or other errors - move to selenium without recording
             log.warning(f"[API_WORKER] [ERROR] {in_company} | {in_product}: {e} - moving to selenium (not recording)")
-            update_prepared_urls_source(in_company, in_product, "selenium")
+            # Update source to selenium, keep Scraped_By_API="no" and API_Records="0"
+            update_prepared_urls_source(
+                in_company, in_product, 
+                new_source="selenium",
+                scraped_by_api="no",
+                api_records="0"
+            )
+            
+            # Update progress counter even on error
+            with _progress_lock:
+                _api_products_completed += 1
+                completed = _api_products_completed
+                total = _api_total_products
+                if total > 0 and completed % 10 == 0:  # Update every 10 products
+                    percent = round((completed / total) * 100, 1)
+                    print(f"[PROGRESS] API scraping: {completed}/{total} ({percent}%)", flush=True)
+            
             rate_limit_wait()
         finally:
             api_queue.task_done()
@@ -429,15 +601,17 @@ def main():
         ccol = headers.get(nk("Company")) or headers.get("company") or "Company"
         source_col = headers.get(nk("Source")) or headers.get("source") or "Source"
         url_col = headers.get(nk("URL")) or headers.get("url") or "URL"
+        scraped_by_api_col = headers.get(nk("Scraped_By_API")) or headers.get("scraped_by_api") or "Scraped_By_API"
         
         for row in r:
             prod = (row.get(pcol) or "").strip()
             comp = (row.get(ccol) or "").strip()
             source = (row.get(source_col) or "").strip().lower()
             url = (row.get(url_col) or "").strip()
+            scraped_by_api = (row.get(scraped_by_api_col) or "").strip().lower()
             
-            # Only process products marked as "api"
-            if source == "api" and prod and comp:
+            # Only process products marked as "api" and Scraped_By_API = "no"
+            if source == "api" and scraped_by_api == "no" and prod and comp:
                 # Normalize for comparison
                 key = (nk(comp), nk(prod))
                 
@@ -464,8 +638,8 @@ def main():
             f.close()
     
     unique_combinations = len(api_targets)
-    log.info(f"[FILTER] Found {len(api_targets) + skipped_count} products marked as 'api'")
-    log.info(f"[FILTER] - Skipped (in ignore_list/progress/products or duplicates): {skipped_count}")
+    log.info(f"[FILTER] Found {len(api_targets) + skipped_count} products marked as 'api' and Scraped_By_API='no'")
+    log.info(f"[FILTER] - Skipped (in ignore_list/progress/products or duplicates or already scraped): {skipped_count}")
     log.info(f"[FILTER] - Unique combinations to process: {unique_combinations}")
     
     # Apply max-rows limit if specified
@@ -506,8 +680,15 @@ def main():
     for target in api_targets:
         api_queue.put(target)
     
-    log.info(f"[QUEUE] API queue: {len(api_targets)} products")
+    total_api_products = len(api_targets)
+    # Set total for progress tracking
+    global _api_total_products, _api_products_completed
+    _api_total_products = total_api_products
+    _api_products_completed = 0
+    
+    log.info(f"[QUEUE] API queue: {total_api_products} products")
     log.info(f"[PARALLEL] Starting API workers: {args.threads} threads")
+    print(f"[PROGRESS] API scraping: 0/{total_api_products} (0%)", flush=True)
     
     # Start API workers
     # Note: Using daemon=False ensures threads complete before script exits
@@ -548,6 +729,10 @@ def main():
             log.warning(f"[MAIN] API thread {i+1} ({t.ident}) still alive after timeout")
         else:
             log.info(f"[MAIN] API thread {i+1} ({t.ident}) completed")
+    
+    # Final progress update
+    if _api_total_products > 0:
+        print(f"[PROGRESS] API scraping: {_api_products_completed}/{_api_total_products} (100%)", flush=True)
     
     log.info("[MAIN] API scraping complete.")
     log.info("=" * 80)

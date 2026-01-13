@@ -200,6 +200,11 @@ def scrape_all_pages(
             print(f"  -> Extracting table data...", flush=True)
             headers, rows = extract_table(soup)
             print(f"  -> Found {len(rows)} rows, {len(headers)} columns", flush=True)
+            
+            # Output progress for page scraping
+            total_pages = max_page + 1
+            percent = round(((page + 1) / total_pages) * 100, 1) if total_pages > 0 else 0
+            print(f"[PROGRESS] Scraping pages: {page + 1}/{total_pages} ({percent}%)", flush=True)
 
             # stabilize headers across pages
             if all_headers is None:
@@ -264,6 +269,22 @@ def main():
 
     if total_rows == 0:
         print("[WARNING] WARNING: No rows scraped. The table selector may have changed or content is blocked.", file=sys.stderr, flush=True)
+        # Create empty CSV file with Generic Name header to allow pipeline to continue
+        print(f"Creating empty CSV file with headers to allow pipeline to continue...", flush=True)
+        with open(OUT_CSV, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            # Use a minimal header set - at minimum include "Generic Name" which is required by script 05
+            # Try to get headers from results if available, otherwise use default
+            headers = []
+            for pr in results:
+                if pr.headers:
+                    headers = pr.headers
+                    break
+            # If no headers found, use a default set that includes Generic Name
+            if not headers:
+                headers = ["Generic Name"]
+            w.writerow(headers + ["_source_page"])
+        print(f"[OK] Created empty CSV file: {OUT_CSV}", flush=True)
         return
 
     print(f"Saving results to CSV...", flush=True)

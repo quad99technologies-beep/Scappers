@@ -154,6 +154,14 @@ RE_STRENGTH = re.compile(r"(?i)(\d+(?:[.,]\d+)?)\s*(mg|g|mcg|µg|U|UI|IU)\s*(?:/
 
 HDR_WORDS = {"CODE", "MARQUE", "FABRICANT", "FORMAT", "COUT", "COÛT", "PRIX", "UNITAIRE"}
 
+GROUP_CODE_SET = {
+    "BP","USP","XR","SR","ER","CR",
+    "P)","Z)","J)","X)","Y)","V)",
+    "P.F.","PF","P.F","P F",
+    "D400","D1000","D2000","D3000","D5000",
+    "URÉE","UREE","ÉTHANOL","ETHANOL","LACTOSE","LACTASE"
+}
+
 # =========================
 # UTILITY FUNCTIONS
 # =========================
@@ -242,16 +250,21 @@ def page_to_lines(page) -> List[Dict[str, Any]]:
 # =========================
 def is_generic_header(text: str) -> bool:
     """Detect if line is a generic drug name header."""
-    s = norm_spaces(text).rstrip(":")
+    s = norm_spaces(text).replace("\u00A0", " ").rstrip(":").strip()
     if not s:
         return False
     if re.match(r"^\d", s):  # avoid "4:04" etc.
         return False
+
+    # Annexe V has group markers (BP/USP/XR/SR, P)/Z)/J), D400, etc.) that must NOT become Generic Name
+    code = upper_key(s).replace(" ", "")
+    if code in GROUP_CODE_SET:
+        return False
+
     up = upper_key(s)
     if any(w in up for w in HDR_WORDS):
         return False
     return bool(RE_ALLCAPS.match(s))
-
 def is_form_line(text: str) -> bool:
     """Detect if line contains formulation information."""
     t = norm_spaces(text)
@@ -525,6 +538,29 @@ def brand_and_manufacturer_from_after_tokens(after_tokens: List[Dict[str, Any]])
 
     text_toks = sorted(text_toks, key=lambda t: t["x0"])
 
+    # Guard: sometimes FORMAT / volume / price fragments bleed into the text columns.
+    # Remove obvious non-text tokens so manufacturer doesn't become like "1 ml 4,04".
+    def _is_noise_token(tok: Dict[str, Any]) -> bool:
+        tt = norm_spaces(str(tok.get("text", ""))).replace("\u00A0", " ").strip()
+        if not tt:
+            return True
+        # Pure pack counts
+        if RE_PACK_ONLY.match(tt):
+            return True
+        # Volume tokens
+        if RE_VOL.match(tt) or RE_VOL_TWO.match(tt):
+            return True
+        # Price-like numeric tokens (French comma/decimal) are never part of brand/manufacturer columns
+        fv = french_to_float(tt)
+        if fv is not None and ("," in tt or "." in tt or fv >= 10):
+            return True
+        return False
+
+    text_toks = [t for t in text_toks if not _is_noise_token(t)]
+    if not text_toks:
+        return (None, None)
+
+
     # Find the biggest gap between consecutive tokens; that's likely the column boundary
     gaps = []
     for a, b in zip(text_toks, text_toks[1:]):
@@ -751,11 +787,26 @@ def extract_annexe_v():
                                         fmt_k = fmts[k] if k < len(fmts) else None
                                         cost_k = costs[k] if k < len(costs) else (costs[0] if len(costs) == 1 else None)
 
+                                        # Unit price guard (Annexe V): if missing or inconsistent, compute from cost/format
+                                        unit_k = units[k] if k < len(units) else (units[0] if len(units) == 1 else None)
+                                        try:
+                                            fmt_num = fill_size_from_format(fmt_k)
+                                        except Exception:
+                                            fmt_num = None
+                                        if unit_k is None and (cost_k is not None) and (fmt_num not in (None, 0)):
+                                            unit_k = round(float(cost_k) / float(fmt_num), 4)
+                                        elif (unit_k is not None) and (cost_k is not None) and (fmt_num not in (None, 0)):
+                                            calc_u = round(float(cost_k) / float(fmt_num), 4)
+                                            # if clearly wrong (often due to parsing drift), replace
+                                            if abs(float(unit_k) - calc_u) > 0.01:
+                                                unit_k = calc_u
+
+
                                         row = {
                                             "Generic Name": current_generic,
                                             "Currency": STATIC_CURRENCY,
                                             "Ex Factory Wholesale Price": cost_k,
-                                            "Unit Price": (units[k] if k < len(units) else (units[0] if len(units) == 1 else None)),
+                                            "Unit Price": unit_k,
                                             "Region": STATIC_REGION,
                                             "Product Group": product_group,
                                             "Marketing Authority": manufacturer,
@@ -790,6 +841,10 @@ def extract_annexe_v():
                                 continue
 
                         pages_processed += 1
+                        # Output progress every 10 pages or at completion
+                        if page_no_1idx % 10 == 0 or page_no_1idx == total_pages:
+                            percent = round((page_no_1idx / total_pages) * 100, 1) if total_pages > 0 else 0
+                            print(f"[PROGRESS] Extracting Annexe V: Page {page_no_1idx}/{total_pages} ({percent}%) - {total_rows:,} rows", flush=True)
                         if page_no_1idx % 50 == 0 or page_rows > 0:
                             print(f"Page {page_no_1idx}/{total_pages} done | rows so far: {total_rows:,}")
                             logger.info(f"Page {page_no_1idx}/{total_pages} processed | rows: {total_rows:,}")

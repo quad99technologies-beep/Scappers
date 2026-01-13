@@ -1,0 +1,36 @@
+{
+  "scraper": "CanadaOntario",
+  "last_run": "2026-01-12T15:34:59.857896",
+  "completed_steps": [
+    0,
+    1,
+    2
+  ],
+  "step_outputs": {
+    "step_0": {
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "completed_at": "2026-01-12T15:26:06.706503",
+      "output_files": []
+    },
+    "step_1": {
+      "step_number": 1,
+      "step_name": "Extract Product Details",
+      "completed_at": "2026-01-12T15:34:59.106940",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\CanadaOntario\\products.csv",
+        "D:\\quad99\\Scappers\\output\\CanadaOntario\\manufacturer_master.csv",
+        "D:\\quad99\\Scappers\\output\\CanadaOntario\\completed_letters.json"
+      ]
+    },
+    "step_2": {
+      "step_number": 2,
+      "step_name": "Generate Final Output",
+      "completed_at": "2026-01-12T15:34:59.857890",
+      "output_files": [
+        "D:\\quad99\\Scappers\\exports\\CanadaOntario\\canadaontarioreport_12012026.csv"
+      ]
+    }
+  },
+  "metadata": {}
+}

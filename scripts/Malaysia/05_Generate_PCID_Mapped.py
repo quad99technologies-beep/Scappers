@@ -29,6 +29,7 @@ sys.stdout.reconfigure(line_buffering=True) if hasattr(sys.stdout, 'reconfigure'
 os.environ.setdefault('PYTHONUNBUFFERED', '1')
 
 import argparse
+import csv
 import re
 from datetime import datetime
 from pathlib import Path
@@ -337,22 +338,33 @@ def main() -> None:
         raise FileNotFoundError(f"Prices file not found: {prices_path}")
     print(f"  -> Prices: {prices_path}", flush=True)
     if not reimb_path.exists():
-        raise FileNotFoundError(f"Fully reimbursable drugs file not found: {reimb_path}")
+        print(f"[WARNING] Fully reimbursable drugs file not found: {reimb_path}", flush=True)
+        print(f"[WARNING] Creating empty file to allow pipeline to continue...", flush=True)
+        # Create empty CSV with Generic Name header
+        reimb_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(reimb_path, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(["Generic Name", "_source_page"])
+        print(f"[WARNING] Created empty file: {reimb_path}", flush=True)
     print(f"  -> Reimbursable drugs: {reimb_path}", flush=True)
 
     print(f"\n[SCRIPT 05] Loading data...", flush=True)
     print(f"  -> Loading PCID mapping...", flush=True)
     pcid_mapping = load_pcid_mapping(pcid_path)
     print(f"  -> Loaded {len(pcid_mapping):,} PCID mappings", flush=True)
+    print(f"[PROGRESS] Loading data: PCID mapping loaded (1/3)", flush=True)
     print(f"  -> Loading fully reimbursable drugs...", flush=True)
     fully_reimbursable = load_fully_reimbursable(reimb_path)
     print(f"  -> Loaded {len(fully_reimbursable):,} reimbursable products", flush=True)
+    print(f"[PROGRESS] Loading data: Reimbursable drugs loaded (2/3)", flush=True)
     print(f"  -> Loading consolidated products and prices...", flush=True)
     cons, prices = load_inputs(cons_path, prices_path)
     print(f"  -> Loaded {len(cons):,} consolidated products, {len(prices):,} price records", flush=True)
+    print(f"[PROGRESS] Loading data: Products and prices loaded (3/3) (100%)", flush=True)
     print(f"\n[SCRIPT 05] Building report...", flush=True)
     report = build_report(cons, prices, pcid_mapping, fully_reimbursable)
     print(f"  -> Report built: {len(report):,} total rows", flush=True)
+    print(f"[PROGRESS] Building report: {len(report)}/{len(report)} (100%)", flush=True)
 
     # Split into mapped and not mapped
     print(f"\n[SCRIPT 05] Splitting into mapped and not mapped...", flush=True)

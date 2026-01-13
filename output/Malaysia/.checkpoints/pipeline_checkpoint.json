@@ -1,0 +1,65 @@
+{
+  "scraper": "Malaysia",
+  "last_run": "2026-01-12T11:25:31.354861",
+  "completed_steps": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "step_outputs": {
+    "step_0": {
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "completed_at": "2026-01-12T10:48:59.614514",
+      "output_files": [],
+      "duration_seconds": 0.1297898292541504
+    },
+    "step_1": {
+      "step_number": 1,
+      "step_name": "Product Registration Number",
+      "completed_at": "2026-01-12T10:50:53.102148",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\Malaysia\\malaysia_drug_prices_view_all.csv"
+      ],
+      "duration_seconds": 113.48438453674316
+    },
+    "step_2": {
+      "step_number": 2,
+      "step_name": "Product Details",
+      "completed_at": "2026-01-12T11:21:26.327052",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\Malaysia\\quest3_product_details.csv"
+      ],
+      "duration_seconds": 715.8236064910889
+    },
+    "step_3": {
+      "step_number": 3,
+      "step_name": "Consolidate Results",
+      "completed_at": "2026-01-12T11:21:27.185586",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\Malaysia\\consolidated_products.csv"
+      ],
+      "duration_seconds": 0.8529365062713623
+    },
+    "step_4": {
+      "step_number": 4,
+      "step_name": "Get Fully Reimbursable",
+      "completed_at": "2026-01-12T11:25:30.741001",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\Malaysia\\malaysia_fully_reimbursable_drugs.csv"
+      ],
+      "duration_seconds": 243.55123615264893
+    },
+    "step_5": {
+      "step_number": 5,
+      "step_name": "Generate PCID Mapped",
+      "completed_at": "2026-01-12T11:25:31.354854",
+      "output_files": [],
+      "duration_seconds": 0.6103785037994385
+    }
+  },
+  "metadata": {}
+}

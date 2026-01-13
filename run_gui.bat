@@ -15,8 +15,11 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM Run the GUI
-python scraper_gui.py
+REM Enable unbuffered output for real-time console updates (dependency installation)
+set PYTHONUNBUFFERED=1
+
+REM Run the GUI with unbuffered output to see dependency installation progress
+python -u scraper_gui.py
 
 if errorlevel 1 (
     echo.

@@ -212,7 +212,7 @@ def get_logs_dir() -> Path:
 # Configuration values (commonly used in Argentina scripts)
 ALFABETA_USER = getenv("ALFABETA_USER", "")
 ALFABETA_PASS = getenv("ALFABETA_PASS", "")
-HEADLESS = getenv_bool("HEADLESS", False)
+HEADLESS = getenv_bool("HEADLESS", True)
 MAX_ROWS = getenv_int("MAX_ROWS", 0)  # Default to 0 (unlimited)
 
 # Proxy configuration
@@ -239,7 +239,7 @@ DEFAULT_THREADS = getenv_int("DEFAULT_THREADS", 2)
 MIN_THREADS = getenv_int("MIN_THREADS", 1)
 MAX_THREADS = getenv_int("MAX_THREADS", 2)
 API_THREADS = getenv_int("API_THREADS", 5)  # Number of threads for API processing
-SELENIUM_THREADS = getenv_int("SELENIUM_THREADS", 1)  # Number of threads for Selenium processing
+SELENIUM_THREADS = getenv_int("SELENIUM_THREADS", 4)  # Number of threads for Selenium processing
 
 # File names
 DICTIONARY_FILE = getenv("DICTIONARY_FILE", "Dictionary.csv")

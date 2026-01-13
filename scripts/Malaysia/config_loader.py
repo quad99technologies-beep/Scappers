@@ -77,11 +77,17 @@ def load_env_file():
             config_dir = repo_root / "config"
             env_file = config_dir / f"{SCRAPER_ID}.env"
             if env_file.exists():
-                load_dotenv(env_file, override=True)
+                try:
+                    load_dotenv(env_file, override=True)
+                except Exception as parse_error:
+                    print(f"Warning: Could not parse {env_file.name} file: {parse_error}")
             # Also try platform.env
             platform_env = config_dir / "platform.env"
             if platform_env.exists():
-                load_dotenv(platform_env, override=False)
+                try:
+                    load_dotenv(platform_env, override=False)
+                except Exception as parse_error:
+                    print(f"Warning: Could not parse platform.env file: {parse_error}")
         except ImportError:
             pass  # dotenv not available, continue without loading
 

@@ -268,6 +268,7 @@ def main():
     b64 = base64.b64encode(pdf_bytes).decode("utf-8")
     file_data = f"data:application/pdf;base64,{b64}"
 
+    print(f"[PROGRESS] Extracting Annexe IV.2: Loading PDF (1/3)", flush=True)
     resp = client.responses.create(
         model=MODEL,
         input=[{
@@ -288,8 +289,10 @@ def main():
         temperature=OPENAI_TEMPERATURE,
     )
 
+    print(f"[PROGRESS] Extracting Annexe IV.2: Processing with OpenAI (2/3)", flush=True)
     raw_rows = json.loads(resp.output_text)["rows"]
 
+    print(f"[PROGRESS] Extracting Annexe IV.2: Building output (3/3)", flush=True)
     out_rows = []
     current_generic = ""  # carry-forward generic group
 
@@ -409,6 +412,7 @@ def main():
     df = df[FINAL_COLUMNS]
 
     df.to_csv(OUT_CSV, index=False, encoding="utf-8-sig")
+    print(f"[PROGRESS] Extracting Annexe IV.2: {len(df)}/{len(df)} (100%)", flush=True)
     print(f"[OK] Saved: {OUT_CSV}")
     print(f"Rows: {len(df)}")
 

@@ -1,0 +1,39 @@
+{
+  "scraper": "Netherlands",
+  "last_run": "2026-01-12T17:36:17.558133",
+  "completed_steps": [
+    0,
+    1,
+    2
+  ],
+  "step_outputs": {
+    "step_0": {
+      "step_number": 0,
+      "step_name": "00 - Backup and Clean",
+      "completed_at": "2026-01-12T14:58:05.759760",
+      "output_files": []
+    },
+    "step_1": {
+      "step_number": 1,
+      "step_name": "Collect URLs",
+      "completed_at": "2026-01-12T15:57:08.519775",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\Netherlands\\collected_urls.csv",
+        "D:\\quad99\\Scappers\\output\\Netherlands\\packs.csv",
+        "D:\\quad99\\Scappers\\output\\Netherlands\\completed_prefixes.csv"
+      ],
+      "duration_seconds": 1968.6400327682495
+    },
+    "step_2": {
+      "step_number": 2,
+      "step_name": "Reimbursement Extraction",
+      "completed_at": "2026-01-12T17:36:17.558065",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\Netherlands\\details.csv",
+        "D:\\quad99\\Scappers\\output\\Netherlands\\costs.csv"
+      ],
+      "duration_seconds": 1612.3352909088135
+    }
+  },
+  "metadata": {}
+}

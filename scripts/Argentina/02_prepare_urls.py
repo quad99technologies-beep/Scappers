@@ -2,21 +2,19 @@
 # -*- coding: utf-8 -*-
 """
 Argentina - URL Preparation Step
-Prepares product URLs and determines scraping source (API vs Selenium) before scraping.
+Prepares product URLs and initializes state for scraping.
 
 This script:
 1. Reads Productlist.csv (from step 01)
-2. Determines if products are duplicates (same product name appears multiple times)
-3. Constructs URLs for each product
-4. Determines source: "api" for single products, "selenium" for duplicates
-5. Outputs Productlist_with_urls.csv with: Product, Company, Source, URL, IsDuplicate
+2. Constructs URLs for each product
+3. Initializes all rows with Source=selenium, Scraped_By_Selenium=no, Scraped_By_API=no
+4. Outputs Productlist_with_urls.csv with: Product, Company, URL, Source, Scraped_By_Selenium, Scraped_By_API
 """
 
 import csv
 import logging
 from pathlib import Path
-from collections import Counter
-from typing import List, Tuple, Dict
+from typing import List, Dict
 
 # ====== CONFIG ======
 from config_loader import (
@@ -147,45 +145,41 @@ def main():
     
     log.info(f"Loaded {len(all_products)} products from {PRODUCTLIST_FILE}")
     
-    # Count product occurrences (by product name only, case-insensitive)
-    product_counts = Counter(nk(prod) for prod, _ in all_products)
-    
-    # Determine duplicates
-    duplicate_products = {prod for prod, count in product_counts.items() if count > 1}
-    single_products = {prod for prod, count in product_counts.items() if count == 1}
-    
-    log.info(f"Found {len(single_products)} unique single products")
-    log.info(f"Found {len(duplicate_products)} unique duplicate products")
-    
     # Prepare output data
     output_data: List[Dict[str, str]] = []
+    total_products = len(all_products)
     
-    for prod, comp in all_products:
-        prod_norm = nk(prod)
-        is_duplicate = prod_norm in duplicate_products
-        
+    for idx, (prod, comp) in enumerate(all_products, 1):
         # Construct URL
         url = construct_product_url(prod)
         
-        # Determine source:
-        # - All products start as "selenium" (first step)
-        # - API will be used as backup for blank Selenium results
-        # - Selenium handles duplicates and complex URLs better
-        source = "selenium"
-        
+        # Initialize all rows with same state
+        # Source = selenium (all products start with Selenium)
+        # Scraped_By_Selenium = no (not yet scraped)
+        # Scraped_By_API = no (not yet scraped by API)
+        # Selenium_Records = 0 (no records found yet)
+        # API_Records = 0 (no records found yet)
         output_data.append({
             "Product": prod,
             "Company": comp,
-            "Source": source,
             "URL": url,
-            "IsDuplicate": "true" if is_duplicate else "false"
+            "Source": "selenium",
+            "Scraped_By_Selenium": "no",
+            "Scraped_By_API": "no",
+            "Selenium_Records": "0",
+            "API_Records": "0"
         })
+        
+        # Output progress every 100 products or at completion
+        if idx % 100 == 0 or idx == total_products:
+            percent = round((idx / total_products) * 100, 1) if total_products > 0 else 0
+            print(f"[PROGRESS] Preparing URLs: {idx}/{total_products} ({percent}%)", flush=True)
     
     # Write output CSV
     output_dir.mkdir(parents=True, exist_ok=True)
     
     with open(output_file, "w", newline="", encoding="utf-8") as f:
-        fieldnames = ["Product", "Company", "Source", "URL", "IsDuplicate"]
+        fieldnames = ["Product", "Company", "URL", "Source", "Scraped_By_Selenium", "Scraped_By_API", "Selenium_Records", "API_Records"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(output_data)
@@ -193,19 +187,19 @@ def main():
     log.info(f"Wrote {len(output_data)} products to: {output_file}")
     
     # Summary statistics
-    api_count = sum(1 for row in output_data if row["Source"] == "api")
     selenium_count = sum(1 for row in output_data if row["Source"] == "selenium")
     url_count = sum(1 for row in output_data if row["URL"])
-    double_hyphen_count = sum(1 for row in output_data if row["URL"] and "--" in row["URL"])
+    scraped_by_selenium_count = sum(1 for row in output_data if row["Scraped_By_Selenium"] == "yes")
+    scraped_by_api_count = sum(1 for row in output_data if row["Scraped_By_API"] == "yes")
     
     log.info("=" * 60)
     log.info("Summary:")
     log.info(f"  Total products: {len(output_data)}")
-    log.info(f"  API source (singles with normal URLs): {api_count}")
-    log.info(f"  Selenium source (duplicates + URLs with --): {selenium_count}")
+    log.info(f"  Products with Source=selenium: {selenium_count}")
     log.info(f"  Products with URLs: {url_count}")
     log.info(f"  Products without URLs: {len(output_data) - url_count}")
-    log.info(f"  URLs with double hyphens (--): {double_hyphen_count}")
+    log.info(f"  Already scraped by Selenium: {scraped_by_selenium_count}")
+    log.info(f"  Already scraped by API: {scraped_by_api_count}")
     log.info("=" * 60)
     
     log.info("URL preparation completed successfully!")

@@ -336,11 +336,13 @@ def main():
         )
 
     # Read PDF and base64-encode
+    print(f"[PROGRESS] Extracting Annexe IV.1: Loading PDF (1/3)", flush=True)
     pdf_bytes = PDF_PATH.read_bytes()
     b64 = base64.b64encode(pdf_bytes).decode("utf-8")
     file_data = f"data:application/pdf;base64,{b64}"
 
     # Call OpenAI with PDF as input_file + prompt, and strict JSON schema output
+    print(f"[PROGRESS] Extracting Annexe IV.1: Processing with OpenAI (2/3)", flush=True)
     try:
         resp = client.responses.create(
             model=MODEL,
@@ -383,9 +385,11 @@ def main():
     rows = obj["rows"]
 
     # Build final output format
+    print(f"[PROGRESS] Extracting Annexe IV.1: Building output (3/3)", flush=True)
     df = to_final_rows(rows)
 
     df.to_csv(OUT_CSV, index=False, encoding="utf-8-sig")
+    print(f"[PROGRESS] Extracting Annexe IV.1: {len(df)}/{len(df)} (100%)", flush=True)
     print(f"[OK] Saved: {OUT_CSV}")
     print(f"Rows: {len(df)}")
 

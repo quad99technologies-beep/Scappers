@@ -1,7 +1,7 @@
 ================================================================================
 MALAYSIA MEDICINE PRICE SCRAPER - FINAL DATA COVERAGE REPORT
 ================================================================================
-Generated: 2026-01-03 10:30:03
+Generated: 2026-01-12 11:25:31
 
 ================================================================================
 EXECUTIVE SUMMARY
@@ -16,7 +16,7 @@ Non-Reimbursable Products:      1,125
 DATA SOURCE STATISTICS
 ================================================================================
 Products from MyPriMe (Prices): 1,362
-Products from QUEST3+ (Details): 19,855
+Products from QUEST3+ (Details): 19,959
 PCID Mappings Available:        1,303
 Reimbursable Drugs in FUKKM:    1,675
 
@@ -41,7 +41,7 @@ MISSING DATA ANALYSIS
    First 20 registration numbers:
        1. MAL20020795AZ
 
-[WARNING] Products in QUEST3+ but NOT in MyPriMe (18,494 products):
+[WARNING] Products in QUEST3+ but NOT in MyPriMe (18,598 products):
    These products have company info but no price information.
    First 20 registration numbers:
        1. MAL04050531T
@@ -64,7 +64,7 @@ MISSING DATA ANALYSIS
       18. MAL04091700X
       19. MAL04091707T
       20. MAL04091711T
-     ... and 18474 more
+     ... and 18578 more
 
 ================================================================================
 PCID MAPPING ANALYSIS

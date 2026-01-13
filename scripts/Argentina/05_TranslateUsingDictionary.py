@@ -290,11 +290,18 @@ def main():
 
     log.info(f"Processing {len(df)} rows with {len(cols)} target columns...")
     log.info(f"Dictionary contains {len(es_to_en)} Spanish→English translations")
+    
+    total_rows = len(df)
+    total_cols = len(cols)
+    print(f"[PROGRESS] Translating: Starting (0/{total_cols} columns)", flush=True)
 
-    for col in cols:
+    for col_idx, col in enumerate(cols, 1):
         df[col] = df[col].apply(lambda v: translate_cell_value(v, es_to_en, english_set,
                                                                col, missing_counter, missing_columns,
                                                                df_dict, DICT_FILE))
+        # Output progress for each column
+        percent = round((col_idx / total_cols) * 100, 1) if total_cols > 0 else 0
+        print(f"[PROGRESS] Translating: Column {col_idx}/{total_cols} ({percent}%) - {col}", flush=True)
 
     df.to_csv(OUT_TRANSLATED, index=False)
 
@@ -313,7 +320,7 @@ def main():
         pd.DataFrame(columns=["value", "count", "example_columns"]).to_csv(OUT_MISSING, index=False)
         log.info(f"[TRANSLATION] All translations found! No new translations needed.")
 
-    print(f"Done.\nTranslated → {OUT_TRANSLATED}\nMissing cells → {OUT_MISSING}")
+    print(f"Done.\nTranslated -> {OUT_TRANSLATED}\nMissing cells -> {OUT_MISSING}")
 
 if __name__ == "__main__":
     main()

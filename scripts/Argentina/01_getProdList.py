@@ -14,13 +14,14 @@ import os
 import csv
 import time
 import logging
+import socket
 from pathlib import Path
 from typing import List, Tuple, Set, Optional
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import (
@@ -30,7 +31,7 @@ from selenium.common.exceptions import (
     WebDriverException,
     UnexpectedAlertPresentException,
 )
-from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 
 # ====== CONFIG ======
 from config_loader import (
@@ -68,7 +69,148 @@ ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 log = logging.getLogger("alfabeta-products-dump")
 
-# ====== VPN CHECK ======
+# ====== TOR CONFIGURATION ======
+# Global variable to store detected Tor port (9050 for Tor service, 9150 for Tor Browser)
+TOR_PROXY_PORT = 9050  # Default to Tor service port
+
+def check_tor_running(host="127.0.0.1", timeout=2):
+    """
+    Check if Tor SOCKS5 proxy is running and accepting connections.
+    Checks both port 9050 (Tor service) and 9150 (Tor Browser).
+    
+    Returns:
+        Tuple of (is_running: bool, port: int) - port is 9050 or 9150 if running, None otherwise
+    """
+    # Tor Browser uses port 9150, Tor service uses port 9050
+    ports_to_check = [9150, 9050]  # Check Tor Browser port first
+    
+    for port in ports_to_check:
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(timeout)
+            result = sock.connect_ex((host, port))
+            sock.close()
+            if result == 0:
+                port_name = "Tor Browser" if port == 9150 else "Tor service"
+                log.info(f"[TOR_CHECK] {port_name} proxy is running on {host}:{port}")
+                return True, port
+        except Exception as e:
+            log.debug(f"[TOR_CHECK] Error checking port {port}: {e}")
+            continue
+    
+    log.warning(f"[TOR_CHECK] Tor proxy is not running on {host}:9050 or {host}:9150")
+    return False, None
+
+def find_firefox_binary():
+    """
+    Find Firefox binary in common locations on Windows.
+    Checks for:
+    1. Regular Firefox installation
+    2. Tor Browser (which includes Firefox)
+    3. Environment variable FIREFOX_BINARY
+    """
+    import shutil
+    
+    # Check environment variable first
+    firefox_bin = os.getenv("FIREFOX_BINARY", "")
+    if firefox_bin and Path(firefox_bin).exists():
+        log.info(f"[FIREFOX] Using Firefox binary from FIREFOX_BINARY env: {firefox_bin}")
+        return str(Path(firefox_bin).resolve())
+    
+    # Common Firefox installation paths on Windows
+    userprofile = os.environ.get("USERPROFILE", "")
+    possible_paths = [
+        # Regular Firefox
+        Path(os.environ.get("ProgramFiles", "C:\\Program Files")) / "Mozilla Firefox" / "firefox.exe",
+        Path(os.environ.get("ProgramFiles(x86)", "C:\\Program Files (x86)")) / "Mozilla Firefox" / "firefox.exe",
+        Path(os.environ.get("LOCALAPPDATA", "")) / "Mozilla Firefox" / "firefox.exe",
+        # Tor Browser (includes Firefox) - Standard locations
+        Path(os.environ.get("ProgramFiles", "C:\\Program Files")) / "Tor Browser" / "Browser" / "firefox.exe",
+        Path(os.environ.get("ProgramFiles(x86)", "C:\\Program Files (x86)")) / "Tor Browser" / "Browser" / "firefox.exe",
+        Path(os.environ.get("LOCALAPPDATA", "")) / "Tor Browser" / "Browser" / "firefox.exe",
+        # Common user installation locations
+        Path(userprofile) / "AppData" / "Local" / "Mozilla Firefox" / "firefox.exe",
+        Path(userprofile) / "AppData" / "Local" / "Tor Browser" / "Browser" / "firefox.exe",
+        # Desktop location (common for portable installations)
+        Path(userprofile) / "Desktop" / "Tor Browser" / "Browser" / "firefox.exe",
+        Path(userprofile) / "OneDrive" / "Desktop" / "Tor Browser" / "Browser" / "firefox.exe",
+        # Downloads folder (common for portable installations)
+        Path(userprofile) / "Downloads" / "Tor Browser" / "Browser" / "firefox.exe",
+        Path(userprofile) / "OneDrive" / "Downloads" / "Tor Browser" / "Browser" / "firefox.exe",
+    ]
+    
+    for path in possible_paths:
+        if path.exists():
+            log.info(f"[FIREFOX] Found Firefox binary: {path}")
+            return str(path.resolve())
+    
+    # Last resort: try to find firefox.exe in PATH
+    firefox_path = shutil.which("firefox")
+    if firefox_path:
+        log.info(f"[FIREFOX] Found Firefox in PATH: {firefox_path}")
+        return firefox_path
+    
+    return None
+
+def check_tor_requirements():
+    """
+    Check Tor requirements before starting the scraper.
+    Returns True if all requirements are met, False otherwise.
+    """
+    print("\n" + "=" * 80)
+    print("[TOR_CHECK] Verifying Tor connection...")
+    print("=" * 80)
+    log.info("[TOR_CHECK] Verifying Tor connection...")
+    
+    all_ok = True
+    
+    # Check 1: Firefox/Tor Browser installation
+    print("\n[TOR_CHECK] 1. Checking Firefox/Tor Browser installation...")
+    firefox_binary = find_firefox_binary()
+    if firefox_binary:
+        print(f"  [OK] Firefox/Tor Browser found: {firefox_binary}")
+        log.info(f"[TOR_CHECK] Firefox/Tor Browser found: {firefox_binary}")
+    else:
+        print("  [FAIL] Firefox/Tor Browser not found")
+        print("  [INFO] Please install Firefox or Tor Browser")
+        print("  [INFO] Firefox: https://www.mozilla.org/firefox/")
+        print("  [INFO] Tor Browser: https://www.torproject.org/download/")
+        print("  [INFO] Or set FIREFOX_BINARY environment variable")
+        log.error("[TOR_CHECK] Firefox/Tor Browser not found")
+        all_ok = False
+    
+    # Check 2: Tor service running
+    print("\n[TOR_CHECK] 2. Checking Tor proxy service...")
+    tor_running, tor_port = check_tor_running()
+    if tor_running:
+        port_name = "Tor Browser" if tor_port == 9150 else "Tor service"
+        print(f"  [OK] {port_name} proxy is running on localhost:{tor_port}")
+        log.info(f"[TOR_CHECK] {port_name} proxy is running on port {tor_port}")
+        # Store the detected port for later use
+        global TOR_PROXY_PORT
+        TOR_PROXY_PORT = tor_port
+    else:
+        print("  [FAIL] Tor proxy is not running on localhost:9050 or localhost:9150")
+        print("  [INFO] Please start Tor before running the scraper:")
+        print("  [INFO]   Option 1: Start Tor Browser (uses port 9150)")
+        print("  [INFO]   Option 2: Start Tor service separately (uses port 9050)")
+        print("  [INFO]   The scraper will automatically detect which port Tor is using")
+        log.error("[TOR_CHECK] Tor proxy is not running")
+        all_ok = False
+    
+    # Summary
+    print("\n" + "=" * 80)
+    if all_ok:
+        print("[TOR_CHECK] [OK] Tor connection verified. Starting scraper...")
+        log.info("[TOR_CHECK] Tor connection verified. Starting scraper...")
+    else:
+        print("[TOR_CHECK] [FAIL] Tor requirements not met. Please fix the issues above.")
+        log.error("[TOR_CHECK] Tor requirements check failed")
+    print("=" * 80 + "\n")
+    
+    return all_ok
+
+# ====== VPN CHECK (kept for backward compatibility, but not used) ======
 def get_vpn_info() -> dict:
     """Get detailed VPN connection information."""
     vpn_info = {
@@ -277,46 +419,74 @@ def check_vpn_connection() -> bool:
 
 # ====== DRIVER ======
 def setup_driver(headless: bool = HEADLESS):
-    opts = webdriver.ChromeOptions()
+    opts = webdriver.FirefoxOptions()
     if headless:
-        opts.add_argument("--headless=new")
-    opts.add_argument("--disable-gpu")
-    opts.add_argument("--no-sandbox")
-    opts.add_argument("--disable-dev-shm-usage")
-    opts.add_argument("--disable-extensions")
-    opts.add_argument("--disable-background-networking")
-    opts.add_argument("--disable-popup-blocking")
+        opts.add_argument("--headless")
     
-    # Note: No proxy configuration - using VPN only
-    log.info("[DRIVER] No proxy configured - using VPN only")
+    # Create a temporary profile for isolation
+    profile = webdriver.FirefoxProfile()
+    profile.set_preference("browser.cache.disk.enable", False)
+    profile.set_preference("browser.cache.memory.enable", False)
+    profile.set_preference("browser.cache.offline.enable", False)
+    profile.set_preference("network.http.use-cache", False)
     
-    # prefer Spanish content, disable translate
-    prefs = {
-        "translate": {"enabled": False},
-        "intl.accept_languages": "es-ES,es,en-US,en"
-    }
-    opts.add_experimental_option("prefs", prefs)
-    opts.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
-    opts.add_experimental_option("useAutomationExtension", False)
+    # Block images and CSS for performance
+    profile.set_preference("permissions.default.image", 2)  # Block images
+    profile.set_preference("permissions.default.stylesheet", 2)  # Block CSS
+    
+    # Language preference
+    profile.set_preference("intl.accept_languages", "es-ES,es,en-US,en")
+    
+    # Disable notifications and popups
+    profile.set_preference("dom.webnotifications.enabled", False)
+    profile.set_preference("dom.push.enabled", False)
+    
+    # User agent
+    profile.set_preference("general.useragent.override", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0")
+    
+    # Configure Tor SOCKS5 proxy (uses detected port: 9050 for Tor service, 9150 for Tor Browser)
+    # Note: Tor must be running separately (either Tor service or Tor Browser)
+    profile.set_preference("network.proxy.type", 1)  # Manual proxy configuration
+    profile.set_preference("network.proxy.socks", "127.0.0.1")
+    profile.set_preference("network.proxy.socks_port", TOR_PROXY_PORT)
+    profile.set_preference("network.proxy.socks_version", 5)
+    profile.set_preference("network.proxy.socks_remote_dns", True)  # Route DNS through Tor
+    log.info(f"[TOR_CONFIG] Using Tor proxy on port {TOR_PROXY_PORT} ({'Tor Browser' if TOR_PROXY_PORT == 9150 else 'Tor service'})")
+    
+    # Update preferences
+    opts.profile = profile
+    
+    # Set page load strategy to "eager" to avoid hanging on slow-loading resources
+    opts.set_capability("pageLoadStrategy", "eager")
+    
+    # Find and set Firefox binary path
+    firefox_binary = find_firefox_binary()
+    if firefox_binary:
+        # In Selenium 4, use binary_location instead of FirefoxBinary
+        opts.binary_location = firefox_binary
+        log.info(f"[FIREFOX] Using Firefox binary: {firefox_binary}")
+    else:
+        log.error("[FIREFOX] Firefox binary not found in common locations")
+        log.error("[FIREFOX] Please install Firefox or set FIREFOX_BINARY environment variable")
+        log.error("[FIREFOX] Example: set FIREFOX_BINARY=C:\\Program Files\\Mozilla Firefox\\firefox.exe")
+        raise RuntimeError(
+            "Firefox binary not found. Please:\n"
+            "1. Install Firefox from https://www.mozilla.org/firefox/\n"
+            "2. Or install Tor Browser (includes Firefox)\n"
+            "3. Or set FIREFOX_BINARY environment variable to Firefox executable path"
+        )
 
     # Create driver
     try:
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=opts)
+        driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=opts)
     except Exception as e:
-        log.exception("Failed to start ChromeDriver")
+        log.exception("Failed to start FirefoxDriver")
         raise
 
     # Be generous on page load for slow pages
     driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
     # small implicit wait to reduce flakiness, rely mostly on explicit waits
     driver.implicitly_wait(IMPLICIT_WAIT)
-    
-    # Register Chrome instance for cleanup tracking
-    try:
-        from core.chrome_manager import register_chrome_driver
-        register_chrome_driver(driver)
-    except ImportError:
-        pass  # Chrome manager not available, continue without registration
     
     return driver
 
@@ -354,7 +524,6 @@ def ensure_logged_in(d):
         d.switch_to.alert.accept()
     except TimeoutException:
         pass
-    time.sleep(PAUSE_AFTER_ALERT)
 
 def open_hub(d):
     d.get(HUB_URL)
@@ -439,128 +608,180 @@ def safe_screenshot_and_source(d, name_prefix="failure"):
 def clean(s: Optional[str]) -> str:
     return " ".join((s or "").split()).strip()
 
-# ====== FORM SUBMIT (robust) ======
-def submit_blank_products(d, max_retries: int = MAX_RETRIES_SUBMIT):
+# ====== FORM SUBMIT ======
+def submit_blank_products(d):
     """
-    Submit blank 'patron' on form#srvPr. Retries with JS-click fallback and waits for results.
-    Raises RuntimeError on repeated failure.
+    Submit blank 'patron' on form#srvPr. Single attempt with 2-minute wait for results.
     """
-    for attempt in range(1, max_retries + 1):
-        log.info(f"submit_blank_products: attempt {attempt}/{max_retries}")
+    log.info("submit_blank_products: submitting blank search")
+    
+    form = WebDriverWait(d, WAIT_LONG).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, "form#srvPr"))
+    )
+    
+    # Find the input field using the exact selector
+    try:
+        box = form.find_element(By.CSS_SELECTOR, "input.entrada[name='patron'], input[name='patron']")
+    except Exception:
+        raise RuntimeError("Input box not found in form")
+
+    # Find the submit button
+    try:
+        submit_btn = form.find_element(By.CSS_SELECTOR, "input.mfsubmit[value='Buscar'], input.mfsubmit, input[type='submit'][value='Buscar']")
+    except Exception:
+        submit_btn = None
+        
+    # Submit the form using JavaScript (avoids page load timeout issues)
+    log.debug("Submitting form via JavaScript (bypassing validation)")
+    try:
+        # Use JavaScript to set empty value and submit - this doesn't wait for page load
+        d.execute_script("""
+            var form = arguments[0];
+            var input = form.querySelector('input[name="patron"]');
+            if (input) {
+                input.value = '';  // Empty value
+                // Bypass validation and submit directly
+                if (form.onsubmit) {
+                    form.onsubmit = null;  // Remove validation
+                }
+                form.submit();
+            }
+        """, form)
+        # Rate limiting: pause after form submission to avoid overwhelming server
+        time.sleep(PAUSE_AFTER_ALERT)
+        log.debug("Form submitted via JavaScript")
+    except Exception as e:
+        log.warning(f"JavaScript submission failed: {e}, trying fallback with minimal input")
+        # Fallback: Try with minimal input (two spaces)
         try:
-            form = WebDriverWait(d, WAIT_LONG).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, "form#srvPr"))
-            )
-            # Find the input field using the exact selector
-            try:
-                box = form.find_element(By.CSS_SELECTOR, "input.entrada[name='patron'], input[name='patron']")
-            except Exception:
-                box = None
+            d.execute_script("""
+                var form = arguments[0];
+                var input = form.querySelector('input[name="patron"]');
+                if (input) {
+                    input.value = '  ';  // Two spaces as fallback
+                    // Bypass validation and submit directly
+                    if (form.onsubmit) {
+                        form.onsubmit = null;  // Remove validation
+                    }
+                    form.submit();
+                }
+            """, form)
+            # Rate limiting: pause after form submission
+            time.sleep(PAUSE_AFTER_ALERT)
+            log.debug("Used fallback method with minimal input via JavaScript")
+        except Exception as e2:
+            log.error(f"Fallback submission also failed: {e2}")
+            raise RuntimeError(f"Failed to submit form: {e}, {e2}")
 
-            if box is None:
-                log.warning("Input box not found, skipping this attempt")
-                continue
-            
-            # Find the submit button
-            try:
-                submit_btn = form.find_element(By.CSS_SELECTOR, "input.mfsubmit[value='Buscar'], input.mfsubmit, input[type='submit'][value='Buscar']")
-            except Exception:
-                submit_btn = None
-                
-            # Clear the input field and leave it empty
-            log.debug("Clearing input field and submitting with empty search")
-            box.clear()
-            time.sleep(PAUSE_SHORT)
-            
-            # Try to submit with empty input first
-            try:
-                # Method 1: Click the submit button directly
-                if submit_btn:
-                    log.debug("Clicking submit button (Buscar)")
-                    submit_btn.click()
-                    time.sleep(PAUSE_AFTER_ALERT)
-                else:
-                    # Method 2: Use JavaScript to bypass validation and submit
-                    log.debug("Submitting via JavaScript (bypassing validation)")
-                    d.execute_script("""
-                        var form = arguments[0];
-                        var input = form.querySelector('input[name="patron"]');
-                        if (input) {
-                            input.value = '';  // Empty value
-                            // Bypass validation and submit directly
-                            if (form.onsubmit) {
-                                form.onsubmit = null;  // Remove validation
-                            }
-                            form.submit();
-                        }
-                    """, form)
-                    time.sleep(PAUSE_AFTER_ALERT)
-            except Exception as e:
-                log.warning(f"Primary submission method failed: {e}, trying fallback")
-                # Fallback: Try with minimal input if empty doesn't work
-                try:
-                    box.clear()
-                    box.send_keys("  ")  # Two spaces as fallback
-                    time.sleep(PAUSE_SHORT)
-                    if submit_btn:
-                        submit_btn.click()
-                    else:
-                        d.execute_script("arguments[0].submit();", form)
-                    log.debug("Used fallback method with minimal input")
-                    time.sleep(PAUSE_AFTER_ALERT)
-                except Exception as e2:
-                    log.warning(f"All submission methods failed: {e2}")
-                    raise
-
-            # After triggering submit, wait for results (same approach as script 03)
-            try:
-                WebDriverWait(d, WAIT_LONG).until(
-                    lambda drv: drv.find_elements(By.CSS_SELECTOR, "a.rprod, form[name^='pr']")
-                )
-                log.debug("Results page loaded")
-            except TimeoutException:
-                log.warning("Timeout waiting for results page")
-                # Check if we're still on the same page
-                try:
-                    if form.is_displayed():
-                        log.warning("Form still visible, submission may have failed")
-                except StaleElementReferenceException:
-                    log.debug("Form went stale, page may have navigated")
-            except Exception as e_wait:
-                log.debug(f"Post-submit wait encountered: {e_wait}")
-
-            # small pause; then ensure logged in (to catch redirects to login)
-            time.sleep(PAUSE)
-            ensure_logged_in(d)
-
-            # Confirm we have at least product anchors; if so, success
-            try:
-                prods = d.find_elements(By.CSS_SELECTOR, "table.estandar td a.rprod")
-                if prods:
-                    log.info("submit_blank_products: results detected")
-                    return
-            except Exception:
-                pass
-
-            log.warning("submit_blank_products: no product anchors detected after submit - will retry")
-        except TimeoutException as te:
-            log.warning(f"Timeout while locating form (attempt {attempt}): {te}")
-        except StaleElementReferenceException:
-            log.warning("Form went stale while submitting; retrying")
-        except WebDriverException as e:
-            log.exception(f"WebDriverException during submit attempt {attempt}: {e}")
-        except Exception:
-            log.exception("Unexpected error in submit_blank_products")
-
-        # capture an artifact occasionally
+    # Ensure we're still logged in after navigation
+    ensure_logged_in(d)
+    
+    # Wait for results table to appear and be fully loaded
+    log.info("Waiting for results table to load...")
+    table_found = False
+    try:
+        # Wait for the results table to be present (up to 120 seconds)
+        WebDriverWait(d, 120).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "table.estandar"))
+        )
+        log.info("Results table found")
+        table_found = True
+        
+        # Wait for document to be fully loaded
+        WebDriverWait(d, 30).until(
+            lambda drv: drv.execute_script("return document.readyState") == "complete"
+        )
+        log.info("Document ready state: complete")
+        
+    except TimeoutException:
+        log.warning("Timeout waiting for results table - checking current page state")
+        # Check if we're still on the form page
         try:
-            safe_screenshot_and_source(d, name_prefix=f"submit_attempt_{attempt}")
+            form = d.find_elements(By.CSS_SELECTOR, "form#srvPr")
+            if form:
+                log.error("Still on form page - form submission may have failed")
+                raise RuntimeError("Form submission failed - still on form page")
         except Exception:
             pass
-
-        time.sleep(PAUSE_AFTER_ALERT + attempt * 0.5)
-
-    raise RuntimeError("submit_blank_products failed after retries")
+    
+    # Check if table was found
+    if not table_found:
+        try:
+            # Try one more time to find the table
+            table = d.find_elements(By.CSS_SELECTOR, "table.estandar")
+            if table:
+                log.info("Results table found on retry")
+                table_found = True
+        except Exception:
+            pass
+    
+    if not table_found:
+        raise RuntimeError("Results table not found after form submission")
+    
+    # Now wait for products to appear (give it up to 2 minutes since large result sets take time)
+    log.info("Waiting for products to appear in table (this may take up to 2 minutes for large result sets)...")
+    products_found = False
+    
+    # Poll for products every 5 seconds for up to 120 seconds
+    max_wait_time = 120
+    poll_interval = 5
+    elapsed = 0
+    
+    while elapsed < max_wait_time:
+        try:
+            prods = d.find_elements(By.CSS_SELECTOR, "table.estandar td a.rprod")
+            if prods and len(prods) > 0:
+                log.info(f"Product links detected: {len(prods)} products found")
+                products_found = True
+                break
+            else:
+                # Check if table has any content at all
+                table_cells = d.find_elements(By.CSS_SELECTOR, "table.estandar td")
+                if table_cells:
+                    log.debug(f"Table has {len(table_cells)} cells but no product links yet...")
+        except Exception as e:
+            log.debug(f"Error checking for products: {e}")
+        
+        if elapsed % 30 == 0 and elapsed > 0:  # Log every 30 seconds
+            log.info(f"Still waiting for products... ({elapsed}s elapsed)")
+        
+        time.sleep(poll_interval)
+        elapsed += poll_interval
+    
+    if not products_found:
+        # Final check - maybe products are there but selector is different
+        log.warning("No products found with standard selector - checking page content...")
+        try:
+            # Check for any links in the table
+            all_links = d.find_elements(By.CSS_SELECTOR, "table.estandar a")
+            log.info(f"Found {len(all_links)} total links in table")
+            
+            # Try alternative selectors
+            prods_alt1 = d.find_elements(By.CSS_SELECTOR, "table.estandar a.rprod")
+            prods_alt2 = d.find_elements(By.CSS_SELECTOR, "table.estandar td a")
+            
+            if prods_alt1 or prods_alt2:
+                log.warning("Products may be present but not detected with primary selector - proceeding anyway")
+                log.info("Will attempt extraction on next step")
+                return
+            else:
+                log.error("No products detected even with alternative selectors")
+                raise RuntimeError("No products found after waiting 2 minutes - form submission may have failed")
+        except RuntimeError:
+            raise
+        except Exception as e:
+            log.error(f"Error in final check: {e}")
+            raise RuntimeError(f"Failed to detect products: {e}")
+    else:
+        # Additional wait to ensure all content is fully rendered
+        log.info("Waiting additional time for all content to fully render...")
+        time.sleep(5)
+        
+        # Final verification
+        prods = d.find_elements(By.CSS_SELECTOR, "table.estandar td a.rprod")
+        labs = d.find_elements(By.CSS_SELECTOR, "table.estandar td a.rlab")
+        log.info(f"submit_blank_products: {len(prods)} product(s) and {len(labs)} company/ies detected - content fully loaded")
+        return
 
 # ====== PAGINATION & EXTRACTION ======
 def go_next(d) -> bool:
@@ -593,11 +814,9 @@ def go_next(d) -> bool:
                     WebDriverWait(d, WAIT_LONG).until(
                         lambda drv: drv.find_elements(By.CSS_SELECTOR, "table.estandar")
                     )
-                    time.sleep(PAUSE)
                     return True
                 except StaleElementReferenceException:
                     # element vanished — page likely navigated; treat as success
-                    time.sleep(PAUSE)
                     return True
                 except Exception:
                     continue
@@ -609,8 +828,20 @@ def extract_products_page(d) -> List[Tuple[str, str]]:
     """
     Extract (Product, Company) pairs from <table class="estandar">:
     sequence appears as  ... <a class="rprod">NAME</a> • <a class="rlab">LAB</a> <br> ...
+    Waits for content to be fully loaded before extracting.
     """
-    time.sleep(PAUSE_MEDIUM)
+    # Wait for table to be present and content to load
+    try:
+        WebDriverWait(d, WAIT_LONG).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "table.estandar"))
+        )
+        # Wait for document ready state
+        WebDriverWait(d, 10).until(
+            lambda drv: drv.execute_script("return document.readyState") == "complete"
+        )
+    except TimeoutException:
+        log.warning("Timeout waiting for table to load, continuing anyway")
+    
     rows: List[Tuple[str, str]] = []
     try:
         prods = d.find_elements(By.CSS_SELECTOR, "table.estandar td a.rprod")
@@ -655,24 +886,25 @@ def extract_products_page(d) -> List[Tuple[str, str]]:
 def main():
     log.info("===== Starting AlfaBeta Products Scraper =====")
     
-    # Check VPN connection before starting
-    if not check_vpn_connection():
+    # Check Tor connection before starting
+    if not check_tor_requirements():
         print("\n" + "=" * 80)
-        print("[STARTUP] [FAIL] VPN connection check failed!")
-        print("[STARTUP] Please connect your VPN (Proton VPN) and try again.")
+        print("[STARTUP] [FAIL] Tor connection check failed!")
+        print("[STARTUP] Please start Tor (Tor Browser or Tor service) and try again.")
         print("=" * 80 + "\n")
-        log.error("[STARTUP] VPN connection check failed!")
-        log.error("[STARTUP] Please connect your VPN (Proton VPN) and try again.")
+        log.error("[STARTUP] Tor connection check failed!")
+        log.error("[STARTUP] Please start Tor (Tor Browser or Tor service) and try again.")
         return 1
     
     print("\n" + "=" * 80)
-    print("[STARTUP] [OK] VPN connection verified. Starting scraper...")
-    print("[STARTUP] Note: Proxies are NOT used - using VPN only")
+    print("[STARTUP] [OK] Tor connection verified. Starting scraper...")
+    print("[STARTUP] Using Tor proxy for all requests")
     print("=" * 80 + "\n")
-    log.info("[STARTUP] VPN connection verified. Starting scraper...")
-    log.info("[STARTUP] Note: Proxies are NOT used - using VPN only")
+    log.info("[STARTUP] Tor connection verified. Starting scraper...")
+    log.info("[STARTUP] Using Tor proxy for all requests")
     
-    d = setup_driver(headless=HEADLESS)
+    # Force headless mode for product list extraction
+    d = setup_driver(headless=True)
     try:
         # Go directly to alfabeta.net/precio/
         log.info(f"Navigating to {PRODUCTS_URL}")
@@ -691,7 +923,6 @@ def main():
         
         # Handle any alerts
         dismiss_alert_if_present(d)
-        time.sleep(PAUSE)
         
         # Refresh page
         log.info("Refreshing page...")
@@ -710,7 +941,6 @@ def main():
         
         # Handle any alerts after refresh
         dismiss_alert_if_present(d)
-        time.sleep(PAUSE)
         
         # Now submit blank search to load all products
         log.info("Submitting blank search to load all products...")
@@ -718,12 +948,23 @@ def main():
 
         acc: Set[Tuple[str, str]] = set()
         page = 1
+        # Estimate total pages (will update as we go)
+        estimated_total = 100  # Initial estimate, will adjust
+        
         while True:
             try:
                 pairs = extract_products_page(d)
                 for row in pairs:
                     acc.add(row)
                 log.info(f"Page {page}: +{len(pairs)}  (unique total: {len(acc)})")
+                
+                # Output progress (estimate total pages, update as we discover more)
+                if page % 10 == 0 or len(pairs) == 0:  # Update every 10 pages or when no more products
+                    # Estimate: if we're still getting products, there might be more
+                    if len(pairs) > 0:
+                        estimated_total = max(estimated_total, page + 10)  # Extend estimate
+                    percent = round((page / estimated_total) * 100, 1) if estimated_total > 0 else 0
+                    print(f"[PROGRESS] Extracting products: Page {page} (unique: {len(acc)})", flush=True)
             except Exception:
                 log.exception("Error extracting page; saving artifact and continuing")
                 safe_screenshot_and_source(d, name_prefix=f"extract_page_{page}")
@@ -732,10 +973,14 @@ def main():
             try:
                 if not go_next(d):
                     log.info("No 'next' link found - finished paging")
+                    # Final progress update
+                    print(f"[PROGRESS] Extracting products: Page {page}/{page} (100%) - {len(acc)} unique products", flush=True)
                     break
             except Exception:
                 log.exception("Error clicking next; aborting pagination and saving artifact")
                 safe_screenshot_and_source(d, name_prefix=f"go_next_error_{page}")
+                # Final progress update
+                print(f"[PROGRESS] Extracting products: Page {page}/{page} (100%) - {len(acc)} unique products", flush=True)
                 break
             page += 1
 

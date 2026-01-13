@@ -12,6 +12,7 @@ Usage:
 import sys
 import subprocess
 import argparse
+import time
 from pathlib import Path
 
 # Add repo root to path
@@ -33,10 +34,31 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
     print(f"Step {step_num}/5: {step_name}")
     print(f"{'='*80}\n")
     
+    # Output overall pipeline progress with descriptive message
+    total_steps = 5
+    pipeline_percent = round((step_num / total_steps) * 100, 1)
+    
+    # Create meaningful progress description based on step
+    step_descriptions = {
+        0: "Preparing: Backing up previous results and cleaning output directory",
+        1: "Scraping: Fetching product registration numbers from MyPriMe",
+        2: "Scraping: Extracting detailed product information (this may take a while)",
+        3: "Processing: Consolidating product details from all sources",
+        4: "Scraping: Fetching fully reimbursable drugs list",
+        5: "Generating: Creating final output files with PCID mapping"
+    }
+    step_desc = step_descriptions.get(step_num, step_name)
+    
+    print(f"[PROGRESS] Pipeline Step: {step_num}/{total_steps} ({pipeline_percent}%) - {step_desc}", flush=True)
+    
     script_path = Path(__file__).parent / script_name
     if not script_path.exists():
         print(f"ERROR: Script not found: {script_path}")
         return False
+    
+    # Track step execution time
+    start_time = time.time()
+    duration_seconds = None
     
     try:
         result = subprocess.run(
@@ -45,22 +67,58 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
             capture_output=False
         )
         
+        # Calculate duration
+        duration_seconds = time.time() - start_time
+        
+        # Format duration for display
+        hours = int(duration_seconds // 3600)
+        minutes = int((duration_seconds % 3600) // 60)
+        seconds = int(duration_seconds % 60)
+        if hours > 0:
+            duration_str = f"{hours}h {minutes}m {seconds}s"
+        elif minutes > 0:
+            duration_str = f"{minutes}m {seconds}s"
+        else:
+            duration_str = f"{seconds}s"
+        print(f"[TIMING] Step {step_num} completed in {duration_str}", flush=True)
+        
         # Mark step as complete
         cp = get_checkpoint_manager("Malaysia")
         if output_files:
             # Convert to absolute paths
             output_dir = get_output_dir()
             abs_output_files = [str(output_dir / f) if not Path(f).is_absolute() else f for f in output_files]
-            cp.mark_step_complete(step_num, step_name, abs_output_files)
+            cp.mark_step_complete(step_num, step_name, abs_output_files, duration_seconds=duration_seconds)
         else:
-            cp.mark_step_complete(step_num, step_name)
+            cp.mark_step_complete(step_num, step_name, duration_seconds=duration_seconds)
+        
+        # Output completion progress with descriptive message
+        completion_percent = round(((step_num + 1) / total_steps) * 100, 1)
+        if completion_percent > 100.0:
+            completion_percent = 100.0
+        
+        next_step_descriptions = {
+            0: "Ready to fetch registration numbers",
+            1: "Ready to extract product details",
+            2: "Ready to consolidate results",
+            3: "Ready to fetch reimbursable drugs",
+            4: "Ready to generate PCID mapped output",
+            5: "Pipeline completed successfully"
+        }
+        next_desc = next_step_descriptions.get(step_num + 1, "Moving to next step")
+        
+        print(f"[PROGRESS] Pipeline Step: {step_num + 1}/{total_steps} ({completion_percent}%) - {next_desc}", flush=True)
         
         return True
     except subprocess.CalledProcessError as e:
-        print(f"\nERROR: Step {step_num} ({step_name}) failed with exit code {e.returncode}")
+        # Track duration even on failure
+        duration_seconds = time.time() - start_time
+        print(f"\nERROR: Step {step_num} ({step_name}) failed with exit code {e.returncode} (duration: {duration_seconds:.2f}s)")
         return False
     except Exception as e:
-        print(f"\nERROR: Step {step_num} ({step_name}) failed: {e}")
+        # Track duration even on failure
+        duration_seconds = time.time() - start_time
+        print(f"\nERROR: Step {step_num} ({step_name}) failed: {e} (duration: {duration_seconds:.2f}s)")
         return False
 
 def main():
@@ -100,12 +158,65 @@ def main():
         (5, "05_Generate_PCID_Mapped.py", "Generate PCID Mapped", None),  # Output files vary
     ]
     
+    # Check all steps before start_step to find the earliest step that needs re-running
+    earliest_rerun_step = None
+    for step_num, script_name, step_name, output_files in steps:
+        if step_num < start_step:
+            # Convert relative output files to absolute paths for verification
+            expected_files = None
+            if output_files:
+                expected_files = [str(output_dir / f) if not Path(f).is_absolute() else f for f in output_files]
+                # Debug: print file paths being checked
+                print(f"[CHECKPOINT] Checking step {step_num} ({step_name}): expected files = {expected_files}")
+            
+            should_skip = cp.should_skip_step(step_num, step_name, verify_outputs=True, expected_output_files=expected_files)
+            if not should_skip:
+                # Step marked complete but output files missing - needs re-run
+                print(f"[CHECKPOINT] Step {step_num} ({step_name}) marked complete but expected output files missing. Will re-run.")
+                if earliest_rerun_step is None or step_num < earliest_rerun_step:
+                    earliest_rerun_step = step_num
+            else:
+                print(f"[CHECKPOINT] Step {step_num} ({step_name}) verified - output files exist, will skip.")
+    
+    # Adjust start_step if any earlier step needs re-running
+    if earliest_rerun_step is not None:
+        print(f"\nWARNING: Step {earliest_rerun_step} needs re-run (output files missing).")
+        print(f"Adjusting start step from {start_step} to {earliest_rerun_step} to maintain pipeline integrity.\n")
+        start_step = earliest_rerun_step
+    else:
+        print(f"[CHECKPOINT] All steps before {start_step} verified successfully. Starting from step {start_step}.\n")
+    
     # Run steps starting from start_step
     for step_num, script_name, step_name, output_files in steps:
         if step_num < start_step:
-            # Skip completed steps
-            if cp.is_step_complete(step_num):
-                print(f"\nStep {step_num}/5: {step_name} - SKIPPED (already completed)")
+            # Skip completed steps (verify output files exist)
+            # Convert relative output files to absolute paths for verification
+            expected_files = None
+            if output_files:
+                expected_files = [str(output_dir / f) if not Path(f).is_absolute() else f for f in output_files]
+            
+            if cp.should_skip_step(step_num, step_name, verify_outputs=True, expected_output_files=expected_files):
+                print(f"\nStep {step_num}/5: {step_name} - SKIPPED (already completed in checkpoint)")
+                # Output progress for skipped step
+                total_steps = 5
+                completion_percent = round(((step_num + 1) / total_steps) * 100, 1)
+                if completion_percent > 100.0:
+                    completion_percent = 100.0
+                
+                step_descriptions = {
+                    0: "Skipped: Backup already completed",
+                    1: "Skipped: Registration numbers already fetched",
+                    2: "Skipped: Product details already extracted",
+                    3: "Skipped: Results already consolidated",
+                    4: "Skipped: Reimbursable drugs already fetched",
+                    5: "Skipped: PCID mapping already generated"
+                }
+                skip_desc = step_descriptions.get(step_num, f"Skipped: {step_name} already completed")
+                
+                print(f"[PROGRESS] Pipeline Step: {step_num + 1}/{total_steps} ({completion_percent}%) - {skip_desc}", flush=True)
+            else:
+                # Step marked complete but output files missing - will re-run
+                print(f"\nStep {step_num}/5: {step_name} - WILL RE-RUN (output files missing)")
             continue
         
         success = run_step(step_num, script_name, step_name, output_files)
@@ -116,6 +227,7 @@ def main():
     print(f"\n{'='*80}")
     print("Pipeline completed successfully!")
     print(f"{'='*80}\n")
+    print(f"[PROGRESS] Pipeline Step: 5/5 (100%)", flush=True)
     
     # Clean up lock file
     try:

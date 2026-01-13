@@ -33,10 +33,10 @@ PIPELINE_STEPS = {
         (0, "Backup and Clean"),
         (1, "Get Product List"),
         (2, "Prepare URLs"),
-        (3, "Scrape Products"),
-        (4, "Translate Using Dictionary"),
-        (5, "Generate Output"),
-        (6, "PCID Missing"),
+        (3, "Scrape Products (Selenium)"),
+        (4, "Scrape Products (API)"),
+        (5, "Translate Using Dictionary"),
+        (6, "Generate Output"),
     ],
     "Malaysia": [
         (0, "Backup and Clean"),
@@ -54,6 +54,16 @@ PIPELINE_STEPS = {
         (4, "Extract Annexe IV.2"),
         (5, "Extract Annexe V"),
         (6, "Merge All Annexes"),
+    ],
+    "CanadaOntario": [
+        (0, "Backup and Clean"),
+        (1, "Extract Product Details"),
+        (2, "Generate Final Output"),
+    ],
+    "Netherlands": [
+        (0, "Backup and Clean"),
+        (1, "Collect URLs"),
+        (2, "Reimbursement Extraction"),
     ],
 }
 

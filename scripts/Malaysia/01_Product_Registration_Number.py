@@ -11,10 +11,24 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
-import pandas as pd
 import time
 from pathlib import Path
 from config_loader import load_env_file, require_env, getenv, get_output_dir
+
+# Import pandas with graceful error handling
+try:
+    import pandas as pd
+except ImportError as e:
+    print("=" * 80)
+    print("ERROR: Required module 'pandas' is not installed.")
+    print("=" * 80)
+    print("Please install dependencies by running:")
+    print("  pip install -r requirements.txt")
+    print("")
+    print("Or install pandas directly:")
+    print("  pip install pandas")
+    print("=" * 80)
+    sys.exit(1)
 
 # Load environment variables from .env file
 load_env_file()
@@ -52,6 +66,22 @@ def main():
         register_chrome_driver(driver)
     except ImportError:
         pass  # Chrome manager not available, continue without registration
+    
+    # Track Chrome process IDs for this pipeline run
+    try:
+        from core.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids
+        from pathlib import Path
+        
+        # Get repo root (assuming script is in scripts/Malaysia/)
+        repo_root = Path(__file__).resolve().parent.parent.parent
+        scraper_name = "Malaysia"
+        
+        # Extract PIDs from driver
+        pids = get_chrome_pids_from_driver(driver)
+        if pids:
+            save_chrome_pids(scraper_name, repo_root, pids)
+    except Exception as e:
+        pass  # PID tracking not critical
 
     try:
         print("Opening MyPriMe website...", flush=True)
@@ -108,7 +138,9 @@ def main():
             data.append([cell.text.strip() for cell in cells])
             processed_rows += 1
             if processed_rows % 100 == 0:
-                print(f"  -> Processed {processed_rows:,}/{total_rows:,} rows ({processed_rows*100//total_rows}%)...", flush=True)
+                percent = round((processed_rows / total_rows) * 100, 1) if total_rows > 0 else 0
+                print(f"  -> Processed {processed_rows:,}/{total_rows:,} rows ({percent}%)...", flush=True)
+                print(f"[PROGRESS] Extracting rows: {processed_rows}/{total_rows} ({percent}%)", flush=True)
 
         # Save to CSV
         print(f"\nSaving data to CSV...", flush=True)
@@ -119,6 +151,7 @@ def main():
 
         print(f"[OK] Scraped {len(df):,} rows", flush=True)
         print(f"[OK] Saved to {output_path}", flush=True)
+        print(f"[PROGRESS] Extracting rows: {len(df)}/{len(df)} (100%)", flush=True)
 
     except Exception as e:
         print(f"[ERROR] ERROR: {e}")

@@ -397,15 +397,57 @@ class WorkflowRunner:
                         "message": f"Process {pid} is not running (cleaning up stale lock)"
                     }
 
-                # Kill the process tree (including child processes)
+                # IMPORTANT: Clean up Chrome instances FIRST (scraper-specific) BEFORE killing main process
+                # This prevents killing Chrome instances that belong to other scrapers
                 try:
-                    # Use taskkill /F /T to forcefully terminate process tree
+                    from core.chrome_pid_tracker import terminate_chrome_pids
+                    terminated_count = terminate_chrome_pids(scraper_name, repo_root, silent=True)
+                    if terminated_count > 0:
+                        # Wait a moment for Chrome processes to fully terminate before killing main process
+                        # This prevents taskkill /T from killing Chrome instances that are still shutting down
+                        import time
+                        time.sleep(1.0)  # Give Chrome processes time to fully terminate
+                except Exception:
+                    # Don't use general cleanup - it would kill all scrapers' Chrome instances
+                    pass
+
+                # Kill the process tree (including child processes) AFTER cleaning up Chrome instances
+                # Use /PID instead of /T to avoid killing unrelated child processes
+                # Note: We've already cleaned up Chrome instances above, so /T should be safe,
+                # but we use /PID first to be more selective
+                try:
+                    # First try to kill just the main process (without /T flag)
+                    # This is safer and won't kill child processes that might belong to other scrapers
                     kill_result = subprocess.run(
-                        ['taskkill', '/F', '/T', '/PID', str(pid)],
+                        ['taskkill', '/F', '/PID', str(pid)],
                         capture_output=True,
                         text=True,
-                        timeout=10
+                        timeout=5
                     )
+                    
+                    # If that didn't work or there are still child processes, use /T flag
+                    # But only if the main process is still running
+                    import time
+                    time.sleep(0.5)  # Brief wait to see if process terminated
+                    try:
+                        # Check if process still exists
+                        check_result = subprocess.run(
+                            ['tasklist', '/FI', f'PID eq {pid}'],
+                            capture_output=True,
+                            text=True,
+                            timeout=3
+                        )
+                        if str(pid) in check_result.stdout:
+                            # Process still exists, use /T to kill tree
+                            kill_result = subprocess.run(
+                                ['taskkill', '/F', '/T', '/PID', str(pid)],
+                                capture_output=True,
+                                text=True,
+                                timeout=10
+                            )
+                    except Exception:
+                        # If check fails, assume process is dead
+                        pass
 
                     # Clean up lock file
                     try:
@@ -460,11 +502,12 @@ class WorkflowRunner:
                         # Process terminated gracefully
                         pass
 
-                    # Clean up Chrome instances before cleaning up lock file
+                    # Clean up Chrome instances before cleaning up lock file (scraper-specific only)
                     try:
-                        cleanup_all_chrome_instances(silent=True)
-                    except Exception as e:
-                        # Log but don't fail if Chrome cleanup has issues
+                        from core.chrome_pid_tracker import terminate_chrome_pids
+                        terminate_chrome_pids(scraper_name, repo_root, silent=True)
+                    except Exception:
+                        # Don't use general cleanup - it would kill all scrapers' Chrome instances
                         pass
                     
                     # Clean up lock file
@@ -756,10 +799,11 @@ class WorkflowRunner:
                     logger.info(f"Run completed successfully: {self.run_id}")
                 progress(f"[{self.scraper_name}] Run completed: {self.run_id}")
                 
-                # Clean up Chrome instances before releasing lock
+                # Clean up Chrome instances before releasing lock (scraper-specific only)
                 progress(f"[{self.scraper_name}] Cleaning up Chrome instances...")
                 try:
-                    cleanup_all_chrome_instances(silent=True)
+                    from core.chrome_pid_tracker import terminate_chrome_pids
+                    terminate_chrome_pids(self.scraper_name, self.repo_root, silent=True)
                 except Exception as e:
                     if logger:
                         logger.warning(f"Error during Chrome cleanup: {e}")
@@ -781,9 +825,10 @@ class WorkflowRunner:
                 }
 
             finally:
-                # Clean up Chrome instances before releasing lock
+                # Clean up Chrome instances before releasing lock (scraper-specific only)
                 try:
-                    cleanup_all_chrome_instances(silent=True)
+                    from core.chrome_pid_tracker import terminate_chrome_pids
+                    terminate_chrome_pids(self.scraper_name, self.repo_root, silent=True)
                 except Exception as e:
                     if logger:
                         logger.warning(f"Error during Chrome cleanup: {e}")

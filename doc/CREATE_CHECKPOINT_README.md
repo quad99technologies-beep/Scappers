@@ -48,10 +48,10 @@ Provides an interactive menu to create, view, or clear checkpoints.
 - Step 0: Backup and Clean
 - Step 1: Get Product List
 - Step 2: Prepare URLs
-- Step 3: Scrape Products
-- Step 4: Translate Using Dictionary
-- Step 5: Generate Output
-- Step 6: PCID Missing
+- Step 3: Scrape Products (Selenium)
+- Step 4: Scrape Products (API)
+- Step 5: Translate Using Dictionary
+- Step 6: Generate Output
 
 ## Checkpoint File Location
 Checkpoint files are stored at:
