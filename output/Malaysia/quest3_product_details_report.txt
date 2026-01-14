@@ -1,7 +1,7 @@
 ================================================================================
 QUEST3+ PRODUCT DETAILS - DATA COVERAGE REPORT
 ================================================================================
-Generated: 2026-01-12 11:21:25
+Generated: 2026-01-14 12:02:00
 
 ================================================================================
 SUMMARY STATISTICS
@@ -16,8 +16,8 @@ DATA QUALITY STATISTICS
 ================================================================================
 Products with Product Name:     19,959
 Products missing Product Name:  1
-Products with Holder:           19,960
-Products missing Holder:        0
+Products with Holder:           19,956
+Products missing Holder:        4
 Products missing both:          0
 
 ================================================================================
@@ -40,9 +40,14 @@ These products were found but are missing Product Name:
      1. MAL20020795AZ
 
 ================================================================================
-PRODUCTS MISSING HOLDER
+PRODUCTS MISSING HOLDER (4 products)
 ================================================================================
-[OK] All products have Holder information!
+These products were found but are missing Holder information:
+
+     1. MAL06091374XRS
+     2. MAL19985560AZ
+     3. MAL20013455AZ
+     4. MAL20040963AZ
 
 ================================================================================
 RECOMMENDATIONS

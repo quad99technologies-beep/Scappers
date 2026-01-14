@@ -217,6 +217,10 @@ MANUFACTURER_MASTER_CSV_NAME = getenv("MANUFACTURER_MASTER_CSV_NAME", "manufactu
 FINAL_REPORT_NAME_PREFIX = getenv("FINAL_REPORT_NAME_PREFIX", "canadaontarioreport_")
 FINAL_REPORT_DATE_FORMAT = getenv("FINAL_REPORT_DATE_FORMAT", "%d%m%Y")
 
+# EAP prices configuration
+EAP_PRICES_URL = getenv("EAP_PRICES_URL", "https://www.ontario.ca/page/exceptional-access-program-product-prices")
+EAP_PRICES_CSV_NAME = getenv("EAP_PRICES_CSV_NAME", "ontario_eap_prices.csv")
+
 # Static values
 STATIC_CURRENCY = getenv("STATIC_CURRENCY", "CAD")
 STATIC_REGION = getenv("STATIC_REGION", "NORTH AMERICA")

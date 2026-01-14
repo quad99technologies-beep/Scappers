@@ -94,7 +94,7 @@ class ConfigManager:
             dir_path.mkdir(parents=True, exist_ok=True)
         
         # Create scraper-specific subdirectories
-        scraper_names = ["CanadaQuebec", "Malaysia", "Argentina"]
+        scraper_names = ["CanadaQuebec", "Malaysia", "Argentina", "Belarus", "CanadaOntario", "NorthMacedonia", "Netherlands"]
         for scraper_name in scraper_names:
             (app_root / "input" / scraper_name).mkdir(parents=True, exist_ok=True)
             (app_root / "output" / scraper_name).mkdir(parents=True, exist_ok=True)

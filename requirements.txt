@@ -30,3 +30,6 @@ psutil>=5.9.0
 
 # Browser Automation
 playwright>=1.40.0
+
+# Translation
+deep-translator>=1.11.4

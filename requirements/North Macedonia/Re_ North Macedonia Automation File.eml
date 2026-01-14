@@ -1,0 +1,297 @@
+Received: from mx1-secureserver.titan.email (localhost [127.0.0.1])
+	by prod-use1-godaddy-smtp-in1009.ops.titan.email (AQM) with ESMTP
+	id 4dVz9W2r08z3wYB(197191913787817984);
+	Tue, 16 Dec 2025 14:01:03 +0000
+Received: from osplibsmtp01-12.prod.phx3.secureserver.net (osplibsmtp01-12.prod.phx3.secureserver.net [68.178.181.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1-secureserver.titan.email (Postfix) with ESMTPS id 4dVz9W2r08z3wYB
+	for <contact@quad99.com>; Tue, 16 Dec 2025 14:01:03 +0000 (UTC)
+Received: from mx0a-0067bc01.pphosted.com ([205.220.166.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 256/256 bits)
+	(Client did not present a certificate)
+	by CMGW with ESMTPS
+	id VVbpvHfTWV5aUVVbqvuEw6; Tue, 16 Dec 2025 14:01:02 +0000
+Received: from pps.filterd (m0270079.ppops.net [127.0.0.1])
+	by mx0a-0067bc01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5BG9EdBm024139
+	for <contact@quad99.com>; Tue, 16 Dec 2025 14:01:00 GMT
+Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11020096.outbound.protection.outlook.com [52.101.61.96])
+	by mx0a-0067bc01.pphosted.com (PPS) with ESMTPS id 4b13s52h10-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <contact@quad99.com>; Tue, 16 Dec 2025 14:01:00 +0000
+Received: from PH3PPF7AD1BCB85.namprd18.prod.outlook.com
+ (2603:10b6:518:1::ca7) by MW3PR18MB3610.namprd18.prod.outlook.com
+ (2603:10b6:303:52::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Tue, 16 Dec
+ 2025 14:00:52 +0000
+Received: from PH3PPF7AD1BCB85.namprd18.prod.outlook.com
+ ([fe80::bf9d:da26:a9dd:f94d]) by PH3PPF7AD1BCB85.namprd18.prod.outlook.com
+ ([fe80::bf9d:da26:a9dd:f94d%4]) with mapi id 15.20.9434.001; Tue, 16 Dec 2025
+ 14:00:52 +0000
+From: Harpreet Saggu <Harpreet.Saggu@Eversana.com>
+To: Quad99 Technologies <contact@quad99.com>
+CC: Smita Joseph <smita.joseph@eversana.com>, Shraddha Deshpande
+	<Shraddha.Deshpande@Eversana.com>, Andrew Hanhauser
+	<andrew.hanhauser@eversana.com>
+Subject: Re: North Macedonia Automation File
+Thread-Topic: North Macedonia Automation File
+Thread-Index: AQFOjd9qFld1r/2ab78r9rCj9nXFJAFExrbx
+X-MS-Exchange-MessageSentRepresentingType: 1
+Date: Tue, 16 Dec 2025 14:00:51 +0000
+Message-ID:
+	<PH3PPF7AD1BCB85954A074FF0A96ECFCEA2E8AAA@PH3PPF7AD1BCB85.namprd18.prod.outlook.com>
+References:
+	<PH3PPF7AD1BCB85EF1C8A31310B50E7DD8FE8AAA@PH3PPF7AD1BCB85.namprd18.prod.outlook.com>
+In-Reply-To:
+	<PH3PPF7AD1BCB85EF1C8A31310B50E7DD8FE8AAA@PH3PPF7AD1BCB85.namprd18.prod.outlook.com>
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+X-MS-Exchange-Organization-RecordReviewCfmType: 0
+Content-Type: multipart/alternative;
+	boundary="_000_PH3PPF7AD1BCB85954A074FF0A96ECFCEA2E8AAAPH3PPF7AD1BCB85_"
+MIME-Version: 1.0
+
+--_000_PH3PPF7AD1BCB85954A074FF0A96ECFCEA2E8AAAPH3PPF7AD1BCB85_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Blessey,
+
+Sharing the folder link 07 North Macedonia<https://eversana-my.sharepoint.c=
+om/:f:/p/harpreet_saggu/IgDQGgygDwyvSq1vMyPujjliASe0jgSmDF91bL4MeIE5V2s?ema=
+il=3Dcontact%40quad99.com&e=3D99VVBu> incase you were unable to access the =
+files attached to the email.
+
+
+Thank you,
+
+Harpreet Saggu
+
+Sr. Manager | NAVLIN Price & Access Data
+
+Phone: +91 9511763617
+harpreet.saggu@eversana.com<mailto:harpreet.saggu@eversana.com>
+
+www.eversana.com<http://www.eversana.com/>
+
+
+
+
+
+
+________________________________
+From: Harpreet Saggu <Harpreet.Saggu@Eversana.com>
+Sent: Tuesday, December 16, 2025 6:50 PM
+To: contact@quad99.com <contact@quad99.com>
+Cc: Smita Joseph <smita.joseph@eversana.com>; Shraddha Deshpande <Shraddha.=
+Deshpande@Eversana.com>; Andrew Hanhauser <andrew.hanhauser@eversana.com>
+Subject: North Macedonia Automation File
+
+Hi Blessey,
+
+We need a full web extraction + PCID mapping for North Macedonia that makes=
+ North Macedonia market type as Type 1.
+
+Please find the scraping and PCID mapped document attached.
+
+Kindly let us know if you have any questions.
+
+
+Thank you,
+
+Harpreet Saggu
+
+Sr. Manager | NAVLIN Price & Access Data
+
+Phone: +91 9511763617
+harpreet.saggu@eversana.com<mailto:harpreet.saggu@eversana.com>
+
+www.eversana.com<http://www.eversana.com/>
+
+
+
+
+
+IMPORTANT NOTICE: The information contained in this communication is for th=
+e sole use of the intended recipient(s) and may contain confidential inform=
+ation. If you are not an intended recipient , you are hereby notified that =
+any use, disclosure, copying or distribution of this communication or its c=
+ontents is strictly prohibited. If you have received this communication in =
+error, please contact the sender immediately and delete the original messag=
+e and any copies from your computer system.
+
+--_000_PH3PPF7AD1BCB85954A074FF0A96ECFCEA2E8AAAPH3PPF7AD1BCB85_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Hi Blessey,&nbsp;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Sharing the folder link <a class=3D"OWAAutoLink" id=3D"OWA84daad47-3b18-a3f=
+1-dad8-14e6b513c1b1" href=3D"https://eversana-my.sharepoint.com/:f:/p/harpr=
+eet_saggu/IgDQGgygDwyvSq1vMyPujjliASe0jgSmDF91bL4MeIE5V2s?email=3Dcontact%4=
+0quad99.com&amp;e=3D99VVBu">
+07 North Macedonia</a>&nbsp;incase you were unable to access the files atta=
+ched to the email.</div>
+<div class=3D"elementToProof" id=3D"Signature">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<p style=3D"margin: 0in; font-family: Aptos, sans-serif; font-size: 12pt;" =
+class=3D"elementToProof">
+<span style=3D"color: black;">Thank you,</span></p>
+<p style=3D"margin: 0in; font-family: Aptos, sans-serif; font-size: 12pt;" =
+class=3D"elementToProof">
+<span style=3D"color: black;"><b>Harpreet Saggu</b></span></p>
+<p style=3D"margin: 0in; font-family: Aptos, sans-serif; font-size: 12pt;" =
+class=3D"elementToProof">
+<span style=3D"color: black;"><b>Sr. Manager | NAVLIN Price &amp; Access Da=
+ta</b></span></p>
+<p style=3D"margin: 0in; font-family: Aptos, sans-serif; font-size: 12pt;" =
+class=3D"elementToProof">
+<span style=3D"color: black;">Phone:&nbsp;+91 9511763617&nbsp;<b><br>
+</b></span><span style=3D"color: rgb(5, 99, 193);"><u><a style=3D"color: rg=
+b(5, 99, 193); margin-top: 0px; margin-bottom: 0px;" class=3D"OWAAutoLink" =
+id=3D"OWA76e5e3af-8d2b-e319-e04a-0d5add5e5a9e" href=3D"mailto:harpreet.sagg=
+u@eversana.com">harpreet.saggu@eversana.com</a></u></span></p>
+<p style=3D"margin: 0in; font-family: Aptos, sans-serif; font-size: 12pt;" =
+class=3D"elementToProof">
+<span style=3D"color: rgb(5, 99, 193);"><u><a style=3D"color: rgb(5, 99, 19=
+3); margin-top: 0px; margin-bottom: 0px;" title=3D"http://www.eversana.com/=
+" class=3D"OWAAutoLink" id=3D"OWA691ebbb6-d8cc-4f72-e97c-0f5e466434e1" href=
+=3D"http://www.eversana.com/">www.eversana.com</a></u></span></p>
+<p style=3D"margin: 0in; font-family: Aptos, sans-serif; font-size: 12pt;" =
+class=3D"elementToProof">
+<span style=3D"color: black;">&nbsp;</span></p>
+<p style=3D"margin: 0in; font-family: Aptos, sans-serif; font-size: 12pt;" =
+class=3D"elementToProof">
+&nbsp;</p>
+</div>
+<div id=3D"appendonsend"></div>
+<div><br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<hr style=3D"display: inline-block; width: 98%;">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<b>From:</b>&nbsp;Harpreet Saggu &lt;Harpreet.Saggu@Eversana.com&gt;<br>
+<b>Sent:</b>&nbsp;Tuesday, December 16, 2025 6:50 PM<br>
+<b>To:</b>&nbsp;contact@quad99.com &lt;contact@quad99.com&gt;<br>
+<b>Cc:</b>&nbsp;Smita Joseph &lt;smita.joseph@eversana.com&gt;; Shraddha De=
+shpande &lt;Shraddha.Deshpande@Eversana.com&gt;; Andrew Hanhauser &lt;andre=
+w.hanhauser@eversana.com&gt;<br>
+<b>Subject:</b>&nbsp;North Macedonia Automation File </div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"direction: ltr; text-align: left; text-indent: 0px; backgroun=
+d-color: rgb(255, 255, 255); margin: 0px; font-family: Aptos, Aptos_Embedde=
+dFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt=
+; color: rgb(0, 0, 0);">
+Hi Blessey,&nbsp;</div>
+<div style=3D"direction: ltr; text-align: left; text-indent: 0px; backgroun=
+d-color: rgb(255, 255, 255); margin: 0px; font-family: Aptos, Aptos_Embedde=
+dFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt=
+; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"direction: ltr; text-align: left; text-indent: 0px; backgroun=
+d-color: rgb(255, 255, 255); margin: 0px; font-size: 11pt; color: rgb(0, 0,=
+ 0);">
+<span style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService,=
+ Calibri, Helvetica, sans-serif;">We need a f</span><span style=3D"font-fam=
+ily: Calibri, sans-serif;">ull web extraction + PCID mapping for North Mace=
+donia that makes North Macedonia&nbsp;market
+ type as <b>Type 1.&nbsp;</b></span></div>
+<div style=3D"direction: ltr; text-align: left; text-indent: 0px; backgroun=
+d-color: rgb(255, 255, 255); margin: 0px; font-family: Calibri, sans-serif;=
+ font-size: 11pt; color: rgb(0, 0, 0);">
+<b><br>
+</b></div>
+<div style=3D"direction: ltr; text-align: left; text-indent: 0px; backgroun=
+d-color: rgb(255, 255, 255); margin: 0px; font-family: Calibri, sans-serif;=
+ font-size: 11pt; color: rgb(0, 0, 0);">
+Please find the scraping and PCID mapped document attached.&nbsp;</div>
+<div style=3D"direction: ltr; text-align: left; text-indent: 0px; backgroun=
+d-color: rgb(255, 255, 255); margin: 0px; font-family: Calibri, sans-serif;=
+ font-size: 11pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"direction: ltr; text-align: left; text-indent: 0px; backgroun=
+d-color: rgb(255, 255, 255); margin: 0px; font-family: Calibri, sans-serif;=
+ font-size: 11pt; color: rgb(0, 0, 0);">
+Kindly let us know if you have any questions.&nbsp;</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb=
+(0, 0, 0);">
+<br>
+</div>
+<div id=3D"x_Signature">
+<p style=3D"direction: ltr; margin: 0in; font-family: Aptos, sans-serif; fo=
+nt-size: 12pt;">
+<span style=3D"color: black;">Thank you,</span></p>
+<p style=3D"direction: ltr; margin: 0in; font-family: Aptos, sans-serif; fo=
+nt-size: 12pt;">
+<span style=3D"color: black;"><b>Harpreet Saggu</b></span></p>
+<p style=3D"direction: ltr; margin: 0in; font-family: Aptos, sans-serif; fo=
+nt-size: 12pt;">
+<span style=3D"color: black;"><b>Sr. Manager | NAVLIN Price &amp; Access Da=
+ta</b></span></p>
+<p style=3D"direction: ltr; margin: 0in; font-family: Aptos, sans-serif; fo=
+nt-size: 12pt;">
+<span style=3D"color: black;">Phone:&nbsp;+91 9511763617&nbsp;<b><br>
+</b></span><span style=3D"color: rgb(5, 99, 193);"><u><a style=3D"color: rg=
+b(5, 99, 193); margin-top: 0px; margin-bottom: 0px;" class=3D"x_OWAAutoLink=
+" id=3D"OWA17ac711a-4ad7-df53-4fb5-f0bb363e494b" href=3D"mailto:harpreet.sa=
+ggu@eversana.com">harpreet.saggu@eversana.com</a></u></span></p>
+<p style=3D"direction: ltr; margin: 0in; font-family: Aptos, sans-serif; fo=
+nt-size: 12pt;">
+<span style=3D"color: rgb(5, 99, 193);"><u><a style=3D"color: rgb(5, 99, 19=
+3); margin-top: 0px; margin-bottom: 0px;" data-auth=3D"NotApplicable" title=
+=3D"http://www.eversana.com/" class=3D"x_OWAAutoLink" id=3D"OWA564cb4ba-ccf=
+0-14a7-0b02-b06fd6271835" href=3D"http://www.eversana.com/">www.eversana.co=
+m</a></u></span></p>
+<p style=3D"direction: ltr; margin: 0in; font-family: Aptos, sans-serif; fo=
+nt-size: 12pt;">
+<span style=3D"color: black;">&nbsp;</span></p>
+<p style=3D"direction: ltr; margin: 0in; font-family: Aptos, sans-serif; fo=
+nt-size: 12pt;">
+&nbsp;</p>
+</div>
+<div>IMPORTANT NOTICE: The information contained in this communication is f=
+or the sole use of the intended recipient(s) and may contain confidential i=
+nformation. If you are not an intended recipient , you are hereby notified =
+that any use, disclosure, copying
+ or distribution of this communication or its contents is strictly prohibit=
+ed. If you have received this communication in error, please contact the se=
+nder immediately and delete the original message and any copies from your c=
+omputer system.<br>
+</div>
+</body>
+</html>
+
+--_000_PH3PPF7AD1BCB85954A074FF0A96ECFCEA2E8AAAPH3PPF7AD1BCB85_--

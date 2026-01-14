@@ -6,7 +6,7 @@ Canada Ontario Pipeline Runner with Resume/Checkpoint Support
 Usage:
     python run_pipeline_resume.py          # Resume from last step or start fresh
     python run_pipeline_resume.py --fresh  # Start from step 0 (clear checkpoint)
-    python run_pipeline_resume.py --step N # Start from step N (0-1)
+    python run_pipeline_resume.py --step N # Start from step N (0-3)
 """
 
 import sys
@@ -30,11 +30,11 @@ from config_loader import get_output_dir
 def run_step(step_num: int, script_name: str, step_name: str, output_files: list = None):
     """Run a pipeline step and mark it complete if successful."""
     print(f"\n{'='*80}")
-    print(f"Step {step_num}/1: {step_name}")
+    print(f"Step {step_num}/3: {step_name}")
     print(f"{'='*80}\n")
     
     # Output overall pipeline progress with descriptive message
-    total_steps = 3  # Steps 0-2 = 3 total steps
+    total_steps = 4  # Steps 0-3 = 4 total steps
     pipeline_percent = round((step_num / total_steps) * 100, 1)
     if pipeline_percent > 100.0:
         pipeline_percent = 100.0
@@ -43,7 +43,8 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
     step_descriptions = {
         0: "Preparing output directory",
         1: "Extracting product details",
-        2: "Generating final output",
+        2: "Scraping EAP product prices from Ontario.ca",
+        3: "Generating final output",
     }
     step_desc = step_descriptions.get(step_num, step_name)
     
@@ -91,8 +92,9 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         
         next_step_descriptions = {
             0: "Ready to extract product details",
-            1: "Ready to generate final output",
-            2: "Pipeline completed successfully"
+            1: "Ready to extract EAP prices",
+            2: "Ready to generate final output",
+            3: "Pipeline completed successfully"
         }
         next_desc = next_step_descriptions.get(step_num + 1, "Moving to next step")
         
@@ -109,7 +111,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
 def main():
     parser = argparse.ArgumentParser(description="Canada Ontario Pipeline Runner with Resume Support")
     parser.add_argument("--fresh", action="store_true", help="Start from step 0 (clear checkpoint)")
-    parser.add_argument("--step", type=int, help="Start from specific step (0-2)")
+    parser.add_argument("--step", type=int, help="Start from specific step (0-3)")
     
     args = parser.parse_args()
     
@@ -135,7 +137,12 @@ def main():
     # Define pipeline steps with their output files
     script_dir = Path(__file__).parent
     output_dir = get_output_dir()
-    from config_loader import get_central_output_dir, FINAL_REPORT_NAME_PREFIX, FINAL_REPORT_DATE_FORMAT
+    from config_loader import (
+        get_central_output_dir,
+        FINAL_REPORT_NAME_PREFIX,
+        FINAL_REPORT_DATE_FORMAT,
+        EAP_PRICES_CSV_NAME
+    )
     from datetime import datetime
     central_output_dir = get_central_output_dir()  # exports/CanadaOntario/
     date_str = datetime.now().strftime(FINAL_REPORT_DATE_FORMAT)
@@ -147,7 +154,10 @@ def main():
             str(output_dir / "manufacturer_master.csv"),
             str(output_dir / "completed_letters.json")
         ]),
-        (2, "02_GenerateOutput.py", "Generate Final Output", [
+        (2, "02_ontario_eap_prices.py", "Extract EAP Prices", [
+            str(output_dir / EAP_PRICES_CSV_NAME)
+        ]),
+        (3, "03_GenerateOutput.py", "Generate Final Output", [
             str(central_output_dir / final_report_name)
         ]),
     ]

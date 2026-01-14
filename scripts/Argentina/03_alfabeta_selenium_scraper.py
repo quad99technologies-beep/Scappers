@@ -81,6 +81,12 @@ from scraper_utils import (
     sync_files_from_output, sync_files_before_selenium
 )
 
+try:
+    from core.firefox_pid_tracker import save_firefox_pids, cleanup_pid_file as cleanup_firefox_pid_file
+except Exception:
+    save_firefox_pids = None
+    cleanup_firefox_pid_file = None
+
 # ====== OUTPUT SCHEMA PATCH ======
 # Ensure PAMI_OS is written to CSV even if scraper_utils.OUT_FIELDS is older.
 try:
@@ -216,6 +222,8 @@ def close_all_drivers():
                 if all_pids:
                     with _tracked_pids_lock:
                         _tracked_firefox_pids.update(all_pids)
+                    if save_firefox_pids:
+                        save_firefox_pids("Argentina", REPO_ROOT, all_pids)
             except Exception:
                 pass
         
@@ -276,6 +284,8 @@ def kill_tracked_firefox_processes():
     
     with _tracked_pids_lock:
         _tracked_firefox_pids.clear()
+    if cleanup_firefox_pid_file:
+        cleanup_firefox_pid_file("Argentina", REPO_ROOT)
     
     if killed_count > 0:
         log.info(f"[SHUTDOWN] Killed {killed_count} tracked Firefox/geckodriver process(es) (Alfabeta only)")
@@ -292,6 +302,7 @@ except (AttributeError, ValueError):
 atexit.register(close_all_drivers)
 
 # ====== PATHS ======
+REPO_ROOT = Path(__file__).resolve().parents[2]
 INPUT_DIR = get_input_dir()
 OUTPUT_DIR = get_output_dir()
 PREPARED_URLS_FILE_PATH = OUTPUT_DIR / PREPARED_URLS_FILE
@@ -766,6 +777,8 @@ def setup_driver(headless=False):
             with _tracked_pids_lock:
                 _tracked_firefox_pids.update(pids)
             log.debug(f"[PID_TRACKER] Tracked Firefox/geckodriver PIDs: {sorted(pids)}")
+            if save_firefox_pids:
+                save_firefox_pids("Argentina", REPO_ROOT, pids)
     except Exception as e:
         log.debug(f"[PID_TRACKER] Could not track Firefox/geckodriver PIDs: {e}")
     
@@ -1917,9 +1930,7 @@ def main():
         
         if remaining > 0:
             log.warning(f"[SELENIUM] Step 3 completed with warnings ({remaining} items remaining in queue, likely sentinels)")
-            return 1
-        else:
-            return 0
+        return 0
 
 # ====== SELENIUM WORKER ======
 
@@ -3142,4 +3153,3 @@ if __name__ == "__main__":
         _shutdown_requested.set()
         close_all_drivers()
         sys.exit(1)
-

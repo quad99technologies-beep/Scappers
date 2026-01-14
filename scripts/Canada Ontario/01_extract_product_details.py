@@ -102,9 +102,17 @@ def parse_float(s: str) -> Optional[float]:
 
 def safe_get(session: requests.Session, url: str, params: dict = None) -> str:
     last = None
+    headers = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.8",
+        "Cache-Control": "no-cache",
+        "Pragma": "no-cache",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                      "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    }
     for i in range(1, RETRIES + 1):
         try:
-            r = session.get(url, params=params, timeout=TIMEOUT)
+            r = session.get(url, params=params, timeout=TIMEOUT, headers=headers)
             if r.status_code in (429, 500, 502, 503, 504):
                 time.sleep(i * 2)
                 continue

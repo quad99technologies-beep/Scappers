@@ -1,0 +1,27 @@
+{
+  "scraper": "Belarus",
+  "last_run": "2026-01-14T13:38:14.085272",
+  "completed_steps": [
+    0,
+    1
+  ],
+  "step_outputs": {
+    "step_0": {
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "completed_at": "2026-01-14T12:31:42.996530",
+      "output_files": [],
+      "duration_seconds": 0.13180828094482422
+    },
+    "step_1": {
+      "step_number": 1,
+      "step_name": "Extract RCETH Data",
+      "completed_at": "2026-01-14T13:38:14.085137",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\Belarus\\belarus_rceth_raw.csv"
+      ],
+      "duration_seconds": 1753.7184627056122
+    }
+  },
+  "metadata": {}
+}

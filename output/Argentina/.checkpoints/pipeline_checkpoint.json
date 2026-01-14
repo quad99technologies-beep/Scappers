@@ -1,10 +1,14 @@
 {
   "scraper": "Argentina",
-  "last_run": "2026-01-12T18:09:56.641305",
+  "last_run": "2026-01-14T16:46:13.851812",
   "completed_steps": [
     0,
     1,
-    2
+    2,
+    3,
+    4,
+    5,
+    6
   ],
   "step_outputs": {
     "step_0": {
@@ -29,6 +33,40 @@
         "D:\\quad99\\Scappers\\output\\Argentina\\Productlist_with_urls.csv"
       ],
       "duration_seconds": 0.28786325454711914
+    },
+    "step_3": {
+      "step_number": 3,
+      "step_name": "Scrape Products (Selenium)",
+      "completed_at": "2026-01-14T16:45:44.397616",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\Argentina\\alfabeta_products_by_product.csv"
+      ],
+      "duration_seconds": 1529.5801529884338
+    },
+    "step_4": {
+      "step_number": 4,
+      "step_name": "Scrape Products (API)",
+      "completed_at": "2026-01-14T16:45:57.836789",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\Argentina\\alfabeta_products_by_product.csv"
+      ],
+      "duration_seconds": 13.3833909034729
+    },
+    "step_5": {
+      "step_number": 5,
+      "step_name": "Translate Using Dictionary",
+      "completed_at": "2026-01-14T16:46:00.478468",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\Argentina\\alfabeta_products_all_dict_en.csv"
+      ],
+      "duration_seconds": 2.6151821613311768
+    },
+    "step_6": {
+      "step_number": 6,
+      "step_name": "Generate Output",
+      "completed_at": "2026-01-14T16:46:13.851790",
+      "output_files": [],
+      "duration_seconds": 13.347058296203613
     }
   },
   "metadata": {}

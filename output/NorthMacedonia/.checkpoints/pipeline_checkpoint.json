@@ -1,0 +1,17 @@
+{
+  "scraper": "NorthMacedonia",
+  "last_run": "2026-01-14T21:05:39.909004",
+  "completed_steps": [
+    0
+  ],
+  "step_outputs": {
+    "step_0": {
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "completed_at": "2026-01-14T21:05:39.908993",
+      "output_files": [],
+      "duration_seconds": 0.16810345649719238
+    }
+  },
+  "metadata": {}
+}

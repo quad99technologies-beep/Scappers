@@ -400,8 +400,8 @@ class WorkflowRunner:
                 # IMPORTANT: Clean up Chrome instances FIRST (scraper-specific) BEFORE killing main process
                 # This prevents killing Chrome instances that belong to other scrapers
                 try:
-                    from core.chrome_pid_tracker import terminate_chrome_pids
-                    terminated_count = terminate_chrome_pids(scraper_name, repo_root, silent=True)
+                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    terminated_count = terminate_scraper_pids(scraper_name, repo_root, silent=True)
                     if terminated_count > 0:
                         # Wait a moment for Chrome processes to fully terminate before killing main process
                         # This prevents taskkill /T from killing Chrome instances that are still shutting down
@@ -504,8 +504,8 @@ class WorkflowRunner:
 
                     # Clean up Chrome instances before cleaning up lock file (scraper-specific only)
                     try:
-                        from core.chrome_pid_tracker import terminate_chrome_pids
-                        terminate_chrome_pids(scraper_name, repo_root, silent=True)
+                        from core.chrome_pid_tracker import terminate_scraper_pids
+                        terminate_scraper_pids(scraper_name, repo_root, silent=True)
                     except Exception:
                         # Don't use general cleanup - it would kill all scrapers' Chrome instances
                         pass
@@ -802,8 +802,8 @@ class WorkflowRunner:
                 # Clean up Chrome instances before releasing lock (scraper-specific only)
                 progress(f"[{self.scraper_name}] Cleaning up Chrome instances...")
                 try:
-                    from core.chrome_pid_tracker import terminate_chrome_pids
-                    terminate_chrome_pids(self.scraper_name, self.repo_root, silent=True)
+                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    terminate_scraper_pids(self.scraper_name, self.repo_root, silent=True)
                 except Exception as e:
                     if logger:
                         logger.warning(f"Error during Chrome cleanup: {e}")
@@ -827,8 +827,8 @@ class WorkflowRunner:
             finally:
                 # Clean up Chrome instances before releasing lock (scraper-specific only)
                 try:
-                    from core.chrome_pid_tracker import terminate_chrome_pids
-                    terminate_chrome_pids(self.scraper_name, self.repo_root, silent=True)
+                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    terminate_scraper_pids(self.scraper_name, self.repo_root, silent=True)
                 except Exception as e:
                     if logger:
                         logger.warning(f"Error during Chrome cleanup: {e}")
@@ -849,4 +849,3 @@ class WorkflowRunner:
                 "run_id": self.run_id,
                 "run_dir": str(self.run_dir) if self.run_dir else None
             }
-

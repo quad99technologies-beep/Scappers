@@ -12,6 +12,8 @@ import logging
 import os
 import subprocess
 import sys
+import tempfile
+import time
 from pathlib import Path
 from typing import List, Set, Optional
 
@@ -22,6 +24,58 @@ except ImportError:
     PSUTIL_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
+
+_PID_LOCK_TIMEOUT_S = 5.0
+_PID_LOCK_STALE_S = 30.0
+
+
+def _acquire_pid_lock(lock_path: Path, timeout_s: float = _PID_LOCK_TIMEOUT_S) -> Optional[int]:
+    """Acquire a simple inter-process lock using an exclusive lock file."""
+    start = time.time()
+    while True:
+        try:
+            return os.open(str(lock_path), os.O_CREAT | os.O_EXCL | os.O_RDWR)
+        except FileExistsError:
+            try:
+                if lock_path.exists() and (time.time() - lock_path.stat().st_mtime) > _PID_LOCK_STALE_S:
+                    lock_path.unlink()
+                    continue
+            except Exception:
+                pass
+            if (time.time() - start) >= timeout_s:
+                return None
+            time.sleep(0.05)
+
+
+def _release_pid_lock(lock_path: Path, lock_fd: Optional[int]) -> None:
+    if lock_fd is None:
+        return
+    try:
+        os.close(lock_fd)
+    except Exception:
+        pass
+    try:
+        lock_path.unlink()
+    except Exception:
+        pass
+
+
+def _atomic_write_json(path: Path, payload: dict) -> None:
+    """Write JSON atomically to avoid partial/garbled files under concurrency."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp_path = tempfile.mkstemp(prefix=path.name, suffix=".tmp", dir=str(path.parent))
+    try:
+        with os.fdopen(fd, 'w', encoding='utf-8') as f:
+            json.dump(payload, f, indent=2)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp_path, path)
+    finally:
+        try:
+            if os.path.exists(tmp_path):
+                os.unlink(tmp_path)
+        except Exception:
+            pass
 
 
 def get_chrome_pids_from_playwright_browser(browser) -> Set[int]:
@@ -172,31 +226,34 @@ def save_chrome_pids(scraper_name: str, repo_root: Path, pids: Set[int]):
     """
     pid_file = get_pid_file_path(scraper_name, repo_root)
     
+    lock_path = pid_file.with_suffix(pid_file.suffix + ".lock")
+    lock_fd = _acquire_pid_lock(lock_path)
     try:
         # Read existing PIDs if file exists
         existing_pids = set()
         if pid_file.exists():
             try:
-                with open(pid_file, 'r') as f:
+                with open(pid_file, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                     existing_pids = set(data.get('pids', []))
             except Exception as e:
                 logger.warning(f"Could not read existing PID file: {e}")
-        
+
         # Merge with new PIDs
         all_pids = existing_pids | pids
-        
-        # Save to file
-        with open(pid_file, 'w') as f:
-            json.dump({
-                'scraper_name': scraper_name,
-                'pids': list(all_pids),
-                'updated_at': str(Path(__file__).stat().st_mtime) if Path(__file__).exists() else None
-            }, f, indent=2)
-        
+
+        # Save to file (atomic to avoid corruption)
+        _atomic_write_json(pid_file, {
+            'scraper_name': scraper_name,
+            'pids': list(all_pids),
+            'updated_at': str(Path(__file__).stat().st_mtime) if Path(__file__).exists() else None
+        })
+
         logger.debug(f"Saved {len(all_pids)} Chrome PIDs to {pid_file}")
     except Exception as e:
         logger.warning(f"Could not save Chrome PIDs: {e}")
+    finally:
+        _release_pid_lock(lock_path, lock_fd)
 
 
 def load_chrome_pids(scraper_name: str, repo_root: Path) -> Set[int]:
@@ -235,16 +292,19 @@ def load_chrome_pids(scraper_name: str, repo_root: Path) -> Set[int]:
     except json.JSONDecodeError as e:
         logger.warning(f"Could not parse Chrome PIDs JSON from {pid_file}: {e}. File may be corrupted. Attempting to fix...")
         # Try to fix corrupted file by rewriting it with empty data
+        lock_path = pid_file.with_suffix(pid_file.suffix + ".lock")
+        lock_fd = _acquire_pid_lock(lock_path)
         try:
-            with open(pid_file, 'w', encoding='utf-8') as f:
-                json.dump({
-                    'scraper_name': scraper_name,
-                    'pids': [],
-                    'updated_at': None
-                }, f, indent=2)
+            _atomic_write_json(pid_file, {
+                'scraper_name': scraper_name,
+                'pids': [],
+                'updated_at': None
+            })
             logger.info(f"Fixed corrupted PID file {pid_file}")
         except Exception as fix_error:
             logger.warning(f"Could not fix corrupted PID file: {fix_error}")
+        finally:
+            _release_pid_lock(lock_path, lock_fd)
         return set()
     except Exception as e:
         logger.warning(f"Could not load Chrome PIDs from {pid_file}: {e}")
@@ -279,7 +339,7 @@ def terminate_chrome_pids(scraper_name: str, repo_root: Path, silent: bool = Fal
     
     # Verify each PID still exists and belongs ONLY to this scraper before terminating
     # Check that PIDs are not tracked by other scrapers
-    other_scrapers = ["Argentina", "Malaysia", "CanadaQuebec", "CanadaOntario", "Netherlands"]
+    other_scrapers = ["Argentina", "Malaysia", "CanadaQuebec", "CanadaOntario", "Netherlands", "Belarus", "NorthMacedonia"]
     other_scraper_pids = set()
     for other_scraper in other_scrapers:
         if other_scraper != scraper_name:
@@ -287,14 +347,8 @@ def terminate_chrome_pids(scraper_name: str, repo_root: Path, silent: bool = Fal
             other_scraper_pids.update(other_pids)
     
     valid_pids = []
+    current_pids = set(pids)
     for pid in pids:
-        # Double-check PID is still in the file (defense against race conditions)
-        current_pids = load_chrome_pids(scraper_name, repo_root)
-        if pid not in current_pids:
-            if not silent:
-                logger.warning(f"PID {pid} no longer tracked for {scraper_name}, skipping")
-            continue
-        
         # CRITICAL: Ensure PID is NOT tracked by another scraper
         if pid in other_scraper_pids:
             if not silent:
@@ -459,9 +513,32 @@ def terminate_chrome_by_flags(silent: bool = False) -> int:
 def cleanup_pid_file(scraper_name: str, repo_root: Path):
     """Remove the PID file if it exists"""
     pid_file = get_pid_file_path(scraper_name, repo_root)
+    lock_path = pid_file.with_suffix(pid_file.suffix + ".lock")
+    lock_fd = _acquire_pid_lock(lock_path)
     try:
         if pid_file.exists():
             pid_file.unlink()
             logger.debug(f"Removed PID file: {pid_file}")
     except Exception as e:
         logger.warning(f"Could not remove PID file: {e}")
+    finally:
+        _release_pid_lock(lock_path, lock_fd)
+
+
+def terminate_scraper_pids(scraper_name: str, repo_root: Path, silent: bool = False) -> int:
+    """Terminate tracked browser PIDs (Chrome/Firefox) for a specific scraper."""
+    terminated = 0
+    try:
+        terminated += terminate_chrome_pids(scraper_name, repo_root, silent=silent)
+    except Exception as e:
+        if not silent:
+            logger.warning(f"Could not terminate Chrome PIDs for {scraper_name}: {e}")
+
+    try:
+        from core.firefox_pid_tracker import terminate_firefox_pids
+        terminated += terminate_firefox_pids(scraper_name, repo_root, silent=silent)
+    except Exception as e:
+        if not silent:
+            logger.warning(f"Could not terminate Firefox PIDs for {scraper_name}: {e}")
+
+    return terminated

@@ -67,6 +67,51 @@ class ScraperGUI:
         self.root = root
         self.root.title("Scraper Management Interface")
         
+        # Get repository root
+        self.repo_root = Path(__file__).resolve().parent
+        
+        # Professional color palette with subtle borders
+        self.colors = {
+            # Gray colors
+            'dark_gray': '#1f2937',
+            'medium_gray': '#4b5563',
+            'light_gray': '#9ca3af',
+            'background_gray': '#f4f5f7',
+            'border_gray': '#e3e6ea',  # Softer, more subtle gray for borders
+            'border_light': '#f4f5f7',  # Very subtle for minimal borders
+            # White
+            'white': '#fdfdfd',
+            # Console colors (critical - must be black/yellow)
+            'console_black': '#000000',
+            'console_yellow': '#ffd700',
+            # Tab colors
+            'tab_bg': '#f6f7f9',  # Very light gray for unselected tabs
+            'tab_selected': '#fdfdfd',  # Off-white for selected tab
+            'tab_border': '#e3e6ea',  # Subtle border for tabs
+            # Legacy compatibility
+            'bg_main': '#f4f5f7',      # background_gray
+            'bg_panel': '#fdfdfd',     # white
+            'bg_dark': '#1f2937',      # dark_gray
+            'bg_console': '#000000',   # console_black
+            'text_black': '#1f2937',   # dark_gray
+            'text_green': '#10b981',   # green (exception for JSON strings)
+            'text_red': '#ef4444',     # red
+            'text_console': '#ffd700', # console_yellow
+            'border': '#e5e7eb',      # Softer gray for borders
+        }
+        
+        # Standard font configuration - uniform across platform
+        self.fonts = {
+            'standard': ('Segoe UI', 9, 'normal'),
+            'bold': ('Segoe UI', 9, 'bold'),
+            'italic': ('Segoe UI', 9, 'italic'),
+            'monospace': ('Consolas', 9),  # Only for code/console content
+            'header': ('Segoe UI', 9, 'bold'),
+        }
+        
+        # Set window background to light gray
+        self.root.configure(bg=self.colors['background_gray'])
+        
         # Open in fullscreen/maximized window
         if sys.platform == "win32":
             self.root.state('zoomed')  # Maximized on Windows
@@ -75,23 +120,7 @@ class ScraperGUI:
             self.root.attributes('-zoomed', True)  # Fullscreen on Linux
         
         self.root.minsize(1000, 700)
-        
-        # Get repository root
-        self.repo_root = Path(__file__).resolve().parent
-        
-        # Minimal color scheme for backward compatibility (most UI uses default ttk styles)
-        self.colors = {
-            'bg_main': '#F0F0F0',      # Light gray background
-            'bg_panel': '#FFFFFF',     # White panels
-            'bg_dark': '#808080',      # Dark gray
-            'bg_console': '#000000',    # Black console background
-            'text_black': '#000000',    # Black text
-            'text_blue': '#0000FF',     # Blue text
-            'text_green': '#008000',    # Green text
-            'text_red': '#FF0000',      # Red text
-            'text_console': '#FFFF00',  # Yellow console text
-            'border': '#C0C0C0',       # Light gray border
-        }
+        self.root.resizable(False, False)  # Disable window resizing
         
         # Current scraper and step
         self.current_scraper = None
@@ -171,7 +200,8 @@ class ScraperGUI:
                 "steps": [
                     {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
                     {"name": "01 - Extract Product Details", "script": "01_extract_product_details.py", "desc": "Extract product details from Ontario Formulary"},
-                    {"name": "02 - Generate Final Output", "script": "02_GenerateOutput.py", "desc": "Generate final output report with standardized columns"},
+                    {"name": "02 - Extract EAP Prices", "script": "02_ontario_eap_prices.py", "desc": "Extract Exceptional Access Program product prices"},
+                    {"name": "03 - Generate Final Output", "script": "03_GenerateOutput.py", "desc": "Generate final output report with standardized columns"},
                 ],
                 "pipeline_bat": "run_pipeline.bat"
             },
@@ -185,6 +215,27 @@ class ScraperGUI:
                     {"name": "02 - Reimbursement Extraction", "script": "02_reimbursement_extraction.py", "desc": "Extract reimbursement data from collected URLs"},
                 ],
                 "pipeline_bat": "run_pipeline.bat"
+            },
+            "Belarus": {
+                "path": self.repo_root / "scripts" / "Belarus",
+                "scripts_dir": "",
+                "docs_dir": None,  # All docs now in root doc/ folder
+                "steps": [
+                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
+                    {"name": "01 - Extract RCETH Data", "script": "01_belarus_rceth_extract.py", "desc": "Extract drug registration and pricing data from rceth.by"},
+                ],
+                "pipeline_bat": "run_pipeline.bat"
+            },
+            "NorthMacedonia": {
+                "path": self.repo_root / "scripts" / "North Macedonia",
+                "scripts_dir": "",
+                "docs_dir": None,  # All docs now in root doc/ folder
+                "steps": [
+                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
+                    {"name": "01 - Collect Detail URLs", "script": "01_collect_urls.py", "desc": "Collect detail URLs across overview pages"},
+                    {"name": "02 - Scrape Detail Pages", "script": "02_scrape_details.py", "desc": "Scrape drug register detail data from collected URLs"},
+                ],
+                "pipeline_bat": "run_pipeline.bat"
             }
         }
         
@@ -196,7 +247,7 @@ class ScraperGUI:
         self.root.after(200, self.install_dependencies_in_gui)
     
     def setup_styles(self):
-        """Configure professional ttk styles"""
+        """Configure professional ttk styles with gray, white, black, and yellow color scheme"""
         style = ttk.Style()
         
         # Use modern theme if available
@@ -204,6 +255,237 @@ class ScraperGUI:
             style.theme_use('clam')
         except:
             pass
+        
+        # Main window background
+        style.configure('TFrame', background=self.colors['background_gray'])
+        style.configure('TLabel', background=self.colors['background_gray'], foreground='#111827')
+        
+        # Notebook tabs styling - professional, uniform design
+        style.configure('TNotebook', 
+                       borderwidth=0, 
+                       background=self.colors['background_gray'], 
+                       relief='flat')
+        style.configure('TNotebook.Tab', 
+                      borderwidth=0, 
+                      relief='flat',
+                      padding=[12, 8],
+                      background=self.colors['tab_bg'],
+                      foreground='#374151',
+                      font=self.fonts['standard'])
+        style.map('TNotebook.Tab',
+                 background=[('selected', self.colors['tab_selected']), 
+                            ('!selected', self.colors['tab_bg']),
+                            ('active', '#f3f4f6')],
+                 foreground=[('selected', '#000000'),
+                           ('!selected', '#6b7280'),
+                           ('active', '#374151')],
+                 borderwidth=[('selected', 0), ('!selected', 0)],
+                 expand=[('selected', [1, 1, 1, 0])])  # Subtle padding for selected
+        
+        # LabelFrames - white background, no borders
+        style.configure('TLabelframe', 
+                       borderwidth=0, 
+                       relief='flat',
+                       background=self.colors['white'])
+        style.configure('TLabelframe.Label', 
+                       background=self.colors['white'], 
+                       foreground='#000000',
+                       font=self.fonts['bold'])
+        style.map('TLabelframe', background=[('', self.colors['white'])])
+        
+        # Title LabelFrame (for section headers) - no borders
+        style.configure('Title.TLabelframe',
+                      borderwidth=0,
+                      relief='flat',
+                      background=self.colors['white'])
+        style.configure('Title.TLabelframe.Label',
+                      background=self.colors['white'],
+                      foreground='#000000',
+                      font=self.fonts['bold'])
+        
+        # Buttons - Primary (subtle, professional look)
+        style.configure('Primary.TButton',
+                       background='#f3f4f6',  # Very light grey background
+                       foreground='#1f2937',  # Dark text
+                       borderwidth=0,  # No visible border
+                       relief='flat',  # Flat look
+                       padding=[8, 6],  # Comfortable padding
+                       font=self.fonts['standard'])
+        style.map('Primary.TButton',
+                 background=[('active', '#e5e7eb'),  # Subtle hover
+                            ('pressed', '#d1d5db'),
+                            ('disabled', '#f9fafb'),  # Very light when disabled
+                            ('!disabled', '#f3f4f6')],
+                 foreground=[('active', '#111827'),
+                           ('pressed', '#000000'),
+                           ('disabled', '#9ca3af'),  # Grey text when disabled
+                           ('!disabled', '#1f2937')],
+                 bordercolor=[('', ''),  # No border
+                             ('disabled', '')],
+                 focuscolor=[('', '')])
+        
+        # Buttons - Secondary (same subtle style as Primary)
+        style.configure('Secondary.TButton',
+                       background='#f3f4f6',  # Very light grey background
+                       foreground='#1f2937',  # Dark text
+                       borderwidth=0,  # No visible border
+                       relief='flat',  # Flat look
+                       padding=[8, 6],  # Comfortable padding
+                       font=self.fonts['standard'])
+        style.map('Secondary.TButton',
+                 background=[('active', '#e5e7eb'),  # Subtle hover
+                            ('pressed', '#d1d5db'),
+                            ('disabled', '#f9fafb'),  # Very light when disabled
+                            ('!disabled', '#f3f4f6')],
+                 foreground=[('active', '#111827'),
+                           ('pressed', '#000000'),
+                           ('disabled', '#9ca3af'),  # Grey text when disabled
+                           ('!disabled', '#1f2937')],
+                 bordercolor=[('', ''),  # No border
+                             ('disabled', '')],
+                 focuscolor=[('', '')])
+        
+        # Buttons - Danger (same subtle style, slightly different color)
+        style.configure('Danger.TButton',
+                       background='#fef2f2',  # Very light red tint
+                       foreground='#991b1b',  # Dark red text
+                       borderwidth=0,  # No visible border
+                       relief='flat',  # Flat look
+                       padding=[8, 6],  # Comfortable padding
+                       font=self.fonts['standard'])
+        style.map('Danger.TButton',
+                 background=[('active', '#fee2e2'),  # Subtle hover
+                            ('pressed', '#fecaca'),
+                            ('disabled', '#fef2f2'),  # Very light when disabled
+                            ('!disabled', '#fef2f2')],
+                 foreground=[('active', '#7f1d1d'),
+                           ('pressed', '#000000'),
+                           ('disabled', '#9ca3af'),  # Grey text when disabled
+                           ('!disabled', '#991b1b')],
+                 bordercolor=[('', ''),  # No border
+                             ('disabled', '')],
+                 focuscolor=[('', '')])
+        
+        # Entry/Input fields - subtle borders
+        style.configure('TEntry',
+                       fieldbackground=self.colors['white'],
+                       foreground='#000000',
+                       borderwidth=0,
+                       relief='flat',
+                       padding=[6, 8],
+                       font=self.fonts['standard'])
+        style.map('TEntry',
+                 fieldbackground=[('focus', self.colors['white']),
+                                 ('!focus', self.colors['white'])],
+                 bordercolor=[('focus', self.colors['border_light']),
+                             ('!focus', self.colors['border_light'])],
+                 focuscolor=[('', '')],
+                 highlightcolor=[('focus', self.colors['border_gray']),
+                                ('!focus', self.colors['border_light'])],
+                 highlightthickness=[('focus', 1),
+                                    ('!focus', 0)])
+        
+        style.configure('Modern.TEntry',
+                       fieldbackground=self.colors['white'],
+                       foreground='#000000',
+                       borderwidth=0,
+                       relief='flat',
+                       padding=[6, 8],
+                       font=self.fonts['standard'])
+        style.map('Modern.TEntry',
+                 fieldbackground=[('focus', self.colors['white']),
+                                 ('!focus', self.colors['white'])],
+                 bordercolor=[('focus', self.colors['border_light']),
+                             ('!focus', self.colors['border_light'])],
+                 focuscolor=[('', '')],
+                 highlightcolor=[('focus', self.colors['border_gray']),
+                                ('!focus', self.colors['border_light'])],
+                 highlightthickness=[('focus', 1),
+                                    ('!focus', 0)])
+        
+        # Combobox - subtle borders
+        style.configure('TCombobox',
+                       fieldbackground=self.colors['white'],
+                       foreground='#000000',
+                       borderwidth=0,
+                       relief='flat',
+                       padding=[4, 6],
+                       font=self.fonts['standard'],
+                       arrowcolor='#000000')
+        style.map('TCombobox',
+                 fieldbackground=[('readonly', self.colors['white']),
+                                ('!readonly', self.colors['white']),
+                                ('focus', self.colors['white']),
+                                ('!focus', self.colors['white'])],
+                 foreground=[('readonly', '#000000'),
+                            ('!readonly', '#000000')],
+                 bordercolor=[('focus', self.colors['border_light']),
+                             ('!focus', self.colors['border_light'])],
+                 arrowcolor=[('', '#000000')],
+                 focuscolor=[('', '')],
+                 highlightcolor=[('focus', self.colors['border_gray']),
+                                ('!focus', self.colors['border_light'])],
+                 highlightthickness=[('focus', 1),
+                                    ('!focus', 0)])
+        
+        style.configure('Modern.TCombobox',
+                       fieldbackground=self.colors['white'],
+                       foreground='#000000',
+                       borderwidth=0,
+                       relief='flat',
+                       padding=[4, 6],
+                       font=self.fonts['standard'],
+                       arrowcolor='#000000')
+        style.map('Modern.TCombobox',
+                 fieldbackground=[('readonly', self.colors['white']),
+                                ('!readonly', self.colors['white']),
+                                ('focus', self.colors['white']),
+                                ('!focus', self.colors['white'])],
+                 foreground=[('readonly', '#000000'),
+                            ('!readonly', '#000000')],
+                 bordercolor=[('focus', self.colors['border_light']),
+                             ('!focus', self.colors['border_light'])],
+                 arrowcolor=[('', '#000000')],
+                 focuscolor=[('', '')],
+                 highlightcolor=[('focus', self.colors['border_gray']),
+                                ('!focus', self.colors['border_light'])],
+                 highlightthickness=[('focus', 1),
+                                    ('!focus', 0)])
+        
+        # Progress bar - green color
+        style.configure('TProgressbar',
+                       background='#10b981',  # Green color
+                       troughcolor=self.colors['light_gray'],
+                       borderwidth=0,
+                       relief='flat',
+                       thickness=6)
+        
+        style.configure('Modern.Horizontal.TProgressbar',
+                       background='#10b981',  # Green color
+                       troughcolor=self.colors['light_gray'],
+                       borderwidth=0,
+                       relief='flat',
+                       thickness=6)
+        
+        # Scrollbar
+        style.configure('TScrollbar',
+                       background=self.colors['background_gray'],
+                       troughcolor=self.colors['background_gray'],
+                       borderwidth=0,
+                       arrowcolor=self.colors['medium_gray'],
+                       darkcolor=self.colors['background_gray'],
+                       lightcolor=self.colors['background_gray'])
+        style.map('TScrollbar',
+                 background=[('active', self.colors['light_gray']),
+                            ('!active', self.colors['light_gray'])],
+                 arrowcolor=[('active', self.colors['medium_gray']),
+                            ('!active', self.colors['medium_gray'])],
+                 darkcolor=[('', self.colors['background_gray'])],
+                 lightcolor=[('', self.colors['background_gray'])])
+        
+        # PanedWindow
+        style.configure('TPanedwindow', background=self.colors['background_gray'])
+        style.map('TPanedwindow', background=[('', self.colors['background_gray'])])
     
     def load_first_documentation(self):
         """Load first available documentation file"""
@@ -214,33 +496,41 @@ class ScraperGUI:
         
     def setup_ui(self):
         """Setup the user interface"""
-        # Create header bar
-        header_frame = tk.Frame(self.root, bg='#E0E0E0', height=50)  # Light gray background
+        # Setup styles first
+        self.setup_styles()
+        
+        # Create header bar - dark gray background
+        header_frame = tk.Frame(self.root, bg=self.colors['dark_gray'], height=50)
         header_frame.pack(fill=tk.X, side=tk.TOP)
         header_frame.pack_propagate(False)
         
-        # Header title
+        # Header title - white text on dark gray
         title_label = tk.Label(header_frame,
                               text="Scraper Management System",
-                              bg='#E0E0E0',  # Light gray background
-                              fg=self.colors['text_black'],
-                              font=('Segoe UI', 12, 'bold'),
-                              pady=15)
-        title_label.pack(side=tk.LEFT, padx=20)
+                              bg=self.colors['dark_gray'],
+                              fg=self.colors['white'],
+                              font=self.fonts['bold'],
+                              pady=8,
+                              padx=15)
+        title_label.pack(side=tk.LEFT)
         
-        # Create main container with horizontal split
-        main_container = ttk.PanedWindow(self.root, orient=tk.HORIZONTAL)
+        # Create main container with fixed widths (no resizing)
+        # Fixed widths: 15% (exec controls) + 35% (logs) = 50% left, 50% right
+        screen_width = self.root.winfo_screenwidth()
+        main_container = tk.Frame(self.root, bg=self.colors['white'])
         main_container.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
         
-        # Left panel - Execution (scraper selection, run controls, logs)
+        # Left panel - Execution (scraper selection, run controls, logs) - 50% total (15% + 35%)
         left_panel = ttk.Frame(main_container)
         left_panel.configure(style='TFrame')
-        main_container.add(left_panel, weight=2)
+        left_panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
+        left_panel.config(width=int(screen_width * 0.50))
+        left_panel.pack_propagate(False)
         
-        # Right panel - Documentation (read-only, formatted)
+        # Right panel - Documentation (read-only, formatted) - 50%
         right_panel = ttk.Frame(main_container)
         right_panel.configure(style='TFrame')
-        main_container.add(right_panel, weight=1)
+        right_panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         
         # Setup left panel (execution)
         self.setup_left_panel(left_panel)
@@ -250,182 +540,219 @@ class ScraperGUI:
         
     def setup_left_panel(self, parent):
         """Setup left panel with execution controls and logs side by side"""
-        # Create horizontal split for execution and logs
-        exec_split = ttk.PanedWindow(parent, orient=tk.HORIZONTAL)
+        # Create fixed-width split for execution and logs (no resizing)
+        # Fixed widths: 15% (exec controls) + 35% (logs) = 50% total of window
+        exec_split = tk.Frame(parent, bg=self.colors['white'])
         exec_split.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
         
-        # Left side - Execution controls
+        # Get screen width for fixed width calculations
+        screen_width = self.root.winfo_screenwidth()
+        
+        # Left side - Execution controls - 15% of total window (fixed width)
         exec_controls_frame = ttk.Frame(exec_split)
-        exec_split.add(exec_controls_frame, weight=1)
+        exec_controls_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
+        exec_controls_frame.config(width=int(screen_width * 0.15))
+        exec_controls_frame.pack_propagate(False)
         self.setup_execution_tab(exec_controls_frame)
         
-        # Right side - Execution logs
+        # Right side - Execution logs - 35% of total window (fixed width)
         logs_frame = ttk.Frame(exec_split)
-        exec_split.add(logs_frame, weight=1)
+        logs_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
+        logs_frame.config(width=int(screen_width * 0.35))
+        logs_frame.pack_propagate(False)
         self.setup_logs_tab(logs_frame)
     
     def setup_execution_tab(self, parent):
         """Setup execution control panel"""
-        # Scraper selection frame
-        scraper_frame = ttk.LabelFrame(parent, text="Select Scraper", padding=15, style='Title.TLabelframe')
-        scraper_frame.pack(fill=tk.X, padx=8, pady=(8, 12))
+        # Scraper selection - light gray border
+        scraper_section = tk.Frame(parent, bg=self.colors['white'],
+                                   highlightbackground=self.colors['border_gray'],
+                                   highlightthickness=1)
+        scraper_section.pack(fill=tk.X, padx=8, pady=(8, 8))
+        
+        tk.Label(scraper_section, text="Select Scraper", bg=self.colors['white'], fg='#000000', 
+                font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(8, 4))
         
         self.scraper_var = tk.StringVar()
-        scraper_combo = ttk.Combobox(scraper_frame, textvariable=self.scraper_var, 
-                                     values=list(self.scrapers.keys()), state="readonly", width=25,
+        scraper_combo = ttk.Combobox(scraper_section, textvariable=self.scraper_var, 
+                                     values=list(self.scrapers.keys()), state="readonly", width=22,
                                      style='Modern.TCombobox')
-        scraper_combo.pack(fill=tk.X, pady=(5, 0))
+        scraper_combo.pack(anchor=tk.W, padx=8, pady=(0, 8))
         scraper_combo.bind("<<ComboboxSelected>>", self.on_scraper_selected)
-        
-        # Pipeline control frame
-        pipeline_frame = ttk.LabelFrame(parent, text="Pipeline Control", padding=15, style='Title.TLabelframe')
-        pipeline_frame.pack(fill=tk.X, padx=8, pady=(0, 12))
 
-        # Status labels frame
-        status_frame = ttk.Frame(pipeline_frame)
-        status_frame.pack(fill=tk.X, pady=(0, 15))
+        # Pipeline control - light gray border
+        pipeline_section = tk.Frame(parent, bg=self.colors['white'],
+                                    highlightbackground=self.colors['border_gray'],
+                                    highlightthickness=1)
+        pipeline_section.pack(fill=tk.X, padx=8, pady=(0, 8))
         
-        # Checkpoint status label
-        self.checkpoint_status_label = ttk.Label(status_frame, text="Checkpoint: Not checked", 
-                                                 anchor=tk.W)
-        self.checkpoint_status_label.pack(fill=tk.X, pady=(0, 5))
+        tk.Label(pipeline_section, text="Pipeline Control", bg=self.colors['white'], fg='#000000', 
+                font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(8, 4))
+
+        # Status labels - in pipeline section
+        status_frame = tk.Frame(pipeline_section, bg=self.colors['white'])
+        status_frame.pack(fill=tk.X, padx=8, pady=(0, 8))
         
-        # Chrome instance count label
-        self.chrome_count_label = ttk.Label(status_frame, text="Chrome Instances: 0", 
-                                           anchor=tk.W)
-        self.chrome_count_label.pack(fill=tk.X, pady=(0, 5))
+        # Checkpoint status label (Line 1) - black text
+        self.checkpoint_status_label = tk.Label(status_frame, 
+                                               text="Checkpoint: Not checked",
+                                               bg=self.colors['white'],
+                                               fg='#000000',
+                                               font=self.fonts['standard'],
+                                               anchor=tk.W)
+        self.checkpoint_status_label.pack(fill=tk.X, pady=(0, 4), padx=0)
+        
+        # Checkpoint resume info label (Line 2)
+        self.checkpoint_resume_label = tk.Label(status_frame, 
+                                               text="",
+                                               bg=self.colors['white'],
+                                               fg='#000000',
+                                               font=self.fonts['standard'],
+                                               anchor=tk.W)
+        self.checkpoint_resume_label.pack(fill=tk.X, pady=(0, 4), padx=0)
+        
+        # Chrome instance count label (Line 3)
+        self.chrome_count_label = tk.Label(status_frame, 
+                                         text="Chrome Instances: 0",
+                                         bg=self.colors['white'],
+                                         fg='#000000',
+                                         font=self.fonts['standard'],
+                                         anchor=tk.W)
+        self.chrome_count_label.pack(fill=tk.X, pady=(0, 4), padx=0)
 
-        # Pipeline action buttons frame
-        action_frame = ttk.LabelFrame(pipeline_frame, text="Actions", padding=12, style='Title.TLabelframe')
-        action_frame.pack(fill=tk.X, pady=(0, 12))
+        # Actions - flat container (avoid dark border)
+        actions_section = tk.Frame(parent, bg=self.colors['white'],
+                                   highlightthickness=0,
+                                   bd=0)
+        actions_section.pack(fill=tk.X, padx=8, pady=(0, 8))
+        
+        tk.Label(actions_section, text="Actions", bg=self.colors['white'], fg='#000000', 
+                font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(8, 4))
 
-        self.run_button = ttk.Button(action_frame, text="Resume Pipeline",
+        self.run_button = ttk.Button(actions_section, text="Resume Pipeline",
                   command=lambda: self.run_full_pipeline(resume=True), width=22, 
                   state=tk.NORMAL, style='Primary.TButton')
-        self.run_button.pack(pady=4, anchor=tk.W, padx=5)
+        self.run_button.pack(pady=(0, 4), anchor=tk.W, padx=8)
 
-        self.run_fresh_button = ttk.Button(action_frame, text="Run Fresh Pipeline",
+        self.run_fresh_button = ttk.Button(actions_section, text="Run Fresh Pipeline",
                   command=lambda: self.run_full_pipeline(resume=False), width=22, 
                   state=tk.NORMAL, style='Primary.TButton')
-        self.run_fresh_button.pack(pady=4, anchor=tk.W, padx=5)
+        self.run_fresh_button.pack(pady=(0, 4), anchor=tk.W, padx=8)
 
-        self.stop_button = ttk.Button(action_frame, text="Stop Pipeline",
+        self.stop_button = ttk.Button(actions_section, text="Stop Pipeline",
                   command=self.stop_pipeline, width=22, state=tk.DISABLED, style='Danger.TButton')
-        self.stop_button.pack(pady=4, anchor=tk.W, padx=5)
+        self.stop_button.pack(pady=(0, 4), anchor=tk.W, padx=8)
 
-        ttk.Button(action_frame, text="Clear Run Lock",
-                  command=self.clear_run_lock, width=22, style='Secondary.TButton').pack(pady=4, anchor=tk.W, padx=5)
+        ttk.Button(actions_section, text="Clear Run Lock",
+                  command=self.clear_run_lock, width=22, style='Secondary.TButton').pack(pady=(0, 4), anchor=tk.W, padx=8)
         
-        # Kill all Chrome instances button
-        self.kill_all_chrome_button = ttk.Button(action_frame, text="Kill All Chrome Instances",
+        self.kill_all_chrome_button = ttk.Button(actions_section, text="Kill All Chrome Instances",
                   command=self.kill_all_chrome_instances, width=22, state=tk.NORMAL, style='Secondary.TButton')
-        self.kill_all_chrome_button.pack(pady=4, anchor=tk.W, padx=5)
+        self.kill_all_chrome_button.pack(pady=(0, 8), anchor=tk.W, padx=8)
         
-        # Checkpoint management frame
-        checkpoint_frame = ttk.LabelFrame(pipeline_frame, text="Checkpoint Management", padding=12, style='Title.TLabelframe')
-        checkpoint_frame.pack(fill=tk.X)
+        # Checkpoint management - light gray border
+        checkpoint_section = tk.Frame(parent, bg=self.colors['white'],
+                                      highlightbackground=self.colors['border_gray'],
+                                      highlightthickness=1)
+        checkpoint_section.pack(fill=tk.X, padx=8, pady=(0, 8))
         
-        # Checkpoint management buttons - arranged vertically like Actions
-        self.view_checkpoint_button = ttk.Button(checkpoint_frame, text="View Checkpoint",
+        tk.Label(checkpoint_section, text="Checkpoint Management", bg=self.colors['white'], fg='#000000', 
+                font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(8, 4))
+
+        self.view_checkpoint_button = ttk.Button(checkpoint_section, text="View Checkpoint",
                   command=self.view_checkpoint_file, width=22, style='Secondary.TButton')
-        self.view_checkpoint_button.pack(pady=4, anchor=tk.W, padx=5)
-        
-        self.manage_checkpoint_button = ttk.Button(checkpoint_frame, text="Manage Checkpoint",
+        self.view_checkpoint_button.pack(pady=(0, 4), anchor=tk.W, padx=8)
+
+        self.manage_checkpoint_button = ttk.Button(checkpoint_section, text="Manage Checkpoint",
                   command=self.manage_checkpoint, width=22, style='Secondary.TButton')
-        self.manage_checkpoint_button.pack(pady=4, anchor=tk.W, padx=5)
-        
-        self.clear_checkpoint_button = ttk.Button(checkpoint_frame, text="Clear Checkpoint",
+        self.manage_checkpoint_button.pack(pady=(0, 4), anchor=tk.W, padx=8)
+
+        self.clear_checkpoint_button = ttk.Button(checkpoint_section, text="Clear Checkpoint",
                   command=self.clear_checkpoint, width=22, style='Secondary.TButton')
-        self.clear_checkpoint_button.pack(pady=4, anchor=tk.W, padx=5)
+        self.clear_checkpoint_button.pack(pady=(0, 8), anchor=tk.W, padx=8)
     
     def setup_pipeline_steps_tab(self, parent):
         """Setup Pipeline Steps tab with step list, info, and explanation"""
-        # Steps frame (read-only view)
-        steps_frame = ttk.LabelFrame(parent, text="Pipeline Steps", padding=12, style='Title.TLabelframe')
-        steps_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
+        # Steps listbox with scrollbar - container frame with light gray border
+        listbox_container = tk.Frame(parent, bg=self.colors['white'],
+                                     highlightbackground=self.colors['border_gray'],
+                                     highlightthickness=1)
+        listbox_container.pack(fill=tk.BOTH, expand=False, padx=8, pady=(8, 8))
         
-        # Steps listbox with scrollbar (read-only)
-        steps_container = ttk.Frame(steps_frame)
-        steps_container.pack(fill=tk.BOTH, expand=True)
-
-        scrollbar = ttk.Scrollbar(steps_container)
+        scrollbar = ttk.Scrollbar(listbox_container)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.steps_listbox = tk.Listbox(steps_container, yscrollcommand=scrollbar.set,
-                                        height=15, font=("Courier New", 9),
-                                        bg=self.colors['bg_panel'],
-                                        fg=self.colors['text_black'],
-                                        selectbackground=self.colors['bg_dark'],
-                                        selectforeground=self.colors['text_black'],
-                                        borderwidth=2,
-                                        relief='sunken',
-                                        highlightthickness=0)
+        self.steps_listbox = tk.Listbox(listbox_container, yscrollcommand=scrollbar.set,
+                                        height=15, font=self.fonts['monospace'],  # Monospace
+                                        bg=self.colors['white'],
+                                        fg='#000000',
+                                        selectbackground=self.colors['white'],
+                                        selectforeground='#000000',
+                                        borderwidth=0,
+                                        relief='flat',
+                                        highlightthickness=0,
+                                        activestyle='none')
         self.steps_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.config(command=self.steps_listbox.yview)
 
         self.steps_listbox.bind("<<ListboxSelect>>", self.on_step_selected)
 
-        # Step info frame - ALWAYS VISIBLE (never hidden)
-        self.step_info_frame = ttk.LabelFrame(parent, text="Step Information", padding=12, style='Title.TLabelframe')
-        self.step_info_frame.pack(fill=tk.X, padx=8, pady=8)
-        # Ensure it's always visible - never pack_forget this frame
-
-        # Step info text (basic info)
-        self.step_info_text = tk.Text(self.step_info_frame, height=5, wrap=tk.WORD,
-                                     font=("Courier New", 9), state=tk.DISABLED,
-                                     bg=self.colors['bg_panel'],
-                                     fg=self.colors['text_black'],
-                                     borderwidth=2,
-                                     relief='sunken',
-                                     padx=8,
-                                     pady=8)
-        self.step_info_text.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
+        # Step info text container - with light gray border
+        step_info_container = tk.Frame(parent, bg=self.colors['white'],
+                                       highlightbackground=self.colors['border_gray'],
+                                       highlightthickness=1)
+        step_info_container.pack(fill=tk.BOTH, expand=False, padx=8, pady=(0, 8))
+        
+        # Step info text - below listbox, vertically stacked
+        self.step_info_text = tk.Text(step_info_container, height=5, wrap=tk.WORD,
+                                     font=self.fonts['monospace'], state=tk.DISABLED,
+                                     bg=self.colors['white'],
+                                     fg='#000000',
+                                     borderwidth=0,
+                                     relief='flat',
+                                     highlightthickness=0,
+                                     padx=12,
+                                     pady=12)
+        self.step_info_text.pack(fill=tk.BOTH, expand=True)
         
         # Initialize with default message
         self.step_info_text.config(state=tk.NORMAL)
         self.step_info_text.insert(1.0, "Select a step from the list above to see details and get AI explanation.")
         self.step_info_text.config(state=tk.DISABLED)
         
-        # Explain button frame - ALWAYS VISIBLE and prominent
-        self.explain_button_frame = ttk.Frame(self.step_info_frame)
-        self.explain_button_frame.pack(fill=tk.X, pady=(5, 0))
+        # Explain button - below step info, vertically stacked
+        button_container = tk.Frame(parent, bg=self.colors['white'])
+        button_container.pack(fill=tk.X, padx=8, pady=(0, 8))
         
-        # Make button more prominent and ALWAYS VISIBLE
-        self.explain_button = ttk.Button(self.explain_button_frame, 
-                                         text="Explain This Step (OpenAI API)",
+        self.explain_button = ttk.Button(button_container, 
+                                         text="Explain This Step",
                                          command=self.explain_step, 
-                                         state=tk.NORMAL,  # Always enabled, will show message if no step selected
-                                         width=38,
-                                         style='Secondary.TButton')
-        self.explain_button.pack(side=tk.LEFT, padx=5, pady=5)
-        
-        # Add helpful info label - ALWAYS VISIBLE
-        self.explain_info_label = tk.Label(self.explain_button_frame, 
-                                       text="Get AI-powered explanation using OpenAI",
-                                       font=("Courier New", 8), 
-                                       fg=self.colors['text_black'],
-                                       bg=self.colors['bg_panel'])
-        self.explain_info_label.pack(side=tk.LEFT, padx=(15, 5))
+                                         state=tk.NORMAL,
+                                         style='Primary.TButton')
+        self.explain_button.pack(side=tk.LEFT, padx=0, pady=0)
 
-        # Explanation panel (below step info, not replacing it)
+        # Explanation panel - with light gray border
         self.exec_controls_parent = parent
-        self.explanation_frame = ttk.LabelFrame(parent, text="Step Explanation", padding=12, style='Title.TLabelframe')
+        self.explanation_frame = tk.Frame(parent, bg=self.colors['white'],
+                                          highlightbackground=self.colors['border_gray'],
+                                          highlightthickness=1)
         # Don't pack initially - will pack when explanation is shown
 
         self.explanation_text = scrolledtext.ScrolledText(
             self.explanation_frame,
             wrap=tk.WORD,
-            font=("Courier New", 9),
+            font=self.fonts['standard'],
             state=tk.DISABLED,
             height=8,  # Initial height, will expand
-            bg=self.colors['bg_panel'],
-            fg=self.colors['text_black'],
-            borderwidth=2,
-            relief='sunken',
-            padx=10,
-            pady=10
+            bg=self.colors['white'],
+            fg='#000000',
+            borderwidth=0,
+            relief='flat',
+            highlightthickness=0,
+            padx=16,
+            pady=16
         )
-        self.explanation_text.pack(fill=tk.BOTH, expand=True)
+        self.explanation_text.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
         
         self.explanation_visible = False
         
@@ -462,93 +789,120 @@ class ScraperGUI:
     
     def setup_documentation_tab(self, parent):
         """Setup documentation viewer tab (read-only, formatted)"""
-        # Documentation header
+        # Documentation header - white background with border
         doc_header = ttk.LabelFrame(parent, text="Documentation", padding=15, style='Title.TLabelframe')
         doc_header.pack(fill=tk.X, padx=8, pady=8)
 
-        # Documentation selector
-        doc_selector_frame = ttk.Frame(doc_header)
+        # Documentation selector - white background
+        doc_selector_frame = tk.Frame(doc_header, bg=self.colors['white'])
         doc_selector_frame.pack(fill=tk.X, pady=5)
 
-        ttk.Label(doc_selector_frame, text="Select Document:").pack(side=tk.LEFT, padx=5)
+        tk.Label(doc_selector_frame, text="Select Document:",
+                bg=self.colors['white'],
+                fg='#000000',
+                font=self.fonts['standard']).pack(side=tk.LEFT, padx=5)
 
         self.doc_var = tk.StringVar()
         self.doc_combo = ttk.Combobox(doc_selector_frame, textvariable=self.doc_var,
-                                      state="readonly", width=30)
-        self.doc_combo.pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
+                                      state="readonly", width=18, style='Modern.TCombobox')
+        self.doc_combo.pack(side=tk.LEFT, padx=12, fill=tk.X, expand=True)
         self.doc_combo.bind("<<ComboboxSelected>>", self.on_doc_selected)
 
         ttk.Button(doc_selector_frame, text="Refresh", command=self.load_documentation, 
                   style='Secondary.TButton').pack(side=tk.LEFT, padx=5)
         
-        # Documentation viewer (read-only, formatted)
-        doc_viewer_frame = ttk.Frame(parent)
+        # Documentation viewer (read-only, formatted) - white background with light gray border
+        doc_viewer_frame = tk.Frame(parent, bg=self.colors['white'],
+                                     highlightbackground=self.colors['border_gray'],
+                                     highlightthickness=1)
         doc_viewer_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
         
         # Use Text widget with better formatting for markdown/readable docs
         self.doc_text = scrolledtext.ScrolledText(
             doc_viewer_frame,
             wrap=tk.WORD,
-            font=("Segoe UI", 10),  # Increased from 9
+            font=self.fonts['standard'],  # Body text
             state=tk.DISABLED,  # Read-only
-            padx=20,  # Increased from 10
-            pady=15,  # Increased from 10
+            bg=self.colors['white'],
+            fg='#000000',
+            padx=24,  # Padding
+            pady=24,  # Padding
             spacing1=3,  # Space above paragraphs
-            spacing3=8   # Space below paragraphs
+            spacing3=8,  # Space below paragraphs
+            borderwidth=0,
+            relief='flat',
+            highlightthickness=0
         )
         self.doc_text.pack(fill=tk.BOTH, expand=True)
 
-        # Configure text tags for professional formatting (larger, more readable)
-        self.doc_text.tag_configure("heading1", font=("Segoe UI", 20, "bold"), foreground="#1A1A1A", spacing1=20, spacing3=12)
-        self.doc_text.tag_configure("heading2", font=("Segoe UI", 16, "bold"), foreground="#2C3E50", spacing1=16, spacing3=10)
-        self.doc_text.tag_configure("heading3", font=("Segoe UI", 14, "bold"), foreground="#34495E", spacing1=14, spacing3=8)
-        self.doc_text.tag_configure("heading4", font=("Segoe UI", 12, "bold"), foreground="#34495E", spacing1=12, spacing3=6)
-        self.doc_text.tag_configure("heading5", font=("Segoe UI", 11, "bold"), foreground="#5D6D7E", spacing1=10, spacing3=5)
-        self.doc_text.tag_configure("heading6", font=("Segoe UI", 10, "bold"), foreground="#5D6D7E", spacing1=8, spacing3=4)
-        self.doc_text.tag_configure("code", font=("Consolas", 10), background="#F8F9FA", foreground="#2C3E50",
-                                    relief=tk.SOLID, borderwidth=1, lmargin1=20, lmargin2=20, rmargin=20,
+        # Configure text tags for professional formatting with black text
+        self.doc_text.tag_configure("heading1", font=self.fonts['bold'], foreground='#000000', spacing1=10, spacing3=6)
+        self.doc_text.tag_configure("heading2", font=self.fonts['bold'], foreground='#000000', spacing1=12, spacing3=6)
+        self.doc_text.tag_configure("heading3", font=self.fonts['bold'], foreground='#000000', spacing1=8, spacing3=5)
+        self.doc_text.tag_configure("heading4", font=self.fonts['bold'], foreground='#000000', spacing1=7, spacing3=4)
+        self.doc_text.tag_configure("heading5", font=self.fonts['bold'], foreground='#000000', spacing1=6, spacing3=3)
+        self.doc_text.tag_configure("heading6", font=self.fonts['bold'], foreground='#000000', spacing1=5, spacing3=2)
+        self.doc_text.tag_configure("code", font=self.fonts['monospace'], background=self.colors['white'], foreground='#000000',
+                                    relief=tk.FLAT, borderwidth=0, lmargin1=20, lmargin2=20, rmargin=20,
                                     spacing1=8, spacing3=8)
-        self.doc_text.tag_configure("code_inline", font=("Consolas", 10), background="#ECF0F1", foreground="#C7254E",
+        self.doc_text.tag_configure("code_inline", font=self.fonts['monospace'], background=self.colors['white'], foreground='#000000',
                                     relief=tk.FLAT)
-        self.doc_text.tag_configure("bold", font=("Segoe UI", 10, "bold"), foreground="#2C3E50")
-        self.doc_text.tag_configure("italic", font=("Segoe UI", 10, "italic"), foreground="#2C3E50")
-        self.doc_text.tag_configure("link", foreground="#2874A6", underline=True, font=("Segoe UI", 10))
-        self.doc_text.tag_configure("blockquote", foreground="#5D6D7E", lmargin1=20, lmargin2=20,
-                                    background="#F4F6F7", font=("Segoe UI", 10, "italic"),
+        self.doc_text.tag_configure("bold", font=self.fonts['bold'], foreground='#000000')
+        self.doc_text.tag_configure("italic", font=self.fonts['italic'], foreground='#000000')
+        self.doc_text.tag_configure("link", foreground='#000000', underline=True, font=self.fonts['standard'])
+        self.doc_text.tag_configure("blockquote", foreground='#000000', lmargin1=20, lmargin2=20,
+                                    background=self.colors['white'], font=self.fonts['italic'],
                                     spacing1=4, spacing3=4)
-        self.doc_text.tag_configure("hr", background="#BDC3C7", lmargin1=0, lmargin2=0, rmargin=0)
-        self.doc_text.tag_configure("list", lmargin1=20, lmargin2=40, font=("Segoe UI", 10))
-        self.doc_text.tag_configure("list_item", lmargin1=20, lmargin2=40, font=("Segoe UI", 10),
-                                    spacing1=2, spacing3=2)
-        self.doc_text.tag_configure("list_item", lmargin1=15, lmargin2=30)
+        self.doc_text.tag_configure("hr", background=self.colors['border_gray'], lmargin1=0, lmargin2=0, rmargin=0)
+        self.doc_text.tag_configure("list", lmargin1=20, lmargin2=40, font=self.fonts['standard'])
+        self.doc_text.tag_configure("list_item", lmargin1=20, lmargin2=40, font=self.fonts['standard'],
+                                    spacing1=4, spacing3=4)
         
         
     def setup_logs_tab(self, parent):
         """Setup logs viewer panel"""
-        # System Status frame (FIRST - at the top)
-        stats_frame = ttk.LabelFrame(parent, text="System Status", padding=12, style='Title.TLabelframe')
+        # System Status frame (FIRST - at the top) - white background with light gray border
+        stats_frame = tk.Frame(parent, bg=self.colors['white'],
+                               highlightthickness=0,
+                               bd=0)
         stats_frame.pack(fill=tk.X, padx=8, pady=(8, 12))
         
-        # Create container for formatted layout
-        stats_container = ttk.Frame(stats_frame)
+        # Label for the section
+        tk.Label(stats_frame, text="System Status", 
+                font=self.fonts['bold'],
+                bg=self.colors['white'],
+                fg='#000000').pack(anchor=tk.W, padx=16, pady=(16, 4))
+        
+        # Subtle horizontal separator below label
+        separator = tk.Frame(stats_frame, height=1, bg=self.colors['border_light'])
+        separator.pack(fill=tk.X, padx=16, pady=(0, 8))
+        
+        # Create container for formatted layout - white background
+        stats_container = tk.Frame(stats_frame, bg=self.colors['white'])
         stats_container.pack(fill=tk.X, padx=5, pady=8)
         
         # Line 1: Chrome, Tor, RAM, CPU
-        stats_line1 = ttk.Frame(stats_container)
+        stats_line1 = tk.Frame(stats_container, bg=self.colors['white'])
         stats_line1.pack(fill=tk.X, pady=3)
         
-        self.system_stats_label_line1 = ttk.Label(stats_line1, 
-                                                   text="Chrome Instances: 0  |  Tor Instances: 0  |  RAM Usage: --  |  CPU Usage: --", 
-                                                   anchor=tk.W)
+        self.system_stats_label_line1 = tk.Label(stats_line1, 
+                                                 text="Chrome Instances: 0  |  Tor Instances: 0  |  RAM Usage: --  |  CPU Usage: --",
+                                                 bg=self.colors['white'],
+                                                 fg='#000000',
+                                                 font=self.fonts['standard'],
+                                                 anchor=tk.W)
         self.system_stats_label_line1.pack(side=tk.LEFT, padx=8)
         
         # Line 2: GPU, Network
-        stats_line2 = ttk.Frame(stats_container)
+        stats_line2 = tk.Frame(stats_container, bg=self.colors['white'])
         stats_line2.pack(fill=tk.X, pady=3)
         
-        self.system_stats_label_line2 = ttk.Label(stats_line2, 
-                                                   text="GPU Usage: --  |  Network: --", 
-                                                   anchor=tk.W)
+        self.system_stats_label_line2 = tk.Label(stats_line2, 
+                                                 text="GPU Usage: --  |  Network: --",
+                                                 bg=self.colors['white'],
+                                                 fg='#000000',
+                                                 font=self.fonts['standard'],
+                                                 anchor=tk.W)
         self.system_stats_label_line2.pack(side=tk.LEFT, padx=8)
         
         # Keep old label for backward compatibility (will be updated but not displayed)
@@ -557,149 +911,205 @@ class ScraperGUI:
         # Start periodic system stats update
         self.update_system_stats()
         
-        # Execution Log section (BELOW System Status)
-        execution_log_frame = ttk.LabelFrame(parent, text="Execution Log", padding=12, style='Title.TLabelframe')
+        # Execution Log section (BELOW System Status) - white background, no border
+        execution_log_frame = tk.Frame(parent, bg=self.colors['white'],
+                                       highlightthickness=0,
+                                       bd=0)
         execution_log_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(0, 8))
         
-        # Toolbar
-        toolbar = ttk.Frame(execution_log_frame)
+        # Label for the section
+        tk.Label(execution_log_frame, text="Execution Log", 
+                font=self.fonts['bold'],
+                bg=self.colors['white'],
+                fg='#000000').pack(anchor=tk.W, padx=16, pady=(16, 4))
+        
+        # Subtle horizontal separator below label
+        separator = tk.Frame(execution_log_frame, height=1, bg=self.colors['border_light'])
+        separator.pack(fill=tk.X, padx=16, pady=(0, 8))
+        
+        # Toolbar - white background
+        toolbar = tk.Frame(execution_log_frame, bg=self.colors['white'])
         toolbar.pack(fill=tk.X, padx=5, pady=8)
 
-        ttk.Button(toolbar, text="Clear", command=self.clear_logs, style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
-        ttk.Button(toolbar, text="Copy to Clipboard", command=self.copy_logs_to_clipboard, style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
-        ttk.Button(toolbar, text="Save Log", command=self.save_log, style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
+        ttk.Button(toolbar, text="Clear", command=self.clear_logs, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
+        ttk.Button(toolbar, text="Copy to Clipboard", command=self.copy_logs_to_clipboard, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
+        ttk.Button(toolbar, text="Save Log", command=self.save_log, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
         
-        # Progress description and bar frame
-        progress_frame = ttk.Frame(execution_log_frame)
+        # Progress frame - white background (2 lines)
+        progress_frame = tk.Frame(execution_log_frame, bg=self.colors['white'])
         progress_frame.pack(fill=tk.X, padx=5, pady=(5, 10))
         
-        # Progress description label
-        self.progress_label = ttk.Label(
-            progress_frame,
-            text="Ready"
-        )
-        self.progress_label.pack(side=tk.LEFT, padx=(0, 10))
+        # Line 1: Current status label
+        status_line = tk.Frame(progress_frame, bg=self.colors['white'])
+        status_line.pack(fill=tk.X, pady=(0, 5))
         
-        # Progress percentage label (pack first to reserve space)
-        self.progress_percent = ttk.Label(
-            progress_frame,
-            text="0%",
-            width=5,
-            anchor=tk.E
-        )
-        self.progress_percent.pack(side=tk.RIGHT, padx=(10, 0))
+        tk.Label(
+            status_line,
+            text="Current status:",
+            bg=self.colors['white'],
+            fg='#000000',
+            font=self.fonts['standard']
+        ).pack(side=tk.LEFT, padx=(0, 5))
         
-        # Progress bar (between description and percentage)
+        self.progress_label = tk.Label(
+            status_line,
+            text="Ready",
+            bg=self.colors['white'],
+            fg='#000000',
+            font=self.fonts['standard']
+        )
+        self.progress_label.pack(side=tk.LEFT)
+        
+        # Line 2: Progress bar
+        bar_line = tk.Frame(progress_frame, bg=self.colors['white'])
+        bar_line.pack(fill=tk.X)
+        
         self.progress_bar = ttk.Progressbar(
-            progress_frame,
+            bar_line,
             mode='determinate',
             maximum=100,
             value=0,
             style='Modern.Horizontal.TProgressbar',
             length=300
         )
-        self.progress_bar.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 10))
+        self.progress_bar.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        
+        # Progress percentage label (on same line as bar, right side)
+        self.progress_percent = tk.Label(
+            bar_line,
+            text="0%",
+            width=5,
+            anchor=tk.E,
+            bg=self.colors['white'],
+            fg='#000000',
+            font=self.fonts['standard']
+        )
+        self.progress_percent.pack(side=tk.RIGHT, padx=(10, 0))
 
-        # Log viewer with professional dark theme
-        log_viewer_frame = ttk.Frame(execution_log_frame)
+        # Log viewer - CRITICAL: Black background with yellow text
+        log_viewer_frame = tk.Frame(
+            execution_log_frame,
+            bg=self.colors['dark_gray'],
+            highlightthickness=0,
+            bd=0,
+            relief='flat'
+        )
         log_viewer_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
         self.log_text = scrolledtext.ScrolledText(
             log_viewer_frame,
             wrap=tk.WORD,
-            font=("Consolas", 9),
+            font=self.fonts['monospace'],  # Monospace font
             state=tk.DISABLED,
-            bg="#000000",  # Black background (terminal style)
-            fg="#FFFF00",  # Yellow text (terminal style)
-            insertbackground="#FFFF00",  # Yellow cursor
+            bg=self.colors['console_black'],  # Pure black background
+            fg=self.colors['console_yellow'],  # Yellow/gold text
+            insertbackground=self.colors['console_yellow'],  # Yellow cursor
             selectbackground="#333333",  # Dark gray selection
-            selectforeground="#FFFF00"  # Yellow selected text
+            selectforeground=self.colors['console_yellow'],  # Yellow selected text
+            borderwidth=0,
+            relief='flat',
+            highlightthickness=0,
+            padx=16,
+            pady=16
         )
         self.log_text.pack(fill=tk.BOTH, expand=True)
         
-        # Status bar (shared across all tabs)
-        if not hasattr(self, 'status_bar'):
-            self.status_bar = ttk.Label(self.root, text="Ready", relief=tk.SUNKEN, anchor=tk.W)
-            self.status_bar.pack(side=tk.BOTTOM, fill=tk.X, padx=5, pady=2)
-        
     def setup_output_tab(self, parent):
         """Setup output files viewer tab"""
-        # Toolbar
-        toolbar = tk.Frame(parent, bg=self.colors['bg_main'])
+        # Toolbar - white background
+        toolbar = tk.Frame(parent, bg=self.colors['white'])
         toolbar.pack(fill=tk.X, padx=8, pady=8)
         
         # Left side: Label and entry
-        left_frame = tk.Frame(toolbar, bg=self.colors['bg_main'])
+        left_frame = tk.Frame(toolbar, bg=self.colors['white'])
         left_frame.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 10))
         
         tk.Label(left_frame, text="Output Directory:", 
-                font=("Courier New", 9),
-                bg=self.colors['bg_main'],
-                fg=self.colors['text_black']).pack(side=tk.LEFT, padx=(0, 8))
+                font=self.fonts['standard'],
+                bg=self.colors['white'],
+                fg='#000000').pack(side=tk.LEFT, padx=(0, 12))
         
         self.output_path_var = tk.StringVar()
         output_path_entry = ttk.Entry(left_frame, textvariable=self.output_path_var, width=40, style='Modern.TEntry')
         output_path_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 8))
         
         # Right side: Buttons (always visible)
-        button_frame = tk.Frame(toolbar, bg=self.colors['bg_main'])
+        button_frame = tk.Frame(toolbar, bg=self.colors['white'])
         button_frame.pack(side=tk.RIGHT, padx=5)
         
         ttk.Button(button_frame, text="Refresh", command=self.refresh_output_files, 
                   style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
         self.open_folder_button = ttk.Button(button_frame, text="Open Folder", 
-                                           command=self.open_output_folder, style='Secondary.TButton')
+                                           command=self.open_output_folder, style='Primary.TButton')
         self.open_folder_button.pack(side=tk.LEFT, padx=3)
         
-        # File list
-        file_list_frame = ttk.LabelFrame(parent, text="Output Files", padding=12, style='Title.TLabelframe')
+        # File list - white background with light gray border
+        file_list_frame = tk.Frame(parent, bg=self.colors['white'],
+                                   highlightbackground=self.colors['border_gray'],
+                                   highlightthickness=1)
         file_list_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
         
-        # Listbox with scrollbar
-        list_container = ttk.Frame(file_list_frame)
+        # Label for the section
+        tk.Label(file_list_frame, text="Output Files", 
+                font=self.fonts['bold'],
+                bg=self.colors['white'],
+                fg='#000000').pack(anchor=tk.W, pady=(0, 8))
+        
+        # Listbox with scrollbar - white background
+        list_container = tk.Frame(file_list_frame, bg=self.colors['white'])
         list_container.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         
         scrollbar = ttk.Scrollbar(list_container)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         
         self.output_listbox = tk.Listbox(list_container, yscrollcommand=scrollbar.set,
-                                        font=("Courier New", 9),
-                                        bg=self.colors['bg_panel'],
-                                        fg=self.colors['text_black'],
-                                        selectbackground=self.colors['bg_dark'],
-                                        selectforeground=self.colors['text_black'],
-                                        borderwidth=2,
-                                        relief='sunken',
-                                        highlightthickness=0)
+                                        font=self.fonts['monospace'],  # Monospace
+                                        bg=self.colors['white'],
+                                        fg='#000000',
+                                        selectbackground=self.colors['white'],
+                                        selectforeground='#000000',
+                                        borderwidth=0,
+                                        relief='flat',
+                                        highlightthickness=0,
+                                        activestyle='none')
         self.output_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.config(command=self.output_listbox.yview)
 
         self.output_listbox.bind("<Double-Button-1>", self.open_output_file)
 
-        # File info
-        file_info_frame = ttk.LabelFrame(parent, text="File Information", padding=12, style='Title.TLabelframe')
+        # File info - white background with light gray border
+        file_info_frame = tk.Frame(parent, bg=self.colors['white'],
+                                   highlightbackground=self.colors['border_gray'],
+                                   highlightthickness=1)
         file_info_frame.pack(fill=tk.X, padx=8, pady=8)
 
+        # Label for the section
+        tk.Label(file_info_frame, text="File Information", 
+                font=self.fonts['bold'],
+                bg=self.colors['white'],
+                fg='#000000').pack(anchor=tk.W, pady=(0, 8))
+
         self.file_info_text = tk.Text(file_info_frame, height=8, wrap=tk.WORD,
-                                      font=("Courier New", 9), state=tk.DISABLED,
-                                      bg=self.colors['bg_panel'],
-                                      fg=self.colors['text_black'],
-                                      borderwidth=2,
-                                      relief='sunken',
-                                      padx=10,
-                                      pady=10)
+                                      font=self.fonts['standard'], state=tk.DISABLED,
+                                      bg=self.colors['white'],
+                                      fg='#000000',
+                                      borderwidth=0,
+                                      relief='flat',
+                                      highlightthickness=0,
+                                      padx=16,
+                                      pady=16)
         self.file_info_text.pack(fill=tk.BOTH, expand=True)
     
     def setup_final_output_tab(self, parent):
         """Setup final output viewer tab"""
-        # Toolbar
-        toolbar = tk.Frame(parent, bg=self.colors['bg_main'])
+        # Toolbar - white background
+        toolbar = tk.Frame(parent, bg=self.colors['white'])
         toolbar.pack(fill=tk.X, padx=8, pady=8)
         
         tk.Label(toolbar, text="Final Output Directory:", 
-                font=("Courier New", 9),
-                bg=self.colors['bg_main'],
-                fg=self.colors['text_black']).pack(side=tk.LEFT, padx=(0, 8))
+                font=self.fonts['standard'],
+                bg=self.colors['white'],
+                fg='#000000').pack(side=tk.LEFT, padx=(0, 12))
         
         self.final_output_path_var = tk.StringVar()
         final_output_path_entry = ttk.Entry(toolbar, textvariable=self.final_output_path_var, width=50, style='Modern.TEntry')
@@ -718,50 +1128,68 @@ class ScraperGUI:
             self.final_output_path_var.set(str(default_exports))
         
         ttk.Button(toolbar, text="Search", command=self.search_final_output, 
-                  style='Secondary.TButton').pack(side=tk.LEFT, padx=5)
+                  style='Primary.TButton').pack(side=tk.LEFT, padx=5)
         
-        # File list
-        file_list_frame = ttk.LabelFrame(parent, text="Final Output Files", padding=12, style='Title.TLabelframe')
+        # File list - white background with light gray border
+        file_list_frame = tk.Frame(parent, bg=self.colors['white'],
+                                   highlightbackground=self.colors['border_gray'],
+                                   highlightthickness=1)
         file_list_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
         
-        # Listbox with scrollbar
-        list_container = ttk.Frame(file_list_frame)
+        # Label for the section
+        tk.Label(file_list_frame, text="Final Output Files", 
+                font=self.fonts['bold'],
+                bg=self.colors['white'],
+                fg='#000000').pack(anchor=tk.W, pady=(0, 8))
+        
+        # Listbox with scrollbar - white background
+        list_container = tk.Frame(file_list_frame, bg=self.colors['white'])
         list_container.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         
         scrollbar = ttk.Scrollbar(list_container)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         
         self.final_output_listbox = tk.Listbox(list_container, yscrollcommand=scrollbar.set,
-                                               font=("Courier New", 9),
-                                               bg=self.colors['bg_panel'],
-                                               fg=self.colors['text_black'],
-                                               selectbackground=self.colors['bg_dark'],
-                                               selectforeground=self.colors['text_black'],
-                                               borderwidth=2,
-                                               relief='sunken',
-                                               highlightthickness=0)
+                                               font=self.fonts['monospace'],  # Monospace
+                                               bg=self.colors['white'],
+                                               fg='#000000',
+                                               selectbackground=self.colors['white'],
+                                               selectforeground='#000000',
+                                               borderwidth=0,
+                                               relief='flat',
+                                               highlightthickness=0,
+                                               activestyle='none')
         self.final_output_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.config(command=self.final_output_listbox.yview)
 
         self.final_output_listbox.bind("<Double-Button-1>", self.open_final_output_file)
         self.final_output_listbox.bind("<<ListboxSelect>>", self.on_final_output_file_selected)
 
-        # File preview/info
-        file_info_frame = ttk.LabelFrame(parent, text="Final Output Information", padding=12, style='Title.TLabelframe')
+        # File preview/info - white background with light gray border
+        file_info_frame = tk.Frame(parent, bg=self.colors['white'],
+                                   highlightbackground=self.colors['border_gray'],
+                                   highlightthickness=1)
         file_info_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
 
+        # Label for the section
+        tk.Label(file_info_frame, text="Final Output Information", 
+                font=self.fonts['bold'],
+                bg=self.colors['white'],
+                fg='#000000').pack(anchor=tk.W, pady=(0, 8))
+
         self.final_output_info_text = tk.Text(file_info_frame, wrap=tk.WORD,
-                                              font=("Courier New", 9), state=tk.DISABLED,
-                                              bg=self.colors['bg_panel'],
-                                              fg=self.colors['text_black'],
-                                              borderwidth=2,
-                                              relief='sunken',
-                                              padx=10,
-                                              pady=10)
+                                              font=self.fonts['standard'], state=tk.DISABLED,
+                                              bg=self.colors['white'],
+                                              fg='#000000',
+                                              borderwidth=0,
+                                              relief='flat',
+                                              highlightthickness=0,
+                                              padx=16,
+                                              pady=16)
         self.final_output_info_text.pack(fill=tk.BOTH, expand=True)
         
-        # Buttons below the information table
-        button_frame = tk.Frame(parent, bg=self.colors['bg_main'])
+        # Buttons below the information table - white background
+        button_frame = tk.Frame(parent, bg=self.colors['white'])
         button_frame.pack(fill=tk.X, padx=8, pady=8)
         
         ttk.Button(button_frame, text="Refresh", command=self.refresh_final_output_files, 
@@ -771,14 +1199,14 @@ class ScraperGUI:
     
     def setup_config_tab(self, parent):
         """Setup configuration/environment editing tab"""
-        # Toolbar
-        toolbar = tk.Frame(parent, bg=self.colors['bg_main'])
+        # Toolbar - white background
+        toolbar = tk.Frame(parent, bg=self.colors['white'])
         toolbar.pack(fill=tk.X, padx=8, pady=8)
         
         tk.Label(toolbar, text="Scraper Configuration:", 
-                font=("Courier New", 9),
-                bg=self.colors['bg_main'],
-                fg=self.colors['text_black']).pack(side=tk.LEFT, padx=(0, 8))
+                font=self.fonts['standard'],
+                bg=self.colors['white'],
+                fg='#000000').pack(side=tk.LEFT, padx=(0, 8))
         
         ttk.Button(toolbar, text="Load", command=self.load_config_file, 
                   style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
@@ -789,30 +1217,39 @@ class ScraperGUI:
         ttk.Button(toolbar, text="Create from Template", command=self.create_config_from_template, 
                   style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
         
-        # Config editor
+        # Config editor - dark theme with border
         editor_frame = ttk.LabelFrame(parent, text="Configuration Editor", padding=12, style='Title.TLabelframe')
         editor_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
         
         self.config_text = scrolledtext.ScrolledText(editor_frame, wrap=tk.WORD,
-                                                     font=("Courier New", 9),
-                                                     bg=self.colors['bg_panel'],
-                                                     fg=self.colors['text_black'],
-                                                     borderwidth=2,
-                                                     relief='sunken',
-                                                     padx=10,
-                                                     pady=10,
-                                                     insertbackground=self.colors['text_black'],
-                                                     selectbackground=self.colors['bg_dark'],
-                                                     selectforeground=self.colors['text_black'])
+                                                     font=self.fonts['monospace'],  # Monospace
+                                                     bg=self.colors['white'],  # White background
+                                                     fg='#000000',  # Black text
+                                                     borderwidth=0,
+                                                     relief='flat',
+                                                     highlightthickness=0,
+                                                     padx=16,
+                                                     pady=16,
+                                                     insertbackground='#000000',
+                                                     selectbackground=self.colors['background_gray'],
+                                                     selectforeground='#000000')
         self.config_text.pack(fill=tk.BOTH, expand=True)
         
-        # Status
+        # Configure JSON syntax highlighting tags
+        self.config_text.tag_configure("json_key", foreground='#000000')
+        self.config_text.tag_configure("json_string", foreground="#10b981")  # Green for strings
+        self.config_text.tag_configure("json_number", foreground="#f59e0b")  # Amber for numbers
+        self.config_text.tag_configure("json_boolean", foreground='#000000')
+        
+        # Status - white background, no border
         self.config_status = tk.Label(parent, text="Scraper-specific configuration file", 
-                                       relief=tk.SUNKEN, anchor=tk.W,
-                                       bg=self.colors['bg_panel'],
-                                       fg=self.colors['text_black'],
-                                       font=("Courier New", 9),
-                                       padx=10)
+                                       relief=tk.FLAT, anchor=tk.W,
+                                       bg=self.colors['white'],
+                                       fg='#000000',
+                                       font=self.fonts['standard'],
+                                       padx=10,
+                                       borderwidth=0,
+                                       highlightthickness=0)
         self.config_status.pack(fill=tk.X, padx=8, pady=8)
         
         # Store current config file path (will be set when scraper is selected)
@@ -982,7 +1419,7 @@ class ScraperGUI:
         right_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5)
         
         self.rest_info_text = scrolledtext.ScrolledText(right_frame, wrap=tk.WORD,
-                                                       font=("Segoe UI", 9), state=tk.DISABLED)
+                                                       font=self.fonts['standard'], state=tk.DISABLED)
         self.rest_info_text.pack(fill=tk.BOTH, expand=True)
         
         # Initialize with system info
@@ -1147,15 +1584,9 @@ class ScraperGUI:
         self.step_info_text.insert(1.0, info)
         self.step_info_text.config(state=tk.DISABLED)
         
-        # Ensure step info frame is ALWAYS visible (should never be hidden)
-        if not self.step_info_frame.winfo_viewable():
-            self.step_info_frame.pack(fill=tk.X, padx=5, pady=5)
-        
-        # Ensure explain button and frame are always visible
-        if hasattr(self, 'explain_button_frame') and not self.explain_button_frame.winfo_viewable():
-            self.explain_button_frame.pack(fill=tk.X, pady=(5, 0))
+        # Ensure widgets are visible (now directly in parent, no frames to check)
         if hasattr(self, 'explain_button') and not self.explain_button.winfo_viewable():
-            self.explain_button.pack(side=tk.LEFT, padx=5, pady=3)
+            self.explain_button.pack(side=tk.LEFT, padx=8, pady=(0, 8))
         
         # Clear explanation when step changes (so user sees explanation for new step)
         self.clear_explanation()
@@ -1392,13 +1823,10 @@ Provide a clear, concise explanation suitable for users who want to understand w
         
         self.explanation_text.config(state=tk.DISABLED)
         
-        # Show explanation panel below step information (don't hide step info)
+        # Show explanation panel below step information
         if not self.explanation_visible:
-            # Ensure step info is visible
-            if not self.step_info_frame.winfo_viewable():
-                self.step_info_frame.pack(fill=tk.X, padx=5, pady=5)
             # Pack explanation frame below step info
-            self.explanation_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+            self.explanation_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
             self.explanation_visible = True
         
         # Increase height when showing
@@ -1437,8 +1865,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
     def apply_explanation_formatting(self):
         """Apply formatting tags to explanation text"""
         # Configure tags
-        self.explanation_text.tag_config("tldr_header", font=("Segoe UI", 10, "bold"), foreground="#2C3E50")
-        self.explanation_text.tag_config("full_header", font=("Segoe UI", 10, "bold"), foreground="#34495E")
+        self.explanation_text.tag_config("tldr_header", font=self.fonts['bold'], foreground='#000000')
+        self.explanation_text.tag_config("full_header", font=self.fonts['bold'], foreground='#000000')
 
         content = self.explanation_text.get(1.0, tk.END)
         lines = content.split('\n')
@@ -1454,9 +1882,6 @@ Provide a clear, concise explanation suitable for users who want to understand w
         if self.explanation_visible:
             self.explanation_frame.pack_forget()
             self.explanation_visible = False
-            # Ensure step information is always visible
-            if not self.step_info_frame.winfo_viewable():
-                self.step_info_frame.pack(fill=tk.X, padx=5, pady=5)
     
     def clear_explanation(self):
         """Clear explanation text and hide explanation panel (step information remains visible)"""
@@ -1464,9 +1889,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             self.explanation_frame.pack_forget()
             self.explanation_visible = False
         
-        # Always ensure step information is visible
-        if not self.step_info_frame.winfo_viewable():
-            self.step_info_frame.pack(fill=tk.X, padx=5, pady=5)
+        # Step information is always visible (no frame to check)
         
         self.explanation_text.config(state=tk.NORMAL)
         self.explanation_text.delete(1.0, tk.END)
@@ -1599,8 +2022,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     self.progress_percent.config(text="0%")
                 return
         
-        # Check if pipeline completed
-        if "Pipeline completed" in log_content or "Execution completed" in log_content or "Finished" in log_content:
+        # Check if pipeline completed (only if the scraper is no longer running)
+        if (not is_running) and ("Pipeline completed" in log_content or "Execution completed" in log_content or "Finished" in log_content):
             progress_state = {"percent": 100, "description": "Pipeline completed"}
             self.scraper_progress[scraper_name] = progress_state
             if should_update_display:
@@ -1643,188 +2066,236 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     return
         
         # Pattern 1: "[PROGRESS] {step}: X/Y (Z%)" (highest priority - most specific, includes step details)
-        # Check from the END of log (most recent) to get latest progress
-        latest_progress_line = None
-        latest_progress_line_idx = None  # Track line index for recency comparison (lower = more recent)
-        latest_current = 0
-        latest_total = 0
-        latest_percent = 0.0
-        latest_step_desc = None
-        latest_is_pipeline_step = False  # Track if this is a "Pipeline Step" message (higher priority)
-        
-        # First pass: Look for "Pipeline Step" messages (highest priority - these represent overall pipeline progress)
-        for line in reversed(lines[-200:]):  # Check last 200 lines for better detection
-            # Match format: [PROGRESS] Pipeline Step: X/Y (Z%) - Description (description is optional)
-            pipeline_match = re.search(r'\[PROGRESS\]\s+Pipeline\s+Step\s*:\s*(\d+)\s*/\s*(\d+)\s*\(([\d.]+)%\)(?:\s*-\s*(.+))?', line, re.IGNORECASE)
+        # Check the recent portion of the log for the most up-to-date progress message
+        recent_limit = 200
+        search_start_idx = max(0, len(lines) - recent_limit)
+
+        pipeline_candidate = None
+        pipeline_line_idx = -1
+        # Look for the most recent Pipeline Step message
+        for idx in range(len(lines) - 1, search_start_idx - 1, -1):
+            line = lines[idx]
+            pipeline_match = re.search(
+                r'\[PROGRESS\]\s+Pipeline\s+Step\s*:\s*(\d+)\s*/\s*(\d+)\s*\(([\d.]+)%\)(?:\s*-\s*(.+))?',
+                line,
+                re.IGNORECASE
+            )
             if pipeline_match:
                 current = int(pipeline_match.group(1))
                 total = int(pipeline_match.group(2))
                 percent = float(pipeline_match.group(3))
                 description = pipeline_match.group(4).strip() if pipeline_match.group(4) else None
                 if total > 0:
-                    # Pipeline Step messages have highest priority - use this immediately
-                    latest_current = current
-                    latest_total = total
-                    latest_percent = percent
-                    # Use description if available, otherwise use default
-                    latest_step_desc = description if description else "Pipeline Step"
-                    latest_progress_line = line
-                    latest_is_pipeline_step = True
-                    break  # Found pipeline step progress, use it (highest priority)
-        
-        # Second pass: Look for other progress messages (only if no Pipeline Step found)
-        if not latest_is_pipeline_step:
-            # Track line index to prioritize more recent messages
-            for line_idx, line in enumerate(reversed(lines[-200:])):  # Check last 200 lines for better detection
-                # Match format: [PROGRESS] {step description}: {completed}/{total} ({percent}%)
-                # Examples: "[PROGRESS] Searching: ACIMED: 1/11503 (0.1%)"
-                #           "[PROGRESS] Extracting data: ACIMED: 1/11503 (0.1%)"
-                #           "[PROGRESS] Completed: ACIMED: 1/11503 (0.1%)"
-                #           "[PROGRESS] Searching: {product}: X/Y (Z%)"
-                #           "[PROGRESS] Bulk search: X/Y (Z%)"
-                #           "[PROGRESS] Individual search: X/Y (Z%)"
-                progress_match = re.search(r'\[PROGRESS\]\s+(.+?)\s*:\s*(\d+)\s*/\s*(\d+)\s*\(([\d.]+)%\)', line, re.IGNORECASE)
-                if progress_match:
-                    step_desc = progress_match.group(1).strip()
-                    current = int(progress_match.group(2))
-                    total = int(progress_match.group(3))
-                    percent = float(progress_match.group(4))
-                    if total > 0:
-                        # Since we're iterating in reverse (most recent first), use the FIRST match we find
-                        # This ensures we always show the most recent progress message
-                        if latest_progress_line is None:
-                            latest_current = current
-                            latest_total = total
-                            latest_percent = percent
-                            latest_step_desc = step_desc
-                            latest_progress_line = line
-                            latest_progress_line_idx = line_idx
-                        # If we already have a message, only update if this one is more recent (lower index)
-                        elif line_idx < latest_progress_line_idx:
-                            latest_current = current
-                            latest_total = total
-                            latest_percent = percent
-                            latest_step_desc = step_desc
-                            latest_progress_line = line
-                            latest_progress_line_idx = line_idx
-                
-                # Also match fraction format: [PROGRESS] {step}: {description} (X/Y) or {step}: X/Y (Z%)
-                # Examples: "[PROGRESS] Extracting Annexe IV.1: Loading PDF (1/3)"
-                #           "[PROGRESS] Extracting Annexe IV.1: 100/100 (100%)"
-                # Priority: Prefer percentage format, but also accept fraction format if no percentage found
-                if not progress_match:
-                    # Try fraction format: (X/Y) at the end
-                    fraction_match = re.search(r'\[PROGRESS\]\s+(.+?)\s*:\s*(.+?)\s*\((\d+)\s*/\s*(\d+)\)', line, re.IGNORECASE)
-                    if fraction_match:
-                        step_desc = fraction_match.group(1).strip()
-                        current = int(fraction_match.group(3))
-                        total = int(fraction_match.group(4))
-                        if total > 0:
-                            percent = (current / total) * 100
-                            # Only use this if we haven't found a better match or if this is more recent
-                            if current >= latest_current or latest_progress_line is None:
-                                latest_current = current
-                                latest_total = total
-                                latest_percent = percent
-                                latest_step_desc = step_desc
-                                latest_progress_line = line
-        
-        # Use the latest progress found
-        if latest_progress_line:
-            progress_percent = latest_percent
-            
-            # Handle "Pipeline Step" messages specially - they have descriptive text after the dash
-            if latest_is_pipeline_step:
-                # Use the description we already extracted (or default if none)
-                if latest_step_desc and latest_step_desc != "Pipeline Step":
-                    progress_desc = latest_step_desc
-                else:
-                    progress_desc = f"Pipeline Step {latest_current}/{latest_total}"
-            elif ':' in latest_step_desc:
-                # If step_desc contains product name (e.g., "Searching: ACIMED")
-                parts = latest_step_desc.split(':', 1)
-                if len(parts) == 2:
-                    step_name = parts[0].strip()
-                    product_name = parts[1].strip()
-                    # Truncate long product names
-                    if len(product_name) > 30:
-                        product_name = product_name[:27] + "..."
-                    progress_desc = f"{step_name}: {product_name} ({latest_current}/{latest_total})"
-                else:
-                    progress_desc = f"{latest_step_desc} ({latest_current}/{latest_total})"
+                    desc_text = description if description else f"Pipeline Step {current}/{total}"
+                    pipeline_candidate = {
+                        "percent": percent,
+                        "description": desc_text,
+                        "current": current,
+                        "total": total
+                    }
+                    pipeline_line_idx = idx
+                    break
+
+        general_candidate = None
+        general_line_idx = -1
+
+        # Priority 1: general "[PROGRESS] Step": percentage format
+        for idx in range(len(lines) - 1, search_start_idx - 1, -1):
+            line = lines[idx]
+            progress_match = re.search(
+                r'\[PROGRESS\]\s+(.+?)\s*:\s*(\d+)\s*/\s*(\d+)\s*\(([\d.]+)%\)\s*(?:-\s*(.+))?',
+                line,
+                re.IGNORECASE
+            )
+            if progress_match:
+                step_desc = progress_match.group(1).strip()
+                current = int(progress_match.group(2))
+                total = int(progress_match.group(3))
+                percent = float(progress_match.group(4))
+                suffix = progress_match.group(5).strip() if progress_match.group(5) else None
+                if total > 0:
+                    desc_text = None
+                    if ':' in step_desc:
+                        parts = step_desc.split(':', 1)
+                        step_name = parts[0].strip()
+                        product_name = parts[1].strip()
+                        if len(product_name) > 30:
+                            product_name = product_name[:27] + "..."
+                        desc_text = f"{step_name}: {product_name} ({current}/{total})"
+                    else:
+                        desc_text = f"{step_desc} ({current}/{total})"
+                    if suffix:
+                        desc_text = f"{desc_text} - {suffix}"
+                    general_candidate = {
+                        "percent": percent,
+                        "description": desc_text
+                    }
+                    general_line_idx = idx
+                    break
             else:
-                progress_desc = f"{latest_step_desc} ({latest_current}/{latest_total})"
-        
+                fraction_match = re.search(
+                    r'\[PROGRESS\]\s+(.+?)\s*:\s*(.+?)\s*\((\d+)\s*/\s*(\d+)\)\s*(?:-\s*(.+))?',
+                    line,
+                    re.IGNORECASE
+                )
+                if fraction_match:
+                    step_desc = fraction_match.group(1).strip()
+                    current = int(fraction_match.group(3))
+                    total = int(fraction_match.group(4))
+                    suffix = fraction_match.group(5).strip() if fraction_match.group(5) else None
+                    if total > 0:
+                        percent = (current / total) * 100
+                        desc_text = f"{step_desc} ({current}/{total})"
+                        if suffix:
+                            desc_text = f"{desc_text} - {suffix}"
+                        general_candidate = {
+                            "percent": percent,
+                            "description": desc_text
+                        }
+                        general_line_idx = idx
+                        break
+
         # Pattern 2: "Scraping products: X/Y" (legacy format, second priority)
-        if not progress_percent:
-            for line in reversed(lines[-50:]):  # Check last 50 lines
-                # Match both integer and decimal percentages: (0%) or (0.1%)
-                scraping_match = re.search(r'\[PROGRESS\]\s+Scraping\s+products?\s*:\s*(\d+)\s*/\s*(\d+)\s*\(([\d.]+)%\)', line, re.IGNORECASE)
+        if general_candidate is None:
+            secondary_limit = 50
+            search_start_idx_secondary = max(0, len(lines) - secondary_limit)
+            for idx in range(len(lines) - 1, search_start_idx_secondary - 1, -1):
+                line = lines[idx]
+                scraping_match = re.search(
+                    r'\[PROGRESS\]\s+Scraping\s+products?\s*:\s*(\d+)\s*/\s*(\d+)\s*\(([\d.]+)%\)',
+                    line,
+                    re.IGNORECASE
+                )
                 if scraping_match:
                     current = int(scraping_match.group(1))
                     total = int(scraping_match.group(2))
                     percent = float(scraping_match.group(3))
                     if total > 0:
-                        progress_percent = percent
-                        progress_desc = f"Scraping products: {current}/{total}"
+                        general_candidate = {
+                            "percent": percent,
+                            "description": f"Scraping products: {current}/{total}"
+                        }
+                        general_line_idx = idx
                         break
-        
+
         # Pattern 3: "Scraping products: X/Y" (without [PROGRESS] tag)
-        if not progress_percent:
-            for line in reversed(lines[-50:]):
-                scraping_match = re.search(r'Scraping\s+products?\s*:\s*(\d+)\s*/\s*(\d+)', line, re.IGNORECASE)
+        if general_candidate is None:
+            search_start_idx_secondary = max(0, len(lines) - 50)
+            for idx in range(len(lines) - 1, search_start_idx_secondary - 1, -1):
+                line = lines[idx]
+                scraping_match = re.search(
+                    r'Scraping\s+products?\s*:\s*(\d+)\s*/\s*(\d+)',
+                    line,
+                    re.IGNORECASE
+                )
                 if scraping_match:
                     current = int(scraping_match.group(1))
                     total = int(scraping_match.group(2))
                     if total > 0:
-                        progress_percent = int((current / total) * 100)
-                        progress_desc = f"Scraping products: {current}/{total}"
+                        general_candidate = {
+                            "percent": int((current / total) * 100),
+                            "description": f"Scraping products: {current}/{total}"
+                        }
+                        general_line_idx = idx
                         break
-        
+
         # Pattern 4: "Step X/Y" or "Step X of Y"
-        if not progress_percent:
-            for line in reversed(lines[-50:]):
-                step_match = re.search(r'Step\s+(\d+)\s*(?:of|/)\s*(\d+)', line, re.IGNORECASE)
+        if general_candidate is None:
+            search_start_idx_secondary = max(0, len(lines) - 50)
+            for idx in range(len(lines) - 1, search_start_idx_secondary - 1, -1):
+                line = lines[idx]
+                step_match = re.search(
+                    r'Step\s+(\d+)\s*(?:of|/)\s*(\d+)',
+                    line,
+                    re.IGNORECASE
+                )
                 if step_match:
                     current = int(step_match.group(1))
                     total = int(step_match.group(2))
                     if total > 0:
-                        progress_percent = int((current / total) * 100)
-                        progress_desc = f"Step {current}/{total}"
+                        general_candidate = {
+                            "percent": int((current / total) * 100),
+                            "description": f"Step {current}/{total}"
+                        }
+                        general_line_idx = idx
                         break
-        
+
         # Pattern 5: "Processing X/Y" or "Processing X of Y"
-        if not progress_percent:
-            for line in reversed(lines[-50:]):
-                process_match = re.search(r'Processing\s+(\d+)\s*(?:of|/)\s*(\d+)', line, re.IGNORECASE)
+        if general_candidate is None:
+            search_start_idx_secondary = max(0, len(lines) - 50)
+            for idx in range(len(lines) - 1, search_start_idx_secondary - 1, -1):
+                line = lines[idx]
+                process_match = re.search(
+                    r'Processing\s+(\d+)\s*(?:of|/)\s*(\d+)',
+                    line,
+                    re.IGNORECASE
+                )
                 if process_match:
                     current = int(process_match.group(1))
                     total = int(process_match.group(2))
                     if total > 0:
-                        progress_percent = int((current / total) * 100)
-                        progress_desc = f"Processing {current}/{total}"
+                        general_candidate = {
+                            "percent": int((current / total) * 100),
+                            "description": f"Processing {current}/{total}"
+                        }
+                        general_line_idx = idx
                         break
-        
+
         # Pattern 6: "X/Y products" or "X of Y products"
-        if not progress_percent:
-            for line in reversed(lines[-50:]):
-                product_match = re.search(r'(\d+)\s*(?:of|/)\s*(\d+)\s+product', line, re.IGNORECASE)
+        if general_candidate is None:
+            search_start_idx_secondary = max(0, len(lines) - 50)
+            for idx in range(len(lines) - 1, search_start_idx_secondary - 1, -1):
+                line = lines[idx]
+                product_match = re.search(
+                    r'(\d+)\s*(?:of|/)\s*(\d+)\s+product',
+                    line,
+                    re.IGNORECASE
+                )
                 if product_match:
                     current = int(product_match.group(1))
                     total = int(product_match.group(2))
                     if total > 0:
-                        progress_percent = int((current / total) * 100)
-                        progress_desc = f"Products: {current}/{total}"
+                        general_candidate = {
+                            "percent": int((current / total) * 100),
+                            "description": f"Products: {current}/{total}"
+                        }
+                        general_line_idx = idx
                         break
-        
-        # Pattern 6: "Progress: X%" or "X% complete"
-        if not progress_percent:
-            for line in reversed(lines[-50:]):
-                percent_match = re.search(r'(?:Progress|Complete)[:\s]+(\d+)%', line, re.IGNORECASE)
+
+        # Pattern 7: "Progress: X%" or "X% complete"
+        if general_candidate is None:
+            search_start_idx_secondary = max(0, len(lines) - 50)
+            for idx in range(len(lines) - 1, search_start_idx_secondary - 1, -1):
+                line = lines[idx]
+                percent_match = re.search(
+                    r'(?:Progress|Complete)[:\s]+(\d+)%',
+                    line,
+                    re.IGNORECASE
+                )
                 if percent_match:
-                    progress_percent = int(percent_match.group(1))
-                    progress_desc = f"Progress: {progress_percent}%"
+                    general_candidate = {
+                        "percent": int(percent_match.group(1)),
+                        "description": f"{percent_match.group(1)}% complete"
+                    }
+                    general_line_idx = idx
                     break
+
+        chosen_candidate = None
+        if general_candidate and pipeline_candidate:
+            if general_candidate["percent"] < 100 and pipeline_candidate["percent"] >= 100:
+                chosen_candidate = general_candidate
+            elif general_line_idx >= pipeline_line_idx:
+                chosen_candidate = general_candidate
+            else:
+                chosen_candidate = pipeline_candidate
+        elif general_candidate and pipeline_candidate is None:
+            chosen_candidate = general_candidate
+        elif pipeline_candidate:
+            chosen_candidate = pipeline_candidate
+
+        if chosen_candidate:
+            progress_percent = chosen_candidate["percent"]
+            progress_desc = chosen_candidate["description"]
         
         # Pattern 6: Look for current step name in log (e.g., "Running step: X")
         if not progress_desc:
@@ -2028,8 +2499,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
             # Kill Chrome instances for each scraper
             for scraper_name in self.scrapers.keys():
                 try:
-                    from core.chrome_pid_tracker import terminate_chrome_pids
-                    count = terminate_chrome_pids(scraper_name, self.repo_root, silent=True)
+                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    count = terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
                     total_terminated += count
                 except Exception:
                     pass
@@ -2934,8 +3405,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     # IMPORTANT: Clean up Chrome instances FIRST (scraper-specific) BEFORE killing main process
                     # This prevents killing Chrome instances that belong to other scrapers
                     try:
-                        from core.chrome_pid_tracker import terminate_chrome_pids
-                        terminated_count = terminate_chrome_pids(scraper_name, self.repo_root, silent=True)
+                        from core.chrome_pid_tracker import terminate_scraper_pids
+                        terminated_count = terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
                         if terminated_count > 0:
                             self.append_to_log_display(f"[STOP] Terminated {terminated_count} Chrome process(es) for {scraper_name} before process kill\n")
                     except Exception:
@@ -2967,8 +3438,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     
                     # Step 3: Final cleanup - check for any remaining Chrome instances (in case some were missed)
                     try:
-                        from core.chrome_pid_tracker import terminate_chrome_pids
-                        terminated_count = terminate_chrome_pids(scraper_name, self.repo_root, silent=True)
+                        from core.chrome_pid_tracker import terminate_scraper_pids
+                        terminated_count = terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
                         if terminated_count > 0:
                             self.append_to_log_display(f"[STOP] Terminated {terminated_count} remaining Chrome process(es) for {scraper_name} after process kill\n")
                     except Exception:
@@ -3074,8 +3545,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 import time
                 time.sleep(0.5)
                 try:
-                    from core.chrome_pid_tracker import terminate_chrome_pids
-                    terminated_count = terminate_chrome_pids(scraper_name, self.repo_root, silent=True)
+                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    terminated_count = terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
                     if terminated_count > 0:
                         self.append_to_log_display(f"[STOP] Terminated {terminated_count} remaining Chrome process(es) for {scraper_name} after pipeline stop\n")
                 except Exception:
@@ -3116,8 +3587,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
             except Exception as e:
                 # Ensure Chrome cleanup happens even if there's an error (scraper-specific only)
                 try:
-                    from core.chrome_pid_tracker import terminate_chrome_pids
-                    terminate_chrome_pids(scraper_name, self.repo_root, silent=True)
+                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
                 except Exception:
                     # Don't use general cleanup - it would kill all scrapers' Chrome instances
                     pass
@@ -3129,8 +3600,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 try:
                     import time
                     time.sleep(0.5)  # Give processes time to die
-                    from core.chrome_pid_tracker import terminate_chrome_pids
-                    terminated_count = terminate_chrome_pids(scraper_name, self.repo_root, silent=True)
+                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    terminated_count = terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
                     if terminated_count > 0:
                         if scraper_name == self.scraper_var.get():
                             self.append_to_log_display(f"[STOP] Final cleanup: Terminated {terminated_count} remaining Chrome process(es)\n")
@@ -3159,17 +3630,24 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 total_steps = len(scraper_info.get("steps", [])) if scraper_info else None
                 
                 if total_steps is not None and info['next_step'] >= total_steps:
-                    status_text = f"Checkpoint: All {total_steps} steps completed (pipeline finished)"
+                    status_text = f"Checkpoint: All {total_steps} steps completed"
+                    resume_text = "Pipeline finished"
                 else:
-                    status_text = f"Checkpoint: Step {info['last_completed_step']}/{total_steps - 1 if total_steps else '?'} completed (resume from step {info['next_step']})"
+                    status_text = f"Checkpoint: Step {info['last_completed_step']}/{total_steps - 1 if total_steps else '?'} completed"
+                    resume_text = f"Resume from step {info['next_step']}"
             else:
-                status_text = "Checkpoint: No checkpoint (will start from step 0)"
+                status_text = "Checkpoint: No checkpoint"
+                resume_text = "Will start from step 0"
             
             if hasattr(self, 'checkpoint_status_label'):
                 self.checkpoint_status_label.config(text=status_text)
+            if hasattr(self, 'checkpoint_resume_label'):
+                self.checkpoint_resume_label.config(text=resume_text)
         except Exception as e:
             if hasattr(self, 'checkpoint_status_label'):
                 self.checkpoint_status_label.config(text=f"Checkpoint: Error - {str(e)[:50]}")
+            if hasattr(self, 'checkpoint_resume_label'):
+                self.checkpoint_resume_label.config(text="")
     
     def view_checkpoint_file(self):
         """View checkpoint file location and contents"""
@@ -3224,7 +3702,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
             
             text_widget = tk.Text(text_frame, wrap=tk.WORD, yscrollcommand=scrollbar.set, 
-                                 font=("Consolas", 9))
+                                 font=self.fonts['monospace'])
             text_widget.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
             scrollbar.config(command=text_widget.yview)
             
@@ -3532,7 +4010,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             # Instructions
             instructions = ttk.Label(main_frame, 
                 text="Select steps to mark as complete. Uncheck to roll back.\nClick 'Apply' to save changes.",
-                font=("Segoe UI", 9))
+                font=self.fonts['standard'])
             instructions.pack(pady=(0, 10))
             
             # Scrollable frame for checkboxes
@@ -4111,7 +4589,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
             "CanadaQuebec": ["canadaquebecreport"],
             "CanadaOntario": ["canadaontarioreport"],
             "Malaysia": ["malaysia"],
-            "Argentina": ["alfabeta_report"]
+            "Argentina": ["alfabeta_report"],
+            "NorthMacedonia": ["north_macedonia_drug_register"]
         }
         
         patterns = scraper_patterns.get(scraper_name, [])
@@ -4684,9 +5163,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
         self.rest_info_text.config(state=tk.DISABLED)
     
     def update_status(self, message):
-        """Update status bar"""
-        self.status_bar.config(text=f"Status: {message}")
-        self.root.update_idletasks()
+        """Update status bar (removed - no-op)"""
+        # Status bar removed per user request
+        pass
     
     def install_dependencies_in_gui(self):
         """Install dependencies and show progress in GUI console"""
@@ -4944,4 +5423,3 @@ if __name__ == "__main__":
     import atexit
     atexit.register(cleanup_on_exit)
     main()
-
