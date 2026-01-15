@@ -1,0 +1,47 @@
+{
+  "scraper": "Tender_Chile",
+  "last_run": "2026-01-15T22:06:27.629409",
+  "completed_steps": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "step_outputs": {
+    "step_0": {
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "completed_at": "2026-01-15T22:01:55.456271",
+      "output_files": [],
+      "duration_seconds": 0.15674400329589844
+    },
+    "step_1": {
+      "step_number": 1,
+      "step_name": "Load Tender List",
+      "completed_at": "2026-01-15T22:01:55.627662",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\Tender_Chile\\tender_list.csv"
+      ],
+      "duration_seconds": 0.14877080917358398
+    },
+    "step_2": {
+      "step_number": 2,
+      "step_name": "Build Details URLs",
+      "completed_at": "2026-01-15T22:01:56.032383",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\Tender_Chile\\tender_redirect_urls.csv"
+      ],
+      "duration_seconds": 0.3850984573364258
+    },
+    "step_3": {
+      "step_number": 3,
+      "step_name": "Extract Tender Details",
+      "completed_at": "2026-01-15T22:06:27.629396",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\Tender_Chile\\tender_details.csv"
+      ],
+      "duration_seconds": 271.5903494358063
+    }
+  },
+  "metadata": {}
+}

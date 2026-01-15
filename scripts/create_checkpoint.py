@@ -65,6 +65,20 @@ PIPELINE_STEPS = {
         (1, "Collect URLs"),
         (2, "Reimbursement Extraction"),
     ],
+    "Tender_Chile": [
+        (0, "Backup and Clean"),
+        (1, "Get Tender List"),
+        (2, "Get Redirect URLs"),
+        (3, "Extract Tender Details"),
+        (4, "Extract Award Data"),
+        (5, "Merge Final CSV"),
+    ],
+    "NorthMacedonia": [
+        (0, "Backup and Clean"),
+        (1, "Collect URLs"),
+        (2, "Extract Drug Register Data"),
+        (3, "Scrape Max Prices"),
+    ],
 }
 
 
@@ -276,7 +290,7 @@ Examples:
         """
     )
     
-    parser.add_argument("scraper", nargs="?", help="Scraper name (Argentina, Malaysia, CanadaQuebec)")
+    parser.add_argument("scraper", nargs="?", help="Scraper name (Argentina, Malaysia, CanadaQuebec, NorthMacedonia, CanadaOntario, Netherlands, Tender_Chile)")
     parser.add_argument("--step", type=int, help="Mark all steps up to and including this step as complete")
     parser.add_argument("--steps", type=str, help="Comma-separated list of step numbers to mark as complete (e.g., 0,1,2,3)")
     parser.add_argument("--view", action="store_true", help="View current checkpoint status")

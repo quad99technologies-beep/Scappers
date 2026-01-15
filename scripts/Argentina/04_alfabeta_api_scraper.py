@@ -53,10 +53,6 @@ from scraper_utils import (
     CSV_LOCK, PROGRESS_LOCK, ERROR_LOCK
 )
 
-# ====== LOGGING ======
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-log = logging.getLogger("api_scraper")
-
 # ====== PATHS ======
 INPUT_DIR = get_input_dir()
 OUTPUT_DIR = get_output_dir()
@@ -64,6 +60,21 @@ PREPARED_URLS_FILE_PATH = OUTPUT_DIR / PREPARED_URLS_FILE
 OUT_CSV = OUTPUT_DIR / OUTPUT_PRODUCTS_CSV
 PROGRESS = OUTPUT_DIR / OUTPUT_PROGRESS_CSV
 ERRORS = OUTPUT_DIR / OUTPUT_ERRORS_CSV
+LOG_DIR = OUTPUT_DIR / "logs"
+LOG_DIR.mkdir(parents=True, exist_ok=True)
+LOG_FILE = LOG_DIR / f"argentina_api_{datetime.now():%Y%m%d_%H%M%S}.log"
+
+# ====== LOGGING ======
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler(LOG_FILE, encoding="utf-8"),
+    ],
+)
+log = logging.getLogger("api_scraper")
+log.info("[LOG] Writing API log to %s", LOG_FILE)
 
 # Request pause jitter tuple
 REQUEST_PAUSE_JITTER = (REQUEST_PAUSE_JITTER_MIN, REQUEST_PAUSE_JITTER_MAX)

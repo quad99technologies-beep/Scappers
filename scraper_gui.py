@@ -234,6 +234,21 @@ class ScraperGUI:
                     {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
                     {"name": "01 - Collect Detail URLs", "script": "01_collect_urls.py", "desc": "Collect detail URLs across overview pages"},
                     {"name": "02 - Scrape Detail Pages", "script": "02_scrape_details.py", "desc": "Scrape drug register detail data from collected URLs"},
+                    {"name": "03 - Scrape Max Prices", "script": "03_scrape_zdravstvo.py", "desc": "Scrape max prices and effective dates from Zdravstvo"},
+                ],
+                "pipeline_bat": "run_pipeline.bat"
+            },
+            "Tender_Chile": {
+                "path": self.repo_root / "scripts" / "Tender- Chile",
+                "scripts_dir": "",
+                "docs_dir": None,  # All docs now in root doc/ folder
+                "steps": [
+                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
+                    {"name": "01 - Load Tender List", "script": "1. GetTender.py", "desc": "Load user-provided tender list from input/Tender_Chile"},
+                    {"name": "02 - Build Details URLs", "script": "2. Get Redirect URLs.py", "desc": "Build tender details/award URLs from the list"},
+                    {"name": "03 - Extract Tender Details", "script": "3. Chillie Tender.py", "desc": "Extract tender and lot details"},
+                    {"name": "04 - Extract Award Data", "script": "4. Chillie Tender Award.py", "desc": "Extract bidder-level award data"},
+                    {"name": "05 - Merge Final CSV", "script": "5. Merge Final CSV.py", "desc": "Merge all outputs into final CSV"},
                 ],
                 "pipeline_bat": "run_pipeline.bat"
             }
@@ -2099,7 +2114,29 @@ Provide a clear, concise explanation suitable for users who want to understand w
         general_candidate = None
         general_line_idx = -1
 
-        # Priority 1: general "[PROGRESS] Step": percentage format
+        # Priority 1: page/row progress lines (e.g., "Max Prices: page 1 row 10/200 (5.0%)")
+        for idx in range(len(lines) - 1, search_start_idx - 1, -1):
+            line = lines[idx]
+            page_row_match = re.search(
+                r'\[PROGRESS\]\s+(.+?)\s*:\s*page\s+(\d+)\s+row\s+(\d+)\s*/\s*(\d+)\s*\(([\d.]+)%\)',
+                line,
+                re.IGNORECASE
+            )
+            if page_row_match:
+                step_desc = page_row_match.group(1).strip()
+                page_num = int(page_row_match.group(2))
+                row_num = int(page_row_match.group(3))
+                row_total = int(page_row_match.group(4))
+                percent = float(page_row_match.group(5))
+                if row_total > 0:
+                    general_candidate = {
+                        "percent": percent,
+                        "description": f"{step_desc}: page {page_num} row {row_num}/{row_total}"
+                    }
+                    general_line_idx = idx
+                    break
+
+        # Priority 2: general "[PROGRESS] Step": percentage format
         for idx in range(len(lines) - 1, search_start_idx - 1, -1):
             line = lines[idx]
             progress_match = re.search(
@@ -2113,6 +2150,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 total = int(progress_match.group(3))
                 percent = float(progress_match.group(4))
                 suffix = progress_match.group(5).strip() if progress_match.group(5) else None
+                if is_running and step_desc.lower().startswith("pipeline step") and percent >= 100.0:
+                    continue
                 if total > 0:
                     desc_text = None
                     if ':' in step_desc:
@@ -2143,6 +2182,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     current = int(fraction_match.group(3))
                     total = int(fraction_match.group(4))
                     suffix = fraction_match.group(5).strip() if fraction_match.group(5) else None
+                    if is_running and step_desc.lower().startswith("pipeline step") and total > 0 and current >= total:
+                        continue
                     if total > 0:
                         percent = (current / total) * 100
                         desc_text = f"{step_desc} ({current}/{total})"
@@ -2155,7 +2196,34 @@ Provide a clear, concise explanation suitable for users who want to understand w
                         general_line_idx = idx
                         break
 
-        # Pattern 2: "Scraping products: X/Y" (legacy format, second priority)
+        # Pattern 2: "[PROGRESS] X/Y (Z%) - Worker N" (numeric-only progress)
+        if general_candidate is None:
+            secondary_limit = 80
+            search_start_idx_secondary = max(0, len(lines) - secondary_limit)
+            for idx in range(len(lines) - 1, search_start_idx_secondary - 1, -1):
+                line = lines[idx]
+                numeric_match = re.search(
+                    r'\[PROGRESS\]\s*(\d+)\s*/\s*(\d+)\s*\(([\d.]+)%\)\s*(?:-\s*(.+))?',
+                    line,
+                    re.IGNORECASE
+                )
+                if numeric_match:
+                    current = int(numeric_match.group(1))
+                    total = int(numeric_match.group(2))
+                    percent = float(numeric_match.group(3))
+                    suffix = numeric_match.group(4).strip() if numeric_match.group(4) else None
+                    if total > 0:
+                        desc_text = f"Processing {current}/{total}"
+                        if suffix:
+                            desc_text = f"{desc_text} - {suffix}"
+                        general_candidate = {
+                            "percent": percent,
+                            "description": desc_text
+                        }
+                        general_line_idx = idx
+                        break
+
+        # Pattern 3: "Scraping products: X/Y" (legacy format, second priority)
         if general_candidate is None:
             secondary_limit = 50
             search_start_idx_secondary = max(0, len(lines) - secondary_limit)
@@ -2178,7 +2246,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
                         general_line_idx = idx
                         break
 
-        # Pattern 3: "Scraping products: X/Y" (without [PROGRESS] tag)
+        # Pattern 4: "Scraping products: X/Y" (without [PROGRESS] tag)
         if general_candidate is None:
             search_start_idx_secondary = max(0, len(lines) - 50)
             for idx in range(len(lines) - 1, search_start_idx_secondary - 1, -1):
@@ -2280,11 +2348,13 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     general_line_idx = idx
                     break
 
+        if is_running and pipeline_candidate and pipeline_candidate.get("percent", 0) >= 100 and general_candidate is None:
+            pipeline_candidate = None
+
         chosen_candidate = None
         if general_candidate and pipeline_candidate:
-            if general_candidate["percent"] < 100 and pipeline_candidate["percent"] >= 100:
-                chosen_candidate = general_candidate
-            elif general_line_idx >= pipeline_line_idx:
+            # Always prefer the most recent progress line
+            if general_line_idx >= pipeline_line_idx:
                 chosen_candidate = general_candidate
             else:
                 chosen_candidate = pipeline_candidate
@@ -4590,7 +4660,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
             "CanadaOntario": ["canadaontarioreport"],
             "Malaysia": ["malaysia"],
             "Argentina": ["alfabeta_report"],
-            "NorthMacedonia": ["north_macedonia_drug_register"]
+            "NorthMacedonia": ["north_macedonia_drug_register", "maxprices_output"],
+            "Tender_Chile": ["final_tender_data"]
         }
         
         patterns = scraper_patterns.get(scraper_name, [])

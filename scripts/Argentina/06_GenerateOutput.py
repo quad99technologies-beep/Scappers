@@ -9,8 +9,10 @@ Reads:
   ./input/pcid_Mapping.csv   (required for PCIDs)
 
 Writes:
-  ./Output/alfabeta_Report_<ddmmyyyy>.csv
-  ./Output/alfabeta_Report_<ddmmyyyy>.xlsx
+  ./Output/alfabeta_Report_<ddmmyyyy>_pcid_mapping.csv
+  ./Output/alfabeta_Report_<ddmmyyyy>_pcid_missing.csv
+  ./Output/alfabeta_Report_<ddmmyyyy>_pcid_oos.csv
+  ./Output/alfabeta_Report_<ddmmyyyy>_pcid_no_data.csv
 
 PCID ATTACH (STRICT):
   Match ONLY when ALL FOUR keys match (case/space-insensitive):
@@ -22,11 +24,13 @@ PCID ATTACH (STRICT):
 """
 
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional, Tuple, List
 from datetime import datetime
 import re
 import json
 import pandas as pd
+import unicodedata
+import string
 from charset_normalizer import from_path
 from config_loader import (
     get_input_dir, get_output_dir,
@@ -61,10 +65,14 @@ MONEY_RE = re.compile(
 
 def parse_money(x: Optional[object]) -> Optional[float]:
     """Parse ARS money in ES/EN variants without losing decimals."""
-    if x is None:
+    if x is None or (isinstance(x, float) and pd.isna(x)):
         return None
     s = str(x).strip().replace("\u00a0", "")
     if not s:
+        return None
+
+    sl = s.lower()
+    if sl in {"nan", "none", "null"}:
         return None
 
     if re.fullmatch(r"\d+(?:\.\d+)?", s):
@@ -122,11 +130,31 @@ def seriespick(df: pd.DataFrame, *candidates: str, default: str = "") -> pd.Seri
             return df[c]
     return pd.Series([default] * len(df), index=df.index, dtype="string")
 
+def _is_real_value(val) -> bool:
+    """
+    Treat '', None, NaN, 'nan', 'none', 'null' as empty.
+    """
+    if val is None:
+        return False
+    if isinstance(val, float) and pd.isna(val):
+        return False
+    if pd.isna(val):
+        return False
+    s = str(val).strip()
+    if not s:
+        return False
+    if s.lower() in {"nan", "none", "null"}:
+        return False
+    return True
+
 def get(row, *names, default=None):
+    """
+    FIXED: never treat 'nan'/'none'/'null' as valid.
+    """
     for n in names:
         if n in row:
             val = row[n]
-            if pd.notna(val) and str(val).strip():
+            if _is_real_value(val):
                 return val
     return default
 
@@ -145,38 +173,51 @@ def safe_read_csv(path: Path, dtype=None) -> pd.DataFrame:
         return pd.read_csv(path, dtype=dtype, encoding=enc)
     except UnicodeDecodeError:
         print(f"[WARNING] Failed with {enc}, retrying with latin1...")
-        return pd.read_csv(path, dtype=dtype, encoding="latin1")
+    return pd.read_csv(path, dtype=dtype, encoding="latin1")
+
+def fix_mojibake(s: str) -> str:
+    """Repair common mojibake where UTF-8 bytes were decoded as Latin-1/CP1252."""
+    if not isinstance(s, str):
+        return s
+    try:
+        return s.encode("latin1").decode("utf-8")
+    except Exception:
+        return s
+
+def normalize_cell(s: Optional[object]) -> Optional[str]:
+    """
+    FIXED: Preserve missing values.
+    Previously NaN became 'nan' via str(NaN) and then triggered IOMA everywhere.
+    """
+    if s is None or pd.isna(s):
+        return None
+    if not isinstance(s, str):
+        s = str(s)
+    s = fix_mojibake(s).strip()
+    s = unicodedata.normalize("NFKD", s)
+    s = "".join(ch for ch in s if not unicodedata.combining(ch))
+    s = "".join(
+        ch for ch in s
+        if ord(ch) < 128 and (ch.isalnum() or ch in string.punctuation or ch.isspace())
+    )
+    # Drop replacement-like '?' inside words (e.g., "amino?c" -> "aminoc").
+    s = re.sub(r"(?<=[A-Za-z])\?(?=[A-Za-z])", "", s)
+    return s.strip()
+
+def normalize_df_strings(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    for col in df.columns:
+        if df[col].dtype == object or str(df[col].dtype) == "string":
+            df[col] = df[col].map(normalize_cell)
+    return df
 
 # ---------- PCID mapping (STRICT 4-key match) ----------
-def attach_pcid_strict(df: pd.DataFrame, pcid_path: Path) -> pd.DataFrame:
-    """
-    STRICT match: (Company, Local Product Name, Generic Name, Local Pack Description) -> PCID.
-    - Case-insensitive, whitespace-normalized comparison.
-    - No fallbacks. If any of the four keys don't match, PCID stays blank.
-    Required mapping columns (exact logical names; aliases accepted):
-      Company | Local Product Name | Generic Name | Local Pack Description | PCID
-    """
-    df = df.copy()
-
-    # Pick report-side fields (use exact logical names produced later)
-    s_company = seriespick(df, "company_term", "Company", "company")
-    s_lprod   = seriespick(df, "product_name", "Local Product Name")
-    s_generic = seriespick(df, "active_ingredient", "Generic Name")
-    s_desc    = seriespick(df, "description", "Local Pack Description")
-
-    df["n_company"] = s_company.map(_norm)
-    df["n_lprod"]   = s_lprod.map(_norm)
-    df["n_generic"] = s_generic.map(_norm)
-    df["n_desc"]    = s_desc.map(_norm)
-
-    # If mapping missing → leave blank
+def load_pcid_mapping(pcid_path: Path) -> Optional[pd.DataFrame]:
     if not pcid_path.exists():
-        df["PCID"] = ""
-        df.drop(columns=["n_company", "n_lprod", "n_generic", "n_desc"], inplace=True)
-        return df
+        return None
 
-    # Load mapping and normalize headers to logical names
     m = safe_read_csv(pcid_path, dtype=str)
+    m = normalize_df_strings(m)
 
     rename = {}
     for c in m.columns:
@@ -195,6 +236,39 @@ def attach_pcid_strict(df: pd.DataFrame, pcid_path: Path) -> pd.DataFrame:
     for col in required:
         if col not in m.columns:
             raise ValueError(f"pcid_Mapping.csv missing required column: {col}")
+
+    m["PCID"] = m["PCID"].astype(str)
+    return m
+
+def attach_pcid_strict(df: pd.DataFrame, mapping_df: Optional[pd.DataFrame]) -> pd.DataFrame:
+    """
+    STRICT match: (Company, Local Product Name, Generic Name, Local Pack Description) -> PCID.
+    - Case-insensitive, whitespace-normalized comparison.
+    - No fallbacks. If any of the four keys don't match, PCID stays blank.
+    """
+    df = df.copy()
+
+    # Normalize whitespace/mojibake before matching
+    df = normalize_df_strings(df)
+
+    # Pick report-side fields (use exact logical names produced later)
+    s_company = seriespick(df, "company_term", "Company", "company")
+    s_lprod   = seriespick(df, "product_name", "Local Product Name")
+    s_generic = seriespick(df, "active_ingredient", "Generic Name")
+    s_desc    = seriespick(df, "description", "Local Pack Description")
+
+    df["n_company"] = s_company.map(_norm)
+    df["n_lprod"]   = s_lprod.map(_norm)
+    df["n_generic"] = s_generic.map(_norm)
+    df["n_desc"]    = s_desc.map(_norm)
+
+    # If mapping missing → leave blank
+    if mapping_df is None:
+        df["PCID"] = ""
+        df.drop(columns=["n_company", "n_lprod", "n_generic", "n_desc"], inplace=True)
+        return df
+
+    m = normalize_df_strings(mapping_df)
 
     # Normalize mapping keys
     m["n_company"] = m["Company"].map(_norm)
@@ -220,37 +294,63 @@ def attach_pcid_strict(df: pd.DataFrame, pcid_path: Path) -> pd.DataFrame:
     df.drop(columns=["n_company", "n_lprod", "n_generic", "n_desc"], inplace=True)
     return df
 
+def detect_oos_column(columns: List[str]) -> Optional[str]:
+    for c in columns:
+        if "oos" in c.strip().lower():
+            return c
+    return None
+
+def normalize_pcid_series(series: pd.Series) -> pd.Series:
+    return series.astype("string").fillna("").str.strip()
+
+def normalize_pcid_marker(value: Optional[object]) -> str:
+    if value is None or pd.isna(value):
+        return ""
+    s = str(value).strip().lower()
+    s = re.sub(r"[^a-z0-9]+", " ", s)
+    return re.sub(r"\s+", " ", s).strip()
+
+def is_invalid_pcid_marker(marker: str) -> bool:
+    if not marker:
+        return False
+    compact = marker.replace(" ", "")
+    return marker in {"oos", "new full", "new pull"} or compact in {"newfull", "newpull"}
+
+def mapping_rows_to_output(mapping_df: pd.DataFrame, country_value: str, output_cols: List[str]) -> pd.DataFrame:
+    def col_or_blank(name: str) -> pd.Series:
+        if name in mapping_df.columns:
+            return mapping_df[name].astype("string").fillna("")
+        return pd.Series([""] * len(mapping_df), index=mapping_df.index, dtype="string")
+
+    out = pd.DataFrame({
+        "PCID": col_or_blank("PCID"),
+        "Country": country_value,
+        "Company": col_or_blank("Company"),
+        "Local Product Name": col_or_blank("Local Product Name"),
+        "Generic Name": col_or_blank("Generic Name"),
+        "Effective Start Date": pd.Series([""] * len(mapping_df), index=mapping_df.index, dtype="string"),
+        "Public With VAT Price": pd.Series([""] * len(mapping_df), index=mapping_df.index, dtype="string"),
+        "Reimbursement Category": pd.Series([""] * len(mapping_df), index=mapping_df.index, dtype="string"),
+        "Reimbursement Amount": pd.Series([""] * len(mapping_df), index=mapping_df.index, dtype="string"),
+        "Co-Pay Amount": pd.Series([""] * len(mapping_df), index=mapping_df.index, dtype="string"),
+        "Local Pack Description": col_or_blank("Local Pack Description"),
+    })
+    return normalize_df_strings(out.reindex(columns=output_cols))
+
 # ---------- RI logic ----------
 def compute_ri_fields(row):
-    """Apply Argentina RI rules (as per AlfaBeta spec):
-    - Prefer IOMA whenever present (even if Importado also present).
-    - For IOMA: OS = Reimbursement Amount, AF = Co-Pay Amount.
-    - For PAMI-only (no IOMA): AF = Co-Pay Amount, Reimbursement Amount = NULL.
-    - If no IOMA/PAMI but Importado: category = IMPORTED.
+    """Apply Argentina RI rules with strict priority:
+    1) IOMA, 2) PAMI-only, 3) IMPORTED, 4) No-scheme.
     """
     ioma_os      = get(row, "IOMA_OS")
     ioma_af      = get(row, "IOMA_AF")
     pami_af      = get(row, "PAMI_AF")
     ioma_detail  = get(row, "IOMA_detail", default="")
     import_stat  = get(row, "import_status", default="")
-    cov_json     = get(row, "coverage_json", default="")
 
-    # Detect payer presence robustly (amounts OR text OR coverage_json keys)
-    has_ioma = False
-    has_pami = False
-    try:
-        if cov_json:
-            cj = json.loads(str(cov_json))
-            if isinstance(cj, dict):
-                has_ioma = has_ioma or ("IOMA" in cj)
-                has_pami = has_pami or ("PAMI" in cj)
-    except Exception:
-        pass
-
-    has_ioma = has_ioma or bool(ioma_os) or bool(ioma_af) or contains(ioma_detail, "ioma")
-    # PAMI should be considered only if IOMA is not present (priority rule)
-    has_pami = (not has_ioma) and (has_pami or bool(pami_af))
-
+    # FIXED: use real-value checks instead of bool("nan") / bool("None")
+    has_ioma = _is_real_value(ioma_os) or _is_real_value(ioma_af) or contains(ioma_detail, "ioma")
+    has_pami = (not has_ioma) and _is_real_value(pami_af)
     is_imported = contains(import_stat, "importado", "imported")
 
     if has_ioma:
@@ -272,6 +372,7 @@ def main():
     # Read input as text (avoid implicit type casts)
     print(f"[PROGRESS] Generating output: Loading data (1/4)", flush=True)
     df = safe_read_csv(INPUT_FILE, dtype=str)
+    df = normalize_df_strings(df)
 
     # Compute RI fields
     print(f"[PROGRESS] Generating output: Computing RI fields (2/4)", flush=True)
@@ -302,50 +403,86 @@ def main():
 
     # STRICT 4-key PCID attach
     print(f"[PROGRESS] Generating output: Attaching PCIDs (3/4)", flush=True)
-    df = attach_pcid_strict(df, PCID_PATH)
+    mapping_df = load_pcid_mapping(PCID_PATH)
+    df = attach_pcid_strict(df, mapping_df)
 
     # Final selection (PCID first)
     print(f"[PROGRESS] Generating output: Writing output (4/4)", flush=True)
-    base_cols = [
+    output_cols = [
         "PCID",
         "Country",
         "Company",
         "Local Product Name",
         "Generic Name",
         "Effective Start Date",
-    ]
-    tail_cols = [
+        "Public With VAT Price",
         "Reimbursement Category",
         "Reimbursement Amount",
         "Co-Pay Amount",
         "Local Pack Description",
-        "rule_label",
     ]
-    final_cols = base_cols + (["Public With VAT Price"] if not EXCLUDE_PRICE else []) + tail_cols
+    if EXCLUDE_PRICE:
+        df["Public With VAT Price"] = pd.NA
 
-    for c in final_cols:
+    for c in output_cols:
         if c not in df.columns:
             df[c] = pd.NA
 
-    df_final = df[final_cols].copy()
+    df_final = normalize_df_strings(df[output_cols].copy())
 
-    # Write outputs next to INPUT_FILE
-    out_csv  = INPUT_FILE.parent / f"{OUT_PREFIX}.csv"
-    out_xlsx = INPUT_FILE.parent / f"{OUT_PREFIX}.xlsx"
+    pcid_norm = normalize_pcid_series(df_final["PCID"])
+    pcid_marker = pcid_norm.map(normalize_pcid_marker)
+    keep_mask = ~pcid_marker.map(is_invalid_pcid_marker)
+    df_final = df_final[keep_mask].copy()
+    pcid_norm = pcid_norm[keep_mask]
 
-    df_final.to_csv(out_csv, index=False, encoding="utf-8-sig", float_format="%.2f")
+    mapped_mask = pcid_norm.ne("")
+
+    df_mapped = df_final[mapped_mask].copy()
+    df_missing = df_final[~mapped_mask].copy()
+
+    out_mapped = INPUT_FILE.parent / f"{OUT_PREFIX}_pcid_mapping.csv"
+    out_missing = INPUT_FILE.parent / f"{OUT_PREFIX}_pcid_missing.csv"
+    out_oos = INPUT_FILE.parent / f"{OUT_PREFIX}_pcid_oos.csv"
+    out_no_data = INPUT_FILE.parent / f"{OUT_PREFIX}_pcid_no_data.csv"
+
+    df_mapped.to_csv(out_mapped, index=False, encoding="utf-8-sig", float_format="%.2f")
+    df_missing.to_csv(out_missing, index=False, encoding="utf-8-sig", float_format="%.2f")
+
+    if mapping_df is None:
+        empty = pd.DataFrame(columns=output_cols)
+        empty.to_csv(out_oos, index=False, encoding="utf-8-sig")
+        empty.to_csv(out_no_data, index=False, encoding="utf-8-sig")
+        print("[WARNING] pcid_Mapping.csv not found; OOS and no-data files are empty.")
+    else:
+        oos_col = detect_oos_column(list(mapping_df.columns))
+        oos_mask = pd.Series(False, index=mapping_df.index)
+        if oos_col:
+            oos_vals = mapping_df[oos_col].astype("string").fillna("").str.strip().str.lower()
+            oos_mask = oos_mask | oos_vals.str.contains("oos") | oos_vals.isin(["yes", "y", "true", "1"])
+
+        mapping_pcid = normalize_pcid_series(mapping_df["PCID"])
+        mapping_marker = mapping_pcid.map(normalize_pcid_marker)
+        oos_mask = oos_mask | (mapping_marker == "oos")
+        oos_df = mapping_rows_to_output(mapping_df[oos_mask].copy(), "ARGENTINA", output_cols)
+        if not oos_mask.any():
+            print("[WARNING] No OOS markers found in pcid_Mapping.csv; OOS file is empty.")
+
+        output_pcid_set = set(pcid_norm[mapped_mask].tolist())
+        invalid_mapping = mapping_marker.map(is_invalid_pcid_marker)
+        no_data_mask = ~mapping_pcid.isin(output_pcid_set) & mapping_pcid.ne("") & ~invalid_mapping
+        no_data_df = mapping_rows_to_output(mapping_df[no_data_mask].copy(), "ARGENTINA", output_cols)
+
+        oos_df.to_csv(out_oos, index=False, encoding="utf-8-sig", float_format="%.2f")
+        no_data_df.to_csv(out_no_data, index=False, encoding="utf-8-sig", float_format="%.2f")
+
     print(f"[PROGRESS] Generating output: {len(df_final)}/{len(df_final)} (100%)", flush=True)
+    print("[OK] Wrote:", out_mapped)
+    print("[OK] Wrote:", out_missing)
+    print("[OK] Wrote:", out_oos)
+    print("[OK] Wrote:", out_no_data)
 
-    try:
-        with pd.ExcelWriter(out_xlsx, engine="openpyxl") as writer:
-            df_final.to_excel(writer, index=False)
-    except Exception as e:
-        print("Could not write XLSX:", e)
-
-    print("[OK] Wrote:", out_csv)
-    print("[OK] Wrote:", out_xlsx)
-    
-    # Copy final report (CSV) to central output directory
+    # Copy final reports (CSV) to central output directory
     try:
         import sys
         from pathlib import Path
@@ -356,9 +493,10 @@ def main():
         from config_loader import get_central_output_dir
         import shutil
         central_output_dir = get_central_output_dir()
-        central_final_report = central_output_dir / out_csv.name
-        shutil.copy2(out_csv, central_final_report)
-        print(f"[OK] Central Output: {central_final_report}")
+        for out_path in [out_mapped, out_missing, out_oos, out_no_data]:
+            central_final_report = central_output_dir / out_path.name
+            shutil.copy2(out_path, central_final_report)
+            print(f"[OK] Central Output: {central_final_report}")
     except Exception as e:
         print(f"[WARNING] Could not copy to central output: {e}")
     if EXCLUDE_PRICE:

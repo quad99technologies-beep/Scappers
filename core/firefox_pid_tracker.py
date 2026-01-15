@@ -158,7 +158,7 @@ def terminate_firefox_pids(scraper_name: str, repo_root: Path, silent: bool = Fa
         return 0
 
     # Cross-check against other scrapers' Firefox PID files
-    other_scrapers = ["Argentina", "Malaysia", "CanadaQuebec", "CanadaOntario", "Netherlands", "Belarus", "NorthMacedonia"]
+    other_scrapers = ["Argentina", "Malaysia", "CanadaQuebec", "CanadaOntario", "Netherlands", "Belarus", "NorthMacedonia", "Tender_Chile"]
     other_scraper_pids = set()
     for other_scraper in other_scrapers:
         if other_scraper != scraper_name:

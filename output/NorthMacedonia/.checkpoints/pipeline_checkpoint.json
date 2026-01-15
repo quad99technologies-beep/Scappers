@@ -1,16 +1,44 @@
 {
   "scraper": "NorthMacedonia",
-  "last_run": "2026-01-14T21:05:39.909004",
+  "last_run": "2026-01-15T19:52:15.248649",
   "completed_steps": [
-    0
+    0,
+    1,
+    2,
+    3
   ],
   "step_outputs": {
     "step_0": {
       "step_number": 0,
       "step_name": "Backup and Clean",
-      "completed_at": "2026-01-14T21:05:39.908993",
+      "completed_at": "2026-01-14T21:38:27.962181",
       "output_files": [],
-      "duration_seconds": 0.16810345649719238
+      "duration_seconds": 0.17038750648498535
+    },
+    "step_1": {
+      "step_number": 1,
+      "step_name": "Collect URLs",
+      "completed_at": "2026-01-14T21:52:50.490037",
+      "output_files": [],
+      "duration_seconds": 862.5248663425446
+    },
+    "step_2": {
+      "step_number": 2,
+      "step_name": "Extract Drug Register Data",
+      "completed_at": "2026-01-15T11:05:23.840354",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\NorthMacedonia\\north_macedonia_drug_register.csv"
+      ],
+      "duration_seconds": 9331.108382463455
+    },
+    "step_3": {
+      "step_number": 3,
+      "step_name": "Scrape Max Prices",
+      "completed_at": "2026-01-15T19:52:15.248570",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\NorthMacedonia\\maxprices_output.csv"
+      ],
+      "duration_seconds": 5000.705470561981
     }
   },
   "metadata": {}

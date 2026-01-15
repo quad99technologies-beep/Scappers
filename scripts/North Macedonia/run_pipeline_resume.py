@@ -6,7 +6,7 @@ North Macedonia Pipeline Runner with Resume/Checkpoint Support
 Usage:
     python run_pipeline_resume.py          # Resume from last step or start fresh
     python run_pipeline_resume.py --fresh  # Start from step 0 (clear checkpoint)
-    python run_pipeline_resume.py --step N # Start from step N (0-1)
+    python run_pipeline_resume.py --step N # Start from step N (0-3)
 """
 
 import sys
@@ -98,7 +98,7 @@ def run_step(step_num: int, script_name: str, step_name: str, total_steps: int, 
 def main():
     parser = argparse.ArgumentParser(description="North Macedonia Pipeline Runner with Resume Support")
     parser.add_argument("--fresh", action="store_true", help="Start from step 0 (clear checkpoint)")
-    parser.add_argument("--step", type=int, help="Start from specific step (0-2, where 0=Backup, 1=Collect URLs, 2=Scrape Details)")
+    parser.add_argument("--step", type=int, help="Start from specific step (0-3, where 0=Backup, 1=Collect URLs, 2=Scrape Details, 3=Max Prices)")
     args = parser.parse_args()
 
     cp = get_checkpoint_manager("NorthMacedonia")
@@ -119,11 +119,13 @@ def main():
             print("Starting fresh run (no checkpoint found)")
 
     output_dir = get_output_dir()
-    output_csv = getenv("SCRIPT_01_OUTPUT_CSV", "north_macedonia_drug_register.csv")
+    output_csv = getenv("SCRIPT_02_OUTPUT_CSV", "north_macedonia_drug_register.csv")
+    maxprices_csv = getenv("SCRIPT_03_OUTPUT_CSV", "maxprices_output.csv")
     steps = [
         (0, "00_backup_and_clean.py", "Backup and Clean", None),
         (1, "01_collect_urls.py", "Collect URLs", None),
         (2, "02_scrape_details.py", "Extract Drug Register Data", [str(output_dir / output_csv)]),
+        (3, "03_scrape_zdravstvo.py", "Scrape Max Prices", [str(output_dir / maxprices_csv)]),
     ]
     total_steps = len(steps)
 

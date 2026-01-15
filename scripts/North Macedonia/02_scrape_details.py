@@ -1,11 +1,10 @@
 import os
-import json
-import time
 import re
+import time
 import sys
+import threading
 from pathlib import Path
 from typing import Dict, List, Optional
-import threading
 from queue import Queue, Empty
 
 import pandas as pd
@@ -22,74 +21,27 @@ from selenium.common.exceptions import (
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
-# Add script directory to path for config_loader import
-_script_dir = Path(__file__).resolve().parent
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
-
-try:
-    from config_loader import load_env_file, getenv, getenv_bool, getenv_float, get_output_dir
-    load_env_file()
-    OUTPUT_DIR = get_output_dir()
-except ImportError:
-    OUTPUT_DIR = Path(__file__).resolve().parent
-    def getenv(key: str, default: str = None) -> str:
-        return os.getenv(key, default if default is not None else "")
-    def getenv_bool(key: str, default: bool = False) -> bool:
-        val = os.getenv(key, str(default))
-        return str(val).lower() in ("true", "1", "yes", "on")
-    def getenv_float(key: str, default: float = 0.0) -> float:
-        try:
-            return float(os.getenv(key, str(default)))
-        except Exception:
-            return default
-
-try:
-    from core.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids, terminate_scraper_pids
-except ImportError:
-    get_chrome_pids_from_driver = None
-    save_chrome_pids = None
-    terminate_scraper_pids = None
-
-# Translation
+# Optional translation (only used if values still Macedonian)
 try:
     from googletrans import Translator  # type: ignore
     _translator = Translator()
 except Exception:
     _translator = None
 
-BASE_URL = "https://lekovi.zdravstvo.gov.mk/drugsregister/overview"
-OUT_CSV = getenv("SCRIPT_02_OUTPUT_CSV", "north_macedonia_drug_register.csv")
-URLS_CSV = getenv("SCRIPT_01_URLS_CSV", "north_macedonia_detail_urls.csv")
-DETAIL_WORKERS = int(getenv("SCRIPT_02_DETAIL_WORKERS", "3") or "3")
 
-_driver_path = None
-_driver_path_lock = None
+# -----------------------------
+# CONFIG
+# -----------------------------
+SCRIPT_DIR = Path(__file__).resolve().parent
 _repo_root = Path(__file__).resolve().parents[2]
 
-
-def normalize_ws(s: str) -> str:
-    return re.sub(r"\s+", " ", (s or "").strip())
-
-
-def translate_mk_to_en(text: str) -> str:
-    text = normalize_ws(text)
-    if not text:
-        return ""
-    if _translator is None:
-        return text
-    try:
-        return normalize_ws(_translator.translate(text, src="mk", dest="en").text)
-    except Exception:
-        return text
+# Shared chromedriver path to avoid concurrent downloads per thread
+_driver_path = None
+_driver_path_lock = threading.Lock()
 
 
 def _get_chromedriver_path() -> Optional[str]:
     global _driver_path
-    global _driver_path_lock
-    if _driver_path_lock is None:
-        import threading
-        _driver_path_lock = threading.Lock()
     with _driver_path_lock:
         if _driver_path:
             return _driver_path
@@ -99,62 +51,99 @@ def _get_chromedriver_path() -> Optional[str]:
             return None
         return _driver_path
 
+try:
+    if str(SCRIPT_DIR) not in sys.path:
+        sys.path.insert(0, str(SCRIPT_DIR))
+    from config_loader import load_env_file, get_output_dir, getenv, getenv_bool, getenv_int, getenv_float
+    load_env_file()
+    OUTPUT_DIR = get_output_dir()
+except Exception:
+    OUTPUT_DIR = SCRIPT_DIR
+    def getenv(key: str, default: str = None) -> str:
+        return os.getenv(key, default if default is not None else "")
+    def getenv_bool(key: str, default: bool = False) -> bool:
+        val = getenv(key, str(default))
+        return str(val).lower() in ("1", "true", "yes", "on")
+    def getenv_int(key: str, default: int = 0) -> int:
+        try:
+            return int(getenv(key, str(default)))
+        except (TypeError, ValueError):
+            return default
+    def getenv_float(key: str, default: float = 0.0) -> float:
+        try:
+            return float(getenv(key, str(default)))
+        except (TypeError, ValueError):
+            return default
 
-def build_driver(headless: bool = True) -> Optional[webdriver.Chrome]:
-    options = webdriver.ChromeOptions()
-    if headless:
-        options.add_argument("--headless=new")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--window-size=1600,1000")
-    options.add_argument("--lang=mk-MK")
-    # Disable images/CSS for faster loads
-    disable_images = getenv_bool("SCRIPT_01_DISABLE_IMAGES", True)
-    disable_css = getenv_bool("SCRIPT_01_DISABLE_CSS", True)
-    prefs = {}
-    if disable_images:
-        prefs["profile.managed_default_content_settings.images"] = 2
-    if disable_css:
-        prefs["profile.managed_default_content_settings.stylesheets"] = 2
-    if prefs:
-        options.add_experimental_option("prefs", prefs)
+try:
+    from core.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids, terminate_scraper_pids
+except Exception:
+    get_chrome_pids_from_driver = None
+    save_chrome_pids = None
+    terminate_scraper_pids = None
 
-    driver_path = _get_chromedriver_path()
-    if not driver_path:
-        return None
+URLS_CSV = getenv("SCRIPT_01_URLS_CSV", "north_macedonia_detail_urls.csv")
+OUT_CSV = getenv("SCRIPT_02_OUTPUT_CSV", "north_macedonia_drug_register.csv")
+
+DETAIL_WORKERS = getenv_int("SCRIPT_02_DETAIL_WORKERS", 3)
+HEADLESS = getenv_bool("SCRIPT_02_HEADLESS", getenv_bool("SCRIPT_01_HEADLESS", True))
+SLEEP_BETWEEN_DETAILS = getenv_float(
+    "SCRIPT_02_SLEEP_BETWEEN_DETAILS",
+    getenv_float("SCRIPT_01_SLEEP_BETWEEN_DETAILS", 0.15),
+)
+DISABLE_IMAGES = getenv_bool("SCRIPT_02_DISABLE_IMAGES", True)
+DISABLE_CSS = getenv_bool("SCRIPT_02_DISABLE_CSS", True)
+
+PAGELOAD_TIMEOUT = getenv_int("SCRIPT_02_PAGELOAD_TIMEOUT", 90)
+WAIT_SECONDS = getenv_int("SCRIPT_02_WAIT_SECONDS", 40)
+
+MAX_RETRIES_PER_URL = getenv_int("SCRIPT_02_MAX_RETRIES", 3)
+DUMP_FAILED_HTML = getenv_bool("SCRIPT_02_DUMP_FAILED_HTML", True)
+
+# Reimbursement constants (as per requirement)
+REIMBURSABLE_STATUS = "PARTIALLY REIMBURSABLE"
+REIMBURSABLE_RATE = "80.00%"
+REIMBURSABLE_NOTES = ""
+COPAYMENT_VALUE = ""
+COPAYMENT_PERCENT = "20.00%"
+MARGIN_RULE = "650 PPP & PPI Listed"
+VAT_PERCENT = "5"
+
+
+# -----------------------------
+# HELPERS
+# -----------------------------
+def normalize_ws(s: str) -> str:
+    return re.sub(r"\s+", " ", (s or "").strip())
+
+
+_cyrillic_re = re.compile(r"[\u0400-\u04FF]")
+
+def looks_cyrillic(text: str) -> bool:
+    return bool(_cyrillic_re.search(text or ""))
+
+
+def translate_to_en(text: str) -> str:
+    """
+    Translate value to English only if it looks Cyrillic.
+    If page is already translated, this will usually do nothing.
+    """
+    text = normalize_ws(text)
+    if not text:
+        return ""
+    if not looks_cyrillic(text):
+        return text
+    if _translator is None:
+        return text
     try:
-        service = ChromeService(driver_path)
-        driver = webdriver.Chrome(service=service, options=options)
+        return normalize_ws(_translator.translate(text, src="mk", dest="en").text)
     except Exception:
-        return None
-    driver.set_page_load_timeout(90)
-    if get_chrome_pids_from_driver and save_chrome_pids:
-        try:
-            pids = get_chrome_pids_from_driver(driver)
-            if pids:
-                save_chrome_pids("NorthMacedonia", _repo_root, pids)
-        except Exception:
-            pass
-    return driver
+        return text
 
 
-def parse_detail_page(driver: webdriver.Chrome) -> Dict[str, str]:
-    WebDriverWait(driver, 40).until(
-        EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div.row-fluid"))
-    )
-    rows = driver.find_elements(By.CSS_SELECTOR, "div.row-fluid")
-
-    data = {}
-    for r in rows:
-        try:
-            label = normalize_ws(r.find_element(By.CSS_SELECTOR, "div.span2 b").text)
-            value = normalize_ws(r.find_element(By.CSS_SELECTOR, "div.span6").text)
-            if label:
-                data[label] = value
-        except Exception:
-            continue
-    return data
+def is_invalid_session(err: Exception) -> bool:
+    msg = str(err).lower()
+    return "invalid session id" in msg or "session not created" in msg or "disconnected" in msg
 
 
 def make_local_pack_description(formulation: str, fill_size: str, strength: str, composition: str) -> str:
@@ -171,19 +160,8 @@ def ensure_csv_has_header(path: Path, columns: List[str]) -> None:
 def append_rows_to_csv(path: Path, rows: List[Dict], columns: List[str]) -> None:
     if not rows:
         return
-    df = pd.DataFrame(rows)
-    df = df.reindex(columns=columns)
+    df = pd.DataFrame(rows).reindex(columns=columns)
     df.to_csv(str(path), mode="a", header=False, index=False, encoding="utf-8-sig")
-
-
-def load_existing_detail_urls(path: Path) -> List[str]:
-    if not path.exists():
-        return []
-    try:
-        df = pd.read_csv(path, usecols=["detail_url"], dtype=str)
-        return df["detail_url"].dropna().astype(str).tolist()
-    except Exception:
-        return []
 
 
 def load_already_scraped_urls(path: Path) -> set:
@@ -196,121 +174,259 @@ def load_already_scraped_urls(path: Path) -> set:
         return set()
 
 
-def scrape_detail_urls_worker(
+def build_driver(headless: bool = True) -> webdriver.Chrome:
+    options = webdriver.ChromeOptions()
+    if headless:
+        options.add_argument("--headless=new")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--window-size=1600,1000")
+
+    # IMPORTANT: keep English UI preference so labels are likely English if site supports it,
+    # but even if not, our mapping handles Macedonian.
+    options.add_argument("--lang=en-US")
+
+    # Speed-up (optional)
+    prefs = {}
+    if DISABLE_IMAGES:
+        prefs["profile.managed_default_content_settings.images"] = 2
+    if DISABLE_CSS:
+        prefs["profile.managed_default_content_settings.stylesheets"] = 2
+    options.add_experimental_option("prefs", prefs)
+
+    driver_path = _get_chromedriver_path()
+    if not driver_path:
+        raise RuntimeError("Failed to resolve chromedriver path")
+    service = ChromeService(driver_path)
+    driver = webdriver.Chrome(service=service, options=options)
+    driver.set_page_load_timeout(PAGELOAD_TIMEOUT)
+    if get_chrome_pids_from_driver and save_chrome_pids:
+        try:
+            pids = get_chrome_pids_from_driver(driver)
+            if pids:
+                save_chrome_pids("NorthMacedonia", _repo_root, pids)
+        except Exception:
+            pass
+    return driver
+
+
+def parse_detail_page(driver: webdriver.Chrome) -> Dict[str, str]:
+    """
+    Extracts label->value for each row-fluid.
+    Works for both MK and translated EN pages, even with nested <font>.
+    """
+    WebDriverWait(driver, WAIT_SECONDS).until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div.row-fluid"))
+    )
+    rows = driver.find_elements(By.CSS_SELECTOR, "div.row-fluid")
+
+    data: Dict[str, str] = {}
+    for r in rows:
+        try:
+            label_el = r.find_element(By.CSS_SELECTOR, "div.span2 b")
+            value_el = r.find_element(By.CSS_SELECTOR, "div.span6")
+            label = normalize_ws(label_el.text)
+            value = normalize_ws(value_el.text)
+            if label:
+                data[label] = value
+        except Exception:
+            continue
+    return data
+
+
+def get_by_any_contains(data: Dict[str, str], *needles: str) -> str:
+    """
+    Robust getter: matches if ANY needle appears in the label.
+    Handles punctuation changes like ":" and multiple languages.
+    """
+    wants = [n.strip().lower() for n in needles if n and n.strip()]
+    if not wants:
+        return ""
+    for label, value in data.items():
+        ll = (label or "").lower()
+        if any(w in ll for w in wants):
+            return value
+    return ""
+
+
+def extract_fields(detail: Dict[str, str]) -> Dict[str, str]:
+    """
+    Supports BOTH Macedonian labels and translated English labels.
+    """
+    local_product = get_by_any_contains(detail, "име на лекот (латиница)", "name of the drug (latin)")
+    ean = get_by_any_contains(detail, "ean", "ean код")
+    generic = get_by_any_contains(detail, "генеричко име", "generic name")
+    atc = get_by_any_contains(detail, "атц", "atc")
+    formulation = get_by_any_contains(detail, "фармацевтска форма", "pharmaceutical form")
+    strength = get_by_any_contains(detail, "јачина", "strength", "reliability")
+    packaging = get_by_any_contains(detail, "пакување", "packaging")
+    composition = get_by_any_contains(detail, "состав", "composition")
+    manufacturers = get_by_any_contains(detail, "производители", "manufacturers")
+    eff_start = get_by_any_contains(detail, "датум на решение", "decision date", "date of solution")
+    eff_end = get_by_any_contains(detail, "датум на важност", "expiration date", "date of validity")
+    retail_vat = get_by_any_contains(detail, "малопродажна цена со", "retail price with vat")
+    wholesale_wo_vat = get_by_any_contains(detail, "големопродажна цена", "wholesale price excluding vat", "wholesale price without vat")
+
+    return {
+        "Local Product Name": local_product,
+        "Local Pack Code": ean,
+        "Generic Name": generic,
+        "WHO ATC Code": atc,
+        "Formulation": formulation,
+        "Strength Size": strength,
+        "Fill Size": packaging,
+        "Customized 1": composition,
+        "Marketing Authority / Company Name": manufacturers,
+        "Effective Start Date": eff_start,
+        "Effective End Date": eff_end,
+        "Public with VAT Price": retail_vat,
+        "Pharmacy Purchase Price": wholesale_wo_vat,
+    }
+
+
+def dump_failed_page(output_dir: Path, url: str, driver: webdriver.Chrome, worker_id: int) -> None:
+    if not DUMP_FAILED_HTML:
+        return
+    try:
+        safe = re.sub(r"[^a-zA-Z0-9]+", "_", url)[-120:]
+        out = output_dir / f"FAILED_detail_worker{worker_id}_{safe}.html"
+        out.write_text(driver.page_source, encoding="utf-8", errors="ignore")
+    except Exception:
+        pass
+
+
+# -----------------------------
+# WORKER
+# -----------------------------
+def worker_fn(
     worker_id: int,
-    url_queue: Queue,
+    q: Queue,
     output_path: Path,
     out_columns: List[str],
-    seen_urls: set,
+    already_scraped: set,
     seen_lock: threading.Lock,
     out_lock: threading.Lock,
-    headless: bool,
-    sleep_between_details: float,
-    progress_state: dict,
+    progress: dict,
     progress_lock: threading.Lock,
-    total_urls: int
 ) -> None:
-    driver = None
+    driver: Optional[webdriver.Chrome] = None
     try:
-        driver = build_driver(headless=headless)
-        if driver is None:
-            with progress_lock:
-                progress_state["driver_failed"] = True
-            while True:
-                try:
-                    _ = url_queue.get_nowait()
-                except Empty:
-                    break
-                url_queue.task_done()
-            return
+        driver = build_driver(headless=HEADLESS)
+
         while True:
             try:
-                url = url_queue.get(timeout=2)
+                url = q.get(timeout=2)
             except Empty:
                 break
-            if url is None:
-                url_queue.task_done()
-                break
 
-            try:
-                driver.get(url)
-                detail = parse_detail_page(driver)
+            if not url:
+                q.task_done()
+                continue
 
-                local_product = detail.get("??? ?? ????? (????????):", "")
-                ean = detail.get("EAN ???:", "")
-                generic = detail.get("????????? ???", "")
-                atc = detail.get("???", "")
-                formulation = detail.get("???????????? ?????", "")
-                strength = detail.get("??????", "")
-                packaging = detail.get("????????", "")
-                composition = detail.get("??????", "")
-                manufacturers = detail.get("?????????????:", "")
-                eff_start = detail.get("????? ?? ???????", "")
-                eff_end = detail.get("????? ?? ???????", "")
-                retail_vat = detail.get("???????????? ???? ?? ???", "")
-                wholesale_wo_vat = detail.get("?????????????? ???? ??? ???", "")
+            # skip already scraped
+            with seen_lock:
+                if url in already_scraped:
+                    q.task_done()
+                    continue
 
-                local_pack_desc = make_local_pack_description(formulation, packaging, strength, composition)
+            ok = False
+            last_err = None
 
-                row = {
-                    "Local Product Name (RAW)": local_product,
-                    "Local Pack Code (RAW)": ean,
-                    "Generic Name (RAW)": generic,
-                    "WHO ATC Code (RAW)": atc,
-                    "Formulation (RAW)": formulation,
-                    "Strength Size (RAW)": strength,
-                    "Fill Size (RAW)": packaging,
-                    "Customized 1 - Composition (RAW)": composition,
-                    "Marketing Authority / Company Name (RAW)": manufacturers,
-                    "Effective Start Date (RAW)": eff_start,
-                    "Effective End Date (RAW)": eff_end,
-                    "Public with VAT Price (RAW)": retail_vat,
-                    "Pharmacy Purchase Price (RAW)": wholesale_wo_vat,
-                    "Local Pack Description (RAW)": local_pack_desc,
-                    "Local Product Name (EN)": translate_mk_to_en(local_product),
-                    "Local Pack Code (EN)": translate_mk_to_en(ean),
-                    "Generic Name (EN)": translate_mk_to_en(generic),
-                    "WHO ATC Code (EN)": translate_mk_to_en(atc),
-                    "Formulation (EN)": translate_mk_to_en(formulation),
-                    "Strength Size (EN)": translate_mk_to_en(strength),
-                    "Fill Size (EN)": translate_mk_to_en(packaging),
-                    "Customized 1 - Composition (EN)": translate_mk_to_en(composition),
-                    "Marketing Authority / Company Name (EN)": translate_mk_to_en(manufacturers),
-                    "Effective Start Date (EN)": translate_mk_to_en(eff_start),
-                    "Effective End Date (EN)": translate_mk_to_en(eff_end),
-                    "Public with VAT Price (EN)": translate_mk_to_en(retail_vat),
-                    "Pharmacy Purchase Price (EN)": translate_mk_to_en(wholesale_wo_vat),
-                    "Local Pack Description (EN)": translate_mk_to_en(local_pack_desc),
-                    "Reimbursable Status": "PARTIALLY REIMBURSABLE",
-                    "Reimbursable Rate": "80.00%",
-                    "Reimbursable Notes": "",
-                    "Copayment Value": "",
-                    "Copayment Percent": "20.00%",
-                    "Margin Rule": "650 PPP & PPI Listed",
-                    "VAT Percent": "5",
-                    "detail_url": url,
-                    "page_num": progress_state.get("page_num_map", {}).get(url),
-                }
+            for attempt in range(1, MAX_RETRIES_PER_URL + 1):
+                try:
+                    driver.get(url)
 
-                with out_lock:
-                    append_rows_to_csv(output_path, [row], out_columns)
+                    detail = parse_detail_page(driver)
+                    fields = extract_fields(detail)
 
-                with seen_lock:
-                    seen_urls.add(url)
+                    # Validate: at least EAN or Product Name or Generic must exist,
+                    # otherwise page likely not loaded properly.
+                    if not any([fields["Local Pack Code"], fields["Local Product Name"], fields["Generic Name"]]):
+                        raise RuntimeError("Parsed empty critical fields; page may not be fully loaded.")
 
-                with progress_lock:
-                    progress_state["completed"] += 1
-                    completed = progress_state["completed"]
-                    percent = round((completed / total_urls) * 100, 1) if total_urls > 0 else 0
-                    print(f"[PROGRESS] Processing packs: {completed}/{total_urls} ({percent}%) - Worker {worker_id}", flush=True)
+                    local_pack_desc = make_local_pack_description(
+                        fields["Formulation"],
+                        fields["Fill Size"],
+                        fields["Strength Size"],
+                        fields["Customized 1"],
+                    )
 
-                if sleep_between_details:
-                    time.sleep(sleep_between_details)
+                    # English-final output (translate values only if they still look Cyrillic)
+                    row = {
+                        "Local Product Name": translate_to_en(fields["Local Product Name"]),
+                        "Local Pack Code": normalize_ws(fields["Local Pack Code"]),  # EAN stays as-is
+                        "Generic Name": translate_to_en(fields["Generic Name"]),
+                        "WHO ATC Code": normalize_ws(fields["WHO ATC Code"]),
+                        "Formulation": translate_to_en(fields["Formulation"]),
+                        "Strength Size": translate_to_en(fields["Strength Size"]),
+                        "Fill Size": translate_to_en(fields["Fill Size"]),
+                        "Customized 1": translate_to_en(fields["Customized 1"]),
+                        "Marketing Authority / Company Name": translate_to_en(fields["Marketing Authority / Company Name"]),
+                        "Effective Start Date": normalize_ws(fields["Effective Start Date"]),
+                        "Effective End Date": normalize_ws(fields["Effective End Date"]),
+                        "Public with VAT Price": normalize_ws(fields["Public with VAT Price"]),
+                        "Pharmacy Purchase Price": normalize_ws(fields["Pharmacy Purchase Price"]),
+                        "Local Pack Description": translate_to_en(local_pack_desc),
 
-            except (TimeoutException, WebDriverException, StaleElementReferenceException):
-                pass
-            finally:
-                url_queue.task_done()
+                        "Reimbursable Status": REIMBURSABLE_STATUS,
+                        "Reimbursable Rate": REIMBURSABLE_RATE,
+                        "Reimbursable Notes": REIMBURSABLE_NOTES,
+                        "Copayment Value": COPAYMENT_VALUE,
+                        "Copayment Percent": COPAYMENT_PERCENT,
+                        "Margin Rule": MARGIN_RULE,
+                        "VAT Percent": VAT_PERCENT,
+
+                        "detail_url": url,
+                    }
+
+                    with out_lock:
+                        append_rows_to_csv(output_path, [row], out_columns)
+
+                    with seen_lock:
+                        already_scraped.add(url)
+
+                    with progress_lock:
+                        progress["done"] += 1
+                        done = progress["done"]
+                        total = progress["total"]
+                        progress["processed"].add(url)
+                        pct = round((done / total) * 100, 1) if total else 0
+                        print(f"[PROGRESS] {done}/{total} ({pct}%) - worker {worker_id}", flush=True)
+
+                    if SLEEP_BETWEEN_DETAILS > 0:
+                        time.sleep(SLEEP_BETWEEN_DETAILS)
+
+                    ok = True
+                    break
+
+                except (TimeoutException, WebDriverException, StaleElementReferenceException, RuntimeError) as e:
+                    last_err = e
+                    if is_invalid_session(e):
+                        try:
+                            if driver:
+                                driver.quit()
+                        except Exception:
+                            pass
+                        try:
+                            driver = build_driver(headless=HEADLESS)
+                        except Exception:
+                            driver = None
+                    # small backoff then retry
+                    time.sleep(0.8 * attempt)
+                    continue
+                except Exception as e:
+                    last_err = e
+                    time.sleep(0.8 * attempt)
+                    continue
+
+            if not ok:
+                print(f"[WARN] Failed URL after retries (worker {worker_id}): {url} | err={last_err}", flush=True)
+                if driver:
+                    dump_failed_page(OUTPUT_DIR, url, driver, worker_id)
+
+            q.task_done()
+
     finally:
         if driver:
             try:
@@ -319,49 +435,55 @@ def scrape_detail_urls_worker(
                 pass
 
 
-def main(headless: bool = True, sleep_between_details: float = 0.1, detail_workers: int = DETAIL_WORKERS) -> None:
+# -----------------------------
+# MAIN
+# -----------------------------
+def main() -> None:
     if terminate_scraper_pids:
         try:
             terminate_scraper_pids("NorthMacedonia", _repo_root, silent=True)
         except Exception:
             pass
-
     urls_path = OUTPUT_DIR / URLS_CSV
     if not urls_path.exists():
-        raise RuntimeError(f"URL list not found. Run 01_collect_urls.py first. ({urls_path})")
+        fallback_output = _repo_root / "output" / "NorthMacedonia" / URLS_CSV
+        if fallback_output.exists():
+            urls_path = fallback_output
+        else:
+            fallback_local = Path(__file__).resolve().parent / URLS_CSV
+            if fallback_local.exists():
+                urls_path = fallback_local
+            else:
+                raise RuntimeError(f"URL list not found: {urls_path}. Run your URL-collector first.")
+
+    df_urls = pd.read_csv(urls_path, dtype=str)
+    if "detail_url" not in df_urls.columns:
+        raise RuntimeError(f"'detail_url' column not found in {urls_path.name}")
+
+    if "detailed_view_scraped" not in df_urls.columns:
+        df_urls["detailed_view_scraped"] = "no"
+    df_urls["detailed_view_scraped"] = df_urls["detailed_view_scraped"].astype(str).str.strip()
+
+    all_urls = df_urls["detail_url"].dropna().astype(str).map(str.strip).tolist()
+    all_urls = [u for u in all_urls if u]
 
     output_path = OUTPUT_DIR / OUT_CSV
 
-    # Output columns (RAW + EN)
     out_columns = [
-        "Local Product Name (RAW)",
-        "Local Pack Code (RAW)",
-        "Generic Name (RAW)",
-        "WHO ATC Code (RAW)",
-        "Formulation (RAW)",
-        "Strength Size (RAW)",
-        "Fill Size (RAW)",
-        "Customized 1 - Composition (RAW)",
-        "Marketing Authority / Company Name (RAW)",
-        "Effective Start Date (RAW)",
-        "Effective End Date (RAW)",
-        "Public with VAT Price (RAW)",
-        "Pharmacy Purchase Price (RAW)",
-        "Local Pack Description (RAW)",
-        "Local Product Name (EN)",
-        "Local Pack Code (EN)",
-        "Generic Name (EN)",
-        "WHO ATC Code (EN)",
-        "Formulation (EN)",
-        "Strength Size (EN)",
-        "Fill Size (EN)",
-        "Customized 1 - Composition (EN)",
-        "Marketing Authority / Company Name (EN)",
-        "Effective Start Date (EN)",
-        "Effective End Date (EN)",
-        "Public with VAT Price (EN)",
-        "Pharmacy Purchase Price (EN)",
-        "Local Pack Description (EN)",
+        "Local Product Name",
+        "Local Pack Code",
+        "Generic Name",
+        "WHO ATC Code",
+        "Formulation",
+        "Strength Size",
+        "Fill Size",
+        "Customized 1",
+        "Marketing Authority / Company Name",
+        "Effective Start Date",
+        "Effective End Date",
+        "Public with VAT Price",
+        "Pharmacy Purchase Price",
+        "Local Pack Description",
         "Reimbursable Status",
         "Reimbursable Rate",
         "Reimbursable Notes",
@@ -371,81 +493,65 @@ def main(headless: bool = True, sleep_between_details: float = 0.1, detail_worke
         "VAT Percent",
         "detail_url",
     ]
+
     ensure_csv_has_header(output_path, out_columns)
 
-    # Load URLs with page numbers
-    all_urls = []
-    page_map = {}
-    try:
-        df_urls = pd.read_csv(urls_path, dtype=str)
-        if "detail_url" in df_urls.columns:
-            all_urls = df_urls["detail_url"].dropna().astype(str).tolist()
-            if "page_num" in df_urls.columns:
-                for _, row in df_urls.iterrows():
-                    url = str(row.get("detail_url") or "").strip()
-                    if url:
-                        page_map[url] = row.get("page_num")
-    except Exception:
-        all_urls = load_existing_detail_urls(urls_path)
-        # page_map stays empty
     already_scraped = load_already_scraped_urls(output_path)
+    if already_scraped:
+        df_urls.loc[df_urls["detail_url"].astype(str).isin(already_scraped), "detailed_view_scraped"] = "yes"
+    status_map = {
+        str(row.get("detail_url") or "").strip(): str(row.get("detailed_view_scraped") or "").strip().lower()
+        for _, row in df_urls.iterrows()
+    }
+    todo_urls = [
+        u for u in all_urls
+        if u not in already_scraped and status_map.get(u, "no") != "yes"
+    ]
 
-    todo_urls = [u for u in all_urls if u not in already_scraped]
-    total_urls = len(todo_urls)
-
-    if total_urls == 0:
+    total = len(todo_urls)
+    if total == 0:
         print("No new URLs to scrape. Output already up to date.")
         return
 
-    print(f"[PROGRESS] Processing packs: 0/{total_urls} (0%)", flush=True)
+    print(f"[START] URLs total={len(all_urls)} | todo={total} | workers={DETAIL_WORKERS} | headless={HEADLESS}", flush=True)
 
-    url_queue = Queue()
-    for url in todo_urls:
-        url_queue.put(url)
+    q = Queue()
+    for u in todo_urls:
+        q.put(u)
 
     seen_lock = threading.Lock()
     out_lock = threading.Lock()
     progress_lock = threading.Lock()
-    progress_state = {"completed": 0, "page_num_map": page_map}
+    progress = {"done": 0, "total": total, "processed": set()}
 
-    workers = []
-    for worker_id in range(1, detail_workers + 1):
+    threads = []
+    for wid in range(1, DETAIL_WORKERS + 1):
         t = threading.Thread(
-            target=scrape_detail_urls_worker,
-            args=(
-                worker_id,
-                url_queue,
-                output_path,
-                out_columns,
-                already_scraped,
-                seen_lock,
-                out_lock,
-                headless,
-                sleep_between_details,
-                progress_state,
-                progress_lock,
-                total_urls,
-            ),
-            daemon=True
+            target=worker_fn,
+            args=(wid, q, output_path, out_columns, already_scraped, seen_lock, out_lock, progress, progress_lock),
+            daemon=True,
         )
         t.start()
-        workers.append(t)
+        threads.append(t)
 
-    url_queue.join()
-    for t in workers:
+    q.join()
+
+    for t in threads:
         t.join(timeout=5)
 
+    processed = progress.get("processed", set())
+    if processed:
+        df_urls.loc[df_urls["detail_url"].astype(str).isin(processed), "detailed_view_scraped"] = "yes"
+        df_urls.to_csv(urls_path, index=False, encoding="utf-8-sig")
+        print(f"[INFO] Updated detailed_view_scraped=yes for {len(processed)} URLs in {urls_path.name}", flush=True)
+
+    print(f"[DONE] Scraped rows added: {progress['done']} | Output: {output_path}", flush=True)
     if terminate_scraper_pids:
         try:
             terminate_scraper_pids("NorthMacedonia", _repo_root, silent=True)
         except Exception:
             pass
 
-    print(f"Completed detail scraping. New rows written: {progress_state.get('completed', 0)}")
-
 
 if __name__ == "__main__":
-    headless = getenv_bool("SCRIPT_01_HEADLESS", True)
-    sleep_between_details = getenv_float("SCRIPT_01_SLEEP_BETWEEN_DETAILS", 0.05)
-    detail_workers = int(getenv("SCRIPT_02_DETAIL_WORKERS", "3") or "3")
-    main(headless=headless, sleep_between_details=sleep_between_details, detail_workers=detail_workers)
+    main()
