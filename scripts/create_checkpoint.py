@@ -67,11 +67,10 @@ PIPELINE_STEPS = {
     ],
     "Tender_Chile": [
         (0, "Backup and Clean"),
-        (1, "Get Tender List"),
-        (2, "Get Redirect URLs"),
-        (3, "Extract Tender Details"),
-        (4, "Extract Award Data"),
-        (5, "Merge Final CSV"),
+        (1, "Get Redirect URLs"),
+        (2, "Extract Tender Details"),
+        (3, "Extract Tender Awards"),
+        (4, "Merge Final CSV"),
     ],
     "NorthMacedonia": [
         (0, "Backup and Clean"),

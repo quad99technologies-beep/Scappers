@@ -1,0 +1,37 @@
+{
+  "scraper": "India",
+  "last_run": "2026-01-16T18:05:55.262709",
+  "completed_steps": [
+    0,
+    1,
+    2
+  ],
+  "step_outputs": {
+    "step_0": {
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "completed_at": "2026-01-16T17:47:13.184960",
+      "output_files": [],
+      "duration_seconds": 0.1598203182220459
+    },
+    "step_1": {
+      "step_number": 1,
+      "step_name": "Download Ceiling Prices",
+      "completed_at": "2026-01-16T17:47:43.756762",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\India\\ceiling_prices.xlsx"
+      ],
+      "duration_seconds": 30.548764944076538
+    },
+    "step_2": {
+      "step_number": 2,
+      "step_name": "Extract Medicine Details",
+      "completed_at": "2026-01-16T18:05:55.262661",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\India\\details"
+      ],
+      "duration_seconds": 1091.4909613132477
+    }
+  },
+  "metadata": {}
+}

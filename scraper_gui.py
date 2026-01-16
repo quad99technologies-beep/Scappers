@@ -226,6 +226,16 @@ class ScraperGUI:
                 ],
                 "pipeline_bat": "run_pipeline.bat"
             },
+            "Russia": {
+                "path": self.repo_root / "scripts" / "Russia",
+                "scripts_dir": "",
+                "docs_dir": None,  # All docs now in root doc/ folder
+                "steps": [
+                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
+                    {"name": "01 - Extract VED Pricing", "script": "01_russia_farmcom_scraper.py", "desc": "Extract VED drug pricing data from farmcom.info"},
+                ],
+                "pipeline_bat": "run_pipeline.bat"
+            },
             "NorthMacedonia": {
                 "path": self.repo_root / "scripts" / "North Macedonia",
                 "scripts_dir": "",
@@ -244,11 +254,21 @@ class ScraperGUI:
                 "docs_dir": None,  # All docs now in root doc/ folder
                 "steps": [
                     {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
-                    {"name": "01 - Load Tender List", "script": "1. GetTender.py", "desc": "Load user-provided tender list from input/Tender_Chile"},
-                    {"name": "02 - Build Details URLs", "script": "2. Get Redirect URLs.py", "desc": "Build tender details/award URLs from the list"},
-                    {"name": "03 - Extract Tender Details", "script": "3. Chillie Tender.py", "desc": "Extract tender and lot details"},
-                    {"name": "04 - Extract Award Data", "script": "4. Chillie Tender Award.py", "desc": "Extract bidder-level award data"},
-                    {"name": "05 - Merge Final CSV", "script": "5. Merge Final CSV.py", "desc": "Merge all outputs into final CSV"},
+                    {"name": "01 - Get Redirect URLs", "script": "01_get_redirect_urls.py", "desc": "Get redirect URLs with qs parameters from tender list"},
+                    {"name": "02 - Extract Tender Details", "script": "02_extract_tender_details.py", "desc": "Extract tender and lot details from MercadoPublico"},
+                    {"name": "03 - Extract Tender Awards", "script": "03_extract_tender_awards.py", "desc": "Extract bidder-level award data from award pages"},
+                    {"name": "04 - Merge Final CSV", "script": "04_merge_final_csv.py", "desc": "Merge all outputs into final EVERSANA-format CSV"},
+                ],
+                "pipeline_bat": "run_pipeline.bat"
+            },
+            "India": {
+                "path": self.repo_root / "scripts" / "India",
+                "scripts_dir": "",
+                "docs_dir": None,  # All docs now in root doc/ folder
+                "steps": [
+                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
+                    {"name": "01 - Download Ceiling Prices", "script": "01_Ceiling Prices of Essential Medicines downlaod.py", "desc": "Download ceiling prices Excel from NPPA"},
+                    {"name": "02 - Get Medicine Details", "script": "02 get details.py", "desc": "Extract medicine details, substitutes, and available brands"},
                 ],
                 "pipeline_bat": "run_pipeline.bat"
             }
@@ -4661,7 +4681,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
             "Malaysia": ["malaysia"],
             "Argentina": ["alfabeta_report"],
             "NorthMacedonia": ["north_macedonia_drug_register", "maxprices_output"],
-            "Tender_Chile": ["final_tender_data"]
+            "Tender_Chile": ["final_tender_data"],
+            "India": ["medicine_details", "details", "search_results"]
         }
         
         patterns = scraper_patterns.get(scraper_name, [])
