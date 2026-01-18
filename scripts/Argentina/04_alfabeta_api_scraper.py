@@ -502,12 +502,12 @@ def api_worker(api_queue: Queue, args, skip_set: set):
                 )
                 log.info(f"[API_WORKER] [SUCCESS] {in_company} | {in_product} → {len(rows_with_values)} rows with values")
             else:
-                # API returned no values (null, no price, connection lost, not found) - move to selenium without recording
-                log.warning(f"[API_WORKER] [NO_VALUES] API returned no values for {in_company} | {in_product}, moving to selenium (not recording)")
-                # Update source to selenium, keep Scraped_By_API="no" and API_Records="0"
+                # API returned no values (null, no price, connection lost, not found) - keep in API for retry
+                log.warning(f"[API_WORKER] [NO_VALUES] API returned no values for {in_company} | {in_product}, keeping in API (not recording)")
+                # Keep Source=api, Scraped_By_API="no" and API_Records="0"
                 update_prepared_urls_source(
                     in_company, in_product, 
-                    new_source="selenium",
+                    new_source="api",
                     scraped_by_api="no",
                     api_records="0"
                 )
@@ -525,12 +525,12 @@ def api_worker(api_queue: Queue, args, skip_set: set):
             rate_limit_wait()
             
         except Exception as e:
-            # Connection lost, timeout, or other errors - move to selenium without recording
-            log.warning(f"[API_WORKER] [ERROR] {in_company} | {in_product}: {e} - moving to selenium (not recording)")
-            # Update source to selenium, keep Scraped_By_API="no" and API_Records="0"
+            # Connection lost, timeout, or other errors - keep in API for retry
+            log.warning(f"[API_WORKER] [ERROR] {in_company} | {in_product}: {e} - keeping in API (not recording)")
+            # Keep Source=api, Scraped_By_API="no" and API_Records="0"
             update_prepared_urls_source(
                 in_company, in_product, 
-                new_source="selenium",
+                new_source="api",
                 scraped_by_api="no",
                 api_records="0"
             )

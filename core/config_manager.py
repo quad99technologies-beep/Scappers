@@ -94,7 +94,7 @@ class ConfigManager:
             dir_path.mkdir(parents=True, exist_ok=True)
         
         # Create scraper-specific subdirectories
-        scraper_names = ["CanadaQuebec", "Malaysia", "Argentina", "Belarus", "CanadaOntario", "NorthMacedonia", "Netherlands", "Tender_Chile", "India", "Russia"]
+        scraper_names = ["CanadaQuebec", "Malaysia", "Argentina", "Belarus", "CanadaOntario", "NorthMacedonia", "Netherlands", "Tender_Chile", "India", "Russia", "Taiwan"]
         for scraper_name in scraper_names:
             (app_root / "input" / scraper_name).mkdir(parents=True, exist_ok=True)
             (app_root / "output" / scraper_name).mkdir(parents=True, exist_ok=True)
@@ -630,4 +630,3 @@ def acquire_lock() -> bool:
 def release_lock() -> None:
     """Release single-instance lock"""
     ConfigManager.release_lock()
-

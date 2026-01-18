@@ -96,7 +96,8 @@ class PathManager:
             "Belarus": "scripts/Belarus",
             "NorthMacedonia": "scripts/North Macedonia",
             "Tender_Chile": "scripts/Tender- Chile",
-            "Russia": "scripts/Russia"
+            "Russia": "scripts/Russia",
+            "Taiwan": "scripts/Taiwan"
         }
         scraper_dir_name = scraper_dirs.get(scraper_id, scraper_id)
         scraper_root = repo_root / scraper_dir_name
@@ -476,7 +477,7 @@ if __name__ == "__main__":
             print(f"  Locks Dir:      {pm.get_locks_dir()}")
             print()
             print("SCRAPER INPUT DIRECTORIES:")
-            for scraper_id in ["CanadaQuebec", "Malaysia", "Argentina"]:
+            for scraper_id in ["CanadaQuebec", "Malaysia", "Argentina", "Taiwan"]:
                 input_dir = pm.get_input_dir(scraper_id)
                 exists = "[OK]" if input_dir.exists() else "[  ]"
                 print(f"  {scraper_id:15} {exists} {input_dir}")
@@ -486,7 +487,7 @@ if __name__ == "__main__":
             print(json.dumps(platform_config, indent=2))
             print()
             print("SCRAPER CONFIGS:")
-            for scraper_id in ["CanadaQuebec", "Malaysia", "Argentina"]:
+            for scraper_id in ["CanadaQuebec", "Malaysia", "Argentina", "Taiwan"]:
                 scraper_config = cr._load_scraper_config(scraper_id)
                 config_count = len(scraper_config.get('config', {}))
                 secret_count = len(scraper_config.get('secrets', {}))
@@ -547,6 +548,11 @@ if __name__ == "__main__":
                 all_ok = False
             print()
 
+            # Taiwan requirements
+            print("Taiwan:")
+            print("  [OK] No required secrets")
+            print()
+
             if all_ok:
                 print("=" * 70)
                 print("[OK] All required configuration is present")
@@ -575,4 +581,3 @@ if __name__ == "__main__":
         print("Usage:")
         print("  python platform_config.py doctor        - Show platform paths and config")
         print("  python platform_config.py config-check  - Validate required configuration")
-

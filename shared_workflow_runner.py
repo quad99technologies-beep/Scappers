@@ -17,6 +17,7 @@ import shutil
 import logging
 import subprocess
 import atexit
+import time
 try:
     import fcntl  # For Unix-like systems
 except ImportError:
@@ -44,6 +45,19 @@ except ImportError:
     _CHROME_MANAGER_AVAILABLE = False
     def cleanup_all_chrome_instances(silent=False):
         pass  # No-op if Chrome manager not available
+
+# Optional run ledger (metadata tracking)
+try:
+    from core.run_ledger import FileRunLedger, RunStatus
+    _RUN_LEDGER_AVAILABLE = True
+except ImportError:
+    FileRunLedger = None
+    class RunStatus:
+        RUNNING = "running"
+        COMPLETED = "completed"
+        FAILED = "failed"
+        CANCELLED = "cancelled"
+    _RUN_LEDGER_AVAILABLE = False
 
 
 class ScraperInterface(ABC):
@@ -115,6 +129,7 @@ class WorkflowRunner:
         # Current run info
         self.run_id = None
         self.run_dir = None
+        self.run_ledger = FileRunLedger() if _RUN_LEDGER_AVAILABLE else None
     
     def _cleanup_lock_on_exit(self):
         """Cleanup lock file on process exit (atexit handler)"""
@@ -614,7 +629,8 @@ class WorkflowRunner:
                 scraper_patterns = {
                     "CanadaQuebec": ["canadaquebecreport"],
                     "Malaysia": ["malaysia"],
-                    "Argentina": ["alfabeta_report"]
+                    "Argentina": ["alfabeta_report"],
+                    "Taiwan": ["taiwan_drug_code_details"]
                 }
                 
                 patterns = scraper_patterns.get(self.scraper_name, [])
@@ -671,6 +687,78 @@ class WorkflowRunner:
             (self.run_dir / "exports").mkdir(exist_ok=True)
         
         return self.run_dir
+
+    def _record_run_start(self, run_dir: Path, backup_dir: Optional[str] = None) -> None:
+        """Record run start in the run ledger (best-effort)."""
+        if not self.run_ledger or not self.run_id:
+            return
+        try:
+            pipeline = {
+                "source": self.scraper_name,
+                "run_type": "workflow",
+                "environment": "local",
+            }
+            paths = {
+                "run_dir": str(run_dir),
+                "backup_dir": backup_dir,
+            }
+            self.run_ledger.record_run_start(
+                run_id=self.run_id,
+                scraper_name=self.scraper_name,
+                run_dir=run_dir,
+                pipeline=pipeline,
+                paths=paths,
+            )
+        except Exception as e:
+            logging.getLogger(__name__).warning("Run ledger start failed: %s", e)
+
+    def _record_run_end(
+        self,
+        status: "RunStatus",
+        run_dir: Optional[Path],
+        backup_dir: Optional[str] = None,
+        manifest_path: Optional[Path] = None,
+        outputs: Optional[List[str]] = None,
+        error_message: Optional[str] = None,
+        duration_seconds: Optional[float] = None,
+    ) -> None:
+        """Record run end in the run ledger (best-effort)."""
+        if not self.run_ledger or not self.run_id or not run_dir:
+            return
+        try:
+            artifacts: Dict[str, List[str]] = {
+                "logs": [],
+                "outputs": outputs or [],
+                "exports": [],
+                "manifests": [],
+            }
+            log_path = run_dir / "logs" / "run.log"
+            if log_path.exists():
+                artifacts["logs"].append(str(log_path))
+            if manifest_path and manifest_path.exists():
+                artifacts["manifests"].append(str(manifest_path))
+
+            metrics: Dict[str, Any] = {}
+            if duration_seconds is not None:
+                metrics["duration_seconds"] = duration_seconds
+
+            error = {"message": error_message} if error_message else None
+            paths = {
+                "run_dir": str(run_dir),
+                "backup_dir": backup_dir,
+                "manifest": str(manifest_path) if manifest_path else None,
+            }
+            self.run_ledger.record_run_end(
+                run_id=self.run_id,
+                status=status,
+                run_dir=run_dir,
+                artifacts=artifacts,
+                metrics=metrics,
+                error=error,
+                paths=paths,
+            )
+        except Exception as e:
+            logging.getLogger(__name__).warning("Run ledger end failed: %s", e)
     
     def setup_logging(self, run_dir: Path) -> logging.Logger:
         """Setup logging for this run."""
@@ -718,6 +806,33 @@ class WorkflowRunner:
                 print(msg)
         
         logger = None
+        run_dir = None
+        run_started_monotonic = None
+        ledger_completed = False
+
+        def record_end(
+            status: "RunStatus",
+            error_message: Optional[str] = None,
+            manifest_path: Optional[Path] = None,
+            outputs: Optional[List[str]] = None,
+            backup_dir: Optional[str] = None,
+        ) -> None:
+            nonlocal ledger_completed
+            if ledger_completed:
+                return
+            duration_seconds = None
+            if run_started_monotonic is not None:
+                duration_seconds = time.monotonic() - run_started_monotonic
+            self._record_run_end(
+                status=status,
+                run_dir=run_dir,
+                backup_dir=backup_dir,
+                manifest_path=manifest_path,
+                outputs=outputs,
+                error_message=error_message,
+                duration_seconds=duration_seconds,
+            )
+            ledger_completed = True
         try:
             # Step 1: Acquire lock
             progress(f"[{self.scraper_name}] Acquiring execution lock...")
@@ -740,6 +855,9 @@ class WorkflowRunner:
                 progress(f"[{self.scraper_name}] Creating run folder...")
                 run_dir = self.create_run_folder()
                 progress(f"[{self.scraper_name}] Run folder: {run_dir}")
+
+                run_started_monotonic = time.monotonic()
+                self._record_run_start(run_dir, backup_dir=str(backup_result.get("backup_dir")))
                 
                 # Step 4: Setup logging
                 logger = self.setup_logging(run_dir)
@@ -753,6 +871,11 @@ class WorkflowRunner:
                 if logger:
                     logger.info(f"Validation result: {validation_result}")
                 if validation_result.get("status") not in ("ok", "warning"):
+                    record_end(
+                        status=RunStatus.FAILED,
+                        error_message=f"Input validation failed: {validation_result.get('message', 'Unknown error')}",
+                        backup_dir=str(backup_result.get("backup_dir")),
+                    )
                     return {
                         "status": "error",
                         "message": f"Input validation failed: {validation_result.get('message', 'Unknown error')}",
@@ -766,6 +889,11 @@ class WorkflowRunner:
                 if logger:
                     logger.info(f"Steps result: {steps_result}")
                 if steps_result.get("status") != "ok":
+                    record_end(
+                        status=RunStatus.FAILED,
+                        error_message=f"Steps execution failed: {steps_result.get('message', 'Unknown error')}",
+                        backup_dir=str(backup_result.get("backup_dir")),
+                    )
                     return {
                         "status": "error",
                         "message": f"Steps execution failed: {steps_result.get('message', 'Unknown error')}",
@@ -794,6 +922,13 @@ class WorkflowRunner:
                 manifest_path = run_dir / "manifest.json"
                 with open(manifest_path, 'w', encoding='utf-8') as f:
                     json.dump(manifest, f, indent=2, ensure_ascii=False)
+
+                record_end(
+                    status=RunStatus.COMPLETED,
+                    manifest_path=manifest_path,
+                    outputs=outputs_result.get("outputs", []),
+                    backup_dir=str(backup_result.get("backup_dir")),
+                )
                 
                 if logger:
                     logger.info(f"Run completed successfully: {self.run_id}")
@@ -838,6 +973,11 @@ class WorkflowRunner:
                 self.release_lock(silent=True)
                 
         except Exception as e:
+            record_end(
+                status=RunStatus.FAILED,
+                error_message=str(e),
+                backup_dir=str(backup_result.get("backup_dir")) if "backup_result" in locals() else None,
+            )
             if logger:
                 logger.error(f"Workflow error: {str(e)}", exc_info=True)
             else:

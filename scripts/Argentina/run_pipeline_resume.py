@@ -30,12 +30,15 @@ from config_loader import get_output_dir, PREPARED_URLS_FILE, OUTPUT_PRODUCTS_CS
 
 def run_step(step_num: int, script_name: str, step_name: str, output_files: list = None):
     """Run a pipeline step and mark it complete if successful."""
+    # Total actual steps: steps 0-6 = 7 steps
+    total_steps = 7
+    display_step = step_num + 1  # Display as 1-based for user friendliness
+    
     print(f"\n{'='*80}")
-    print(f"Step {step_num}/6: {step_name}")
+    print(f"Step {display_step}/{total_steps}: {step_name}")
     print(f"{'='*80}\n")
     
     # Output overall pipeline progress with descriptive message
-    total_steps = 6
     pipeline_percent = round((step_num / total_steps) * 100, 1)
     if pipeline_percent > 100.0:
         pipeline_percent = 100.0
@@ -52,7 +55,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
     }
     step_desc = step_descriptions.get(step_num, step_name)
     
-    print(f"[PROGRESS] Pipeline Step: {step_num}/{total_steps} ({pipeline_percent}%) - {step_desc}", flush=True)
+    print(f"[PROGRESS] Pipeline Step: {display_step}/{total_steps} ({pipeline_percent}%) - {step_desc}", flush=True)
     print(f"[PIPELINE] Executing: {script_name}")
     print(f"[PIPELINE] This step will run until completion before moving to next step.\n")
     
@@ -113,7 +116,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         }
         next_desc = next_step_descriptions.get(step_num + 1, "Moving to next step")
         
-        print(f"[PROGRESS] Pipeline Step: {step_num + 1}/{total_steps} ({completion_percent}%) - {next_desc}", flush=True)
+        print(f"[PROGRESS] Pipeline Step: {display_step}/{total_steps} ({completion_percent}%) - {next_desc}", flush=True)
         
         return True
     except subprocess.CalledProcessError as e:
@@ -190,19 +193,20 @@ def main():
     print(f"PIPELINE EXECUTION PLAN")
     print(f"{'='*80}")
     for step_num, script_name, step_name, output_files in steps:
+        display_step = step_num + 1  # Display as 1-based
         if step_num < start_step:
             # Skip completed steps (verify output files exist)
             expected_files = None
             if output_files:
                 expected_files = [str(output_dir / f) if not Path(f).is_absolute() else f for f in output_files]
             if cp.should_skip_step(step_num, step_name, verify_outputs=True, expected_output_files=expected_files):
-                print(f"Step {step_num}/6: {step_name} - SKIPPED (already completed in checkpoint)")
+                print(f"Step {display_step}/7: {step_name} - SKIPPED (already completed in checkpoint)")
             else:
-                print(f"Step {step_num}/6: {step_name} - WILL RE-RUN (output files missing)")
+                print(f"Step {display_step}/7: {step_name} - WILL RE-RUN (output files missing)")
         elif step_num == start_step:
-            print(f"Step {step_num}/6: {step_name} - WILL RUN NOW (starting from here)")
+            print(f"Step {display_step}/7: {step_name} - WILL RUN NOW (starting from here)")
         else:
-            print(f"Step {step_num}/6: {step_name} - WILL RUN AFTER previous steps complete")
+            print(f"Step {display_step}/7: {step_name} - WILL RUN AFTER previous steps complete")
     print(f"{'='*80}\n")
     
     # Now execute the steps
@@ -215,7 +219,9 @@ def main():
                 expected_files = [str(output_dir / f) if not Path(f).is_absolute() else f for f in output_files]
             
             if cp.should_skip_step(step_num, step_name, verify_outputs=True, expected_output_files=expected_files):
-                total_steps = 6
+                # Total actual steps: steps 0-6 = 7 steps
+                total_steps = 7
+                display_step = step_num + 1  # Display as 1-based
                 completion_percent = round(((step_num + 1) / total_steps) * 100, 1)
                 if completion_percent > 100.0:
                     completion_percent = 100.0
@@ -231,10 +237,11 @@ def main():
                 }
                 skip_desc = step_descriptions.get(step_num, f"Skipped: {step_name} already completed")
                 
-                print(f"[PROGRESS] Pipeline Step: {step_num + 1}/{total_steps} ({completion_percent}%) - {skip_desc}", flush=True)
+                print(f"[PROGRESS] Pipeline Step: {display_step}/{total_steps} ({completion_percent}%) - {skip_desc}", flush=True)
             else:
                 # Step marked complete but output files missing - will re-run
-                print(f"\nStep {step_num}/6: {step_name} - WILL RE-RUN (output files missing)")
+                display_step = step_num + 1
+                print(f"\nStep {display_step}/7: {step_name} - WILL RE-RUN (output files missing)")
             continue
         
         success = run_step(step_num, script_name, step_name, output_files)
@@ -262,7 +269,7 @@ def main():
     print("Pipeline completed successfully!")
     print(f"[TIMING] Total pipeline duration: {total_duration_str}")
     print(f"{'='*80}\n")
-    print(f"[PROGRESS] Pipeline Step: 6/6 (100%)", flush=True)
+    print(f"[PROGRESS] Pipeline Step: 7/7 (100%)", flush=True)
     
     # Clean up lock file
     try:

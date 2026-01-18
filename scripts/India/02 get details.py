@@ -5,15 +5,22 @@ India NPPA Pharma Sahi Daam Scraper - Step 02: Get Medicine Details
 
 Searches for formulations, downloads Excel exports, and extracts detailed
 medicine information including substitutes/available brands.
+
+Features:
+- Loads unique formulations from ceiling_prices.xlsx (Step 01 output)
+- Resume support: skips fully completed formulations
+- Handles partial scrapes without duplicating data
+- Generates final summary report
 """
 
 import os
 import re
 import time
 import csv
+import json
 from pathlib import Path
 from datetime import datetime
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Set
 
 import pandas as pd
 from selenium import webdriver
@@ -54,8 +61,197 @@ load_env_file()
 URL = "https://nppaipdms.gov.in/NPPA/PharmaSahiDaam/searchMedicine"
 
 # -----------------------------
-# CONFIG - loaded from env/input
+# Checkpoint/Resume System for Formulations
 # -----------------------------
+class FormulationCheckpoint:
+    """Manages checkpoint/resume for formulation-level processing."""
+    
+    def __init__(self, output_dir: Path):
+        self.checkpoint_dir = output_dir / ".checkpoints"
+        self.checkpoint_dir.mkdir(parents=True, exist_ok=True)
+        self.checkpoint_file = self.checkpoint_dir / "formulation_progress.json"
+        self._data = None
+    
+    def _load(self) -> Dict:
+        """Load checkpoint data."""
+        if self._data is not None:
+            return self._data
+        
+        if self.checkpoint_file.exists():
+            try:
+                with open(self.checkpoint_file, 'r', encoding='utf-8') as f:
+                    self._data = json.load(f)
+            except Exception as e:
+                print(f"[WARN] Failed to load formulation checkpoint: {e}")
+                self._data = self._default_data()
+        else:
+            self._data = self._default_data()
+        return self._data
+    
+    def _default_data(self) -> Dict:
+        return {
+            "completed_formulations": [],
+            "in_progress": None,
+            "last_updated": None,
+            "stats": {
+                "total_processed": 0,
+                "total_medicines": 0,
+                "total_substitutes": 0,
+                "errors": 0
+            }
+        }
+    
+    def _save(self):
+        """Save checkpoint data atomically."""
+        data = self._load()
+        data["last_updated"] = datetime.now().isoformat()
+        
+        try:
+            temp_file = self.checkpoint_file.with_suffix('.tmp')
+            with open(temp_file, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+            temp_file.replace(self.checkpoint_file)
+        except Exception as e:
+            print(f"[ERROR] Failed to save formulation checkpoint: {e}")
+    
+    def is_completed(self, formulation: str) -> bool:
+        """Check if a formulation has been fully completed."""
+        data = self._load()
+        return formulation.strip().upper() in [f.upper() for f in data["completed_formulations"]]
+    
+    def mark_completed(self, formulation: str, medicines_count: int = 0, substitutes_count: int = 0):
+        """Mark a formulation as fully completed."""
+        data = self._load()
+        formulation_upper = formulation.strip().upper()
+        
+        if formulation_upper not in [f.upper() for f in data["completed_formulations"]]:
+            data["completed_formulations"].append(formulation)
+            data["stats"]["total_processed"] += 1
+            data["stats"]["total_medicines"] += medicines_count
+            data["stats"]["total_substitutes"] += substitutes_count
+        
+        # Clear in_progress if it matches
+        if data["in_progress"] and data["in_progress"].upper() == formulation_upper:
+            data["in_progress"] = None
+        
+        self._save()
+        print(f"[CHECKPOINT] Marked formulation '{formulation}' as completed")
+    
+    def mark_in_progress(self, formulation: str):
+        """Mark a formulation as currently being processed."""
+        data = self._load()
+        data["in_progress"] = formulation
+        self._save()
+    
+    def mark_error(self, formulation: str):
+        """Record an error for a formulation."""
+        data = self._load()
+        data["stats"]["errors"] += 1
+        self._save()
+    
+    def get_completed_count(self) -> int:
+        """Get count of completed formulations."""
+        return len(self._load()["completed_formulations"])
+    
+    def get_stats(self) -> Dict:
+        """Get processing statistics."""
+        return self._load()["stats"]
+    
+    def clear(self):
+        """Clear all checkpoint data for fresh start."""
+        self._data = self._default_data()
+        self._save()
+        print("[CHECKPOINT] Cleared formulation checkpoint data")
+
+
+# -----------------------------
+# Load formulations from ceiling prices
+# -----------------------------
+def load_formulations_from_ceiling_prices(output_dir: Path) -> List[str]:
+    """
+    Load unique formulations from ceiling_prices.xlsx (Step 01 output).
+    Falls back to input CSV if ceiling prices not available.
+    """
+    ceiling_prices_file = output_dir / "ceiling_prices.xlsx"
+    
+    if ceiling_prices_file.exists():
+        try:
+            print(f"[INFO] Loading formulations from ceiling prices: {ceiling_prices_file}")
+            
+            # The NPPA Excel has a title row at row 0, actual headers at row 1
+            # Try reading with header=1 first (skip title row)
+            try:
+                df = pd.read_excel(ceiling_prices_file, header=1)
+            except Exception:
+                df = pd.read_excel(ceiling_prices_file)
+            
+            # Look for formulation column - common names
+            formulation_cols = [
+                'Formulation', 'formulation', 'FORMULATION',
+                'Medicine Formulation', 'medicine_formulation',
+                'Generic Name', 'generic_name', 'GENERIC_NAME',
+                'Salt', 'salt', 'SALT',
+                'Drug Name', 'drug_name'
+            ]
+            
+            formulation_col = None
+            for col in formulation_cols:
+                if col in df.columns:
+                    formulation_col = col
+                    break
+            
+            # If no exact match, look for column containing 'formulation' or 'generic'
+            if formulation_col is None:
+                for col in df.columns:
+                    col_lower = str(col).lower()
+                    if 'formulation' in col_lower or 'generic' in col_lower or 'salt' in col_lower:
+                        formulation_col = col
+                        break
+            
+            if formulation_col is None:
+                # If still not found, try reading without header skip
+                df_alt = pd.read_excel(ceiling_prices_file)
+                for col in df_alt.columns:
+                    col_lower = str(col).lower()
+                    if 'formulation' in col_lower:
+                        df = df_alt
+                        formulation_col = col
+                        break
+            
+            if formulation_col is None:
+                print(f"[WARN] Could not find formulation column in ceiling prices.")
+                print(f"[WARN] Available columns: {[str(c) for c in df.columns]}")
+                return load_formulations_from_input()
+            
+            print(f"[INFO] Using column '{formulation_col}' for formulations")
+            
+            # Extract unique formulations - use the full formulation name as-is
+            # The NPPA website expects the exact formulation name
+            formulations = df[formulation_col].dropna().astype(str).str.strip()
+            unique_formulations = sorted(set(formulations))
+            
+            # Filter out empty strings and numeric values
+            unique_formulations = [f for f in unique_formulations if f and not f.replace('.', '').isdigit()]
+            
+            print(f"[OK] Loaded {len(unique_formulations)} unique formulations from ceiling prices")
+            
+            # Show sample
+            if unique_formulations:
+                sample = unique_formulations[:5]
+                safe_sample = [s.encode('ascii', 'replace').decode('ascii') for s in sample]
+                print(f"[INFO] Sample formulations: {safe_sample}")
+            
+            return unique_formulations
+            
+        except Exception as e:
+            print(f"[ERROR] Failed to load ceiling prices: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    # Fallback to input CSV
+    return load_formulations_from_input()
+
+
 def load_formulations_from_input() -> List[str]:
     """Load formulations from input CSV file if it exists."""
     input_file = get_input_dir() / "formulations.csv"
@@ -76,8 +272,6 @@ def load_formulations_from_input() -> List[str]:
 # Default formulations (used if no input file)
 DEFAULT_FORMULATIONS = [
     "ABACAVIR",
-    # "AMLODIPINE",
-    # "PARACETAMOL",
 ]
 
 
@@ -179,18 +373,34 @@ def wait_results_loaded(driver, wait: WebDriverWait):
     time.sleep(1.5)
 
 
-def pick_autocomplete_exact_match(driver, wait: WebDriverWait, search_term: str, timeout: int = 10):
+def dismiss_alert_if_present(driver):
+    """Dismiss any alert dialog that may be present."""
+    try:
+        from selenium.webdriver.common.alert import Alert
+        alert = Alert(driver)
+        alert_text = alert.text
+        alert.accept()
+        print(f"[WARN] Dismissed alert: {alert_text}")
+        return True
+    except:
+        return False
+
+
+def pick_autocomplete_exact_match(driver, wait: WebDriverWait, search_term: str, timeout: int = 10) -> bool:
     """
     Wait for autocomplete dropdown and click on the item that exactly matches the search term.
     If no exact match found, click the first item.
+    
+    Returns:
+        True if autocomplete selection was successful, False otherwise
     """
     # Try multiple possible autocomplete selectors
     autocomplete_selectors = [
+        ".autocomplete-suggestions div",  # NPPA uses this
         "ul.ui-autocomplete li.ui-menu-item",
         "ul.ui-autocomplete li",
         ".ui-autocomplete .ui-menu-item",
         ".ui-autocomplete-results li",
-        ".autocomplete-suggestions div",
         "ul.ui-menu li.ui-menu-item",
         ".ui-menu-item",
         "[role='option']",
@@ -201,9 +411,13 @@ def pick_autocomplete_exact_match(driver, wait: WebDriverWait, search_term: str,
     items = None
     end_time = time.time() + timeout
     
-    print(f"[DEBUG] Looking for autocomplete dropdown for '{search_term}'...")
+    safe_search = search_term.encode('ascii', 'replace').decode('ascii')
+    print(f"[DEBUG] Looking for autocomplete dropdown for '{safe_search}'...")
     
     while time.time() < end_time:
+        # Check for alert first
+        dismiss_alert_if_present(driver)
+        
         for selector in autocomplete_selectors:
             try:
                 found = driver.find_elements(By.CSS_SELECTOR, selector)
@@ -220,9 +434,8 @@ def pick_autocomplete_exact_match(driver, wait: WebDriverWait, search_term: str,
         time.sleep(0.3)
     
     if not items:
-        print(f"[WARN] No autocomplete dropdown found for '{search_term}'.")
-        print(f"[WARN] Proceeding without autocomplete selection.")
-        return
+        print(f"[WARN] No autocomplete dropdown found for '{safe_search}'.")
+        return False
     
     # Look for exact match (case-insensitive)
     search_upper = search_term.strip().upper()
@@ -238,19 +451,29 @@ def pick_autocomplete_exact_match(driver, wait: WebDriverWait, search_term: str,
                 print(f"[OK] Found exact match: {safe_text}")
                 click_js(driver, item)
                 time.sleep(0.5)
-                return
+                return True
+            # Also check if item starts with search term (for partial matches)
+            if item_text.startswith(search_upper):
+                safe_text = item.text.strip().encode('ascii', 'replace').decode('ascii')
+                print(f"[OK] Found partial match: {safe_text}")
+                click_js(driver, item)
+                time.sleep(0.5)
+                return True
         except Exception as e:
             continue
     
-    # If no exact match, click the first item
+    # If no exact/partial match, click the first item
     if items:
         try:
             safe_text = items[0].text.strip().encode('ascii', 'replace').decode('ascii')
-            print(f"[INFO] No exact match for '{search_term}', clicking first item: {safe_text}")
+            print(f"[INFO] No exact match for '{safe_search}', clicking first item: {safe_text}")
         except:
-            print(f"[INFO] No exact match for '{search_term}', clicking first item")
+            print(f"[INFO] No exact match for '{safe_search}', clicking first item")
         click_js(driver, items[0])
         time.sleep(0.5)
+        return True
+    
+    return False
 
 
 def set_datatable_show_max(driver):
@@ -294,15 +517,53 @@ def excel_to_csv(excel_path: Path, csv_path: Path):
     df.to_csv(csv_path, index=False, encoding="utf-8-sig")
 
 
-def write_csv_rows(path: Path, rows: List[Dict[str, Any]], fieldnames: List[str]):
+def write_csv_rows(path: Path, rows: List[Dict[str, Any]], fieldnames: List[str], append: bool = True):
+    """
+    Write rows to CSV file.
+    
+    Args:
+        path: Output file path
+        rows: List of row dictionaries
+        fieldnames: Column names
+        append: If True, append to existing file; if False, overwrite
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
-    new_file = not path.exists()
-    with path.open("a", newline="", encoding="utf-8-sig") as f:
+    
+    if append:
+        new_file = not path.exists()
+        mode = "a"
+    else:
+        new_file = True
+        mode = "w"
+    
+    with path.open(mode, newline="", encoding="utf-8-sig") as f:
         w = csv.DictWriter(f, fieldnames=fieldnames)
         if new_file:
             w.writeheader()
         for r in rows:
             w.writerow({k: r.get(k, "") for k in fieldnames})
+
+
+def get_existing_records(csv_path: Path, key_field: str = "MedicineName") -> Set[str]:
+    """
+    Get set of existing records from a CSV file to avoid duplicates.
+    
+    Args:
+        csv_path: Path to CSV file
+        key_field: Field to use as unique key
+        
+    Returns:
+        Set of existing key values
+    """
+    existing = set()
+    if csv_path.exists():
+        try:
+            df = pd.read_csv(csv_path, encoding='utf-8-sig')
+            if key_field in df.columns:
+                existing = set(df[key_field].dropna().astype(str).str.strip())
+        except Exception as e:
+            print(f"[WARN] Could not read existing records from {csv_path}: {e}")
+    return existing
 
 
 # -----------------------------
@@ -508,17 +769,34 @@ def get_medicine_table(driver):
     return None
 
 
-def scrape_details_for_all_medicines(driver, wait: WebDriverWait, formulation: str, max_medicines: int = 0) -> List[Dict[str, Any]]:
+def scrape_details_for_all_medicines(
+    driver, 
+    wait: WebDriverWait, 
+    formulation: str, 
+    max_medicines: int = 0,
+    existing_medicines: Set[str] = None
+) -> List[Dict[str, Any]]:
     """
     Click each medicine link on the current results view (handles paging best-effort),
     extract modal header + substitutes, and flatten into CSV rows:
     one row per substitute (or one row with blanks if no substitute rows).
     
     Args:
+        driver: Selenium WebDriver
+        wait: WebDriverWait instance
+        formulation: Formulation name being processed
         max_medicines: Maximum number of medicines to process (0 = no limit)
+        existing_medicines: Set of already processed medicine names to skip (for resume)
+    
+    Returns:
+        List of detail row dictionaries
     """
+    if existing_medicines is None:
+        existing_medicines = set()
+    
     all_rows = []
     total_processed = 0
+    total_skipped = 0
     errors_count = 0
     page_num = 1
     processed_medicines = set()  # Track processed medicine names to avoid duplicates
@@ -597,11 +875,25 @@ def scrape_details_for_all_medicines(driver, wait: WebDriverWait, formulation: s
                 unit = tds[4].text.strip()
                 mrp_unit = tds[5].text.strip()
 
-                # Check for duplicate (already processed this medicine)
+                # Check for duplicate (already processed this medicine in this session)
                 med_key = f"{sno}_{med_name}"
                 if med_key in processed_medicines:
                     print(f"[WARN] Skipping duplicate: {med_name} (row {idx+1})")
                     continue
+                
+                # Check if already in existing records (resume support)
+                if med_name in existing_medicines:
+                    total_skipped += 1
+                    if total_skipped <= 5:  # Only print first few skips
+                        try:
+                            safe_name = med_name.encode('ascii', 'replace').decode('ascii')
+                            print(f"[SKIP] Already processed: {safe_name}")
+                        except:
+                            print(f"[SKIP] Already processed: Medicine {idx+1}")
+                    elif total_skipped == 6:
+                        print(f"[SKIP] ... and more (suppressing further skip messages)")
+                    continue
+                
                 processed_medicines.add(med_key)
                 
                 # Safe print for Windows console
@@ -664,7 +956,7 @@ def scrape_details_for_all_medicines(driver, wait: WebDriverWait, formulation: s
                 continue
         
         # Print progress summary for this page
-        print(f"[INFO] Page {page_num} complete: {total_processed} processed, {errors_count} errors so far")
+        print(f"[INFO] Page {page_num} complete: {total_processed} processed, {total_skipped} skipped, {errors_count} errors")
 
         # go next page if pagination exists
         # Use valid CSS selectors only (no jQuery :contains)
@@ -683,17 +975,37 @@ def scrape_details_for_all_medicines(driver, wait: WebDriverWait, formulation: s
         page_num += 1
         time.sleep(1.0)
 
-    print(f"[OK] Finished processing: {total_processed} medicines, {len(all_rows)} detail rows, {errors_count} errors")
+    print(f"[OK] Finished processing: {total_processed} medicines, {len(all_rows)} detail rows, {total_skipped} skipped, {errors_count} errors")
     return all_rows
 
 
 # -----------------------------
 # Main run per formulation
 # -----------------------------
-def run_for_formulation(driver, wait: WebDriverWait, formulation: str, download_dir: Path, out_dir: Path):
+def run_for_formulation(
+    driver, 
+    wait: WebDriverWait, 
+    formulation: str, 
+    download_dir: Path, 
+    out_dir: Path,
+    checkpoint: FormulationCheckpoint
+) -> Dict[str, Any]:
+    """
+    Process a single formulation and return statistics.
+    
+    Returns:
+        Dict with stats: {"medicines": int, "substitutes": int, "success": bool}
+    """
     formulation_slug = slugify(formulation)
+    stats = {"medicines": 0, "substitutes": 0, "success": False}
+    
+    # Mark as in progress
+    checkpoint.mark_in_progress(formulation)
 
     driver.get(URL)
+    
+    # Dismiss any initial alerts
+    dismiss_alert_if_present(driver)
 
     # Step 1-2: Click search field and enter formulation name
     inp = wait.until(EC.element_to_be_clickable((By.ID, "searchFormulation")))
@@ -712,11 +1024,26 @@ def run_for_formulation(driver, wait: WebDriverWait, formulation: str, download_
     time.sleep(1.0)
 
     # Step 3: Select exact match from autocomplete dropdown
-    pick_autocomplete_exact_match(driver, wait, formulation, timeout=15)
+    autocomplete_success = pick_autocomplete_exact_match(driver, wait, formulation, timeout=15)
+    
+    if not autocomplete_success:
+        # Autocomplete failed - formulation may not exist in database
+        safe_name = formulation.encode('ascii', 'replace').decode('ascii')
+        print(f"[WARN] Autocomplete failed for '{safe_name}' - skipping this formulation")
+        # Dismiss any alert that may have appeared
+        dismiss_alert_if_present(driver)
+        return stats
 
     # Step 4: Click GO button
     go = wait.until(EC.element_to_be_clickable((By.ID, "gobtn")))
     click_js(driver, go)
+    
+    # Check for alert after clicking GO
+    time.sleep(0.5)
+    if dismiss_alert_if_present(driver):
+        safe_name = formulation.encode('ascii', 'replace').decode('ascii')
+        print(f"[WARN] Alert appeared after GO for '{safe_name}' - skipping")
+        return stats
 
     # Wait results injected
     wait_results_loaded(driver, wait)
@@ -729,7 +1056,7 @@ def run_for_formulation(driver, wait: WebDriverWait, formulation: str, download_
     
     if not medicine_links:
         print(f"[WARN] No medicine links found for {formulation}.")
-        return
+        return stats
     
     print(f"[OK] Found {len(medicine_links)} medicine links")
 
@@ -740,6 +1067,7 @@ def run_for_formulation(driver, wait: WebDriverWait, formulation: str, download_
         search_csv,
         search_rows,
         fieldnames=["SNo", "MedicineName", "Status", "CeilingPrice", "Unit", "MRP_Unit"],
+        append=False  # Overwrite for search results
     )
     print(f"[OK] Search rows CSV: {search_csv} ({len(search_rows)} rows)")
 
@@ -758,11 +1086,20 @@ def run_for_formulation(driver, wait: WebDriverWait, formulation: str, download_
     excel_to_csv(excel_target, exported_csv)
     print(f"[OK] Excel->CSV: {exported_csv}")
 
-    # Step 5: Click each medicine link (e.g., "ABAMUNE 300 MG TABLET 30") to get individual details
-    # Limit to 50 medicines per formulation to avoid excessive processing
-    max_meds = getenv_int("MAX_MEDICINES_PER_FORMULATION", 50)
-    detail_rows = scrape_details_for_all_medicines(driver, wait, formulation, max_medicines=max_meds)
+    # Step 5: Click each medicine link to get individual details
+    # Check for existing records to support resume
     details_csv = out_dir / "details" / f"{formulation_slug}.csv"
+    existing_medicines = get_existing_records(details_csv, "MedicineName")
+    
+    if existing_medicines:
+        print(f"[RESUME] Found {len(existing_medicines)} already processed medicines for {formulation}")
+    
+    max_meds = getenv_int("MAX_MEDICINES_PER_FORMULATION", 5000)
+    detail_rows = scrape_details_for_all_medicines(
+        driver, wait, formulation, 
+        max_medicines=max_meds,
+        existing_medicines=existing_medicines
+    )
 
     # Columns for details CSV (flattened; one row per substitute)
     detail_fieldnames = [
@@ -786,14 +1123,89 @@ def run_for_formulation(driver, wait: WebDriverWait, formulation: str, download_
         "Sub_MRP_Unit",
         "Sub_CompanyName",
     ]
-    write_csv_rows(details_csv, detail_rows, fieldnames=detail_fieldnames)
-    print(f"[OK] Details CSV: {details_csv} ({len(detail_rows)} rows)")
+    
+    # Only write new rows (append mode for resume support)
+    if detail_rows:
+        write_csv_rows(details_csv, detail_rows, fieldnames=detail_fieldnames, append=True)
+        print(f"[OK] Details CSV: {details_csv} ({len(detail_rows)} new rows)")
+    else:
+        print(f"[INFO] No new detail rows to write for {formulation}")
+    
+    # Calculate stats
+    unique_medicines = set(r.get("MedicineName", "") for r in detail_rows)
+    stats["medicines"] = len(unique_medicines)
+    stats["substitutes"] = len(detail_rows)
+    stats["success"] = True
+    
+    return stats
+
+
+def generate_final_report(out_dir: Path, checkpoint: FormulationCheckpoint, total_formulations: int, start_time: datetime):
+    """Generate a final summary report."""
+    report_file = out_dir / "scraping_report.json"
+    
+    stats = checkpoint.get_stats()
+    end_time = datetime.now()
+    duration = (end_time - start_time).total_seconds()
+    
+    # Count files in output directories
+    details_dir = out_dir / "details"
+    details_files = list(details_dir.glob("*.csv")) if details_dir.exists() else []
+    
+    # Count total rows in details
+    total_detail_rows = 0
+    for csv_file in details_files:
+        try:
+            df = pd.read_csv(csv_file, encoding='utf-8-sig')
+            total_detail_rows += len(df)
+        except:
+            pass
+    
+    report = {
+        "scraper": "India NPPA Pharma Sahi Daam",
+        "generated_at": end_time.isoformat(),
+        "duration_seconds": round(duration, 2),
+        "duration_formatted": f"{int(duration // 3600)}h {int((duration % 3600) // 60)}m {int(duration % 60)}s",
+        "summary": {
+            "total_formulations_input": total_formulations,
+            "formulations_completed": stats["total_processed"],
+            "formulations_skipped": total_formulations - stats["total_processed"],
+            "total_medicines_processed": stats["total_medicines"],
+            "total_substitute_rows": stats["total_substitutes"],
+            "errors": stats["errors"]
+        },
+        "output_files": {
+            "details_csvs": len(details_files),
+            "total_detail_rows": total_detail_rows
+        },
+        "output_directory": str(out_dir)
+    }
+    
+    # Write report
+    with open(report_file, 'w', encoding='utf-8') as f:
+        json.dump(report, f, indent=2, ensure_ascii=False)
+    
+    # Print summary
+    print("\n" + "=" * 70)
+    print("FINAL SCRAPING REPORT")
+    print("=" * 70)
+    print(f"Duration: {report['duration_formatted']}")
+    print(f"Formulations processed: {stats['total_processed']}/{total_formulations}")
+    print(f"Total medicines: {stats['total_medicines']}")
+    print(f"Total detail rows: {total_detail_rows}")
+    print(f"Errors: {stats['errors']}")
+    print(f"Report saved: {report_file}")
+    print("=" * 70)
+    
+    return report
 
 
 def main():
     print("=" * 60)
     print("India NPPA Scraper - Step 02: Get Medicine Details")
     print("=" * 60)
+    
+    start_time = datetime.now()
     
     # Get paths from platform config
     download_dir = get_download_dir()
@@ -802,19 +1214,44 @@ def main():
     print(f"[CONFIG] Download dir: {download_dir}")
     print(f"[CONFIG] Output dir: {out_dir}")
     
-    # Load formulations from input file or use defaults
-    formulations = load_formulations_from_input()
+    # Initialize checkpoint manager
+    checkpoint = FormulationCheckpoint(out_dir)
+    
+    # Check for --fresh flag to clear checkpoint
+    if "--fresh" in sys.argv:
+        checkpoint.clear()
+        print("[CONFIG] Starting fresh (checkpoint cleared)")
+    
+    # Load formulations from ceiling prices (Step 01 output) or fallback to input
+    formulations = load_formulations_from_ceiling_prices(out_dir)
+    if not formulations:
+        formulations = load_formulations_from_input()
     if not formulations:
         formulations = DEFAULT_FORMULATIONS
         print(f"[CONFIG] Using default formulations: {formulations}")
     else:
-        print(f"[CONFIG] Loaded {len(formulations)} formulations from input file")
+        print(f"[CONFIG] Loaded {len(formulations)} formulations")
     
     # Apply max limit if configured
     max_formulations = getenv_int("MAX_FORMULATIONS", 0)
     if max_formulations > 0 and len(formulations) > max_formulations:
         formulations = formulations[:max_formulations]
         print(f"[CONFIG] Limited to {max_formulations} formulations")
+    
+    total_formulations = len(formulations)
+    
+    # Filter out already completed formulations
+    pending_formulations = [f for f in formulations if not checkpoint.is_completed(f)]
+    skipped_count = len(formulations) - len(pending_formulations)
+    
+    if skipped_count > 0:
+        print(f"[RESUME] Skipping {skipped_count} already completed formulations")
+        print(f"[RESUME] {len(pending_formulations)} formulations remaining")
+    
+    if not pending_formulations:
+        print("[INFO] All formulations already completed!")
+        generate_final_report(out_dir, checkpoint, total_formulations, start_time)
+        return
     
     wait_seconds = getenv_int("WAIT_SECONDS", 60)
     
@@ -823,20 +1260,30 @@ def main():
         driver = build_driver(download_dir)
         wait = WebDriverWait(driver, wait_seconds)
 
-        for idx, f in enumerate(formulations):
+        for idx, f in enumerate(pending_formulations):
             f = (f or "").strip()
             if not f:
                 continue
             
-            # Progress output for GUI
-            progress_pct = round(((idx + 1) / len(formulations)) * 100, 1)
-            print(f"\n[PROGRESS] Processing {idx+1}/{len(formulations)} ({progress_pct}%)")
+            # Calculate overall progress including skipped
+            completed_so_far = skipped_count + idx
+            progress_pct = round(((completed_so_far + 1) / total_formulations) * 100, 1)
+            
+            print(f"\n[PROGRESS] Processing {completed_so_far + 1}/{total_formulations} ({progress_pct}%)")
             print(f"=== Running formulation: {f} ===")
             
             try:
-                run_for_formulation(driver, wait, f, download_dir, out_dir)
+                stats = run_for_formulation(driver, wait, f, download_dir, out_dir, checkpoint)
+                
+                if stats["success"]:
+                    checkpoint.mark_completed(f, stats["medicines"], stats["substitutes"])
+                else:
+                    checkpoint.mark_error(f)
+                    
             except Exception as e:
-                print(f"[ERROR] Failed to process {f}: {e}")
+                error_msg = str(e).encode('ascii', 'replace').decode('ascii')
+                print(f"[ERROR] Failed to process {f}: {error_msg}")
+                checkpoint.mark_error(f)
                 continue
 
         print("\n" + "=" * 60)
@@ -855,6 +1302,9 @@ def main():
         # Cleanup any remaining Chrome instances
         if _CHROME_MANAGER_AVAILABLE:
             cleanup_all_chrome_instances(silent=True)
+    
+    # Generate final report
+    generate_final_report(out_dir, checkpoint, total_formulations, start_time)
 
 
 if __name__ == "__main__":

@@ -233,6 +233,7 @@ RATE_LIMIT_PRODUCTS = getenv_int("RATE_LIMIT_PRODUCTS", 1)
 RATE_LIMIT_SECONDS = getenv_float("RATE_LIMIT_SECONDS", 10.0)
 DUPLICATE_RATE_LIMIT_SECONDS = getenv_float("DUPLICATE_RATE_LIMIT_SECONDS", 10.0)  # 10 seconds per product for Selenium
 SELENIUM_FALLBACK_RATE_LIMIT_SECONDS = getenv_float("SELENIUM_FALLBACK_RATE_LIMIT_SECONDS", 60.0)  # 60 seconds (1 minute) per product for Selenium fallback when API returns null
+SKIP_REPEAT_SELENIUM_TO_API = getenv_bool("SKIP_REPEAT_SELENIUM_TO_API", True)
 
 # Threading configuration
 DEFAULT_THREADS = getenv_int("DEFAULT_THREADS", 2)
@@ -240,6 +241,7 @@ MIN_THREADS = getenv_int("MIN_THREADS", 1)
 MAX_THREADS = getenv_int("MAX_THREADS", 2)
 API_THREADS = getenv_int("API_THREADS", 5)  # Number of threads for API processing
 SELENIUM_THREADS = getenv_int("SELENIUM_THREADS", 4)  # Number of threads for Selenium processing
+SELENIUM_SINGLE_ATTEMPT = getenv_bool("SELENIUM_SINGLE_ATTEMPT", False)  # If true, no retries/requeue in Selenium
 
 # File names
 DICTIONARY_FILE = getenv("DICTIONARY_FILE", "Dictionary.csv")

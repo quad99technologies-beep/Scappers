@@ -1,6 +1,6 @@
 {
   "scraper": "Russia",
-  "last_run": "2026-01-16T18:53:34.626286",
+  "last_run": "2026-01-18T12:50:52.929246",
   "completed_steps": [
     0
   ],
@@ -8,9 +8,9 @@
     "step_0": {
       "step_number": 0,
       "step_name": "Backup and Clean",
-      "completed_at": "2026-01-16T18:53:34.626268",
+      "completed_at": "2026-01-18T12:50:52.929239",
       "output_files": [],
-      "duration_seconds": 0.1611325740814209
+      "duration_seconds": 0.1685338020324707
     }
   },
   "metadata": {}

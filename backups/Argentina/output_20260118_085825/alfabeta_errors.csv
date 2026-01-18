@@ -1,0 +1,136 @@
+﻿input_company,input_product_name,timestamp,error_message
+Bioprofarma Bagó,ACTILUZOL,2026-01-17T07:51:28,"Driver error during search: Message: 
+"
+Boehringer Ingelheim,ACTILYSE,2026-01-17T07:51:33,"Driver error during search: Message: 
+"
+Siegfried,ACTIMAX,2026-01-17T07:51:34,"Driver error during search: Message: 
+"
+Bayer Consumer,ACTRON 400 RAPIDA ACCION NF,2026-01-17T07:52:27,"Driver error during search: Message: 
+"
+Medisol,AMOXOL 1000,2026-01-17T08:31:02,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL FUNNY BRUSH,2026-01-17T14:03:12,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL MAFALDA KIDS X 1 U,2026-01-17T14:03:18,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL ZOO BRUSH,2026-01-17T14:03:39,"Driver error during search: Message: 
+"
+Celtyc,CEFEPIME CELTYC,2026-01-17T16:00:57,"Driver error during search: Message: 
+"
+Northia,CEFEPIME,2026-01-17T16:00:57,"Driver error during search: Message: 
+"
+Kilab,CEFEPIME KILAB,2026-01-17T16:01:02,"Driver error during search: Message: 
+"
+IBC,CEFEPIME PHARMAVIAL,2026-01-17T16:01:27,"Driver error during search: Message: 
+"
+Klonal,CEFIMEN-K,2026-01-17T16:01:58,"Driver error during search: Message: 
+"
+Richet,CEFIXIMA RICHET,2026-01-17T16:02:25,"Driver error during extraction: Message: 
+"
+Biotenk,CEFER,2026-01-17T16:02:50,"Driver error during search: Message: 
+"
+Drawer,CEFTRIAXONA DRAWER,2026-01-17T16:04:34,"Driver error during extraction: Message: 
+"
+Veinfar,CEFTRIAXONA LARJAN,2026-01-17T16:05:15,"Driver error during search: Message: 
+"
+Klonal,CEFTRIAZ,2026-01-17T16:05:22,"Driver error during extraction: Message: 
+"
+Aspen Pharma,CELEBREX,2026-01-17T16:05:48,"Driver error during extraction: Message: 
+"
+Roemmers,CEPOREXIN DUO 750,2026-01-17T16:08:47,"Driver error during extraction: Message: 
+"
+Organon Arg.,CERAZETTE,2026-01-17T16:08:59,"Driver error during search: Message: 
+"
+Galderma,CETAPHIL ESPUMA LIMPIEZA FACIAL,2026-01-17T16:09:58,"Driver error during extraction: Message: 
+"
+Galderma,CETAPHIL OPTIMAG HYDRATION WATER GEL,2026-01-17T16:14:21,"Driver error during search: Message: 
+"
+B-Life,CETOLATE,2026-01-17T16:20:56,"Driver error during search: Message: 
+"
+Adium,CIALIS 20,2026-01-17T16:29:35,"Driver error during search: Message: 
+"
+Bayer Consumer,ACTRON 400 RAPIDA ACCION NF,2026-01-17T16:55:34,"Driver error during search: Message: 
+"
+Bayer Consumer,ACTRON 400 RAPIDA ACCION NF,2026-01-17T18:29:01,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA PHOTODERM AQUAFLUIDE,2026-01-17T18:31:39,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA PHOTODERM AR SPF50+,2026-01-17T18:31:39,"Driver error during search: Message: 
+"
+Bioderma,BIODERMA PHOTODERM CREME,2026-01-17T18:36:07,"Driver error during search: Message: Reached error page: about:neterror?e=proxyConnectFailure&u=https%3A//www.alfabeta.net/precio&c=UTF-8&d=Firefox%20is%20configured%20to%20use%20a%20proxy%20server%20that%20is%20refusing%20connections.&a=
+Stacktrace:
+RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8
+WebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:202:5
+UnknownError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:961:5
+checkReadyState@chrome://remote/content/marionette/navigate.sys.mjs:59:24
+onNavigation@chrome://remote/content/marionette/navigate.sys.mjs:348:39
+emit@resource://gre/modules/EventEmitter.sys.mjs:156:19
+receiveMessage@chrome://remote/content/marionette/actors/MarionetteEventsParent.sys.mjs:33:25
+"
+Bioderma,BIODERMA PHOTODERM NUDE T MNRL,2026-01-17T18:36:07,"Driver error during search: Message: Reached error page: about:neterror?e=proxyConnectFailure&u=https%3A//www.alfabeta.net/precio&c=UTF-8&d=Firefox%20is%20configured%20to%20use%20a%20proxy%20server%20that%20is%20refusing%20connections.&a=
+Stacktrace:
+RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8
+WebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:202:5
+UnknownError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:961:5
+checkReadyState@chrome://remote/content/marionette/navigate.sys.mjs:59:24
+onNavigation@chrome://remote/content/marionette/navigate.sys.mjs:348:39
+emit@resource://gre/modules/EventEmitter.sys.mjs:156:19
+receiveMessage@chrome://remote/content/marionette/actors/MarionetteEventsParent.sys.mjs:33:25
+"
+Bioderma,BIODERMA HIDRABIO H2O,2026-01-17T18:36:09,"Driver error during search: Message: Reached error page: about:neterror?e=proxyConnectFailure&u=https%3A//www.alfabeta.net/precio&c=UTF-8&d=Firefox%20is%20configured%20to%20use%20a%20proxy%20server%20that%20is%20refusing%20connections.&a=
+Stacktrace:
+RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8
+WebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:202:5
+UnknownError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:961:5
+checkReadyState@chrome://remote/content/marionette/navigate.sys.mjs:59:24
+onNavigation@chrome://remote/content/marionette/navigate.sys.mjs:348:39
+emit@resource://gre/modules/EventEmitter.sys.mjs:156:19
+receiveMessage@chrome://remote/content/marionette/actors/MarionetteEventsParent.sys.mjs:33:25
+"
+Bioderma,BIODERMA HYDRABIO HYALU+,2026-01-17T18:36:13,"Driver error during search: Message: Reached error page: about:neterror?e=proxyConnectFailure&u=https%3A//www.alfabeta.net/precio&c=UTF-8&d=Firefox%20is%20configured%20to%20use%20a%20proxy%20server%20that%20is%20refusing%20connections.&a=
+Stacktrace:
+RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8
+WebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:202:5
+UnknownError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:961:5
+checkReadyState@chrome://remote/content/marionette/navigate.sys.mjs:59:24
+onNavigation@chrome://remote/content/marionette/navigate.sys.mjs:348:39
+emit@resource://gre/modules/EventEmitter.sys.mjs:156:19
+receiveMessage@chrome://remote/content/marionette/actors/MarionetteEventsParent.sys.mjs:33:25
+"
+Novoplos,BIOSOL LC,2026-01-17T19:10:12,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL FUNNY BRUSH,2026-01-17T20:30:11,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL MAFALDA KIDS X 1 U,2026-01-17T20:30:26,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL ZOO BRUSH,2026-01-17T20:30:26,"Driver error during search: Message: 
+"
+Bayer Consumer,ACTRON 400 RAPIDA ACCION NF,2026-01-17T21:31:41,"Driver error during search: Message: 
+"
+Lepetit,BIPROSOL 10 MG,2026-01-17T21:36:19,"Driver error during shutdown: Message: Tried to run command without establishing a connection; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+"
+Vannier,BIPERIDENO VANNIER,2026-01-17T21:36:48,"MaxRetryError: HTTPConnectionPool(host='localhost', port=56549): Max retries exceeded with url: /session/a13a37d6-848d-4423-9690-5dec011863da/source (Caused by NewConnectionError(""HTTPConnection(host='localhost', port=56549): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it""))"
+Bayer Consumer,ACTRON 400 RAPIDA ACCION NF,2026-01-17T21:42:41,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL FUNNY BRUSH,2026-01-17T22:09:39,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL MAFALDA KIDS X 1 U,2026-01-17T22:09:47,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL ZOO BRUSH,2026-01-17T22:10:01,"Driver error during search: Message: 
+"
+Bayer Consumer,ACTRON 400 RAPIDA ACCION NF,2026-01-18T06:43:23,"Driver error during search: Message: 
+"
+Laboratorios Bernabó,BRONQ C,2026-01-18T06:44:41,"Driver error during shutdown: Message: Tried to run command without establishing a connection; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+"
+Grimberg,BUCALTAC CEPILLO DENTAL FUNNY BRUSH,2026-01-18T07:09:41,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL ZOO BRUSH,2026-01-18T07:09:51,"Driver error during search: Message: 
+"
+Grimberg,BUCALTAC CEPILLO DENTAL MAFALDA KIDS X 1 U,2026-01-18T07:09:51,"Driver error during search: Message: 
+"
+San Ceferino,CIRUELAS LIGHT+VITAMINA C NUTRINAT,2026-01-18T07:13:54,"Driver error during search: Message: 
+"
+San Ceferino,CIRUELAS+FIBRAS+VITAMINA C NUTRINAT,2026-01-18T07:13:55,"Driver error during search: Message: 
+"
+IBC,CLORURO DE SODIO 20% PHARMAVIAL,2026-01-18T08:31:04,"Driver error during search: Message: 
+"

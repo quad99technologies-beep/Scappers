@@ -12,6 +12,7 @@ import sys
 import threading
 import queue
 import os
+import shutil
 from pathlib import Path
 import webbrowser
 from datetime import datetime
@@ -132,6 +133,8 @@ class ScraperGUI:
         self._stopped_by_user = set()  # Track scrapers that were stopped by user: {scraper_name}
         self._stopping_scrapers = set()  # Track scrapers currently being stopped to prevent multiple simultaneous stop attempts
         self.scraper_progress = {}  # Store progress state per scraper: {scraper_name: {"percent": float, "description": str}}
+        self.telegram_process = None
+        self.telegram_log_path = None
         
         # Network stats tracking for rate calculation
         self._prev_net_sent = 0
@@ -140,6 +143,7 @@ class ScraperGUI:
         
         # Start periodic cleanup task to check for stale locks
         self.start_periodic_lock_cleanup()
+        self.start_periodic_telegram_status()
         
         # Step explanations cache (key: script_path, value: explanation text)
         self.step_explanations = {}
@@ -185,9 +189,9 @@ class ScraperGUI:
                 "steps": [
                     {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
                     {"name": "01 - Get Product List", "script": "01_getProdList.py", "desc": "Extract product list for each company"},
-                    {"name": "02 - Prepare URLs", "script": "02_prepare_urls.py", "desc": "Prepare URLs and determine sources"},
-                    {"name": "03 - Scrape Products (API)", "script": "04_alfabeta_api_scraper.py", "desc": "Scrape products using API (supports --max-rows)"},
-                    {"name": "04 - Scrape Products (Selenium)", "script": "03_alfabeta_selenium_scraper.py", "desc": "Scrape products using Selenium"},
+                    {"name": "02 - Prepare URLs", "script": "02_prepare_urls.py", "desc": "Prepare URLs and initialize scrape state"},
+                    {"name": "03 - Scrape Products (Selenium)", "script": "03_alfabeta_selenium_scraper.py", "desc": "Scrape products using Selenium"},
+                    {"name": "04 - Scrape Products (API)", "script": "04_alfabeta_api_scraper.py", "desc": "Scrape products using API to fill gaps"},
                     {"name": "05 - Translate Using Dictionary", "script": "05_TranslateUsingDictionary.py", "desc": "Translate Spanish to English"},
                     {"name": "06 - Generate Output", "script": "06_GenerateOutput.py", "desc": "Generate final output report"},
                 ],
@@ -232,7 +236,21 @@ class ScraperGUI:
                 "docs_dir": None,  # All docs now in root doc/ folder
                 "steps": [
                     {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
-                    {"name": "01 - Extract VED Pricing", "script": "01_russia_farmcom_scraper.py", "desc": "Extract VED drug pricing data from farmcom.info"},
+                    {"name": "01 - Extract VED Registry", "script": "01_russia_farmcom_scraper.py", "desc": "Extract VED drug pricing from farmcom.info/site/reestr (with page-level resume)"},
+                    {"name": "02 - Extract Excluded List", "script": "02_russia_farmcom_excluded_scraper.py", "desc": "Extract excluded drugs from farmcom.info/site/reestr?vw=excl (with page-level resume)"},
+                    {"name": "03 - Generate Output", "script": "03_generate_output.py", "desc": "Process raw data and generate final VED and Excluded reports"},
+                    {"name": "04 - Translate Reports (EN)", "script": "04_translate_reports.py", "desc": "Translate VED and Excluded reports to English"},
+                ],
+                "pipeline_bat": "run_pipeline.bat"
+            },
+            "Taiwan": {
+                "path": self.repo_root / "scripts" / "Taiwan",
+                "scripts_dir": "",
+                "docs_dir": None,  # All docs now in root doc/ folder
+                "steps": [
+                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
+                    {"name": "01 - Collect Drug Code URLs", "script": "01_taiwan_collect_drug_code_urls.py.py", "desc": "Collect drug code URLs from NHI site"},
+                    {"name": "02 - Extract Drug Code Details", "script": "02_taiwan_extract_drug_code_details.py", "desc": "Extract license details for each drug code"},
                 ],
                 "pipeline_bat": "run_pipeline.bat"
             },
@@ -267,10 +285,15 @@ class ScraperGUI:
                 "docs_dir": None,  # All docs now in root doc/ folder
                 "steps": [
                     {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
-                    {"name": "01 - Download Ceiling Prices", "script": "01_Ceiling Prices of Essential Medicines downlaod.py", "desc": "Download ceiling prices Excel from NPPA"},
-                    {"name": "02 - Get Medicine Details", "script": "02 get details.py", "desc": "Extract medicine details, substitutes, and available brands"},
+                    {"name": "01 - Download Ceiling Prices", "script": "01_Ceiling Prices of Essential Medicines downlaod.py", "desc": "Download ceiling prices Excel from NPPA (provides formulations for Step 02)"},
+                    {"name": "02 - Get Medicine Details", "script": "02 get details.py", "desc": "Extract medicine details and substitutes (auto-loads formulations from ceiling prices, supports resume)"},
                 ],
-                "pipeline_bat": "run_pipeline.bat"
+                "pipeline_bat": "run_pipeline.bat",
+                "resume_options": {
+                    "supports_formulation_resume": True,
+                    "checkpoint_dir": ".checkpoints",
+                    "resume_script_args": ["--resume-details"]
+                }
             }
         }
         
@@ -548,52 +571,81 @@ class ScraperGUI:
                               pady=8,
                               padx=15)
         title_label.pack(side=tk.LEFT)
-        
-        # Create main container with fixed widths (no resizing)
-        # Fixed widths: 15% (exec controls) + 35% (logs) = 50% left, 50% right
-        screen_width = self.root.winfo_screenwidth()
+
+        # Create main container for the top-level pages
         main_container = tk.Frame(self.root, bg=self.colors['white'])
         main_container.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
-        
-        # Left panel - Execution (scraper selection, run controls, logs) - 50% total (15% + 35%)
-        left_panel = ttk.Frame(main_container)
+
+        # Top-level notebook pages
+        self.main_notebook = ttk.Notebook(main_container)
+        self.main_notebook.pack(fill=tk.BOTH, expand=True)
+
+        # Dashboard page (execution + logs + outputs/config)
+        dashboard_frame = ttk.Frame(self.main_notebook)
+        self.main_notebook.add(dashboard_frame, text="Dashboard")
+        self.setup_dashboard_page(dashboard_frame)
+
+        # Pipeline Steps page
+        pipeline_steps_frame = ttk.Frame(self.main_notebook)
+        self.main_notebook.add(pipeline_steps_frame, text="Pipeline Steps")
+        self.setup_pipeline_steps_tab(pipeline_steps_frame)
+
+        # Documentation page
+        documentation_frame = ttk.Frame(self.main_notebook)
+        self.main_notebook.add(documentation_frame, text="Documentation")
+        self.setup_documentation_tab(documentation_frame)
+
+    def setup_dashboard_page(self, parent):
+        """Setup dashboard page with execution controls, logs, and outputs/config tabs"""
+        # Create main container with fixed widths (no resizing)
+        # Fixed widths: 17% (exec controls) + 43% (logs) = 60% left, 40% right
+        screen_width = self.root.winfo_screenwidth()
+        dashboard_container = tk.Frame(parent, bg=self.colors['white'])
+        dashboard_container.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
+
+        # Left panel - Execution (scraper selection, run controls, logs) - 60% total (17% + 43%)
+        left_panel = ttk.Frame(dashboard_container)
         left_panel.configure(style='TFrame')
         left_panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
-        left_panel.config(width=int(screen_width * 0.50))
+        left_panel.config(width=int(screen_width * 0.60))
         left_panel.pack_propagate(False)
-        
-        # Right panel - Documentation (read-only, formatted) - 50%
-        right_panel = ttk.Frame(main_container)
+
+        # Right panel - Outputs/config tabs - 40%
+        right_panel = ttk.Frame(dashboard_container)
         right_panel.configure(style='TFrame')
         right_panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        
+
         # Setup left panel (execution)
         self.setup_left_panel(left_panel)
-        
-        # Setup right panel (documentation)
-        self.setup_right_panel(right_panel)
+
+        # Setup right panel (outputs/config only)
+        self.setup_right_panel(
+            right_panel,
+            include_pipeline_steps=False,
+            include_docs=False
+        )
         
     def setup_left_panel(self, parent):
         """Setup left panel with execution controls and logs side by side"""
         # Create fixed-width split for execution and logs (no resizing)
-        # Fixed widths: 15% (exec controls) + 35% (logs) = 50% total of window
+        # Fixed widths: 17% (exec controls) + 43% (logs) = 60% total of window
         exec_split = tk.Frame(parent, bg=self.colors['white'])
         exec_split.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
         
         # Get screen width for fixed width calculations
         screen_width = self.root.winfo_screenwidth()
         
-        # Left side - Execution controls - 15% of total window (fixed width)
+        # Left side - Execution controls - 17% of total window (fixed width)
         exec_controls_frame = ttk.Frame(exec_split)
         exec_controls_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
-        exec_controls_frame.config(width=int(screen_width * 0.15))
+        exec_controls_frame.config(width=int(screen_width * 0.17))
         exec_controls_frame.pack_propagate(False)
         self.setup_execution_tab(exec_controls_frame)
         
-        # Right side - Execution logs - 35% of total window (fixed width)
+        # Right side - Execution logs - 43% of total window (fixed width)
         logs_frame = ttk.Frame(exec_split)
         logs_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
-        logs_frame.config(width=int(screen_width * 0.35))
+        logs_frame.config(width=int(screen_width * 0.43))
         logs_frame.pack_propagate(False)
         self.setup_logs_tab(logs_frame)
     
@@ -603,26 +655,26 @@ class ScraperGUI:
         scraper_section = tk.Frame(parent, bg=self.colors['white'],
                                    highlightbackground=self.colors['border_gray'],
                                    highlightthickness=1)
-        scraper_section.pack(fill=tk.X, padx=8, pady=(8, 8))
+        scraper_section.pack(fill=tk.X, padx=8, pady=(6, 6))
         
         tk.Label(scraper_section, text="Select Scraper", bg=self.colors['white'], fg='#000000', 
-                font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(8, 4))
+                font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(6, 3))
         
         self.scraper_var = tk.StringVar()
         scraper_combo = ttk.Combobox(scraper_section, textvariable=self.scraper_var, 
-                                     values=list(self.scrapers.keys()), state="readonly", width=22,
+                                     values=list(self.scrapers.keys()), state="readonly",
                                      style='Modern.TCombobox')
-        scraper_combo.pack(anchor=tk.W, padx=8, pady=(0, 8))
+        scraper_combo.pack(fill=tk.X, expand=True, padx=8, pady=(0, 6))
         scraper_combo.bind("<<ComboboxSelected>>", self.on_scraper_selected)
 
         # Pipeline control - light gray border
         pipeline_section = tk.Frame(parent, bg=self.colors['white'],
                                     highlightbackground=self.colors['border_gray'],
                                     highlightthickness=1)
-        pipeline_section.pack(fill=tk.X, padx=8, pady=(0, 8))
+        pipeline_section.pack(fill=tk.X, padx=8, pady=(0, 6))
         
         tk.Label(pipeline_section, text="Pipeline Control", bg=self.colors['white'], fg='#000000', 
-                font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(8, 4))
+                font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(6, 3))
 
         # Status labels - in pipeline section
         status_frame = tk.Frame(pipeline_section, bg=self.colors['white'])
@@ -635,7 +687,7 @@ class ScraperGUI:
                                                fg='#000000',
                                                font=self.fonts['standard'],
                                                anchor=tk.W)
-        self.checkpoint_status_label.pack(fill=tk.X, pady=(0, 4), padx=0)
+        self.checkpoint_status_label.pack(fill=tk.X, pady=(0, 3), padx=0)
         
         # Checkpoint resume info label (Line 2)
         self.checkpoint_resume_label = tk.Label(status_frame, 
@@ -644,7 +696,7 @@ class ScraperGUI:
                                                fg='#000000',
                                                font=self.fonts['standard'],
                                                anchor=tk.W)
-        self.checkpoint_resume_label.pack(fill=tk.X, pady=(0, 4), padx=0)
+        self.checkpoint_resume_label.pack(fill=tk.X, pady=(0, 3), padx=0)
         
         # Chrome instance count label (Line 3)
         self.chrome_count_label = tk.Label(status_frame, 
@@ -653,58 +705,101 @@ class ScraperGUI:
                                          fg='#000000',
                                          font=self.fonts['standard'],
                                          anchor=tk.W)
-        self.chrome_count_label.pack(fill=tk.X, pady=(0, 4), padx=0)
+        self.chrome_count_label.pack(fill=tk.X, pady=(0, 3), padx=0)
 
         # Actions - flat container (avoid dark border)
         actions_section = tk.Frame(parent, bg=self.colors['white'],
                                    highlightthickness=0,
                                    bd=0)
-        actions_section.pack(fill=tk.X, padx=8, pady=(0, 8))
+        actions_section.pack(fill=tk.X, padx=8, pady=(0, 6))
         
         tk.Label(actions_section, text="Actions", bg=self.colors['white'], fg='#000000', 
-                font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(8, 4))
+                font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(6, 3))
 
         self.run_button = ttk.Button(actions_section, text="Resume Pipeline",
-                  command=lambda: self.run_full_pipeline(resume=True), width=22, 
+                  command=lambda: self.run_full_pipeline(resume=True), width=23, 
                   state=tk.NORMAL, style='Primary.TButton')
-        self.run_button.pack(pady=(0, 4), anchor=tk.W, padx=8)
+        self.run_button.pack(pady=(0, 3), padx=8, fill=tk.X, expand=True)
 
         self.run_fresh_button = ttk.Button(actions_section, text="Run Fresh Pipeline",
-                  command=lambda: self.run_full_pipeline(resume=False), width=22, 
+                  command=lambda: self.run_full_pipeline(resume=False), width=23, 
                   state=tk.NORMAL, style='Primary.TButton')
-        self.run_fresh_button.pack(pady=(0, 4), anchor=tk.W, padx=8)
+        self.run_fresh_button.pack(pady=(0, 3), padx=8, fill=tk.X, expand=True)
 
         self.stop_button = ttk.Button(actions_section, text="Stop Pipeline",
-                  command=self.stop_pipeline, width=22, state=tk.DISABLED, style='Danger.TButton')
-        self.stop_button.pack(pady=(0, 4), anchor=tk.W, padx=8)
+                  command=self.stop_pipeline, width=23, state=tk.DISABLED, style='Danger.TButton')
+        self.stop_button.pack(pady=(0, 3), padx=8, fill=tk.X, expand=True)
 
         ttk.Button(actions_section, text="Clear Run Lock",
-                  command=self.clear_run_lock, width=22, style='Secondary.TButton').pack(pady=(0, 4), anchor=tk.W, padx=8)
+                  command=self.clear_run_lock, width=23, style='Secondary.TButton').pack(pady=(0, 3), padx=8, fill=tk.X, expand=True)
         
         self.kill_all_chrome_button = ttk.Button(actions_section, text="Kill All Chrome Instances",
-                  command=self.kill_all_chrome_instances, width=22, state=tk.NORMAL, style='Secondary.TButton')
-        self.kill_all_chrome_button.pack(pady=(0, 8), anchor=tk.W, padx=8)
+                  command=self.kill_all_chrome_instances, width=23, state=tk.NORMAL, style='Secondary.TButton')
+        self.kill_all_chrome_button.pack(pady=(0, 3), padx=8, fill=tk.X, expand=True)
+
+        self.open_tor_browser_button = ttk.Button(actions_section, text="Open Tor Browser",
+                  command=self.open_tor_browser, width=23, state=tk.NORMAL, style='Secondary.TButton')
+        self.open_tor_browser_button.pack(pady=(0, 6), padx=8, fill=tk.X, expand=True)
         
         # Checkpoint management - light gray border
         checkpoint_section = tk.Frame(parent, bg=self.colors['white'],
                                       highlightbackground=self.colors['border_gray'],
                                       highlightthickness=1)
-        checkpoint_section.pack(fill=tk.X, padx=8, pady=(0, 8))
+        checkpoint_section.pack(fill=tk.X, padx=8, pady=(0, 6))
         
         tk.Label(checkpoint_section, text="Checkpoint Management", bg=self.colors['white'], fg='#000000', 
-                font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(8, 4))
+                font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(6, 3))
 
         self.view_checkpoint_button = ttk.Button(checkpoint_section, text="View Checkpoint",
-                  command=self.view_checkpoint_file, width=22, style='Secondary.TButton')
-        self.view_checkpoint_button.pack(pady=(0, 4), anchor=tk.W, padx=8)
+                  command=self.view_checkpoint_file, width=23, style='Secondary.TButton')
+        self.view_checkpoint_button.pack(pady=(0, 3), padx=8, fill=tk.X, expand=True)
 
         self.manage_checkpoint_button = ttk.Button(checkpoint_section, text="Manage Checkpoint",
-                  command=self.manage_checkpoint, width=22, style='Secondary.TButton')
-        self.manage_checkpoint_button.pack(pady=(0, 4), anchor=tk.W, padx=8)
+                  command=self.manage_checkpoint, width=23, style='Secondary.TButton')
+        self.manage_checkpoint_button.pack(pady=(0, 3), padx=8, fill=tk.X, expand=True)
 
         self.clear_checkpoint_button = ttk.Button(checkpoint_section, text="Clear Checkpoint",
-                  command=self.clear_checkpoint, width=22, style='Secondary.TButton')
-        self.clear_checkpoint_button.pack(pady=(0, 8), anchor=tk.W, padx=8)
+                  command=self.clear_checkpoint, width=23, style='Secondary.TButton')
+        self.clear_checkpoint_button.pack(pady=(0, 6), padx=8, fill=tk.X, expand=True)
+
+        # Telegram bot control - light gray border
+        telegram_section = tk.Frame(parent, bg=self.colors['white'],
+                                    highlightbackground=self.colors['border_gray'],
+                                    highlightthickness=1)
+        telegram_section.pack(fill=tk.X, padx=8, pady=(0, 6))
+
+        tk.Label(telegram_section, text="Telegram Bot", bg=self.colors['white'], fg='#000000',
+                font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(6, 3))
+
+        telegram_status_frame = tk.Frame(telegram_section, bg=self.colors['white'])
+        telegram_status_frame.pack(fill=tk.X, padx=8, pady=(0, 6))
+
+        self.telegram_status_label = tk.Label(telegram_status_frame,
+                                              text="Status: Stopped",
+                                              bg=self.colors['white'],
+                                              fg='#000000',
+                                              font=self.fonts['standard'],
+                                              anchor=tk.W)
+        self.telegram_status_label.pack(fill=tk.X, pady=(0, 3), padx=0)
+
+        self.telegram_log_label = tk.Label(telegram_status_frame,
+                                           text="Log: (none)",
+                                           bg=self.colors['white'],
+                                           fg='#000000',
+                                           font=self.fonts['standard'],
+                                           anchor=tk.W)
+        self.telegram_log_label.pack(fill=tk.X, pady=(0, 3), padx=0)
+
+        self.start_telegram_button = ttk.Button(telegram_section, text="Start Bot",
+                                                command=self.start_telegram_bot, width=23,
+                                                style='Secondary.TButton')
+        self.start_telegram_button.pack(pady=(0, 3), padx=8, fill=tk.X, expand=True)
+
+        self.stop_telegram_button = ttk.Button(telegram_section, text="Stop Bot",
+                                               command=self.stop_telegram_bot, width=23,
+                                               style='Secondary.TButton')
+        self.stop_telegram_button.pack(pady=(0, 6), padx=8, fill=tk.X, expand=True)
+        self.refresh_telegram_status()
     
     def setup_pipeline_steps_tab(self, parent):
         """Setup Pipeline Steps tab with step list, info, and explanation"""
@@ -791,36 +886,42 @@ class ScraperGUI:
         
         self.explanation_visible = False
         
-    def setup_right_panel(self, parent):
-        """Setup right panel with tabs for pipeline steps, final output, configuration, output files, and documentation"""
+    def setup_right_panel(self, parent, include_pipeline_steps=True, include_final_output=True,
+                          include_config=True, include_output=True, include_docs=True):
+        """Setup right panel with tabs for outputs/config and optional pipeline/docs"""
         # Create notebook for right panel tabs
         notebook = ttk.Notebook(parent)
         notebook.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
         
-        # Pipeline Steps tab (first)
-        pipeline_steps_frame = ttk.Frame(notebook)
-        notebook.add(pipeline_steps_frame, text="Pipeline Steps")
-        self.setup_pipeline_steps_tab(pipeline_steps_frame)
+        # Pipeline Steps tab
+        if include_pipeline_steps:
+            pipeline_steps_frame = ttk.Frame(notebook)
+            notebook.add(pipeline_steps_frame, text="Pipeline Steps")
+            self.setup_pipeline_steps_tab(pipeline_steps_frame)
         
-        # Final Output tab (second)
-        final_output_frame = ttk.Frame(notebook)
-        notebook.add(final_output_frame, text="Final Output")
-        self.setup_final_output_tab(final_output_frame)
+        # Final Output tab
+        if include_final_output:
+            final_output_frame = ttk.Frame(notebook)
+            notebook.add(final_output_frame, text="Final Output")
+            self.setup_final_output_tab(final_output_frame)
 
-        # Configuration tab (third)
-        config_frame = ttk.Frame(notebook)
-        notebook.add(config_frame, text="Configuration")
-        self.setup_config_tab(config_frame)
+        # Configuration tab
+        if include_config:
+            config_frame = ttk.Frame(notebook)
+            notebook.add(config_frame, text="Configuration")
+            self.setup_config_tab(config_frame)
 
-        # Output Files tab (fourth)
-        output_frame = ttk.Frame(notebook)
-        notebook.add(output_frame, text="Output Files")
-        self.setup_output_tab(output_frame)
+        # Output Files tab
+        if include_output:
+            output_frame = ttk.Frame(notebook)
+            notebook.add(output_frame, text="Output Files")
+            self.setup_output_tab(output_frame)
 
-        # Documentation tab (fifth)
-        doc_frame = ttk.Frame(notebook)
-        notebook.add(doc_frame, text="Documentation")
-        self.setup_documentation_tab(doc_frame)
+        # Documentation tab
+        if include_docs:
+            doc_frame = ttk.Frame(notebook)
+            notebook.add(doc_frame, text="Documentation")
+            self.setup_documentation_tab(doc_frame)
     
     def setup_documentation_tab(self, parent):
         """Setup documentation viewer tab (read-only, formatted)"""
@@ -903,7 +1004,7 @@ class ScraperGUI:
         stats_frame.pack(fill=tk.X, padx=8, pady=(8, 12))
         
         # Label for the section
-        tk.Label(stats_frame, text="System Status", 
+        tk.Label(stats_frame, text="System Status",
                 font=self.fonts['bold'],
                 bg=self.colors['white'],
                 fg='#000000').pack(anchor=tk.W, padx=16, pady=(16, 4))
@@ -920,7 +1021,7 @@ class ScraperGUI:
         stats_line1 = tk.Frame(stats_container, bg=self.colors['white'])
         stats_line1.pack(fill=tk.X, pady=3)
         
-        self.system_stats_label_line1 = tk.Label(stats_line1, 
+        self.system_stats_label_line1 = tk.Label(stats_line1,
                                                  text="Chrome Instances: 0  |  Tor Instances: 0  |  RAM Usage: --  |  CPU Usage: --",
                                                  bg=self.colors['white'],
                                                  fg='#000000',
@@ -932,7 +1033,7 @@ class ScraperGUI:
         stats_line2 = tk.Frame(stats_container, bg=self.colors['white'])
         stats_line2.pack(fill=tk.X, pady=3)
         
-        self.system_stats_label_line2 = tk.Label(stats_line2, 
+        self.system_stats_label_line2 = tk.Label(stats_line2,
                                                  text="GPU Usage: --  |  Network: --",
                                                  bg=self.colors['white'],
                                                  fg='#000000',
@@ -969,6 +1070,7 @@ class ScraperGUI:
         ttk.Button(toolbar, text="Clear", command=self.clear_logs, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
         ttk.Button(toolbar, text="Copy to Clipboard", command=self.copy_logs_to_clipboard, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
         ttk.Button(toolbar, text="Save Log", command=self.save_log, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
+        ttk.Button(toolbar, text="Open in Cursor", command=self.open_console_in_cursor, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
         
         # Progress frame - white background (2 lines)
         progress_frame = tk.Frame(execution_log_frame, bg=self.colors['white'])
@@ -1005,7 +1107,7 @@ class ScraperGUI:
             maximum=100,
             value=0,
             style='Modern.Horizontal.TProgressbar',
-            length=300
+            length=480
         )
         self.progress_bar.pack(side=tk.LEFT, fill=tk.X, expand=True)
         
@@ -1486,11 +1588,13 @@ class ScraperGUI:
                             scraper_name = "Malaysia"
                         elif "ARGENTINA" in scraper_name or "PIPELINE" in scraper_name:
                             scraper_name = "Argentina"
+                        elif "TAIWAN" in scraper_name:
+                            scraper_name = "Taiwan"
                         key = f"{scraper_name} - {doc_file.name}"
                         self.docs[key] = doc_file
             
             # Also check for scraper-specific doc directories (doc/CanadaQuebec/, doc/Malaysia/, etc.)
-            for scraper_name in ["CanadaQuebec", "Malaysia", "Argentina"]:
+            for scraper_name in ["CanadaQuebec", "Malaysia", "Argentina", "Taiwan"]:
                 scraper_doc_dir = doc_root / scraper_name
                 if scraper_doc_dir.exists():
                     for doc_file in scraper_doc_dir.glob("*.md"):
@@ -2633,6 +2737,86 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 
         except Exception as e:
             messagebox.showerror("Error", f"Failed to kill Chrome instances:\n{e}")
+
+    def open_tor_browser(self):
+        """Launch Tor Browser from common install paths or TOR_BROWSER_PATH."""
+        tor_path = self._resolve_tor_browser_path()
+        if not tor_path:
+            messagebox.showwarning(
+                "Warning",
+                "Tor Browser not found. Install it or set TOR_BROWSER_PATH."
+            )
+            return
+
+        try:
+            if sys.platform == "win32":
+                os.startfile(str(tor_path))
+            else:
+                subprocess.Popen([str(tor_path)])
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to launch Tor Browser:\n{str(e)}")
+
+    def _resolve_tor_browser_path(self):
+        env_path = os.environ.get("TOR_BROWSER_PATH", "").strip()
+        if env_path:
+            env_candidate = Path(env_path)
+            if env_candidate.is_dir():
+                tor_exe = self._find_tor_exe_in_dir(env_candidate)
+                if tor_exe:
+                    return tor_exe
+            elif env_candidate.exists():
+                return env_candidate
+
+        if sys.platform != "win32":
+            for cmd in ("torbrowser-launcher", "tor-browser", "torbrowser"):
+                found = shutil.which(cmd)
+                if found:
+                    return Path(found)
+            return None
+
+        user_profile = Path(os.environ.get("USERPROFILE", str(Path.home())))
+        local_app_data = os.environ.get("LOCALAPPDATA")
+        program_files = os.environ.get("ProgramFiles")
+        program_files_x86 = os.environ.get("ProgramFiles(x86)")
+
+        candidates = [
+            user_profile / "Desktop" / "Tor Browser" / "Start Tor Browser.exe",
+            user_profile / "Desktop" / "Tor Browser" / "Browser" / "firefox.exe",
+            user_profile / "OneDrive" / "Desktop" / "Tor Browser" / "Start Tor Browser.exe",
+            user_profile / "OneDrive" / "Desktop" / "Tor Browser" / "Browser" / "firefox.exe",
+            user_profile / "Tor Browser" / "Start Tor Browser.exe",
+            user_profile / "Tor Browser" / "Browser" / "firefox.exe",
+        ]
+
+        if local_app_data:
+            local_app_data = Path(local_app_data)
+            candidates.extend([
+                local_app_data / "Tor Browser" / "Start Tor Browser.exe",
+                local_app_data / "Tor Browser" / "Browser" / "firefox.exe",
+            ])
+
+        for pf in (program_files, program_files_x86):
+            if pf:
+                pf_path = Path(pf)
+                candidates.extend([
+                    pf_path / "Tor Browser" / "Start Tor Browser.exe",
+                    pf_path / "Tor Browser" / "Browser" / "firefox.exe",
+                ])
+
+        for candidate in candidates:
+            if candidate.exists():
+                return candidate
+        return None
+
+    def _find_tor_exe_in_dir(self, base_dir):
+        candidates = [
+            base_dir / "Start Tor Browser.exe",
+            base_dir / "Browser" / "firefox.exe",
+        ]
+        for candidate in candidates:
+            if candidate.exists():
+                return candidate
+        return None
     
     def start_periodic_lock_cleanup(self):
         """Start a periodic task to check for and clean up stale lock files"""
@@ -2704,6 +2888,148 @@ Provide a clear, concise explanation suitable for users who want to understand w
         
         # Start the periodic check after 5 seconds
         self.root.after(5000, periodic_check)
+
+    def start_periodic_telegram_status(self):
+        """Start a periodic task to refresh Telegram bot status"""
+        def periodic_check():
+            try:
+                self.root.after(0, self.refresh_telegram_status)
+            except:
+                pass
+            self.root.after(5000, periodic_check)
+        self.root.after(5000, periodic_check)
+
+    def _get_env_value_from_dotenv(self, key: str):
+        env_path = self.repo_root / ".env"
+        if not env_path.exists():
+            return None
+        try:
+            for line in env_path.read_text(encoding="utf-8").splitlines():
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                if "=" not in line:
+                    continue
+                k, v = line.split("=", 1)
+                if k.strip() != key:
+                    continue
+                v = v.strip().strip("'").strip('"')
+                return v
+        except Exception:
+            return None
+        return None
+
+    def refresh_telegram_status(self):
+        """Refresh Telegram bot status label and button states"""
+        if not hasattr(self, "telegram_status_label"):
+            return
+
+        running = self.telegram_process is not None and self.telegram_process.poll() is None
+        if running:
+            pid = self.telegram_process.pid
+            self.telegram_status_label.config(text=f"Status: Running (PID {pid})")
+            self.start_telegram_button.config(state=tk.DISABLED)
+            self.stop_telegram_button.config(state=tk.NORMAL)
+        else:
+            if self.telegram_process is not None and self.telegram_process.poll() is not None:
+                self.telegram_process = None
+            self.telegram_status_label.config(text="Status: Stopped")
+            self.start_telegram_button.config(state=tk.NORMAL)
+            self.stop_telegram_button.config(state=tk.DISABLED)
+
+        if self.telegram_log_path:
+            log_name = self.telegram_log_path.name if hasattr(self.telegram_log_path, "name") else str(self.telegram_log_path)
+            self.telegram_log_label.config(text=f"Log: {log_name}")
+        else:
+            self.telegram_log_label.config(text="Log: (none)")
+
+    def start_telegram_bot(self):
+        """Start Telegram bot process"""
+        if self.telegram_process is not None and self.telegram_process.poll() is None:
+            messagebox.showinfo("Information", "Telegram bot is already running.")
+            return
+
+        script_path = self.repo_root / "telegram_bot.py"
+        if not script_path.exists():
+            messagebox.showerror("Error", f"Telegram bot script not found:\n{script_path}")
+            return
+
+        token = os.getenv("TELEGRAM_BOT_TOKEN") or self._get_env_value_from_dotenv("TELEGRAM_BOT_TOKEN")
+        if not token:
+            messagebox.showerror("Error", "Missing TELEGRAM_BOT_TOKEN in .env or environment.")
+            return
+
+        try:
+            from platform_config import get_path_manager
+            pm = get_path_manager()
+            logs_dir = pm.get_logs_dir()
+        except Exception:
+            logs_dir = self.repo_root / "logs"
+
+        telegram_dir = logs_dir / "telegram"
+        telegram_dir.mkdir(parents=True, exist_ok=True)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        log_path = telegram_dir / f"telegram_bot_{timestamp}.log"
+
+        try:
+            log_handle = open(log_path, "a", encoding="utf-8", errors="replace")
+        except Exception as e:
+            messagebox.showerror("Error", f"Could not open log file:\n{e}")
+            return
+
+        env = os.environ.copy()
+        env["PYTHONUNBUFFERED"] = "1"
+        if "TELEGRAM_BOT_TOKEN" not in env:
+            env["TELEGRAM_BOT_TOKEN"] = token
+
+        creation_flags = 0
+        if hasattr(subprocess, "CREATE_NO_WINDOW"):
+            creation_flags = subprocess.CREATE_NO_WINDOW
+
+        try:
+            self.telegram_process = subprocess.Popen(
+                [sys.executable, "-u", str(script_path)],
+                cwd=str(self.repo_root),
+                stdout=log_handle,
+                stderr=subprocess.STDOUT,
+                env=env,
+                creationflags=creation_flags
+            )
+            self.telegram_log_path = log_path
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to start Telegram bot:\n{e}")
+            try:
+                log_handle.close()
+            except Exception:
+                pass
+            self.telegram_process = None
+            self.telegram_log_path = None
+            return
+
+        self.update_status("Telegram bot started")
+        self.refresh_telegram_status()
+
+    def stop_telegram_bot(self):
+        """Stop Telegram bot process"""
+        if self.telegram_process is None or self.telegram_process.poll() is not None:
+            messagebox.showinfo("Information", "Telegram bot is not running.")
+            self.telegram_process = None
+            self.refresh_telegram_status()
+            return
+
+        try:
+            self.telegram_process.terminate()
+            self.telegram_process.wait(timeout=5)
+        except Exception:
+            try:
+                self.telegram_process.kill()
+            except Exception:
+                pass
+        finally:
+            self.telegram_process = None
+
+        self.update_status("Telegram bot stopped")
+        self.refresh_telegram_status()
     
     def finish_scraper_run(self, scraper_name: str, return_code: int, stopped: bool = False):
         """Finish scraper run and update display if selected"""
@@ -4518,6 +4844,99 @@ Provide a clear, concise explanation suitable for users who want to understand w
             self.update_status(f"Log saved to: {log_filename.name}")
         except Exception as e:
             messagebox.showerror("Error", f"Failed to save log:\n{str(e)}")
+
+    def open_console_in_cursor(self):
+        """Open console output in Cursor; open last error location when available."""
+        content = self.log_text.get(1.0, tk.END)
+        if not content.strip():
+            messagebox.showwarning("Warning", "No log content to open")
+            return
+
+        cursor_cmd = self._get_cursor_command()
+        if not cursor_cmd:
+            messagebox.showwarning(
+                "Warning",
+                "Cursor CLI not found. Install Cursor or add `cursor` to PATH."
+            )
+            return
+
+        error_location = self._extract_error_location(content)
+        if error_location:
+            file_path, line_no, col_no = error_location
+            if not file_path.is_absolute():
+                candidate = (self.repo_root / file_path).resolve()
+                if candidate.exists():
+                    file_path = candidate
+            if file_path.exists():
+                self._open_cursor_at(cursor_cmd, file_path, line_no, col_no)
+                return
+
+        log_file = self._write_console_log_file(content)
+        if log_file:
+            self._open_cursor_at(cursor_cmd, log_file, 1, 1)
+
+    def _get_cursor_command(self):
+        env_path = os.environ.get("CURSOR_PATH", "").strip()
+        if env_path:
+            candidate = Path(env_path)
+            if candidate.exists():
+                return str(candidate)
+
+        for cmd in ("cursor", "Cursor"):
+            found = shutil.which(cmd)
+            if found:
+                return found
+        return None
+
+    def _open_cursor_at(self, cursor_cmd, file_path, line_no=1, col_no=1):
+        try:
+            target = f"{file_path}:{line_no}:{col_no}"
+            subprocess.Popen([cursor_cmd, "--new-window", "--goto", target])
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to open Cursor:\n{str(e)}")
+
+    def _extract_error_location(self, log_content):
+        import re
+
+        patterns = [
+            re.compile(r'File "([^"]+)", line (\d+)'),
+            re.compile(r"File '([^']+)', line (\d+)"),
+            re.compile(r'([A-Za-z]:\\[^:\n]+?\.[a-zA-Z0-9]+):(\d+)(?::(\d+))?'),
+            re.compile(r'(/[^:\n]+?\.[a-zA-Z0-9]+):(\d+)(?::(\d+))?'),
+            re.compile(r'\bat\s+(.*?\.[a-zA-Z0-9]+):(\d+):(\d+)')
+        ]
+
+        for line in reversed(log_content.splitlines()):
+            for pattern in patterns:
+                match = pattern.search(line)
+                if match:
+                    file_path = Path(match.group(1))
+                    line_no = int(match.group(2))
+                    col_no = 1
+                    if match.lastindex and match.lastindex >= 3 and match.group(3):
+                        col_no = int(match.group(3))
+                    return file_path, line_no, col_no
+        return None
+
+    def _write_console_log_file(self, content):
+        try:
+            try:
+                from platform_config import get_path_manager
+                pm = get_path_manager()
+                logs_dir = pm.get_logs_dir()
+            except Exception:
+                logs_dir = self.repo_root / "logs"
+
+            logs_dir.mkdir(parents=True, exist_ok=True)
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            log_filename = logs_dir / f"console_log_{timestamp}.txt"
+
+            with open(log_filename, "w", encoding="utf-8") as f:
+                f.write(content)
+            return log_filename
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to write console log:\n{str(e)}")
+            return None
     
     def save_log_automatically(self, scraper_name: str):
         """Automatically save log to output directory after successful run"""
@@ -4681,17 +5100,19 @@ Provide a clear, concise explanation suitable for users who want to understand w
             "Malaysia": ["malaysia"],
             "Argentina": ["alfabeta_report"],
             "NorthMacedonia": ["north_macedonia_drug_register", "maxprices_output"],
+            "Russia": ["russia_ved_report", "russia_excluded_report"],
             "Tender_Chile": ["final_tender_data"],
-            "India": ["medicine_details", "details", "search_results"]
+            "India": ["medicine_details", "details", "search_results", "ceiling_prices", "scraping_report"],
+            "Taiwan": ["taiwan_drug_code_details"]
         }
         
         patterns = scraper_patterns.get(scraper_name, [])
         files = []
         for file_path in sorted(output_dir.iterdir()):
             if file_path.is_file() and file_path.suffix.lower() in ['.csv', '.xlsx']:
-                # Only show files that match this scraper's pattern
+                # Show all files when no pattern is defined for the scraper.
                 file_lower = file_path.name.lower()
-                if patterns and any(pattern in file_lower for pattern in patterns):
+                if not patterns or any(pattern in file_lower for pattern in patterns):
                     files.append((file_path.name, file_path))
                     self.final_output_listbox.insert(tk.END, file_path.name)
         
@@ -4844,8 +5265,14 @@ Provide a clear, concise explanation suitable for users who want to understand w
         scraper_name = self.scraper_var.get()
         scraper_patterns = {
             "CanadaQuebec": ["canadaquebecreport"],
+            "CanadaOntario": ["canadaontarioreport"],
             "Malaysia": ["malaysia"],
-            "Argentina": ["alfabeta_report"]
+            "Argentina": ["alfabeta_report"],
+            "NorthMacedonia": ["north_macedonia_drug_register", "maxprices_output"],
+            "Russia": ["russia_ved_report", "russia_excluded_report"],
+            "Tender_Chile": ["final_tender_data"],
+            "India": ["medicine_details", "details", "search_results", "ceiling_prices", "scraping_report"],
+            "Taiwan": ["taiwan_drug_code_details"]
         }
         patterns = scraper_patterns.get(scraper_name, [])
         
@@ -4853,8 +5280,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
         for file_path in sorted(output_dir.iterdir()):
             if file_path.is_file() and file_path.suffix.lower() in ['.csv', '.xlsx']:
                 file_lower = file_path.name.lower()
-                # Only show files that match this scraper's pattern
-                if patterns and any(pattern in file_lower for pattern in patterns):
+                # Show all files when no pattern is defined for the scraper.
+                if not patterns or any(pattern in file_lower for pattern in patterns):
                     if search_term.lower() in file_path.name.lower():
                         matches.append(file_path.name)
                         self.final_output_listbox.insert(tk.END, file_path.name)
@@ -4932,7 +5359,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 table_name_map = {
                     "CanadaQuebec": "canada_quebec_reports",
                     "Malaysia": "malaysia_reports",
-                    "Argentina": "argentina_reports"
+                    "Argentina": "argentina_reports",
+                    "Taiwan": "taiwan_reports"
                 }
                 table_name = table_name_map.get(scraper_name, f"{scraper_name.lower().replace(' ', '_')}_reports")
                 

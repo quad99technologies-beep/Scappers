@@ -6,7 +6,16 @@ Russia Pipeline Runner with Resume/Checkpoint Support
 Usage:
     python run_pipeline_resume.py          # Resume from last step or start fresh
     python run_pipeline_resume.py --fresh  # Start from step 0 (clear checkpoint)
-    python run_pipeline_resume.py --step N # Start from step N (0-1)
+    python run_pipeline_resume.py --step N # Start from step N (0-6)
+    
+Pipeline Steps:
+    0: Backup and Clean - Backup previous output and clean for fresh run
+    1: Extract VED Pricing - Scrape VED drug pricing from farmcom.info/site/reestr
+    2: Extract Excluded List - Scrape excluded drugs from farmcom.info/site/reestr?vw=excl
+    3: Generate Output - Process raw data and generate base reports
+    4: Generate Pricing Data Template - Build pricing template with dictionary translation
+    5: Generate Discontinued List Template - Build discontinued template with dictionary translation
+    6: Translate Reports - Translate base reports to English
 """
 
 import sys
@@ -26,26 +35,35 @@ if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
 
 from core.pipeline_checkpoint import get_checkpoint_manager
-from config_loader import get_output_dir
+from config_loader import get_central_output_dir, get_output_dir
 
-def run_step(step_num: int, script_name: str, step_name: str, output_files: list = None):
+# Total actual steps: steps 0-6 = 7 steps (including backup)
+TOTAL_STEPS = 7
+
+def run_step(step_num: int, script_name: str, step_name: str, output_files: list = None, extra_args: list = None):
     """Run a pipeline step and mark it complete if successful."""
+    display_step = step_num + 1  # Display as 1-based for user friendliness
+    
     print(f"\n{'='*80}")
-    print(f"Step {step_num}/1: {step_name}")
+    print(f"Step {display_step}/{TOTAL_STEPS}: {step_name}")
     print(f"{'='*80}\n")
     
     # Output overall pipeline progress with descriptive message
-    total_steps = 1
-    pipeline_percent = round((step_num / total_steps) * 100, 1)
+    pipeline_percent = round((step_num / TOTAL_STEPS) * 100, 1)
     
     # Create meaningful progress description based on step
     step_descriptions = {
         0: "Preparing: Backing up previous results and cleaning output directory",
         1: "Scraping: Extracting VED drug pricing data from farmcom.info",
+        2: "Scraping: Extracting excluded drugs list from farmcom.info",
+        3: "Processing: Generating base output reports",
+        4: "Processing: Building pricing data template",
+        5: "Processing: Building discontinued list template",
+        6: "Translating: Converting base reports to English",
     }
     step_desc = step_descriptions.get(step_num, step_name)
     
-    print(f"[PROGRESS] Pipeline Step: {step_num}/{total_steps} ({pipeline_percent}%) - {step_desc}", flush=True)
+    print(f"[PROGRESS] Pipeline Step: {display_step}/{TOTAL_STEPS} ({pipeline_percent}%) - {step_desc}", flush=True)
     
     script_path = Path(__file__).parent / script_name
     if not script_path.exists():
@@ -57,8 +75,12 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
     duration_seconds = None
     
     try:
+        cmd = [sys.executable, "-u", str(script_path)]
+        if extra_args:
+            cmd.extend(extra_args)
+        
         result = subprocess.run(
-            [sys.executable, "-u", str(script_path)],
+            cmd,
             check=True,
             capture_output=False
         )
@@ -89,17 +111,22 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
             cp.mark_step_complete(step_num, step_name, duration_seconds=duration_seconds)
         
         # Output completion progress with descriptive message
-        completion_percent = round(((step_num + 1) / total_steps) * 100, 1)
+        completion_percent = round(((step_num + 1) / TOTAL_STEPS) * 100, 1)
         if completion_percent > 100.0:
             completion_percent = 100.0
         
         next_step_descriptions = {
             0: "Ready to extract VED drug pricing data",
-            1: "Pipeline completed successfully"
+            1: "Ready to extract excluded drugs list",
+            2: "Ready to generate base output reports",
+            3: "Ready to build pricing data template",
+            4: "Ready to build discontinued list template",
+            5: "Ready to translate base reports to English",
+            6: "Pipeline completed successfully",
         }
         next_desc = next_step_descriptions.get(step_num + 1, "Moving to next step")
         
-        print(f"[PROGRESS] Pipeline Step: {step_num + 1}/{total_steps} ({completion_percent}%) - {next_desc}", flush=True)
+        print(f"[PROGRESS] Pipeline Step: {display_step}/{TOTAL_STEPS} ({completion_percent}%) - {next_desc}", flush=True)
         
         return True
     except subprocess.CalledProcessError as e:
@@ -115,16 +142,27 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
 
 def main():
     parser = argparse.ArgumentParser(description="Russia Pipeline Runner with Resume Support")
-    parser.add_argument("--fresh", action="store_true", help="Start from step 0 (clear checkpoint)")
-    parser.add_argument("--step", type=int, help="Start from specific step (0-1)")
+    parser.add_argument("--fresh", action="store_true", help="Start from step 0 (clear checkpoint and scraper progress)")
+    parser.add_argument("--step", type=int, help="Start from specific step (0-6)")
     
     args = parser.parse_args()
     
     cp = get_checkpoint_manager("Russia")
+    output_dir = get_output_dir()
+    central_output_dir = get_central_output_dir()
     
     # Determine start step
     if args.fresh:
         cp.clear_checkpoint()
+        # Also clear scraper page-level progress files
+        for progress_file in ["russia_scraper_progress.json", "russia_excluded_scraper_progress.json"]:
+            pf = output_dir / progress_file
+            if pf.exists():
+                try:
+                    pf.unlink()
+                    print(f"Cleared {progress_file}")
+                except Exception:
+                    pass
         start_step = 0
         print("Starting fresh run (checkpoint cleared)")
     elif args.step is not None:
@@ -140,15 +178,30 @@ def main():
             print("Starting fresh run (no checkpoint found)")
     
     # Define pipeline steps with their output files
-    output_dir = get_output_dir()
     steps = [
-        (0, "00_backup_and_clean.py", "Backup and Clean", None),
-        (1, "01_russia_farmcom_scraper.py", "Extract VED Pricing Data", ["russia_farmcom_ved_moscow_region.csv"]),
+        (0, "00_backup_and_clean.py", "Backup and Clean", None, None),
+        (1, "01_russia_farmcom_scraper.py", "Extract VED Pricing Data", ["russia_farmcom_ved_moscow_region.csv"], None),
+        (2, "02_russia_farmcom_excluded_scraper.py", "Extract Excluded List", ["russia_farmcom_excluded_list.csv"], None),
+        (3, "03_generate_output.py", "Generate Output Reports", ["russia_ved_report.csv", "russia_excluded_report.csv"], None),
+        (4, "04_generate_pricing_data.py", "Generate Pricing Data Template",
+         ["russia_pricing_data.csv",
+          "russia_pricing_missing_dictionary.csv",
+          str(central_output_dir / "Russia_Pricing_Data.csv")],
+         None),
+        (5, "05_generate_discontinued_list.py", "Generate Discontinued List Template",
+         ["russia_discontinued_list.csv",
+          "russia_discontinued_missing_dictionary.csv",
+          str(central_output_dir / "Russia_Discontinued_List.csv")],
+         None),
+        (6, "06_translate_reports.py", "Translate Reports to English",
+         [str(central_output_dir / "Russia_VED_Report.csv"),
+          str(central_output_dir / "Russia_Excluded_Report.csv")],
+         ["--in-place"]),
     ]
     
     # Check all steps before start_step to find the earliest step that needs re-running
     earliest_rerun_step = None
-    for step_num, script_name, step_name, output_files in steps:
+    for step_num, script_name, step_name, output_files, extra_args in steps:
         if step_num < start_step:
             # Convert relative output files to absolute paths for verification
             expected_files = None
@@ -175,7 +228,7 @@ def main():
         print(f"[CHECKPOINT] All steps before {start_step} verified successfully. Starting from step {start_step}.\n")
     
     # Run steps starting from start_step
-    for step_num, script_name, step_name, output_files in steps:
+    for step_num, script_name, step_name, output_files, extra_args in steps:
         if step_num < start_step:
             # Skip completed steps (verify output files exist)
             # Convert relative output files to absolute paths for verification
@@ -184,26 +237,32 @@ def main():
                 expected_files = [str(output_dir / f) if not Path(f).is_absolute() else f for f in output_files]
             
             if cp.should_skip_step(step_num, step_name, verify_outputs=True, expected_output_files=expected_files):
-                print(f"\nStep {step_num}/1: {step_name} - SKIPPED (already completed in checkpoint)")
+                display_step = step_num + 1  # Display as 1-based
+                print(f"\nStep {display_step}/{TOTAL_STEPS}: {step_name} - SKIPPED (already completed in checkpoint)")
                 # Output progress for skipped step
-                total_steps = 1
-                completion_percent = round(((step_num + 1) / total_steps) * 100, 1)
+                completion_percent = round(((step_num + 1) / TOTAL_STEPS) * 100, 1)
                 if completion_percent > 100.0:
                     completion_percent = 100.0
                 
                 step_descriptions = {
                     0: "Skipped: Backup already completed",
-                    1: "Skipped: VED pricing data already extracted"
+                    1: "Skipped: VED pricing data already extracted",
+                    2: "Skipped: Excluded list already extracted",
+                    3: "Skipped: Output reports already generated",
+                    4: "Skipped: Pricing data template already generated",
+                    5: "Skipped: Discontinued list template already generated",
+                    6: "Skipped: English translation already completed",
                 }
                 skip_desc = step_descriptions.get(step_num, f"Skipped: {step_name} already completed")
                 
-                print(f"[PROGRESS] Pipeline Step: {step_num + 1}/{total_steps} ({completion_percent}%) - {skip_desc}", flush=True)
+                print(f"[PROGRESS] Pipeline Step: {display_step}/{TOTAL_STEPS} ({completion_percent}%) - {skip_desc}", flush=True)
             else:
                 # Step marked complete but output files missing - will re-run
-                print(f"\nStep {step_num}/1: {step_name} - WILL RE-RUN (output files missing)")
+                display_step = step_num + 1
+                print(f"\nStep {display_step}/{TOTAL_STEPS}: {step_name} - WILL RE-RUN (output files missing)")
             continue
         
-        success = run_step(step_num, script_name, step_name, output_files)
+        success = run_step(step_num, script_name, step_name, output_files, extra_args)
         if not success:
             print(f"\nPipeline failed at step {step_num}")
             sys.exit(1)
@@ -211,7 +270,7 @@ def main():
     print(f"\n{'='*80}")
     print("Pipeline completed successfully!")
     print(f"{'='*80}\n")
-    print(f"[PROGRESS] Pipeline Step: 1/1 (100%)", flush=True)
+    print(f"[PROGRESS] Pipeline Step: {TOTAL_STEPS}/{TOTAL_STEPS} (100%)", flush=True)
     
     # Clean up lock file
     try:

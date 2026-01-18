@@ -339,7 +339,7 @@ def terminate_chrome_pids(scraper_name: str, repo_root: Path, silent: bool = Fal
     
     # Verify each PID still exists and belongs ONLY to this scraper before terminating
     # Check that PIDs are not tracked by other scrapers
-    other_scrapers = ["Argentina", "Malaysia", "CanadaQuebec", "CanadaOntario", "Netherlands", "Belarus", "NorthMacedonia", "Tender_Chile"]
+    other_scrapers = ["Argentina", "Malaysia", "CanadaQuebec", "CanadaOntario", "Netherlands", "Belarus", "NorthMacedonia", "Tender_Chile", "Taiwan"]
     other_scraper_pids = set()
     for other_scraper in other_scrapers:
         if other_scraper != scraper_name:

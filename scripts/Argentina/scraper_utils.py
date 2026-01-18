@@ -91,7 +91,12 @@ def load_progress_set() -> Set[Tuple[str, str]]:
                         for row in r:
                             company = (row.get("input_company") or "").strip()
                             product = (row.get("input_product_name") or "").strip()
-                            if company and product:
+                            records_raw = (row.get("records_found") or "").strip()
+                            try:
+                                records_val = int(float(records_raw)) if records_raw else 0
+                            except ValueError:
+                                records_val = 0
+                            if company and product and records_val > 0:
                                 done.add((nk(company), nk(product)))
                     break  # Success, exit encoding loop
                 except UnicodeDecodeError:
@@ -209,14 +214,17 @@ def is_product_already_scraped(company: str, product: str) -> bool:
                         if not reader.fieldnames:
                             return False
                         
-                        scraped_col = None
+                        scraped_selenium_col = None
+                        scraped_api_col = None
                         for col in reader.fieldnames:
-                            if nk(col) == nk("Scraped_By_Selenium"):
-                                scraped_col = col
-                                break
+                            col_norm = nk(col)
+                            if col_norm == nk("Scraped_By_Selenium"):
+                                scraped_selenium_col = col
+                            elif col_norm == nk("Scraped_By_API"):
+                                scraped_api_col = col
                         
-                        if not scraped_col:
-                            return False  # Column doesn't exist
+                        if not scraped_selenium_col and not scraped_api_col:
+                            return False  # Columns don't exist
                         
                         # Check each row
                         for row in reader:
@@ -224,8 +232,9 @@ def is_product_already_scraped(company: str, product: str) -> bool:
                             row_product = (row.get("Product") or "").strip()
                             
                             if nk(row_company) == nk(company) and nk(row_product) == nk(product):
-                                scraped_value = (row.get(scraped_col) or "").strip().lower()
-                                return scraped_value == "yes"
+                                selenium_value = (row.get(scraped_selenium_col) or "").strip().lower() if scraped_selenium_col else ""
+                                api_value = (row.get(scraped_api_col) or "").strip().lower() if scraped_api_col else ""
+                                return selenium_value == "yes" or api_value == "yes"
                         
                         return False  # Product not found in CSV
                 except UnicodeDecodeError:
@@ -383,7 +392,7 @@ def update_prepared_urls_source(company: str, product: str, new_source: str = "s
 
 def sync_files_before_selenium():
     """Pre-sync: Align Productlist_with_urls.csv and alfabeta_progress.csv with alfabeta_products_by_product.csv BEFORE Selenium starts.
-    This ensures starting state is correct - all Source="selenium", counts match output, progress file aligned.
+    Preserves pending API rows while normalizing counts and progress.
     """
     if not PREPARED_URLS_FILE_PATH.exists():
         log.warning("[PRE-SYNC] Productlist_with_urls.csv not found, cannot pre-sync")
@@ -548,7 +557,7 @@ def sync_files_before_selenium():
                 if "API_Records" not in fieldnames:
                     fieldnames.append("API_Records")
             
-            # Update all products: Source="selenium", counts match output
+            # Update all products while preserving pending API state
             for row in rows:
                 row_company = (row.get("Company") or "").strip()
                 row_product = (row.get("Product") or "").strip()
@@ -558,6 +567,9 @@ def sync_files_before_selenium():
                     record_count = products_from_output.get(key, 0)
                     
                     update_made = False
+                    current_source = (row.get("Source") or "").strip().lower()
+                    current_selenium = (row.get("Scraped_By_Selenium") or "no").strip().lower()
+                    current_api = (row.get("Scraped_By_API") or "no").strip().lower()
                     
                     # Initialize count columns if missing
                     if "Selenium_Records" not in row:
@@ -565,49 +577,75 @@ def sync_files_before_selenium():
                     if "API_Records" not in row:
                         row["API_Records"] = "0"
                     
-                    # ALL products should have Source = "selenium" before Selenium starts
-                    if (row.get("Source") or "").strip().lower() != "selenium":
-                        row["Source"] = "selenium"
-                        update_made = True
+                    current_selenium_records = str(row.get("Selenium_Records") or "0").strip()
+                    current_api_records = str(row.get("API_Records") or "0").strip()
                     
                     # Normalize counts to ensure "0" not blank
                     count_str = str(record_count).strip() if record_count else "0"
                     selenium_records = count_str if count_str else "0"
                     api_records = "0"
                     
-                    current_selenium_records = str(row.get("Selenium_Records") or "0").strip()
-                    current_api_records = str(row.get("API_Records") or "0").strip()
+                    pending_api = (current_api == "no" and current_selenium == "yes") or (current_source == "api" and current_api == "no")
                     
                     if record_count > 0:
-                        # Product has records: already scraped, mark as yes
-                        if (row.get("Scraped_By_Selenium") or "").strip().lower() != "yes":
-                            row["Scraped_By_Selenium"] = "yes"
-                            update_made = True
-                        if (row.get("Scraped_By_API") or "").strip().lower() != "no":
-                            row["Scraped_By_API"] = "no"
-                            update_made = True
-                        
-                        if current_selenium_records != selenium_records:
-                            row["Selenium_Records"] = selenium_records
-                            update_made = True
-                        if current_api_records != api_records:
-                            row["API_Records"] = api_records
-                            update_made = True
+                        # Product has records: mark as scraped (prefer Selenium unless API already done)
+                        if current_api != "yes":
+                            if current_source != "selenium":
+                                row["Source"] = "selenium"
+                                update_made = True
+                            if current_selenium != "yes":
+                                row["Scraped_By_Selenium"] = "yes"
+                                update_made = True
+                            if current_api != "no":
+                                row["Scraped_By_API"] = "no"
+                                update_made = True
+                            if current_selenium_records != selenium_records:
+                                row["Selenium_Records"] = selenium_records
+                                update_made = True
+                            if current_api_records != api_records:
+                                row["API_Records"] = api_records
+                                update_made = True
+                        else:
+                            # API already done: keep source as api, preserve counts
+                            if current_source != "api":
+                                row["Source"] = "api"
+                                update_made = True
                     else:
-                        # Product has NO records: ready to be scraped, mark as no
-                        if (row.get("Scraped_By_Selenium") or "").strip().lower() != "no":
-                            row["Scraped_By_Selenium"] = "no"
-                            update_made = True
-                        if (row.get("Scraped_By_API") or "").strip().lower() != "no":
-                            row["Scraped_By_API"] = "no"
-                            update_made = True
-                        
-                        if current_selenium_records != "0":
-                            row["Selenium_Records"] = "0"
-                            update_made = True
-                        if current_api_records != "0":
-                            row["API_Records"] = "0"
-                            update_made = True
+                        # No records found in output
+                        if pending_api:
+                            # Preserve pending API fallback
+                            if current_source != "api":
+                                row["Source"] = "api"
+                                update_made = True
+                            if current_selenium != "yes":
+                                row["Scraped_By_Selenium"] = "yes"
+                                update_made = True
+                            if current_api != "no":
+                                row["Scraped_By_API"] = "no"
+                                update_made = True
+                            if current_selenium_records != "0":
+                                row["Selenium_Records"] = "0"
+                                update_made = True
+                            if current_api_records != "0":
+                                row["API_Records"] = "0"
+                                update_made = True
+                        else:
+                            # Fresh item: reset to Selenium
+                            if current_source != "selenium":
+                                row["Source"] = "selenium"
+                                update_made = True
+                            if current_selenium != "no":
+                                row["Scraped_By_Selenium"] = "no"
+                                update_made = True
+                            if current_api != "no":
+                                row["Scraped_By_API"] = "no"
+                                update_made = True
+                            if current_selenium_records != "0":
+                                row["Selenium_Records"] = "0"
+                                update_made = True
+                            if current_api_records != "0":
+                                row["API_Records"] = "0"
+                                update_made = True
                     
                     if update_made:
                         updates_made += 1
@@ -664,8 +702,8 @@ def sync_files_from_output():
     - If product has NO records (0 or not found):
       * REMOVE from alfabeta_progress.csv (if exists) - products with 0 records should not be in progress
       * Update Productlist_with_urls.csv:
-        - Scraped_By_Selenium = "no"
-        - Scraped_By_API = "yes" (ready for API scraping)
+        - Scraped_By_Selenium = "yes" (attempted, no data)
+        - Scraped_By_API = "no" (pending API)
         - Selenium_Records = "0"
         - API_Records = "0"
         - Source = "api"
@@ -962,15 +1000,15 @@ def sync_files_from_output():
                             update_made = True
                     else:
                         # Product has NO records: Selenium didn't find any (will be processed by API)
-                        # Update: Scraped_By_Selenium = no, Scraped_By_API = yes, Selenium_Records = 0, API_Records = 0
+                        # Update: Scraped_By_Selenium = yes, Scraped_By_API = no, Selenium_Records = 0, API_Records = 0
                         # Note: This product should NOT be in alfabeta_progress.csv (handled above)
                         
-                        if current_selenium != "no":
-                            row["Scraped_By_Selenium"] = "no"
+                        if current_selenium != "yes":
+                            row["Scraped_By_Selenium"] = "yes"
                             update_made = True
                         
-                        if current_api != "yes":
-                            row["Scraped_By_API"] = "yes"
+                        if current_api != "no":
+                            row["Scraped_By_API"] = "no"
                             update_made = True
                         
                         # Update Source to "api" for products with 0 records (ready for API scraping)

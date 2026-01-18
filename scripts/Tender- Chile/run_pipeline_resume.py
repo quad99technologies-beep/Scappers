@@ -29,13 +29,16 @@ from core.pipeline_checkpoint import get_checkpoint_manager
 from config_loader import get_output_dir
 
 SCRAPER_NAME = "Tender_Chile"
-MAX_STEPS = 4
+# Total actual steps: steps 0-4 = 5 steps
+MAX_STEPS = 5
 
 
 def run_step(step_num: int, script_name: str, step_name: str, output_files: list = None, allow_failure: bool = False):
     """Run a pipeline step and mark it complete if successful."""
+    display_step = step_num + 1  # Display as 1-based for user friendliness
+    
     print(f"\n{'='*80}")
-    print(f"Step {step_num}/{MAX_STEPS}: {step_name}")
+    print(f"Step {display_step}/{MAX_STEPS}: {step_name}")
     print(f"{'='*80}\n")
     
     # Output overall pipeline progress with descriptive message
@@ -51,7 +54,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
     }
     step_desc = step_descriptions.get(step_num, step_name)
     
-    print(f"[PROGRESS] Pipeline Step: {step_num}/{MAX_STEPS} ({pipeline_percent}%) - {step_desc}", flush=True)
+    print(f"[PROGRESS] Pipeline Step: {display_step}/{MAX_STEPS} ({pipeline_percent}%) - {step_desc}", flush=True)
     
     script_path = Path(__file__).parent / script_name
     if not script_path.exists():
@@ -108,7 +111,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         }
         next_desc = next_step_descriptions.get(step_num + 1, "Moving to next step")
         
-        print(f"[PROGRESS] Pipeline Step: {step_num + 1}/{MAX_STEPS} ({completion_percent}%) - {next_desc}", flush=True)
+        print(f"[PROGRESS] Pipeline Step: {display_step}/{MAX_STEPS} ({completion_percent}%) - {next_desc}", flush=True)
         
         return True
     except subprocess.CalledProcessError as e:
@@ -195,7 +198,8 @@ def main():
                 expected_files = [str(output_dir / f) if not Path(f).is_absolute() else f for f in output_files]
             
             if cp.should_skip_step(step_num, step_name, verify_outputs=True, expected_output_files=expected_files):
-                print(f"\nStep {step_num}/{MAX_STEPS}: {step_name} - SKIPPED (already completed in checkpoint)")
+                display_step = step_num + 1  # Display as 1-based
+                print(f"\nStep {display_step}/{MAX_STEPS}: {step_name} - SKIPPED (already completed in checkpoint)")
                 completion_percent = round(((step_num + 1) / MAX_STEPS) * 100, 1)
                 if completion_percent > 100.0:
                     completion_percent = 100.0
@@ -209,9 +213,10 @@ def main():
                 }
                 skip_desc = step_descriptions.get(step_num, f"Skipped: {step_name} already completed")
                 
-                print(f"[PROGRESS] Pipeline Step: {step_num + 1}/{MAX_STEPS} ({completion_percent}%) - {skip_desc}", flush=True)
+                print(f"[PROGRESS] Pipeline Step: {display_step}/{MAX_STEPS} ({completion_percent}%) - {skip_desc}", flush=True)
             else:
-                print(f"\nStep {step_num}/{MAX_STEPS}: {step_name} - WILL RE-RUN (output files missing)")
+                display_step = step_num + 1
+                print(f"\nStep {display_step}/{MAX_STEPS}: {step_name} - WILL RE-RUN (output files missing)")
             continue
         
         success = run_step(step_num, script_name, step_name, output_files)

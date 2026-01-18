@@ -1,44 +1,15 @@
 {
   "scraper": "CanadaOntario",
-  "last_run": "2026-01-14T12:39:50.632817",
+  "last_run": "2026-01-16T23:17:32.298356",
   "completed_steps": [
-    0,
-    1,
-    2,
-    3
+    0
   ],
   "step_outputs": {
     "step_0": {
       "step_number": 0,
       "step_name": "Backup and Clean",
-      "completed_at": "2026-01-14T12:32:15.139914",
+      "completed_at": "2026-01-16T23:17:32.298339",
       "output_files": []
-    },
-    "step_1": {
-      "step_number": 1,
-      "step_name": "Extract Product Details",
-      "completed_at": "2026-01-14T12:39:45.260186",
-      "output_files": [
-        "D:\\quad99\\Scappers\\output\\CanadaOntario\\products.csv",
-        "D:\\quad99\\Scappers\\output\\CanadaOntario\\manufacturer_master.csv",
-        "D:\\quad99\\Scappers\\output\\CanadaOntario\\completed_letters.json"
-      ]
-    },
-    "step_2": {
-      "step_number": 2,
-      "step_name": "Extract EAP Prices",
-      "completed_at": "2026-01-14T12:39:49.279283",
-      "output_files": [
-        "D:\\quad99\\Scappers\\output\\CanadaOntario\\ontario_eap_prices.csv"
-      ]
-    },
-    "step_3": {
-      "step_number": 3,
-      "step_name": "Generate Final Output",
-      "completed_at": "2026-01-14T12:39:50.632804",
-      "output_files": [
-        "D:\\quad99\\Scappers\\exports\\CanadaOntario\\canadaontarioreport_14012026.csv"
-      ]
     }
   },
   "metadata": {}

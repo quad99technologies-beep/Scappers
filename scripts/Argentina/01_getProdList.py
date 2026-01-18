@@ -430,9 +430,9 @@ def setup_driver(headless: bool = HEADLESS):
     profile.set_preference("browser.cache.offline.enable", False)
     profile.set_preference("network.http.use-cache", False)
     
-    # Block images and CSS for performance
-    profile.set_preference("permissions.default.image", 2)  # Block images
-    profile.set_preference("permissions.default.stylesheet", 2)  # Block CSS
+    # Enable images and CSS (needed for full content rendering on this site)
+    profile.set_preference("permissions.default.image", 1)
+    profile.set_preference("permissions.default.stylesheet", 1)
     
     # Language preference
     profile.set_preference("intl.accept_languages", "es-ES,es,en-US,en")
@@ -578,6 +578,51 @@ def dismiss_alert_if_present(d):
         log.debug(f"No alert or error dismissing: {e}")
         return False
 
+def wait_for_page_ready(d, timeout=WAIT_LONG):
+    """Wait until the document reports readyState == complete."""
+    try:
+        WebDriverWait(d, timeout).until(
+            lambda drv: drv.execute_script("return document.readyState") == "complete"
+        )
+    except TimeoutException:
+        log.debug("Timed out waiting for document.readyState == complete")
+
+def scroll_to_bottom(d, pause=0.5, max_rounds=20):
+    """Scroll to bottom to trigger lazy loading; stop when height stabilizes."""
+    last_height = 0
+    stable_rounds = 0
+    for _ in range(max_rounds):
+        height = d.execute_script("return document.body.scrollHeight")
+        if height == last_height:
+            stable_rounds += 1
+            if stable_rounds >= 2:
+                break
+        else:
+            stable_rounds = 0
+            last_height = height
+        d.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(pause)
+
+def wait_for_products_render(d, timeout=20, stable_checks=3):
+    """Wait for product links count to stabilize after scrolling."""
+    end_time = time.time() + timeout
+    last_count = -1
+    stable = 0
+    while time.time() < end_time:
+        try:
+            count = len(d.find_elements(By.CSS_SELECTOR, "table.estandar td a.rprod"))
+        except Exception:
+            count = -1
+        if count == last_count and count > 0:
+            stable += 1
+            if stable >= stable_checks:
+                return count
+        else:
+            stable = 0
+            last_count = count
+        time.sleep(0.5)
+    return last_count
+
 def safe_screenshot_and_source(d, name_prefix="failure"):
     ts = int(time.time())
     screenshot_path = ARTIFACTS_DIR / f"{name_prefix}-{ts}.png"
@@ -688,9 +733,7 @@ def submit_blank_products(d):
         table_found = True
         
         # Wait for document to be fully loaded
-        WebDriverWait(d, 30).until(
-            lambda drv: drv.execute_script("return document.readyState") == "complete"
-        )
+        wait_for_page_ready(d, timeout=30)
         log.info("Document ready state: complete")
         
     except TimeoutException:
@@ -773,9 +816,10 @@ def submit_blank_products(d):
             log.error(f"Error in final check: {e}")
             raise RuntimeError(f"Failed to detect products: {e}")
     else:
-        # Additional wait to ensure all content is fully rendered
-        log.info("Waiting additional time for all content to fully render...")
-        time.sleep(5)
+        # Scroll to trigger any lazy loading and wait for render
+        log.info("Scrolling to trigger full render...")
+        scroll_to_bottom(d, pause=0.6, max_rounds=25)
+        wait_for_products_render(d, timeout=20)
         
         # Final verification
         prods = d.find_elements(By.CSS_SELECTOR, "table.estandar td a.rprod")
@@ -836,11 +880,16 @@ def extract_products_page(d) -> List[Tuple[str, str]]:
             EC.presence_of_element_located((By.CSS_SELECTOR, "table.estandar"))
         )
         # Wait for document ready state
-        WebDriverWait(d, 10).until(
-            lambda drv: drv.execute_script("return document.readyState") == "complete"
-        )
+        wait_for_page_ready(d, timeout=10)
     except TimeoutException:
         log.warning("Timeout waiting for table to load, continuing anyway")
+
+    # Scroll to trigger any lazy loading and wait for content to stabilize
+    try:
+        scroll_to_bottom(d, pause=0.4, max_rounds=20)
+        wait_for_products_render(d, timeout=15)
+    except Exception:
+        log.debug("Scrolling/waiting for render failed; continuing with extraction")
     
     rows: List[Tuple[str, str]] = []
     try:

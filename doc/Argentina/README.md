@@ -6,14 +6,15 @@ The Argentina scraper extracts pharmaceutical product information from AlfaBeta 
 
 ## Workflow
 
-The Argentina scraper follows a 6-step pipeline:
+The Argentina scraper follows a 7-step pipeline:
 
 1. **00_backup_and_clean.py** - Backup existing output and clean for fresh run
 2. **01_getProdList.py** - Extract product list from AlfaBeta
-3. **02_alfabeta_scraper_labs.py** - Scrape detailed product information
-4. **03_TranslateUsingDictionary.py** - Translate Spanish text to English
-5. **04_GenerateOutput.py** - Generate final output report with PCID mapping
-6. **05_PCIDmissing.py** - Process missing PCID entries
+3. **02_prepare_urls.py** - Build product URLs and initialize scrape state
+4. **03_alfabeta_selenium_scraper.py** - Scrape detailed product information with Selenium
+5. **04_alfabeta_api_scraper.py** - Scrape detailed product information via API (fill gaps)
+6. **05_TranslateUsingDictionary.py** - Translate Spanish text to English
+7. **06_GenerateOutput.py** - Generate final output report with PCID mapping
 
 ## Configuration
 
@@ -21,10 +22,11 @@ All configuration is managed through `config/Argentina.env.json`. The configurat
 
 - **SCRIPT_00_*** - Backup and clean configuration
 - **SCRIPT_01_*** - Product list extraction settings
-- **SCRIPT_02_*** - Main scraping configuration (threads, rate limits, API keys)
-- **SCRIPT_03_*** - Translation settings
-- **SCRIPT_04_*** - Output generation settings
-- **SCRIPT_05_*** - PCID missing processing
+- **SCRIPT_02_*** - URL preparation settings
+- **SCRIPT_03_*** - Selenium scraping configuration (threads, rate limits, login)
+- **SCRIPT_04_*** - API scraping configuration (threads, rate limits, API keys)
+- **SCRIPT_05_*** - Translation settings
+- **SCRIPT_06_*** - Output generation settings
 
 ### Key Configuration Values
 
@@ -49,10 +51,16 @@ Place the following files in the input directory (`Input/`):
 The scraper generates the following output files in the output directory:
 
 - `Productlist.csv` - Extracted product list
+- `Productlist_with_urls.csv` - Product list with constructed URLs and scrape state
 - `alfabeta_products_by_product.csv` - Scraped product details
+- `alfabeta_progress.csv` - Progress tracking
+- `alfabeta_errors.csv` - Error log
 - `alfabeta_products_all_dict_en.csv` - Translated product data
-- `alfabeta_Report_YYYYMMDD.csv` - Final output report with PCID mapping
-- `pcid_MISSING.xlsx` - Products with missing PCID mappings
+- `missing_cells.csv` - Untranslated cells from dictionary translation
+- `alfabeta_Report_YYYYMMDD_pcid_mapping.csv` - Final output report with PCID mapping
+- `alfabeta_Report_YYYYMMDD_pcid_missing.csv` - Rows without PCID match
+- `alfabeta_Report_YYYYMMDD_pcid_oos.csv` - Out-of-scope products
+- `alfabeta_Report_YYYYMMDD_pcid_no_data.csv` - Rows missing required data
 
 ## Running the Scraper
 
@@ -75,10 +83,11 @@ Or run individual steps:
 ```bash
 python 00_backup_and_clean.py
 python 01_getProdList.py
-python 02_alfabeta_scraper_labs.py
-python 03_TranslateUsingDictionary.py
-python 04_GenerateOutput.py
-python 05_PCIDmissing.py
+python 02_prepare_urls.py
+python 03_alfabeta_selenium_scraper.py
+python 04_alfabeta_api_scraper.py
+python 05_TranslateUsingDictionary.py
+python 06_GenerateOutput.py
 ```
 
 ## Script Details
@@ -95,32 +104,57 @@ Extracts product list from AlfaBeta website.
 - `SCRIPT_01_HUB_URL` - AlfaBeta hub URL
 - `SCRIPT_01_HEADLESS` - Browser headless mode
 
-### 02_alfabeta_scraper_labs.py
+### 02_prepare_urls.py
 
-Main scraping script that extracts detailed product information.
+Builds product URLs and initializes scrape state.
 
 **Input:** `Productlist.csv`
-**Output:** 
+**Output:** `Productlist_with_urls.csv`
+
+**Features:**
+- URL construction based on AlfaBeta patterns
+- Initializes scrape state flags for Selenium/API
+
+### 03_alfabeta_selenium_scraper.py
+
+Scrapes detailed product information using Selenium.
+
+**Input:** `Productlist_with_urls.csv`
+**Output:**
 - `alfabeta_products_by_product.csv` - Product details
 - `alfabeta_progress.csv` - Progress tracking
 - `alfabeta_errors.csv` - Error log
 
 **Configuration:**
-- `SCRIPT_02_DEFAULT_THREADS` - Number of concurrent threads
-- `SCRIPT_02_RATE_LIMIT_PRODUCTS` - Rate limit per product
-- `SCRIPT_02_RATE_LIMIT_SECONDS` - Rate limit time window
-- `SCRIPT_02_SCRAPINGDOG_URL` - ScrapingDog API URL
-- `SCRIPT_02_MAX_ROWS` - Maximum rows to process
+- `SCRIPT_03_DEFAULT_THREADS` - Number of concurrent threads
+- `SCRIPT_03_RATE_LIMIT_PRODUCTS` - Rate limit per product
+- `SCRIPT_03_RATE_LIMIT_SECONDS` - Rate limit time window
+- `SCRIPT_03_MAX_ROWS` - Maximum rows to process
 
 **Features:**
 - Multi-threaded scraping
-- Proxy support via ScrapingDog
 - Account rotation
 - Rate limiting
 - Progress tracking
 - Error logging
 
-### 03_TranslateUsingDictionary.py
+### 04_alfabeta_api_scraper.py
+
+Scrapes detailed product information via API to fill remaining gaps.
+
+**Input:** `Productlist_with_urls.csv`
+**Output:**
+- `alfabeta_products_by_product.csv` - Product details (updated)
+- `alfabeta_progress.csv` - Progress tracking
+- `alfabeta_errors.csv` - Error log
+
+**Configuration:**
+- `SCRIPT_04_API_THREADS` - Number of concurrent threads
+- `SCRIPT_04_RATE_LIMIT_PRODUCTS` - Rate limit per product
+- `SCRIPT_04_RATE_LIMIT_SECONDS` - Rate limit time window
+- `SCRIPT_04_SCRAPINGDOG_URL` - ScrapingDog API URL
+
+### 05_TranslateUsingDictionary.py
 
 Translates Spanish text to English using a dictionary file.
 
@@ -132,7 +166,7 @@ Translates Spanish text to English using a dictionary file.
 - `alfabeta_products_all_dict_en.csv` - Translated data
 - `missing_cells.csv` - Cells that couldn't be translated
 
-### 04_GenerateOutput.py
+### 06_GenerateOutput.py
 
 Generates final output report with PCID mapping.
 
@@ -141,19 +175,15 @@ Generates final output report with PCID mapping.
 - `pcid_Mapping.csv`
 
 **Output:**
-- `alfabeta_Report_YYYYMMDD.csv` - Final report
+- `alfabeta_Report_YYYYMMDD_pcid_mapping.csv` - Final report with PCID mapping
+- `alfabeta_Report_YYYYMMDD_pcid_missing.csv` - Rows without PCID match
+- `alfabeta_Report_YYYYMMDD_pcid_oos.csv` - Out-of-scope products
+- `alfabeta_Report_YYYYMMDD_pcid_no_data.csv` - Rows missing required data
 
 **Features:**
-- PCID mapping
+- Strict PCID mapping
 - Data standardization
 - Date-based file naming
-
-### 05_PCIDmissing.py
-
-Processes products with missing PCID mappings.
-
-**Input:** Final report CSV
-**Output:** `pcid_MISSING.xlsx`
 
 ## Troubleshooting
 

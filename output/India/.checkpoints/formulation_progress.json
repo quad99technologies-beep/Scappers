@@ -1,0 +1,33 @@
+{
+  "completed_formulations": [
+    "ABACAVIR",
+    "ACETAZOLAMIDE SYSTEMIC",
+    "ACICLOVIR",
+    "ADRENALINE",
+    "ALBENDAZOLE",
+    "AMPICILLIN",
+    "ANTI RABIES SERA - IMMUNOGLOBULINS",
+    "AZATHIOPRINE",
+    "ACETYLCYSTEINE",
+    "ALTEPLASE",
+    "ADENOSINE",
+    "ALLOPURINOL",
+    "AMIKACIN",
+    "AMIODARONE",
+    "AMITRIPTYLINE",
+    "AMLODIPINE",
+    "AMOXYCILLIN",
+    "AMPHOTERICIN B - LIPID",
+    "AMPHOTERICIN B - LIPOSOMAL",
+    "ANTI RABIES VACCINE - ARV",
+    "ARSENIC TRIOXIDE"
+  ],
+  "in_progress": "ZOLPIDEM",
+  "last_updated": "2026-01-17T11:48:26.742043",
+  "stats": {
+    "total_processed": 21,
+    "total_medicines": 1158,
+    "total_substitutes": 36363,
+    "errors": 872
+  }
+}

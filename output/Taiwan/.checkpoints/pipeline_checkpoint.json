@@ -1,0 +1,37 @@
+{
+  "scraper": "Taiwan",
+  "last_run": "2026-01-18T17:46:06.922066",
+  "completed_steps": [
+    0,
+    1,
+    2
+  ],
+  "step_outputs": {
+    "step_0": {
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "completed_at": "2026-01-18T12:42:30.478424",
+      "output_files": [],
+      "duration_seconds": 0.2620985507965088
+    },
+    "step_1": {
+      "step_number": 1,
+      "step_name": "Collect Drug Code URLs",
+      "completed_at": "2026-01-18T15:33:49.915815",
+      "output_files": [
+        "D:\\quad99\\Scappers\\output\\Taiwan\\taiwan_drug_code_urls.csv"
+      ],
+      "duration_seconds": 397.9616882801056
+    },
+    "step_2": {
+      "step_number": 2,
+      "step_name": "Extract Drug Code Details",
+      "completed_at": "2026-01-18T17:46:06.922031",
+      "output_files": [
+        "D:\\quad99\\Scappers\\exports\\Taiwan\\taiwan_drug_code_details.csv"
+      ],
+      "duration_seconds": 247.68220233917236
+    }
+  },
+  "metadata": {}
+}

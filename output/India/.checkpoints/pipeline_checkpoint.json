@@ -1,6 +1,6 @@
 {
   "scraper": "India",
-  "last_run": "2026-01-16T18:05:55.262709",
+  "last_run": "2026-01-17T11:48:45.789211",
   "completed_steps": [
     0,
     1,
@@ -10,27 +10,28 @@
     "step_0": {
       "step_number": 0,
       "step_name": "Backup and Clean",
-      "completed_at": "2026-01-16T17:47:13.184960",
+      "completed_at": "2026-01-16T20:23:41.488317",
       "output_files": [],
-      "duration_seconds": 0.1598203182220459
+      "duration_seconds": 0.09571695327758789
     },
     "step_1": {
       "step_number": 1,
       "step_name": "Download Ceiling Prices",
-      "completed_at": "2026-01-16T17:47:43.756762",
+      "completed_at": "2026-01-16T20:24:12.565883",
       "output_files": [
         "D:\\quad99\\Scappers\\output\\India\\ceiling_prices.xlsx"
       ],
-      "duration_seconds": 30.548764944076538
+      "duration_seconds": 31.060721158981323
     },
     "step_2": {
       "step_number": 2,
       "step_name": "Extract Medicine Details",
-      "completed_at": "2026-01-16T18:05:55.262661",
+      "completed_at": "2026-01-17T11:48:45.789182",
       "output_files": [
-        "D:\\quad99\\Scappers\\output\\India\\details"
+        "D:\\quad99\\Scappers\\output\\India\\details",
+        "D:\\quad99\\Scappers\\output\\India\\scraping_report.json"
       ],
-      "duration_seconds": 1091.4909613132477
+      "duration_seconds": 15893.105914354324
     }
   },
   "metadata": {}

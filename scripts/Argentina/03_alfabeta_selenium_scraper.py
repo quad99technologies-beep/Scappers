@@ -64,8 +64,9 @@ from webdriver_manager.firefox import GeckoDriverManager
 from config_loader import (
     get_input_dir, get_output_dir, get_accounts,
     ALFABETA_USER, ALFABETA_PASS, HEADLESS, HUB_URL, PRODUCTS_URL,
-    SELENIUM_ROTATION_LIMIT, SELENIUM_THREADS,
+    SELENIUM_ROTATION_LIMIT, SELENIUM_THREADS, SELENIUM_SINGLE_ATTEMPT,
     DUPLICATE_RATE_LIMIT_SECONDS,
+    SKIP_REPEAT_SELENIUM_TO_API,
     REQUEST_PAUSE_BASE, REQUEST_PAUSE_JITTER_MIN, REQUEST_PAUSE_JITTER_MAX,
     WAIT_ALERT, WAIT_SEARCH_FORM, WAIT_SEARCH_RESULTS, WAIT_PAGE_LOAD,
     PAGE_LOAD_TIMEOUT, MAX_RETRIES_TIMEOUT, CPU_THROTTLE_HIGH, PAUSE_CPU_THROTTLE,
@@ -108,6 +109,8 @@ _shutdown_requested = threading.Event()
 _active_drivers = []
 _drivers_lock = threading.Lock()
 _skip_lock = threading.Lock()  # Lock for updating skip_set during runtime
+_attempted_lock = threading.Lock()  # Lock for tracking attempted items during runtime
+_attempted_keys = set()  # Track items already attempted to avoid repeat Selenium searches
 
 # ====== TRACKED PIDs ======
 _tracked_firefox_pids = set()  # Track all Firefox/Tor PIDs created by this scraper instance
@@ -475,6 +478,22 @@ def parse_date(s: str) -> Optional[str]:
 def rate_limit_pause():
     """Rate limiting pause between requests to avoid overwhelming the server."""
     time.sleep(REQUEST_PAUSE_BASE + random.uniform(*REQUEST_PAUSE_JITTER))
+
+
+def mark_api_pending(company: str, product: str):
+    """Mark product as pending API fallback with zero records."""
+    try:
+        update_prepared_urls_source(
+            company,
+            product,
+            new_source="api",
+            scraped_by_selenium="yes",
+            scraped_by_api="no",
+            selenium_records="0",
+            api_records="0",
+        )
+    except Exception:
+        pass
 
 
 def check_connection_with_retry(driver, url: str, max_retries: int = 3) -> bool:
@@ -1485,8 +1504,8 @@ def extract_rows(driver, in_company, in_product, max_retries=2):
 
 # Constants for browser management
 PRODUCTS_PER_RESTART = 100  # Restart browser every 100 products
-INSTANCE_RESTART_WAIT_SECONDS = 120  # Wait 2 minutes on captcha before reopening
-LOGIN_CAPTCHA_WAIT_SECONDS = 180  # Wait 3 minutes on login captcha before retrying
+INSTANCE_RESTART_WAIT_SECONDS = 84  # Reduced by 30%
+LOGIN_CAPTCHA_WAIT_SECONDS = 126  # Reduced by 30%
 
 # ====== CAPTCHA DETECTION ======
 
@@ -1568,11 +1587,14 @@ def main():
     print(f"[STARTUP]   - Browser: Firefox with Tor (SOCKS5 proxy on localhost:{TOR_PROXY_PORT} - {port_name})")
     print(f"[STARTUP]   - Restart browser every: {PRODUCTS_PER_RESTART} products")
     print(f"[STARTUP]   - Wait on captcha/login: {INSTANCE_RESTART_WAIT_SECONDS} seconds")
+    print(f"[STARTUP]   - Per-thread rate limit: {DUPLICATE_RATE_LIMIT_SECONDS} seconds")
+    print(f"[STARTUP]   - Repeat items -> API: {SKIP_REPEAT_SELENIUM_TO_API}")
     print(f"[STARTUP]   - Images/CSS: BLOCKED (for performance)")
     print("=" * 80 + "\n")
     log.info("[STARTUP] Starting Selenium scraper with Tor...")
     log.info(f"[STARTUP] Browser: Firefox with Tor (SOCKS5 proxy on localhost:{TOR_PROXY_PORT} - {port_name})")
     log.info(f"[STARTUP] Browser instances: {SELENIUM_THREADS}, Restart every: {PRODUCTS_PER_RESTART} products")
+    log.info(f"[STARTUP] Repeat items -> API: {SKIP_REPEAT_SELENIUM_TO_API}")
 
     ensure_headers()
     skip_set = combine_skip_sets()
@@ -1664,8 +1686,8 @@ def main():
         print("[SELENIUM] Step 3 completed successfully (no products to scrape)", flush=True)
         return 0
     
-    num_threads = min(4, eligible_count)
-    log.info(f"[SELENIUM] Using {num_threads} browser instance(s) (min(4, {eligible_count}))")
+    num_threads = min(max(1, SELENIUM_THREADS), eligible_count)
+    log.info(f"[SELENIUM] Using {num_threads} browser instance(s) (min({max(1, SELENIUM_THREADS)}, {eligible_count}))")
     
     # Set total products for progress tracking
     global _total_products
@@ -1737,6 +1759,7 @@ def main():
         row_count = 0
         selenium_count = 0
         blank_row_encountered = False
+        seen_keys = set()
         
         for row in csv_reader:
             row_count += 1
@@ -1764,6 +1787,9 @@ def main():
                 prod and comp and url):
                 # Check if already processed (in skip_set - checks alfabeta_progress.csv and alfabeta_products_by_product.csv)
                 key = (nk(comp), nk(prod))
+                if key in seen_keys:
+                    log.debug(f"[CSV_READER] Skipping duplicate row for {comp} | {prod}")
+                    continue
                 with _skip_lock:
                     if key in skip_set:
                         log.debug(f"[SKIP] Skipping {comp} | {prod} (already in alfabeta_progress.csv or alfabeta_products_by_product.csv)")
@@ -1776,6 +1802,7 @@ def main():
                     log.debug(f"[SKIP] Skipping {comp} | {prod} (already marked as scraped in CSV)")
                     continue  # Skip already scraped products
                 
+                seen_keys.add(key)
                 selenium_count += 1
                 # Add to queue for processing (only product and company, no is_duplicate)
                 selenium_queue.put((prod, comp))
@@ -2015,6 +2042,22 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                 if driver is None:
                     # Failed to restart, requeue and continue (but check if already completed first)
                     if not _shutdown_requested.is_set():
+                        if SELENIUM_SINGLE_ATTEMPT:
+                            log.warning(f"[SELENIUM_WORKER] Driver restart failed, moving to API (single-attempt): {in_company} | {in_product}")
+                            mark_api_pending(in_company, in_product)
+                            try:
+                                append_progress(in_company, in_product, 0)
+                                with _skip_lock:
+                                    skip_set.add((nk(in_company), nk(in_product)))
+                            except Exception:
+                                pass
+                            with _progress_lock:
+                                _products_completed += 1
+                                completed = _products_completed
+                                total = _total_products
+                            log_progress_with_step(f"Completed (driver->API): {in_product}", completed, total)
+                            selenium_queue.task_done()
+                            continue
                         key = (nk(in_company), nk(in_product))
                         with _skip_lock:
                             if key not in skip_set:
@@ -2043,6 +2086,32 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                         log.info(f"[SKIP-RUNTIME] {in_company} | {in_product}")
                         # task_done() will be called in finally block
                         continue
+
+                if SKIP_REPEAT_SELENIUM_TO_API:
+                    with _attempted_lock:
+                        if key in _attempted_keys:
+                            log.warning(f"[DUPLICATE] {in_company} | {in_product} already attempted - moving to API")
+                            try:
+                                update_prepared_urls_source(
+                                    in_company,
+                                    in_product,
+                                    new_source="api",
+                                    scraped_by_selenium="yes",
+                                    scraped_by_api="no",
+                                    selenium_records="0",
+                                    api_records="0",
+                                )
+                            except Exception:
+                                pass
+                            with _skip_lock:
+                                skip_set.add(key)
+                            with _progress_lock:
+                                _products_completed += 1
+                                completed = _products_completed
+                                total = _total_products
+                            log_progress_with_step(f"Moved to API (duplicate): {in_product}", completed, total)
+                            continue
+                        _attempted_keys.add(key)
                 
                 log.info(f"[SELENIUM_WORKER] [SEARCH_START] {in_company} | {in_product}")
                 search_attempted = True
@@ -2156,6 +2225,22 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                             # task_done() will be called in finally block
                             break
                         
+                        if SELENIUM_SINGLE_ATTEMPT:
+                            log.warning(f"[SELENIUM_WORKER] Captcha detected, moving to API (single-attempt): {in_company} | {in_product}")
+                            mark_api_pending(in_company, in_product)
+                            try:
+                                append_progress(in_company, in_product, 0)
+                                with _skip_lock:
+                                    skip_set.add((nk(in_company), nk(in_product)))
+                            except Exception:
+                                pass
+                            with _progress_lock:
+                                _products_completed += 1
+                                completed = _products_completed
+                                total = _total_products
+                            log_progress_with_step(f"Completed (captcha->API): {in_product}", completed, total)
+                            continue  # Skip requeue
+
                         # Requeue product to retry (only if not shutdown and not already completed)
                         key = (nk(in_company), nk(in_product))
                         with _skip_lock:
@@ -2263,7 +2348,7 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                     continue
                 
                 # Retry logic for TimeoutException
-                max_retries = MAX_RETRIES_TIMEOUT
+                max_retries = 0 if SELENIUM_SINGLE_ATTEMPT else MAX_RETRIES_TIMEOUT
                 retry_count = 0
                 success = False
                 
@@ -2294,7 +2379,7 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                         product_not_found = False
                         driver_restarted = False  # Flag to track if driver was restarted (requires requeue)
                         retry_loop_count = 0
-                        max_retry_loops = 5  # Maximum number of retry loop iterations to prevent infinite loops
+                        max_retry_loops = 1 if SELENIUM_SINGLE_ATTEMPT else 5  # Limit retries when single-attempt mode enabled
                         
                         while not data_found and not product_not_found and retry_loop_count < max_retry_loops:
                             retry_loop_count += 1
@@ -2399,6 +2484,17 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                             # Check if login page appeared after search
                             try:
                                 if is_login_page(driver):
+                                    if SELENIUM_SINGLE_ATTEMPT:
+                                        log.warning(f"[SELENIUM_WORKER] [LOGIN_CAPTCHA] Login captcha detected after search, moving to API (single-attempt): {in_company} | {in_product}")
+                                        mark_api_pending(in_company, in_product)
+                                        try:
+                                            append_progress(in_company, in_product, 0)
+                                            with _skip_lock:
+                                                skip_set.add((nk(in_company), nk(in_product)))
+                                        except Exception:
+                                            pass
+                                        product_not_found = True
+                                        break
                                     log.warning(f"[SELENIUM_WORKER] [LOGIN_CAPTCHA] Login captcha detected after search for {in_company} | {in_product}")
                                     log.info(f"[SELENIUM_WORKER] [LOGIN_CAPTCHA] Waiting {LOGIN_CAPTCHA_WAIT_SECONDS} seconds, then retrying search...")
                                     with _progress_lock:
@@ -2422,6 +2518,17 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                             # Check for captcha after search
                             try:
                                 if driver.current_url and not driver.current_url.startswith("about:") and is_captcha_page(driver):
+                                    if SELENIUM_SINGLE_ATTEMPT:
+                                        log.warning(f"[SELENIUM_WORKER] [CAPTCHA] Captcha detected after search, moving to API (single-attempt): {in_company} | {in_product}")
+                                        mark_api_pending(in_company, in_product)
+                                        try:
+                                            append_progress(in_company, in_product, 0)
+                                            with _skip_lock:
+                                                skip_set.add((nk(in_company), nk(in_product)))
+                                        except Exception:
+                                            pass
+                                        product_not_found = True
+                                        break
                                     log.warning(f"[SELENIUM_WORKER] [CAPTCHA] Captcha detected after search for {in_company} | {in_product}")
                                     log.info(f"[SELENIUM_WORKER] [CAPTCHA] Waiting {INSTANCE_RESTART_WAIT_SECONDS} seconds, then retrying search...")
                                     with _progress_lock:
@@ -2454,11 +2561,18 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                                     save_debug(driver, DEBUG_NF, f"{in_company}_{in_product}")
                                     log.warning(f"[SELENIUM_WORKER] [NOT_FOUND] Product not found for {in_company} | {in_product}, marking for API fallback")
                                     # If Selenium extracts NO values:
-                                    # Source = api, Scraped_By_Selenium = yes, Scraped_By_API = yes
-                                    update_prepared_urls_source(in_company, in_product, 
-                                                               new_source="api",
-                                                               scraped_by_selenium="yes",
-                                                               scraped_by_api="yes")
+                                    # Source = api, Scraped_By_Selenium = yes, Scraped_By_API = no (pending API)
+                                    update_prepared_urls_source(
+                                        in_company,
+                                        in_product,
+                                        new_source="api",
+                                        scraped_by_selenium="yes",
+                                        scraped_by_api="no",
+                                        selenium_records="0",
+                                        api_records="0",
+                                    )
+                                    with _skip_lock:
+                                        skip_set.add((nk(in_company), nk(in_product)))
                                     product_not_found = True
                                     break  # Exit retry loop - no data
                             except TimeoutException:
@@ -2521,6 +2635,17 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                             # Check if login page appeared after opening product page
                             try:
                                 if is_login_page(driver):
+                                    if SELENIUM_SINGLE_ATTEMPT:
+                                        log.warning(f"[SELENIUM_WORKER] [LOGIN_CAPTCHA] Login captcha on product page, moving to API (single-attempt): {in_company} | {in_product}")
+                                        mark_api_pending(in_company, in_product)
+                                        try:
+                                            append_progress(in_company, in_product, 0)
+                                            with _skip_lock:
+                                                skip_set.add((nk(in_company), nk(in_product)))
+                                        except Exception:
+                                            pass
+                                        product_not_found = True
+                                        break
                                     log.warning(f"[SELENIUM_WORKER] [LOGIN_CAPTCHA] Login captcha detected on product page for {in_company} | {in_product}")
                                     log.info(f"[SELENIUM_WORKER] [LOGIN_CAPTCHA] Waiting {LOGIN_CAPTCHA_WAIT_SECONDS} seconds, then retrying search...")
                                     with _progress_lock:
@@ -2560,6 +2685,17 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                             # Check for captcha on product page
                             try:
                                 if driver.current_url and not driver.current_url.startswith("about:") and is_captcha_page(driver):
+                                    if SELENIUM_SINGLE_ATTEMPT:
+                                        log.warning(f"[SELENIUM_WORKER] [CAPTCHA] Captcha on product page, moving to API (single-attempt): {in_company} | {in_product}")
+                                        mark_api_pending(in_company, in_product)
+                                        try:
+                                            append_progress(in_company, in_product, 0)
+                                            with _skip_lock:
+                                                skip_set.add((nk(in_company), nk(in_product)))
+                                        except Exception:
+                                            pass
+                                        product_not_found = True
+                                        break
                                     log.warning(f"[SELENIUM_WORKER] [CAPTCHA] Captcha detected on product page for {in_company} | {in_product}")
                                     log.info(f"[SELENIUM_WORKER] [CAPTCHA] Waiting {INSTANCE_RESTART_WAIT_SECONDS} seconds, then retrying search...")
                                     with _progress_lock:
@@ -2683,10 +2819,15 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                                 
                                 # Update result: If Selenium extracts valid values:
                                 # Source = selenium, Scraped_By_Selenium = yes, Scraped_By_API = no
-                                update_prepared_urls_source(in_company, in_product, 
-                                                           new_source="selenium",
-                                                           scraped_by_selenium="yes",
-                                                           scraped_by_api="no")
+                                update_prepared_urls_source(
+                                    in_company,
+                                    in_product,
+                                    new_source="selenium",
+                                    scraped_by_selenium="yes",
+                                    scraped_by_api="no",
+                                    selenium_records=str(len(rows_with_values)),
+                                    api_records="0",
+                                )
                                 
                                 products_processed += 1  # Increment local counter on success
                                 
@@ -2725,11 +2866,16 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                                 # No data found - mark for API fallback and exit retry loop
                                 log.warning(f"[SELENIUM_WORKER] [BLANK_RESULT] Selenium returned blank result for {in_company} | {in_product}, marking for API fallback")
                                 # If Selenium extracts NO values:
-                                # Source = api, Scraped_By_Selenium = yes, Scraped_By_API = yes
-                                update_prepared_urls_source(in_company, in_product, 
-                                                           new_source="api",
-                                                           scraped_by_selenium="yes",
-                                                           scraped_by_api="yes")
+                                # Source = api, Scraped_By_Selenium = yes, Scraped_By_API = no (pending API)
+                                update_prepared_urls_source(
+                                    in_company,
+                                    in_product,
+                                    new_source="api",
+                                    scraped_by_selenium="yes",
+                                    scraped_by_api="no",
+                                    selenium_records="0",
+                                    api_records="0",
+                                )
                                 save_debug(driver, DEBUG_NF, f"{in_company}_{in_product}")
                                 product_not_found = True
                                 
@@ -2759,11 +2905,16 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                         if retry_loop_count >= max_retry_loops and not data_found and not product_not_found:
                             log.warning(f"[SELENIUM_WORKER] [MAX_RETRIES] Maximum retry loops ({max_retry_loops}) reached for {in_company} | {in_product}, marking for API fallback")
                             # If Selenium extracts NO values (timeout after retries):
-                            # Source = api, Scraped_By_Selenium = yes, Scraped_By_API = yes
-                            update_prepared_urls_source(in_company, in_product, 
-                                                       new_source="api",
-                                                       scraped_by_selenium="yes",
-                                                       scraped_by_api="yes")
+                            # Source = api, Scraped_By_Selenium = yes, Scraped_By_API = no (pending API)
+                            update_prepared_urls_source(
+                                in_company,
+                                in_product,
+                                new_source="api",
+                                scraped_by_selenium="yes",
+                                scraped_by_api="no",
+                                selenium_records="0",
+                                api_records="0",
+                            )
                             save_debug(driver, DEBUG_NF, f"{in_company}_{in_product}")
                             product_not_found = True
                             # Write progress with 0 records to prevent reprocessing
@@ -2788,6 +2939,21 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                         # After retry loop: if we got data or determined no data, mark success
                         # BUT: if driver was restarted, we need to requeue the item
                         if driver_restarted:
+                            if SELENIUM_SINGLE_ATTEMPT:
+                                log.warning(f"[FATAL_DRIVER] Thread {thread_id}: Driver restarted, moving to API (single-attempt): {in_company} | {in_product}")
+                                mark_api_pending(in_company, in_product)
+                                try:
+                                    append_progress(in_company, in_product, 0)
+                                    with _skip_lock:
+                                        skip_set.add((nk(in_company), nk(in_product)))
+                                except Exception:
+                                    pass
+                                with _progress_lock:
+                                    _products_completed += 1
+                                    completed = _products_completed
+                                    total = _total_products
+                                log_progress_with_step(f"Completed (driver->API): {in_product}", completed, total)
+                                continue  # Skip requeue
                             # Driver was restarted in inner loop, requeue item for retry with new driver
                             log.info(f"[FATAL_DRIVER] Thread {thread_id}: Driver restarted in retry loop, requeueing {in_company} | {in_product}")
                             # For requeue: call task_done() explicitly and set flag to prevent double call
@@ -2797,6 +2963,10 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                             continue  # Continue to next item
                         
                         if data_found or product_not_found:
+                            if product_not_found and not data_found and SELENIUM_SINGLE_ATTEMPT:
+                                mark_api_pending(in_company, in_product)
+                                with _skip_lock:
+                                    skip_set.add((nk(in_company), nk(in_product)))
                             success = True
                             # If product_not_found but counter not yet incremented, increment now
                             # (blank result and max retries paths already increment, but error paths that break early might not)
@@ -2823,11 +2993,16 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                             # Move to API queue instead of marking as failed
                             try:
                                 # If Selenium times out after retries:
-                                # Source = api, Scraped_By_Selenium = yes, Scraped_By_API = yes
-                                update_prepared_urls_source(in_company, in_product, 
-                                                           new_source="api",
-                                                           scraped_by_selenium="yes",
-                                                           scraped_by_api="yes")
+                                # Source = api, Scraped_By_Selenium = yes, Scraped_By_API = no (pending API)
+                                update_prepared_urls_source(
+                                    in_company,
+                                    in_product,
+                                    new_source="api",
+                                    scraped_by_selenium="yes",
+                                    scraped_by_api="no",
+                                    selenium_records="0",
+                                    api_records="0",
+                                )
                                 append_progress(in_company, in_product, 0)
                                 with _skip_lock:
                                     skip_set.add((nk(in_company), nk(in_product)))
@@ -2875,6 +3050,25 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                             selenium_queue.task_done()
                         break
                     
+                    if SELENIUM_SINGLE_ATTEMPT:
+                        log.warning(f"[FATAL_DRIVER] Thread {thread_id}: Moving to API (single-attempt): {in_company} | {in_product}")
+                        mark_api_pending(in_company, in_product)
+                        try:
+                            append_error(in_company, in_product, f"Driver error: {driver_error}")
+                            append_progress(in_company, in_product, 0)
+                            with _skip_lock:
+                                skip_set.add((nk(in_company), nk(in_product)))
+                        except Exception:
+                            pass
+                        with _progress_lock:
+                            _products_completed += 1
+                            completed = _products_completed
+                            total = _total_products
+                        log_progress_with_step(f"Completed (driver->API): {in_product}", completed, total)
+                        selenium_queue.task_done()
+                        task_done_called = True
+                        continue
+
                     # Restart driver and requeue the item
                     log.warning(f"[FATAL_DRIVER] Thread {thread_id}: Restarting driver and requeueing {in_company} | {in_product}")
                     driver = restart_driver(thread_id, driver, args.headless)
@@ -2915,6 +3109,8 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                 
                 msg = f"{type(driver_error).__name__}: {driver_error}"
                 try:
+                    if SELENIUM_SINGLE_ATTEMPT:
+                        mark_api_pending(in_company, in_product)
                     append_error(in_company, in_product, msg)
                     append_progress(in_company, in_product, 0)
                     with _skip_lock:
@@ -2948,6 +3144,24 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                                     pass
                                 selenium_queue.task_done()
                             break
+                        if SELENIUM_SINGLE_ATTEMPT:
+                            log.warning(f"[FATAL_DRIVER] Thread {thread_id}: Moving to API after connection error (single-attempt): {in_company} | {in_product}")
+                            mark_api_pending(in_company, in_product)
+                            try:
+                                append_error(in_company, in_product, f"Connection error: {conn_error}")
+                                append_progress(in_company, in_product, 0)
+                                with _skip_lock:
+                                    skip_set.add((nk(in_company), nk(in_product)))
+                            except Exception:
+                                pass
+                            with _progress_lock:
+                                _products_completed += 1
+                                completed = _products_completed
+                                total = _total_products
+                            log_progress_with_step(f"Completed (conn->API): {in_product}", completed, total)
+                            selenium_queue.task_done()
+                            task_done_called = True
+                            continue
                         # Restart driver and requeue
                         driver = restart_driver(thread_id, driver, args.headless)
                         if driver is None:
@@ -2970,6 +3184,8 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                 # Not a fatal driver error, treat as normal error
                 msg = f"{type(conn_error).__name__}: {conn_error}"
                 try:
+                    if SELENIUM_SINGLE_ATTEMPT:
+                        mark_api_pending(in_company, in_product)
                     append_error(in_company, in_product, msg)
                     append_progress(in_company, in_product, 0)
                     with _skip_lock:
@@ -3000,6 +3216,25 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                                 pass
                             selenium_queue.task_done()
                         break
+                    if SELENIUM_SINGLE_ATTEMPT:
+                        log.warning(f"[FATAL_DRIVER] Thread {thread_id}: Moving to API after fatal error (single-attempt): {in_company} | {in_product}")
+                        mark_api_pending(in_company, in_product)
+                        try:
+                            msg = f"{type(e).__name__}: {e}"
+                            append_error(in_company, in_product, msg)
+                            append_progress(in_company, in_product, 0)
+                            with _skip_lock:
+                                skip_set.add((nk(in_company), nk(in_product)))
+                        except Exception:
+                            pass
+                        with _progress_lock:
+                            _products_completed += 1
+                            completed = _products_completed
+                            total = _total_products
+                        log_progress_with_step(f"Completed (fatal->API): {in_product}", completed, total)
+                        selenium_queue.task_done()
+                        task_done_called = True
+                        continue
                     # Restart driver and requeue
                     driver = restart_driver(thread_id, driver, args.headless)
                     if driver is None:
@@ -3037,6 +3272,8 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
                 
                 msg = f"{type(e).__name__}: {e}"
                 try:
+                    if SELENIUM_SINGLE_ATTEMPT:
+                        mark_api_pending(in_company, in_product)
                     append_error(in_company, in_product, msg)
                     append_progress(in_company, in_product, 0)
                     with _skip_lock:

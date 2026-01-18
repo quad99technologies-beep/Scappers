@@ -1,6 +1,6 @@
 {
   "scraper": "Malaysia",
-  "last_run": "2026-01-14T12:06:06.184577",
+  "last_run": "2026-01-17T19:34:04.465677",
   "completed_steps": [
     0,
     1,
@@ -13,52 +13,52 @@
     "step_0": {
       "step_number": 0,
       "step_name": "Backup and Clean",
-      "completed_at": "2026-01-14T11:28:22.878233",
+      "completed_at": "2026-01-17T18:59:30.348700",
       "output_files": [],
-      "duration_seconds": 0.22928166389465332
+      "duration_seconds": 0.288071870803833
     },
     "step_1": {
       "step_number": 1,
       "step_name": "Product Registration Number",
-      "completed_at": "2026-01-14T11:30:18.791934",
+      "completed_at": "2026-01-17T19:02:19.584421",
       "output_files": [
         "D:\\quad99\\Scappers\\output\\Malaysia\\malaysia_drug_prices_view_all.csv"
       ],
-      "duration_seconds": 115.8901138305664
+      "duration_seconds": 169.20789909362793
     },
     "step_2": {
       "step_number": 2,
       "step_name": "Product Details",
-      "completed_at": "2026-01-14T12:02:01.263393",
+      "completed_at": "2026-01-17T19:29:34.853049",
       "output_files": [
         "D:\\quad99\\Scappers\\output\\Malaysia\\quest3_product_details.csv"
       ],
-      "duration_seconds": 1902.4581191539764
+      "duration_seconds": 1635.2385039329529
     },
     "step_3": {
       "step_number": 3,
       "step_name": "Consolidate Results",
-      "completed_at": "2026-01-14T12:02:02.671755",
+      "completed_at": "2026-01-17T19:29:35.988824",
       "output_files": [
         "D:\\quad99\\Scappers\\output\\Malaysia\\consolidated_products.csv"
       ],
-      "duration_seconds": 1.3861758708953857
+      "duration_seconds": 1.1189374923706055
     },
     "step_4": {
       "step_number": 4,
       "step_name": "Get Fully Reimbursable",
-      "completed_at": "2026-01-14T12:06:04.711757",
+      "completed_at": "2026-01-17T19:34:03.756094",
       "output_files": [
         "D:\\quad99\\Scappers\\output\\Malaysia\\malaysia_fully_reimbursable_drugs.csv"
       ],
-      "duration_seconds": 242.03204607963562
+      "duration_seconds": 267.7613048553467
     },
     "step_5": {
       "step_number": 5,
       "step_name": "Generate PCID Mapped",
-      "completed_at": "2026-01-14T12:06:06.184566",
+      "completed_at": "2026-01-17T19:34:04.465669",
       "output_files": [],
-      "duration_seconds": 1.4544062614440918
+      "duration_seconds": 0.696068525314331
     }
   },
   "metadata": {}

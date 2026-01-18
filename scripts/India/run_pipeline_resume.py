@@ -7,13 +7,22 @@ Usage:
     python run_pipeline_resume.py          # Resume from last step or start fresh
     python run_pipeline_resume.py --fresh  # Start from step 0 (clear checkpoint)
     python run_pipeline_resume.py --step N # Start from step N (0-2)
+    python run_pipeline_resume.py --resume-details  # Resume only Step 02 (details extraction)
+
+Features:
+- Pipeline-level checkpoint (which step to run)
+- Formulation-level checkpoint within Step 02 (resume partial scrapes)
+- Automatic cleanup of Chrome instances
+- Final report generation
 """
 
 import sys
 import subprocess
 import argparse
 import time
+import json
 from pathlib import Path
+from datetime import datetime
 
 # Add repo root to path
 _repo_root = Path(__file__).resolve().parents[2]
@@ -29,13 +38,45 @@ from core.pipeline_checkpoint import get_checkpoint_manager
 from config_loader import get_output_dir
 
 SCRAPER_NAME = "India"
-MAX_STEPS = 2
+# Total actual steps: steps 0-2 = 3 steps
+MAX_STEPS = 3
 
 
-def run_step(step_num: int, script_name: str, step_name: str, output_files: list = None, allow_failure: bool = False):
+def get_formulation_checkpoint_status(output_dir: Path) -> dict:
+    """Get status of formulation-level checkpoint for Step 02."""
+    checkpoint_file = output_dir / ".checkpoints" / "formulation_progress.json"
+    
+    if checkpoint_file.exists():
+        try:
+            with open(checkpoint_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                return {
+                    "completed": len(data.get("completed_formulations", [])),
+                    "in_progress": data.get("in_progress"),
+                    "last_updated": data.get("last_updated"),
+                    "stats": data.get("stats", {})
+                }
+        except Exception as e:
+            print(f"[WARN] Could not read formulation checkpoint: {e}")
+    
+    return {"completed": 0, "in_progress": None, "last_updated": None, "stats": {}}
+
+
+def clear_formulation_checkpoint(output_dir: Path):
+    """Clear formulation-level checkpoint."""
+    checkpoint_file = output_dir / ".checkpoints" / "formulation_progress.json"
+    if checkpoint_file.exists():
+        checkpoint_file.unlink()
+        print("[INFO] Cleared formulation checkpoint")
+
+
+def run_step(step_num: int, script_name: str, step_name: str, output_files: list = None, 
+             allow_failure: bool = False, extra_args: list = None):
     """Run a pipeline step and mark it complete if successful."""
+    display_step = step_num + 1  # Display as 1-based for user friendliness
+    
     print(f"\n{'='*80}")
-    print(f"Step {step_num}/{MAX_STEPS}: {step_name}")
+    print(f"Step {display_step}/{MAX_STEPS}: {step_name}")
     print(f"{'='*80}\n")
     
     # Output overall pipeline progress with descriptive message
@@ -49,7 +90,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
     }
     step_desc = step_descriptions.get(step_num, step_name)
     
-    print(f"[PROGRESS] Pipeline Step: {step_num}/{MAX_STEPS} ({pipeline_percent}%) - {step_desc}", flush=True)
+    print(f"[PROGRESS] Pipeline Step: {display_step}/{MAX_STEPS} ({pipeline_percent}%) - {step_desc}", flush=True)
     
     script_path = Path(__file__).parent / script_name
     if not script_path.exists():
@@ -60,9 +101,14 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
     start_time = time.time()
     duration_seconds = None
     
+    # Build command with extra args
+    cmd = [sys.executable, "-u", str(script_path)]
+    if extra_args:
+        cmd.extend(extra_args)
+    
     try:
         result = subprocess.run(
-            [sys.executable, "-u", str(script_path)],
+            cmd,
             check=not allow_failure,
             capture_output=False
         )
@@ -104,7 +150,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         }
         next_desc = next_step_descriptions.get(step_num + 1, "Moving to next step")
         
-        print(f"[PROGRESS] Pipeline Step: {step_num + 1}/{MAX_STEPS} ({completion_percent}%) - {next_desc}", flush=True)
+        print(f"[PROGRESS] Pipeline Step: {display_step}/{MAX_STEPS} ({completion_percent}%) - {next_desc}", flush=True)
         
         return True
     except subprocess.CalledProcessError as e:
@@ -120,20 +166,74 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         return False
 
 
+def print_checkpoint_status():
+    """Print current checkpoint status."""
+    cp = get_checkpoint_manager(SCRAPER_NAME)
+    info = cp.get_checkpoint_info()
+    output_dir = get_output_dir()
+    formulation_status = get_formulation_checkpoint_status(output_dir)
+    
+    print("\n" + "=" * 60)
+    print("CHECKPOINT STATUS")
+    print("=" * 60)
+    print(f"Pipeline Steps Completed: {info['total_completed']}")
+    print(f"Last Completed Step: {info['last_completed_step']}")
+    print(f"Next Step: {info['next_step']}")
+    print(f"Last Run: {info['last_run']}")
+    print("-" * 60)
+    print("Formulation Progress (Step 02):")
+    print(f"  Completed Formulations: {formulation_status['completed']}")
+    print(f"  In Progress: {formulation_status['in_progress'] or 'None'}")
+    print(f"  Last Updated: {formulation_status['last_updated'] or 'Never'}")
+    if formulation_status['stats']:
+        stats = formulation_status['stats']
+        print(f"  Total Medicines: {stats.get('total_medicines', 0)}")
+        print(f"  Total Substitutes: {stats.get('total_substitutes', 0)}")
+        print(f"  Errors: {stats.get('errors', 0)}")
+    print("=" * 60 + "\n")
+
+
 def main():
     parser = argparse.ArgumentParser(description="India NPPA Pipeline Runner with Resume Support")
-    parser.add_argument("--fresh", action="store_true", help="Start from step 0 (clear checkpoint)")
+    parser.add_argument("--fresh", action="store_true", help="Start from step 0 (clear all checkpoints)")
     parser.add_argument("--step", type=int, help=f"Start from specific step (0-{MAX_STEPS})")
+    parser.add_argument("--resume-details", action="store_true", 
+                       help="Resume only Step 02 (details extraction) from where it left off")
+    parser.add_argument("--clear-formulation-checkpoint", action="store_true",
+                       help="Clear formulation checkpoint (restart Step 02 from beginning)")
+    parser.add_argument("--status", action="store_true", help="Show checkpoint status and exit")
     
     args = parser.parse_args()
     
     cp = get_checkpoint_manager(SCRAPER_NAME)
+    output_dir = get_output_dir()
+    
+    # Show status and exit
+    if args.status:
+        print_checkpoint_status()
+        return
+    
+    # Clear formulation checkpoint if requested
+    if args.clear_formulation_checkpoint:
+        clear_formulation_checkpoint(output_dir)
+        print("Formulation checkpoint cleared. Step 02 will restart from beginning.")
+        if not args.step and not args.resume_details:
+            return
     
     # Determine start step
     if args.fresh:
         cp.clear_checkpoint()
+        clear_formulation_checkpoint(output_dir)
         start_step = 0
-        print("Starting fresh run (checkpoint cleared)")
+        print("Starting fresh run (all checkpoints cleared)")
+    elif args.resume_details:
+        # Jump directly to step 2 for resume
+        start_step = 2
+        formulation_status = get_formulation_checkpoint_status(output_dir)
+        print(f"Resuming Step 02 (details extraction)")
+        print(f"  Already completed: {formulation_status['completed']} formulations")
+        if formulation_status['in_progress']:
+            print(f"  Was processing: {formulation_status['in_progress']}")
     elif args.step is not None:
         start_step = args.step
         print(f"Starting from step {start_step}")
@@ -143,32 +243,49 @@ def main():
         start_step = info["next_step"]
         if info["total_completed"] > 0:
             print(f"Resuming from step {start_step} (last completed: step {info['last_completed_step']})")
+            
+            # Check formulation progress for Step 02
+            if start_step == 2:
+                formulation_status = get_formulation_checkpoint_status(output_dir)
+                if formulation_status['completed'] > 0:
+                    print(f"  Formulation progress: {formulation_status['completed']} completed")
         else:
             print("Starting fresh run (no checkpoint found)")
     
+    # Print current status
+    print_checkpoint_status()
+    
     # Define pipeline steps with their output files
-    output_dir = get_output_dir()
     steps = [
-        (0, "00_backup_and_clean.py", "Backup and Clean", None),
-        (1, "01_Ceiling Prices of Essential Medicines downlaod.py", "Download Ceiling Prices", ["ceiling_prices.xlsx"]),
-        (2, "02 get details.py", "Extract Medicine Details", ["details"]),
+        (0, "00_backup_and_clean.py", "Backup and Clean", None, False, None),
+        (1, "01_Ceiling Prices of Essential Medicines downlaod.py", "Download Ceiling Prices", 
+         ["ceiling_prices.xlsx"], False, None),
+        (2, "02 get details.py", "Extract Medicine Details", 
+         ["details", "scraping_report.json"], False, None),
     ]
     
     # Run steps starting from start_step
-    for step_num, script_name, step_name, output_files in steps:
+    for step_num, script_name, step_name, output_files, allow_failure, extra_args in steps:
         if step_num < start_step:
             print(f"\nStep {step_num}/{MAX_STEPS}: {step_name} - SKIPPED (already completed)")
             continue
         
-        success = run_step(step_num, script_name, step_name, output_files)
+        success = run_step(step_num, script_name, step_name, output_files, 
+                          allow_failure=allow_failure, extra_args=extra_args)
         if not success:
             print(f"\nPipeline failed at step {step_num}")
+            print("You can resume from this step by running the script again.")
             sys.exit(1)
     
     print(f"\n{'='*80}")
     print("Pipeline completed successfully!")
     print(f"{'='*80}\n")
     print(f"[PROGRESS] Pipeline Step: {MAX_STEPS}/{MAX_STEPS} (100%)", flush=True)
+    
+    # Print final report location
+    report_file = output_dir / "scraping_report.json"
+    if report_file.exists():
+        print(f"\nFinal report: {report_file}")
 
 
 if __name__ == "__main__":

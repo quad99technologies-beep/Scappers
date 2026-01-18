@@ -6,6 +6,11 @@ Russia Farmcom VED Registry Scraper
 Scrapes drug pricing data from the Russian VED (Vital and Essential Drugs) registry
 at farmcom.info for a specified region.
 
+Features:
+- Resume support: Saves progress after each page, resumes from last completed page
+- Deduplication: Skips already scraped item_ids
+- Configurable: All settings via Russia.env.json
+
 Author: Enterprise PDF Processing Pipeline
 License: Proprietary
 """
@@ -15,7 +20,9 @@ import re
 import csv
 import sys
 import time
+import json
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from urllib.parse import urlparse, parse_qs
 from pathlib import Path
 
@@ -67,7 +74,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
+from selenium.common.exceptions import TimeoutException, StaleElementReferenceException, WebDriverException
 
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -96,14 +103,19 @@ REGION_VALUE = getenv("SCRIPT_01_REGION_VALUE", "50") if USE_CONFIG else "50"
 if USE_CONFIG:
     OUT_DIR = get_output_dir()
     OUT_CSV = OUT_DIR / getenv("SCRIPT_01_OUTPUT_CSV", "russia_farmcom_ved_moscow_region.csv")
+    PROGRESS_FILE = OUT_DIR / "russia_scraper_progress.json"
 else:
     OUT_CSV = Path(__file__).parent / "russia_farmcom_ved_moscow_region.csv"
+    PROGRESS_FILE = Path(__file__).parent / "russia_scraper_progress.json"
 
 # Safety / stability
 PAGE_LOAD_TIMEOUT = getenv_int("SCRIPT_01_PAGE_LOAD_TIMEOUT", 60) if USE_CONFIG else 60
 WAIT_TIMEOUT = getenv_int("SCRIPT_01_WAIT_TIMEOUT", 30) if USE_CONFIG else 30
 CLICK_RETRY = getenv_int("SCRIPT_01_CLICK_RETRY", 3) if USE_CONFIG else 3
 SLEEP_BETWEEN_PAGES = getenv_float("SCRIPT_01_SLEEP_BETWEEN_PAGES", 0.3) if USE_CONFIG else 0.3
+NAV_RETRIES = getenv_int("SCRIPT_01_NAV_RETRIES", 3) if USE_CONFIG else 3
+NAV_RETRY_SLEEP = getenv_float("SCRIPT_01_NAV_RETRY_SLEEP", 5.0) if USE_CONFIG else 5.0
+NAV_RESTART_DRIVER = getenv_bool("SCRIPT_01_NAV_RESTART_DRIVER", True) if USE_CONFIG else True
 
 # EAN fetching - disabled by default as it's very slow (clicks popup for each row)
 FETCH_EAN = getenv_bool("SCRIPT_01_FETCH_EAN", False) if USE_CONFIG else False
@@ -182,21 +194,147 @@ def wait_for_table(driver: webdriver.Chrome) -> None:
         EC.presence_of_element_located((By.CSS_SELECTOR, "table.report tbody tr"))
     )
 
+def stop_page_load(driver: webdriver.Chrome) -> None:
+    try:
+        driver.execute_script("window.stop();")
+    except Exception:
+        pass
 
-def select_region_and_search(driver: webdriver.Chrome) -> None:
-    driver.get(BASE_URL)
 
-    # select#reg_id exists on the page
-    WebDriverWait(driver, WAIT_TIMEOUT).until(
-        EC.presence_of_element_located((By.ID, "reg_id"))
-    )
+def shutdown_driver(driver: webdriver.Chrome) -> None:
+    if unregister_chrome_driver:
+        try:
+            unregister_chrome_driver(driver)
+        except Exception:
+            pass
+    try:
+        driver.quit()
+    except Exception:
+        pass
 
-    Select(driver.find_element(By.ID, "reg_id")).select_by_value(REGION_VALUE)
 
-    # click Find button (input#btn_submit)
-    driver.find_element(By.ID, "btn_submit").click()
+def restart_driver(driver: webdriver.Chrome, headless: bool | None = None) -> webdriver.Chrome:
+    shutdown_driver(driver)
+    return make_driver(headless=headless)
 
-    wait_for_table(driver)
+
+def navigate_with_retries(
+    driver: webdriver.Chrome,
+    url: str,
+    wait_fn,
+    label: str,
+    headless: bool | None = None,
+    on_restart=None,
+) -> webdriver.Chrome:
+    last_exc = None
+    for attempt in range(1, NAV_RETRIES + 1):
+        try:
+            driver.get(url)
+            wait_fn(driver)
+            return driver
+        except (TimeoutException, WebDriverException) as exc:
+            last_exc = exc
+            stop_page_load(driver)
+            try:
+                wait_fn(driver)
+                return driver
+            except Exception:
+                pass
+            if attempt < NAV_RETRIES:
+                print(
+                    f"  [WARN] {label} load failed (attempt {attempt}/{NAV_RETRIES}). Retrying in {NAV_RETRY_SLEEP}s...",
+                    flush=True,
+                )
+                time.sleep(NAV_RETRY_SLEEP)
+
+    if NAV_RESTART_DRIVER:
+        print(f"  [WARN] {label} load failed; restarting Chrome session.", flush=True)
+        driver = restart_driver(driver, headless=headless)
+        if on_restart:
+            driver = on_restart(driver) or driver
+        for attempt in range(1, NAV_RETRIES + 1):
+            try:
+                driver.get(url)
+                wait_fn(driver)
+                return driver
+            except (TimeoutException, WebDriverException) as exc:
+                last_exc = exc
+                stop_page_load(driver)
+                try:
+                    wait_fn(driver)
+                    return driver
+                except Exception:
+                    pass
+                if attempt < NAV_RETRIES:
+                    print(
+                        f"  [WARN] {label} load failed after restart (attempt {attempt}/{NAV_RETRIES}). Retrying in {NAV_RETRY_SLEEP}s...",
+                        flush=True,
+                    )
+                    time.sleep(NAV_RETRY_SLEEP)
+
+    if last_exc:
+        raise last_exc
+    raise RuntimeError(f"{label} load failed")
+
+
+def select_region_and_search(
+    driver: webdriver.Chrome, headless: bool | None = None
+) -> webdriver.Chrome:
+    last_exc = None
+    for attempt in range(1, NAV_RETRIES + 1):
+        try:
+            driver.get(BASE_URL)
+
+            # select#reg_id exists on the page
+            WebDriverWait(driver, WAIT_TIMEOUT).until(
+                EC.presence_of_element_located((By.ID, "reg_id"))
+            )
+
+            Select(driver.find_element(By.ID, "reg_id")).select_by_value(REGION_VALUE)
+
+            # click Find button (input#btn_submit)
+            driver.find_element(By.ID, "btn_submit").click()
+
+            wait_for_table(driver)
+            return driver
+        except (TimeoutException, WebDriverException) as exc:
+            last_exc = exc
+            stop_page_load(driver)
+            if attempt < NAV_RETRIES:
+                print(
+                    f"  [WARN] Region selection failed (attempt {attempt}/{NAV_RETRIES}). Retrying in {NAV_RETRY_SLEEP}s...",
+                    flush=True,
+                )
+                time.sleep(NAV_RETRY_SLEEP)
+
+    if NAV_RESTART_DRIVER:
+        print("  [WARN] Region selection failed; restarting Chrome session.", flush=True)
+        driver = restart_driver(driver, headless=headless)
+        for attempt in range(1, NAV_RETRIES + 1):
+            try:
+                driver.get(BASE_URL)
+
+                WebDriverWait(driver, WAIT_TIMEOUT).until(
+                    EC.presence_of_element_located((By.ID, "reg_id"))
+                )
+
+                Select(driver.find_element(By.ID, "reg_id")).select_by_value(REGION_VALUE)
+                driver.find_element(By.ID, "btn_submit").click()
+                wait_for_table(driver)
+                return driver
+            except (TimeoutException, WebDriverException) as exc:
+                last_exc = exc
+                stop_page_load(driver)
+                if attempt < NAV_RETRIES:
+                    print(
+                        f"  [WARN] Region selection failed after restart (attempt {attempt}/{NAV_RETRIES}). Retrying in {NAV_RETRY_SLEEP}s...",
+                        flush=True,
+                    )
+                    time.sleep(NAV_RETRY_SLEEP)
+
+    if last_exc:
+        raise last_exc
+    raise RuntimeError("Region selection failed")
 
 
 def get_last_page(driver: webdriver.Chrome) -> int:
@@ -367,11 +505,56 @@ def extract_rows_from_current_page(driver: webdriver.Chrome, page_num: int = 0) 
     return rows
 
 
-def go_to_page(driver: webdriver.Chrome, page_num: int) -> None:
+def go_to_page(driver: webdriver.Chrome, page_num: int, headless: bool | None = None) -> webdriver.Chrome:
     # Pagination is GET-based (?page=N) and region selection is typically held by session/cookie.
     url = f"{BASE_URL}?page={page_num}"
-    driver.get(url)
-    wait_for_table(driver)
+    return navigate_with_retries(
+        driver,
+        url,
+        wait_for_table,
+        f"page {page_num}",
+        headless=headless,
+        on_restart=lambda d: select_region_and_search(d, headless=headless),
+    )
+
+
+# --------------------- Progress/Resume Support ---------------------
+def load_progress() -> dict:
+    """Load progress from JSON file for resume support."""
+    if not PROGRESS_FILE.exists():
+        return {"last_completed_page": 0, "total_pages": 0, "total_rows": 0}
+    try:
+        with open(PROGRESS_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data
+    except Exception:
+        return {"last_completed_page": 0, "total_pages": 0, "total_rows": 0}
+
+
+def save_progress(last_page: int, total_pages: int, total_rows: int):
+    """Save progress to JSON file after each page."""
+    try:
+        payload = {
+            "last_completed_page": last_page,
+            "total_pages": total_pages,
+            "total_rows": total_rows,
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "region": REGION_VALUE,
+            "output_csv": str(OUT_CSV)
+        }
+        with open(PROGRESS_FILE, "w", encoding="utf-8") as f:
+            json.dump(payload, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"  Warning: Could not save progress: {e}")
+
+
+def clear_progress():
+    """Clear progress file (for fresh start)."""
+    if PROGRESS_FILE.exists():
+        try:
+            PROGRESS_FILE.unlink()
+        except Exception:
+            pass
 
 
 def load_existing_ids(csv_path: Path) -> set[str]:
@@ -419,34 +602,74 @@ def append_rows(csv_path: Path, rows: list[RowData]) -> None:
             )
 
 
-def main(headless: bool = None, start_page: int = 1, end_page: int | None = None) -> None:
+def main(headless: bool = None, start_page: int = None, end_page: int | None = None, fresh: bool = False) -> None:
+    """
+    Main scraper function with resume support.
+    
+    Args:
+        headless: Run Chrome in headless mode (None = use config)
+        start_page: Starting page number (None = resume from last or 1)
+        end_page: Ending page number (None = scrape all pages)
+        fresh: If True, start from page 1 ignoring previous progress
+    """
     # Ensure output directory exists
     if USE_CONFIG:
         OUT_DIR.mkdir(parents=True, exist_ok=True)
     
+    # Load progress for resume support
+    progress = load_progress()
+    
+    # Determine start page
+    if fresh:
+        clear_progress()
+        actual_start = 1
+        print("Starting fresh run (progress cleared)")
+    elif start_page is not None:
+        actual_start = start_page
+        print(f"Starting from specified page: {actual_start}")
+    elif progress["last_completed_page"] > 0:
+        actual_start = progress["last_completed_page"] + 1
+        print(f"Resuming from page {actual_start} (last completed: {progress['last_completed_page']})")
+    else:
+        actual_start = 1
+        print("Starting fresh run (no previous progress found)")
+    
     driver = make_driver(headless=headless)
     try:
         print("Opening site, selecting region, and searching...")
-        select_region_and_search(driver)
+        driver = select_region_and_search(driver, headless=headless)
 
         last_page = get_last_page(driver)
         if end_page is None:
             end_page = last_page
         end_page = min(end_page, last_page)
+        
+        # Check if already completed
+        if actual_start > end_page:
+            print(f"All pages already scraped (last page: {end_page}, last completed: {progress['last_completed_page']})")
+            print(f"[PROGRESS] Scraping pages: {end_page}/{end_page} (100%) - Already completed", flush=True)
+            return
 
-        print(f"Detected last page: {last_page}. Will scrape pages {start_page}..{end_page}.")
-        print(f"[PROGRESS] Scraping pages: 0/{end_page} (0%)", flush=True)
+        print(f"Detected last page: {last_page}. Will scrape pages {actual_start}..{end_page}.")
+        
+        # Calculate initial progress
+        pages_done = actual_start - 1
+        pages_total = end_page
+        initial_percent = round((pages_done / pages_total) * 100, 1) if pages_total > 0 else 0
+        print(f"[PROGRESS] Scraping pages: {pages_done}/{pages_total} ({initial_percent}%)", flush=True)
 
         seen_ids = load_existing_ids(OUT_CSV)
         print(f"Resume support: already have {len(seen_ids)} item_ids in {OUT_CSV}")
+        
+        total_new_rows = 0
 
-        for p in range(start_page, end_page + 1):
+        for p in range(actual_start, end_page + 1):
             # Progress reporting for GUI
             percent = round((p / end_page) * 100, 1) if end_page > 0 else 0
             print(f"\n--- Page {p}/{end_page} ---")
             print(f"[PROGRESS] Scraping pages: {p}/{end_page} ({percent}%)", flush=True)
             
-            go_to_page(driver, p)
+            driver = go_to_page(driver, p, headless=headless)
 
             page_rows = extract_rows_from_current_page(driver, p)
             # De-dup by item_id
@@ -458,21 +681,39 @@ def main(headless: bool = None, start_page: int = 1, end_page: int | None = None
                 append_rows(OUT_CSV, new_rows)
                 for r in new_rows:
                     seen_ids.add(r.item_id)
+                total_new_rows += len(new_rows)
+            
+            # Save progress after each page (for resume support)
+            save_progress(p, end_page, len(seen_ids))
 
             time.sleep(SLEEP_BETWEEN_PAGES)
 
         print(f"\nDone. Output: {OUT_CSV}")
+        print(f"Total new rows added: {total_new_rows}")
+        print(f"Total rows in file: {len(seen_ids)}")
         print(f"[PROGRESS] Scraping pages: {end_page}/{end_page} (100%) - Completed", flush=True)
+        
+        # Clear progress file on successful completion
+        clear_progress()
 
     finally:
-        # Unregister driver from Chrome manager
-        if unregister_chrome_driver:
-            unregister_chrome_driver(driver)
-        driver.quit()
+        shutdown_driver(driver)
 
 
 if __name__ == "__main__":
-    # Set headless=False if you want to watch it run.
-    # You can also limit pages for testing:
-    #   main(headless=False, start_page=1, end_page=3)
-    main(headless=None, start_page=1, end_page=None)
+    import argparse
+    
+    parser = argparse.ArgumentParser(description="Russia Farmcom VED Scraper")
+    parser.add_argument("--fresh", action="store_true", help="Start from page 1 (ignore previous progress)")
+    parser.add_argument("--start", type=int, help="Start from specific page number")
+    parser.add_argument("--end", type=int, help="End at specific page number")
+    parser.add_argument("--visible", action="store_true", help="Show browser window (not headless)")
+    
+    args = parser.parse_args()
+    
+    main(
+        headless=False if args.visible else None,
+        start_page=args.start,
+        end_page=args.end,
+        fresh=args.fresh
+    )
