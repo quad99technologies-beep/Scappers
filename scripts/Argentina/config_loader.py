@@ -222,6 +222,8 @@ PROXY_3 = getenv("PROXY_3", "")
 
 # ScrapingDog API configuration
 SCRAPINGDOG_API_KEY = getenv("SCRAPINGDOG_API_KEY", "")
+USE_API_STEPS = getenv_bool("USE_API_STEPS", False)
+RESET_API_PENDING_BEFORE_SELENIUM = getenv_bool("RESET_API_PENDING_BEFORE_SELENIUM", False)
 
 # Account rotation configuration
 ACCOUNT_ROTATION_SEARCH_LIMIT = getenv_int("ACCOUNT_ROTATION_SEARCH_LIMIT", 50)  # For Selenium products
@@ -242,6 +244,10 @@ MAX_THREADS = getenv_int("MAX_THREADS", 2)
 API_THREADS = getenv_int("API_THREADS", 5)  # Number of threads for API processing
 SELENIUM_THREADS = getenv_int("SELENIUM_THREADS", 4)  # Number of threads for Selenium processing
 SELENIUM_SINGLE_ATTEMPT = getenv_bool("SELENIUM_SINGLE_ATTEMPT", False)  # If true, no retries/requeue in Selenium
+
+# 3-Round Retry configuration
+SELENIUM_ROUNDS = getenv_int("SELENIUM_ROUNDS", 3)  # Number of Selenium retry rounds (1, 2, or 3)
+ROUND_PAUSE_SECONDS = getenv_int("ROUND_PAUSE_SECONDS", 60)  # Pause between rounds in seconds
 
 # File names
 DICTIONARY_FILE = getenv("DICTIONARY_FILE", "Dictionary.csv")

@@ -54,6 +54,24 @@ except Exception:
     save_chrome_pids = None
     terminate_scraper_pids = None
 
+# Import Telegram notifier for status updates
+try:
+    from core.telegram_notifier import TelegramNotifier
+    TELEGRAM_NOTIFIER_AVAILABLE = True
+except ImportError:
+    TELEGRAM_NOTIFIER_AVAILABLE = False
+    TelegramNotifier = None
+
+# Import core chrome_manager for offline-capable chromedriver resolution
+try:
+    if str(_repo_root) not in sys.path:
+        sys.path.insert(0, str(_repo_root))
+    from core.chrome_manager import get_chromedriver_path
+    CORE_CHROMEDRIVER_AVAILABLE = True
+except ImportError:
+    CORE_CHROMEDRIVER_AVAILABLE = False
+    get_chromedriver_path = None
+
 
 # ============================
 # CONFIG (EDIT IF NEEDED)
@@ -171,7 +189,11 @@ def make_driver(headless: bool) -> webdriver.Chrome:
         prefs["profile.managed_default_content_settings.stylesheets"] = 2
     if prefs:
         opts.add_experimental_option("prefs", prefs)
-    driver_path = ChromeDriverManager().install()
+    # Use offline-capable chromedriver resolution if available
+    if CORE_CHROMEDRIVER_AVAILABLE and get_chromedriver_path:
+        driver_path = get_chromedriver_path()
+    else:
+        driver_path = ChromeDriverManager().install()
     service = ChromeService(driver_path)
     driver = webdriver.Chrome(service=service, options=opts)
     driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
@@ -330,8 +352,9 @@ def extract_price_history_rows(driver: webdriver.Chrome) -> List[Tuple[str, str]
 
 
 def get_current_page_number(driver: webdriver.Chrome) -> Optional[int]:
+    """Read current page from span.current inside pager."""
     try:
-        el = driver.find_element(By.CSS_SELECTOR, "a.rec-num.rec-select")
+        el = driver.find_element(By.CSS_SELECTOR, "div.t-data-grid-pager span.current")
         t = safe_text(el)
         return int(t) if t.isdigit() else None
     except Exception:
@@ -339,8 +362,9 @@ def get_current_page_number(driver: webdriver.Chrome) -> Optional[int]:
 
 
 def get_total_pages(driver: webdriver.Chrome) -> Optional[int]:
+    """Compute max numeric page from pager anchors."""
     try:
-        candidates = driver.find_elements(By.CSS_SELECTOR, "a.rec-num, a.rec-num.rec-select")
+        candidates = driver.find_elements(By.CSS_SELECTOR, "div.t-data-grid-pager a[id^='pager']")
         nums = []
         for el in candidates:
             t = safe_text(el)
@@ -352,48 +376,75 @@ def get_total_pages(driver: webdriver.Chrome) -> Optional[int]:
 
 
 def click_next_page(driver: webdriver.Chrome, wait: WebDriverWait) -> bool:
+    """Click next page using numeric link, fallback to arrow."""
+    # Capture old tbody for staleness detection
     old_tbody = None
     try:
         old_tbody = driver.find_element(By.CSS_SELECTOR, "table.table.table-bordered.table-condensed tbody")
     except Exception:
         pass
 
+    # Read current page
+    current_page = get_current_page_number(driver)
+    print(f"[DEBUG] Current page: {current_page}")
+
+    # Determine target page number
+    if current_page is None:
+        # Fallback: try clicking page "2" if we're on page 1
+        target = 2
+        print(f"[DEBUG] Current page unknown, attempting to click page {target}")
+    else:
+        target = current_page + 1
+        print(f"[DEBUG] Target next page: {target}")
+
+    # Try to find numeric page link
     candidates = []
     try:
-        candidates = driver.find_elements(By.XPATH, "//a[normalize-space(text())='>' or normalize-space(text())='>>']")
-    except Exception:
+        xpath = f"//div[contains(@class,'t-data-grid-pager')]//a[normalize-space(text())='{target}']"
+        candidates = driver.find_elements(By.XPATH, xpath)
+        print(f"[DEBUG] Found {len(candidates)} candidates for page {target} via numeric link")
+    except Exception as e:
+        print(f"[DEBUG] Error finding numeric link: {e}")
         candidates = []
 
-    if not candidates:
-        try:
-            candidates = driver.find_elements(By.CSS_SELECTOR, "a[rel='next'], a[aria-label='Next']")
-        except Exception:
-            candidates = []
-
-    if not candidates:
-        cur = get_current_page_number(driver)
-        if cur is not None:
-            try:
-                candidates = driver.find_elements(By.XPATH, f"//a[normalize-space(text())='{cur+1}']")
-            except Exception:
-                candidates = []
-
+    # Filter to displayed candidates
     candidates = [c for c in candidates if c.is_displayed()]
-    if not candidates:
-        return False
 
-    for el in candidates:
-        try:
-            driver.execute_script("arguments[0].scrollIntoView({block:'center'});", el)
-            el.click()
+    if candidates:
+        # Try clicking numeric page link
+        for i, el in enumerate(candidates):
+            try:
+                driver.execute_script("arguments[0].scrollIntoView({block:'center'});", el)
+                el.click()
+                print(f"[DEBUG] Clicked numeric link candidate {i} (page {target}), waiting for page load...")
+
+                if old_tbody is not None:
+                    wait.until(EC.staleness_of(old_tbody))
+                wait_table_ready(wait)
+                print(f"[DEBUG] Successfully navigated to page {target}")
+                return True
+            except Exception as e:
+                print(f"[DEBUG] Failed to click numeric candidate {i}: {e}")
+                continue
+
+    # Fallback: try clicking arrow button (pager_11 is the ">" button)
+    print(f"[DEBUG] Numeric link failed, trying arrow button fallback")
+    try:
+        arrow = driver.find_element(By.CSS_SELECTOR, "a#pager_11")
+        if arrow.is_displayed():
+            print(f"[DEBUG] Found arrow button (pager_11), attempting click...")
+            driver.execute_script("arguments[0].scrollIntoView({block:'center'});", arrow)
+            arrow.click()
 
             if old_tbody is not None:
                 wait.until(EC.staleness_of(old_tbody))
             wait_table_ready(wait)
+            print(f"[DEBUG] Successfully clicked arrow button")
             return True
-        except Exception:
-            continue
+    except Exception as e:
+        print(f"[DEBUG] Arrow button fallback failed: {e}")
 
+    print("[DEBUG] All pagination attempts failed")
     return False
 
 
@@ -469,6 +520,19 @@ def run() -> None:
             terminate_scraper_pids("NorthMacedonia", _repo_root, silent=True)
         except Exception:
             pass
+
+    # Initialize Telegram notifier for status updates
+    telegram_notifier = None
+    if TELEGRAM_NOTIFIER_AVAILABLE:
+        try:
+            telegram_notifier = TelegramNotifier("NorthMacedonia", rate_limit=60.0)
+            if telegram_notifier.enabled:
+                telegram_notifier.send_started("Scrape Max Prices - Step 3/4")
+                print("[INFO] Telegram notifications enabled", flush=True)
+        except Exception as e:
+            print(f"[WARN] Failed to initialize Telegram notifier: {e}", flush=True)
+            telegram_notifier = None
+
     driver = make_driver(HEADLESS)
     wait = WebDriverWait(driver, WAIT_TIMEOUT)
     xlate = OutputTranslatorFallback(enabled=TRANSLATE_OUTPUT_FALLBACK)
@@ -632,14 +696,70 @@ def run() -> None:
                         time.sleep(SLEEP_AFTER_ROW)
 
             print(f"[INFO] Going to next page from page {page_label} ...")
+
+            # Debug: Check pagination before clicking
+            current_page = get_current_page_number(driver)
+            total_pages_now = get_total_pages(driver)
+            print(f"[DEBUG] Current page: {current_page}, Total pages: {total_pages_now}")
+
             moved = click_next_page(driver, wait)
             if not moved:
+                print("[WARN] click_next_page() returned False. Checking for next page elements...")
+                try:
+                    # Try to find next page candidates for debugging
+                    next_candidates = driver.find_elements(By.XPATH, "//a[normalize-space(text())='>' or normalize-space(text())='>>']")
+                    print(f"[DEBUG] Found {len(next_candidates)} next page candidates via XPath")
+                    if next_candidates:
+                        for i, elem in enumerate(next_candidates):
+                            try:
+                                print(f"[DEBUG] Candidate {i}: displayed={elem.is_displayed()}, text='{safe_text(elem)}'")
+                            except:
+                                pass
+                except Exception as e:
+                    print(f"[DEBUG] Error checking next page elements: {e}")
+
                 print("[INFO] No next page found. Done.")
+
+                # Send Telegram notification
+                if telegram_notifier:
+                    try:
+                        details = f"Stopped at page {page_label}\nTotal rows: {total_out}"
+                        telegram_notifier.send_warning("Max Price Pagination Stopped", details=details, force=True)
+                    except Exception:
+                        pass
                 break
+
+            # Send Telegram progress update (every page)
+            if telegram_notifier:
+                try:
+                    if total_pages_now:
+                        telegram_notifier.send_progress(
+                            page_label,
+                            total_pages_now,
+                            "Scrape Max Prices",
+                            details=f"Rows written: {total_out}"
+                        )
+                    else:
+                        telegram_notifier.send_status(
+                            f"Page {page_label}",
+                            "Scrape Max Prices",
+                            details=f"Rows written: {total_out}"
+                        )
+                except Exception:
+                    pass
+
             write_checkpoint(checkpoint_path, page_label + 1, 0)
 
         print(f"\n[DONE] Finished. Total output rows: {total_out}")
         print(f"[DONE] Output CSV: {OUT_CSV}")
+
+        # Send Telegram success notification
+        if telegram_notifier:
+            try:
+                details = f"Total rows: {total_out}\nPages processed: {page_count}\nOutput: {OUTPUT_CSV}"
+                telegram_notifier.send_success("Max Price Scraping Completed", details=details)
+            except Exception:
+                pass
 
     finally:
         try:

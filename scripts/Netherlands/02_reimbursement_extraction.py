@@ -46,6 +46,51 @@ try:
 except ImportError:
     # Fallback for older Playwright versions
     TargetClosedError = Exception
+import logging
+
+# Import smart locator and state machine
+from smart_locator import SmartLocator
+from state_machine import NavigationStateMachine, NavigationState, StateCondition
+
+# Import stealth profile for anti-detection
+try:
+    from core.stealth_profile import apply_playwright
+    STEALTH_PROFILE_AVAILABLE = True
+except ImportError:
+    STEALTH_PROFILE_AVAILABLE = False
+    def apply_playwright(context_kwargs):
+        pass  # Stealth profile not available, skip
+
+# Import browser observer for idle detection
+try:
+    from core.browser_observer import observe_playwright, wait_until_idle
+    BROWSER_OBSERVER_AVAILABLE = True
+except ImportError:
+    BROWSER_OBSERVER_AVAILABLE = False
+    def observe_playwright(page):
+        return None
+    def wait_until_idle(state, timeout=10.0):
+        pass  # Browser observer not available, skip
+
+# Import human pacing
+try:
+    from core.human_actions import pause, type_delay
+    HUMAN_ACTIONS_AVAILABLE = True
+except ImportError:
+    HUMAN_ACTIONS_AVAILABLE = False
+    def pause():
+        pass  # Human pacing not available, skip
+    def type_delay():
+        return 0
+
+# Setup logger
+logger = logging.getLogger(__name__)
+if not logger.handlers:
+    logging.basicConfig(
+        level=logging.INFO,
+        format='[%(levelname)s] [%(name)s] %(message)s',
+        handlers=[logging.StreamHandler()]
+    )
 
 
 BASE = "https://www.farmacotherapeutischkompas.nl"
@@ -474,9 +519,28 @@ def phase1_collect_urls() -> List[str]:
         except Exception:
             pass  # PID tracking not critical
         
-        ctx = browser.new_context()
+        context_kwargs = {}
+
+        # Apply stealth profile if available
+        if STEALTH_PROFILE_AVAILABLE:
+            apply_playwright(context_kwargs)
+
+        ctx = browser.new_context(**context_kwargs) if context_kwargs else browser.new_context()
         page = ctx.new_page()
         page.set_default_timeout(TIMEOUT_MS)
+
+        # Use browser observer if available
+        if BROWSER_OBSERVER_AVAILABLE:
+            state = observe_playwright(page)
+            wait_until_idle(state, timeout=5.0)
+
+        # Add human-like pause
+        if HUMAN_ACTIONS_AVAILABLE:
+            pause()
+        
+        # Initialize smart locator and state machine
+        locator = SmartLocator(page, logger=logger)
+        state_machine = NavigationStateMachine(locator, logger=logger)
 
         print(f"[OPEN] {START_URL}")
         # Retry logic for network errors
@@ -500,10 +564,20 @@ def phase1_collect_urls() -> List[str]:
                 else:
                     # Not a network error, re-raise immediately
                     raise
+        
+        # Transition to PAGE_LOADED state
+        if not state_machine.transition_to(NavigationState.PAGE_LOADED, reload_on_failure=True):
+            print("[WARNING] Failed to reach PAGE_LOADED state")
+        
+        # Detect DOM changes
+        locator.detect_dom_change("body", "phase1_page_load")
 
         print("[EXPAND] Clicking all .block-title.collapsible-closed …")
         expanded = expand_all(page)
         print(f"[EXPAND] Expanded blocks: {expanded}")
+        
+        # Detect DOM changes after expansion
+        locator.detect_dom_change("body", "after_expand")
 
         print("[COLLECT] Collecting a.medicine links …")
         detail_urls = collect_detail_links(page)
@@ -511,6 +585,21 @@ def phase1_collect_urls() -> List[str]:
 
         print(f"[COLLECT] Total URLs: {len(detail_urls)}")
         print(f"[SAVE]   {ALL_URLS_JSON}")
+        
+        # Check for anomalies
+        anomalies = locator.detect_anomalies(
+            error_text_patterns=["error", "not found", "geen resultaten", "no results"]
+        )
+        if anomalies:
+            logger.warning(f"[ANOMALY] Phase 1: {anomalies}")
+        
+        # Log metrics
+        metrics = locator.get_metrics()
+        metrics_summary = metrics.get_summary()
+        logger.info(f"[METRICS] Phase 1 locator performance: {metrics_summary}")
+        
+        state_history = state_machine.get_state_history()
+        logger.info(f"[METRICS] Phase 1 state transitions: {len(state_history)} transitions")
 
         browser.close()
 
@@ -574,10 +663,16 @@ def worker_run(
         except Exception:
             pass  # PID tracking not critical
         
-        ctx = browser.new_context(
-            locale="en-US",
-            extra_http_headers={"Accept-Language": "en-US,en;q=0.9"},
-        )
+        context_kwargs = {
+            "locale": "en-US",
+            "extra_http_headers": {"Accept-Language": "en-US,en;q=0.9"},
+        }
+
+        # Apply stealth profile if available
+        if STEALTH_PROFILE_AVAILABLE:
+            apply_playwright(context_kwargs)
+
+        ctx = browser.new_context(**context_kwargs)
         page = ctx.new_page()
         page.set_default_timeout(TIMEOUT_MS)
         return browser, ctx, page
@@ -630,7 +725,37 @@ def worker_run(
                 print(f"[{thread_name}] LOAD {url}")
                 page.goto(url, wait_until="domcontentloaded")
 
+                # Use browser observer if available
+                if BROWSER_OBSERVER_AVAILABLE:
+                    state = observe_playwright(page)
+                    wait_until_idle(state, timeout=5.0)
+
+                # Add human-like pause after page load
+                if HUMAN_ACTIONS_AVAILABLE:
+                    pause()
+
+                # Initialize smart locator and state machine for this page
+                locator = SmartLocator(page, logger=logger)
+                state_machine = NavigationStateMachine(locator, logger=logger)
+                
+                # Transition to PAGE_LOADED state
+                if not state_machine.transition_to(NavigationState.PAGE_LOADED, reload_on_failure=True):
+                    print(f"[{thread_name}] WARNING: Failed to reach PAGE_LOADED state for {url}")
+                
+                # Detect DOM changes
+                locator.detect_dom_change("body", f"detail_page_{url[-20:]}")
+
                 expand_costs_section(page)
+                
+                # Add human pacing after page load
+                pause()
+                
+                # Wait for network to be idle (dynamic wait)
+                try:
+                    page.wait_for_load_state("networkidle", timeout=10000)
+                except Exception:
+                    pass  # Continue if network idle times out
+                
                 time.sleep(DATA_LOAD_WAIT_SECONDS)
                 html = page.content()
 
@@ -656,6 +781,13 @@ def worker_run(
                     cost_rows = [{"detail_url": url, **c} for c in costs]
                     append_rows(COSTS_CSV, COST_FIELDS, cost_rows, lock=csv_lock)
 
+                # Check for anomalies
+                anomalies = locator.detect_anomalies(
+                    error_text_patterns=["error", "not found", "geen resultaten", "no results"]
+                )
+                if anomalies:
+                    logger.warning(f"[ANOMALY] {thread_name} {url}: {anomalies}")
+                
                 # Mark scraped ONLY after successful write
                 with scraped_lock:
                     scraped_set.add(url)

@@ -476,9 +476,15 @@ def setup_driver(headless: bool = HEADLESS):
             "3. Or set FIREFOX_BINARY environment variable to Firefox executable path"
         )
 
-    # Create driver
+    # Create driver - try local geckodriver first, then fall back to GeckoDriverManager
+    local_geckodriver = get_input_dir() / "geckodriver.exe"
     try:
-        driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=opts)
+        if local_geckodriver.exists():
+            log.info(f"[GECKODRIVER] Using local geckodriver: {local_geckodriver}")
+            driver = webdriver.Firefox(service=Service(str(local_geckodriver)), options=opts)
+        else:
+            log.info("[GECKODRIVER] Local geckodriver not found, using GeckoDriverManager")
+            driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=opts)
     except Exception as e:
         log.exception("Failed to start FirefoxDriver")
         raise

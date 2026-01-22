@@ -34,8 +34,19 @@ sys.stdout.reconfigure(line_buffering=True) if hasattr(sys.stdout, 'reconfigure'
 os.environ.setdefault('PYTHONUNBUFFERED', '1')
 
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+from urllib3.exceptions import SSLError as Urllib3SSLError
+import ssl
 from bs4 import BeautifulSoup
 from config_loader import load_env_file, require_env, getenv, get_output_dir
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from core.standalone_checkpoint import run_with_checkpoint
+from core.standalone_checkpoint import run_with_checkpoint
 
 # Load environment variables from .env file
 load_env_file()
@@ -66,10 +77,13 @@ class PageResult:
 
 def _session() -> requests.Session:
     s = requests.Session()
-    user_agent = require_env("SCRIPT_04_USER_AGENT")
-    accept_header = require_env("SCRIPT_04_ACCEPT_HEADER")
-    accept_language = require_env("SCRIPT_04_ACCEPT_LANGUAGE")
-    connection = require_env("SCRIPT_04_CONNECTION")
+    
+    # Get headers from environment with defaults
+    user_agent = getenv("SCRIPT_04_USER_AGENT", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+    accept_header = getenv("SCRIPT_04_ACCEPT_HEADER", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+    accept_language = getenv("SCRIPT_04_ACCEPT_LANGUAGE", "en-US,en;q=0.9")
+    connection = getenv("SCRIPT_04_CONNECTION", "keep-alive")
+    
     s.headers.update(
         {
             "User-Agent": user_agent,
@@ -78,16 +92,80 @@ def _session() -> requests.Session:
             "Connection": connection,
         }
     )
+    
+    # Configure retry strategy for SSL errors
+    retry_strategy = Retry(
+        total=3,
+        backoff_factor=1,
+        status_forcelist=[429, 500, 502, 503, 504],
+        allowed_methods=["GET"],
+        respect_retry_after_header=True,
+    )
+    
+    # Create adapter with retry strategy
+    adapter = HTTPAdapter(max_retries=retry_strategy)
+    s.mount("http://", adapter)
+    s.mount("https://", adapter)
+    
+    # Configure SSL to handle connection issues
+    # Disable SSL warnings for self-signed certificates (if fallback is needed)
+    try:
+        import urllib3
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    except Exception:
+        pass
+    
+    s.verify = True  # Try with verification first, fallback in fetch_html if needed
+    
     return s
 
 
-def fetch_html(sess: requests.Session, url: str, timeout: int = None) -> str:
+def fetch_html(sess: requests.Session, url: str, timeout: int = None, retries: int = 3) -> str:
     if timeout is None:
         timeout = int(require_env("SCRIPT_04_REQUEST_TIMEOUT"))
-    r = sess.get(url, timeout=timeout)
-    r.raise_for_status()
-    # requests will guess encoding; keep as text
-    return r.text
+    
+    last_exception = None
+    for attempt in range(retries):
+        try:
+            # Try with SSL verification enabled first
+            r = sess.get(url, timeout=timeout, verify=True)
+            r.raise_for_status()
+            # requests will guess encoding; keep as text
+            return r.text
+        except (requests.exceptions.SSLError, Urllib3SSLError, ssl.SSLError) as e:
+            last_exception = e
+            error_msg = str(e)
+            if attempt < retries - 1:
+                wait_time = (attempt + 1) * 2  # Exponential backoff: 2s, 4s, 6s
+                print(f"  SSL error on attempt {attempt + 1}/{retries}: {error_msg[:100]}...", flush=True)
+                print(f"  Retrying in {wait_time}s...", flush=True)
+                time.sleep(wait_time)
+            else:
+                # Last attempt failed, try with verify=False as fallback
+                print(f"  All SSL verification attempts failed, trying with SSL verification disabled...", flush=True)
+                try:
+                    # Create a new session for the fallback attempt to avoid connection pool issues
+                    fallback_sess = requests.Session()
+                    fallback_sess.headers.update(sess.headers)
+                    r = fallback_sess.get(url, timeout=timeout, verify=False)
+                    r.raise_for_status()
+                    print(f"  Successfully fetched with SSL verification disabled", flush=True)
+                    return r.text
+                except Exception as fallback_error:
+                    raise RuntimeError(f"SSL error after {retries} attempts and fallback failed: {fallback_error}") from e
+        except requests.exceptions.RequestException as e:
+            last_exception = e
+            if attempt < retries - 1:
+                wait_time = (attempt + 1) * 2
+                print(f"  Request error on attempt {attempt + 1}/{retries}, retrying in {wait_time}s...", flush=True)
+                time.sleep(wait_time)
+            else:
+                raise
+    
+    # Should not reach here, but just in case
+    if last_exception:
+        raise last_exception
+    raise RuntimeError("Failed to fetch HTML after retries")
 
 
 def soupify(html: str) -> BeautifulSoup:
@@ -294,4 +372,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run_with_checkpoint(
+        main,
+        "Malaysia",
+        4,
+        "Get Fully Reimbursable",
+        output_files=[OUT_CSV]
+    )

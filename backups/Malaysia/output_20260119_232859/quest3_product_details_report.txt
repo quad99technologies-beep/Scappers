@@ -1,0 +1,76 @@
+================================================================================
+QUEST3+ PRODUCT DETAILS - DATA COVERAGE REPORT
+================================================================================
+Generated: 2026-01-19 10:31:00
+
+================================================================================
+SUMMARY STATISTICS
+================================================================================
+Total Expected Products:        1,362
+Total Products Found:           19,928
+Total Products Missing:          13
+Coverage Percentage:            1463.14%
+
+================================================================================
+DATA QUALITY STATISTICS
+================================================================================
+Products with Product Name:     19,927
+Products missing Product Name:  1
+Products with Holder:           19,928
+Products missing Holder:        0
+Products missing both:          0
+
+================================================================================
+BULK SEARCH STATISTICS
+================================================================================
+Products found in bulk search:   21,767
+Bulk search coverage:           1598.16%
+Products requiring individual:  196
+
+================================================================================
+MISSING REGISTRATION NUMBERS (13 products)
+================================================================================
+These registration numbers were expected but not found in QUEST3+:
+
+     1. MAL04125501X
+     2. MAL05061552AZ
+     3. MAL06091506X
+     4. MAL16065023AZ
+     5. MAL18056088XC
+     6. MAL19870561AZ
+     7. MAL19990579AZ
+     8. MAL19992771AZ
+     9. MAL20013492XRZ
+    10. MAL20013984AZ
+    11. MAL20020262AZ
+    12. MAL20033496AZ
+    13. MAL20046133X
+
+================================================================================
+PRODUCTS MISSING PRODUCT NAME (1 products)
+================================================================================
+These products were found but are missing Product Name:
+
+     1. MAL20020795AZ
+
+================================================================================
+PRODUCTS MISSING HOLDER
+================================================================================
+[OK] All products have Holder information!
+
+================================================================================
+RECOMMENDATIONS
+================================================================================
+[WARNING] 13 registration numbers were not found. These may be:
+   - Deprecated or discontinued products
+   - Products not yet registered in QUEST3+
+   - Registration numbers with formatting differences
+
+[WARNING] Some products are missing Product Name or Holder information.
+   Consider re-running Script 02 to retry extraction.
+
+[OK] Excellent coverage! (>95%)
+
+================================================================================
+END OF REPORT
+================================================================================

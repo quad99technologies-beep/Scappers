@@ -1,30 +1,30 @@
 ================================================================================
 QUEST3+ PRODUCT DETAILS - DATA COVERAGE REPORT
 ================================================================================
-Generated: 2026-01-17 19:29:33
+Generated: 2026-01-21 08:43:05
 
 ================================================================================
 SUMMARY STATISTICS
 ================================================================================
 Total Expected Products:        1,362
-Total Products Found:           19,942
+Total Products Found:           19,938
 Total Products Missing:          0
-Coverage Percentage:            1464.17%
+Coverage Percentage:            1463.88%
 
 ================================================================================
 DATA QUALITY STATISTICS
 ================================================================================
-Products with Product Name:     19,941
+Products with Product Name:     19,937
 Products missing Product Name:  1
-Products with Holder:           19,942
+Products with Holder:           19,938
 Products missing Holder:        0
 Products missing both:          0
 
 ================================================================================
 BULK SEARCH STATISTICS
 ================================================================================
-Products found in bulk search:   21,768
-Bulk search coverage:           1598.24%
+Products found in bulk search:   21,764
+Bulk search coverage:           1597.94%
 Products requiring individual:  196
 
 ================================================================================

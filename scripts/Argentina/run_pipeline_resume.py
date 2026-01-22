@@ -9,6 +9,7 @@ Usage:
     python run_pipeline_resume.py --step N # Start from step N (0-6)
 """
 
+import os
 import sys
 import subprocess
 import argparse
@@ -26,7 +27,7 @@ if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
 
 from core.pipeline_checkpoint import get_checkpoint_manager
-from config_loader import get_output_dir, PREPARED_URLS_FILE, OUTPUT_PRODUCTS_CSV, OUTPUT_TRANSLATED_CSV
+from config_loader import get_output_dir, PREPARED_URLS_FILE, OUTPUT_PRODUCTS_CSV, OUTPUT_TRANSLATED_CSV, USE_API_STEPS
 
 def run_step(step_num: int, script_name: str, step_name: str, output_files: list = None):
     """Run a pipeline step and mark it complete if successful."""
@@ -48,7 +49,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         0: "Preparing: Backing up previous results and cleaning output directory",
         1: "Scraping: Fetching product list from AlfaBeta website",
         2: "Preparing: Building product URLs for scraping",
-        3: "Scraping: Extracting product details using Selenium (this may take a while)",
+        3: "Scraping: Extracting product details using Selenium with 3-round retry (this may take a while)",
         4: "Scraping: Extracting remaining products using API",
         5: "Processing: Translating Spanish terms to English using dictionary",
         6: "Generating: Creating final output files with PCID mapping"
@@ -69,10 +70,13 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
     duration_seconds = None
     
     try:
+        env = os.environ.copy()
+        env["PIPELINE_RUNNER"] = "1"
         result = subprocess.run(
             [sys.executable, "-u", str(script_path)],
             check=True,
-            capture_output=False
+            capture_output=False,
+            env=env
         )
         
         # Calculate duration
@@ -109,7 +113,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
             0: "Ready to fetch product list",
             1: "Ready to prepare URLs",
             2: "Ready to scrape products with Selenium",
-            3: "Ready to scrape products with API",
+            3: "Ready to scrape products with API" if USE_API_STEPS else "Ready to translate terms",
             4: "Ready to translate terms",
             5: "Ready to generate final output",
             6: "Pipeline completed successfully"
@@ -162,7 +166,7 @@ def main():
         (0, "00_backup_and_clean.py", "Backup and Clean", None),
         (1, "01_getProdList.py", "Get Product List", None),  # Output is in input dir
         (2, "02_prepare_urls.py", "Prepare URLs", [str(output_dir / PREPARED_URLS_FILE)]),
-        (3, "03_alfabeta_selenium_scraper.py", "Scrape Products (Selenium)", [str(output_dir / OUTPUT_PRODUCTS_CSV)]),
+        (3, "03_selenium_3round_wrapper.py", "Scrape Products (Selenium - 3 Rounds)", [str(output_dir / OUTPUT_PRODUCTS_CSV)]),
         (4, "04_alfabeta_api_scraper.py", "Scrape Products (API)", [str(output_dir / OUTPUT_PRODUCTS_CSV)]),
         (5, "05_TranslateUsingDictionary.py", "Translate Using Dictionary", [str(output_dir / OUTPUT_TRANSLATED_CSV)]),
         (6, "06_GenerateOutput.py", "Generate Output", None),  # Output files vary by date
@@ -171,6 +175,8 @@ def main():
     # Check all steps before start_step to find the earliest step that needs re-running
     earliest_rerun_step = None
     for step_num, script_name, step_name, output_files in steps:
+        if step_num == 4 and not USE_API_STEPS:
+            continue
         if step_num < start_step:
             # Convert relative output files to absolute paths for verification
             expected_files = None
@@ -194,6 +200,9 @@ def main():
     print(f"{'='*80}")
     for step_num, script_name, step_name, output_files in steps:
         display_step = step_num + 1  # Display as 1-based
+        if step_num == 4 and not USE_API_STEPS:
+            print(f"Step {display_step}/7: {step_name} - SKIPPED (disabled in config)")
+            continue
         if step_num < start_step:
             # Skip completed steps (verify output files exist)
             expected_files = None
@@ -211,6 +220,16 @@ def main():
     
     # Now execute the steps
     for step_num, script_name, step_name, output_files in steps:
+        if step_num == 4 and not USE_API_STEPS:
+            display_step = step_num + 1
+            total_steps = 7
+            completion_percent = round(((step_num + 1) / total_steps) * 100, 1)
+            if completion_percent > 100.0:
+                completion_percent = 100.0
+            print(f"\nStep {display_step}/7: {step_name} - SKIPPED (disabled in config)")
+            print(f"[PROGRESS] Pipeline Step: {display_step}/{total_steps} ({completion_percent}%) - Skipped: API step disabled", flush=True)
+            cp.mark_step_complete(step_num, step_name, duration_seconds=0.0)
+            continue
         if step_num < start_step:
             # Skip completed steps (verify output files exist)
             # Convert relative output files to absolute paths for verification
@@ -281,4 +300,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

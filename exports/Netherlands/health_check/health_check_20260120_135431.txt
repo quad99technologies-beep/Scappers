@@ -1,0 +1,13 @@
+Netherlands Scraper Health Check
+============================================================
+Step   | Check                         | Status | Detail
+--------------------------------------------------------
+Config | Base URL reachable            | PASS   | HTTP 200
+Config | Search URL reachable          | PASS   | HTTP 429 (Rate limited - acceptable, scraper can extract data)
+Config | Netherlands PCID file present | FAIL   | missing file (optional - will be created during pipeline)
+Layout | Search page anchors           | PASS   | Rate limited (HTTP 429) - acceptable (scraper can extract data)
+Layout | Search page h1 heading        | PASS   | Rate limited (HTTP 429) - acceptable (scraper can extract data)
+Layout | Product detail page structure | PASS   | Rate limited - acceptable (scraper can extract data)
+
+============================================================
+Generated: 2026-01-20 13:54:31

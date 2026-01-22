@@ -46,7 +46,7 @@ All configuration is managed through `config/Malaysia.env.json`. The configurati
 
 Place the following files in the input directory:
 
-- `Malaysia_PCID.csv` - PCID mapping file
+- `PCID Mapping - Malaysia.csv` - PCID mapping file
 - `products.csv` - Optional product list for filtering
 
 ## Output Files
@@ -248,5 +248,20 @@ Generates final PCID-mapped report.
 - ChromeDriver must be installed and in PATH
 - All configuration values are in `config/Malaysia.env.json`
 - The scraper handles rate limiting and delays automatically
+
+## Health Check (Manual)
+
+- Run `python scripts/Malaysia/health_check.py` whenever you need to confirm the workflow is still
+  safe to execute. The script is intentional about not collecting or saving production data.
+- It prints a status matrix and writes a report to `exports/Malaysia/health_check/health_check_<timestamp>.txt`.
+- The check covers:
+  1. Reachability of the MyPriMe and QUEST3+ landing pages.
+  2. Presence of the Malaysia PCID mapping file (used by step 05).
+  3. Layout selectors on MyPriMe (`View All` text and the pricing table headers).
+  4. QUEST3+ search form selectors (`#searchBy`, `#searchTxt`, `button.btn-primary`) and the results table.
+- Use the matrix output to catch layout changes early; a `FAIL` entry signals the associated step must be reviewed
+  before starting a scrape.
+- The GUI now exposes a **Health Check** tab so you can run the same logic without leaving the app and monitor
+  the status text/log live for Malaysia or Argentina before touching the pipeline controls.
 - Progress is tracked and saved periodically
 

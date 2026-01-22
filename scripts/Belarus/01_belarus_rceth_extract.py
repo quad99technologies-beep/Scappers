@@ -69,6 +69,11 @@ except ImportError:
     get_chrome_pids_from_driver = None
     save_chrome_pids = None
 
+try:
+    from core.chrome_manager import get_chromedriver_path
+except ImportError:
+    get_chromedriver_path = None
+
 
 BASE = "https://www.rceth.by"
 START_URL = "https://www.rceth.by/Refbank/reestr_lekarstvennih_sredstv"
@@ -289,7 +294,12 @@ def build_driver(show_browser=None):
         if chrome_disable_automation:
             opts.add_argument(chrome_disable_automation)
 
-    service = ChromeService(ChromeDriverManager().install())
+    # Use offline-capable chromedriver resolution if available
+    if get_chromedriver_path:
+        driver_path = get_chromedriver_path()
+    else:
+        driver_path = ChromeDriverManager().install()
+    service = ChromeService(driver_path)
     driver = webdriver.Chrome(service=service, options=opts)
 
     # Track Chrome PIDs so the GUI can report active instances

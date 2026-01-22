@@ -35,16 +35,39 @@ except Exception:
 SCRIPT_DIR = Path(__file__).resolve().parent
 _repo_root = Path(__file__).resolve().parents[2]
 
+# Add repo root for core imports
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
 # Shared chromedriver path to avoid concurrent downloads per thread
 _driver_path = None
 _driver_path_lock = threading.Lock()
 
+# Try to import core chrome_manager for offline-capable chromedriver resolution
+try:
+    from core.chrome_manager import get_chromedriver_path as _core_get_chromedriver_path, register_chrome_driver, unregister_chrome_driver
+    CORE_CHROMEDRIVER_AVAILABLE = True
+except ImportError:
+    CORE_CHROMEDRIVER_AVAILABLE = False
+    _core_get_chromedriver_path = None
+    register_chrome_driver = None
+    unregister_chrome_driver = None
+
 
 def _get_chromedriver_path() -> Optional[str]:
+    """Get ChromeDriver path with offline fallback support."""
     global _driver_path
     with _driver_path_lock:
         if _driver_path:
             return _driver_path
+        # Use core module's offline-capable function if available
+        if CORE_CHROMEDRIVER_AVAILABLE and _core_get_chromedriver_path:
+            try:
+                _driver_path = _core_get_chromedriver_path()
+                return _driver_path
+            except Exception:
+                pass
+        # Fallback to direct ChromeDriverManager
         try:
             _driver_path = ChromeDriverManager().install()
         except Exception:
@@ -57,8 +80,10 @@ try:
     from config_loader import load_env_file, get_output_dir, getenv, getenv_bool, getenv_int, getenv_float
     load_env_file()
     OUTPUT_DIR = get_output_dir()
+    USE_CONFIG = True
 except Exception:
     OUTPUT_DIR = SCRIPT_DIR
+    USE_CONFIG = False
     def getenv(key: str, default: str = None) -> str:
         return os.getenv(key, default if default is not None else "")
     def getenv_bool(key: str, default: bool = False) -> bool:
@@ -75,12 +100,63 @@ except Exception:
         except (TypeError, ValueError):
             return default
 
+# Import Chrome PID tracking utilities
 try:
     from core.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids, terminate_scraper_pids
 except Exception:
     get_chrome_pids_from_driver = None
     save_chrome_pids = None
     terminate_scraper_pids = None
+
+# Import stealth profile for anti-detection
+try:
+    from core.stealth_profile import apply_selenium
+    STEALTH_PROFILE_AVAILABLE = True
+except ImportError:
+    STEALTH_PROFILE_AVAILABLE = False
+    def apply_selenium(options):
+        pass  # Stealth profile not available, skip
+
+# Import browser observer for idle detection
+try:
+    from core.browser_observer import observe_selenium, wait_until_idle
+    BROWSER_OBSERVER_AVAILABLE = True
+except ImportError:
+    BROWSER_OBSERVER_AVAILABLE = False
+    def observe_selenium(driver):
+        return None
+    def wait_until_idle(state, timeout=10.0):
+        pass  # Browser observer not available, skip
+
+# Import human pacing
+try:
+    from core.human_actions import pause
+    HUMAN_ACTIONS_AVAILABLE = True
+except ImportError:
+    HUMAN_ACTIONS_AVAILABLE = False
+    def pause(min_s=0.2, max_s=0.6):
+        import random
+        time.sleep(random.uniform(min_s, max_s))
+
+# Import Telegram notifier for status updates
+try:
+    from core.telegram_notifier import TelegramNotifier
+    TELEGRAM_NOTIFIER_AVAILABLE = True
+except ImportError:
+    TELEGRAM_NOTIFIER_AVAILABLE = False
+    TelegramNotifier = None
+
+# Import state machine and smart locator for Tier 1 robustness
+try:
+    from smart_locator import SmartLocator
+    from state_machine import NavigationStateMachine, NavigationState, StateCondition
+    STATE_MACHINE_AVAILABLE = True
+except ImportError:
+    STATE_MACHINE_AVAILABLE = False
+    SmartLocator = None
+    NavigationStateMachine = None
+    NavigationState = None
+    StateCondition = None
 
 URLS_CSV = getenv("SCRIPT_01_URLS_CSV", "north_macedonia_detail_urls.csv")
 OUT_CSV = getenv("SCRIPT_02_OUTPUT_CSV", "north_macedonia_drug_register.csv")
@@ -99,6 +175,10 @@ WAIT_SECONDS = getenv_int("SCRIPT_02_WAIT_SECONDS", 40)
 
 MAX_RETRIES_PER_URL = getenv_int("SCRIPT_02_MAX_RETRIES", 3)
 DUMP_FAILED_HTML = getenv_bool("SCRIPT_02_DUMP_FAILED_HTML", True)
+
+# Navigation retry settings
+NAV_RETRIES = getenv_int("SCRIPT_02_NAV_RETRIES", 3) if USE_CONFIG else 3
+NAV_RETRY_SLEEP = getenv_float("SCRIPT_02_NAV_RETRY_SLEEP", 3.0) if USE_CONFIG else 3.0
 
 # Reimbursement constants (as per requirement)
 REIMBURSABLE_STATUS = "PARTIALLY REIMBURSABLE"
@@ -175,7 +255,13 @@ def load_already_scraped_urls(path: Path) -> set:
 
 
 def build_driver(headless: bool = True) -> webdriver.Chrome:
+    """Build Chrome driver with enhanced anti-bot features."""
     options = webdriver.ChromeOptions()
+
+    # Apply stealth profile if available
+    if STEALTH_PROFILE_AVAILABLE:
+        apply_selenium(options)
+
     if headless:
         options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
@@ -187,8 +273,38 @@ def build_driver(headless: bool = True) -> webdriver.Chrome:
     # but even if not, our mapping handles Macedonian.
     options.add_argument("--lang=en-US")
 
+    # Stability improvements to prevent Chrome crashes
+    options.add_argument("--disable-extensions")
+    options.add_argument("--disable-plugins")
+    options.add_argument("--disable-infobars")
+    options.add_argument("--disable-popup-blocking")
+    options.add_argument("--disable-translate")
+    options.add_argument("--disable-background-networking")
+    options.add_argument("--disable-sync")
+    options.add_argument("--disable-default-apps")
+    options.add_argument("--mute-audio")
+    options.add_argument("--no-first-run")
+    options.add_argument("--no-default-browser-check")
+    options.add_argument("--disable-hang-monitor")
+    options.add_argument("--disable-prompt-on-repost")
+    options.add_argument("--disable-client-side-phishing-detection")
+    options.add_argument("--disable-component-update")
+    options.add_argument("--disable-breakpad")
+    options.add_argument("--remote-debugging-port=0")
+
+    # Enhanced anti-detection options for bot bypass
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
+    options.add_experimental_option('useAutomationExtension', False)
+
+    # Use a realistic user agent
+    user_agent = getenv("SCRIPT_02_CHROME_USER_AGENT", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+    options.add_argument(f"--user-agent={user_agent}")
+
     # Speed-up (optional)
-    prefs = {}
+    prefs = {
+        "profile.default_content_setting_values.notifications": 2,
+    }
     if DISABLE_IMAGES:
         prefs["profile.managed_default_content_settings.images"] = 2
     if DISABLE_CSS:
@@ -201,6 +317,50 @@ def build_driver(headless: bool = True) -> webdriver.Chrome:
     service = ChromeService(driver_path)
     driver = webdriver.Chrome(service=service, options=options)
     driver.set_page_load_timeout(PAGELOAD_TIMEOUT)
+
+    # Execute CDP commands to hide webdriver property and other automation indicators
+    try:
+        driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
+            'source': '''
+                Object.defineProperty(navigator, 'webdriver', {
+                    get: () => undefined
+                });
+
+                // Override the plugins property to use a custom getter
+                Object.defineProperty(navigator, 'plugins', {
+                    get: () => [1, 2, 3, 4, 5]
+                });
+
+                // Override the languages property
+                Object.defineProperty(navigator, 'languages', {
+                    get: () => ['en-US', 'en', 'mk-MK', 'mk']
+                });
+
+                // Override permissions
+                const originalQuery = window.navigator.permissions.query;
+                window.navigator.permissions.query = (parameters) => (
+                    parameters.name === 'notifications' ?
+                        Promise.resolve({ state: Notification.permission }) :
+                        originalQuery(parameters)
+                );
+
+                // Mock chrome object
+                window.chrome = {
+                    runtime: {}
+                };
+            '''
+        })
+    except Exception:
+        pass  # CDP commands not critical, continue without them
+
+    # Register driver with Chrome manager for cleanup
+    if register_chrome_driver:
+        try:
+            register_chrome_driver(driver)
+        except Exception:
+            pass
+
+    # Track Chrome PIDs
     if get_chrome_pids_from_driver and save_chrome_pids:
         try:
             pids = get_chrome_pids_from_driver(driver)
@@ -211,6 +371,40 @@ def build_driver(headless: bool = True) -> webdriver.Chrome:
     return driver
 
 
+def remove_webdriver_property(driver: webdriver.Chrome) -> None:
+    """Remove webdriver property after page load for additional stealth."""
+    try:
+        driver.execute_script("""
+            Object.defineProperty(navigator, 'webdriver', {
+                get: () => undefined
+            });
+        """)
+    except Exception:
+        pass
+
+
+def is_session_valid(driver: webdriver.Chrome) -> bool:
+    """Check if the Chrome session is still valid and responsive."""
+    try:
+        _ = driver.current_url
+        return True
+    except Exception:
+        return False
+
+
+def shutdown_driver(driver: webdriver.Chrome) -> None:
+    """Safely shutdown the Chrome driver."""
+    if unregister_chrome_driver:
+        try:
+            unregister_chrome_driver(driver)
+        except Exception:
+            pass
+    try:
+        driver.quit()
+    except Exception:
+        pass
+
+
 def parse_detail_page(driver: webdriver.Chrome) -> Dict[str, str]:
     """
     Extracts label->value for each row-fluid.
@@ -219,6 +413,16 @@ def parse_detail_page(driver: webdriver.Chrome) -> Dict[str, str]:
     WebDriverWait(driver, WAIT_SECONDS).until(
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div.row-fluid"))
     )
+
+    # Use browser observer if available
+    if BROWSER_OBSERVER_AVAILABLE:
+        state = observe_selenium(driver)
+        wait_until_idle(state, timeout=5.0)
+
+    # Add human-like pause
+    if HUMAN_ACTIONS_AVAILABLE:
+        pause(0.1, 0.3)
+
     rows = driver.find_elements(By.CSS_SELECTOR, "div.row-fluid")
 
     data: Dict[str, str] = {}
@@ -309,6 +513,7 @@ def worker_fn(
     out_lock: threading.Lock,
     progress: dict,
     progress_lock: threading.Lock,
+    telegram_notifier=None,
 ) -> None:
     driver: Optional[webdriver.Chrome] = None
     try:
@@ -335,7 +540,17 @@ def worker_fn(
 
             for attempt in range(1, MAX_RETRIES_PER_URL + 1):
                 try:
+                    # Check session health before navigating
+                    if not is_session_valid(driver):
+                        shutdown_driver(driver)
+                        driver = build_driver(headless=HEADLESS)
+
                     driver.get(url)
+                    remove_webdriver_property(driver)
+
+                    # Add human-like pause after navigation
+                    if HUMAN_ACTIONS_AVAILABLE:
+                        pause(0.2, 0.5)
 
                     detail = parse_detail_page(driver)
                     fields = extract_fields(detail)
@@ -394,8 +609,24 @@ def worker_fn(
                         pct = round((done / total) * 100, 1) if total else 0
                         print(f"[PROGRESS] {done}/{total} ({pct}%) - worker {worker_id}", flush=True)
 
+                        # Send Telegram notification (rate-limited)
+                        if telegram_notifier and done % 50 == 0:  # Send every 50 items
+                            try:
+                                telegram_notifier.send_progress(
+                                    done,
+                                    total,
+                                    "Scrape Details",
+                                    details=f"Workers: {DETAIL_WORKERS}"
+                                )
+                            except Exception:
+                                pass
+
                     if SLEEP_BETWEEN_DETAILS > 0:
-                        time.sleep(SLEEP_BETWEEN_DETAILS)
+                        # Use human pacing if available, otherwise use configured sleep
+                        if HUMAN_ACTIONS_AVAILABLE:
+                            pause(SLEEP_BETWEEN_DETAILS * 0.5, SLEEP_BETWEEN_DETAILS * 1.5)
+                        else:
+                            time.sleep(SLEEP_BETWEEN_DETAILS)
 
                     ok = True
                     break
@@ -403,21 +634,17 @@ def worker_fn(
                 except (TimeoutException, WebDriverException, StaleElementReferenceException, RuntimeError) as e:
                     last_err = e
                     if is_invalid_session(e):
-                        try:
-                            if driver:
-                                driver.quit()
-                        except Exception:
-                            pass
+                        shutdown_driver(driver)
                         try:
                             driver = build_driver(headless=HEADLESS)
                         except Exception:
                             driver = None
                     # small backoff then retry
-                    time.sleep(0.8 * attempt)
+                    time.sleep(NAV_RETRY_SLEEP * attempt)
                     continue
                 except Exception as e:
                     last_err = e
-                    time.sleep(0.8 * attempt)
+                    time.sleep(NAV_RETRY_SLEEP * attempt)
                     continue
 
             if not ok:
@@ -429,10 +656,7 @@ def worker_fn(
 
     finally:
         if driver:
-            try:
-                driver.quit()
-            except Exception:
-                pass
+            shutdown_driver(driver)
 
 
 # -----------------------------
@@ -444,6 +668,19 @@ def main() -> None:
             terminate_scraper_pids("NorthMacedonia", _repo_root, silent=True)
         except Exception:
             pass
+
+    # Initialize Telegram notifier for status updates
+    telegram_notifier = None
+    if TELEGRAM_NOTIFIER_AVAILABLE:
+        try:
+            telegram_notifier = TelegramNotifier("NorthMacedonia", rate_limit=60.0)
+            if telegram_notifier.enabled:
+                telegram_notifier.send_started("Scrape Details - Step 2/4")
+                print("[INFO] Telegram notifications enabled", flush=True)
+        except Exception as e:
+            print(f"[WARN] Failed to initialize Telegram notifier: {e}", flush=True)
+            telegram_notifier = None
+
     urls_path = OUTPUT_DIR / URLS_CSV
     if not urls_path.exists():
         fallback_output = _repo_root / "output" / "NorthMacedonia" / URLS_CSV
@@ -496,24 +733,43 @@ def main() -> None:
 
     ensure_csv_has_header(output_path, out_columns)
 
+    # CRITICAL: Resume state is determined ONLY by what's in the output CSV
+    # The detailed_view_scraped column in the URL list is IGNORED for skip decisions
     already_scraped = load_already_scraped_urls(output_path)
-    if already_scraped:
-        df_urls.loc[df_urls["detail_url"].astype(str).isin(already_scraped), "detailed_view_scraped"] = "yes"
-    status_map = {
-        str(row.get("detail_url") or "").strip(): str(row.get("detailed_view_scraped") or "").strip().lower()
-        for _, row in df_urls.iterrows()
-    }
-    todo_urls = [
-        u for u in all_urls
-        if u not in already_scraped and status_map.get(u, "no") != "yes"
-    ]
+
+    # Build todo list: scrape anything NOT in output file
+    todo_urls = [u for u in all_urls if u not in already_scraped]
 
     total = len(todo_urls)
-    if total == 0:
-        print("No new URLs to scrape. Output already up to date.")
-        return
 
-    print(f"[START] URLs total={len(all_urls)} | todo={total} | workers={DETAIL_WORKERS} | headless={HEADLESS}", flush=True)
+    # Startup diagnostic
+    print(f"\n{'='*60}", flush=True)
+    print(f"[STARTUP] Detail Scraper Configuration", flush=True)
+    print(f"{'='*60}", flush=True)
+    print(f"URL List Path:        {urls_path}", flush=True)
+    print(f"Output CSV Path:      {output_path}", flush=True)
+    print(f"Total URLs in list:   {len(all_urls)}", flush=True)
+    print(f"Already scraped:      {len(already_scraped)} (from output CSV)", flush=True)
+    print(f"URLs to scrape:       {total}", flush=True)
+    print(f"Workers:              {DETAIL_WORKERS}", flush=True)
+    print(f"Headless:             {HEADLESS}", flush=True)
+    print(f"{'='*60}\n", flush=True)
+
+    # Safety check: warn if output is empty but URL list says everything is done
+    if total == 0:
+        if len(already_scraped) == 0 and output_path.exists():
+            # Output file exists but is empty (header only), yet we have no work
+            # This shouldn't happen unless URL list is also empty
+            if len(all_urls) > 0:
+                print(f"[WARN] Safety check failed!", flush=True)
+                print(f"[WARN] - Output CSV exists but has no data (header only)", flush=True)
+                print(f"[WARN] - URL list has {len(all_urls)} URLs", flush=True)
+                print(f"[WARN] - But all URLs are marked as already scraped", flush=True)
+                print(f"[WARN] This indicates a possible mismatch.", flush=True)
+                print(f"[WARN] Suggestion: Delete {output_path.name} and rerun to force re-scrape.", flush=True)
+
+        print("\n[INFO] No new URLs to scrape. Output already up to date.")
+        return
 
     q = Queue()
     for u in todo_urls:
@@ -528,7 +784,7 @@ def main() -> None:
     for wid in range(1, DETAIL_WORKERS + 1):
         t = threading.Thread(
             target=worker_fn,
-            args=(wid, q, output_path, out_columns, already_scraped, seen_lock, out_lock, progress, progress_lock),
+            args=(wid, q, output_path, out_columns, already_scraped, seen_lock, out_lock, progress, progress_lock, telegram_notifier),
             daemon=True,
         )
         t.start()
@@ -546,6 +802,20 @@ def main() -> None:
         print(f"[INFO] Updated detailed_view_scraped=yes for {len(processed)} URLs in {urls_path.name}", flush=True)
 
     print(f"[DONE] Scraped rows added: {progress['done']} | Output: {output_path}", flush=True)
+
+    # Send Telegram completion notification
+    if telegram_notifier:
+        try:
+            failed_count = total - progress['done']
+            if failed_count > 0:
+                details = f"Scraped: {progress['done']}/{total}\nFailed: {failed_count}\nWorkers: {DETAIL_WORKERS}"
+                telegram_notifier.send_warning("Detail Scraping Completed with Failures", details=details)
+            else:
+                details = f"Scraped: {progress['done']}/{total}\nWorkers: {DETAIL_WORKERS}"
+                telegram_notifier.send_success("Detail Scraping Completed", details=details)
+        except Exception:
+            pass
+
     if terminate_scraper_pids:
         try:
             terminate_scraper_pids("NorthMacedonia", _repo_root, silent=True)

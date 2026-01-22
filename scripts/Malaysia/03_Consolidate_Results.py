@@ -22,6 +22,12 @@ from pathlib import Path
 import pandas as pd
 from config_loader import load_env_file, require_env, getenv, getenv_list, get_output_dir
 
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from core.standalone_checkpoint import run_with_checkpoint
+
 # Load environment variables from .env file
 load_env_file()
 
@@ -108,5 +114,11 @@ def consolidate_product_details() -> None:
 
 
 if __name__ == "__main__":
-    consolidate_product_details()
+    run_with_checkpoint(
+        consolidate_product_details,
+        "Malaysia",
+        3,
+        "Consolidate Results",
+        output_files=[CONSOLIDATED_FILE]
+    )
 

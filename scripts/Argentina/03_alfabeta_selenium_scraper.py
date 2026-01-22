@@ -57,6 +57,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.alert import Alert
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, InvalidSessionIdException, WebDriverException, StaleElementReferenceException
+import os
 import socket
 from webdriver_manager.firefox import GeckoDriverManager
 
@@ -81,6 +82,7 @@ from scraper_utils import (
     nk, ts, strip_accents, OUT_FIELDS, update_prepared_urls_source,
     sync_files_from_output, sync_files_before_selenium
 )
+from core.pipeline_checkpoint import get_checkpoint_manager
 
 try:
     from core.firefox_pid_tracker import save_firefox_pids, cleanup_pid_file as cleanup_firefox_pid_file
@@ -3370,11 +3372,31 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set):
         else:
             log.info(f"[SELENIUM_WORKER] Thread {thread_id} completed")
 
+def mark_pipeline_step_if_standalone():
+    """Mark checkpoint for Step 3 when running outside the pipeline runner."""
+    if os.environ.get("PIPELINE_RUNNER") == "1":
+        return
+    try:
+        cp = get_checkpoint_manager("Argentina")
+        cp.mark_step_complete(
+            3,
+            "Scrape Products (Selenium)",
+            output_files=[str(OUT_CSV)]
+        )
+    except Exception as exc:
+        log.warning(f"[CHECKPOINT] Failed to mark pipeline step: {exc}")
+
+
 if __name__ == "__main__":
     import sys
+    exit_code = None
     try:
         exit_code = main()
-        sys.exit(exit_code if exit_code is not None else 0)
+        if exit_code is None:
+            exit_code = 0
+        if exit_code == 0:
+            mark_pipeline_step_if_standalone()
+        sys.exit(exit_code)
     except KeyboardInterrupt:
         log.warning("[MAIN] Keyboard interrupt received, cleaning up...")
         _shutdown_requested.set()

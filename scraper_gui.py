@@ -18,6 +18,7 @@ import webbrowser
 from datetime import datetime
 import json
 import time
+from typing import Optional
 
 # CRITICAL: Initialize ConfigManager FIRST before any other imports
 # Add repo root to path for core.config_manager
@@ -133,14 +134,24 @@ class ScraperGUI:
         self._stopped_by_user = set()  # Track scrapers that were stopped by user: {scraper_name}
         self._stopping_scrapers = set()  # Track scrapers currently being stopped to prevent multiple simultaneous stop attempts
         self.scraper_progress = {}  # Store progress state per scraper: {scraper_name: {"percent": float, "description": str}}
+        self._last_completed_logs = {}  # Store last run log content per scraper for archive/save
+        self._log_stream_state = {}  # Track external log stream offsets per scraper
+        self._scraper_active_state = {}  # Track lock-based run activity per scraper
         self.telegram_process = None
         self.telegram_log_path = None
+        self._external_log_files = {}  # Track external log files for pipelines started outside GUI
         
         # Network stats tracking for rate calculation
         self._prev_net_sent = 0
         self._prev_net_recv = 0
         self._prev_net_time = None
-        
+
+        # Ticker tape tracking
+        self.ticker_label = None
+        self.ticker_text = ""
+        self.ticker_offset = 0
+        self.ticker_running = False
+
         # Start periodic cleanup task to check for stale locks
         self.start_periodic_lock_cleanup()
         self.start_periodic_telegram_status()
@@ -296,6 +307,10 @@ class ScraperGUI:
                 }
             }
         }
+
+        self.health_check_scripts = self._discover_health_check_scripts()
+        self.health_check_json_path = None
+        self.health_check_running = False
         
         self.setup_ui()
         self.load_documentation()
@@ -572,6 +587,23 @@ class ScraperGUI:
                               padx=15)
         title_label.pack(side=tk.LEFT)
 
+        # Create ticker tape frame - positioned below header
+        ticker_frame = tk.Frame(self.root, bg=self.colors['medium_gray'], height=30)
+        ticker_frame.pack(fill=tk.X, side=tk.TOP)
+        ticker_frame.pack_propagate(False)
+
+        # Ticker tape label for scrolling text
+        self.ticker_label = tk.Label(ticker_frame,
+                                     text="",
+                                     bg=self.colors['medium_gray'],
+                                     fg=self.colors['console_yellow'],
+                                     font=self.fonts['monospace'],
+                                     anchor='w')
+        self.ticker_label.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
+
+        # Start ticker animation
+        self.start_ticker_animation()
+
         # Create main container for the top-level pages
         main_container = tk.Frame(self.root, bg=self.colors['white'])
         main_container.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
@@ -594,6 +626,20 @@ class ScraperGUI:
         documentation_frame = ttk.Frame(self.main_notebook)
         self.main_notebook.add(documentation_frame, text="Documentation")
         self.setup_documentation_tab(documentation_frame)
+
+        # Health Check page (manual diagnostics)
+        health_check_frame = ttk.Frame(self.main_notebook)
+        self.main_notebook.add(health_check_frame, text="Health Check")
+        self.setup_health_check_tab(health_check_frame)
+
+    def _discover_health_check_scripts(self) -> dict[str, Path]:
+        """Locate health_check scripts for enabled scrapers."""
+        result = {}
+        for scraper_name, scraper_info in self.scrapers.items():
+            script_path = scraper_info["path"] / "health_check.py"
+            if script_path.exists():
+                result[scraper_name] = script_path
+        return result
 
     def setup_dashboard_page(self, parent):
         """Setup dashboard page with execution controls, logs, and outputs/config tabs"""
@@ -803,6 +849,28 @@ class ScraperGUI:
     
     def setup_pipeline_steps_tab(self, parent):
         """Setup Pipeline Steps tab with step list, info, and explanation"""
+        selector_frame = tk.Frame(parent, bg=self.colors['white'])
+        selector_frame.pack(fill=tk.X, padx=8, pady=(8, 0))
+
+        tk.Label(selector_frame, text="Select Scraper for Pipeline Steps",
+                 bg=self.colors['white'], fg='#000000',
+                 font=self.fonts['standard']).pack(side=tk.LEFT, padx=(0, 8))
+
+        self.pipeline_steps_scraper_var = tk.StringVar()
+        self.pipeline_steps_combo = ttk.Combobox(
+            selector_frame,
+            textvariable=self.pipeline_steps_scraper_var,
+            values=list(self.scrapers.keys()),
+            state="readonly",
+            style='Modern.TCombobox',
+            width=26
+        )
+        self.pipeline_steps_combo.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        self.pipeline_steps_combo.bind("<<ComboboxSelected>>", self.on_pipeline_steps_scraper_selected)
+        if self.scrapers:
+            first_scraper = next(iter(self.scrapers))
+            self.pipeline_steps_scraper_var.set(first_scraper)
+
         # Steps listbox with scrollbar - container frame with light gray border
         listbox_container = tk.Frame(parent, bg=self.colors['white'],
                                      highlightbackground=self.colors['border_gray'],
@@ -845,10 +913,7 @@ class ScraperGUI:
                                      pady=12)
         self.step_info_text.pack(fill=tk.BOTH, expand=True)
         
-        # Initialize with default message
-        self.step_info_text.config(state=tk.NORMAL)
-        self.step_info_text.insert(1.0, "Select a step from the list above to see details and get AI explanation.")
-        self.step_info_text.config(state=tk.DISABLED)
+        self.reset_step_info_text()
         
         # Explain button - below step info, vertically stacked
         button_container = tk.Frame(parent, bg=self.colors['white'])
@@ -885,7 +950,254 @@ class ScraperGUI:
         self.explanation_text.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
         
         self.explanation_visible = False
+        self.refresh_pipeline_steps_list(self.pipeline_steps_scraper_var.get())
+    
+    def on_pipeline_steps_scraper_selected(self, event=None):
+        """Handle scraper selection specifically for the pipeline steps tab."""
+        scraper_name = self.pipeline_steps_scraper_var.get()
+        self.refresh_pipeline_steps_list(scraper_name)
+
+    def refresh_pipeline_steps_list(self, scraper_name: str):
+        """Populate the pipeline steps listbox for the selected scraper."""
+        if not scraper_name:
+            self.steps_listbox.delete(0, tk.END)
+            self.reset_step_info_text()
+            return
+
+        scraper_info = self.scrapers.get(scraper_name)
+        if not scraper_info:
+            self.steps_listbox.delete(0, tk.END)
+            self.reset_step_info_text("No pipeline steps defined for this scraper.")
+            return
+
+        self.pipeline_steps_scraper_var.set(scraper_name)
+        self.steps_listbox.delete(0, tk.END)
+        for step in scraper_info["steps"]:
+            self.steps_listbox.insert(tk.END, step["name"])
+        self.current_step = None
+        self.reset_step_info_text()
+
+    def reset_step_info_text(self, message: Optional[str] = None):
+        """Reset the step info text area to the default placeholder."""
+        default_msg = message or "Select a step from the list above to see details and get AI explanation."
+        self.step_info_text.config(state=tk.NORMAL)
+        self.step_info_text.delete(1.0, tk.END)
+        self.step_info_text.insert(1.0, default_msg)
+        self.step_info_text.config(state=tk.DISABLED)
         
+    def setup_health_check_tab(self, parent):
+        """Setup the health check manual tab for scraper diagnostics"""
+        container = tk.Frame(parent, bg=self.colors['white'])
+        container.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
+
+        tk.Label(
+            container,
+            text="Manual Health Check",
+            bg=self.colors['white'],
+            fg='#111827',
+            font=self.fonts['bold']
+        ).pack(anchor=tk.W, pady=(0, 4))
+
+        tk.Label(
+            container,
+            text="Use this tab to confirm the key configuration and website selectors before running a pipeline.",
+            bg=self.colors['white'],
+            fg='#1f2937',
+            font=self.fonts['standard'],
+            wraplength=600,
+            justify=tk.LEFT
+        ).pack(anchor=tk.W, pady=(0, 8))
+
+        controls_frame = tk.Frame(container, bg=self.colors['white'])
+        controls_frame.pack(fill=tk.X, pady=(0, 8))
+
+        tk.Label(controls_frame, text="Select Scraper", bg=self.colors['white'], fg='#111827',
+                 font=self.fonts['standard']).grid(row=0, column=0, sticky=tk.W, padx=(0, 8), pady=4)
+
+        self.health_check_scraper_var = tk.StringVar()
+        values = sorted(self.health_check_scripts.keys())
+        self.health_check_combo = ttk.Combobox(
+            controls_frame,
+            textvariable=self.health_check_scraper_var,
+            values=values,
+            state="readonly",
+            style='Modern.TCombobox'
+        )
+        self.health_check_combo.grid(row=0, column=1, sticky=tk.EW, pady=4)
+        controls_frame.columnconfigure(1, weight=1)
+
+        self.health_check_status_var = tk.StringVar(value="Select a scraper above and press Run Health Check.")
+        tk.Label(
+            container,
+            textvariable=self.health_check_status_var,
+            bg=self.colors['white'],
+            fg='#1f2937',
+            font=self.fonts['standard'],
+            wraplength=700,
+            justify=tk.LEFT
+        ).pack(anchor=tk.W, padx=(0, 0), pady=(0, 8))
+
+        actions_frame = tk.Frame(container, bg=self.colors['white'])
+        actions_frame.pack(fill=tk.X, pady=(0, 8))
+
+        self.health_check_run_button = ttk.Button(
+            actions_frame,
+            text="Run Health Check",
+            command=self.start_health_check,
+            style='Primary.TButton'
+        )
+        self.health_check_run_button.pack(side=tk.LEFT, padx=(0, 8))
+
+        ttk.Button(
+            actions_frame,
+            text="Clear Log",
+            command=self.clear_health_check_log,
+            style='Secondary.TButton'
+        ).pack(side=tk.LEFT)
+
+        table_frame = tk.Frame(container, bg=self.colors['white'],
+                               highlightbackground=self.colors['border_gray'],
+                               highlightthickness=1)
+        table_frame.pack(fill=tk.BOTH, expand=True, pady=(0, 8))
+
+        self.health_check_table = ttk.Treeview(
+            table_frame,
+            columns=("step", "check", "status", "detail"),
+            show="headings",
+            selectmode="none",
+            height=6
+        )
+        self.health_check_table.pack(fill=tk.BOTH, expand=True)
+        self.health_check_table.heading("step", text="Step")
+        self.health_check_table.heading("check", text="Check")
+        self.health_check_table.heading("status", text="Status")
+        self.health_check_table.heading("detail", text="Detail")
+        self.health_check_table.column("step", width=100, anchor=tk.W)
+        self.health_check_table.column("check", width=220, anchor=tk.W)
+        self.health_check_table.column("status", width=80, anchor=tk.CENTER)
+        self.health_check_table.column("detail", width=420, anchor=tk.W)
+        self.health_check_table.tag_configure("PASS", background="#dcfce7")
+        self.health_check_table.tag_configure("FAIL", background="#fee2e2")
+
+        log_frame = tk.Frame(container, bg=self.colors['white'],
+                             highlightbackground=self.colors['border_gray'],
+                             highlightthickness=1)
+        log_frame.pack(fill=tk.BOTH, expand=True, pady=(0, 8))
+
+        self.health_check_log_text = scrolledtext.ScrolledText(
+            log_frame,
+            wrap=tk.WORD,
+            font=self.fonts['standard'],
+            state=tk.DISABLED,
+            bg=self.colors['white'],
+            fg='#000000',
+            padx=12,
+            pady=12,
+            borderwidth=0,
+            relief='flat'
+        )
+        self.health_check_log_text.pack(fill=tk.BOTH, expand=True)
+        self.health_check_log_text.insert(tk.END, "Health check logs will appear here.\n")
+        self.health_check_log_text.config(state=tk.DISABLED)
+
+    def start_health_check(self):
+        """Trigger the health check script for the selected scraper."""
+        if self.health_check_running:
+            messagebox.showwarning("Health Check Running", "Health check already in progress.")
+            return
+        scraper_name = self.health_check_scraper_var.get()
+        script_path = self.health_check_scripts.get(scraper_name)
+        if not script_path:
+            messagebox.showwarning("Select Scraper", "Choose a scraper that supports health checks.")
+            return
+
+        self.health_check_running = True
+        self.health_check_json_path = None
+        self.health_check_run_button.config(state=tk.DISABLED)
+        self.health_check_status_var.set(f"Running health check for {scraper_name}...")
+        self.clear_health_check_log()
+        self.clear_health_check_table()
+
+        def worker():
+            cmd = [sys.executable, str(script_path)]
+            process = subprocess.Popen(
+                cmd,
+                cwd=str(script_path.parent),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                bufsize=1,
+                universal_newlines=True
+            )
+            for line in process.stdout or []:
+                self.append_health_check_log(line.rstrip())
+            return_code = process.wait()
+            self.root.after(0, lambda: self.health_check_complete(scraper_name, return_code))
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def append_health_check_log(self, message):
+        """Append a line to the health check log text field."""
+        def update():
+            self.health_check_log_text.config(state=tk.NORMAL)
+            self.health_check_log_text.insert(tk.END, message + "\n")
+            self.health_check_log_text.see(tk.END)
+            self.health_check_log_text.config(state=tk.DISABLED)
+        self.root.after(0, update)
+
+        if "[HEALTH CHECK] JSON summary saved:" in message:
+            path = message.split(":", 1)[1].strip()
+            try:
+                self.health_check_json_path = Path(path)
+            except Exception:
+                self.health_check_json_path = None
+
+    def health_check_complete(self, scraper_name, return_code):
+        """Update UI once the health check script finishes."""
+        self.health_check_running = False
+        self.health_check_run_button.config(state=tk.NORMAL)
+        status_text = "PASSED" if return_code == 0 else f"FAILED (exit {return_code})"
+        self.health_check_status_var.set(f"Health check finished for {scraper_name}: {status_text}")
+        if self.health_check_json_path:
+            self.populate_health_check_table(self.health_check_json_path)
+
+    def populate_health_check_table(self, json_path: Path):
+        """Load JSON summary and show in table."""
+        if not json_path.exists():
+            self.append_health_check_log(f"[HEALTH CHECK UI] Summary file missing: {json_path}")
+            return
+        try:
+            with open(json_path, "r", encoding="utf-8") as fh:
+                items = json.load(fh)
+        except Exception as exc:
+            self.append_health_check_log(f"[HEALTH CHECK UI] Failed to read summary: {exc}")
+            return
+        self.clear_health_check_table()
+        for row in items:
+            status = row.get("status", "").upper()
+            tag = "PASS" if status == "PASS" else "FAIL"
+            self.health_check_table.insert(
+                "",
+                "end",
+                values=(
+                    row.get("step", ""),
+                    row.get("check", ""),
+                    row.get("status", ""),
+                    row.get("detail", ""),
+                ),
+                tags=(tag,),
+            )
+
+    def clear_health_check_log(self):
+        """Clear the health check log pane."""
+        self.health_check_log_text.config(state=tk.NORMAL)
+        self.health_check_log_text.delete(1.0, tk.END)
+        self.health_check_log_text.config(state=tk.DISABLED)
+
+    def clear_health_check_table(self):
+        """Clear the health check results table."""
+        for item in self.health_check_table.get_children():
+            self.health_check_table.delete(item)
     def setup_right_panel(self, parent, include_pipeline_steps=True, include_final_output=True,
                           include_config=True, include_output=True, include_docs=True):
         """Setup right panel with tabs for outputs/config and optional pipeline/docs"""
@@ -1070,6 +1382,7 @@ class ScraperGUI:
         ttk.Button(toolbar, text="Clear", command=self.clear_logs, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
         ttk.Button(toolbar, text="Copy to Clipboard", command=self.copy_logs_to_clipboard, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
         ttk.Button(toolbar, text="Save Log", command=self.save_log, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
+        ttk.Button(toolbar, text="Archive Log", command=self.archive_current_log, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
         ttk.Button(toolbar, text="Open in Cursor", command=self.open_console_in_cursor, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
         
         # Progress frame - white background (2 lines)
@@ -1617,11 +1930,6 @@ class ScraperGUI:
         # Clear explanation when scraper changes
         self.clear_explanation()
         
-        # Update steps listbox
-        self.steps_listbox.delete(0, tk.END)
-        for step in scraper_info["steps"]:
-            self.steps_listbox.insert(tk.END, step["name"])
-        
         # Update output path to scraper output directory (not runs directory)
         if hasattr(self, 'output_path_var'):
             # Use scraper-specific output directory
@@ -1698,13 +2006,14 @@ class ScraperGUI:
         selection = self.steps_listbox.curselection()
         if not selection:
             return
-            
-        scraper_name = self.scraper_var.get()
+        scraper_name = self.pipeline_steps_scraper_var.get() or self.scraper_var.get()
         if not scraper_name:
             return
-            
+
         step_index = selection[0]
-        scraper_info = self.scrapers[scraper_name]
+        scraper_info = self.scrapers.get(scraper_name)
+        if not scraper_info:
+            return
         step = scraper_info["steps"][step_index]
         
         self.current_step = step
@@ -2036,6 +2345,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
     
     def update_log_display(self, scraper_name: str):
         """Update log display with the selected scraper's log"""
+        if self._is_scraper_active(scraper_name):
+            self._sync_external_log_if_running(scraper_name)
         log_content = self.scraper_logs.get(scraper_name, "")
         self.log_text.config(state=tk.NORMAL)
         self.log_text.delete(1.0, tk.END)
@@ -2045,36 +2356,38 @@ Provide a clear, concise explanation suitable for users who want to understand w
         
         # Schedule periodic refresh if this scraper is running
         # This ensures we see updates even if they come in while viewing another scraper
-        if scraper_name in self.running_scrapers or scraper_name in self.running_processes:
+        if self._is_scraper_active(scraper_name):
             self.schedule_log_refresh(scraper_name)
     
     def schedule_log_refresh(self, scraper_name: str):
         """Schedule periodic refresh of log display for running scraper"""
         # Always update progress state for running scrapers (even if not selected)
-        if scraper_name in self.running_scrapers or scraper_name in self.running_processes:
-            log_content = self.scraper_logs.get(scraper_name, "")
-            # Always update progress state (stored state)
-            self.update_progress_from_log(log_content, scraper_name, update_display=False)
+        if not self._is_scraper_active(scraper_name):
+            return
+        self._sync_external_log_if_running(scraper_name)
+        log_content = self.scraper_logs.get(scraper_name, "")
+        # Always update progress state (stored state)
+        self.update_progress_from_log(log_content, scraper_name, update_display=False)
+        
+        # Only refresh display if this scraper is still selected
+        if scraper_name == self.scraper_var.get():
+            current_content = self.log_text.get(1.0, tk.END)
+            if log_content != current_content.rstrip('\n'):
+                # Log has been updated, refresh display
+                self.log_text.config(state=tk.NORMAL)
+                self.log_text.delete(1.0, tk.END)
+                self.log_text.insert(1.0, log_content)
+                self.log_text.see(tk.END)
+                self.log_text.config(state=tk.DISABLED)
             
-            # Only refresh display if this scraper is still selected
-            if scraper_name == self.scraper_var.get():
-                current_content = self.log_text.get(1.0, tk.END)
-                if log_content != current_content.rstrip('\n'):
-                    # Log has been updated, refresh display
-                    self.log_text.config(state=tk.NORMAL)
-                    self.log_text.delete(1.0, tk.END)
-                    self.log_text.insert(1.0, log_content)
-                    self.log_text.see(tk.END)
-                    self.log_text.config(state=tk.DISABLED)
-                
-                # Update display with stored progress state
-                progress_state = self.scraper_progress.get(scraper_name, {"percent": 0, "description": f"Running {scraper_name}..."})
-                self.progress_label.config(text=progress_state["description"])
-                self.progress_bar['value'] = progress_state["percent"]
-                self.progress_percent.config(text=f"{progress_state['percent']:.1f}%")
-            
-            # Schedule next refresh in 500ms
-            self.root.after(500, lambda sn=scraper_name: self.schedule_log_refresh(sn))
+            # Update display with stored progress state
+            progress_state = self.scraper_progress.get(scraper_name, {"percent": 0, "description": f"Running {scraper_name}..."})
+            self.progress_label.config(text=progress_state["description"])
+            self.progress_bar['value'] = progress_state["percent"]
+            self.progress_percent.config(text=f"{progress_state['percent']:.1f}%")
+        
+        # Schedule next refresh in 500ms
+        self.root.after(500, lambda sn=scraper_name: self.schedule_log_refresh(sn))
     
     def update_progress_for_scraper(self, scraper_name: str):
         """Update progress bar for a specific scraper based on its current log content"""
@@ -2103,7 +2416,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
         should_update_display = update_display and is_selected
         
         # Check if scraper is currently running - if not, don't parse old progress
-        is_running = scraper_name in self.running_scrapers or scraper_name in self.running_processes
+        is_running = self._is_scraper_active(scraper_name)
         
         # Reset progress if pipeline stopped - check this FIRST before parsing progress
         if "[STOPPED]" in log_content or "Pipeline stopped" in log_content:
@@ -2238,11 +2551,11 @@ Provide a clear, concise explanation suitable for users who want to understand w
         general_candidate = None
         general_line_idx = -1
 
-        # Priority 1: page/row progress lines (e.g., "Max Prices: page 1 row 10/200 (5.0%)")
+        # Priority 1: page/row progress lines (e.g., "Max Prices: page 1/14 row 10/200 (5.0%)")
         for idx in range(len(lines) - 1, search_start_idx - 1, -1):
             line = lines[idx]
             page_row_match = re.search(
-                r'\[PROGRESS\]\s+(.+?)\s*:\s*page\s+(\d+)\s+row\s+(\d+)\s*/\s*(\d+)\s*\(([\d.]+)%\)',
+                r'\[PROGRESS\]\s+(.+?)\s*:\s*page\s+(\d+)(?:/\d+)?\s+row\s+(\d+)\s*/\s*(\d+)\s*\(([\d.]+)%\)',
                 line,
                 re.IGNORECASE
             )
@@ -2347,7 +2660,111 @@ Provide a clear, concise explanation suitable for users who want to understand w
                         general_line_idx = idx
                         break
 
-        # Pattern 3: "Scraping products: X/Y" (legacy format, second priority)
+        # Pattern 3: "[a][T#] Done: X | Skipped: Y | Failed: Z" (Netherlands format - high priority)
+        if general_candidate is None:
+            search_start_idx_thread = max(0, len(lines) - 200)  # Check more lines for thread progress
+            total_done = 0
+            total_skipped = 0
+            total_failed = 0
+            latest_thread_line_idx = -1
+            
+            # Find all thread progress entries and collect them
+            thread_entries = []  # Store (done, skipped, failed, line_idx) for each thread
+            for idx in range(len(lines) - 1, search_start_idx_thread - 1, -1):
+                line = lines[idx]
+                thread_match = re.search(
+                    r'\[a\]\[T\d+\]\s+Done:\s*(\d+)\s*\|\s*Skipped:\s*(\d+)\s*\|\s*Failed:\s*(\d+)',
+                    line,
+                    re.IGNORECASE
+                )
+                if thread_match:
+                    done = int(thread_match.group(1))
+                    skipped = int(thread_match.group(2))
+                    failed = int(thread_match.group(3))
+                    thread_entries.append((done, skipped, failed, idx))
+                    if latest_thread_line_idx == -1:
+                        latest_thread_line_idx = idx
+            
+            # Calculate totals: use maximum values across threads (each thread reports its own progress)
+            # This is more accurate than summing, as threads may process different items
+            if thread_entries:
+                total_done = max(entry[0] for entry in thread_entries)
+                total_skipped = max(entry[1] for entry in thread_entries)
+                total_failed = max(entry[2] for entry in thread_entries)
+            
+            # If we found thread progress entries, try to find total count
+            if latest_thread_line_idx >= 0 and total_done > 0:
+                # Look for total count in log entries (check both earlier and recent entries)
+                total_count = None
+                
+                # First, look for explicit progress messages with total (e.g., "[PROGRESS] ... X/Y")
+                for idx in range(len(lines) - 1, max(0, len(lines) - 500) - 1, -1):
+                    line = lines[idx]
+                    # Look for "[PROGRESS] ... X/Y" format
+                    progress_total_match = re.search(
+                        r'\[PROGRESS\].*?(\d+)\s*/\s*(\d+)\s*\([\d.]+%\)',
+                        line,
+                        re.IGNORECASE
+                    )
+                    if progress_total_match:
+                        try:
+                            current_val = int(progress_total_match.group(1))
+                            total_val = int(progress_total_match.group(2))
+                            if total_val > total_done:  # Only use if it's larger than done count
+                                total_count = total_val
+                                break
+                        except ValueError:
+                            pass
+                
+                # If not found, look for patterns like "[TOTAL]", "[PENDING]", "Total: X", etc.
+                if total_count is None:
+                    for idx in range(len(lines)):
+                        line = lines[idx]
+                        # Look for patterns like "[TOTAL] X", "[PENDING] X", "Total: X", "Total URLs: X", etc.
+                        total_match = re.search(
+                            r'(?:\[(?:TOTAL|PENDING|TOTAL\s+URLS?)\]\s*)?(?:Total|total|TOTAL|PENDING|pending)[:\s]+(\d+)|Processing\s+(\d+)\s+items?|(\d+)\s+items?\s+to\s+process|detail\s+URLs?\s*:\s*(\d+)',
+                            line,
+                            re.IGNORECASE
+                        )
+                        if total_match:
+                            # Try to extract the number from any matching group
+                            for group_idx in [1, 2, 3, 4]:
+                                if total_match.group(group_idx):
+                                    try:
+                                        candidate_total = int(total_match.group(group_idx))
+                                        if candidate_total > total_done:  # Only use if it's larger than done count
+                                            total_count = candidate_total
+                                            break
+                                    except ValueError:
+                                        pass
+                            if total_count and total_count > total_done:
+                                break
+                
+                # Calculate progress
+                if total_count and total_count > 0:
+                    # Use total_count as denominator
+                    processed = total_done + total_skipped + total_failed
+                    percent = min(100.0, round((processed / total_count) * 100, 1))
+                    general_candidate = {
+                        "percent": percent,
+                        "description": f"Done: {total_done} | Skipped: {total_skipped} | Failed: {total_failed} ({processed}/{total_count})"
+                    }
+                    general_line_idx = latest_thread_line_idx
+                else:
+                    # No total found, but we have progress - use done count as indicator
+                    # Calculate based on done + skipped + failed (assuming that's the total processed so far)
+                    processed = total_done + total_skipped + total_failed
+                    if processed > 0:
+                        # Estimate progress: if we've processed items, show at least some progress
+                        # Use a conservative estimate: assume we're at least 1% if we've done work
+                        percent = max(0.1, min(99.0, round((total_done / max(processed, 1)) * 100, 1)))
+                        general_candidate = {
+                            "percent": percent,
+                            "description": f"Done: {total_done} | Skipped: {total_skipped} | Failed: {total_failed}"
+                        }
+                        general_line_idx = latest_thread_line_idx
+
+        # Pattern 4: "Scraping products: X/Y" (legacy format, second priority)
         if general_candidate is None:
             secondary_limit = 50
             search_start_idx_secondary = max(0, len(lines) - secondary_limit)
@@ -2551,6 +2968,165 @@ Provide a clear, concise explanation suitable for users who want to understand w
         """Append a line to the log display only if this scraper is currently selected"""
         if scraper_name == self.scraper_var.get():
             self.append_to_log_display(line)
+
+    def _get_lock_paths(self, scraper_name: str):
+        try:
+            from platform_config import get_path_manager
+            pm = get_path_manager()
+            new_lock = pm.get_lock_file(scraper_name)
+        except Exception:
+            new_lock = self.repo_root / ".locks" / f"{scraper_name}.lock"
+        old_lock = self.repo_root / f".{scraper_name}_run.lock"
+        return new_lock, old_lock
+
+    def _get_lock_status(self, scraper_name: str):
+        """Return (is_active, pid, log_path, lock_file) for lock-based runs."""
+        new_lock, old_lock = self._get_lock_paths(scraper_name)
+        lock_file = new_lock if new_lock.exists() else old_lock if old_lock.exists() else None
+        if not lock_file or not lock_file.exists():
+            return False, None, None, None
+
+        pid = None
+        log_path = None
+        try:
+            with open(lock_file, "r", encoding="utf-8", errors="replace") as f:
+                lock_content = f.read().strip().split("\n")
+            if lock_content and lock_content[0].isdigit():
+                pid = int(lock_content[0])
+            if len(lock_content) > 2 and lock_content[2].strip():
+                log_path = lock_content[2].strip()
+        except Exception:
+            return False, None, None, None
+
+        if pid:
+            try:
+                if sys.platform == "win32":
+                    result = subprocess.run(
+                        ["tasklist", "/FI", f"PID eq {pid}"],
+                        capture_output=True,
+                        text=True,
+                        timeout=2
+                    )
+                    if str(pid) not in result.stdout:
+                        try:
+                            lock_file.unlink()
+                        except Exception:
+                            pass
+                        return False, None, None, None
+                else:
+                    os.kill(pid, 0)
+            except Exception:
+                try:
+                    lock_file.unlink()
+                except Exception:
+                    pass
+                return False, None, None, None
+
+        return True, pid, log_path, lock_file
+
+    def _read_log_tail(self, scraper_name: str, log_path: Path) -> str:
+        """Read new log data since the last offset for this scraper."""
+        state = self._log_stream_state.get(scraper_name)
+        offset = 0
+        if state and state.get("path") == log_path:
+            offset = state.get("offset", 0)
+        try:
+            with open(log_path, "r", encoding="utf-8", errors="replace") as f:
+                try:
+                    size = log_path.stat().st_size
+                    if offset > size:
+                        offset = 0
+                except Exception:
+                    pass
+                f.seek(offset)
+                data = f.read()
+                new_offset = f.tell()
+        except Exception:
+            return ""
+        self._log_stream_state[scraper_name] = {"path": log_path, "offset": new_offset}
+        return data
+
+    def _find_latest_external_log(self, scraper_name: str) -> Optional[Path]:
+        candidates = []
+        # Telegram bot logs
+        try:
+            from platform_config import get_path_manager
+            pm = get_path_manager()
+            logs_dir = pm.get_logs_dir()
+        except Exception:
+            logs_dir = self.repo_root / "logs"
+        telegram_dir = logs_dir / "telegram"
+        if telegram_dir.exists():
+            candidates.extend(list(telegram_dir.glob(f"{scraper_name}_pipeline_*.log")))
+
+        # Output logs
+        try:
+            from platform_config import get_path_manager
+            pm = get_path_manager()
+            output_dir = pm.get_output_dir(scraper_name)
+        except Exception:
+            output_dir = self.repo_root / "output" / scraper_name
+        if output_dir.exists():
+            candidates.extend(list(output_dir.glob("*.log")))
+
+        # Scraper-specific logs (live or automatically saved)
+        scraper_logs_dir = self._get_scraper_logs_dir(scraper_name)
+        archive_dir = self._get_scraper_archive_dir(scraper_name)
+        if scraper_logs_dir.exists():
+            for log_path in scraper_logs_dir.rglob("*.log"):
+                if archive_dir in log_path.parents:
+                    continue
+                candidates.append(log_path)
+
+        # Scraper-local logs
+        scraper_path = self.scrapers.get(scraper_name, {}).get("path")
+        if scraper_path:
+            local_logs = scraper_path / "logs"
+            if local_logs.exists():
+                candidates.extend(list(local_logs.glob("*.log")))
+
+        candidates = [p for p in candidates if p.exists()]
+        if not candidates:
+            return None
+        return max(candidates, key=lambda p: p.stat().st_mtime)
+
+    def _sync_external_log_if_running(self, scraper_name: str):
+        if scraper_name in self.running_scrapers:
+            return
+        lock_active, _pid, lock_log_path, _lock_file = self._get_lock_status(scraper_name)
+        prev_active = self._scraper_active_state.get(scraper_name, False)
+        if not lock_active:
+            if prev_active:
+                self._scraper_active_state[scraper_name] = False
+            return
+        if not prev_active:
+            self.scraper_logs[scraper_name] = ""
+            self._log_stream_state.pop(scraper_name, None)
+        self._scraper_active_state[scraper_name] = True
+        log_path = None
+        if lock_log_path:
+            log_path = Path(lock_log_path)
+            if not log_path.exists():
+                log_path = None
+        if log_path is None:
+            log_path = self._find_latest_external_log(scraper_name)
+        if not log_path:
+            return
+
+        prev_path = self._external_log_files.get(scraper_name)
+        if prev_path and prev_path != log_path:
+            self.scraper_logs[scraper_name] = ""
+            self._log_stream_state.pop(scraper_name, None)
+        self._external_log_files[scraper_name] = log_path
+        content = self._read_log_tail(scraper_name, log_path)
+        if content:
+            self.scraper_logs[scraper_name] = self.scraper_logs.get(scraper_name, "") + content
+
+    def _is_scraper_active(self, scraper_name: str) -> bool:
+        if scraper_name in self.running_scrapers or scraper_name in self.running_processes:
+            return True
+        lock_active, _pid, _log_path, _lock_file = self._get_lock_status(scraper_name)
+        return lock_active
     
     def refresh_run_button_state(self):
         """Refresh run button and stop button state based on current scraper selection and lock status"""
@@ -2559,52 +3135,19 @@ Provide a clear, concise explanation suitable for users who want to understand w
             return
 
         try:
-            from platform_config import get_path_manager
-            pm = get_path_manager()
-            lock_file = pm.get_lock_file(scraper_name)
-
-            # Check if lock file exists and if it's stale (process not running)
-            lock_exists = lock_file.exists()
-            if lock_exists:
-                # Check if the lock is stale (process that created it is not running)
-                try:
-                    with open(lock_file, 'r') as f:
-                        lock_content = f.read().strip().split('\n')
-                        if lock_content and lock_content[0].isdigit():
-                            lock_pid = int(lock_content[0])
-                            # Check if process is still running
-                            import subprocess
-                            if sys.platform == "win32":
-                                result = subprocess.run(
-                                    ['tasklist', '/FI', f'PID eq {lock_pid}'],
-                                    capture_output=True,
-                                    text=True,
-                                    timeout=2
-                                )
-                                # If PID not found in tasklist, process is dead - remove stale lock
-                                if str(lock_pid) not in result.stdout:
-                                    try:
-                                        lock_file.unlink()
-                                        lock_exists = False
-                                    except:
-                                        pass
-                except:
-                    # If we can't read the lock file, assume it's stale and try to remove it
-                    try:
-                        lock_file.unlink()
-                        lock_exists = False
-                    except:
-                        pass
-
-            if lock_exists:
+            lock_active, _lock_pid, lock_log_path, _lock_file = self._get_lock_status(scraper_name)
+            if lock_active:
+                if lock_log_path:
+                    self._external_log_files[scraper_name] = Path(lock_log_path)
+                self._sync_external_log_if_running(scraper_name)
                 self.update_status(f"Selected scraper: {scraper_name} (RUNNING - lock file exists)")
                 # Disable run button, enable stop button if lock exists
-                self.run_button.config(state=tk.DISABLED, text="⏸ Running...")
+                self.run_button.config(state=tk.DISABLED, text="Running...")
                 self.stop_button.config(state=tk.NORMAL)
             elif scraper_name in self.running_scrapers:
                 # This scraper is running from GUI
                 self.update_status(f"Selected scraper: {scraper_name} (RUNNING)")
-                self.run_button.config(state=tk.DISABLED, text="⏸ Running...")
+                self.run_button.config(state=tk.DISABLED, text="Running...")
                 self.stop_button.config(state=tk.NORMAL)
             else:
                 # No lock and not running - enable run button, disable stop button
@@ -2621,13 +3164,12 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     self.run_fresh_button.config(state=tk.NORMAL)
                 self.stop_button.config(state=tk.DISABLED)
             self.update_status(f"Selected scraper: {scraper_name}")
-        
+
         # Update checkpoint status
         self.update_checkpoint_status()
-        
+
         # Update kill all Chrome button state
         self.update_kill_all_chrome_button_state()
-    
     def update_kill_all_chrome_button_state(self):
         """Update the state of the 'Kill All Chrome Instances' button based on running scrapers"""
         if not hasattr(self, 'kill_all_chrome_button'):
@@ -2899,6 +3441,92 @@ Provide a clear, concise explanation suitable for users who want to understand w
             self.root.after(5000, periodic_check)
         self.root.after(5000, periodic_check)
 
+    def start_ticker_animation(self):
+        """Start the ticker tape animation"""
+        self.ticker_running = True
+        self.update_ticker_content()
+        self.animate_ticker()
+
+    def update_ticker_content(self):
+        """Update ticker tape content with running scraper details"""
+        running_info = []
+
+        # Collect information about running scrapers
+        for scraper_name in self.scrapers.keys():
+            # Check if scraper is running
+            is_running = (scraper_name in self.running_scrapers or
+                         scraper_name in self.running_processes)
+
+            if is_running:
+                # Get progress info if available
+                progress_info = self.scraper_progress.get(scraper_name, {})
+                percent = progress_info.get('percent', 0)
+                description = progress_info.get('description', 'Running')
+
+                # Format scraper status with emoji indicators
+                status_text = f"▶ {scraper_name}: {description} ({percent:.1f}%)"
+                running_info.append(status_text)
+
+        # Create ticker text with better spacing
+        if running_info:
+            self.ticker_text = "     ●●●     ".join(running_info) + "     ●●●     "
+        else:
+            self.ticker_text = "⏸ No scrapers currently running     ●●●     Ready for execution     ●●●     "
+
+        # Schedule next content update (every 2 seconds)
+        if self.ticker_running:
+            self.root.after(2000, self.update_ticker_content)
+
+    def animate_ticker(self):
+        """Animate the ticker tape scrolling effect (right to left)"""
+        if not self.ticker_running or not self.ticker_label:
+            return
+
+        if not self.ticker_text:
+            self.ticker_label.config(text="")
+            self.root.after(150, self.animate_ticker)
+            return
+
+        # Get the width of the label to calculate character capacity
+        # Approximate 8 pixels per character for monospace font
+        try:
+            label_width = self.ticker_label.winfo_width()
+            if label_width <= 1:  # Not yet rendered
+                label_width = 1000  # Default fallback
+            display_length = max(int(label_width / 8), 80)  # Calculate based on actual width
+        except:
+            display_length = 120  # Fallback
+
+        text_length = len(self.ticker_text)
+
+        # Calculate display text with wrapping
+        if text_length > 0:
+            # Add padding spaces at the end for smooth looping
+            padded_text = self.ticker_text + " " * 20
+            padded_length = len(padded_text)
+
+            # Duplicate text to create seamless loop
+            extended_text = padded_text * 3
+
+            # Right to left scrolling: increment offset moves text left
+            start_pos = self.ticker_offset % padded_length
+            display_text = extended_text[start_pos:start_pos + display_length]
+
+            self.ticker_label.config(text=display_text)
+
+            # Move offset for next frame (right to left)
+            self.ticker_offset += 1
+            if self.ticker_offset >= padded_length:
+                self.ticker_offset = 0
+
+        # Schedule next animation frame (150ms = slower, smoother scrolling)
+        if self.ticker_running:
+            self.root.after(150, self.animate_ticker)
+
+    def stop_ticker_animation(self):
+        """Stop the ticker tape animation"""
+        self.ticker_running = False
+
     def _get_env_value_from_dotenv(self, key: str):
         env_path = self.repo_root / ".env"
         if not env_path.exists():
@@ -3070,6 +3698,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 else:
                     print(f"Warning: Could not remove lock files in finish_scraper_run: {e}")
         
+        log_content = self.scraper_logs.get(scraper_name, "")
         if scraper_name == self.scraper_var.get():
             self.update_log_display(scraper_name)
             if stopped:
@@ -3077,10 +3706,13 @@ Provide a clear, concise explanation suitable for users who want to understand w
             elif return_code == 0:
                 self.update_status(f"{scraper_name} execution completed")
                 # Save log automatically after successful completion
-                self.save_log_automatically(scraper_name)
+                self.save_log_automatically(scraper_name, log_content=log_content)
             else:
                 self.update_status(f"{scraper_name} execution failed")
             self.refresh_output_files()
+
+        if log_content.strip():
+            self._last_completed_logs[scraper_name] = log_content
         
         # Refresh button state - use a longer delay to ensure lock files are gone
         def refresh_with_delay():
@@ -3387,9 +4019,19 @@ Provide a clear, concise explanation suitable for users who want to understand w
         # Set running state and disable run button for this scraper only
         scraper_name = self.scraper_var.get()
         self.running_scrapers.add(scraper_name)
+        self._last_completed_logs.pop(scraper_name, None)
         # Update kill all Chrome button state (disable it)
         self.update_kill_all_chrome_button_state()
-        # Initialize log storage for this scraper
+        
+        # Clear old logs when starting pipeline (only clear console, keep storage for archive)
+        if is_pipeline:
+            # Clear console display for this scraper when starting
+            if scraper_name == self.scraper_var.get():
+                self.clear_logs(scraper_name, silent=True, clear_storage=False)  # Clear console but keep storage for now
+            # Clear log storage for fresh pipeline run
+            self.scraper_logs[scraper_name] = ""
+        
+        # Initialize log storage for this scraper if not exists
         if scraper_name not in self.scraper_logs:
             self.scraper_logs[scraper_name] = ""
         
@@ -3898,10 +4540,10 @@ Provide a clear, concise explanation suitable for users who want to understand w
                         except:
                             pass
                     
-                    # Update log
+                    # Archive log but DON'T clear console (user wants to see logs after stop)
                     stop_msg = f"\n{'='*80}\n[STOPPED] Pipeline stopped by user at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n{'='*80}\n"
-                    if scraper_name in self.scraper_logs:
-                        self.scraper_logs[scraper_name] += stop_msg
+                    # Save log to archive but don't clear console display
+                    self.archive_log_without_clearing(scraper_name, footer=stop_msg)
                     # Update progress state
                     self.scraper_progress[scraper_name] = {"percent": 0, "description": "Pipeline stopped"}
                     
@@ -4790,16 +5432,171 @@ Provide a clear, concise explanation suitable for users who want to understand w
         # Logs are updated in real-time during execution
         self.update_status("Logs refreshed")
     
-    def clear_logs(self):
+    def clear_logs(self, scraper_name=None, silent=False, clear_storage=True):
         """Clear log viewer"""
+        target_scraper = scraper_name or self.scraper_var.get()
+        if clear_storage and target_scraper:
+            if target_scraper in self.scraper_logs:
+                self.scraper_logs[target_scraper] = ""
+            self._last_completed_logs.pop(target_scraper, None)
         self.log_text.config(state=tk.NORMAL)
         self.log_text.delete(1.0, tk.END)
         self.log_text.config(state=tk.DISABLED)
-        self.update_status("Logs cleared")
+        if not silent:
+            self.update_status("Logs cleared")
+
+    def _resolve_logs_dir(self) -> Path:
+        """Return the root logs directory (Documents/ScraperPlatform/logs or repo/logs)."""
+        try:
+            from platform_config import get_path_manager
+            pm = get_path_manager()
+            logs_dir = Path(pm.get_logs_dir())
+        except Exception:
+            logs_dir = self.repo_root / "logs"
+        logs_dir.mkdir(parents=True, exist_ok=True)
+        return logs_dir
+
+    def _get_scraper_logs_dir(self, scraper_name: Optional[str]) -> Path:
+        """Return the per-scraper log directory inside the root logs folder."""
+        base_dir = self._resolve_logs_dir()
+        target = base_dir / (scraper_name or "general")
+        target.mkdir(parents=True, exist_ok=True)
+        return target
+
+    def _get_scraper_archive_dir(self, scraper_name: Optional[str]) -> Path:
+        """Return the archive subfolder for a scraper's logs."""
+        archive_dir = self._get_scraper_logs_dir(scraper_name) / "archive"
+        archive_dir.mkdir(parents=True, exist_ok=True)
+        return archive_dir
+
+    def _get_scraper_auto_dir(self, scraper_name: Optional[str]) -> Path:
+        """Return the automatic save subfolder for a scraper's logs."""
+        auto_dir = self._get_scraper_logs_dir(scraper_name) / "auto"
+        auto_dir.mkdir(parents=True, exist_ok=True)
+        return auto_dir
+
+    def _ensure_unique_path(self, candidate: Path) -> Path:
+        """Ensure the destination path does not already exist by appending a counter."""
+        counter = 1
+        target = candidate
+        while target.exists():
+            target = candidate.with_name(f"{candidate.stem}_{counter}{candidate.suffix}")
+            counter += 1
+        return target
+
+    def _move_logs_to_archive_dir(self, logs_dir: Path, archive_dir: Path) -> list[Path]:
+        """Move any log files outside the archive folder into archive."""
+        moved_paths = []
+        for log_path in sorted(logs_dir.rglob("*.log")):
+            if archive_dir in log_path.parents:
+                continue
+            rel = log_path.relative_to(logs_dir)
+            dest = archive_dir / rel
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest = self._ensure_unique_path(dest)
+            try:
+                log_path.replace(dest)
+            except Exception:
+                continue
+            moved_paths.append(dest)
+        return moved_paths
+
+    def archive_log_without_clearing(self, scraper_name: Optional[str] = None, footer: Optional[str] = None):
+        """Save the current log to disk without clearing the viewer (used when stopping pipeline)."""
+        target_scraper = scraper_name or self.scraper_var.get()
+        if not target_scraper:
+            return
+        content = self.scraper_logs.get(target_scraper, "")
+        if not content.strip():
+            # Get from display if storage is empty
+            if target_scraper == self.scraper_var.get():
+                content = self.log_text.get(1.0, tk.END)
+            if not content.strip():
+                content = self._last_completed_logs.get(target_scraper, "")
+        
+        logs_dir = self._get_scraper_logs_dir(target_scraper)
+        archive_dir = self._get_scraper_archive_dir(target_scraper)
+        moved_paths = self._move_logs_to_archive_dir(logs_dir, archive_dir)
+
+        if footer:
+            content += footer
+
+        if moved_paths:
+            desc = ", ".join(p.name for p in moved_paths)
+            self.update_status(f"Archived log file(s): {desc}")
+        else:
+            if content.strip():
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                archive_path = archive_dir / f"{target_scraper}_stopped_{timestamp}.log"
+                archive_path = self._ensure_unique_path(archive_path)
+                try:
+                    with open(archive_path, "w", encoding="utf-8") as f:
+                        f.write(content)
+                    self.update_status(f"Archived stopped log: {archive_path.name}")
+                except Exception as exc:
+                    self.update_status(f"Failed to archive log: {exc}")
+
+        # Save to last_completed_logs for potential viewing later
+        if content.strip():
+            self._last_completed_logs[target_scraper] = content
+        # DON'T clear logs - user wants to see them after stop
     
+    def archive_and_clear_log(self, scraper_name: Optional[str] = None, footer: Optional[str] = None):
+        """Save the current log to disk (stopped run) and clear the viewer."""
+        target_scraper = scraper_name or self.scraper_var.get()
+        if not target_scraper:
+            return
+        content = self.scraper_logs.get(target_scraper, "")
+        if not content.strip():
+            content = self._last_completed_logs.get(target_scraper, "")
+        logs_dir = self._get_scraper_logs_dir(target_scraper)
+        archive_dir = self._get_scraper_archive_dir(target_scraper)
+        moved_paths = self._move_logs_to_archive_dir(logs_dir, archive_dir)
+
+        if footer:
+            content += footer
+
+        if moved_paths:
+            desc = ", ".join(p.name for p in moved_paths)
+            self.update_status(f"Archived log file(s): {desc}")
+        else:
+            if not content.strip():
+                self.clear_logs(target_scraper, silent=True)
+                return
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            archive_path = archive_dir / f"{target_scraper}_archive_{timestamp}.log"
+            archive_path = self._ensure_unique_path(archive_path)
+            try:
+                with open(archive_path, "w", encoding="utf-8") as f:
+                    f.write(content)
+                self.update_status(f"Archived log: {archive_path.name}")
+                moved_paths.append(archive_path)
+            except Exception as exc:
+                self.update_status(f"Failed to archive log: {exc}")
+
+        self._last_completed_logs.pop(target_scraper, None)
+        self.clear_logs(target_scraper, silent=True)
+
+    def archive_current_log(self):
+        """Archive the current scraper's log when toolbar button is clicked."""
+        scraper_name = self.scraper_var.get()
+        if not scraper_name:
+            messagebox.showwarning("Warning", "Select a scraper first to archive its log.")
+            return
+        self.archive_and_clear_log(scraper_name)
+
     def copy_logs_to_clipboard(self):
         """Copy current log content to clipboard"""
-        content = self.log_text.get(1.0, tk.END)
+        raw_content = self.log_text.get(1.0, tk.END)
+        scraper_name = self.scraper_var.get()
+        if raw_content.strip():
+            content = raw_content
+        else:
+            content = ""
+            if scraper_name and scraper_name in self.scraper_logs:
+                content = self.scraper_logs.get(scraper_name, "")
+            if not content.strip() and scraper_name in self._last_completed_logs:
+                content = self._last_completed_logs.get(scraper_name, "")
         if not content.strip():
             messagebox.showwarning("Warning", "No log content to copy")
             return
@@ -4814,27 +5611,25 @@ Provide a clear, concise explanation suitable for users who want to understand w
     
     def save_log(self):
         """Save current log to file in logs directory"""
-        content = self.log_text.get(1.0, tk.END)
-        if not content.strip():
+        raw_content = self.log_text.get(1.0, tk.END)
+        scraper_name = self.scraper_var.get()
+        if raw_content.strip():
+            content = raw_content
+        else:
+            content = ""
+            if scraper_name and scraper_name in self.scraper_logs:
+                content = self.scraper_logs.get(scraper_name, "")
+            if not content.strip() and scraper_name in self._last_completed_logs:
+                content = self._last_completed_logs.get(scraper_name, "")
+
+        if not content or not content.strip():
             messagebox.showwarning("Warning", "No log content to save")
             return
         
         try:
-            # Get logs directory from platform config
-            try:
-                from platform_config import get_path_manager
-                pm = get_path_manager()
-                logs_dir = pm.get_logs_dir()
-            except Exception:
-                # Fallback to repo root logs directory
-                logs_dir = self.repo_root / "logs"
-            
-            # Ensure logs directory exists
-            logs_dir.mkdir(parents=True, exist_ok=True)
-            
-            # Generate filename with timestamp
+            log_dir = self._get_scraper_logs_dir(scraper_name)
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            log_filename = logs_dir / f"log_{timestamp}.txt"
+            log_filename = log_dir / f"manual_{timestamp}.log"
             
             # Save log file
             with open(log_filename, "w", encoding="utf-8") as f:
@@ -4938,43 +5733,21 @@ Provide a clear, concise explanation suitable for users who want to understand w
             messagebox.showerror("Error", f"Failed to write console log:\n{str(e)}")
             return None
     
-    def save_log_automatically(self, scraper_name: str):
-        """Automatically save log to output directory after successful run"""
+    def save_log_automatically(self, scraper_name: str, log_content: Optional[str] = None):
+        """Automatically save log to logs/<scraper>/auto after successful run"""
         try:
-            # Get log content for this scraper
-            log_content = self.scraper_logs.get(scraper_name, "")
-            if not log_content.strip():
+            content = log_content if log_content is not None else self.scraper_logs.get(scraper_name, "")
+            if not content or not content.strip():
                 return  # No log content to save
-            
-            # Get output directory for this scraper
-            try:
-                from platform_config import get_path_manager
-                pm = get_path_manager()
-                output_dir = pm.get_output_dir(scraper_name)
-            except Exception:
-                # Fallback to scraper output directory
-                scraper_info = self.scrapers.get(scraper_name, {})
-                if scraper_info:
-                    output_dir = scraper_info["path"] / "output"
-                else:
-                    output_dir = self.repo_root / "output" / scraper_name
-            
-            # Ensure output directory exists
-            output_dir.mkdir(parents=True, exist_ok=True)
-            
-            # Create log filename with timestamp
+
+            auto_dir = self._get_scraper_auto_dir(scraper_name)
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            log_filename = output_dir / f"{scraper_name}_run_{timestamp}.log"
-            
-            # Save log file
+            log_filename = auto_dir / f"{scraper_name}_run_{timestamp}.log"
             with open(log_filename, "w", encoding="utf-8") as f:
-                f.write(log_content)
-            
-            # Update status to show log was saved
+                f.write(content)
+
             self.update_status(f"{scraper_name} execution completed - Log saved to: {log_filename.name}")
-            
         except Exception as e:
-            # Don't show error dialog for automatic saves, just log it
             print(f"Warning: Failed to automatically save log for {scraper_name}: {e}")
     
     def refresh_output_files(self):
@@ -5602,15 +6375,17 @@ Provide a clear, concise explanation suitable for users who want to understand w
     def view_all_logs(self):
         """View all log files"""
         log_files = []
+        try:
+            root_logs = self._resolve_logs_dir()
+            log_files.extend(str(p) for p in root_logs.rglob("*.log"))
+        except Exception:
+            pass
         for scraper_name, scraper_info in self.scrapers.items():
             logs_dir = scraper_info["path"] / "logs"
             if logs_dir.exists():
-                for log_file in logs_dir.rglob("*.log"):
-                    log_files.append(str(log_file))
-            output_dir = scraper_info["path"] / "output"
-            if output_dir.exists():
-                for log_file in output_dir.rglob("*.log"):
-                    log_files.append(str(log_file))
+                log_files.extend(str(log_file) for log_file in logs_dir.rglob("*.log"))
+        
+        log_files = sorted(set(log_files))
         
         if log_files:
             info = f"Found {len(log_files)} log files:\n\n"

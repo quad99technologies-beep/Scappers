@@ -1,7 +1,36 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(grep:*)",
+      "Bash(dir \"D:\\\\quad99\\\\Scappers\\\\input\\\\Netherlands\")",
+      "Bash(dir:*)",
+      "Bash(timeout /t 15)",
+      "Bash(taskkill /F /FI \"WINDOWTITLE eq Administrator:*run_pipeline_resume.py*\")",
+      "Bash(taskkill /F /FI \"IMAGENAME eq python.exe\" /FI \"MEMUSAGE gt 50000\")",
+      "Bash(ping:*)",
+      "Bash(taskkill:*)",
+      "Bash(tee:*)",
+      "Bash(dir /s /b \"%USERPROFILE%\\\\.wdm\\\\*geckodriver*\")",
+      "Bash(cmd /c \"dir /s /b %USERPROFILE%\\\\.wdm\\\\*geckodriver* 2>nul\")",
+      "Bash(python -m py_compile:*)",
+      "Bash(del \"D:\\\\quad99\\\\Scappers\\\\scripts\\\\Russia\\\\03_generate_output.py\")",
+      "Bash(del \"D:\\\\quad99\\\\Scappers\\\\scripts\\\\Russia\\\\04_generate_pricing_data.py\")",
+      "Bash(del \"D:\\\\quad99\\\\Scappers\\\\scripts\\\\Russia\\\\05_generate_discontinued_list.py\")",
+      "Bash(del \"D:\\\\quad99\\\\Scappers\\\\scripts\\\\Russia\\\\06_translate_reports.py\")",
+      "Bash(del \"D:\\\\quad99\\\\Scappers\\\\scripts\\\\Russia\\\\translation_utils.py\")",
+      "Bash(python -c:*)",
+      "Bash(dir /b \"d:\\\\quad99\\\\Scappers\\\\scrapers\")",
+      "Bash(timeout 30 tail:*)",
+      "Bash(del /F \"d:\\\\quad99\\\\Scappers\\\\output\\\\Russia\\\\russia_farmcom_ved_moscow_region.csv\")",
+      "Bash(if [ -f \"d:\\\\quad99\\\\Scappers\\\\output\\\\Russia\\\\russia_farmcom_ved_moscow_region.csv\" ])",
+      "Bash(then head -5 \"d:\\\\quad99\\\\Scappers\\\\output\\\\Russia\\\\russia_farmcom_ved_moscow_region.csv\")",
+      "Bash(else echo \"File not created yet\")",
+      "Bash(fi)",
+      "Bash(python3:*)",
+      "Bash(python 04_format_for_export.py:*)",
+      "Bash(ls -la \"d:\\\\quad99\\\\Scappers\\\\config\"\" | grep -E \".env.json)",
+      "Bash(.json \")"
     ]
   }
 }

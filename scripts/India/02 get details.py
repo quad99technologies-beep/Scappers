@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-India NPPA Pharma Sahi Daam Scraper - Step 02: Get Medicine Details
+India NPPA Pharma Sahi Daam Scraper - Get Medicine Details
 
 Searches for formulations, downloads Excel exports, and extracts detailed
 medicine information including substitutes/available brands.
 
 Features:
-- Loads unique formulations from ceiling_prices.xlsx (Step 01 output)
+- Loads formulations from input/India/formulations.csv
+- Chrome instance management with PID tracking
+- Humanization and anti-bot measures
+- Rich progress bar support
 - Resume support: skips fully completed formulations
 - Handles partial scrapes without duplicating data
 - Generates final summary report
@@ -15,9 +18,12 @@ Features:
 
 import os
 import re
+import sys
 import time
 import csv
 import json
+import random
+import atexit
 from pathlib import Path
 from datetime import datetime
 from typing import List, Dict, Any, Optional, Set
@@ -29,9 +35,13 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 
+# Force unbuffered output for real-time progress
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(line_buffering=True)
+os.environ.setdefault('PYTHONUNBUFFERED', '1')
+
 # Add repo root to path for core imports
 _repo_root = Path(__file__).resolve().parents[2]
-import sys
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
@@ -42,11 +52,28 @@ if str(_script_dir) not in sys.path:
 
 # Import platform components
 from config_loader import (
-    get_output_dir, get_input_dir, get_download_dir,
-    getenv_bool, getenv_int, load_env_file, SCRAPER_ID
+    get_output_dir, get_input_dir, get_download_dir, get_repo_root,
+    getenv_bool, getenv_int, getenv_float, load_env_file, SCRAPER_ID
 )
 
-# Import Chrome manager for proper cleanup
+# Load environment configuration early
+load_env_file()
+
+# Import Chrome PID tracker for proper cleanup
+try:
+    from core.chrome_pid_tracker import (
+        get_chrome_pids_from_driver, save_chrome_pids,
+        terminate_chrome_pids, cleanup_pid_file
+    )
+    _PID_TRACKER_AVAILABLE = True
+except ImportError:
+    _PID_TRACKER_AVAILABLE = False
+    def get_chrome_pids_from_driver(driver): return set()
+    def save_chrome_pids(name, root, pids): pass
+    def terminate_chrome_pids(name, root, silent=False): return 0
+    def cleanup_pid_file(name, root): pass
+
+# Import Chrome manager for additional cleanup
 try:
     from core.chrome_manager import register_chrome_driver, cleanup_all_chrome_instances
     _CHROME_MANAGER_AVAILABLE = True
@@ -55,8 +82,49 @@ except ImportError:
     def register_chrome_driver(driver): pass
     def cleanup_all_chrome_instances(silent=False): pass
 
-# Load environment configuration
-load_env_file()
+# Import human actions for anti-bot
+try:
+    from core.human_actions import pause, type_delay
+    _HUMAN_ACTIONS_AVAILABLE = True
+except ImportError:
+    _HUMAN_ACTIONS_AVAILABLE = False
+    def pause(min_s=0.2, max_s=0.6):
+        if getenv_bool("HUMAN_ACTIONS_ENABLED", False):
+            time.sleep(random.uniform(min_s, max_s))
+    def type_delay():
+        if getenv_bool("HUMAN_ACTIONS_ENABLED", False):
+            return random.uniform(0.05, 0.15)
+        return 0
+
+# Import stealth profile for anti-detection
+try:
+    from core.stealth_profile import apply_selenium
+    _STEALTH_PROFILE_AVAILABLE = True
+except ImportError:
+    _STEALTH_PROFILE_AVAILABLE = False
+    def apply_selenium(options): pass
+
+# Import rich progress for beautiful output
+try:
+    from core.rich_progress import (
+        create_progress, console, print_status as _rich_print_status,
+        ScraperProgress, print_summary, format_duration
+    )
+    _RICH_PROGRESS_AVAILABLE = True
+
+    # Wrap print_status to handle Windows encoding issues
+    def print_status(msg, status="info"):
+        try:
+            _rich_print_status(msg, status)
+        except UnicodeEncodeError:
+            # Fallback for Windows console encoding issues with emoji
+            icons = {"info": "[INFO]", "success": "[OK]", "warning": "[WARN]", "error": "[ERROR]"}
+            print(f"{icons.get(status, '[INFO]')} {msg}", flush=True)
+
+except ImportError:
+    _RICH_PROGRESS_AVAILABLE = False
+    def print_status(msg, status="info"): print(f"[{status.upper()}] {msg}", flush=True)
+    def format_duration(s): return f"{s:.1f}s"
 
 URL = "https://nppaipdms.gov.in/NPPA/PharmaSahiDaam/searchMedicine"
 
@@ -165,107 +233,49 @@ class FormulationCheckpoint:
 
 
 # -----------------------------
-# Load formulations from ceiling prices
+# Load formulations from input folder
 # -----------------------------
-def load_formulations_from_ceiling_prices(output_dir: Path) -> List[str]:
-    """
-    Load unique formulations from ceiling_prices.xlsx (Step 01 output).
-    Falls back to input CSV if ceiling prices not available.
-    """
-    ceiling_prices_file = output_dir / "ceiling_prices.xlsx"
-    
-    if ceiling_prices_file.exists():
-        try:
-            print(f"[INFO] Loading formulations from ceiling prices: {ceiling_prices_file}")
-            
-            # The NPPA Excel has a title row at row 0, actual headers at row 1
-            # Try reading with header=1 first (skip title row)
-            try:
-                df = pd.read_excel(ceiling_prices_file, header=1)
-            except Exception:
-                df = pd.read_excel(ceiling_prices_file)
-            
-            # Look for formulation column - common names
-            formulation_cols = [
-                'Formulation', 'formulation', 'FORMULATION',
-                'Medicine Formulation', 'medicine_formulation',
-                'Generic Name', 'generic_name', 'GENERIC_NAME',
-                'Salt', 'salt', 'SALT',
-                'Drug Name', 'drug_name'
-            ]
-            
-            formulation_col = None
-            for col in formulation_cols:
-                if col in df.columns:
-                    formulation_col = col
-                    break
-            
-            # If no exact match, look for column containing 'formulation' or 'generic'
-            if formulation_col is None:
-                for col in df.columns:
-                    col_lower = str(col).lower()
-                    if 'formulation' in col_lower or 'generic' in col_lower or 'salt' in col_lower:
-                        formulation_col = col
-                        break
-            
-            if formulation_col is None:
-                # If still not found, try reading without header skip
-                df_alt = pd.read_excel(ceiling_prices_file)
-                for col in df_alt.columns:
-                    col_lower = str(col).lower()
-                    if 'formulation' in col_lower:
-                        df = df_alt
-                        formulation_col = col
-                        break
-            
-            if formulation_col is None:
-                print(f"[WARN] Could not find formulation column in ceiling prices.")
-                print(f"[WARN] Available columns: {[str(c) for c in df.columns]}")
-                return load_formulations_from_input()
-            
-            print(f"[INFO] Using column '{formulation_col}' for formulations")
-            
-            # Extract unique formulations - use the full formulation name as-is
-            # The NPPA website expects the exact formulation name
-            formulations = df[formulation_col].dropna().astype(str).str.strip()
-            unique_formulations = sorted(set(formulations))
-            
-            # Filter out empty strings and numeric values
-            unique_formulations = [f for f in unique_formulations if f and not f.replace('.', '').isdigit()]
-            
-            print(f"[OK] Loaded {len(unique_formulations)} unique formulations from ceiling prices")
-            
-            # Show sample
-            if unique_formulations:
-                sample = unique_formulations[:5]
-                safe_sample = [s.encode('ascii', 'replace').decode('ascii') for s in sample]
-                print(f"[INFO] Sample formulations: {safe_sample}")
-            
-            return unique_formulations
-            
-        except Exception as e:
-            print(f"[ERROR] Failed to load ceiling prices: {e}")
-            import traceback
-            traceback.print_exc()
-    
-    # Fallback to input CSV
-    return load_formulations_from_input()
 
 
 def load_formulations_from_input() -> List[str]:
-    """Load formulations from input CSV file if it exists."""
+    """Load formulations from input/India/formulations.csv."""
     input_file = get_input_dir() / "formulations.csv"
+    print(f"[INFO] Loading formulations from: {input_file}")
+
     if input_file.exists():
         try:
             df = pd.read_csv(input_file)
             # Look for column named 'formulation', 'Formulation', 'name', 'Name', or first column
+            formulation_col = None
             for col in ['formulation', 'Formulation', 'name', 'Name', 'generic_name', 'Generic_Name']:
                 if col in df.columns:
-                    return df[col].dropna().str.strip().tolist()
+                    formulation_col = col
+                    break
+
             # Use first column if no known column found
-            return df.iloc[:, 0].dropna().str.strip().tolist()
+            if formulation_col is None:
+                formulation_col = df.columns[0]
+
+            formulations = df[formulation_col].dropna().astype(str).str.strip().tolist()
+            # Filter out empty strings
+            formulations = [f for f in formulations if f]
+
+            print(f"[OK] Loaded {len(formulations)} formulations from input file")
+
+            # Show sample
+            if formulations:
+                sample = formulations[:5]
+                safe_sample = [s.encode('ascii', 'replace').decode('ascii') for s in sample]
+                print(f"[INFO] Sample formulations: {safe_sample}")
+
+            return formulations
         except Exception as e:
-            print(f"[WARN] Failed to load formulations from {input_file}: {e}")
+            print(f"[ERROR] Failed to load formulations from {input_file}: {e}")
+            import traceback
+            traceback.print_exc()
+    else:
+        print(f"[ERROR] Formulations file not found: {input_file}")
+
     return []
 
 
@@ -314,7 +324,7 @@ def wait_for_download_complete(folder: Path, timeout_sec: int = 180) -> Path:
 
 
 def build_driver(download_dir: Path, headless: bool = None) -> webdriver.Chrome:
-    """Build Chrome WebDriver with proper configuration and registration."""
+    """Build Chrome WebDriver with proper configuration, PID tracking, and anti-bot measures."""
     download_dir.mkdir(parents=True, exist_ok=True)
 
     # Use config headless setting if not explicitly passed
@@ -325,10 +335,18 @@ def build_driver(download_dir: Path, headless: bool = None) -> webdriver.Chrome:
     if headless:
         options.add_argument("--headless=new")
 
-    options.add_argument("--window-size=1400,900")
+    options.add_argument("--window-size=1920,1080")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
+
+    # Apply stealth profile for anti-detection
+    if _STEALTH_PROFILE_AVAILABLE:
+        apply_selenium(options)
+    else:
+        # Manual stealth settings if module not available
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument("--lang=en-US,en")
 
     prefs = {
         "download.default_directory": str(download_dir),
@@ -337,15 +355,50 @@ def build_driver(download_dir: Path, headless: bool = None) -> webdriver.Chrome:
         "safebrowsing.enabled": True,
     }
     options.add_experimental_option("prefs", prefs)
-    options.add_experimental_option("excludeSwitches", ["enable-logging"])
+    options.add_experimental_option("excludeSwitches", ["enable-logging", "enable-automation"])
+    options.add_experimental_option("useAutomationExtension", False)
 
     driver = webdriver.Chrome(options=options)
-    
-    # Register with Chrome manager for cleanup on exit
+
+    # Remove webdriver flag via CDP
+    try:
+        driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
+            "source": "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
+        })
+    except Exception:
+        pass
+
+    # Track Chrome PIDs for cleanup
+    if _PID_TRACKER_AVAILABLE:
+        pids = get_chrome_pids_from_driver(driver)
+        if pids:
+            save_chrome_pids(SCRAPER_ID, _repo_root, pids)
+            print(f"[PID] Tracking {len(pids)} Chrome process(es)")
+
+    # Register with Chrome manager for additional cleanup
     if _CHROME_MANAGER_AVAILABLE:
         register_chrome_driver(driver)
-    
+
     return driver
+
+
+def cleanup_chrome(driver=None, silent: bool = False):
+    """Cleanup Chrome instances - both driver and any tracked PIDs."""
+    if driver:
+        try:
+            driver.quit()
+        except Exception:
+            pass
+
+    # Terminate tracked PIDs
+    if _PID_TRACKER_AVAILABLE:
+        terminated = terminate_chrome_pids(SCRAPER_ID, _repo_root, silent=silent)
+        if terminated > 0 and not silent:
+            print(f"[PID] Terminated {terminated} Chrome process(es)")
+
+    # Additional cleanup via Chrome manager
+    if _CHROME_MANAGER_AVAILABLE:
+        cleanup_all_chrome_instances(silent=silent)
 
 
 # -----------------------------
@@ -386,11 +439,20 @@ def dismiss_alert_if_present(driver):
         return False
 
 
-def pick_autocomplete_exact_match(driver, wait: WebDriverWait, search_term: str, timeout: int = 10) -> bool:
+def pick_autocomplete_exact_match(driver, wait: WebDriverWait, search_term: str, timeout: int = 10, max_scroll_attempts: int = 20) -> bool:
     """
     Wait for autocomplete dropdown and click on the item that exactly matches the search term.
     If no exact match found, click the first item.
-    
+
+    Handles large dropdowns by scrolling through items to find matches not initially visible.
+
+    Args:
+        driver: Selenium WebDriver
+        wait: WebDriverWait instance
+        search_term: The term to search for
+        timeout: Max seconds to wait for dropdown to appear
+        max_scroll_attempts: Max scroll attempts to find item in large dropdown
+
     Returns:
         True if autocomplete selection was successful, False otherwise
     """
@@ -407,17 +469,28 @@ def pick_autocomplete_exact_match(driver, wait: WebDriverWait, search_term: str,
         ".dropdown-menu li",
         ".typeahead li",
     ]
-    
+
+    # Container selectors for scrolling
+    container_selectors = [
+        ".autocomplete-suggestions",
+        "ul.ui-autocomplete",
+        ".ui-autocomplete",
+        ".ui-autocomplete-results",
+        ".dropdown-menu",
+        ".typeahead",
+    ]
+
     items = None
+    active_selector = None
     end_time = time.time() + timeout
-    
+
     safe_search = search_term.encode('ascii', 'replace').decode('ascii')
     print(f"[DEBUG] Looking for autocomplete dropdown for '{safe_search}'...")
-    
+
     while time.time() < end_time:
         # Check for alert first
         dismiss_alert_if_present(driver)
-        
+
         for selector in autocomplete_selectors:
             try:
                 found = driver.find_elements(By.CSS_SELECTOR, selector)
@@ -425,6 +498,7 @@ def pick_autocomplete_exact_match(driver, wait: WebDriverWait, search_term: str,
                     visible = [el for el in found if el.is_displayed()]
                     if visible:
                         items = visible
+                        active_selector = selector
                         print(f"[DEBUG] Found {len(items)} items with selector: {selector}")
                         break
             except Exception as e:
@@ -432,37 +506,138 @@ def pick_autocomplete_exact_match(driver, wait: WebDriverWait, search_term: str,
         if items:
             break
         time.sleep(0.3)
-    
+
     if not items:
         print(f"[WARN] No autocomplete dropdown found for '{safe_search}'.")
         return False
-    
+
     # Look for exact match (case-insensitive)
     search_upper = search_term.strip().upper()
-    for item in items:
-        try:
-            item_text = item.text.strip().upper()
-            # Only print first few items to avoid log spam
-            if items.index(item) < 5:
-                safe_text = item.text.strip().encode('ascii', 'replace').decode('ascii')
-                print(f"[DEBUG] Checking item: '{safe_text}'")
-            if item_text == search_upper:
-                safe_text = item.text.strip().encode('ascii', 'replace').decode('ascii')
-                print(f"[OK] Found exact match: {safe_text}")
-                click_js(driver, item)
-                time.sleep(0.5)
-                return True
-            # Also check if item starts with search term (for partial matches)
-            if item_text.startswith(search_upper):
-                safe_text = item.text.strip().encode('ascii', 'replace').decode('ascii')
-                print(f"[OK] Found partial match: {safe_text}")
-                click_js(driver, item)
-                time.sleep(0.5)
-                return True
-        except Exception as e:
-            continue
-    
-    # If no exact/partial match, click the first item
+
+    def find_match_in_items(item_list, print_debug=True):
+        """Helper to find match in a list of items."""
+        for idx, item in enumerate(item_list):
+            try:
+                item_text = item.text.strip().upper()
+                # Only print first few items to avoid log spam
+                if print_debug and idx < 5:
+                    safe_text = item.text.strip().encode('ascii', 'replace').decode('ascii')
+                    print(f"[DEBUG] Checking item: '{safe_text}'")
+                if item_text == search_upper:
+                    safe_text = item.text.strip().encode('ascii', 'replace').decode('ascii')
+                    print(f"[OK] Found exact match: {safe_text}")
+                    return item
+                # Also check if item starts with search term (for partial matches)
+                if item_text.startswith(search_upper):
+                    safe_text = item.text.strip().encode('ascii', 'replace').decode('ascii')
+                    print(f"[OK] Found partial match: {safe_text}")
+                    return item
+            except Exception as e:
+                continue
+        return None
+
+    # First pass: check currently visible items
+    match = find_match_in_items(items, print_debug=True)
+    if match:
+        click_js(driver, match)
+        time.sleep(0.5)
+        return True
+
+    # If many items, try scrolling through the dropdown to find the match
+    if len(items) >= 5:
+        print(f"[DEBUG] Dropdown has {len(items)}+ items, scrolling to find match...")
+
+        # Find the dropdown container for scrolling
+        container = None
+        for cont_sel in container_selectors:
+            try:
+                containers = driver.find_elements(By.CSS_SELECTOR, cont_sel)
+                for c in containers:
+                    if c.is_displayed():
+                        container = c
+                        break
+                if container:
+                    break
+            except:
+                pass
+
+        # Track seen items to detect when we've scrolled through all
+        seen_texts = set()
+        for item in items:
+            try:
+                seen_texts.add(item.text.strip().upper())
+            except:
+                pass
+
+        scroll_attempts = 0
+        last_count = 0
+
+        while scroll_attempts < max_scroll_attempts:
+            scroll_attempts += 1
+
+            # Scroll the container or use keyboard navigation
+            try:
+                if container:
+                    # Scroll the container down
+                    driver.execute_script("arguments[0].scrollTop += 200;", container)
+                else:
+                    # Use keyboard to navigate down through items
+                    from selenium.webdriver.common.keys import Keys
+                    active_element = driver.switch_to.active_element
+                    for _ in range(5):  # Press down arrow 5 times
+                        active_element.send_keys(Keys.ARROW_DOWN)
+                        time.sleep(0.05)
+            except Exception as e:
+                pass
+
+            time.sleep(0.2)  # Wait for scroll/render
+
+            # Re-fetch items after scroll
+            try:
+                new_items = driver.find_elements(By.CSS_SELECTOR, active_selector)
+                new_visible = [el for el in new_items if el.is_displayed()]
+
+                if new_visible:
+                    # Check for new items we haven't seen
+                    new_count = 0
+                    for item in new_visible:
+                        try:
+                            txt = item.text.strip().upper()
+                            if txt and txt not in seen_texts:
+                                seen_texts.add(txt)
+                                new_count += 1
+                        except:
+                            pass
+
+                    # Check for match in newly visible items
+                    match = find_match_in_items(new_visible, print_debug=False)
+                    if match:
+                        click_js(driver, match)
+                        time.sleep(0.5)
+                        return True
+
+                    # If no new items found for 3 consecutive scrolls, we've reached the end
+                    if new_count == 0:
+                        last_count += 1
+                        if last_count >= 3:
+                            print(f"[DEBUG] Reached end of dropdown after {scroll_attempts} scroll attempts")
+                            break
+                    else:
+                        last_count = 0
+
+            except Exception as e:
+                pass
+
+        print(f"[DEBUG] Searched through {len(seen_texts)} unique items in dropdown")
+
+    # If no exact/partial match found after scrolling, re-fetch and click the first item
+    try:
+        # Re-fetch items in case scroll changed things
+        items = driver.find_elements(By.CSS_SELECTOR, active_selector)
+        items = [el for el in items if el.is_displayed()]
+    except:
+        pass
+
     if items:
         try:
             safe_text = items[0].text.strip().encode('ascii', 'replace').decode('ascii')
@@ -472,7 +647,7 @@ def pick_autocomplete_exact_match(driver, wait: WebDriverWait, search_term: str,
         click_js(driver, items[0])
         time.sleep(0.5)
         return True
-    
+
     return False
 
 
@@ -998,30 +1173,41 @@ def run_for_formulation(
     """
     formulation_slug = slugify(formulation)
     stats = {"medicines": 0, "substitutes": 0, "success": False}
-    
+
+    # Get delay settings from config
+    detail_delay = getenv_float("DETAIL_DELAY", 1.5)
+
     # Mark as in progress
     checkpoint.mark_in_progress(formulation)
 
     driver.get(URL)
-    
+
+    # Human-like pause after page load
+    pause(0.5, 1.0)
+
     # Dismiss any initial alerts
     dismiss_alert_if_present(driver)
 
     # Step 1-2: Click search field and enter formulation name
     inp = wait.until(EC.element_to_be_clickable((By.ID, "searchFormulation")))
     click_js(driver, inp)  # Click to focus
-    time.sleep(0.5)
+    pause(0.3, 0.6)
     inp.clear()
-    time.sleep(0.3)
-    
-    # Type the formulation to trigger autocomplete
-    inp.send_keys(formulation)
-    time.sleep(1.5)  # Wait for autocomplete dropdown to appear
-    
+    pause(0.2, 0.4)
+
+    # Type the formulation with human-like delays
+    for char in formulation:
+        inp.send_keys(char)
+        delay = type_delay()
+        if delay > 0:
+            time.sleep(delay)
+
+    pause(1.0, 1.5)  # Wait for autocomplete dropdown to appear
+
     # Trigger input event via JavaScript to ensure autocomplete fires
     driver.execute_script("arguments[0].dispatchEvent(new Event('input', { bubbles: true }));", inp)
     driver.execute_script("arguments[0].dispatchEvent(new Event('keyup', { bubbles: true }));", inp)
-    time.sleep(1.0)
+    pause(0.8, 1.2)
 
     # Step 3: Select exact match from autocomplete dropdown
     autocomplete_success = pick_autocomplete_exact_match(driver, wait, formulation, timeout=15)
@@ -1201,110 +1387,192 @@ def generate_final_report(out_dir: Path, checkpoint: FormulationCheckpoint, tota
 
 
 def main():
-    print("=" * 60)
-    print("India NPPA Scraper - Step 02: Get Medicine Details")
-    print("=" * 60)
-    
+    print("=" * 70)
+    print("India NPPA Scraper - Get Medicine Details")
+    print("=" * 70)
+
     start_time = datetime.now()
-    
+    start_time_ts = time.time()
+
     # Get paths from platform config
     download_dir = get_download_dir()
     out_dir = get_output_dir()
-    
-    print(f"[CONFIG] Download dir: {download_dir}")
+    input_dir = get_input_dir()
+    repo_root = get_repo_root()
+
+    print(f"[CONFIG] Input dir: {input_dir}")
     print(f"[CONFIG] Output dir: {out_dir}")
-    
+    print(f"[CONFIG] Download dir: {download_dir}")
+
+    # Show feature status
+    print(f"[CONFIG] PID Tracker: {'enabled' if _PID_TRACKER_AVAILABLE else 'disabled'}")
+    print(f"[CONFIG] Human Actions: {'enabled' if getenv_bool('HUMAN_ACTIONS_ENABLED', False) else 'disabled'}")
+    print(f"[CONFIG] Stealth Profile: {'enabled' if getenv_bool('STEALTH_PROFILE_ENABLED', False) else 'disabled'}")
+    print(f"[CONFIG] Rich Progress: {'enabled' if _RICH_PROGRESS_AVAILABLE else 'disabled'}")
+
+    # Register cleanup on exit
+    def _cleanup_on_exit():
+        cleanup_chrome(silent=True)
+        if _PID_TRACKER_AVAILABLE:
+            cleanup_pid_file(SCRAPER_ID, repo_root)
+
+    atexit.register(_cleanup_on_exit)
+
     # Initialize checkpoint manager
     checkpoint = FormulationCheckpoint(out_dir)
-    
+
     # Check for --fresh flag to clear checkpoint
     if "--fresh" in sys.argv:
         checkpoint.clear()
         print("[CONFIG] Starting fresh (checkpoint cleared)")
-    
-    # Load formulations from ceiling prices (Step 01 output) or fallback to input
-    formulations = load_formulations_from_ceiling_prices(out_dir)
-    if not formulations:
-        formulations = load_formulations_from_input()
+
+    # Load formulations from input folder
+    formulations = load_formulations_from_input()
     if not formulations:
         formulations = DEFAULT_FORMULATIONS
         print(f"[CONFIG] Using default formulations: {formulations}")
     else:
         print(f"[CONFIG] Loaded {len(formulations)} formulations")
-    
+
     # Apply max limit if configured
     max_formulations = getenv_int("MAX_FORMULATIONS", 0)
     if max_formulations > 0 and len(formulations) > max_formulations:
         formulations = formulations[:max_formulations]
         print(f"[CONFIG] Limited to {max_formulations} formulations")
-    
+
     total_formulations = len(formulations)
-    
+
     # Filter out already completed formulations
     pending_formulations = [f for f in formulations if not checkpoint.is_completed(f)]
     skipped_count = len(formulations) - len(pending_formulations)
-    
+
     if skipped_count > 0:
         print(f"[RESUME] Skipping {skipped_count} already completed formulations")
         print(f"[RESUME] {len(pending_formulations)} formulations remaining")
-    
+
     if not pending_formulations:
         print("[INFO] All formulations already completed!")
         generate_final_report(out_dir, checkpoint, total_formulations, start_time)
         return
-    
+
     wait_seconds = getenv_int("WAIT_SECONDS", 60)
-    
+    search_delay = getenv_float("SEARCH_DELAY", 2.0)
+
     driver = None
+    total_medicines = 0
+    total_substitutes = 0
+    errors_count = 0
+
     try:
         driver = build_driver(download_dir)
         wait = WebDriverWait(driver, wait_seconds)
+
+        # Use rich progress if available (with fallback for Windows encoding issues)
+        progress = None
+        task = None
+        if _RICH_PROGRESS_AVAILABLE:
+            try:
+                progress = create_progress()
+                progress.start()
+                task = progress.add_task(
+                    "Processing formulations",
+                    total=len(pending_formulations)
+                )
+            except (UnicodeEncodeError, Exception) as e:
+                print(f"[WARN] Rich progress unavailable: {e}")
+                progress = None
+                task = None
 
         for idx, f in enumerate(pending_formulations):
             f = (f or "").strip()
             if not f:
                 continue
-            
+
             # Calculate overall progress including skipped
             completed_so_far = skipped_count + idx
             progress_pct = round(((completed_so_far + 1) / total_formulations) * 100, 1)
-            
-            print(f"\n[PROGRESS] Processing {completed_so_far + 1}/{total_formulations} ({progress_pct}%)")
-            print(f"=== Running formulation: {f} ===")
-            
+
+            # Print progress (parseable format for orchestration)
+            print(f"\n[PROGRESS] Formulation: {completed_so_far + 1}/{total_formulations} ({progress_pct}%)", flush=True)
+
+            # Safe print formulation name
+            safe_name = f.encode('ascii', 'replace').decode('ascii')
+            print(f"[INFO] Processing: {safe_name}")
+
             try:
                 stats = run_for_formulation(driver, wait, f, download_dir, out_dir, checkpoint)
-                
+
                 if stats["success"]:
                     checkpoint.mark_completed(f, stats["medicines"], stats["substitutes"])
+                    total_medicines += stats["medicines"]
+                    total_substitutes += stats["substitutes"]
+                    print_status(f"Completed: {safe_name} ({stats['medicines']} medicines)", "success")
                 else:
                     checkpoint.mark_error(f)
-                    
+                    errors_count += 1
+                    print_status(f"No results for: {safe_name}", "warning")
+
             except Exception as e:
                 error_msg = str(e).encode('ascii', 'replace').decode('ascii')
-                print(f"[ERROR] Failed to process {f}: {error_msg}")
+                print_status(f"Failed: {safe_name} - {error_msg[:100]}", "error")
                 checkpoint.mark_error(f)
+                errors_count += 1
                 continue
+            finally:
+                # Update progress bar
+                if progress and task is not None:
+                    try:
+                        progress.update(task, advance=1)
+                    except UnicodeEncodeError:
+                        pass
 
-        print("\n" + "=" * 60)
+                # Human-like delay between formulations
+                if idx < len(pending_formulations) - 1:
+                    pause(search_delay * 0.8, search_delay * 1.2)
+
+        if progress:
+            try:
+                progress.stop()
+            except UnicodeEncodeError:
+                pass
+
+        print("\n" + "=" * 70)
         print("Medicine details extraction complete!")
-        print("=" * 60)
+        print("=" * 70)
 
+    except KeyboardInterrupt:
+        print("\n[WARN] Interrupted by user - saving progress...")
     except Exception as e:
         print(f"[FATAL] Script failed: {e}")
-        raise
+        import traceback
+        traceback.print_exc()
     finally:
-        if driver:
-            try:
-                driver.quit()
-            except:
-                pass
-        # Cleanup any remaining Chrome instances
-        if _CHROME_MANAGER_AVAILABLE:
-            cleanup_all_chrome_instances(silent=True)
-    
+        # Cleanup Chrome
+        cleanup_chrome(driver, silent=False)
+
     # Generate final report
-    generate_final_report(out_dir, checkpoint, total_formulations, start_time)
+    report = generate_final_report(out_dir, checkpoint, total_formulations, start_time)
+
+    # Print summary
+    duration = time.time() - start_time_ts
+    if _RICH_PROGRESS_AVAILABLE:
+        try:
+            print_summary(
+                SCRAPER_ID,
+                records_processed=total_medicines,
+                duration_seconds=duration,
+                errors=errors_count,
+                warnings=0
+            )
+        except UnicodeEncodeError:
+            # Fallback for Windows console encoding issues
+            pass
+
+    # Always print text summary as backup
+    print(f"\n[SUMMARY] Duration: {format_duration(duration)}")
+    print(f"[SUMMARY] Medicines processed: {total_medicines}")
+    print(f"[SUMMARY] Substitutes extracted: {total_substitutes}")
+    print(f"[SUMMARY] Errors: {errors_count}")
 
 
 if __name__ == "__main__":

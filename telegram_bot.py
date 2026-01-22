@@ -507,8 +507,15 @@ class TelegramBot:
                     time.sleep(2)
                     continue
 
+                new_last_update_id = self.last_update_id
                 for update in payload.get("result", []):
-                    self.last_update_id = update.get("update_id")
+                    update_id = update.get("update_id")
+                    if update_id is None:
+                        continue
+                    if new_last_update_id is not None and update_id <= new_last_update_id:
+                        continue
+                    new_last_update_id = update_id
+
                     message = update.get("message") or update.get("edited_message")
                     if not message:
                         continue
@@ -518,8 +525,15 @@ class TelegramBot:
                         continue
                     if not self.is_authorized(chat_id):
                         continue
+
                     if text.strip().startswith("/"):
-                        self.handle_command(chat_id, text)
+                        try:
+                            self.handle_command(chat_id, text)
+                        except Exception:
+                            continue
+
+                if new_last_update_id is not None:
+                    self.last_update_id = new_last_update_id
             except Exception:
                 time.sleep(3)
 

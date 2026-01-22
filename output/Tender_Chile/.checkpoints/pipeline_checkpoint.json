@@ -1,6 +1,6 @@
 {
   "scraper": "Tender_Chile",
-  "last_run": "2026-01-16T11:27:36.213952",
+  "last_run": "2026-01-20T23:00:19.910487",
   "completed_steps": [
     0,
     1,
@@ -12,46 +12,46 @@
     "step_0": {
       "step_number": 0,
       "step_name": "Backup and Clean",
-      "completed_at": "2026-01-16T11:16:00.602129",
+      "completed_at": "2026-01-20T20:09:48.131544",
       "output_files": [],
-      "duration_seconds": 0.25487375259399414
+      "duration_seconds": 0.11278438568115234
     },
     "step_1": {
       "step_number": 1,
       "step_name": "Get Redirect URLs",
-      "completed_at": "2026-01-16T11:19:03.744784",
+      "completed_at": "2026-01-20T21:34:19.983201",
       "output_files": [
         "D:\\quad99\\Scappers\\output\\Tender_Chile\\tender_redirect_urls.csv"
       ],
-      "duration_seconds": 183.119202375412
+      "duration_seconds": 1510.9101166725159
     },
     "step_2": {
       "step_number": 2,
       "step_name": "Extract Tender Details",
-      "completed_at": "2026-01-16T11:23:43.558572",
+      "completed_at": "2026-01-20T22:16:27.607009",
       "output_files": [
         "D:\\quad99\\Scappers\\output\\Tender_Chile\\tender_details.csv"
       ],
-      "duration_seconds": 279.7870328426361
+      "duration_seconds": 2527.6155726909637
     },
     "step_3": {
       "step_number": 3,
       "step_name": "Extract Tender Awards",
-      "completed_at": "2026-01-16T11:27:34.968312",
+      "completed_at": "2026-01-20T23:00:18.048779",
       "output_files": [
         "D:\\quad99\\Scappers\\output\\Tender_Chile\\mercadopublico_supplier_rows.csv",
         "D:\\quad99\\Scappers\\output\\Tender_Chile\\mercadopublico_lot_summary.csv"
       ],
-      "duration_seconds": 231.3834319114685
+      "duration_seconds": 2630.419925928116
     },
     "step_4": {
       "step_number": 4,
       "step_name": "Merge Final CSV",
-      "completed_at": "2026-01-16T11:27:36.213939",
+      "completed_at": "2026-01-20T23:00:19.910464",
       "output_files": [
         "D:\\quad99\\Scappers\\output\\Tender_Chile\\final_tender_data.csv"
       ],
-      "duration_seconds": 1.2164249420166016
+      "duration_seconds": 1.8389241695404053
     }
   },
   "metadata": {}

@@ -1,0 +1,16 @@
+Malaysia Scraper Health Check
+============================================================
+Step   | Check                         | Status | Detail
+--------------------------------------------------------
+Config | MyPriMe URL reachable         | FAIL   | HTTP 415
+Config | Quest3+ search URL reachable  | PASS   | HTTP 200
+Config | Malaysia PCID file present    | PASS   | D:\quad99\Scappers\input\Malaysia\PCID Mapping - Malaysia.csv
+Layout | 'View All' text / button      | FAIL   | Failed to fetch https://pharmacy.moh.gov.my/ms/apps/drug-price: 415 Client Error: Unsupported Media Type for url: https://pharmacy.moh.gov.my/ms/apps/drug-price
+Layout | MyPriMe price table           | FAIL   | Failed to fetch https://pharmacy.moh.gov.my/ms/apps/drug-price: 415 Client Error: Unsupported Media Type for url: https://pharmacy.moh.gov.my/ms/apps/drug-price
+Layout | Quest3+ search form           | PASS   | Selectors ok (HTTP 200)
+Layout | Quest3+ result table selector | PASS   | Selector configured: table.table tbody tr (Note: Table appears after search, cannot verify on initial page)
+Config | FUKKM URL reachable           | FAIL   | HTTP 415
+Layout | FUKKM table selector          | FAIL   | Failed to fetch https://pharmacy.moh.gov.my/ms/apps/fukkm: 415 Client Error: Unsupported Media Type for url: https://pharmacy.moh.gov.my/ms/apps/fukkm
+
+============================================================
+Generated: 2026-01-20 13:30:14

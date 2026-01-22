@@ -1060,3 +1060,103 @@ def sync_files_from_output():
     
     log.info("[SYNC] File synchronization completed")
     print("[SYNC] File synchronization completed", flush=True)
+
+def update_selenium_attempt(company: str, product: str, attempt_num: int, records_found: int):
+    """Update Selenium_Attempt and Last_Attempt_Records columns in Productlist_with_urls.csv.
+    Thread-safe: uses CSV_LOCK to prevent race conditions when multiple threads update the file.
+
+    Args:
+        company: Company name to match
+        product: Product name to match
+        attempt_num: Current attempt number (1, 2, or 3)
+        records_found: Number of records found in this attempt
+    """
+    if not PREPARED_URLS_FILE_PATH.exists():
+        return  # File doesn't exist, skip update
+
+    try:
+        # Use lock for both read and write to make operation atomic
+        with CSV_LOCK:
+            # Read all rows - try multiple encodings
+            rows = []
+            fieldnames = None
+            encoding_used = None
+
+            encoding_attempts = ["utf-8-sig", "utf-8", "latin-1", "windows-1252", "cp1252"]
+            for encoding in encoding_attempts:
+                try:
+                    with open(PREPARED_URLS_FILE_PATH, "r", encoding=encoding, newline="") as f:
+                        reader = csv.DictReader(f)
+                        fieldnames = reader.fieldnames
+                        if not fieldnames:
+                            return
+
+                        for row in reader:
+                            rows.append(row)
+                        encoding_used = encoding
+                        break  # Success, exit encoding loop
+                except UnicodeDecodeError:
+                    continue  # Try next encoding
+                except Exception as e:
+                    log.warning(f"[ATTEMPT_UPDATE] Error reading with {encoding}: {e}")
+                    continue
+
+            if encoding_used is None:
+                log.warning(f"[ATTEMPT_UPDATE] Failed to read file with any encoding")
+                return
+
+            # Process rows to find and update matching entry
+            updated = False
+            for row in rows:
+                # Normalize for comparison
+                row_company = (row.get("Company") or "").strip()
+                row_product = (row.get("Product") or "").strip()
+
+                # Update columns if match found
+                if nk(row_company) == nk(company) and nk(row_product) == nk(product):
+                    update_made = False
+
+                    # Update Selenium_Attempt
+                    if "Selenium_Attempt" not in row or row.get("Selenium_Attempt", "0") != str(attempt_num):
+                        row["Selenium_Attempt"] = str(attempt_num)
+                        update_made = True
+
+                    # Update Last_Attempt_Records
+                    if "Last_Attempt_Records" not in row or row.get("Last_Attempt_Records", "0") != str(records_found):
+                        row["Last_Attempt_Records"] = str(records_found)
+                        update_made = True
+
+                    if update_made:
+                        updated = True
+                        log.info(f"[ATTEMPT_UPDATE] Updated Selenium_Attempt={attempt_num}, Last_Attempt_Records={records_found} for {company} | {product}")
+
+            # Write back all rows only if update was made (always use utf-8-sig for writing)
+            if updated:
+                # Ensure all required columns exist in fieldnames
+                if fieldnames:
+                    if "Selenium_Attempt" not in fieldnames:
+                        fieldnames.append("Selenium_Attempt")
+                    if "Last_Attempt_Records" not in fieldnames:
+                        fieldnames.append("Last_Attempt_Records")
+
+                # Normalize all count fields to ensure "0" not blank before writing (for all rows)
+                for row_to_write in rows:
+                    # Normalize Selenium_Attempt
+                    if "Selenium_Attempt" in row_to_write:
+                        attempt = row_to_write.get("Selenium_Attempt") or "0"
+                        row_to_write["Selenium_Attempt"] = str(attempt).strip() if str(attempt).strip() else "0"
+                    else:
+                        row_to_write["Selenium_Attempt"] = "0"
+                    # Normalize Last_Attempt_Records
+                    if "Last_Attempt_Records" in row_to_write:
+                        last_records = row_to_write.get("Last_Attempt_Records") or "0"
+                        row_to_write["Last_Attempt_Records"] = str(last_records).strip() if str(last_records).strip() else "0"
+                    else:
+                        row_to_write["Last_Attempt_Records"] = "0"
+
+                with open(PREPARED_URLS_FILE_PATH, "w", encoding="utf-8-sig", newline="") as f:
+                    writer = csv.DictWriter(f, fieldnames=fieldnames)
+                    writer.writeheader()
+                    writer.writerows(rows)
+    except Exception as e:
+        log.warning(f"[ATTEMPT_UPDATE] Failed to update attempt for {company} | {product}: {e}")

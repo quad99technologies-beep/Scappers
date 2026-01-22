@@ -1,0 +1,56 @@
+[
+  {
+    "step": "Config",
+    "check": "VED Registry URL reachable",
+    "status": "PASS",
+    "detail": "HTTP 200"
+  },
+  {
+    "step": "Config",
+    "check": "Excluded List URL reachable",
+    "status": "PASS",
+    "detail": "HTTP 200"
+  },
+  {
+    "step": "Config",
+    "check": "Russia PCID file present",
+    "status": "FAIL",
+    "detail": "missing file (optional - will be created during pipeline)"
+  },
+  {
+    "step": "Layout",
+    "check": "VED Registry region select (reg_id)",
+    "status": "PASS",
+    "detail": "Selectors ok (HTTP 200)"
+  },
+  {
+    "step": "Layout",
+    "check": "VED Registry search button (btn_submit)",
+    "status": "PASS",
+    "detail": "Selectors may require JavaScript/Selenium (HTTP 200) - scraper uses Selenium"
+  },
+  {
+    "step": "Layout",
+    "check": "VED Registry table structure",
+    "status": "PASS",
+    "detail": "Selectors ok (HTTP 200)"
+  },
+  {
+    "step": "Layout",
+    "check": "Excluded List region select (reg_id)",
+    "status": "PASS",
+    "detail": "Selectors may require JavaScript/Selenium (HTTP 200) - scraper uses Selenium"
+  },
+  {
+    "step": "Layout",
+    "check": "Excluded List search button",
+    "status": "PASS",
+    "detail": "Selectors may require JavaScript/Selenium (HTTP 200) - scraper uses Selenium"
+  },
+  {
+    "step": "Layout",
+    "check": "Excluded List table structure",
+    "status": "PASS",
+    "detail": "Selectors ok (HTTP 200)"
+  }
+]

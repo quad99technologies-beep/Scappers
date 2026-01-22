@@ -1,0 +1,13 @@
+Netherlands Scraper Health Check
+============================================================
+Step   | Check                                 | Status | Detail
+----------------------------------------------------------------
+Config | Base URL reachable                    | PASS   | HTTP 200
+Config | Search URL reachable                  | PASS   | HTTP 200
+Config | Netherlands PCID file present         | FAIL   | missing file
+Layout | Search page anchors                   | PASS   | Selectors ok (HTTP 200)
+Layout | Search page h1 heading                | FAIL   | Failed to fetch https://www.medicijnkosten.nl/zoeken?searchTerm=paracetamol: 429 Client Error: Too Many Requests for url: https://www.medicijnkosten.nl/zoeken?searchTerm=paracetamol
+Layout | Detail page structure (dd.medicine-*) | FAIL   | Failed to fetch https://www.medicijnkosten.nl/zoeken?searchTerm=paracetamol: 429 Client Error: Too Many Requests for url: https://www.medicijnkosten.nl/zoeken?searchTerm=paracetamol
+
+============================================================
+Generated: 2026-01-20 10:29:37

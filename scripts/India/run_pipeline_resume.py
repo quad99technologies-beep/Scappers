@@ -6,12 +6,17 @@ India NPPA Pipeline Runner with Resume/Checkpoint Support
 Usage:
     python run_pipeline_resume.py          # Resume from last step or start fresh
     python run_pipeline_resume.py --fresh  # Start from step 0 (clear checkpoint)
-    python run_pipeline_resume.py --step N # Start from step N (0-2)
-    python run_pipeline_resume.py --resume-details  # Resume only Step 02 (details extraction)
+    python run_pipeline_resume.py --step N # Start from step N (0-1)
+    python run_pipeline_resume.py --resume-details  # Resume only details extraction
+
+Pipeline Steps:
+    0: Backup and Clean - Backs up previous output and cleans directory
+    1: Extract Medicine Details - Loads formulations from input/India/formulations.csv
+       and scrapes medicine details from NPPA website
 
 Features:
 - Pipeline-level checkpoint (which step to run)
-- Formulation-level checkpoint within Step 02 (resume partial scrapes)
+- Formulation-level checkpoint within details extraction (resume partial scrapes)
 - Automatic cleanup of Chrome instances
 - Final report generation
 """
@@ -21,8 +26,13 @@ import subprocess
 import argparse
 import time
 import json
+import atexit
+import os
 from pathlib import Path
 from datetime import datetime
+
+# Force unbuffered output
+os.environ.setdefault('PYTHONUNBUFFERED', '1')
 
 # Add repo root to path
 _repo_root = Path(__file__).resolve().parents[2]
@@ -35,15 +45,40 @@ if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
 
 from core.pipeline_checkpoint import get_checkpoint_manager
-from config_loader import get_output_dir
+from config_loader import get_output_dir, load_env_file
+
+# Import Chrome PID tracker for cleanup
+try:
+    from core.chrome_pid_tracker import terminate_chrome_pids, cleanup_pid_file
+    _PID_TRACKER_AVAILABLE = True
+except ImportError:
+    _PID_TRACKER_AVAILABLE = False
+    def terminate_chrome_pids(name, root, silent=False): return 0
+    def cleanup_pid_file(name, root): pass
+
+# Load environment configuration
+load_env_file()
 
 SCRAPER_NAME = "India"
-# Total actual steps: steps 0-2 = 3 steps
-MAX_STEPS = 3
+# Total actual steps: steps 0-1 = 2 steps (backup/clean + get details)
+MAX_STEPS = 2
+
+
+def cleanup_chrome_on_exit():
+    """Cleanup Chrome instances on exit."""
+    if _PID_TRACKER_AVAILABLE:
+        terminated = terminate_chrome_pids(SCRAPER_NAME, _repo_root, silent=True)
+        cleanup_pid_file(SCRAPER_NAME, _repo_root)
+        if terminated > 0:
+            print(f"[CLEANUP] Terminated {terminated} Chrome process(es)")
+
+
+# Register cleanup on exit
+atexit.register(cleanup_chrome_on_exit)
 
 
 def get_formulation_checkpoint_status(output_dir: Path) -> dict:
-    """Get status of formulation-level checkpoint for Step 02."""
+    """Get status of formulation-level checkpoint for details extraction step."""
     checkpoint_file = output_dir / ".checkpoints" / "formulation_progress.json"
     
     if checkpoint_file.exists():
@@ -85,8 +120,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
     # Create meaningful progress description based on step
     step_descriptions = {
         0: "Preparing: Backing up previous results and cleaning output directory",
-        1: "Scraping: Downloading ceiling prices Excel export",
-        2: "Scraping: Extracting medicine details and substitutes",
+        1: "Scraping: Extracting medicine details and substitutes",
     }
     step_desc = step_descriptions.get(step_num, step_name)
     
@@ -144,9 +178,8 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
             completion_percent = 100.0
         
         next_step_descriptions = {
-            0: "Ready to download ceiling prices",
-            1: "Ready to extract medicine details",
-            2: "Pipeline completed successfully"
+            0: "Ready to extract medicine details",
+            1: "Pipeline completed successfully"
         }
         next_desc = next_step_descriptions.get(step_num + 1, "Moving to next step")
         
@@ -181,7 +214,7 @@ def print_checkpoint_status():
     print(f"Next Step: {info['next_step']}")
     print(f"Last Run: {info['last_run']}")
     print("-" * 60)
-    print("Formulation Progress (Step 02):")
+    print("Formulation Progress (Details Extraction):")
     print(f"  Completed Formulations: {formulation_status['completed']}")
     print(f"  In Progress: {formulation_status['in_progress'] or 'None'}")
     print(f"  Last Updated: {formulation_status['last_updated'] or 'Never'}")
@@ -197,10 +230,10 @@ def main():
     parser = argparse.ArgumentParser(description="India NPPA Pipeline Runner with Resume Support")
     parser.add_argument("--fresh", action="store_true", help="Start from step 0 (clear all checkpoints)")
     parser.add_argument("--step", type=int, help=f"Start from specific step (0-{MAX_STEPS})")
-    parser.add_argument("--resume-details", action="store_true", 
-                       help="Resume only Step 02 (details extraction) from where it left off")
+    parser.add_argument("--resume-details", action="store_true",
+                       help="Resume only details extraction step from where it left off")
     parser.add_argument("--clear-formulation-checkpoint", action="store_true",
-                       help="Clear formulation checkpoint (restart Step 02 from beginning)")
+                       help="Clear formulation checkpoint (restart details extraction from beginning)")
     parser.add_argument("--status", action="store_true", help="Show checkpoint status and exit")
     
     args = parser.parse_args()
@@ -216,7 +249,7 @@ def main():
     # Clear formulation checkpoint if requested
     if args.clear_formulation_checkpoint:
         clear_formulation_checkpoint(output_dir)
-        print("Formulation checkpoint cleared. Step 02 will restart from beginning.")
+        print("Formulation checkpoint cleared. Details extraction will restart from beginning.")
         if not args.step and not args.resume_details:
             return
     
@@ -227,10 +260,10 @@ def main():
         start_step = 0
         print("Starting fresh run (all checkpoints cleared)")
     elif args.resume_details:
-        # Jump directly to step 2 for resume
-        start_step = 2
+        # Jump directly to step 1 for resume (details extraction)
+        start_step = 1
         formulation_status = get_formulation_checkpoint_status(output_dir)
-        print(f"Resuming Step 02 (details extraction)")
+        print(f"Resuming Step 01 (details extraction)")
         print(f"  Already completed: {formulation_status['completed']} formulations")
         if formulation_status['in_progress']:
             print(f"  Was processing: {formulation_status['in_progress']}")
@@ -244,8 +277,8 @@ def main():
         if info["total_completed"] > 0:
             print(f"Resuming from step {start_step} (last completed: step {info['last_completed_step']})")
             
-            # Check formulation progress for Step 02
-            if start_step == 2:
+            # Check formulation progress for Step 01 (details extraction)
+            if start_step == 1:
                 formulation_status = get_formulation_checkpoint_status(output_dir)
                 if formulation_status['completed'] > 0:
                     print(f"  Formulation progress: {formulation_status['completed']} completed")
@@ -256,11 +289,10 @@ def main():
     print_checkpoint_status()
     
     # Define pipeline steps with their output files
+    # Note: Ceiling prices step removed - formulations are now loaded from input/India/formulations.csv
     steps = [
         (0, "00_backup_and_clean.py", "Backup and Clean", None, False, None),
-        (1, "01_Ceiling Prices of Essential Medicines downlaod.py", "Download Ceiling Prices", 
-         ["ceiling_prices.xlsx"], False, None),
-        (2, "02 get details.py", "Extract Medicine Details", 
+        (1, "02 get details.py", "Extract Medicine Details",
          ["details", "scraping_report.json"], False, None),
     ]
     

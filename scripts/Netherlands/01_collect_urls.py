@@ -27,7 +27,70 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait, Select
-from selenium.common.exceptions import WebDriverException, TimeoutException
+from selenium.common.exceptions import WebDriverException, TimeoutException, InvalidSessionIdException
+import logging
+
+# Import smart locator and state machine
+from smart_locator import SmartLocator
+from state_machine import NavigationStateMachine, NavigationState, StateCondition
+
+# Import Chrome PID tracking for cleanup
+try:
+    from core.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids, terminate_chrome_pids
+    CHROME_PID_TRACKING_AVAILABLE = True
+except ImportError:
+    CHROME_PID_TRACKING_AVAILABLE = False
+    def get_chrome_pids_from_driver(driver):
+        return set()
+    def save_chrome_pids(scraper_name, repo_root, pids):
+        pass
+    def terminate_chrome_pids(scraper_name, repo_root, silent=True):
+        return 0
+
+try:
+    import psutil
+    PSUTIL_AVAILABLE = True
+except ImportError:
+    PSUTIL_AVAILABLE = False
+    psutil = None
+
+# Import stealth profile for anti-detection
+try:
+    from core.stealth_profile import apply_selenium
+    STEALTH_PROFILE_AVAILABLE = True
+except ImportError:
+    STEALTH_PROFILE_AVAILABLE = False
+    def apply_selenium(options):
+        pass  # Stealth profile not available, skip
+
+# Import browser observer for idle detection
+try:
+    from core.browser_observer import observe_selenium, wait_until_idle
+    BROWSER_OBSERVER_AVAILABLE = True
+except ImportError:
+    BROWSER_OBSERVER_AVAILABLE = False
+    def observe_selenium(driver):
+        return None
+    def wait_until_idle(state, timeout=10.0):
+        pass  # Browser observer not available, skip
+
+# Import human pacing
+try:
+    from core.human_actions import pause
+    HUMAN_ACTIONS_AVAILABLE = True
+except ImportError:
+    HUMAN_ACTIONS_AVAILABLE = False
+    def pause(min_s=0.2, max_s=0.6):
+        pass  # Human pacing not available, skip
+
+# Setup logger
+logger = logging.getLogger(__name__)
+if not logger.handlers:
+    logging.basicConfig(
+        level=logging.INFO,
+        format='[%(levelname)s] [%(name)s] %(message)s',
+        handlers=[logging.StreamHandler(sys.stdout)]
+    )
 
 
 # =========================================================
@@ -121,6 +184,7 @@ class PackRow:
 # =========================================================
 _csv_lock = threading.Lock()
 _update_lock = threading.Lock()
+_driver_recreation_lock = threading.Lock()  # Lock to prevent simultaneous driver recreations
 
 
 # =========================================================
@@ -260,6 +324,11 @@ def make_driver(headless: bool, block_resources: bool = False, tag: str = "") ->
     _cleanup_old_profiles()
 
     opts = Options()
+
+    # Apply stealth profile if available
+    if STEALTH_PROFILE_AVAILABLE:
+        apply_selenium(opts)
+
     if headless:
         opts.add_argument("--headless=new")
     opts.add_argument("--start-maximized")
@@ -309,7 +378,43 @@ def make_driver(headless: bool, block_resources: bool = False, tag: str = "") ->
     service = Service()
     driver = webdriver.Chrome(service=service, options=opts)
     driver.set_page_load_timeout(PAGELOAD_TIMEOUT)
-    
+
+    # Execute CDP commands to hide webdriver property and other automation indicators
+    try:
+        driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
+            'source': '''
+                Object.defineProperty(navigator, 'webdriver', {
+                    get: () => undefined
+                });
+
+                // Override the plugins property to use a custom getter
+                Object.defineProperty(navigator, 'plugins', {
+                    get: () => [1, 2, 3, 4, 5]
+                });
+
+                // Override the languages property
+                Object.defineProperty(navigator, 'languages', {
+                    get: () => ['en-US', 'en', 'nl-NL', 'nl']
+                });
+
+                // Override permissions
+                const originalQuery = window.navigator.permissions.query;
+                window.navigator.permissions.query = (parameters) => (
+                    parameters.name === 'notifications' ?
+                        Promise.resolve({ state: Notification.permission }) :
+                        originalQuery(parameters)
+                );
+
+                // Mock chrome object
+                window.chrome = {
+                    runtime: {}
+                };
+            '''
+        })
+    except Exception:
+        # CDP commands not critical, continue without them
+        pass
+
     # Track Chrome PIDs for UI display
     try:
         from core.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids
@@ -320,7 +425,7 @@ def make_driver(headless: bool, block_resources: bool = False, tag: str = "") ->
             save_chrome_pids(scraper_name, repo_root, pids)
     except Exception:
         pass  # PID tracking not critical
-    
+
     return driver
 
 
@@ -328,6 +433,13 @@ def wait_dom_ready(driver: webdriver.Chrome, timeout: int = DOM_READY_TIMEOUT) -
     WebDriverWait(driver, timeout).until(
         lambda d: d.execute_script("return document.readyState") == "complete"
     )
+    # Use browser observer if available
+    if BROWSER_OBSERVER_AVAILABLE:
+        state = observe_selenium(driver)
+        wait_until_idle(state, timeout=5.0)
+    # Add human-like pause
+    if HUMAN_ACTIONS_AVAILABLE:
+        pause()
 
 
 class NetworkLoadError(RuntimeError):
@@ -335,6 +447,15 @@ class NetworkLoadError(RuntimeError):
 
 
 def _is_network_error(exc: Exception) -> bool:
+    """Check if exception is a network error that should be retried.
+    
+    NOTE: Session errors (InvalidSessionIdException) should NOT be retried here.
+    They should be handled by the worker's driver recreation logic instead.
+    """
+    if isinstance(exc, InvalidSessionIdException):
+        # Session errors should be handled by driver recreation, not retried here
+        return False
+    
     msg = str(exc).lower()
     return any(
         k in msg
@@ -347,7 +468,8 @@ def _is_network_error(exc: Exception) -> bool:
             "internet disconnected",
             "timed out",
             "timeout",
-            "disconnected",
+            # Note: "disconnected" without "session" is a network error
+            # "invalid session id", "session deleted", "session not created" are handled above
         )
     )
 
@@ -365,13 +487,21 @@ def driver_get_with_retry(
             driver.get(url)
             wait_dom_ready(driver)
             return
-        except (WebDriverException, TimeoutException) as e:
+        except (WebDriverException, TimeoutException, InvalidSessionIdException) as e:
             last_err = e
+            
+            # Session errors should be raised immediately - let worker handle driver recreation
+            if isinstance(e, InvalidSessionIdException):
+                raise  # Don't retry session errors here - worker will recreate driver
+            
             if not _is_network_error(e):
+                # Non-network errors (like element not found) should not be retried
                 raise
+            
+            # Only retry network errors (not session errors)
             if attempt < max_retries:
                 wait_time = base_delay * attempt
-                print(f"[{label}] RETRY network error (attempt {attempt}/{max_retries}): {e}")
+                print(f"[{label}] RETRY network error (attempt {attempt}/{max_retries}): {type(e).__name__}")
                 print(f"[{label}] Waiting {wait_time}s before retry...")
                 time.sleep(wait_time)
                 continue
@@ -558,16 +688,34 @@ def collect_urls_for_prefix(
 ) -> List[Dict[str, str]]:
     results: List[Dict[str, str]] = []
 
+    # Initialize smart locator and state machine
+    locator = SmartLocator(driver, logger=logger)
+    state_machine = NavigationStateMachine(locator, logger=logger)
+
     url = SEARCH_URL.format(kw=prefix)
     print(f"\n[{prefix}] ===== COLLECTING URLS =====")
     print(f"[{prefix}] Opening: {url}")
 
     driver_get_with_retry(driver, url, prefix)
+    
+    # Transition to PAGE_LOADED state
+    if not state_machine.transition_to(NavigationState.PAGE_LOADED, reload_on_failure=True):
+        print(f"[{prefix}] WARNING: Failed to reach PAGE_LOADED state")
+    
+    # Detect DOM changes
+    locator.detect_dom_change("body", f"search_page_{prefix}")
 
+    # Wait for anchors using smart locator
     try:
-        WebDriverWait(driver, 30).until(lambda d: len(d.find_elements(By.CSS_SELECTOR, "a[href]")) > 0)
+        anchors_elem = locator.find_element(css="a[href]", timeout=30.0, required=False)
+        if anchors_elem is None:
+            print(f"[{prefix}] WARNING: No anchors found")
     except Exception:
-        print(f"[{prefix}] WARNING: No anchors found")
+        # Fallback: try direct Selenium wait
+        try:
+            WebDriverWait(driver, 30).until(lambda d: len(d.find_elements(By.CSS_SELECTOR, "a[href]")) > 0)
+        except Exception:
+            print(f"[{prefix}] WARNING: No anchors found")
 
     expected = parse_total_results(driver)
     print(f"[{prefix}] Expected results: {expected}")
@@ -578,7 +726,13 @@ def collect_urls_for_prefix(
     last_height = 0
 
     for loop in range(1, MAX_SCROLL_LOOPS + 1):
-        height = driver.execute_script("return document.body.scrollHeight") or 0
+        try:
+            height = driver.execute_script("return document.body.scrollHeight") or 0
+        except (WebDriverException, InvalidSessionIdException) as e:
+            print(f"[{prefix}] ERROR: Failed to get page height (tab may have crashed): {e}")
+            print(f"[{prefix}] Stopping scroll due to browser error")
+            break
+        
         grew = height != last_height
         
         if grew:
@@ -595,13 +749,30 @@ def collect_urls_for_prefix(
                 print(f"[{prefix}] No page growth, stopping scroll")
                 break
 
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(SCROLL_WAIT_MS / 1000.0)
+        try:
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(SCROLL_WAIT_MS / 1000.0)
+            # Add human-like pause during scrolling
+            if HUMAN_ACTIONS_AVAILABLE and loop % 100 == 0:
+                pause(0.1, 0.3)
+        except (WebDriverException, InvalidSessionIdException) as e:
+            print(f"[{prefix}] ERROR: Failed to scroll (tab may have crashed): {e}")
+            print(f"[{prefix}] Stopping scroll due to browser error")
+            break
 
     print(f"[{prefix}] Scroll complete. Extracting URLs...")
+    
+    # Detect DOM changes after scroll
+    locator.detect_dom_change("body", f"after_scroll_{prefix}")
 
     # STEP 2: Extract all URLs at once after scrolling is complete
-    anchors = driver.find_elements(By.CSS_SELECTOR, "a[href]")
+    # Use smart locator with fallback
+    try:
+        anchors = driver.find_elements(By.CSS_SELECTOR, "a[href]")
+    except Exception:
+        # Fallback: try via smart locator
+        anchors_elem = locator.find_element(css="a[href]", timeout=10.0, required=False)
+        anchors = [anchors_elem] if anchors_elem else []
 
     seen_hrefs = set()
     unique_anchors = []
@@ -669,14 +840,35 @@ def collect_urls_for_prefix(
         ])
 
     print(f"[{prefix}] Collection complete: {len(results)} new URLs")
+    
+    # Check for anomalies
+    anomalies = locator.detect_anomalies(
+        error_text_patterns=["error", "not found", "geen resultaten", "no results"]
+    )
+    if anomalies:
+        logger.warning(f"[ANOMALY] {prefix}: {anomalies}")
+    
+    # Log metrics
+    metrics = locator.get_metrics()
+    metrics_summary = metrics.get_summary()
+    logger.info(f"[METRICS] Collection locator performance for {prefix}: {metrics_summary}")
+    
+    state_history = state_machine.get_state_history()
+    logger.info(f"[METRICS] Collection state transitions for {prefix}: {len(state_history)} transitions")
+    
     return results
 
 
 # =========================================================
 # PRODUCT PAGE HELPERS
 # =========================================================
-def get_dd_text(driver: webdriver.Chrome, cls: str) -> str:
+def get_dd_text(driver: webdriver.Chrome, cls: str, locator: Optional[SmartLocator] = None) -> str:
     try:
+        if locator:
+            dd = locator.find_element(css=f"dd.{cls}", timeout=3.0, required=False)
+            if dd:
+                return clean_single_line(safe_text(dd))
+        # Fallback to direct Selenium
         dd = driver.find_element(By.CSS_SELECTOR, f"dd.{cls}")
         return clean_single_line(safe_text(dd))
     except Exception:
@@ -733,8 +925,14 @@ def deductible_value(driver: webdriver.Chrome) -> str:
     return ""
 
 
-def notes_text(driver: webdriver.Chrome) -> str:
+def notes_text(driver: webdriver.Chrome, locator: Optional[SmartLocator] = None) -> str:
     try:
+        if locator:
+            dd = locator.find_element(css="dd.medicine-notes", timeout=3.0, required=False)
+            if dd:
+                lines = [ln.strip() for ln in safe_text(dd).splitlines() if ln.strip()]
+                return "; ".join(lines)
+        # Fallback to direct Selenium
         dd = driver.find_element(By.CSS_SELECTOR, "dd.medicine-notes")
         lines = [ln.strip() for ln in safe_text(dd).splitlines() if ln.strip()]
         return "; ".join(lines)
@@ -742,17 +940,31 @@ def notes_text(driver: webdriver.Chrome) -> str:
         return ""
 
 
-def get_local_pack_code(driver: webdriver.Chrome) -> str:
+def get_local_pack_code(driver: webdriver.Chrome, locator: Optional[SmartLocator] = None) -> str:
     # RVG as fallback
+    rvg = ""
     try:
-        dd = driver.find_element(By.CSS_SELECTOR, "dd.medicine-rvg-number")
-        rvg = clean_single_line(safe_text(dd))
+        if locator:
+            dd = locator.find_element(css="dd.medicine-rvg-number", timeout=3.0, required=False)
+            if dd:
+                rvg = clean_single_line(safe_text(dd))
+        else:
+            dd = driver.find_element(By.CSS_SELECTOR, "dd.medicine-rvg-number")
+            rvg = clean_single_line(safe_text(dd))
     except Exception:
         rvg = ""
 
     # EU number preferred
     try:
-        dts = driver.find_elements(By.CSS_SELECTOR, "dl.pat-grid-list > dt")
+        if locator:
+            dts_elem = locator.find_element(css="dl.pat-grid-list > dt", timeout=3.0, required=False)
+            if dts_elem:
+                dts = driver.find_elements(By.CSS_SELECTOR, "dl.pat-grid-list > dt")
+            else:
+                dts = []
+        else:
+            dts = driver.find_elements(By.CSS_SELECTOR, "dl.pat-grid-list > dt")
+        
         for dt in dts:
             label = clean_single_line(safe_text(dt)).lower()
             if label in ("eu number", "eu-nummer", "eu nummer"):
@@ -891,22 +1103,45 @@ def scrape_product_to_pack(
     source_url_no_id: str,
     scrape_url_with_id: str
 ) -> PackRow:
+    # Initialize smart locator and state machine
+    locator = SmartLocator(driver, logger=logger)
+    state_machine = NavigationStateMachine(locator, logger=logger)
+    
     driver_get_with_retry(driver, scrape_url_with_id, prefix)
+    
+    # Transition to PAGE_LOADED state
+    if not state_machine.transition_to(NavigationState.PAGE_LOADED, reload_on_failure=True):
+        print(f"[{prefix}] WARNING: Failed to reach PAGE_LOADED state for {scrape_url_with_id}")
 
     if "pagenotfound" in (driver.current_url or "").lower():
         raise Exception(f"Page not found: {driver.current_url}")
+    
+    # Detect DOM changes
+    locator.detect_dom_change("body", f"detail_page_{prefix}")
 
+    # Use smart locator to find h1 with fallback
     try:
-        product_group = clean_single_line(safe_text(driver.find_element(By.TAG_NAME, "h1")))
+        h1_elem = locator.find_element(css="h1", timeout=5.0, required=False)
+        if h1_elem:
+            product_group = clean_single_line(safe_text(h1_elem))
+        else:
+            product_group = clean_single_line(driver.title or "")
     except Exception:
-        product_group = clean_single_line(driver.title or "")
+        # Fallback to direct Selenium
+        try:
+            product_group = clean_single_line(safe_text(driver.find_element(By.TAG_NAME, "h1")))
+        except Exception:
+            product_group = clean_single_line(driver.title or "")
+    
+    # Add human pacing after page load
+    pause()
 
-    generic_name = get_dd_text(driver, "medicine-active-substance")
-    formulation = get_dd_text(driver, "medicine-method")
-    strength = get_dd_text(driver, "medicine-strength")
-    company_name = get_dd_text(driver, "medicine-manufacturer")
-    available = get_dd_text(driver, "available-outside-farmacy")
-    notes = notes_text(driver)
+    generic_name = get_dd_text(driver, "medicine-active-substance", locator=locator)
+    formulation = get_dd_text(driver, "medicine-method", locator=locator)
+    strength = get_dd_text(driver, "medicine-strength", locator=locator)
+    company_name = get_dd_text(driver, "medicine-manufacturer", locator=locator)
+    available = get_dd_text(driver, "available-outside-farmacy", locator=locator)
+    notes = notes_text(driver, locator=locator)
 
     # ✅ FIXED: price comes from pat-depends after correct toggle
     prices = read_prices_piece_and_package(driver)
@@ -921,9 +1156,16 @@ def scrape_product_to_pack(
     ppp_vat_float = euro_str_to_float(ppp_vat)
     ppp_ex_vat = fmt_float(ppp_vat_float / (1.0 + VAT_RATE) if ppp_vat_float is not None else None)
 
-    local_pack_code = get_local_pack_code(driver)
+    local_pack_code = get_local_pack_code(driver, locator=locator)
 
     pid = parse_qs(urlparse(scrape_url_with_id).query).get("id", [""])[0]
+    
+    # Check for anomalies
+    anomalies = locator.detect_anomalies(
+        error_text_patterns=["error", "not found", "geen resultaten", "no results"]
+    )
+    if anomalies:
+        logger.warning(f"[ANOMALY] {prefix} {source_url_no_id}: {anomalies}")
 
     return PackRow(
         prefix=prefix,
@@ -969,9 +1211,77 @@ def mark_prefix_completed(prefix: str) -> None:
     append_csv_row(COMPLETED_PREFIXES_CSV, [prefix_normalized, datetime.now().isoformat(timespec="seconds")])
 
 
+def reset_completed_prefixes() -> None:
+    """Reset completed_prefixes.csv file (clear all entries but keep header)."""
+    ensure_csv_header(COMPLETED_PREFIXES_CSV, ["prefix", "ts"])
+    print("[RESET] Cleared completed_prefixes.csv - ready for second pass")
+
+
 # =========================================================
 # WORKER (queue-based, thread-safe)
 # =========================================================
+def _force_kill_chrome_processes(driver) -> None:
+    """Force kill Chrome processes associated with a driver if quit() fails."""
+    if not CHROME_PID_TRACKING_AVAILABLE or not PSUTIL_AVAILABLE:
+        return
+    
+    try:
+        pids = get_chrome_pids_from_driver(driver)
+        if not pids:
+            # Try to get PIDs from service if available
+            try:
+                if hasattr(driver, 'service') and hasattr(driver.service, 'process'):
+                    chromedriver_pid = driver.service.process.pid
+                    if chromedriver_pid:
+                        pids.add(chromedriver_pid)
+                        # Get all child processes
+                        if PSUTIL_AVAILABLE:
+                            try:
+                                parent = psutil.Process(chromedriver_pid)
+                                for child in parent.children(recursive=True):
+                                    pids.add(child.pid)
+                            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                                pass
+            except Exception:
+                pass
+        
+        for pid in pids:
+            try:
+                proc = psutil.Process(pid)
+                # Try graceful termination first
+                proc.terminate()
+                try:
+                    proc.wait(timeout=2)  # Wait up to 2 seconds
+                except psutil.TimeoutExpired:
+                    # Force kill if terminate didn't work
+                    proc.kill()
+                    try:
+                        proc.wait(timeout=2)  # Wait for kill to complete
+                    except psutil.TimeoutExpired:
+                        pass  # Process might be stuck, but we tried
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                pass  # Process already gone
+    except Exception:
+        pass  # Don't fail if cleanup fails
+
+
+def _cleanup_driver_safely(driver) -> None:
+    """Safely cleanup a driver, ensuring all Chrome processes are killed."""
+    if driver is None:
+        return
+    
+    try:
+        # First try normal quit
+        driver.quit()
+        # Give it a moment to clean up - increased wait time
+        time.sleep(1.0)
+    except Exception as e:
+        # If quit fails, force kill Chrome processes
+        _force_kill_chrome_processes(driver)
+        # Give processes time to terminate - increased wait time
+        time.sleep(1.0)
+
+
 def scrape_worker(
     prefix: str,
     work_queue: queue.Queue,
@@ -981,8 +1291,12 @@ def scrape_worker(
 ) -> None:
     """Worker that pulls items from queue until empty."""
     driver = None
+    driver_creation_count = 0
+    MAX_DRIVER_RECREATIONS = 10  # Limit driver recreations per thread
+    
     try:
         driver = make_driver(headless=HEADLESS_SCRAPE, block_resources=True, tag=f"scrape_t{thread_id}")
+        driver_creation_count = 1
         local_done = 0
         local_skipped = 0
         local_failed = 0
@@ -1033,8 +1347,30 @@ def scrape_worker(
 
             ok = False
             last_err = ""
+            
+            # Ensure driver exists (should already exist from thread start)
+            if driver is None:
+                if driver_creation_count >= MAX_DRIVER_RECREATIONS:
+                    last_err = f"Maximum driver recreations ({MAX_DRIVER_RECREATIONS}) exceeded for thread {thread_id}"
+                    print(f"[{prefix}][T{thread_id}] ERROR: {last_err}")
+                    mark_failed(source_url_no_id, last_err)
+                    local_failed += 1
+                    local_done += 1
+                    work_queue.task_done()
+                    continue
+                
+                # Use lock to prevent simultaneous driver creations
+                with _driver_recreation_lock:
+                    print(f"[{prefix}][T{thread_id}] WARNING: Driver is None, creating new driver (count: {driver_creation_count + 1})...")
+                    driver = make_driver(headless=HEADLESS_SCRAPE, block_resources=True, tag=f"scrape_t{thread_id}")
+                    driver_creation_count += 1
+                    print(f"[{prefix}][T{thread_id}] Driver created (total drivers created: {driver_creation_count})")
+            
             for attempt in range(1, MAX_RETRIES_PER_URL + 1):
                 try:
+                    # Don't validate driver proactively - let the actual scrape attempt fail if driver is invalid
+                    # This avoids unnecessary driver recreations
+                    
                     row = scrape_product_to_pack(driver, prefix, source_url_no_id, scrape_url_with_id)
 
                     append_csv_row(PACKS_CSV, [
@@ -1075,6 +1411,49 @@ def scrape_worker(
                     ok = True
                     break
 
+                except (InvalidSessionIdException, WebDriverException) as e:
+                    # Browser session crashed - recreate driver for next attempt
+                    error_msg = str(e).lower()
+                    is_session_error = (
+                        "invalid session id" in error_msg or 
+                        "session deleted" in error_msg or
+                        "session not created" in error_msg or
+                        "disconnected" in error_msg or
+                        isinstance(e, InvalidSessionIdException)
+                    )
+                    
+                    if is_session_error and attempt < MAX_RETRIES_PER_URL:
+                        if driver_creation_count >= MAX_DRIVER_RECREATIONS:
+                            # Max recreations reached
+                            last_err = f"{type(e).__name__}: {e} (Max driver recreations reached: {MAX_DRIVER_RECREATIONS})"
+                            print(f"[{prefix}][T{thread_id}] ERROR: {last_err}")
+                            break  # Exit retry loop
+                        
+                        # Use lock to prevent simultaneous driver recreations across threads
+                        with _driver_recreation_lock:
+                            print(f"[{prefix}][T{thread_id}] Browser session crashed (driver #{driver_creation_count}), recreating for retry {attempt + 1}/{MAX_RETRIES_PER_URL}...")
+                            old_driver = driver
+                            # Clean up old driver BEFORE creating new one
+                            _cleanup_driver_safely(old_driver)
+                            driver = None  # Clear reference
+                            # Staggered delay to prevent all threads from creating drivers simultaneously
+                            # Each thread waits slightly different amount based on thread_id
+                            stagger_delay = 0.5 + (thread_id * 0.2)  # 0.5s base + 0.2s per thread
+                            time.sleep(stagger_delay)  # Staggered delay for better cleanup
+                            driver = make_driver(headless=HEADLESS_SCRAPE, block_resources=True, tag=f"scrape_t{thread_id}")
+                            driver_creation_count += 1
+                            print(f"[{prefix}][T{thread_id}] Driver recreated (total drivers created: {driver_creation_count})")
+                        
+                        last_err = f"{type(e).__name__}: {e}"
+                        if RETRY_BACKOFF_SECONDS > 0:
+                            time.sleep(RETRY_BACKOFF_SECONDS * attempt)
+                        continue
+                    else:
+                        # Session error on last attempt, or not a session error
+                        last_err = f"{type(e).__name__}: {e}"
+                        if RETRY_BACKOFF_SECONDS > 0:
+                            time.sleep(RETRY_BACKOFF_SECONDS * attempt)
+                
                 except Exception as e:
                     last_err = f"{type(e).__name__}: {e}"
                     if RETRY_BACKOFF_SECONDS > 0:
@@ -1096,7 +1475,7 @@ def scrape_worker(
             stats['skipped'] += local_skipped
             stats['failed'] += local_failed
         
-        print(f"[{prefix}][T{thread_id}] [OK] FINISHED | Done: {local_done} | Skipped: {local_skipped} | Failed: {local_failed}")
+        print(f"[{prefix}][T{thread_id}] [OK] FINISHED | Done: {local_done} | Skipped: {local_skipped} | Failed: {local_failed} | Drivers created: {driver_creation_count}")
 
     except Exception as e:
         print(f"[{prefix}][T{thread_id}] [ERROR] THREAD ERROR: {e}")
@@ -1104,10 +1483,141 @@ def scrape_worker(
         traceback.print_exc()
     finally:
         if driver:
+            _cleanup_driver_safely(driver)
+
+
+# =========================================================
+# COLLECTION PASS
+# =========================================================
+def run_collection_pass(pass_number: int) -> None:
+    """Run one complete pass through all prefixes."""
+    print("\n" + "=" * 60)
+    print(f"PASS {pass_number}: COLLECTING URLs AND SCRAPING DATA")
+    print("=" * 60 + "\n")
+    
+    # Reload state for this pass
+    scraped_no_id_urls = load_scraped_urls(COLLECTED_URLS_CSV)
+    completed_prefixes = load_completed_prefixes(COMPLETED_PREFIXES_CSV)
+    collected_no_id_urls = load_existing_collected_urls(COLLECTED_URLS_CSV)
+    
+    print(f"[PASS {pass_number}] Loaded {len(scraped_no_id_urls)} scraped URLs")
+    print(f"[PASS {pass_number}] Loaded {len(collected_no_id_urls)} collected URLs")
+    print(f"[PASS {pass_number}] Loaded {len(completed_prefixes)} completed prefixes")
+    
+    prefixes = load_prefixes(INPUT_TERMS_CSV)
+    print(f"[PASS {pass_number}] Loaded {len(prefixes)} prefixes from {INPUT_TERMS_CSV}")
+    
+    global_seen_no_id_urls: Set[str] = set()
+    collect_driver = make_driver(headless=HEADLESS_COLLECT, block_resources=False, tag=f"collect_pass{pass_number}")
+    skipped_count = 0
+    total_prefixes = len(prefixes)
+    processed_prefixes = 0
+    
+    try:
+        if total_prefixes > 0:
+            print(f"[PROGRESS] Pass {pass_number} - Collecting URLs: 0/{total_prefixes} prefixes (0.0%)", flush=True)
+        
+        for prefix_idx, prefix in enumerate(prefixes, 1):
+            prefix_normalized = prefix.strip().lower() if prefix else ""
+            
+            print(f"\n[{prefix}] Pass {pass_number} - Checking prefix")
+            
+            # Check if prefix should be skipped
+            if not SKIP_COMPLETED_PREFIXES:
+                pass  # Process anyway
+            elif prefix_normalized in completed_prefixes:
+                skipped_count += 1
+                processed_prefixes += 1
+                print(f"[{prefix}] [SKIP] Skipping (already completed)")
+                percent = (processed_prefixes / total_prefixes * 100) if total_prefixes > 0 else 0.0
+                print(f"[PROGRESS] Pass {pass_number} - Collecting URLs: {processed_prefixes}/{total_prefixes} prefixes ({percent:.1f}%)", flush=True)
+                continue
+            
             try:
-                driver.quit()
-            except Exception:
-                pass
+                collected_recs = collect_urls_for_prefix(
+                    driver=collect_driver,
+                    prefix=prefix,
+                    global_seen_no_id_urls=global_seen_no_id_urls,
+                    already_collected_no_id_urls=collected_no_id_urls,
+                    already_scraped_no_id_urls=scraped_no_id_urls,
+                )
+            except NetworkLoadError as e:
+                print(f"[{prefix}] ERROR: {e}")
+                old_driver = collect_driver
+                _cleanup_driver_safely(old_driver)
+                collect_driver = None
+                time.sleep(0.5)
+                collect_driver = make_driver(headless=HEADLESS_COLLECT, block_resources=False, tag=f"collect_pass{pass_number}")
+                continue
+            except WebDriverException as e:
+                if _is_network_error(e):
+                    print(f"[{prefix}] ERROR: {e}")
+                    old_driver = collect_driver
+                    _cleanup_driver_safely(old_driver)
+                    collect_driver = None
+                    time.sleep(0.5)
+                    collect_driver = make_driver(headless=HEADLESS_COLLECT, block_resources=False, tag=f"collect_pass{pass_number}")
+                    continue
+                raise
+            
+            print(f"\n[{prefix}] ===== STEP 2: SCRAPE ({SCRAPE_THREADS} threads) =====")
+            if not collected_recs:
+                mark_prefix_completed(prefix)
+                completed_prefixes.add(prefix_normalized)
+                processed_prefixes += 1
+                print(f"[{prefix}] [OK] COMPLETED (no new URLs)\n")
+                percent = (processed_prefixes / total_prefixes * 100) if total_prefixes > 0 else 0.0
+                print(f"[PROGRESS] Pass {pass_number} - Collecting URLs: {processed_prefixes}/{total_prefixes} prefixes ({percent:.1f}%)", flush=True)
+                continue
+            
+            # Scrape collected URLs
+            work_queue = queue.Queue()
+            stats = {'done': 0, 'skipped': 0, 'failed': 0}
+            
+            for rec in collected_recs:
+                work_queue.put(rec)
+            
+            threads = []
+            for thread_id in range(SCRAPE_THREADS):
+                t = threading.Thread(
+                    target=scrape_worker,
+                    args=(prefix, work_queue, scraped_no_id_urls, thread_id, stats),
+                    daemon=False,
+                    name=f"ScrapeWorker-{thread_id}"
+                )
+                t.start()
+                threads.append(t)
+                print(f"[{prefix}] Started thread {thread_id}")
+            
+            work_queue.join()
+            
+            for _ in range(SCRAPE_THREADS):
+                try:
+                    work_queue.put_nowait(None)
+                except queue.Full:
+                    pass
+            
+            for t in threads:
+                t.join(timeout=60)
+                if t.is_alive():
+                    print(f"[{prefix}] WARNING: Thread {t.name} did not finish in time")
+            
+            print(f"[{prefix}] Thread stats: Done={stats['done']}, Skipped={stats['skipped']}, Failed={stats['failed']}")
+            
+            mark_prefix_completed(prefix)
+            completed_prefixes.add(prefix_normalized)
+            processed_prefixes += 1
+            print(f"[{prefix}] [OK] COMPLETED (scraped_total={len(scraped_no_id_urls)})\n")
+            percent = (processed_prefixes / total_prefixes * 100) if total_prefixes > 0 else 0.0
+            print(f"[PROGRESS] Pass {pass_number} - Collecting URLs: {processed_prefixes}/{total_prefixes} prefixes ({percent:.1f}%)", flush=True)
+    
+    finally:
+        if 'collect_driver' in locals() and collect_driver:
+            _cleanup_driver_safely(collect_driver)
+    
+    print(f"\n[PASS {pass_number}] COMPLETE")
+    if SKIP_COMPLETED_PREFIXES:
+        print(f"[PASS {pass_number}] Skipped {skipped_count} already-completed prefix(es)")
 
 
 # =========================================================
@@ -1160,166 +1670,32 @@ def main() -> None:
     else:
         print("[CLEANUP] No unscraped URLs to remove")
 
-    scraped_no_id_urls = load_scraped_urls(COLLECTED_URLS_CSV)
+    # PASS 1: First complete run
+    run_collection_pass(1)
     
-    # Load completed prefixes - create blank file if it doesn't exist
-    # This ensures if script is stopped mid-way and restarted, it will skip already-completed prefixes
-    if not os.path.exists(COMPLETED_PREFIXES_CSV):
-        # File doesn't exist (was deleted during cleanup), create blank file
-        ensure_csv_header(COMPLETED_PREFIXES_CSV, ["prefix", "ts"])
-        print("[INIT] Created blank completed_prefixes.csv file")
-    completed_prefixes = load_completed_prefixes(COMPLETED_PREFIXES_CSV)
+    # Reset completed_prefixes for second pass
+    print("\n" + "=" * 60)
+    print("RESETTING COMPLETED_PREFIXES FOR SECOND PASS")
+    print("=" * 60)
+    reset_completed_prefixes()
     
-    collected_no_id_urls = load_existing_collected_urls(COLLECTED_URLS_CSV)
+    # PASS 2: Second complete run (to catch any missed URLs/data)
+    run_collection_pass(2)
 
-    print(f"[INIT] Loaded {len(scraped_no_id_urls)} scraped URLs (NO-ID key, packs_scraped='success')")
-    print(f"[INIT] Loaded {len(collected_no_id_urls)} collected URLs (NO-ID key)")
-    print(f"[INIT] Loaded {len(completed_prefixes)} completed prefixes")
-    if completed_prefixes:
-        print(f"[INIT] Completed prefixes: {', '.join(sorted(list(completed_prefixes)[:10]))}{'...' if len(completed_prefixes) > 10 else ''}")
-        # Debug: show exact contents
-        for cp in completed_prefixes:
-            print(f"[INIT] DEBUG: completed_prefix repr = {repr(cp)} (len={len(cp)})")
-
-    prefixes = load_prefixes(INPUT_TERMS_CSV)
-    print(f"[INIT] Loaded {len(prefixes)} prefixes from {INPUT_TERMS_CSV}")
-    # Debug: show first prefix
-    if prefixes:
-        print(f"[INIT] DEBUG: First prefix repr = {repr(prefixes[0])} (len={len(prefixes[0])})")
-
-    global_seen_no_id_urls: Set[str] = set()
-    collect_driver = make_driver(headless=HEADLESS_COLLECT, block_resources=False, tag="collect")
-    skipped_count = 0
-    total_prefixes = len(prefixes)
-    processed_prefixes = 0
-
-    try:
-        print(f"[DEBUG] SKIP_COMPLETED_PREFIXES = {SKIP_COMPLETED_PREFIXES}")
-        print(f"[DEBUG] completed_prefixes = {completed_prefixes}")
-        print(f"[DEBUG] completed_prefixes type = {type(completed_prefixes)}")
-        
-        # Output initial progress
-        if total_prefixes > 0:
-            print(f"[PROGRESS] Collecting URLs: 0/{total_prefixes} prefixes (0.0%)", flush=True)
-        
-        for prefix_idx, prefix in enumerate(prefixes, 1):
-            # Normalize prefix for comparison (ensure lowercase and stripped)
-            prefix_normalized = prefix.strip().lower() if prefix else ""
-            
-            print(f"\n[{prefix}] Checking: prefix='{prefix}' -> normalized='{prefix_normalized}'")
-            print(f"[{prefix}] completed_prefixes contains '{prefix_normalized}': {prefix_normalized in completed_prefixes}")
-            
-            # Check if prefix should be skipped
-            if not SKIP_COMPLETED_PREFIXES:
-                print(f"[{prefix}] SKIP_COMPLETED_PREFIXES is False, processing anyway")
-            elif prefix_normalized in completed_prefixes:
-                skipped_count += 1
-                processed_prefixes += 1
-                print(f"[{prefix}] [SKIP] Skipping (already completed)")
-                # Update progress
-                percent = (processed_prefixes / total_prefixes * 100) if total_prefixes > 0 else 0.0
-                print(f"[PROGRESS] Collecting URLs: {processed_prefixes}/{total_prefixes} prefixes ({percent:.1f}%)", flush=True)
-                continue
-            else:
-                print(f"[{prefix}] [PROCESS] Not in completed list, will process")
-
-            try:
-                collected_recs = collect_urls_for_prefix(
-                    driver=collect_driver,
-                    prefix=prefix,
-                    global_seen_no_id_urls=global_seen_no_id_urls,
-                    already_collected_no_id_urls=collected_no_id_urls,
-                    already_scraped_no_id_urls=scraped_no_id_urls,
-                )
-            except NetworkLoadError as e:
-                print(f"[{prefix}] ERROR: {e}")
-                try:
-                    collect_driver.quit()
-                except Exception:
-                    pass
-                collect_driver = make_driver(headless=HEADLESS_COLLECT, block_resources=False, tag="collect")
-                continue
-            except WebDriverException as e:
-                if _is_network_error(e):
-                    print(f"[{prefix}] ERROR: {e}")
-                    try:
-                        collect_driver.quit()
-                    except Exception:
-                        pass
-                    collect_driver = make_driver(headless=HEADLESS_COLLECT, block_resources=False, tag="collect")
-                    continue
-                raise
-
-            print(f"\n[{prefix}] ===== STEP 2: SCRAPE ({SCRAPE_THREADS} threads) =====")
-            if not collected_recs:
-                mark_prefix_completed(prefix)
-                completed_prefixes.add(prefix)
-                processed_prefixes += 1
-                print(f"[{prefix}] [OK] COMPLETED (no new URLs)\n")
-                # Update progress
-                percent = (processed_prefixes / total_prefixes * 100) if total_prefixes > 0 else 0.0
-                print(f"[PROGRESS] Collecting URLs: {processed_prefixes}/{total_prefixes} prefixes ({percent:.1f}%)", flush=True)
-                continue
-
-            # Use queue for dynamic load balancing
-            work_queue = queue.Queue()
-            stats = {'done': 0, 'skipped': 0, 'failed': 0}
-            
-            # Add all work to queue
-            for rec in collected_recs:
-                work_queue.put(rec)
-            
-            # Start worker threads
-            threads = []
-            for thread_id in range(SCRAPE_THREADS):
-                t = threading.Thread(
-                    target=scrape_worker,
-                    args=(prefix, work_queue, scraped_no_id_urls, thread_id, stats),
-                    daemon=False,
-                    name=f"ScrapeWorker-{thread_id}"
-                )
-                t.start()
-                threads.append(t)
-                print(f"[{prefix}] Started thread {thread_id}")
-            
-            # Wait for all work to be processed
-            work_queue.join()
-            
-            # Signal threads to stop (they may have already exited if queue was empty)
-            for _ in range(SCRAPE_THREADS):
-                try:
-                    work_queue.put_nowait(None)
-                except queue.Full:
-                    pass  # Queue full, threads already processing
-            
-            # Wait for all threads to complete
-            for t in threads:
-                t.join(timeout=60)
-                if t.is_alive():
-                    print(f"[{prefix}] WARNING: Thread {t.name} did not finish in time")
-            
-            print(f"[{prefix}] Thread stats: Done={stats['done']}, Skipped={stats['skipped']}, Failed={stats['failed']}")
-
-            mark_prefix_completed(prefix)
-            completed_prefixes.add(prefix)
-            processed_prefixes += 1
-            print(f"[{prefix}] [OK] COMPLETED (scraped_total={len(scraped_no_id_urls)})\n")
-            # Update progress
-            percent = (processed_prefixes / total_prefixes * 100) if total_prefixes > 0 else 0.0
-            print(f"[PROGRESS] Collecting URLs: {processed_prefixes}/{total_prefixes} prefixes ({percent:.1f}%)", flush=True)
-
-    finally:
+    # Cleanup
+    if CHROME_PID_TRACKING_AVAILABLE:
         try:
-            collect_driver.quit()
+            repo_root = Path(__file__).resolve().parent.parent.parent
+            terminated = terminate_chrome_pids("Netherlands", repo_root, silent=True)
+            if terminated > 0:
+                print(f"[CLEANUP] Terminated {terminated} orphaned Chrome process(es)")
         except Exception:
-            pass
+            pass  # Don't fail if cleanup fails
 
     print("\n" + "=" * 60)
-    print("SCRAPING COMPLETE")
+    print("ALL PASSES COMPLETE - SCRAPING FINISHED")
     print("=" * 60)
-    if SKIP_COMPLETED_PREFIXES:
-        print(f"Skipped {skipped_count} already-completed prefix(es)")
-    print(f"Collected URLs (NO-ID url, WITH-ID url_with_id): {COLLECTED_URLS_CSV}")
+    print(f"Collected URLs: {COLLECTED_URLS_CSV}")
     print(f"Packs: {PACKS_CSV}")
     print(f"Completed Prefixes: {COMPLETED_PREFIXES_CSV}")
 

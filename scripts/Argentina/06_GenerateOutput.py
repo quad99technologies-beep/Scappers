@@ -28,6 +28,7 @@ from typing import Optional, Tuple, List
 from datetime import datetime
 import re
 import json
+import sys
 import pandas as pd
 import unicodedata
 import string
@@ -47,6 +48,16 @@ today_str      = datetime.now().strftime(DATE_FORMAT)
 OUT_PREFIX     = f"{OUTPUT_REPORT_PREFIX}{today_str}"
 
 # EXCLUDE_PRICE is imported from config_loader
+
+
+def _file_date(path: Path) -> datetime.date:
+    """Return the date part of the file's modification timestamp."""
+    return datetime.fromtimestamp(path.stat().st_mtime).date()
+
+
+def _is_same_day(path: Path) -> bool:
+    """Return True if the file was modified today."""
+    return _file_date(path) == datetime.now().date()
 
 # ---------- Money parsing ----------
 MONEY_RE = re.compile(
@@ -369,6 +380,15 @@ def main():
             f"Please run script 04 (TranslateUsingDictionary.py) first to generate this file."
         )
 
+    if not PCID_PATH.exists():
+        raise FileNotFoundError(f"PCID mapping file not found: {PCID_PATH}")
+    if not _is_same_day(PCID_PATH):
+        file_date = _file_date(PCID_PATH)
+        today = datetime.now().date()
+        print(f"\n[SKIP] PCID mapping file {PCID_PATH.name} is from {file_date}, not today's run ({today}).", flush=True)
+        print("[SKIP] Skipping Argentina report generation because the PCID mapping file was not replaced today.", flush=True)
+        sys.exit(1)
+
     # Read input as text (avoid implicit type casts)
     print(f"[PROGRESS] Generating output: Loading data (1/4)", flush=True)
     df = safe_read_csv(INPUT_FILE, dtype=str)
@@ -484,8 +504,6 @@ def main():
 
     # Copy final reports (CSV) to central output directory
     try:
-        import sys
-        from pathlib import Path
         # Add script directory to path for config_loader import
         script_dir = Path(__file__).resolve().parent
         if str(script_dir) not in sys.path:
@@ -493,14 +511,106 @@ def main():
         from config_loader import get_central_output_dir
         import shutil
         central_output_dir = get_central_output_dir()
+        central_mapped: Optional[Path] = None
         for out_path in [out_mapped, out_missing, out_oos, out_no_data]:
             central_final_report = central_output_dir / out_path.name
             shutil.copy2(out_path, central_final_report)
             print(f"[OK] Central Output: {central_final_report}")
+            if out_path == out_mapped:
+                central_mapped = central_final_report
+        if central_mapped is not None:
+            _write_diff_summary(
+                country="Argentina",
+                exports_dir=central_output_dir,
+                new_path=central_mapped,
+                glob_pattern=f"{OUTPUT_REPORT_PREFIX}*_pcid_mapping.csv",
+                key_column="PCID",
+                date_str=today_str,
+            )
     except Exception as e:
         print(f"[WARNING] Could not copy to central output: {e}")
     if EXCLUDE_PRICE:
         print("Note: Pricing column was excluded (EXCLUDE_PRICE=True).")
+
+def _find_previous_export_file(exports_dir: Path, pattern: str, current_path: Path) -> Optional[Path]:
+    """Return the most recent export file matching the pattern, excluding the current file."""
+    candidates = [
+        p for p in exports_dir.glob(pattern)
+        if p.is_file() and p.resolve() != current_path.resolve()
+    ]
+    if not candidates:
+        return None
+    candidates.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+    return candidates[0]
+
+
+def _extract_key_set(df: pd.DataFrame, column: str) -> Optional[set[str]]:
+    """Normalize the key column values for comparison."""
+    if column not in df.columns:
+        return None
+    values = df[column].dropna().astype(str).str.strip()
+    return {v for v in values if v}
+
+
+def _write_diff_summary(
+    country: str,
+    exports_dir: Path,
+    new_path: Path,
+    glob_pattern: str,
+    key_column: str,
+    date_str: str
+) -> None:
+    """Compare the new export with the previous one and write a summary."""
+    previous = _find_previous_export_file(exports_dir, glob_pattern, new_path)
+    if not previous:
+        print(f"[DIFF] No previous {country} report to compare against. Skipping diff summary.", flush=True)
+        return
+
+    try:
+        new_df = pd.read_csv(new_path, dtype=str, keep_default_na=False)
+        old_df = pd.read_csv(previous, dtype=str, keep_default_na=False)
+    except Exception as exc:
+        print(f"[DIFF] Could not read exports for comparison: {exc}", flush=True)
+        return
+
+    new_keys = _extract_key_set(new_df, key_column)
+    old_keys = _extract_key_set(old_df, key_column)
+    if new_keys is None or old_keys is None:
+        print(f"[DIFF] Key column '{key_column}' missing; skipping diff.", flush=True)
+        return
+
+    new_only = sorted(new_keys - old_keys)
+    removed = sorted(old_keys - new_keys)
+    shared = sorted(new_keys & old_keys)
+
+    summary_lines = [
+        "=" * 80,
+        f"{country} PCID Mapping Diff ({date_str})",
+        "=" * 80,
+        f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        f"New report:      {new_path.name}",
+        f"Compared to:     {previous.name}",
+        f"Key column used: {key_column}",
+        "",
+        f"New entries: {len(new_only)}",
+        f"Removed entries: {len(removed)}",
+        f"Unchanged entries: {len(shared)}",
+    ]
+
+    if new_only:
+        summary_lines.append(f"  Sample new keys:     {', '.join(new_only[:5])}")
+    if removed:
+        summary_lines.append(f"  Sample removed keys: {', '.join(removed[:5])}")
+
+    summary_path = exports_dir / f"report_diff_{country.lower()}_{date_str}.txt"
+    try:
+        with open(summary_path, "w", encoding="utf-8") as f:
+            for line in summary_lines:
+                f.write(line + "\n")
+        print(f"[DIFF] Diff summary saved: {summary_path}", flush=True)
+    except Exception as exc:
+        print(f"[DIFF] Failed to write diff summary: {exc}", flush=True)
+
 
 if __name__ == "__main__":
     main()

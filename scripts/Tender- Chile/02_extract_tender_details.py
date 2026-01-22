@@ -71,6 +71,47 @@ def clean(s):
     return re.sub(r"\s+", " ", str(s or "")).strip()
 
 
+def extract_numeric_quantity(raw_qty: str) -> str:
+    """Return only the numeric part of a quantity string.
+
+    Examples:
+      "1000" -> "1000"
+      "1.000" -> "1000"
+      "1,000" -> "1000"
+      "1000 Ampoules" -> "1000"
+      "" -> ""
+    """
+    s = clean(raw_qty)
+    if not s:
+        return ""
+
+    # grab the first number-like token
+    m = re.search(r"(\d[\d\.,\s]*)", s)
+    if not m:
+        return ""
+
+    token = m.group(1)
+    token = token.replace(" ", "")
+
+    # normalize thousands separators
+    # if both separators exist, assume last one is decimal and drop decimals
+    if "," in token and "." in token:
+        if token.rfind(",") > token.rfind("."):
+            token = token.replace(".", "").split(",", 1)[0]
+        else:
+            token = token.replace(",", "").split(".", 1)[0]
+    elif "," in token:
+        parts = token.split(",")
+        # treat comma as thousand separator in most tender quantities
+        token = "".join(parts)
+    elif "." in token:
+        parts = token.split(".")
+        token = "".join(parts)
+
+    token = re.sub(r"\D", "", token)
+    return token
+
+
 def translate_text(text: str, client: Optional[Any] = None) -> str:
     """
     Translate text from Spanish to English using OpenAI.
@@ -275,10 +316,13 @@ def extract_tender_data(driver) -> Dict[str, Any]:
                     pct_match = re.search(r"(\d+)%", ponderacion_text)
                     if pct_match:
                         pct = int(pct_match.group(1))
-                        
-                        if "ECONOMICA" in nombre:
+
+                        # Price bucket
+                        if ("ECONOM" in nombre) or ("PRECIO" in nombre) or ("PRICE" in nombre):
                             tender_data["Price Evaluation ratio"] = pct
-                        elif "TECNICA" in nombre:
+
+                        # Quality bucket
+                        elif ("TECNIC" in nombre) or ("TECNICO" in nombre) or ("TECHNICALL" in nombre) or ("TECHNICAL" in nombre):
                             tender_data["Quality Evaluation ratio"] = pct
                         else:
                             # Other criteria (sum them)
@@ -326,7 +370,7 @@ def extract_items_from_html(driver) -> List[Dict[str, Any]]:
                     "CodigoProducto": clean(categoria_elem.text),  # Use category code as Unique Lot ID
                     "NombreProducto": clean(producto_elem.text),
                     "Descripcion": clean(descripcion_elem.text),
-                    "Cantidad": clean(cantidad_elem.text),
+                    "Cantidad": extract_numeric_quantity(cantidad_elem.text),
                     "Unidad": clean(unidad_elem.text),
                 }
                 items.append(item)
@@ -506,7 +550,8 @@ def extract_single_tender(url: str, headless: bool = False) -> Optional[Dict[str
                     "Unique Lot ID": it.get("CodigoProducto", ""),
                     "Generic name": clean(it.get("NombreProducto", "")),
                     "Lot Title": clean(it.get("Descripcion", "")),
-                    "Quantity": f"{it.get('Cantidad', '')} {it.get('Unidad', '')}".strip(),
+                    # EVERSANA: numeric quantity only (unit omitted)
+                    "Quantity": extract_numeric_quantity(str(it.get('Cantidad', ''))),
                     "Source URL": redirect_url,  # Use redirect URL
                 }
                 rows.append(row)

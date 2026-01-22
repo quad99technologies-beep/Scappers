@@ -30,8 +30,8 @@ from config_loader import get_output_dir
 
 def run_step(step_num: int, script_name: str, step_name: str, output_files: list = None):
     """Run a pipeline step and mark it complete if successful."""
-    # Total actual steps: 0 (Backup) + 1 (Collect) + 2 (Extract) = 3 steps (steps 0-2)
-    total_steps = 3
+    # Total actual steps: 0 (Backup) + 1 (Collect) + 2 (Extract) + 3 (Consolidate) + 5 (PCID Map) = 5 steps (steps 0, 1, 2, 3, 5)
+    total_steps = 5
     display_step = step_num + 1  # Display as 1-based for user friendliness
     
     print(f"\n{'='*80}")
@@ -48,7 +48,9 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
     step_descriptions = {
         0: "Preparing: Backing up previous results and cleaning output directory",
         1: "Collecting: Gathering product URLs from search terms",
-        2: "Extracting: Processing reimbursement data from collected URLs"
+        2: "Extracting: Processing reimbursement data from collected URLs",
+        3: "Consolidating: Standardizing and merging product data",
+        5: "Mapping: Generating PCID-mapped reports"
     }
     step_desc = step_descriptions.get(step_num, step_name)
     
@@ -105,12 +107,19 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         next_step_descriptions = {
             0: "Ready to collect URLs",
             1: "Ready to extract reimbursement data",
-            2: "Pipeline completed successfully"
+            2: "Ready to consolidate results",
+            3: "Ready to generate PCID-mapped report",
+            5: "Pipeline completed successfully"
         }
         next_desc = next_step_descriptions.get(step_num + 1, "Moving to next step")
         
         print(f"[PROGRESS] Pipeline Step: {display_step}/{total_steps} ({completion_percent}%) - {next_desc}", flush=True)
-        
+
+        # Wait 10 seconds after step completion before proceeding to next step
+        print(f"\n[PAUSE] Waiting 10 seconds before next step...", flush=True)
+        time.sleep(10.0)
+        print(f"[PAUSE] Resuming pipeline...\n", flush=True)
+
         return True
     except subprocess.CalledProcessError as e:
         # Track duration even on failure
@@ -126,7 +135,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
 def main():
     parser = argparse.ArgumentParser(description="Netherlands Pipeline Runner with Resume Support")
     parser.add_argument("--fresh", action="store_true", help="Start from step 0 (clear checkpoint)")
-    parser.add_argument("--step", type=int, help="Start from specific step (0-2)")
+    parser.add_argument("--step", type=int, help="Start from specific step (0-3 or 5)")
     
     args = parser.parse_args()
     
@@ -162,6 +171,10 @@ def main():
             str(output_dir / "details.csv"),
             str(output_dir / "costs.csv")
         ]),
+        (3, "03_Consolidate_Results.py", "Consolidate Results", [
+            str(output_dir / "consolidated_products.csv")
+        ]),
+        (5, "05_Generate_PCID_Mapped.py", "Generate PCID Mapped", None),  # Output goes to exports directory
     ]
     
     # Check all steps before start_step to find the earliest step that needs re-running
@@ -189,20 +202,20 @@ def main():
     print(f"PIPELINE EXECUTION PLAN")
     print(f"{'='*80}")
     for step_num, script_name, step_name, output_files in steps:
-        display_step = step_num + 1  # Display as 1-based
+        display_step = step_num + 1  # Display as 1-based (skips step 4)
         if step_num < start_step:
             # Skip completed steps (verify output files exist)
             expected_files = None
             if output_files:
                 expected_files = [str(output_dir / f) if not Path(f).is_absolute() else f for f in output_files]
             if cp.should_skip_step(step_num, step_name, verify_outputs=True, expected_output_files=expected_files):
-                print(f"Step {display_step}/3: {step_name} - SKIPPED (already completed in checkpoint)")
+                print(f"Step {display_step}/5: {step_name} - SKIPPED (already completed in checkpoint)")
             else:
-                print(f"Step {display_step}/3: {step_name} - WILL RE-RUN (output files missing)")
+                print(f"Step {display_step}/5: {step_name} - WILL RE-RUN (output files missing)")
         elif step_num == start_step:
-            print(f"Step {display_step}/3: {step_name} - WILL RUN NOW (starting from here)")
+            print(f"Step {display_step}/5: {step_name} - WILL RUN NOW (starting from here)")
         else:
-            print(f"Step {display_step}/3: {step_name} - WILL RUN AFTER previous steps complete")
+            print(f"Step {display_step}/5: {step_name} - WILL RUN AFTER previous steps complete")
     print(f"{'='*80}\n")
     
     # Now execute the steps
@@ -215,9 +228,9 @@ def main():
                 expected_files = [str(output_dir / f) if not Path(f).is_absolute() else f for f in output_files]
             
             if cp.should_skip_step(step_num, step_name, verify_outputs=True, expected_output_files=expected_files):
-                # Total actual steps: 0 (Backup) + 1 (Collect) + 2 (Extract) = 3 steps
-                total_steps = 3
-                display_step = step_num + 1  # Display as 1-based
+                # Total actual steps: 0 (Backup) + 1 (Collect) + 2 (Extract) + 3 (Consolidate) + 5 (PCID Map) = 5 steps
+                total_steps = 5
+                display_step = step_num + 1  # Display as 1-based (skips step 4)
                 completion_percent = round(((step_num + 1) / total_steps) * 100, 1)
                 if completion_percent > 100.0:
                     completion_percent = 100.0
@@ -225,7 +238,9 @@ def main():
                 step_descriptions = {
                     0: "Skipped: Backup already completed",
                     1: "Skipped: URLs already collected",
-                    2: "Skipped: Reimbursement extraction already completed"
+                    2: "Skipped: Reimbursement extraction already completed",
+                    3: "Skipped: Consolidation already completed",
+                    5: "Skipped: PCID mapping already completed"
                 }
                 skip_desc = step_descriptions.get(step_num, f"Skipped: {step_name} already completed")
                 
@@ -261,7 +276,7 @@ def main():
     print("Pipeline completed successfully!")
     print(f"[TIMING] Total pipeline duration: {total_duration_str}")
     print(f"{'='*80}\n")
-    print(f"[PROGRESS] Pipeline Step: 3/3 (100%)", flush=True)
+    print(f"[PROGRESS] Pipeline Step: 5/5 (100%)", flush=True)
     
     # Clean up lock file
     try:

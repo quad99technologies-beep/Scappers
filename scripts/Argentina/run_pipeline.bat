@@ -6,6 +6,7 @@ REM Use run_pipeline_resume.py --fresh to start fresh
 
 REM Enable unbuffered output for real-time console updates
 set PYTHONUNBUFFERED=1
+if "%USE_API_STEPS%"=="" set USE_API_STEPS=false
 
 cd /d "%~dp0"
 
@@ -90,16 +91,23 @@ if %PYTHON_EXIT% neq 0 (
 )
 
 REM Step 4: Scrape Products (API) - Backup for blank Selenium results
-echo. >> "%log_file%"
-echo [Step 4/6] Scrape Products (API)... >> "%log_file%"
-echo.
-echo [Step 4/6] Scrape Products (API)...
-python -u "04_alfabeta_api_scraper.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
-set PYTHON_EXIT=%errorlevel%
-if %PYTHON_EXIT% neq 0 (
-    echo ERROR: Scrape Products (API) failed >> "%log_file%"
-    echo ERROR: Scrape Products (API) failed
-    exit /b 1
+if /I "%USE_API_STEPS%"=="true" (
+    echo. >> "%log_file%"
+    echo [Step 4/6] Scrape Products (API)... >> "%log_file%"
+    echo.
+    echo [Step 4/6] Scrape Products (API)...
+    python -u "04_alfabeta_api_scraper.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
+    set PYTHON_EXIT=%errorlevel%
+    if %PYTHON_EXIT% neq 0 (
+        echo ERROR: Scrape Products (API) failed >> "%log_file%"
+        echo ERROR: Scrape Products (API) failed
+        exit /b 1
+    )
+) else (
+    echo. >> "%log_file%"
+    echo [Step 4/6] Scrape Products (API) - SKIPPED (disabled in env) >> "%log_file%"
+    echo.
+    echo [Step 4/6] Scrape Products (API) - SKIPPED (disabled in env)
 )
 
 REM Step 5: Translate Using Dictionary

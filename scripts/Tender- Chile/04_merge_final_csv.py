@@ -120,6 +120,19 @@ def safe_float_str(x) -> str:
         return s
 
 
+def safe_int_str(x) -> str:
+    s = norm_str(x)
+    if not s:
+        return ""
+    try:
+        v = int(float(str(s).replace(",", "")))
+        return str(v)
+    except Exception:
+        # strip non-digits
+        digits = re.sub(r"\D", "", str(s))
+        return digits
+
+
 def main() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     INPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -247,17 +260,41 @@ def main() -> None:
     merged["Award Date"] = merged["award_date"] if "award_date" in merged.columns else ""
 
     merged["Awarded Unit Price"] = merged["unit_price_offer"] if "unit_price_offer" in merged.columns else ""
-    merged["Lot_Award_Value_Local"] = merged["lot_total_line"] if "lot_total_line" in merged.columns else ""
+
+    # Bidder-row specific values
+    # Lot_Award_Value_Local should be populated only for the winning bidder row.
+    if "total_net_awarded" in merged.columns and "is_awarded" in merged.columns:
+        merged["Lot_Award_Value_Local"] = merged.apply(
+            lambda r: r.get("total_net_awarded") if to_yes_no(r.get("is_awarded")).__eq__("YES") else 0,
+            axis=1,
+        )
+    else:
+        merged["Lot_Award_Value_Local"] = ""
+
+    # Quantity from tender_details is lot-level and must be repeated for each bidder row.
+    merged["QUANTITY"] = merged.get("Quantity", "")
+
+    # Awarded quantity is bidder-row specific; only the winner gets it.
+    if "awarded_quantity" in merged.columns and "is_awarded" in merged.columns:
+        merged["AWARDED QUANTITY"] = merged.apply(
+            lambda r: r.get("awarded_quantity") if to_yes_no(r.get("is_awarded")).__eq__("YES") else 0,
+            axis=1,
+        )
+    else:
+        merged["AWARDED QUANTITY"] = ""
 
     merged["Awarded Unit Price"] = merged["Awarded Unit Price"].apply(safe_float_str)
     merged["Lot_Award_Value_Local"] = merged["Lot_Award_Value_Local"].apply(safe_float_str)
     merged["Ceiling Unit Price"] = merged["Ceiling Unit Price"].apply(safe_float_str)
 
+    merged["QUANTITY"] = merged["QUANTITY"].apply(safe_int_str)
+    merged["AWARDED QUANTITY"] = merged["AWARDED QUANTITY"].apply(safe_int_str)
+
     # -------------------------
     # EVERSANA RULE: If PUBLISHED, keep award-related fields BLANK
     # -------------------------
     published_mask = merged["Status"].eq("PUBLISHED")
-    for c in ["Award Date", "Bidder", "Bid Status Award", "Lot_Award_Value_Local", "Awarded Unit Price", "Original_Publication_Link_Award"]:
+    for c in ["Award Date", "Bidder", "Bid Status Award", "Lot_Award_Value_Local", "Awarded Unit Price", "Original_Publication_Link_Award", "AWARDED QUANTITY"]:
         merged.loc[published_mask, c] = ""
 
     # -------------------------
@@ -294,6 +331,8 @@ def main() -> None:
         "Awarded Unit Price",
         "Original_Publication_Link_Award",
         "Status",
+        "QUANTITY",
+        "AWARDED QUANTITY",
     ]
 
     for c in final_columns:

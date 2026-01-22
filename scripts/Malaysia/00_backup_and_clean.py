@@ -14,14 +14,15 @@ from pathlib import Path
 import sys
 import os
 
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from core.standalone_checkpoint import run_with_checkpoint
+
 # Force unbuffered output for real-time console updates
 sys.stdout.reconfigure(line_buffering=True) if hasattr(sys.stdout, 'reconfigure') else None
 os.environ.setdefault('PYTHONUNBUFFERED', '1')
-
-# Add repo root to path for shared utilities
-_repo_root = Path(__file__).resolve().parents[2]
-if str(_repo_root) not in sys.path:
-    sys.path.insert(0, str(_repo_root))
 
 try:
     from config_loader import load_env_file, getenv_list, get_output_dir, get_backup_dir, get_central_output_dir
@@ -101,4 +102,10 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    run_with_checkpoint(
+        main,
+        "Malaysia",
+        0,
+        "Backup and Clean",
+        output_files=None
+    )

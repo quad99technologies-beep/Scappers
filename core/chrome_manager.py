@@ -5,6 +5,8 @@ Chrome Instance Manager
 
 Tracks and manages Chrome WebDriver instances to ensure they are properly
 closed when pipelines stop or complete.
+
+Also provides offline-capable ChromeDriver path resolution.
 """
 
 import logging
@@ -12,6 +14,10 @@ import threading
 import atexit
 import signal
 import sys
+import os
+import glob
+import shutil
+from pathlib import Path
 from typing import Set, Optional
 from weakref import WeakSet
 
@@ -172,4 +178,111 @@ def cleanup_all_chrome_instances(silent: bool = False):
 def get_chrome_driver_count() -> int:
     """Get the number of currently registered Chrome drivers"""
     return ChromeManager.get_instance().get_driver_count()
+
+
+def get_chromedriver_path() -> str:
+    """
+    Get ChromeDriver path with offline fallback.
+
+    This function tries multiple strategies to find a working ChromeDriver:
+    1. Check for cached ChromeDriver from webdriver_manager (works offline)
+    2. Try to download using webdriver_manager (requires internet)
+    3. Look for chromedriver in system PATH or common locations
+
+    Returns:
+        str: Path to the ChromeDriver executable
+
+    Raises:
+        RuntimeError: If no ChromeDriver can be found or downloaded
+    """
+    # Lazy import to avoid circular dependencies
+    try:
+        from webdriver_manager.chrome import ChromeDriverManager
+    except ImportError:
+        logger.warning("webdriver_manager not installed, using fallback methods only")
+        ChromeDriverManager = None
+
+    # Get the default cache directory used by webdriver_manager
+    home = Path.home()
+    wdm_cache_dir = home / ".wdm" / "drivers" / "chromedriver"
+
+    def find_cached_chromedriver():
+        """Find any cached chromedriver executable"""
+        if wdm_cache_dir.exists():
+            # Look for chromedriver executables in cache
+            patterns = [
+                str(wdm_cache_dir / "**" / "chromedriver.exe"),  # Windows
+                str(wdm_cache_dir / "**" / "chromedriver"),      # Linux/Mac
+            ]
+            for pattern in patterns:
+                matches = glob.glob(pattern, recursive=True)
+                if matches:
+                    # Sort by modification time, newest first
+                    matches.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+                    return matches[0]
+        return None
+
+    def find_system_chromedriver():
+        """Find chromedriver in system PATH or common locations"""
+        # Check if chromedriver is in PATH
+        chromedriver_in_path = shutil.which("chromedriver")
+        if chromedriver_in_path:
+            return chromedriver_in_path
+
+        # Common installation locations on Windows
+        common_paths = [
+            Path(os.environ.get("LOCALAPPDATA", "")) / "Programs" / "chromedriver.exe",
+            Path(os.environ.get("PROGRAMFILES", "")) / "chromedriver" / "chromedriver.exe",
+            Path(os.environ.get("PROGRAMFILES(X86)", "")) / "chromedriver" / "chromedriver.exe",
+            Path("C:/chromedriver/chromedriver.exe"),
+            Path("C:/WebDriver/chromedriver.exe"),
+        ]
+
+        for path in common_paths:
+            if path.exists():
+                return str(path)
+
+        return None
+
+    # Strategy 1: Try cached chromedriver first (works offline)
+    cached_path = find_cached_chromedriver()
+    if cached_path:
+        logger.info(f"[ChromeDriver] Using cached driver: {cached_path}")
+        print(f"[ChromeDriver] Using cached driver: {cached_path}")
+        return cached_path
+
+    # Strategy 2: Try to download using webdriver_manager
+    if ChromeDriverManager is not None:
+        try:
+            logger.info("[ChromeDriver] No cache found, attempting to download...")
+            print("[ChromeDriver] No cache found, attempting to download...")
+            driver_path = ChromeDriverManager().install()
+            logger.info(f"[ChromeDriver] Downloaded and installed: {driver_path}")
+            print(f"[ChromeDriver] Downloaded and installed: {driver_path}")
+            return driver_path
+        except Exception as e:
+            error_msg = str(e).lower()
+            if "offline" in error_msg or "connection" in error_msg or "resolve" in error_msg or "network" in error_msg:
+                logger.warning(f"[ChromeDriver] Network unavailable: {e}")
+                print(f"[ChromeDriver] Network unavailable: {e}")
+            else:
+                logger.warning(f"[ChromeDriver] Download failed: {e}")
+                print(f"[ChromeDriver] Download failed: {e}")
+
+    # Strategy 3: Look for system chromedriver
+    system_path = find_system_chromedriver()
+    if system_path:
+        logger.info(f"[ChromeDriver] Using system driver: {system_path}")
+        print(f"[ChromeDriver] Using system driver: {system_path}")
+        return system_path
+
+    # All strategies failed
+    raise RuntimeError(
+        "Could not find or download ChromeDriver.\n"
+        "Options to fix:\n"
+        "  1. Connect to the internet and retry\n"
+        "  2. Download ChromeDriver manually from https://googlechromelabs.github.io/chrome-for-testing/\n"
+        "     and place it in your PATH or C:/chromedriver/\n"
+        "  3. Run with internet once to cache the driver for offline use"
+    )
 

@@ -9,6 +9,7 @@ Usage:
     python run_pipeline_resume.py --step N # Start from step N (0-5)
 """
 
+import os
 import sys
 import subprocess
 import argparse
@@ -64,10 +65,13 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
     duration_seconds = None
     
     try:
+        env = os.environ.copy()
+        env["PIPELINE_RUNNER"] = "1"
         result = subprocess.run(
             [sys.executable, "-u", str(script_path)],
             check=True,
-            capture_output=False
+            capture_output=False,
+            env=env
         )
         
         # Calculate duration
@@ -111,6 +115,11 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         next_desc = next_step_descriptions.get(step_num + 1, "Moving to next step")
         
         print(f"[PROGRESS] Pipeline Step: {display_step}/{total_steps} ({completion_percent}%) - {next_desc}", flush=True)
+        
+        # Wait 10 seconds after step completion before proceeding to next step
+        print(f"\n[PAUSE] Waiting 10 seconds before next step...", flush=True)
+        time.sleep(10.0)
+        print(f"[PAUSE] Resuming pipeline...\n", flush=True)
         
         return True
     except subprocess.CalledProcessError as e:
@@ -190,6 +199,27 @@ def main():
         print(f"[CHECKPOINT] All steps before {start_step} verified successfully. Starting from step {start_step}.\n")
     
     # Run steps starting from start_step
+    print(f"\n{'='*80}")
+    print(f"PIPELINE EXECUTION PLAN")
+    print(f"{'='*80}")
+    for step_num, script_name, step_name, output_files in steps:
+        display_step = step_num + 1  # Display as 1-based
+        if step_num < start_step:
+            # Skip completed steps (verify output files exist)
+            expected_files = None
+            if output_files:
+                expected_files = [str(output_dir / f) if not Path(f).is_absolute() else f for f in output_files]
+            if cp.should_skip_step(step_num, step_name, verify_outputs=True, expected_output_files=expected_files):
+                print(f"Step {display_step}/6: {step_name} - SKIPPED (already completed in checkpoint)")
+            else:
+                print(f"Step {display_step}/6: {step_name} - WILL RE-RUN (output files missing)")
+        elif step_num == start_step:
+            print(f"Step {display_step}/6: {step_name} - WILL RUN NOW (starting from here)")
+        else:
+            print(f"Step {display_step}/6: {step_name} - WILL RUN AFTER previous steps complete")
+    print(f"{'='*80}\n")
+
+    # Now execute the steps
     for step_num, script_name, step_name, output_files in steps:
         if step_num < start_step:
             # Skip completed steps (verify output files exist)
@@ -230,8 +260,25 @@ def main():
             print(f"\nPipeline failed at step {step_num}")
             sys.exit(1)
     
+    # Calculate total pipeline duration
+    cp = get_checkpoint_manager("Malaysia")
+    timing_info = cp.get_pipeline_timing()
+    total_duration = timing_info.get("total_duration_seconds", 0.0)
+
+    # Format total duration
+    hours = int(total_duration // 3600)
+    minutes = int((total_duration % 3600) // 60)
+    seconds = int(total_duration % 60)
+    if hours > 0:
+        total_duration_str = f"{hours}h {minutes}m {seconds}s"
+    elif minutes > 0:
+        total_duration_str = f"{minutes}m {seconds}s"
+    else:
+        total_duration_str = f"{seconds}s"
+
     print(f"\n{'='*80}")
     print("Pipeline completed successfully!")
+    print(f"[TIMING] Total pipeline duration: {total_duration_str}")
     print(f"{'='*80}\n")
     print(f"[PROGRESS] Pipeline Step: 6/6 (100%)", flush=True)
     
@@ -245,4 +292,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

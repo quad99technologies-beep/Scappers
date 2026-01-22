@@ -81,6 +81,19 @@ from selenium.common.exceptions import TimeoutException, StaleElementReferenceEx
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
+import shutil
+
+# Import state machine and smart locator for Tier 1 robustness
+try:
+    from smart_locator import SmartLocator
+    from state_machine import NavigationStateMachine, NavigationState, StateCondition
+    STATE_MACHINE_AVAILABLE = True
+except ImportError:
+    STATE_MACHINE_AVAILABLE = False
+    SmartLocator = None
+    NavigationStateMachine = None
+    NavigationState = None
+    StateCondition = None
 
 # Import Chrome tracking utilities
 try:
@@ -94,6 +107,35 @@ try:
 except ImportError:
     register_chrome_driver = None
     unregister_chrome_driver = None
+
+# Import stealth profile for anti-detection
+try:
+    from core.stealth_profile import apply_selenium
+    STEALTH_PROFILE_AVAILABLE = True
+except ImportError:
+    STEALTH_PROFILE_AVAILABLE = False
+    def apply_selenium(options):
+        pass  # Stealth profile not available, skip
+
+# Import browser observer for idle detection
+try:
+    from core.browser_observer import observe_selenium, wait_until_idle
+    BROWSER_OBSERVER_AVAILABLE = True
+except ImportError:
+    BROWSER_OBSERVER_AVAILABLE = False
+    def observe_selenium(driver):
+        return None
+    def wait_until_idle(state, timeout=10.0):
+        pass  # Browser observer not available, skip
+
+# Import human pacing
+try:
+    from core.human_actions import pause
+    HUMAN_ACTIONS_AVAILABLE = True
+except ImportError:
+    HUMAN_ACTIONS_AVAILABLE = False
+    def pause(min_s=0.2, max_s=0.6):
+        pass  # Human pacing not available, skip
 
 # Configuration from env or defaults - EXCLUDED LIST URL
 BASE_URL = getenv("SCRIPT_02_BASE_URL", "http://farmcom.info/site/reestr?vw=excl") if USE_CONFIG else "http://farmcom.info/site/reestr?vw=excl"
@@ -125,6 +167,9 @@ NAV_RESTART_DRIVER = getenv_bool("SCRIPT_02_NAV_RESTART_DRIVER", getenv_bool("SC
 FETCH_EAN = getenv_bool("SCRIPT_02_FETCH_EAN", False) if USE_CONFIG else False
 EAN_POPUP_TIMEOUT = getenv_int("SCRIPT_02_EAN_POPUP_TIMEOUT", 3) if USE_CONFIG else 3
 
+# Max pages to scrape (0 = all pages, >0 = limit to N pages)
+MAX_PAGES = getenv_int("SCRIPT_02_MAX_PAGES", 0) if USE_CONFIG else 0
+
 
 @dataclass
 class RowData:
@@ -138,8 +183,99 @@ class RowData:
     start_date_text: str
 
 
+def get_chromedriver_path() -> str:
+    """
+    Get ChromeDriver path with offline fallback.
+
+    Strategy:
+    1. Try to use cached ChromeDriver first (works offline)
+    2. If no cache, try to download (requires internet)
+    3. If download fails due to network, look for system chromedriver
+    4. Raise clear error if all methods fail
+    """
+    import glob
+    from pathlib import Path
+
+    # Get the default cache directory used by webdriver_manager
+    home = Path.home()
+    wdm_cache_dir = home / ".wdm" / "drivers" / "chromedriver"
+
+    def find_cached_chromedriver():
+        """Find any cached chromedriver executable"""
+        if wdm_cache_dir.exists():
+            # Look for chromedriver executables in cache
+            patterns = [
+                str(wdm_cache_dir / "**" / "chromedriver.exe"),  # Windows
+                str(wdm_cache_dir / "**" / "chromedriver"),      # Linux/Mac
+            ]
+            for pattern in patterns:
+                matches = glob.glob(pattern, recursive=True)
+                if matches:
+                    # Sort by modification time, newest first
+                    matches.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+                    return matches[0]
+        return None
+
+    def find_system_chromedriver():
+        """Find chromedriver in system PATH or common locations"""
+        # Check if chromedriver is in PATH
+        chromedriver_in_path = shutil.which("chromedriver")
+        if chromedriver_in_path:
+            return chromedriver_in_path
+
+        # Common installation locations on Windows
+        common_paths = [
+            Path(os.environ.get("LOCALAPPDATA", "")) / "Programs" / "chromedriver.exe",
+            Path(os.environ.get("PROGRAMFILES", "")) / "chromedriver" / "chromedriver.exe",
+            Path(os.environ.get("PROGRAMFILES(X86)", "")) / "chromedriver" / "chromedriver.exe",
+            Path("C:/chromedriver/chromedriver.exe"),
+            Path("C:/WebDriver/chromedriver.exe"),
+        ]
+
+        for path in common_paths:
+            if path.exists():
+                return str(path)
+
+        return None
+
+    # Strategy 1: Try cached chromedriver first (works offline)
+    cached_path = find_cached_chromedriver()
+    if cached_path:
+        print(f"[ChromeDriver] Using cached driver: {cached_path}")
+        return cached_path
+
+    # Strategy 2: Try to download using webdriver_manager
+    try:
+        print("[ChromeDriver] No cache found, attempting to download...")
+        driver_path = ChromeDriverManager().install()
+        print(f"[ChromeDriver] Downloaded and installed: {driver_path}")
+        return driver_path
+    except Exception as e:
+        error_msg = str(e).lower()
+        if "offline" in error_msg or "connection" in error_msg or "resolve" in error_msg or "network" in error_msg:
+            print(f"[ChromeDriver] Network unavailable: {e}")
+        else:
+            print(f"[ChromeDriver] Download failed: {e}")
+
+    # Strategy 3: Look for system chromedriver
+    system_path = find_system_chromedriver()
+    if system_path:
+        print(f"[ChromeDriver] Using system driver: {system_path}")
+        return system_path
+
+    # All strategies failed
+    raise RuntimeError(
+        "Could not find or download ChromeDriver.\n"
+        "Options to fix:\n"
+        "  1. Connect to the internet and retry\n"
+        "  2. Download ChromeDriver manually from https://googlechromelabs.github.io/chrome-for-testing/\n"
+        "     and place it in your PATH or C:/chromedriver/\n"
+        "  3. Run with internet once to cache the driver for offline use"
+    )
+
+
 def make_driver(headless: bool = None) -> webdriver.Chrome:
-    """Build Chrome driver with config support"""
+    """Build Chrome driver with config support and enhanced anti-bot features"""
     if headless is None:
         # Get from config if available - use SCRIPT_01 headless setting
         if USE_CONFIG:
@@ -148,6 +284,11 @@ def make_driver(headless: bool = None) -> webdriver.Chrome:
             headless = True
     
     opts = ChromeOptions()
+
+    # Apply stealth profile if available
+    if STEALTH_PROFILE_AVAILABLE:
+        apply_selenium(opts)
+
     if headless:
         opts.add_argument("--headless=new")
     opts.add_argument("--disable-gpu")
@@ -155,6 +296,15 @@ def make_driver(headless: bool = None) -> webdriver.Chrome:
     opts.add_argument("--no-sandbox")
     opts.add_argument("--disable-dev-shm-usage")
     opts.add_argument("--lang=en-US")
+
+    # Enhanced anti-detection options for bot bypass
+    opts.add_argument("--disable-blink-features=AutomationControlled")
+    opts.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
+    opts.add_experimental_option('useAutomationExtension', False)
+    
+    # Use a realistic user agent
+    user_agent = getenv("SCRIPT_01_CHROME_USER_AGENT", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36") if USE_CONFIG else "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    opts.add_argument(f"--user-agent={user_agent}")
 
     # Reduce noise / speed up
     prefs = {
@@ -173,9 +323,45 @@ def make_driver(headless: bool = None) -> webdriver.Chrome:
         if chrome_disable_automation:
             opts.add_argument(chrome_disable_automation)
 
-    service = ChromeService(ChromeDriverManager().install())
+    service = ChromeService(get_chromedriver_path())
     driver = webdriver.Chrome(service=service, options=opts)
     driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
+    
+    # Execute CDP commands to hide webdriver property and other automation indicators
+    try:
+        driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
+            'source': '''
+                Object.defineProperty(navigator, 'webdriver', {
+                    get: () => undefined
+                });
+                
+                // Override the plugins property to use a custom getter
+                Object.defineProperty(navigator, 'plugins', {
+                    get: () => [1, 2, 3, 4, 5]
+                });
+                
+                // Override the languages property
+                Object.defineProperty(navigator, 'languages', {
+                    get: () => ['en-US', 'en', 'ru-RU', 'ru']
+                });
+                
+                // Override permissions
+                const originalQuery = window.navigator.permissions.query;
+                window.navigator.permissions.query = (parameters) => (
+                    parameters.name === 'notifications' ?
+                        Promise.resolve({ state: Notification.permission }) :
+                        originalQuery(parameters)
+                );
+                
+                // Mock chrome object
+                window.chrome = {
+                    runtime: {}
+                };
+            '''
+        })
+    except Exception as e:
+        # CDP commands not critical, continue without them
+        pass
     
     # Register driver with Chrome manager for cleanup
     if register_chrome_driver:
@@ -197,6 +383,13 @@ def wait_for_table(driver: webdriver.Chrome) -> None:
     WebDriverWait(driver, WAIT_TIMEOUT).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, "table.report tbody tr"))
     )
+    # Use browser observer if available
+    if BROWSER_OBSERVER_AVAILABLE:
+        state = observe_selenium(driver)
+        wait_until_idle(state, timeout=5.0)
+    # Add human-like pause
+    if HUMAN_ACTIONS_AVAILABLE:
+        pause()
 
 
 def stop_page_load(driver: webdriver.Chrome) -> None:
@@ -204,6 +397,18 @@ def stop_page_load(driver: webdriver.Chrome) -> None:
         driver.execute_script("window.stop();")
     except Exception:
         pass
+
+
+def remove_webdriver_property(driver: webdriver.Chrome) -> None:
+    """Remove webdriver property after page load for additional stealth"""
+    try:
+        driver.execute_script("""
+            Object.defineProperty(navigator, 'webdriver', {
+                get: () => undefined
+            });
+        """)
+    except Exception:
+        pass  # Not critical, continue without it
 
 
 def shutdown_driver(driver: webdriver.Chrome) -> None:
@@ -230,11 +435,18 @@ def navigate_with_retries(
     label: str,
     headless: bool | None = None,
     on_restart=None,
+    state_machine=None,
 ) -> webdriver.Chrome:
     last_exc = None
     for attempt in range(1, NAV_RETRIES + 1):
         try:
             driver.get(url)
+            # Additional stealth: Remove webdriver property after page load
+            remove_webdriver_property(driver)
+            # State validation: validate PAGE_LOADED state after navigation
+            if STATE_MACHINE_AVAILABLE and state_machine:
+                if not state_machine.transition_to(NavigationState.PAGE_LOADED, reload_on_failure=False):
+                    print(f"  [WARN] {label}: Failed to validate PAGE_LOADED state", flush=True)
             wait_fn(driver)
             return driver
         except (TimeoutException, WebDriverException) as exc:
@@ -260,6 +472,12 @@ def navigate_with_retries(
         for attempt in range(1, NAV_RETRIES + 1):
             try:
                 driver.get(url)
+                # Additional stealth: Remove webdriver property after page load
+                remove_webdriver_property(driver)
+                # State validation: validate PAGE_LOADED state after navigation
+                if STATE_MACHINE_AVAILABLE and state_machine:
+                    if not state_machine.transition_to(NavigationState.PAGE_LOADED, reload_on_failure=False):
+                        print(f"  [WARN] {label}: Failed to validate PAGE_LOADED state after restart", flush=True)
                 wait_fn(driver)
                 return driver
             except (TimeoutException, WebDriverException) as exc:
@@ -404,13 +622,21 @@ def _find_search_button(driver: webdriver.Chrome) -> Optional[webdriver.remote.w
 
 
 def select_region_and_search(
-    driver: webdriver.Chrome, headless: bool | None = None
+    driver: webdriver.Chrome, headless: bool | None = None, state_machine=None
 ) -> webdriver.Chrome:
     """Navigate to excluded list and select region."""
     last_exc = None
     for attempt in range(1, NAV_RETRIES + 1):
         try:
             driver.get(BASE_URL)
+            # Additional stealth: Remove webdriver property after page load
+            remove_webdriver_property(driver)
+            
+            # State validation: validate PAGE_LOADED state after navigation
+            if STATE_MACHINE_AVAILABLE and state_machine:
+                if not state_machine.transition_to(NavigationState.PAGE_LOADED, reload_on_failure=True):
+                    print("  [WARN] Failed to validate PAGE_LOADED state", flush=True)
+            
             _wait_document_ready(driver, WAIT_TIMEOUT)
 
             if SKIP_REGION_SELECT:
@@ -439,6 +665,14 @@ def select_region_and_search(
             if not search_button:
                 raise TimeoutException("Search button not found after selecting region.")
             search_button.click()
+            
+            # State validation: validate TABLE_READY state before extracting data
+            if STATE_MACHINE_AVAILABLE and state_machine:
+                table_ready_conditions = [
+                    StateCondition(element_selector="table.report tbody tr", min_count=1, max_wait=WAIT_TIMEOUT)
+                ]
+                if not state_machine.transition_to(NavigationState.TABLE_READY, custom_conditions=table_ready_conditions, reload_on_failure=False):
+                    print("  [WARN] Failed to validate TABLE_READY state, continuing with existing wait", flush=True)
 
             wait_for_table(driver)
             return driver
@@ -458,6 +692,14 @@ def select_region_and_search(
         for attempt in range(1, NAV_RETRIES + 1):
             try:
                 driver.get(BASE_URL)
+                # Additional stealth: Remove webdriver property after page load
+                remove_webdriver_property(driver)
+                
+                # State validation: validate PAGE_LOADED state after navigation
+                if STATE_MACHINE_AVAILABLE and state_machine:
+                    if not state_machine.transition_to(NavigationState.PAGE_LOADED, reload_on_failure=True):
+                        print("  [WARN] Failed to validate PAGE_LOADED state after restart", flush=True)
+                
                 _wait_document_ready(driver, WAIT_TIMEOUT)
 
                 if SKIP_REGION_SELECT:
@@ -486,7 +728,15 @@ def select_region_and_search(
                 if not search_button:
                     raise TimeoutException("Search button not found after selecting region.")
                 search_button.click()
-
+                
+                # State validation: validate TABLE_READY state before extracting data
+                if STATE_MACHINE_AVAILABLE and state_machine:
+                    table_ready_conditions = [
+                        StateCondition(element_selector="table.report tbody tr", min_count=1, max_wait=WAIT_TIMEOUT)
+                    ]
+                    if not state_machine.transition_to(NavigationState.TABLE_READY, custom_conditions=table_ready_conditions, reload_on_failure=False):
+                        print("  [WARN] Failed to validate TABLE_READY state after restart, continuing with existing wait", flush=True)
+                
                 wait_for_table(driver)
                 return driver
             except (TimeoutException, WebDriverException) as exc:
@@ -592,45 +842,83 @@ def safe_click(elem):
     elem.click()
 
 
-def fetch_ean_by_clicking_barcode(driver: webdriver.Chrome, row_tr) -> str:
-    """Fetch EAN by clicking barcode link (disabled by default for speed)."""
+def click_all_barcodes(driver: webdriver.Chrome) -> dict:
+    """
+    Click each barcode link and read the popup to get EAN.
+
+    Returns a dict mapping item_id -> EAN code
+    """
     if not FETCH_EAN:
-        return ""
-    
+        return {}
+
+    ean_map = {}
+
     try:
-        tds = row_tr.find_elements(By.CSS_SELECTOR, "td")
-        if len(tds) < 7:
-            return ""
-
-        release_td = tds[5]
-        barcode_links = release_td.find_elements(By.CSS_SELECTOR, "a.info")
+        barcode_links = driver.find_elements(By.CSS_SELECTOR, "a.info[id^='e']")
         if not barcode_links:
-            return ""
+            return {}
 
-        safe_click(barcode_links[0])
+        print(f"  Fetching EAN for {len(barcode_links)} items...", flush=True)
 
-        pop = WebDriverWait(driver, EAN_POPUP_TIMEOUT).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, "div#pop-up"))
-        )
+        # Click each barcode and immediately read the popup
+        for link in barcode_links:
+            try:
+                link_id = link.get_attribute("id") or ""
+                if not link_id.startswith("e"):
+                    continue
+                item_id = link_id[1:]
 
-        txt = (pop.text or "").strip()
-        driver.execute_script("arguments[0].style.display='none';", pop)
+                # Click the barcode link
+                driver.execute_script("arguments[0].click();", link)
 
-        m = re.search(r"\b(\d{8,18})\b", txt.replace(" ", ""))
-        return m.group(1) if m else txt
-    except TimeoutException:
-        return ""
-    except Exception:
-        return ""
+                # Small wait for popup to appear
+                time.sleep(0.1)
+
+                # Read popup content
+                try:
+                    popup = driver.find_element(By.CSS_SELECTOR, "div#pop-up")
+                    popup_text = (popup.text or "").strip()
+
+                    # Extract EAN digits
+                    ean_match = re.search(r"\b(\d{8,14})\b", popup_text.replace(" ", ""))
+                    if ean_match:
+                        ean_map[item_id] = ean_match.group(1)
+
+                    # Hide popup
+                    driver.execute_script("arguments[0].style.display='none';", popup)
+                except Exception:
+                    pass
+
+            except Exception:
+                continue
+
+        if ean_map:
+            print(f"  Extracted {len(ean_map)} EAN codes", flush=True)
+
+    except Exception as e:
+        print(f"  [WARN] EAN fetch error: {e}", flush=True)
+
+    return ean_map
 
 
-def extract_rows_from_current_page(driver: webdriver.Chrome, page_num: int = 0) -> list[RowData]:
+def extract_rows_from_current_page(driver: webdriver.Chrome, page_num: int = 0, state_machine=None) -> list[RowData]:
     wait_for_table(driver)
+
+    # State validation
+    if STATE_MACHINE_AVAILABLE and state_machine:
+        table_ready_conditions = [
+            StateCondition(element_selector="table.report tbody tr", min_count=1, max_wait=WAIT_TIMEOUT)
+        ]
+        if not state_machine.transition_to(NavigationState.TABLE_READY, custom_conditions=table_ready_conditions, reload_on_failure=False):
+            print(f"  [WARN] Page {page_num}: Failed to validate TABLE_READY state, continuing with extraction", flush=True)
+
+    # BATCH EAN FETCH: Click all barcodes first
+    ean_map = click_all_barcodes(driver)
 
     rows: list[RowData] = []
     tr_list = driver.find_elements(By.CSS_SELECTOR, "table.report tbody tr")
     total_rows = len(tr_list)
-    
+
     print(f"  Processing {total_rows} rows...", flush=True)
 
     for idx, tr in enumerate(tr_list, 1):
@@ -647,10 +935,10 @@ def extract_rows_from_current_page(driver: webdriver.Chrome, page_num: int = 0) 
                 manufacturer_country = tds[4].text.strip()
 
                 release_form_full = tds[5].text.strip()
-                release_form = re.sub(r"\bBarcode\b\s*$", "", release_form_full).strip()
+                release_form = re.sub(r"\b(Barcode|\d{8,14})\b\s*$", "", release_form_full).strip()
 
                 price, date_text = extract_price_and_date(tds[6].text)
-                ean = fetch_ean_by_clicking_barcode(driver, tr)
+                ean = ean_map.get(item_id, "")
             elif len(tds) >= 6:
                 item_id = ""
                 tn = tds[0].text.strip()
@@ -686,7 +974,7 @@ def extract_rows_from_current_page(driver: webdriver.Chrome, page_num: int = 0) 
     return rows
 
 
-def go_to_page(driver: webdriver.Chrome, page_num: int, headless: bool | None = None) -> webdriver.Chrome:
+def go_to_page(driver: webdriver.Chrome, page_num: int, headless: bool | None = None, state_machine=None) -> webdriver.Chrome:
     """Navigate to specific page - maintains vw=excl parameter."""
     url = f"http://farmcom.info/site/reestr?vw=excl&page={page_num}"
     return navigate_with_retries(
@@ -695,6 +983,7 @@ def go_to_page(driver: webdriver.Chrome, page_num: int, headless: bool | None = 
         wait_for_table,
         f"page {page_num}",
         headless=headless,
+        state_machine=state_machine,
         on_restart=lambda d: select_region_and_search(d, headless=headless),
     )
 
@@ -824,15 +1113,31 @@ def main(headless: bool = None, start_page: int = None, end_page: int | None = N
         print("Starting fresh run (no previous progress found)")
     
     driver = make_driver(headless=headless)
+    
+    # Initialize state machine and smart locator for Tier 1 robustness
+    state_machine = None
+    if STATE_MACHINE_AVAILABLE:
+        import logging
+        logger = logging.getLogger(__name__)
+        locator = SmartLocator(driver, logger=logger)
+        state_machine = NavigationStateMachine(locator, logger=logger)
+    
     try:
         print("Opening excluded list, selecting region, and searching...")
-        driver = select_region_and_search(driver, headless=headless)
+        driver = select_region_and_search(driver, headless=headless, state_machine=state_machine)
 
         last_page = get_last_page(driver)
         if end_page is None:
             end_page = last_page
         end_page = min(end_page, last_page)
-        
+
+        # Apply MAX_PAGES limit from config (0 = all pages)
+        if MAX_PAGES > 0:
+            max_end = actual_start + MAX_PAGES - 1
+            if end_page > max_end:
+                print(f"[CONFIG] MAX_PAGES={MAX_PAGES}, limiting to pages {actual_start}..{max_end}")
+                end_page = max_end
+
         # Check if already completed
         if actual_start > end_page:
             print(f"All pages already scraped (last page: {end_page}, last completed: {progress['last_completed_page']})")
@@ -858,9 +1163,13 @@ def main(headless: bool = None, start_page: int = None, end_page: int | None = N
             print(f"\n--- Page {p}/{end_page} ---")
             print(f"[PROGRESS] Scraping excluded list: {p}/{end_page} ({percent}%)", flush=True)
             
-            driver = go_to_page(driver, p, headless=headless)
+            driver = go_to_page(driver, p, headless=headless, state_machine=state_machine)
 
-            page_rows = extract_rows_from_current_page(driver, p)
+            # Add human-like pause between pages
+            if HUMAN_ACTIONS_AVAILABLE:
+                pause(0.5, 1.0)
+
+            page_rows = extract_rows_from_current_page(driver, p, state_machine=state_machine)
             # De-dup by item_id
             new_rows = [r for r in page_rows if r.item_id and r.item_id not in seen_ids]
 
@@ -881,6 +1190,21 @@ def main(headless: bool = None, start_page: int = None, end_page: int | None = N
         print(f"Total new rows added: {total_new_rows}")
         print(f"Total rows in file: {len(seen_ids)}")
         print(f"[PROGRESS] Scraping excluded list: {end_page}/{end_page} (100%) - Completed", flush=True)
+        
+        # Log metrics and state history if state machine is available
+        if STATE_MACHINE_AVAILABLE and state_machine:
+            import logging
+            logger = logging.getLogger(__name__)
+            metrics = locator.get_metrics()
+            metrics_summary = metrics.get_summary()
+            logger.info(f"[METRICS] Locator performance: {metrics_summary}")
+            
+            # Log state transitions
+            state_history = state_machine.get_state_history()
+            logger.info(f"[METRICS] State transitions: {len(state_history)} transitions")
+            for state, timestamp, success in state_history:
+                status = "SUCCESS" if success else "FAILED"
+                logger.debug(f"[METRICS] State: {state.value} at {timestamp:.2f}s - {status}")
         
         # Clear progress file on successful completion
         clear_progress()

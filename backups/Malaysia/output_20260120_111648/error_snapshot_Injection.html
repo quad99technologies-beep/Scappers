@@ -1,0 +1,263 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  <title>QUEST 3+ Product Search</title>
+  <meta name="description" content="QUEST3+">
+  <meta name="author" content="SICT, NPRA">
+  <link rel="shortcut icon" href="assets/img/favicon.ico">
+  <link rel="stylesheet" type="text/css" href="assets/skin/default_skin/css/theme.css">
+  <link rel="stylesheet" type="text/css" href="assets/fonts/stateface/stateface.css">
+  <link rel="stylesheet" type="text/css" href="assets/admin-tools/admin-forms/css/admin-forms.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/fonts/glyphicons-pro/glyphicons-pro.css">
+  <link rel="stylesheet" type="text/css" href="vendor/plugins/datatables/media/css/dataTables.bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css">
+  <link rel="stylesheet" type="text/css" href="vendor/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css">
+  <link rel="stylesheet" type="text/css" href="vendor/plugins/select2/css/core.css">
+  <!-- tambah untuk import export  22/1/2021 aminah-->
+  <link rel="stylesheet" type="text/css" href="vendor/plugins/magnific/magnific-popup.css">
+  <link rel="stylesheet" href="vendor/plugins/Buttons/css/buttons.dataTables.min.css">
+  <script src="user.js"></script>
+  <style>
+    .uls {
+      font-family: Roboto, Helvetica, Arial, sans-serif;
+      list-style: none;
+      padding-left: 1em;
+    }
+
+    .lis {
+      margin-bottom: 1em;
+      display: flex;
+    }
+
+    .lis:before {
+      content: "*";
+      margin-right: 1em;
+    }
+  </style>
+</head>
+
+<body class="blank-page sb-l-o sb-r-c onload-check">
+  <div id="main">
+    <section>
+      <section id="content" class="">
+        <div class="col-md-12">
+          <img src="img/LOGOWEB.png" title="QUEST 3+">
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+        <div class="col-md-12">
+          <div class="panel">
+            <div class="panel-heading">
+              <div class="panel-title"><i class="fa fa-search"></i> QUEST 3+ Product Search</div>
+            </div>
+            <div class="panel-body admin-form">
+              <div class="section row">
+                <div class="col-md-2 col-xs-2">Product Category</div>
+                <div class="col-md-2 col-xs-3">
+                  <label for="searchCat1" class="option">
+                    <input type="radio" name="searchCat" id="searchCat1" value="1" checked="" onclick="searchCat(this.value)">
+                    <span class="radio"></span>Pharmaceutical</label>
+                </div>
+                <div class="col-md-2 col-xs-2">
+                  <label for="searchCat2" class="option">
+                    <input type="radio" name="searchCat" id="searchCat2" value="2" onclick="searchCat(this.value)">
+                    <span class="radio"></span>Cosmetic</label>
+                </div>
+                <!-- <div class="col-md-3 col-xs-3">
+                  <label for="searchCat3" class="option">
+              			<input type="radio" name="searchCat" id="searchCat3" value="3" onclick="searchCat(this.value)">
+              		<span class="radio"></span>Pharmaceutical & Cosmetic</label>
+                </div> -->
+              </div>
+              <div class="section row">
+                <div class="col-md-2 col-xs-2">Search By</div>
+                <div class="col-md-4 col-xs-4">
+                  <select class="form-control" id="searchBy" onchange="searchChange()">
+                    <option value="0">-- Please Select --</option>
+                    <option value="1">Product Name</option>
+                    <option value="2">Product Registration Number</option>
+                    <option value="3">Holder Name</option>
+                    <option value="4">Manufacturer Name</option>
+                    <option value="5">Importer</option>
+                    <option value="6">Active Ingredient</option>
+                  </select>
+                </div>
+              </div>
+              <div class="section row">
+                <div class="col-md-2 col-xs-2">Search</div>
+                <div class="col-md-4 col-xs-4" id="searchType">      <label class="field prepend-icon">
+          <input class="form-control" type="text" id="searchTxt" placeholder="">
+          <label class="field-icon">
+          <i class="fa fa-search"></i>
+          </label>
+    	  <span><font size="1.5"><i class="fa fa-info mr5"></i> Please enter 5 or more characters</font></span>
+      </label>
+      </div>
+              </div>
+              <div class="section row">
+                <div class="col-md-6 col-xs-6" align="right">
+                  <!--   <div class="g-recaptcha" data-sitekey="6LdGrScUAAAAAKIHec1ysomVpm6JPiaMzWwbBmx8"></div> -->
+                </div>
+              </div>
+              <div class="section row">
+                <div class="col-md-6 col-xs-6 text-right">
+                  <button class="btn btn-sm btn-primary" onclick="search()"><i class="fa fa-search"></i> Search</button>
+                </div>
+              </div>
+              <div class="section row" id="searchContent" style="display: block;"><div class="class-col-md-12"><hr class="short alt"></div><center><img src="img/spin.gif"></center></div>
+              <hr class="short alt">
+              <div class="section row">
+
+                <!-- <ul class="uls">
+                  <li class="lis">The search result displayed is only applicable on the date and time of when the search was conducted.
+                    <br>Hasil carian yang dipaparkan hanya terpakai pada tarikh dan masa apabila carian dijalankan.
+                  </li>
+
+                  <li class="lis">The product / cosmetic under NPRA regulatory control status is subjected to changes according to regulatory update / needs.
+                    <br><text>Produk / kosmetik di bawah status kawalan kawal selia NPRA tertakluk kepada perubahan mengikut kemas kini peraturan / keperluan.</text>
+                  </li>
+
+                  <li class="lis">Attachments available are only for products registered using QUEST3+ system (starting 2017).
+                    <br>Lampiran tersedia hanya untuk produk yang didaftarkan menggunakan sistem QUEST3+ (mulai 2017).
+                  </li>
+
+                  <li class="lis">For products / cosmetics registered before using the QUEST3+ system, the attachment may display as RESULT NOT FOUND or is not available / displayed.
+                    <br>Untuk produk / kosmetik yang didaftarkan sebelum penggunaan sistem QUEST3+, hasil carian akan memaparkan sebagai RESULT NOT FOUND atau tidak tersedia / dipaparkan.
+                  </li>
+                </ul> -->
+                <div class="uls">
+                  <p class="lis">The search result displayed is only applicable on the date and time of when the search was conducted.</p>
+                  <p class="li" style="color: rgb(151, 151, 151);">Hasil carian yang dipaparkan hanya terpakai pada tarikh dan masa apabila carian dijalankan.</p>
+                  <br>
+                  <p class="lis">The product / cosmetic under NPRA regulatory control status is subjected to changes according to regulatory update / needs.</p>
+                  <p class="li" style="color: rgb(151, 151, 151);">Produk / kosmetik di bawah status kawalan kawal selia NPRA tertakluk kepada perubahan mengikut kemas kini peraturan / keperluan.</p>
+                  <br>
+                  <p class="lis">Attachments available are only for products registered using QUEST3+ system (starting 2017).</p>
+                  <p class="li" style="color: rgb(151, 151, 151);">Lampiran tersedia hanya untuk produk yang didaftarkan menggunakan sistem QUEST3+ (mulai 2017).</p>
+                  <br>
+                  <p class="lis">For products / cosmetics registered before using the QUEST3+ system, the attachment may display as RESULT NOT FOUND or is not available / displayed.</p>
+                  <p class="li" style="color: rgb(151, 151, 151);">Untuk produk / kosmetik yang didaftarkan sebelum penggunaan sistem QUEST3+, hasil carian akan memaparkan sebagai RESULT NOT FOUND atau tidak tersedia / dipaparkan.</p>
+                  <br>
+                 
+                  <br>
+                  <style>
+                    @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css");
+                    @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+                    * {
+                      font-family: 'Open Sans', 'sans-serif';
+                    }
+
+                    ul {
+                      width: 100%;
+                      margin: 0;
+                      padding: 0;
+                    }
+
+                    li {
+                      display: inline-block;
+                      margin: 10px;
+                    }
+
+                    .download {
+                      width: 200px;
+                      height: 75px;
+                      background: black;
+                      float: left;
+                      border-radius: 5px;
+                      position: relative;
+                      color: #fff;
+                      cursor: pointer;
+                      border: 1px solid #fff;
+                    }
+
+                    .download>.fa {
+                      color: #fff;
+                      position: absolute;
+                      top: 50%;
+                      left: 15px;
+                      transform: translateY(-50%);
+                    }
+
+                    .df,
+                    .dfn {
+                      position: absolute;
+                      left: 70px;
+                    }
+
+                    .df {
+                      top: 20px;
+                      font-size: .68em;
+                    }
+
+                    .dfn {
+                      top: 33px;
+                      font-size: 1.08em;
+                    }
+
+                    .download:hover {
+                      -webkit-filter: invert(100%);
+                      filter: invert(100%);
+                    }
+                  </style>
+
+
+              </div>
+              <div class="section row" id="masatarikh" style="padding-left: 2em; display: block;">Search made on 2026/01/20 10:15:53</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="searchModal" role="dialog">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <div class="modal-title"></div>
+              </div>
+              <div class="modal-body">
+                loading..
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+  </section>
+  </section>
+  </div>
+  <script src="vendor/jquery/jquery-1.11.1.min.js"></script>
+  <script src="vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+  <!--  <script src='https://www.google.com/recaptcha/api.js'></script> -->
+  <script src="assets/js/utility/utility.js"></script>
+  <script src="assets/js/demo/demo.js"></script>
+  <script src="assets/js/main.js"></script>
+  <!-- tutup untuk import export aminah 22/1/2021 -->
+  <!-- <script src="vendor/plugins/datatables/media/js/jquery.dataTables.js"></script>
+  <script src="vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
+  <script src="vendor/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js"></script>>
+  <script src="vendor/plugins/datatables/media/js/dataTables.bootstrap.js"></script> -->
+  <script src="vendor/plugins/select2/select2.min.js"></script>
+  <script src="vendor/plugins/pnotify/pnotify.js"></script>
+  <!-- add untuk import export aminah 22/1/2021 -->
+  <script src="vendor/plugins/datatable/js/jquery.dataTables.js"></script>
+  <script src="vendor/plugins/datatable/js/dataTables.bootstrap.js"></script>
+  <script src="vendor/plugins/Buttons/js/dataTables.buttons.min.js"></script>
+  <script src="vendor/plugins/JSZip/jszip.min.js"></script>
+  <script src="vendor/plugins/pdfmake/pdfmake.min.js"></script>
+  <script src="vendor/plugins/pdfmake/vfs_fonts.js"></script>
+  <script src="vendor/plugins/Buttons/js/buttons.html5.min.js"></script>
+  <script src="vendor/plugins/Buttons/js/buttons.print.min.js"></script>
+
+  <script src="vendor/plugins/magnific/jquery.magnific-popup.js"></script>
+  <script src="vendor/jquery/jquery-printme.js"></script>
+  <script type="text/javascript">
+    jQuery(document).ready(function() {
+      "use strict";
+      Core.init();
+      Demo.init();
+      $("#searchContent").hide();
+      $("#masatarikh").hide();
+    });
+  </script>
+
+
+</body></html>

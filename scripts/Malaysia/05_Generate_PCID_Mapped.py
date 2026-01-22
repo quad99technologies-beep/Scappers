@@ -20,9 +20,11 @@ Notes:
 
 from __future__ import annotations
 
-import sys
 import os
+import sys
 from datetime import datetime
+from pathlib import Path
+from typing import Optional
 
 # Force unbuffered output for real-time console updates
 sys.stdout.reconfigure(line_buffering=True) if hasattr(sys.stdout, 'reconfigure') else None
@@ -31,18 +33,33 @@ os.environ.setdefault('PYTHONUNBUFFERED', '1')
 import argparse
 import csv
 import re
-from datetime import datetime
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 from config_loader import load_env_file, require_env, getenv, getenv_float, getenv_int, getenv_list, get_output_dir, get_central_output_dir
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from core.standalone_checkpoint import run_with_checkpoint
+from core.standalone_checkpoint import run_with_checkpoint
 
 # Load environment variables from .env file
 load_env_file()
 
 # FINAL_COLUMNS will be loaded from config
 FINAL_COLUMNS = getenv_list("SCRIPT_05_FINAL_COLUMNS", [])
+
+
+def _file_date(path: Path) -> datetime.date:
+    """Return the date part of the file's last modification time."""
+    return datetime.fromtimestamp(path.stat().st_mtime).date()
+
+
+def _is_same_day(path: Path) -> bool:
+    """Return True if the file was modified today (local date)."""
+    return _file_date(path) == datetime.now().date()
 
 
 def norm_regno(x: object) -> str:
@@ -314,7 +331,7 @@ def main() -> None:
 
     # Allow command line override
     ap = argparse.ArgumentParser(description="Generate Malaysia_PCID_Mapped report")
-    ap.add_argument("--pcid", default=str(pcid_mapping_path), help="Path to Malaysia_PCID.csv")
+    ap.add_argument("--pcid", default=str(pcid_mapping_path), help="Path to PCID Mapping - Malaysia.csv")
     ap.add_argument("--consolidated", default=str(consolidated_path), help="Path to consolidated_products.csv")
     ap.add_argument("--prices", default=str(prices_path), help="Path to malaysia_drug_prices_view_all.csv")
     ap.add_argument("--reimbursable", default=str(reimbursable_path), help="Path to malaysia_fully_reimbursable_drugs.csv")
@@ -329,8 +346,35 @@ def main() -> None:
 
     print(f"\n[SCRIPT 05] Loading input files...", flush=True)
     if not pcid_path.exists():
-        raise FileNotFoundError(f"PCID mapping file not found: {pcid_path}")
+        # Check for alternative filename in case config hasn't been updated
+        alt_names = ["PCID Mapping - Malaysia.csv", "Malaysia_PCID.csv"]
+        found_alt = None
+        for alt_name in alt_names:
+            alt_path = input_dir / alt_name
+            if alt_path.exists():
+                found_alt = alt_path
+                break
+        
+        if found_alt:
+            print(f"  -> WARNING: Config specifies '{pcid_path.name}', but found '{found_alt.name}' in input directory.", flush=True)
+            print(f"  -> Using found file: {found_alt}", flush=True)
+            pcid_path = found_alt
+        else:
+            error_msg = (
+                f"PCID mapping file not found: {pcid_path}\n"
+                f"  Expected file name (from config SCRIPT_05_PCID_MAPPING): {pcid_path.name}\n"
+                f"  Checked in: {input_dir}\n"
+                f"  Also checked for: {', '.join(alt_names)}\n"
+                f"  Please ensure the PCID mapping file exists in the input directory."
+            )
+            raise FileNotFoundError(error_msg)
     print(f"  -> PCID mapping: {pcid_path}", flush=True)
+    if not _is_same_day(pcid_path):
+        file_date = _file_date(pcid_path)
+        today = datetime.now().date()
+        print(f"\n[SKIP] PCID mapping file {pcid_path.name} is from {file_date}, not today's run ({today}).", flush=True)
+        print("[SKIP] Skipping report generation because the PCID mapping file was not replaced today.", flush=True)
+        sys.exit(1)
     if not cons_path.exists():
         raise FileNotFoundError(f"Consolidated products file not found: {cons_path}")
     print(f"  -> Consolidated products: {cons_path}", flush=True)
@@ -404,6 +448,14 @@ def main() -> None:
         not_mapped_report.to_csv(out_path_not_mapped, index=False, encoding="utf-8-sig")
 
     print(f"[OK] Wrote {len(not_mapped_report):,} NOT MAPPED rows to: {out_path_not_mapped}", flush=True)
+    _write_diff_summary(
+        country="Malaysia",
+        exports_dir=exports_dir,
+        new_path=out_path_mapped,
+        glob_pattern="malaysia_pcid_mapped_*.csv",
+        key_column="LOCAL_PACK_CODE",
+        date_str=date_str,
+    )
     print(f"\n[SUMMARY] Summary:")
     print(f"   Total records: {len(report):,}")
     print(f"   Mapped: {len(mapped_report):,}")
@@ -558,7 +610,7 @@ def generate_final_report(
         
         if products_without_pcid:
             f.write(f"[WARNING] Products WITHOUT PCID Mapping ({len(products_without_pcid):,} unique products):\n")
-            f.write("   These products need PCID mapping added to input/Malaysia_PCID.csv\n")
+            f.write("   These products need PCID mapping added to input/PCID Mapping - Malaysia.csv\n")
             f.write("   First 50 registration numbers:\n")
             for i, regno in enumerate(products_without_pcid[:50], 1):
                 f.write(f"     {i:3d}. {regno}\n")
@@ -589,7 +641,7 @@ def generate_final_report(
         
         if not_mapped_count > 0:
             f.write(f"[WARNING] {not_mapped_count:,} products are missing PCID mappings.\n")
-            f.write("   Action: Add PCID mappings to input/Malaysia_PCID.csv for these products.\n")
+            f.write("   Action: Add PCID mappings to input/PCID Mapping - Malaysia.csv for these products.\n")
             f.write("   See malaysia_pcid_not_mapped.csv for the complete list.\n")
             f.write("\n")
         
@@ -626,6 +678,90 @@ def generate_final_report(
     print(f"\n[REPORT] Final report generated: {report_path}")
 
 
-if __name__ == "__main__":
-    main()
+def _find_previous_export_file(exports_dir: Path, pattern: str, current_path: Path) -> Optional[Path]:
+    """Return the most recent export file matching pattern, excluding current_path."""
+    candidates = [
+        p for p in exports_dir.glob(pattern)
+        if p.is_file() and p.resolve() != current_path.resolve()
+    ]
+    if not candidates:
+        return None
+    candidates.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+    return candidates[0]
 
+
+def _extract_key_set(df: pd.DataFrame, column: str) -> Optional[set[str]]:
+    """Normalize the key column values for comparison."""
+    if column not in df.columns:
+        return None
+    values = df[column].dropna().astype(str).str.strip()
+    return {v for v in values if v}
+
+
+def _write_diff_summary(
+    country: str,
+    exports_dir: Path,
+    new_path: Path,
+    glob_pattern: str,
+    key_column: str,
+    date_str: str
+) -> None:
+    """Compare the new export with the previous file and write a human-readable diff."""
+    previous = _find_previous_export_file(exports_dir, glob_pattern, new_path)
+    if not previous:
+        print(f"[DIFF] No previous {country} mapped report to compare. Skipping diff summary.", flush=True)
+        return
+
+    try:
+        new_df = pd.read_csv(new_path, dtype=str, keep_default_na=False)
+        old_df = pd.read_csv(previous, dtype=str, keep_default_na=False)
+    except Exception as exc:
+        print(f"[DIFF] Could not read mapped reports for comparison: {exc}", flush=True)
+        return
+
+    new_keys = _extract_key_set(new_df, key_column)
+    old_keys = _extract_key_set(old_df, key_column)
+    if new_keys is None or old_keys is None:
+        print(f"[DIFF] Key column '{key_column}' missing in one of the files; skipping diff.", flush=True)
+        return
+
+    new_only = sorted(new_keys - old_keys)
+    removed = sorted(old_keys - new_keys)
+    shared = sorted(new_keys & old_keys)
+
+    summary_lines = [
+        "=" * 80,
+        f"{country} PCID-Mapped Report Diff ({date_str})",
+        "=" * 80,
+        f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        f"New report:      {new_path.name}",
+        f"Compared to:     {previous.name}",
+        f"Key column used: {key_column}",
+        "",
+        f"New entries: {len(new_only)}",
+        f"Removed entries: {len(removed)}",
+        f"Unchanged entries: {len(shared)}",
+    ]
+
+    if new_only:
+        summary_lines.append(f"  Sample new keys:     {', '.join(new_only[:5])}")
+    if removed:
+        summary_lines.append(f"  Sample removed keys: {', '.join(removed[:5])}")
+
+    summary_path = exports_dir / f"report_diff_{country.lower()}_{date_str}.txt"
+    try:
+        with open(summary_path, "w", encoding="utf-8") as f:
+            for line in summary_lines:
+                f.write(line + "\n")
+        print(f"[DIFF] Diff summary saved: {summary_path}", flush=True)
+    except Exception as exc:
+        print(f"[DIFF] Failed to write diff summary: {exc}", flush=True)
+
+
+if __name__ == "__main__":
+    run_with_checkpoint(
+        main,
+        "Malaysia",
+        5,
+        "Generate PCID Mapped"
+    )

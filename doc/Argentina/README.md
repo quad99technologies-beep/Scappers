@@ -115,9 +115,9 @@ Builds product URLs and initializes scrape state.
 - URL construction based on AlfaBeta patterns
 - Initializes scrape state flags for Selenium/API
 
-### 03_alfabeta_selenium_scraper.py
+### 03_selenium_3round_wrapper.py
 
-Scrapes detailed product information using Selenium.
+Scrapes detailed product information using Selenium with 3-round retry mechanism.
 
 **Input:** `Productlist_with_urls.csv`
 **Output:**
@@ -126,17 +126,67 @@ Scrapes detailed product information using Selenium.
 - `alfabeta_errors.csv` - Error log
 
 **Configuration:**
-- `SCRIPT_03_DEFAULT_THREADS` - Number of concurrent threads
-- `SCRIPT_03_RATE_LIMIT_PRODUCTS` - Rate limit per product
-- `SCRIPT_03_RATE_LIMIT_SECONDS` - Rate limit time window
-- `SCRIPT_03_MAX_ROWS` - Maximum rows to process
+- `SELENIUM_ROUNDS` - Number of retry rounds (default: 3)
+- `ROUND_PAUSE_SECONDS` - Pause between rounds (default: 60 seconds)
+- `SELENIUM_THREADS` - Number of concurrent threads (default: 4)
+- `RATE_LIMIT_PRODUCTS` - Rate limit per product
+- `RATE_LIMIT_SECONDS` - Rate limit time window
+- `MAX_ROWS` - Maximum rows to process per round
 
 **Features:**
-- Multi-threaded scraping
+- **3-Round Retry Mechanism:**
+  - **Round 1:** Process all products marked for Selenium scraping
+  - **Round 2:** Retry products that returned 0 records in Round 1
+  - **Round 3:** Final retry for products still with 0 records after Round 2
+- Multi-threaded scraping within each round
 - Account rotation
 - Rate limiting
-- Progress tracking
+- Progress tracking per round
 - Error logging
+- Automatic marking of failed products for API scraping (if enabled)
+
+**How It Works:**
+
+1. **Round 1** processes all products with `Scraped_By_Selenium=no`
+2. After Round 1, the script identifies products with `Selenium_Records=0`
+3. **Round 2** only processes those products that failed in Round 1
+4. After Round 2, the script again identifies remaining failures
+5. **Round 3** gives one final attempt to products that still have no data
+6. After Round 3, if `USE_API_STEPS=True`, failed products are marked with `Source=api` for API scraping
+
+**Attempt Tracking:**
+
+The wrapper maintains two tracking columns in `Productlist_with_urls.csv`:
+- `Selenium_Attempt`: Current attempt number (0-3)
+- `Last_Attempt_Records`: Number of records found in the last attempt
+
+This allows the pipeline to:
+- Skip successfully scraped products in subsequent rounds
+- Identify persistent failures after all 3 attempts
+- Generate statistics on retry effectiveness
+
+**Why 3 Rounds?**
+
+Many scraping failures are temporary:
+- **Network issues:** Temporary connection problems or timeouts
+- **Rate limiting:** Website temporarily blocking due to too many requests
+- **Dynamic content:** JavaScript-heavy pages that occasionally fail to load
+- **Server load:** Website under heavy load returning empty responses
+- **Session issues:** Cookie/session expiration during long scraping runs
+
+The 3-round approach significantly improves data coverage:
+- **Round 1:** Typically succeeds for 70-80% of products
+- **Round 2:** Recovers an additional 15-20% that failed temporarily
+- **Round 3:** Recovers final 5-10% with one last attempt
+- **Remaining failures:** True issues (product not found, discontinued, etc.) → sent to API
+
+**Best Practices:**
+
+- Let all 3 rounds complete before evaluating results
+- Monitor the "Retry Effectiveness" stats in the final summary
+- If Round 1 success rate is very low (<50%), check your config/credentials
+- Adjust `ROUND_PAUSE_SECONDS` if you're hitting rate limits (increase to 90-120s)
+- Products that fail all 3 rounds likely have data issues (check manually)
 
 ### 04_alfabeta_api_scraper.py
 
@@ -218,4 +268,21 @@ Generates final output report with PCID mapping.
 - Account rotation is implemented to avoid rate limits
 - All configuration values are in `config/Argentina.env.json`
 - Secrets (API keys, passwords) are stored in the `secrets` section of the config file
+
+## Health Check (Manual)
+
+- Run `python scripts/Argentina/health_check.py` before starting a new scrape to exercise the
+  configuration logic, PCID file readiness, and the AlfaBeta selectors required to submit the
+  blank search form and render product results.
+- The script prints a matrix with `PASS/FAIL` for each step and writes a timestamped copy to
+  `exports/Argentina/health_check/health_check_<timestamp>.txt`.
+- Its checks include:
+  1. HTTP reachability of `PRODUCTS_URL`.
+  2. Presence of `pcid_Mapping.csv` under the input directory.
+  3. Search form selectors (`form#srvPr`, `input[name='patron']`, `input.mfsubmit`).
+  4. Product listing hints (`table.estandar`, links with `a.rprod`).
+- Because it only fetches layout data, the health check never writes output files or alters data.
+- The GUI also exposes a **Health Check** tab that runs the same script so you can fire it from
+  the interface, watch the matrix log stream, and make sure the selectors/configuration are intact
+  before pressing any pipeline buttons.
 

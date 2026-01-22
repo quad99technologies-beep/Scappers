@@ -109,11 +109,11 @@ def getenv_float(key: str, default: float = 0.0) -> float:
 def getenv_bool(key: str, default: bool = False) -> bool:
     """Get environment variable as boolean."""
     val = getenv(key, default)
-    
+
     # Handle case where val might already be a boolean (from JSON config)
     if isinstance(val, bool):
         return val
-    
+
     # Convert to string and process
     val_str = str(val).strip().lower()
     if val_str in ("1", "true", "yes", "on"):
@@ -121,6 +121,62 @@ def getenv_bool(key: str, default: bool = False) -> bool:
     elif val_str in ("0", "false", "no", "off", ""):
         return False
     return default
+
+
+def getenv_list(key: str, default: list = None) -> list:
+    """
+    Get environment variable as list.
+    Supports comma-separated strings or JSON arrays.
+
+    Args:
+        key: Environment variable name
+        default: Default list if not found
+
+    Returns:
+        List of values
+    """
+    val = getenv(key)
+
+    # If not found or empty, return default
+    if not val:
+        return default if default is not None else []
+
+    # If already a list (from JSON config), return it
+    if isinstance(val, list):
+        return val
+
+    # If string, split by comma
+    if isinstance(val, str):
+        return [item.strip() for item in val.split(',') if item.strip()]
+
+    return default if default is not None else []
+
+
+def require_env(key: str, default: str = None) -> str:
+    """
+    Get environment variable with fallback to default.
+    Similar to getenv but emphasizes that the value should exist.
+
+    Args:
+        key: Environment variable name
+        default: Default value if not found
+
+    Returns:
+        Environment variable value or default
+    """
+    return getenv(key, default)
+
+
+def load_env_file():
+    """
+    Load environment variables from .env file.
+    This is a no-op function for compatibility with scripts that expect it.
+
+    Since we're using platform_config.py with JSON configuration files,
+    we don't need to load .env files. This function exists only for
+    backward compatibility with existing scripts.
+    """
+    pass
 
 
 def get_base_dir() -> Path:

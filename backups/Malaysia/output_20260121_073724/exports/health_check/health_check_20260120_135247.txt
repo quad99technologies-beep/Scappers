@@ -1,0 +1,16 @@
+Malaysia Scraper Health Check
+============================================================
+Step   | Check                         | Status | Detail
+--------------------------------------------------------
+Config | MyPriMe URL reachable         | PASS   | HTTP 200
+Config | Quest3+ search URL reachable  | PASS   | HTTP 200
+Config | Malaysia PCID file present    | PASS   | D:\quad99\Scappers\input\Malaysia\PCID Mapping - Malaysia.csv
+Layout | 'View All' text / button      | FAIL   | None of ['view all', 'lihat semua'] present (HTTP 200)
+Layout | MyPriMe price table           | FAIL   | Missing selectors (HTTP 200): table.tinytable, thead th
+Layout | Quest3+ search form           | PASS   | Selectors ok (HTTP 200)
+Layout | Quest3+ result table selector | PASS   | Selector configured: table.table tbody tr (Note: Table appears after search, cannot verify on initial page)
+Config | FUKKM URL reachable           | PASS   | HTTP 200
+Layout | FUKKM table selector          | FAIL   | Missing selectors (HTTP 200): table.views-table.cols-7
+
+============================================================
+Generated: 2026-01-20 13:52:47
