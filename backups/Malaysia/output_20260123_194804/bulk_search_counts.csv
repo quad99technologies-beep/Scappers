@@ -1,0 +1,26 @@
+timestamp,keyword,page_rows,csv_rows,difference,status,reason,csv_file
+2026-01-23T10:15:27.660460,Tablet,11,6122,-6111,count_mismatch,"Page rows 11, CSV rows 6122",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_001_Tablet.csv
+2026-01-23T10:17:10.685042,Capsule,11,6777,-6766,count_mismatch,"Page rows 11, CSV rows 6777",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_002_Capsule.csv
+2026-01-23T10:18:27.273381,Powder,11,1917,-1906,count_mismatch,"Page rows 11, CSV rows 1917",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_003_Powder.csv
+2026-01-23T10:19:43.926285,Granules,11,1030,-1019,count_mismatch,"Page rows 11, CSV rows 1030",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_004_Granules.csv
+2026-01-23T10:21:00.848009,Syrup,11,553,-542,count_mismatch,"Page rows 11, CSV rows 553",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_005_Syrup.csv
+2026-01-23T10:22:17.457796,Suspension,11,392,-381,count_mismatch,"Page rows 11, CSV rows 392",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_006_Suspension.csv
+2026-01-23T10:23:33.799194,Solution,11,1448,-1437,count_mismatch,"Page rows 11, CSV rows 1448",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_007_Solution.csv
+2026-01-23T10:24:50.167273,Drops,11,144,-133,count_mismatch,"Page rows 11, CSV rows 144",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_008_Drops.csv
+2026-01-23T10:26:07.847062,Cream,11,463,-452,count_mismatch,"Page rows 11, CSV rows 463",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_009_Cream.csv
+2026-01-23T10:27:25.813908,Ointment,11,151,-140,count_mismatch,"Page rows 11, CSV rows 151",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_010_Ointment.csv
+2026-01-23T10:28:41.135796,Gel,0,0,0,unknown,,D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_011_Gel.csv
+2026-01-23T10:29:57.844728,Lotion,11,74,-63,count_mismatch,"Page rows 11, CSV rows 74",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_012_Lotion.csv
+2026-01-23T10:31:14.374872,Paste,11,16,-5,count_mismatch,"Page rows 11, CSV rows 16",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_013_Paste.csv
+2026-01-23T10:32:31.276001,Spray,11,104,-93,count_mismatch,"Page rows 11, CSV rows 104",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_014_Spray.csv
+2026-01-23T10:33:48.330029,Injection,11,1353,-1342,count_mismatch,"Page rows 11, CSV rows 1353",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_015_Injection.csv
+2026-01-23T10:35:06.070490,Infusion,11,490,-479,count_mismatch,"Page rows 11, CSV rows 490",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_016_Infusion.csv
+2026-01-23T10:36:22.624582,Inhaler,11,49,-38,count_mismatch,"Page rows 11, CSV rows 49",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_017_Inhaler.csv
+2026-01-23T10:37:38.563893,Nebulizer,3,2,1,count_mismatch,"Page rows 3, CSV rows 2",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_018_Nebulizer.csv
+2026-01-23T10:38:54.726897,Suppository,11,15,-4,count_mismatch,"Page rows 11, CSV rows 15",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_019_Suppository.csv
+2026-01-23T10:40:10.548278,Pessary,10,9,1,count_mismatch,"Page rows 10, CSV rows 9",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_020_Pessary.csv
+2026-01-23T10:41:26.462769,Patch,11,41,-30,count_mismatch,"Page rows 11, CSV rows 41",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_021_Patch.csv
+2026-01-23T10:42:42.163982,Implant,3,2,1,count_mismatch,"Page rows 3, CSV rows 2",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_022_Implant.csv
+2026-01-23T10:43:58.170513,Lozenge,11,126,-115,count_mismatch,"Page rows 11, CSV rows 126",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_023_Lozenge.csv
+2026-01-23T10:45:14.112293,Chewable,11,474,-463,count_mismatch,"Page rows 11, CSV rows 474",D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_024_Chewable.csv
+2026-01-23T10:46:29.179883,Oral,0,0,0,unknown,,D:\quad99\Scappers\output\Malaysia\bulk_search_csvs\bulk_search_025_Oral.csv

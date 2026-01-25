@@ -10,6 +10,7 @@ from playwright.sync_api import sync_playwright
 from pathlib import Path
 import re
 import time
+import datetime
 import sys
 from config_loader import load_env_file, require_env, getenv, getenv_int, getenv_bool, get_input_dir, get_output_dir
 
@@ -21,6 +22,17 @@ from core.browser_observer import observe_playwright, wait_until_idle
 from core.stealth_profile import apply_playwright
 from core.human_actions import pause, type_delay
 from core.standalone_checkpoint import run_with_checkpoint
+# Common selectors to detect when the QUEST3+ table is loading
+LOADING_SELECTORS = [
+    ".loading",
+    ".spinner",
+    "[class*='loading']",
+    "[class*='spinner']",
+    "[data-loading='true']",
+    ".dataTables_processing",
+    "#searchContent img[src*='spin.gif']"
+]
+
 from smart_locator import SmartLocator
 from state_machine import NavigationStateMachine, NavigationState, StateCondition
 
@@ -83,12 +95,18 @@ BULK_DIR.mkdir(exist_ok=True)
 OUT_BULK = OUT_DIR / require_env("SCRIPT_02_OUT_BULK")
 OUT_MISSING = OUT_DIR / require_env("SCRIPT_02_OUT_MISSING")
 OUT_FINAL = OUT_DIR / require_env("SCRIPT_02_OUT_FINAL")
+COUNT_REPORT_PATH = OUT_DIR / getenv("SCRIPT_02_OUT_COUNT_REPORT", "bulk_search_counts.csv")
+MISSING_SCREENSHOT_DIR = OUT_DIR / getenv("SCRIPT_02_MISSING_SCREENSHOT_DIR", "missing_data_screenshots")
+CAPTURE_MISSING_SCREENSHOTS = getenv_bool("SCRIPT_02_CAPTURE_MISSING_SCREENSHOT", False)
 
 SEARCH_URL = require_env("SCRIPT_02_SEARCH_URL")
 DETAIL_URL = require_env("SCRIPT_02_DETAIL_URL")
 
 WAIT_BULK = int(require_env("SCRIPT_02_WAIT_BULK"))
 HEADLESS = getenv_bool("SCRIPT_02_HEADLESS", True)
+DATA_LOAD_WAIT_SECONDS = float(getenv("SCRIPT_02_DATA_LOAD_WAIT", "3"))
+CSV_WAIT_SECONDS = float(getenv("SCRIPT_02_CSV_WAIT_SECONDS", "60"))
+CSV_WAIT_MAX_SECONDS = float(getenv("SCRIPT_02_CSV_WAIT_MAX_SECONDS", "300"))
 
 # Setup logger
 logger = logging.getLogger(__name__)
@@ -124,6 +142,7 @@ def bulk_search(page):
     total_searches = len(df)
     print(f"[BULK] Found {total_searches:,} product keywords to search", flush=True)
     all_csvs = []
+    bulk_count_records = []
 
     bulk_csv_pattern = require_env("SCRIPT_02_BULK_CSV_PATTERN")
     # Ensure BULK_DIR exists before starting
@@ -149,6 +168,12 @@ def bulk_search(page):
         out_csv = BULK_DIR / csv_filename
         # Ensure parent directory exists for this file
         out_csv.parent.mkdir(parents=True, exist_ok=True)
+        record = {
+            "page_rows": 0,
+            "csv_rows": 0,
+            "status": "pending",
+            "reason": ""
+        }
 
         if out_csv.exists():
             # Check if file has content (not empty)
@@ -219,10 +244,12 @@ def bulk_search(page):
                 page.fill(search_txt_selector, keyword)
             pause()  # Human-paced pause after typing
             print(f"  -> Clicking search button...", flush=True)
+            search_started_at = time.time()
             page.click(search_button_selector)
             pause()  # Human-paced pause after click
             state = observe_playwright(page)
             wait_until_idle(state)
+            _wait_for_search_settle(page, search_started_at, CSV_WAIT_SECONDS, CSV_WAIT_MAX_SECONDS)
             
             # Transition to RESULTS_LOADING state
             state_machine.transition_to(NavigationState.RESULTS_LOADING, reload_on_failure=False)
@@ -237,18 +264,26 @@ def bulk_search(page):
                 print(f"  -> Network idle timeout, continuing...", flush=True)
             
             result_table_selector = require_env("SCRIPT_02_RESULT_TABLE_SELECTOR")
+            result_row_selector = getenv(
+                "SCRIPT_02_RESULT_ROW_SELECTOR",
+                ""
+            )
+            if not result_row_selector:
+                result_row_selector = (
+                    f"{result_table_selector} tbody tr, {result_table_selector} tr"
+                )
             csv_button_selector = require_env("SCRIPT_02_CSV_BUTTON_SELECTOR")
-            
+
             try:
                 # Transition to RESULTS_READY state
                 results_ready_conditions = [
-                    StateCondition(element_selector=result_table_selector, min_count=1, max_wait=selector_timeout),
+                    StateCondition(element_selector=result_row_selector, min_count=1, max_wait=selector_timeout),
                     StateCondition(
-                        custom_check=lambda p: _check_table_has_data_playwright(p, result_table_selector),
+                        custom_check=lambda p: _check_table_has_data_playwright(p, result_row_selector),
                         max_wait=selector_timeout
                     )
                 ]
-                
+
                 if state_machine.transition_to(NavigationState.RESULTS_READY, custom_conditions=results_ready_conditions):
                     print(f"  -> Results table ready", flush=True)
                 else:
@@ -268,6 +303,11 @@ def bulk_search(page):
                         if anomalies:
                             logger.warning(f"[ANOMALY] {keyword}: {anomalies}")
                         time.sleep(1.0)
+                        record["status"] = "no_results"
+                        record["reason"] = "Quest3+ reported no data"
+                        record["csv_rows"] = 0
+                        record["page_rows"] = table_row_count
+                        _capture_missing_screenshot(page, keyword, "no_results")
                         continue
                     else:
                         # Try to find table with smart locator
@@ -277,7 +317,17 @@ def bulk_search(page):
                 
                 # CRITICAL: Wait for all table data to be fully loaded before CSV download
                 data_load_timeout = int(getenv("SCRIPT_02_DATA_LOAD_TIMEOUT", "60000"))  # 60 seconds default
-                if not _wait_for_table_data_loaded(page, result_table_selector, timeout_ms=data_load_timeout):
+                data_loaded, table_row_count = _wait_for_table_data_loaded(page, result_row_selector, timeout_ms=data_load_timeout)
+                info_selector = getenv("SCRIPT_02_TABLE_INFO_SELECTOR", "#searchTable_info")
+                total_entries = _get_total_entries_from_info(page, info_selector)
+                if total_entries is not None and total_entries > 0:
+                    record["page_rows"] = total_entries
+                    print(f"  -> Detected {total_entries:,} total entries (info)", flush=True)
+                else:
+                    record["page_rows"] = table_row_count
+                    if table_row_count:
+                        print(f"  -> Detected {table_row_count:,} rows on page", flush=True)
+                if not data_loaded:
                     logger.warning(f"[WARNING] Table data may not be fully loaded for {keyword}, but proceeding with CSV download")
                 
                 # Transition to CSV_READY state
@@ -311,6 +361,10 @@ def bulk_search(page):
                         if anomalies:
                             logger.warning(f"[ANOMALY] {keyword}: {anomalies}")
                         time.sleep(1.0)
+                        record["status"] = "csv_button_missing"
+                        record["reason"] = "CSV button not present"
+                        record["csv_rows"] = 0
+                        _capture_missing_screenshot(page, keyword, "no_csv_button")
                     else:
                         print(f"  -> All data loaded, clicking CSV download button...", flush=True)
                         
@@ -421,9 +475,21 @@ def bulk_search(page):
                                 if file_size < 100:
                                     logger.info(f"[RETRY] CSV too small for {keyword} ({file_size} bytes), will retry on next run")
                                     # Don't delete the file - let merge_bulk handle it
+                            csv_rows = _count_csv_data_rows(out_csv)
+                            record["csv_rows"] = csv_rows
+                            page_rows = record.get("page_rows", 0) or 0
+                            if page_rows == csv_rows:
+                                record["status"] = "count_match"
+                            else:
+                                record["status"] = "count_mismatch"
+                                record["reason"] = f"Page rows {page_rows}, CSV rows {csv_rows}"
                         elif file_size == 0:
                             # Download failed - file is empty, mark for retry
                             logger.warning(f"[RETRY] CSV download failed for {keyword}, empty file created - will retry on next run")
+                            record["status"] = "download_failed"
+                            record["reason"] = "CSV download failed or returned empty file"
+                            record["csv_rows"] = 0
+                            _capture_missing_screenshot(page, keyword, "empty_csv")
                         
                         time.sleep(1.0)
                 else:
@@ -455,6 +521,10 @@ def bulk_search(page):
             error_msg = str(outer_error)
             print(f"[ERROR] Unexpected error during search for {keyword}: {error_msg}", flush=True)
             print(f"[ERROR] Error type: {type(outer_error).__name__}", flush=True)
+            record["status"] = "failed"
+            record["reason"] = error_msg
+            record["csv_rows"] = 0
+            _capture_missing_screenshot(page, keyword, "error")
             
             # Ensure file exists (create empty file on error)
             if not out_csv.exists():
@@ -469,6 +539,18 @@ def bulk_search(page):
             
             print(f"[BULK] [{i+1}/{total_searches}] Failed: {keyword} (Continuing with next search...)\n", flush=True)
             continue
+        finally:
+            if record["status"] == "pending":
+                record["status"] = "unknown"
+            _append_bulk_count_record(
+                bulk_count_records,
+                keyword,
+                record["page_rows"],
+                record["csv_rows"],
+                record["status"],
+                record["reason"],
+                out_csv
+            )
         
         # Success path - ensure file exists and add to list
         if not out_csv.exists():
@@ -496,62 +578,62 @@ def bulk_search(page):
     state_history = state_machine.get_state_history()
     logger.info(f"[METRICS] Bulk search state transitions: {len(state_history)} transitions")
     
+    _save_bulk_count_report(bulk_count_records)
+    
     return all_csvs
 
 
-def _wait_for_table_data_loaded(page, table_selector, timeout_ms=60000):
+def _wait_for_table_data_loaded(page, row_selector, timeout_ms=60000):
     """
     Wait until all table data is fully loaded before allowing CSV download.
-    
+
     This function ensures:
     1. Network is idle (no pending requests)
     2. Table rows count is stable (no more rows being added)
     3. Loading indicators are gone
     4. Table has actual data rows
-    
+
     Args:
         page: Playwright page object
-        table_selector: CSS selector for the table
+        row_selector: CSS selector(s) for table rows
         timeout_ms: Maximum time to wait in milliseconds
-        
+
     Returns:
-        True if data is loaded, False if timeout
+        (bool, int): (True, visible_row_count) if data is loaded, (False, visible_row_count) otherwise.
     """
     start_time = time.time()
     timeout_seconds = timeout_ms / 1000.0
-    
+    final_row_count = 0
+
     print(f"  -> Waiting for all table data to load...", flush=True)
-    
-    # Step 1: Wait for network to be idle
+
     try:
-        page.wait_for_load_state("networkidle", timeout=30000)  # 30 seconds for network idle
+        page.wait_for_load_state("networkidle", timeout=30000)
         print(f"  -> Network idle", flush=True)
     except Exception:
-        # Network idle timeout - continue anyway, might be slow connection
         logger.debug("Network idle timeout, continuing...")
-    
-    # Step 2: Wait for table rows to stabilize (no more rows being added)
-    stable_checks_required = 3  # Need 3 consecutive stable checks
+
+    stable_checks_required = 3
     stable_count = 0
     last_row_count = -1
     max_stable_wait = timeout_seconds - (time.time() - start_time)
-    
+
     if max_stable_wait <= 0:
-        return False
-    
-    check_interval = 1.0  # Check every second
+        return False, final_row_count
+
+    check_interval = 1.0
     max_iterations = int(max_stable_wait / check_interval)
-    
+
     for iteration in range(max_iterations):
         try:
-            # Count visible table rows
-            rows = page.query_selector_all(f"{table_selector} tbody tr, {table_selector} tr")
+            rows = page.query_selector_all(row_selector)
             visible_rows = [r for r in rows if r.is_visible()]
             current_row_count = len(visible_rows)
-            
+
             if current_row_count == last_row_count:
                 stable_count += 1
                 if stable_count >= stable_checks_required:
+                    final_row_count = current_row_count
                     print(f"  -> Table rows stable at {current_row_count} rows", flush=True)
                     break
             else:
@@ -559,49 +641,35 @@ def _wait_for_table_data_loaded(page, table_selector, timeout_ms=60000):
                 last_row_count = current_row_count
                 if iteration == 0:
                     print(f"  -> Table has {current_row_count} rows (waiting for stability)...", flush=True)
-                elif iteration % 5 == 0:  # Print every 5 seconds
+                elif iteration % 5 == 0:
                     print(f"  -> Table rows: {current_row_count} (waiting for stability)...", flush=True)
-            
+
             time.sleep(check_interval)
-            
         except Exception as e:
             logger.debug(f"Error checking table stability: {e}")
             time.sleep(check_interval)
             continue
-    
-    # Step 3: Check for loading indicators
+
     try:
-        # Wait for common loading indicators to disappear
-        loading_selectors = [
-            ".loading",
-            ".spinner",
-            "[class*='loading']",
-            "[class*='spinner']",
-            "[data-loading='true']",
-            ".dataTables_processing"  # DataTables loading indicator
-        ]
-        
-        for selector in loading_selectors:
+        for selector in LOADING_SELECTORS:
             try:
                 loading_elem = page.query_selector(selector)
                 if loading_elem and loading_elem.is_visible():
-                    # Wait for it to disappear
                     page.wait_for_selector(selector, state="hidden", timeout=10000)
             except Exception:
-                pass  # Selector not found or already hidden
+                pass
     except Exception:
-        pass  # Loading indicator check is optional
-    
-    # Step 4: Final verification - ensure table has data
+        pass
+
     try:
-        rows = page.query_selector_all(f"{table_selector} tbody tr, {table_selector} tr")
+        rows = page.query_selector_all(row_selector)
         visible_rows = [r for r in rows if r.is_visible()]
-        
-        if len(visible_rows) == 0:
+        final_row_count = len(visible_rows)
+
+        if final_row_count == 0:
             logger.warning("Table has no visible rows after wait")
-            return False
-        
-        # Check if at least one row has meaningful data
+            return False, final_row_count
+
         for row in visible_rows[:5]:
             try:
                 text = row.inner_text().strip()
@@ -611,67 +679,119 @@ def _wait_for_table_data_loaded(page, table_selector, timeout_ms=60000):
                         cell_texts = [cell.inner_text().strip() for cell in cells]
                         non_empty_cells = sum(1 for ct in cell_texts if len(ct) > 0)
                         if non_empty_cells >= 2:
-                            print(f"  -> All data loaded ({len(visible_rows)} rows)", flush=True)
-                            return True
+                            final_row_count = _wait_for_additional_rows(
+                                page, row_selector, final_row_count, timeout_seconds
+                            )
+                            print(f"  -> All data loaded ({final_row_count} rows)", flush=True)
+                            return True, final_row_count
             except Exception:
                 continue
-        
-        # If we get here, table exists but might not have data yet
+
         logger.warning("Table exists but no meaningful data rows found")
-        return False
-        
+        return False, final_row_count
     except Exception as e:
         logger.warning(f"Error verifying table data: {e}")
-        return False
+        return False, final_row_count
+
+def _get_total_entries_from_info(page, info_selector):
+    """Return total entries from DataTables info text like 'Showing 1 to 10 of 474 entries'."""
+    try:
+        info = page.query_selector(info_selector)
+        if not info:
+            return None
+        text = (info.inner_text() or "").strip()
+        if not text:
+            return None
+        match = re.search(r"of\s+([\d,]+)\s+entries", text, re.IGNORECASE)
+        if not match:
+            return None
+        return int(match.group(1).replace(",", ""))
+    except Exception:
+        return None
+
+def _is_loading_indicator_visible(page):
+    """Return True if any known loading indicator is still visible."""
+    for selector in LOADING_SELECTORS:
+        try:
+            elem = page.query_selector(selector)
+            if elem and elem.is_visible():
+                return True
+        except Exception:
+            continue
+    return False
+
+def _wait_for_search_settle(page, search_started_at, min_wait, max_wait):
+    """Wait at least min_wait seconds (and until loading indicators are gone) before proceeding."""
+    target_time = search_started_at + min_wait
+    deadline = search_started_at + max_wait
+    print(f"  -> Ensuring minimum {min_wait}s wait after search click...", flush=True)
+
+    while True:
+        now = time.time()
+        is_loading = _is_loading_indicator_visible(page)
+        if now >= target_time and not is_loading:
+            break
+        if now >= deadline:
+            logger.warning(
+                f"[WARNING] Search settle wait exceeded {max_wait}s (loading={is_loading})"
+            )
+            break
+        time_remaining = max(target_time - now, 0)
+        if is_loading and now < deadline:
+            print("  -> Loading indicator still visible, waiting...", flush=True)
+        else:
+            print(f"  -> Waiting {round(time_remaining,1)}s more for the minimum delay...", flush=True)
+        time.sleep(0.5)
 
 
-def _check_table_has_data_playwright(page, table_selector):
+def _check_table_has_data_playwright(page, row_selector):
     """Check if table has data rows (Playwright)."""
     try:
-        # Try multiple selector strategies to find table rows
         selectors = [
-            f"{table_selector} tbody tr",
-            f"{table_selector} tr",
-            f"{table_selector} tbody tr:not(:first-child)",  # Exclude header row
-            f"{table_selector} tr:not(:first-child)"
+            selector.strip()
+            for selector in row_selector.split(",")
+            if selector.strip()
         ]
-        
+        if not selectors:
+            selectors = [
+                "table.table tbody tr",
+                "table.table tr",
+                "table.table tbody tr:not(:first-child)",
+                "table.table tr:not(:first-child)"
+            ]
+
         for selector in selectors:
             try:
                 rows = page.query_selector_all(selector)
                 visible_rows = [r for r in rows if r.is_visible()]
-                
-                # Check first few visible rows for meaningful content
-                for row in visible_rows[:10]:  # Check up to 10 rows
+
+                for row in visible_rows[:10]:
                     try:
                         text = row.inner_text().strip()
-                        # Row has data if it has meaningful text (more than just whitespace/single chars)
                         if len(text) > 10 and not text.isspace():
-                            # Additional check: ensure it's not just a header row
                             cells = row.query_selector_all("td, th")
-                            if len(cells) >= 2:  # At least 2 columns
+                            if len(cells) >= 2:
                                 cell_texts = [cell.inner_text().strip() for cell in cells]
                                 non_empty_cells = sum(1 for ct in cell_texts if len(ct) > 0)
-                                if non_empty_cells >= 2:  # At least 2 cells with content
+                                if non_empty_cells >= 2:
                                     return True
                     except Exception:
                         continue
             except Exception:
                 continue
-        
-        # Fallback: check if table element exists (at least table structure is present)
-        try:
-            table = page.query_selector(table_selector)
-            if table and table.is_visible():
-                # Table exists and is visible - might have data even if we can't detect rows
-                # Return True to be less strict (let CSV download proceed)
-                return True
-        except Exception:
-            pass
-        
+
+        # Fallback: try to find any table element from the selectors
+        for selector in selectors:
+            try:
+                table_query = selector.split(" ")[0]
+                table = page.query_selector(table_query)
+                if table and table.is_visible():
+                    return True
+            except Exception:
+                continue
+
         return False
     except Exception:
-        # On error, return False (be conservative)
         return False
 
 
@@ -684,6 +804,87 @@ def _check_button_enabled_playwright(page, button_selector):
         return False
     except Exception:
         return False
+
+def _wait_for_additional_rows(page, row_selector, initial_count, max_wait_seconds):
+    """Wait an extra `DATA_LOAD_WAIT_SECONDS` for table rows to settle."""
+    if DATA_LOAD_WAIT_SECONDS <= 0:
+        return initial_count
+    start_time = time.time()
+    deadline = start_time + DATA_LOAD_WAIT_SECONDS
+    overall_deadline = start_time + max_wait_seconds
+    deadline = min(deadline, overall_deadline)
+    last_count = initial_count
+
+    while time.time() < deadline:
+        try:
+            rows = page.query_selector_all(row_selector)
+            visible_rows = [r for r in rows if r.is_visible()]
+            current_count = len(visible_rows)
+            if current_count != last_count:
+                print(f"  -> Table row count updated: {current_count:,} rows (was {last_count:,})", flush=True)
+                last_count = current_count
+                deadline = min(time.time() + DATA_LOAD_WAIT_SECONDS, overall_deadline)
+            time.sleep(0.5)
+        except Exception as exc:
+            logger.debug(f"Error during additional row wait: {exc}")
+            time.sleep(0.5)
+    return last_count
+
+def _capture_missing_screenshot(page, keyword, reason):
+    """Capture a screenshot when a search returns no data."""
+    if not CAPTURE_MISSING_SCREENSHOTS:
+        return
+    try:
+        ks = sanitize(keyword) or "search"
+        reason_slug = sanitize(reason) or "missing"
+        timestamp = datetime.datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+        path = MISSING_SCREENSHOT_DIR / f"{ks}_{reason_slug}_{timestamp}.png"
+        MISSING_SCREENSHOT_DIR.mkdir(parents=True, exist_ok=True)
+        page.screenshot(path=path, full_page=True)
+        logger.info(f"[SCREENSHOT] Saved missing-data screenshot to {path}")
+    except Exception as exc:
+        logger.debug(f"[SCREENSHOT] Unable to capture screenshot for {keyword}: {exc}")
+
+def _count_csv_data_rows(csv_path):
+    """Count non-empty data rows in a downloaded CSV (excluding the header)."""
+    if not csv_path.exists():
+        return 0
+    row_count = 0
+    with open(csv_path, "r", encoding="utf-8", errors="ignore") as f:
+        header = f.readline()
+        if not header:
+            return 0
+        for line in f:
+            if line.strip():
+                row_count += 1
+    return row_count
+
+def _append_bulk_count_record(records, keyword, page_rows, csv_rows, status, reason, csv_path):
+    """Keep track of row count comparisons per bulk search."""
+    difference = ""
+    if page_rows is not None and csv_rows is not None:
+        difference = page_rows - csv_rows
+    records.append({
+        "timestamp": datetime.datetime.utcnow().isoformat(),
+        "keyword": keyword,
+        "page_rows": page_rows if page_rows is not None else "",
+        "csv_rows": csv_rows,
+        "difference": difference,
+        "status": status,
+        "reason": reason,
+        "csv_file": str(csv_path)
+    })
+
+def _save_bulk_count_report(records):
+    """Save the bulk search count report to disk."""
+    if not records:
+        return
+    try:
+        COUNT_REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+        pd.DataFrame(records).to_csv(COUNT_REPORT_PATH, index=False)
+        print(f"[BULK] Saved bulk count report to: {COUNT_REPORT_PATH}", flush=True)
+    except Exception as exc:
+        logger.warning(f"[BULK] Failed to write bulk count report: {exc}")
 
 # ================= MERGE BULK =================
 def merge_bulk(csvs):

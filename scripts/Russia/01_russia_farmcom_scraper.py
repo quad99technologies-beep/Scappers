@@ -21,10 +21,14 @@ import csv
 import sys
 import time
 import json
+import threading
+from queue import Queue, Empty
 from dataclasses import dataclass
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from urllib.parse import urlparse, parse_qs
 from pathlib import Path
+from typing import Set, Dict, List, Optional
 
 # Force unbuffered output for real-time console updates
 sys.stdout.reconfigure(line_buffering=True) if hasattr(sys.stdout, 'reconfigure') else None
@@ -167,6 +171,10 @@ EAN_POPUP_TIMEOUT = getenv_int("SCRIPT_01_EAN_POPUP_TIMEOUT", 3) if USE_CONFIG e
 
 # Max pages to scrape (0 = all pages, >0 = limit to N pages)
 MAX_PAGES = getenv_int("SCRIPT_01_MAX_PAGES", 0) if USE_CONFIG else 0
+
+# Multi-threading configuration
+NUM_WORKERS = getenv_int("SCRIPT_01_NUM_WORKERS", 3) if USE_CONFIG else 3
+MAX_RETRIES_PER_PAGE = getenv_int("SCRIPT_01_MAX_RETRIES_PER_PAGE", 3) if USE_CONFIG else 3
 
 
 @dataclass
@@ -754,14 +762,18 @@ def extract_ean(text: str) -> str:
     return max(matches, key=len)
 
 
-def extract_rows_from_page_with_retry(driver: webdriver.Chrome, page_num: int = 0, state_machine=None) -> tuple[list[RowData], int]:
+def extract_rows_from_page_with_retry(driver: webdriver.Chrome, page_num: int = 0, state_machine=None) -> tuple[list[RowData], int, bool]:
     """
-    Extract rows from current page with EAN retry mechanism.
+    Extract rows from current page with strict EAN validation.
+
+    STRICT RULE: Row count MUST equal EAN count. If not, retry once after 5 seconds.
+    If still mismatch, mark page for later retry (don't write data).
 
     Returns:
-        tuple: (rows, missing_ean_count)
+        tuple: (rows, missing_ean_count, is_valid)
             - rows: List of extracted RowData
-            - missing_ean_count: Number of rows with missing EAN after retry
+            - missing_ean_count: Number of rows with missing EAN
+            - is_valid: True if data is valid to write, False if needs retry later
     """
     wait_for_table(driver)
 
@@ -776,36 +788,45 @@ def extract_rows_from_page_with_retry(driver: webdriver.Chrome, page_num: int = 
     # First attempt: Extract data
     rows = _extract_rows_from_table(driver, page_num)
 
-    # Check for missing EANs (only if FETCH_EAN is enabled)
+    # STRICT EAN VALIDATION (only if FETCH_EAN is enabled)
     if FETCH_EAN and rows:
-        missing_count = sum(1 for r in rows if not r.ean)
+        row_count = len(rows)
+        ean_count = sum(1 for r in rows if r.ean)
+        missing_count = row_count - ean_count
 
-        if missing_count > 0:
-            print(f"  [EAN RETRY] Found {missing_count} rows with missing EAN, waiting 3 seconds and retrying...", flush=True)
-            time.sleep(3)  # Wait 3 seconds as per requirement
+        print(f"  [VALIDATION] Rows: {row_count} | With EAN: {ean_count} | Missing: {missing_count}", flush=True)
+
+        # Check if row count == EAN count (STRICT)
+        if row_count != ean_count:
+            print(f"  [VALIDATION FAILED] Row count ({row_count}) != EAN count ({ean_count})", flush=True)
+            print(f"  [EAN RETRY] Waiting 5 seconds and retrying...", flush=True)
+            time.sleep(5)  # Wait 5 seconds as per requirement
 
             # Retry extraction
             rows_retry = _extract_rows_from_table(driver, page_num)
+            row_count_retry = len(rows_retry)
+            ean_count_retry = sum(1 for r in rows_retry if r.ean)
+            missing_count_retry = row_count_retry - ean_count_retry
 
-            # Check if retry helped
-            missing_count_after = sum(1 for r in rows_retry if not r.ean)
+            print(f"  [VALIDATION RETRY] Rows: {row_count_retry} | With EAN: {ean_count_retry} | Missing: {missing_count_retry}", flush=True)
 
-            if missing_count_after < missing_count:
-                print(f"  [EAN RETRY] Retry successful: reduced missing EANs from {missing_count} to {missing_count_after}", flush=True)
-                rows = rows_retry
-                missing_count = missing_count_after
+            # Check again
+            if row_count_retry == ean_count_retry:
+                print(f"  [VALIDATION SUCCESS] Retry successful: 100% EAN coverage achieved", flush=True)
+                return rows_retry, 0, True
             else:
-                print(f"  [EAN RETRY] Retry did not help: still {missing_count_after} missing EANs", flush=True)
-                rows = rows_retry
-                missing_count = missing_count_after
-
-            return rows, missing_count
+                print(f"  [VALIDATION FAILED] Retry did not fix issue", flush=True)
+                print(f"  [ACTION] Marking page for later retry - DATA NOT WRITTEN", flush=True)
+                return [], row_count_retry, False  # Return empty list, mark as invalid
         else:
-            print(f"  [EAN] All rows have EAN data", flush=True)
-            return rows, 0
+            print(f"  [VALIDATION SUCCESS] 100% EAN coverage - data is valid", flush=True)
+            return rows, 0, True
     else:
         # FETCH_EAN disabled or no rows
-        return rows, 0
+        if not rows:
+            print(f"  [WARN] No rows extracted from page", flush=True)
+            return rows, 0, False
+        return rows, 0, True
 
 
 def _extract_rows_from_table(driver: webdriver.Chrome, page_num: int = 0) -> list[RowData]:
@@ -925,6 +946,209 @@ def go_to_page(driver: webdriver.Chrome, page_num: int, headless: bool | None = 
     )
 
 
+# --------------------- Parallel Tab Extraction ---------------------
+
+def open_tabs(driver: webdriver.Chrome, num_tabs: int) -> list[str]:
+    """
+    Open multiple browser tabs and return list of window handles.
+
+    Args:
+        driver: Chrome WebDriver instance
+        num_tabs: Number of tabs to open (including the existing one)
+
+    Returns:
+        List of window handles for all tabs
+    """
+    handles = [driver.current_window_handle]  # First tab already exists
+
+    # Open additional tabs
+    for i in range(num_tabs - 1):
+        driver.execute_script("window.open('about:blank', '_blank');")
+        time.sleep(0.1)  # Small delay for tab to open
+
+    handles = driver.window_handles
+    print(f"  [TABS] Opened {len(handles)} browser tabs", flush=True)
+    return handles
+
+
+def navigate_tab_to_page(driver: webdriver.Chrome, handle: str, page_num: int, state_machine=None) -> bool:
+    """
+    Navigate a specific tab to a page URL.
+
+    Args:
+        driver: Chrome WebDriver instance
+        handle: Window handle of the tab
+        page_num: Page number to navigate to
+        state_machine: Optional navigation state machine
+
+    Returns:
+        True if navigation succeeded, False otherwise
+    """
+    try:
+        driver.switch_to.window(handle)
+        url = f"{BASE_URL}?page={page_num}"
+        driver.get(url)
+        remove_webdriver_property(driver)
+        return True
+    except Exception as e:
+        print(f"  [TAB ERROR] Failed to navigate tab to page {page_num}: {e}", flush=True)
+        return False
+
+
+def extract_from_tab(driver: webdriver.Chrome, handle: str, page_num: int,
+                     driver_lock: threading.Lock, state_machine=None) -> tuple[int, list[RowData], int, bool]:
+    """
+    Extract data from a specific tab.
+
+    Args:
+        driver: Chrome WebDriver instance
+        handle: Window handle of the tab
+        page_num: Page number being extracted
+        driver_lock: Lock for thread-safe driver access
+        state_machine: Optional navigation state machine
+
+    Returns:
+        Tuple of (page_num, rows, missing_ean_count, is_valid)
+    """
+    try:
+        with driver_lock:
+            driver.switch_to.window(handle)
+
+            # Wait for table to load
+            try:
+                WebDriverWait(driver, WAIT_TIMEOUT).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "table.report tbody tr"))
+                )
+            except TimeoutException:
+                print(f"  [TAB {page_num}] Timeout waiting for table", flush=True)
+                return (page_num, [], 0, False)
+
+            # Extract rows with validation
+            rows, missing_ean_count, is_valid = extract_rows_from_page_with_retry(driver, page_num, state_machine)
+
+            return (page_num, rows, missing_ean_count, is_valid)
+
+    except Exception as e:
+        print(f"  [TAB {page_num}] Extraction error: {e}", flush=True)
+        return (page_num, [], 0, False)
+
+
+def parallel_extract_batch(driver: webdriver.Chrome, page_numbers: list[int],
+                          headless: bool = None, state_machine=None) -> list[tuple[int, list[RowData], int, bool]]:
+    """
+    Extract data from multiple pages in parallel using browser tabs.
+
+    This is the TRUE parallel extraction implementation:
+    1. Opens N browser tabs (one per page)
+    2. Navigates all tabs to their respective pages simultaneously
+    3. Extracts data from all tabs (sequentially due to Selenium limitation, but navigations are parallel)
+    4. Returns combined results
+
+    Args:
+        driver: Chrome WebDriver instance
+        page_numbers: List of page numbers to extract
+        headless: Whether running in headless mode
+        state_machine: Optional navigation state machine
+
+    Returns:
+        List of (page_num, rows, missing_ean_count, is_valid) tuples
+    """
+    if not page_numbers:
+        return []
+
+    num_tabs = len(page_numbers)
+    results = []
+    original_handle = driver.current_window_handle
+
+    print(f"\n  [PARALLEL] Extracting {num_tabs} pages in parallel: {page_numbers}", flush=True)
+
+    try:
+        # Step 1: Open tabs
+        handles = open_tabs(driver, num_tabs)
+
+        if len(handles) < num_tabs:
+            print(f"  [WARN] Only opened {len(handles)} tabs, expected {num_tabs}", flush=True)
+            num_tabs = len(handles)
+            page_numbers = page_numbers[:num_tabs]
+
+        # Map page numbers to tab handles
+        tab_page_map = list(zip(handles, page_numbers))
+
+        # Step 2: Navigate ALL tabs to their pages FIRST (this is the parallel part)
+        print(f"  [PARALLEL] Navigating all {num_tabs} tabs to their pages...", flush=True)
+        nav_start = time.time()
+
+        for handle, page_num in tab_page_map:
+            driver.switch_to.window(handle)
+            url = f"{BASE_URL}?page={page_num}"
+            driver.get(url)
+            remove_webdriver_property(driver)
+
+        nav_elapsed = time.time() - nav_start
+        print(f"  [PARALLEL] All tabs navigated in {nav_elapsed:.1f}s", flush=True)
+
+        # Step 3: Wait for all tabs to load (give them time to render)
+        print(f"  [PARALLEL] Waiting for all tabs to load...", flush=True)
+        time.sleep(3)  # Allow all pages to start loading
+
+        # Step 4: Extract from each tab (must be sequential due to Selenium driver limitation)
+        print(f"  [PARALLEL] Extracting data from all tabs...", flush=True)
+        extract_start = time.time()
+
+        for handle, page_num in tab_page_map:
+            try:
+                driver.switch_to.window(handle)
+
+                # Wait for table to be ready
+                try:
+                    WebDriverWait(driver, WAIT_TIMEOUT).until(
+                        EC.presence_of_element_located((By.CSS_SELECTOR, "table.report tbody tr"))
+                    )
+                except TimeoutException:
+                    print(f"  [TAB {page_num}] Timeout waiting for table", flush=True)
+                    results.append((page_num, [], 0, False))
+                    continue
+
+                # Add small delay to ensure page is fully rendered
+                if HUMAN_ACTIONS_AVAILABLE:
+                    pause(0.3, 0.6)
+                else:
+                    time.sleep(0.5)
+
+                # Extract rows with strict EAN validation
+                rows, missing_ean_count, is_valid = extract_rows_from_page_with_retry(driver, page_num, state_machine)
+                results.append((page_num, rows, missing_ean_count, is_valid))
+
+                if is_valid and rows:
+                    print(f"  [TAB {page_num}] OK: {len(rows)} rows extracted (100% EAN)", flush=True)
+                elif not is_valid:
+                    print(f"  [TAB {page_num}] X Validation failed ({missing_ean_count} missing EAN)", flush=True)
+                else:
+                    print(f"  [TAB {page_num}] X No rows extracted", flush=True)
+
+            except Exception as e:
+                print(f"  [TAB {page_num}] ERROR: {e}", flush=True)
+                results.append((page_num, [], 0, False))
+
+        extract_elapsed = time.time() - extract_start
+        total_elapsed = time.time() - nav_start
+        print(f"  [PARALLEL] Extraction completed in {extract_elapsed:.1f}s (total: {total_elapsed:.1f}s)", flush=True)
+
+    finally:
+        # Close extra tabs, keep only the original
+        try:
+            all_handles = driver.window_handles
+            for handle in all_handles:
+                if handle != original_handle:
+                    driver.switch_to.window(handle)
+                    driver.close()
+            driver.switch_to.window(original_handle)
+        except Exception as e:
+            print(f"  [WARN] Error closing tabs: {e}", flush=True)
+
+    return results
+
+
 # --------------------- Progress/Resume Support ---------------------
 def load_progress() -> dict:
     """Load progress from JSON file for resume support with enhanced page-level tracking."""
@@ -958,7 +1182,7 @@ def load_progress() -> dict:
 
 
 def save_progress(last_page: int, total_pages: int, total_rows: int, pages_info: dict = None,
-                 pages_with_missing_ean: list = None, failed_pages: list = None):
+                 pages_with_missing_ean: list = None, failed_pages: list = None, lock: threading.Lock = None):
     """
     Save progress to JSON file after each page with enhanced page-level tracking.
 
@@ -969,27 +1193,35 @@ def save_progress(last_page: int, total_pages: int, total_rows: int, pages_info:
         pages_info: Dict mapping page_num -> {status, rows_extracted, missing_ean_count, error}
         pages_with_missing_ean: List of page numbers with missing EAN data
         failed_pages: List of page numbers that failed extraction
+        lock: Optional threading lock for thread-safe writes
     """
-    try:
-        # Load existing progress to preserve page history
-        existing = load_progress()
+    def _write():
+        try:
+            # Load existing progress to preserve page history
+            existing = load_progress()
 
-        payload = {
-            "last_completed_page": last_page,
-            "total_pages": total_pages,
-            "total_rows": total_rows,
-            "updated_at": datetime.now(timezone.utc).isoformat(),
-            "region": REGION_VALUE,
-            "output_csv": str(OUT_CSV),
-            "pages": pages_info or existing.get("pages", {}),
-            "pages_with_missing_ean": pages_with_missing_ean or existing.get("pages_with_missing_ean", []),
-            "failed_pages": failed_pages or existing.get("failed_pages", [])
-        }
+            payload = {
+                "last_completed_page": last_page,
+                "total_pages": total_pages,
+                "total_rows": total_rows,
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+                "region": REGION_VALUE,
+                "output_csv": str(OUT_CSV),
+                "pages": pages_info or existing.get("pages", {}),
+                "pages_with_missing_ean": pages_with_missing_ean or existing.get("pages_with_missing_ean", []),
+                "failed_pages": failed_pages or existing.get("failed_pages", [])
+            }
 
-        with open(PROGRESS_FILE, "w", encoding="utf-8") as f:
-            json.dump(payload, f, ensure_ascii=False, indent=2)
-    except Exception as e:
-        print(f"  Warning: Could not save progress: {e}")
+            with open(PROGRESS_FILE, "w", encoding="utf-8") as f:
+                json.dump(payload, f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"  Warning: Could not save progress: {e}")
+
+    if lock:
+        with lock:
+            _write()
+    else:
+        _write()
 
 
 def clear_progress():
@@ -1053,37 +1285,256 @@ def load_existing_ids(csv_path: Path) -> set[str]:
     return ids
 
 
-def append_rows(csv_path: Path, rows: list[RowData]) -> None:
-    file_exists = csv_path.exists()
+def append_rows(csv_path: Path, rows: list[RowData], lock: threading.Lock = None) -> None:
+    def _write():
+        file_exists = csv_path.exists()
 
-    with open(csv_path, "a", newline="", encoding="utf-8") as f:
-        fieldnames = [
-            "item_id",
-            "TN",
-            "INN",
-            "Manufacturer_Country",
-            "Release_Form",
-            "EAN",
-            "Registered_Price_RUB",
-            "Start_Date_Text",
-        ]
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        if not file_exists:
-            writer.writeheader()
+        with open(csv_path, "a", newline="", encoding="utf-8") as f:
+            fieldnames = [
+                "item_id",
+                "TN",
+                "INN",
+                "Manufacturer_Country",
+                "Release_Form",
+                "EAN",
+                "Registered_Price_RUB",
+                "Start_Date_Text",
+            ]
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            if not file_exists:
+                writer.writeheader()
 
-        for r in rows:
-            writer.writerow(
-                {
-                    "item_id": r.item_id,
-                    "TN": r.tn,
-                    "INN": r.inn,
-                    "Manufacturer_Country": r.manufacturer_country,
-                    "Release_Form": r.release_form,
-                    "EAN": r.ean,
-                    "Registered_Price_RUB": r.registered_price_rub,
-                    "Start_Date_Text": r.start_date_text,
-                }
-            )
+            for r in rows:
+                writer.writerow(
+                    {
+                        "item_id": r.item_id,
+                        "TN": r.tn,
+                        "INN": r.inn,
+                        "Manufacturer_Country": r.manufacturer_country,
+                        "Release_Form": r.release_form,
+                        "EAN": r.ean,
+                        "Registered_Price_RUB": r.registered_price_rub,
+                        "Start_Date_Text": r.start_date_text,
+                    }
+                )
+
+    if lock:
+        with lock:
+            _write()
+    else:
+        _write()
+
+
+def worker_fn(
+    worker_id: int,
+    page_queue: Queue,
+    seen_ids: Set[str],
+    seen_ids_lock: threading.Lock,
+    csv_lock: threading.Lock,
+    progress_data: Dict,
+    progress_lock: threading.Lock,
+    progress_counter: Dict,
+    counter_lock: threading.Lock,
+    headless: bool,
+    total_pages: int
+) -> None:
+    """Worker function to process pages in parallel."""
+    driver = None
+    state_machine = None
+    locator = None
+
+    try:
+        driver = make_driver(headless=headless)
+        if driver is None:
+            print(f"[Worker {worker_id}] Failed to create driver", flush=True)
+            return
+
+        # Initialize state machine for this worker
+        if STATE_MACHINE_AVAILABLE:
+            import logging
+            logger = logging.getLogger(f"worker_{worker_id}")
+            locator = SmartLocator(driver, logger=logger)
+            state_machine = NavigationStateMachine(locator, logger=logger)
+
+        print(f"[Worker {worker_id}] Started", flush=True)
+
+        # Initialize session: select region
+        print(f"  [Worker {worker_id}] Initializing session...", flush=True)
+        try:
+            driver = select_region_and_search(driver, headless=headless, state_machine=state_machine)
+            print(f"  [Worker {worker_id}] Session initialized", flush=True)
+        except Exception as e:
+            print(f"  [Worker {worker_id}] Failed to initialize session: {e}", flush=True)
+
+        while True:
+            try:
+                page_num = page_queue.get(timeout=2)
+            except Empty:
+                break
+
+            if page_num is None:
+                page_queue.task_done()
+                continue
+
+            print(f"\n[Worker {worker_id}] Processing page {page_num}", flush=True)
+
+            success = False
+            for attempt in range(1, MAX_RETRIES_PER_PAGE + 1):
+                try:
+                    # Check session health
+                    if not is_session_valid(driver):
+                        print(f"  [Worker {worker_id}] Session invalid, reinitializing...", flush=True)
+                        driver = restart_driver(driver, headless=headless)
+                        if STATE_MACHINE_AVAILABLE:
+                            import logging
+                            logger = logging.getLogger(f"worker_{worker_id}")
+                            locator = SmartLocator(driver, logger=logger)
+                            state_machine = NavigationStateMachine(locator, logger=logger)
+                        driver = select_region_and_search(driver, headless=headless, state_machine=state_machine)
+
+                    # Navigate to page
+                    driver = go_to_page(driver, page_num, headless=headless, state_machine=state_machine)
+
+                    # Add human-like pause
+                    if HUMAN_ACTIONS_AVAILABLE:
+                        pause(0.3, 0.8)
+
+                    # Extract rows with validation
+                    page_rows, missing_ean_count, is_valid = extract_rows_from_page_with_retry(driver, page_num, state_machine=state_machine)
+
+                    if is_valid and page_rows:
+                        # De-dup by item_id (thread-safe)
+                        with seen_ids_lock:
+                            new_rows = [r for r in page_rows if r.item_id and r.item_id not in seen_ids]
+                            for r in new_rows:
+                                seen_ids.add(r.item_id)
+
+                        # Write to CSV (thread-safe)
+                        if new_rows:
+                            append_rows(OUT_CSV, new_rows, lock=csv_lock)
+
+                        print(f"  [Worker {worker_id}] Page {page_num}: {len(page_rows)} rows, {len(new_rows)} new", flush=True)
+
+                        # Update progress data (thread-safe)
+                        with progress_lock:
+                            pages_info = progress_data.get("pages", {})
+                            failed_pages = progress_data.get("failed_pages", [])
+                            pages_with_missing_ean = progress_data.get("pages_with_missing_ean", [])
+
+                            pages_info[str(page_num)] = {
+                                "status": "complete",
+                                "rows_extracted": len(page_rows),
+                                "missing_ean_count": 0,
+                                "timestamp": datetime.now(timezone.utc).isoformat()
+                            }
+
+                            if page_num in failed_pages:
+                                failed_pages.remove(page_num)
+                            if page_num in pages_with_missing_ean:
+                                pages_with_missing_ean.remove(page_num)
+
+                            progress_data["pages"] = pages_info
+                            progress_data["failed_pages"] = failed_pages
+                            progress_data["pages_with_missing_ean"] = pages_with_missing_ean
+
+                        # Update progress counter
+                        with counter_lock:
+                            progress_counter["done"] += 1
+                            progress_counter["new_rows"] += len(new_rows)
+                            pct = round((progress_counter["done"] / progress_counter["total"]) * 100, 1)
+                            print(f"[PROGRESS] {progress_counter['done']}/{progress_counter['total']} ({pct}%) pages - {progress_counter['new_rows']} new rows", flush=True)
+
+                        # Save progress periodically (every 5 pages per worker)
+                        if progress_counter["done"] % 5 == 0:
+                            with progress_lock:
+                                save_progress(
+                                    page_num, total_pages, len(seen_ids),
+                                    progress_data.get("pages", {}),
+                                    progress_data.get("pages_with_missing_ean", []),
+                                    progress_data.get("failed_pages", [])
+                                )
+
+                        success = True
+                        break
+
+                    elif not is_valid:
+                        print(f"  [Worker {worker_id}] Page {page_num}: Validation failed ({missing_ean_count} missing EAN)", flush=True)
+
+                        # Track as failed validation
+                        with progress_lock:
+                            pages_info = progress_data.get("pages", {})
+                            pages_with_missing_ean = progress_data.get("pages_with_missing_ean", [])
+
+                            pages_info[str(page_num)] = {
+                                "status": "validation_failed",
+                                "rows_extracted": 0,
+                                "missing_ean_count": missing_ean_count,
+                                "timestamp": datetime.now(timezone.utc).isoformat()
+                            }
+
+                            if page_num not in pages_with_missing_ean:
+                                pages_with_missing_ean.append(page_num)
+
+                            progress_data["pages"] = pages_info
+                            progress_data["pages_with_missing_ean"] = pages_with_missing_ean
+
+                        # Still mark as "processed" for progress
+                        with counter_lock:
+                            progress_counter["done"] += 1
+
+                        success = True  # Don't retry validation failures
+                        break
+
+                    else:
+                        print(f"  [Worker {worker_id}] Page {page_num}: No rows extracted", flush=True)
+                        raise RuntimeError("No rows extracted")
+
+                except Exception as e:
+                    print(f"  [Worker {worker_id}] Attempt {attempt}/{MAX_RETRIES_PER_PAGE} failed for page {page_num}: {e}", flush=True)
+                    if attempt == MAX_RETRIES_PER_PAGE:
+                        # Mark as failed
+                        with progress_lock:
+                            pages_info = progress_data.get("pages", {})
+                            failed_pages = progress_data.get("failed_pages", [])
+
+                            pages_info[str(page_num)] = {
+                                "status": "failed",
+                                "rows_extracted": 0,
+                                "error": str(e),
+                                "timestamp": datetime.now(timezone.utc).isoformat()
+                            }
+
+                            if page_num not in failed_pages:
+                                failed_pages.append(page_num)
+
+                            progress_data["pages"] = pages_info
+                            progress_data["failed_pages"] = failed_pages
+
+                        with counter_lock:
+                            progress_counter["done"] += 1
+
+                        print(f"  [Worker {worker_id}] Page {page_num} marked as FAILED", flush=True)
+                    else:
+                        # Restart driver on failure
+                        try:
+                            driver = restart_driver(driver, headless=headless)
+                            if STATE_MACHINE_AVAILABLE:
+                                import logging
+                                logger = logging.getLogger(f"worker_{worker_id}")
+                                locator = SmartLocator(driver, logger=logger)
+                                state_machine = NavigationStateMachine(locator, logger=logger)
+                            driver = select_region_and_search(driver, headless=headless, state_machine=state_machine)
+                            print(f"  [Worker {worker_id}] Session reinitialized", flush=True)
+                        except Exception:
+                            pass
+                        time.sleep(2)
+
+            page_queue.task_done()
+            time.sleep(SLEEP_BETWEEN_PAGES)
+
+    finally:
+        shutdown_driver(driver)
+        print(f"[Worker {worker_id}] Stopped", flush=True)
 
 
 def main(headless: bool = None, start_page: int = None, end_page: int | None = None, fresh: bool = False) -> None:
@@ -1182,19 +1633,37 @@ def main(headless: bool = None, start_page: int = None, end_page: int | None = N
 
         # Initialize page-level tracking
         pages_info = progress.get("pages", {})
-        pages_with_missing_ean = []
-        failed_pages = []
+        pages_with_missing_ean = progress.get("pages_with_missing_ean", [])
+        failed_pages = progress.get("failed_pages", [])
 
         total_new_rows = 0
 
-        # Main scraping loop
-        for p in range(actual_start, end_page + 1):
-            # Progress reporting for GUI
-            percent = round((p / end_page) * 100, 1) if end_page > 0 else 0
-            print(f"\n--- Page {p}/{end_page} ---")
-            print(f"[PROGRESS] Scraping pages: {p}/{end_page} ({percent}%)", flush=True)
+        # BATCH PROCESSING: Process 5 pages at a time using parallel browser tabs
+        BATCH_SIZE = 5
+        total_pages = end_page - actual_start + 1
 
-            # Check session health before navigating - restart if needed
+        print(f"\n{'='*80}")
+        print(f"RUSSIA SCRAPER - PARALLEL TAB EXTRACTION")
+        print(f"{'='*80}")
+        print(f"[MODE] Extracting {BATCH_SIZE} pages simultaneously using browser tabs")
+        print(f"[INFO] Total pages to scrape: {total_pages}")
+        print(f"[INFO] Total batches: {(total_pages + BATCH_SIZE - 1) // BATCH_SIZE}")
+
+        # Main scraping loop - TRUE PARALLEL EXTRACTION (5 pages at a time using browser tabs)
+        for batch_start in range(actual_start, end_page + 1, BATCH_SIZE):
+            batch_end = min(batch_start + BATCH_SIZE - 1, end_page)
+            batch_num = (batch_start - actual_start) // BATCH_SIZE + 1
+            total_batches = (total_pages + BATCH_SIZE - 1) // BATCH_SIZE
+
+            print(f"\n{'='*80}")
+            print(f"BATCH {batch_num}/{total_batches}: Pages {batch_start} to {batch_end} [PARALLEL TAB EXTRACTION]")
+            print(f"{'='*80}")
+
+            # Progress reporting for GUI
+            percent = round((batch_start / end_page) * 100, 1) if end_page > 0 else 0
+            print(f"[PROGRESS] Scraping pages: {batch_start}/{end_page} ({percent}%)", flush=True)
+
+            # Check session health before batch - restart if needed
             if not is_session_valid(driver):
                 print("  [WARN] Chrome session invalid, restarting browser...", flush=True)
                 shutdown_driver(driver)
@@ -1206,179 +1675,167 @@ def main(headless: bool = None, start_page: int = None, end_page: int | None = N
                 # Re-select region after restart
                 driver = select_region_and_search(driver, headless=headless, state_machine=state_machine)
 
+            # Build list of pages for this batch
+            batch_pages = list(range(batch_start, batch_end + 1))
+
             try:
-                driver = go_to_page(driver, p, headless=headless, state_machine=state_machine)
+                # TRUE PARALLEL EXTRACTION: Extract all pages in batch using multiple tabs
+                batch_results = parallel_extract_batch(driver, batch_pages, headless=headless, state_machine=state_machine)
 
-                # Add human-like pause between pages
-                if HUMAN_ACTIONS_AVAILABLE:
-                    pause(0.5, 1.0)
+                # Process results
+                batch_valid_rows = []
+                batch_data = []
 
-                # Check session again before extraction
-                if not is_session_valid(driver):
-                    print("  [WARN] Chrome session invalid after navigation, restarting...", flush=True)
-                    shutdown_driver(driver)
-                    driver = make_driver(headless=headless)
-                    if STATE_MACHINE_AVAILABLE:
-                        locator = SmartLocator(driver, logger=logger)
-                        state_machine = NavigationStateMachine(locator, logger=logger)
-                    driver = select_region_and_search(driver, headless=headless, state_machine=state_machine)
-                    driver = go_to_page(driver, p, headless=headless, state_machine=state_machine)
+                for page_num, page_rows, missing_ean_count, is_valid in batch_results:
+                    batch_data.append((page_num, page_rows, is_valid, missing_ean_count))
 
-                # Extract rows with EAN retry mechanism
-                page_rows, missing_ean_count = extract_rows_from_page_with_retry(driver, p, state_machine=state_machine)
+                    if is_valid and page_rows:
+                        # De-dup by item_id
+                        new_rows = [r for r in page_rows if r.item_id and r.item_id not in seen_ids]
+                        batch_valid_rows.extend(new_rows)
 
-                # De-dup by item_id
-                new_rows = [r for r in page_rows if r.item_id and r.item_id not in seen_ids]
+                        # Track page status as complete
+                        pages_info[str(page_num)] = {
+                            "status": "complete",
+                            "rows_extracted": len(page_rows),
+                            "missing_ean_count": 0,
+                            "timestamp": datetime.now(timezone.utc).isoformat()
+                        }
+                    elif not is_valid:
+                        # Track page status as validation failed
+                        pages_info[str(page_num)] = {
+                            "status": "validation_failed",
+                            "rows_extracted": 0,
+                            "missing_ean_count": missing_ean_count,
+                            "timestamp": datetime.now(timezone.utc).isoformat()
+                        }
 
-                print(f"Found rows: {len(page_rows)} | New rows: {len(new_rows)} | Missing EAN: {missing_ean_count}")
-
-                if new_rows:
-                    append_rows(OUT_CSV, new_rows)
-                    for r in new_rows:
-                        seen_ids.add(r.item_id)
-                    total_new_rows += len(new_rows)
-
-                # Track page status
-                pages_info[str(p)] = {
-                    "status": "complete",
-                    "rows_extracted": len(page_rows),
-                    "missing_ean_count": missing_ean_count,
-                    "timestamp": datetime.now(timezone.utc).isoformat()
-                }
-
-                # Mark page for re-extraction if EAN data is missing
-                if missing_ean_count > 0 and FETCH_EAN:
-                    if p not in pages_with_missing_ean:
-                        pages_with_missing_ean.append(p)
+                        # Mark page for re-extraction
+                        if page_num not in pages_with_missing_ean:
+                            pages_with_missing_ean.append(page_num)
+                    else:
+                        pages_info[str(page_num)] = {
+                            "status": "no_data",
+                            "rows_extracted": 0,
+                            "missing_ean_count": 0,
+                            "timestamp": datetime.now(timezone.utc).isoformat()
+                        }
+                        if page_num not in failed_pages:
+                            failed_pages.append(page_num)
 
             except Exception as e:
-                print(f"  [ERROR] Failed to extract page {p}: {e}", flush=True)
-                pages_info[str(p)] = {
-                    "status": "failed",
-                    "rows_extracted": 0,
-                    "error": str(e),
-                    "timestamp": datetime.now(timezone.utc).isoformat()
-                }
-                if p not in failed_pages:
-                    failed_pages.append(p)
-
-            # Save progress after each page (for resume support)
-            save_progress(p, end_page, len(seen_ids), pages_info, pages_with_missing_ean, failed_pages)
-
-            time.sleep(SLEEP_BETWEEN_PAGES)
-
-        # Re-extract pages with missing EAN or failed pages
-        if pages_to_reextract or failed_pages:
-            all_reextract = sorted(set(pages_to_reextract + failed_pages))
-            print(f"\n\n=== RE-EXTRACTION PHASE ===")
-            print(f"Re-extracting {len(all_reextract)} pages with missing/incomplete data...")
-
-            for idx, p in enumerate(all_reextract, 1):
-                print(f"\n--- Re-extracting Page {p} ({idx}/{len(all_reextract)}) ---")
-
-                # Check session health
-                if not is_session_valid(driver):
-                    print("  [WARN] Chrome session invalid, restarting browser...", flush=True)
-                    shutdown_driver(driver)
-                    driver = make_driver(headless=headless)
-                    if STATE_MACHINE_AVAILABLE:
-                        locator = SmartLocator(driver, logger=logger)
-                        state_machine = NavigationStateMachine(locator, logger=logger)
-                    driver = select_region_and_search(driver, headless=headless, state_machine=state_machine)
-
-                try:
-                    driver = go_to_page(driver, p, headless=headless, state_machine=state_machine)
-
-                    if HUMAN_ACTIONS_AVAILABLE:
-                        pause(0.5, 1.0)
-
-                    # Extract with retry
-                    page_rows, missing_ean_count = extract_rows_from_page_with_retry(driver, p, state_machine=state_machine)
-                    new_rows = [r for r in page_rows if r.item_id and r.item_id not in seen_ids]
-
-                    print(f"Re-extract: Found rows: {len(page_rows)} | New rows: {len(new_rows)} | Missing EAN: {missing_ean_count}")
-
-                    if new_rows:
-                        append_rows(OUT_CSV, new_rows)
-                        for r in new_rows:
-                            seen_ids.add(r.item_id)
-                        total_new_rows += len(new_rows)
-
-                    # Update page status
-                    pages_info[str(p)] = {
-                        "status": "complete",
-                        "rows_extracted": len(page_rows),
-                        "missing_ean_count": missing_ean_count,
-                        "timestamp": datetime.now(timezone.utc).isoformat(),
-                        "reextracted": True
-                    }
-
-                    # Remove from missing EAN list if now complete
-                    if missing_ean_count == 0 and p in pages_with_missing_ean:
-                        pages_with_missing_ean.remove(p)
-                    elif missing_ean_count > 0 and p not in pages_with_missing_ean:
-                        pages_with_missing_ean.append(p)
-
-                    # Remove from failed pages
-                    if p in failed_pages:
-                        failed_pages.remove(p)
-
-                except Exception as e:
-                    print(f"  [ERROR] Re-extraction failed for page {p}: {e}", flush=True)
+                print(f"  [ERROR] Batch extraction failed: {e}", flush=True)
+                # Mark all pages in batch as failed
+                batch_data = []
+                batch_valid_rows = []
+                for p in batch_pages:
+                    batch_data.append((p, [], False, 0))
                     pages_info[str(p)] = {
                         "status": "failed",
                         "rows_extracted": 0,
                         "error": str(e),
-                        "timestamp": datetime.now(timezone.utc).isoformat(),
-                        "reextraction_failed": True
+                        "timestamp": datetime.now(timezone.utc).isoformat()
                     }
+                    if p not in failed_pages:
+                        failed_pages.append(p)
 
-                # Save progress after each re-extraction
-                save_progress(end_page, end_page, len(seen_ids), pages_info, pages_with_missing_ean, failed_pages)
-                time.sleep(SLEEP_BETWEEN_PAGES)
+            # BATCH COMPLETE - Write all valid rows at once
+            print(f"\n--- Batch {batch_num} Summary ---")
+            valid_pages = sum(1 for _, _, is_valid, _ in batch_data if is_valid)
+            failed_in_batch = len(batch_data) - valid_pages
+            print(f"  Valid pages: {valid_pages}/{len(batch_data)}")
+            print(f"  Failed pages: {failed_in_batch}")
+            print(f"  Total valid rows: {len(batch_valid_rows)}")
 
-        print(f"\n{'='*60}")
+            if batch_valid_rows:
+                print(f"  [WRITE] Writing {len(batch_valid_rows)} rows to CSV...")
+                append_rows(OUT_CSV, batch_valid_rows)
+                for r in batch_valid_rows:
+                    seen_ids.add(r.item_id)
+                total_new_rows += len(batch_valid_rows)
+                print(f"  [OK] Batch {batch_num} data written successfully")
+            else:
+                print(f"  [SKIP] No valid data to write in this batch")
+
+            # Save progress after each batch
+            save_progress(batch_end, end_page, len(seen_ids), pages_info, pages_with_missing_ean, failed_pages)
+            print(f"  [SAVE] Progress saved after batch {batch_num}")
+
+            # Small delay between batches
+            time.sleep(SLEEP_BETWEEN_PAGES)
+
+        # Re-extract pages with missing EAN or failed pages
+        if pages_to_reextract or pages_with_missing_ean or failed_pages:
+            print(f"\n[INFO] {len(pages_with_missing_ean)} pages with missing EAN, {len(failed_pages)} failed pages")
+            print(f"[INFO] Run again to retry failed pages")
+
+        print(f"\n{'='*80}")
         print(f"SCRAPING COMPLETED")
-        print(f"{'='*60}")
+        print(f"{'='*80}")
         print(f"Output file: {OUT_CSV}")
         print(f"Total new rows added: {total_new_rows}")
         print(f"Total rows in file: {len(seen_ids)}")
-        print(f"Pages scraped: {end_page}")
+        print(f"Total pages: {end_page}")
+        print(f"Pages scraped: {actual_start} to {end_page}")
+
+        # Calculate status breakdown
+        complete_pages = sum(1 for p_info in pages_info.values() if p_info.get("status") == "complete")
+        validation_failed = sum(1 for p_info in pages_info.values() if "validation_failed" in p_info.get("status", ""))
+        total_pages_processed = len(pages_info)
+
+        print(f"\n{'='*80}")
+        print(f"PAGE STATUS SUMMARY")
+        print(f"{'='*80}")
+        print(f"OK Complete (100% EAN):        {complete_pages}/{total_pages_processed} pages")
+        print(f"X Validation Failed:          {validation_failed} pages")
+        print(f"X Extraction Failed:          {len(failed_pages)} pages")
+        if total_pages_processed > 0:
+            completeness_pct = round((complete_pages / total_pages_processed) * 100, 1)
+            print(f"\nData Completeness: {completeness_pct}% ({complete_pages}/{total_pages_processed} pages)")
 
         # Report on pages with issues
         if pages_with_missing_ean:
-            print(f"\n[WARNING] {len(pages_with_missing_ean)} pages have missing EAN data:")
-            print(f"  Pages: {pages_with_missing_ean[:20]}{'...' if len(pages_with_missing_ean) > 20 else ''}")
-            print(f"  These pages are marked in progress file for review")
+            print(f"\n{'='*80}")
+            print(f"WARNING: {len(pages_with_missing_ean)} PAGES MISSING EAN DATA")
+            print(f"{'='*80}")
+            print(f"Pages: {sorted(pages_with_missing_ean)[:30]}{'...' if len(pages_with_missing_ean) > 30 else ''}")
+            print(f"\n⚠ DATA FROM THESE PAGES WAS NOT WRITTEN (100% EAN coverage required)")
+            print(f"⚠ These pages need to be retried in Step 03 (Retry Failed Pages)")
 
         if failed_pages:
-            print(f"\n[ERROR] {len(failed_pages)} pages failed extraction:")
-            print(f"  Pages: {failed_pages[:20]}{'...' if len(failed_pages) > 20 else ''}")
-            print(f"  You may need to manually investigate these pages")
+            print(f"\n{'='*80}")
+            print(f"ERROR: {len(failed_pages)} PAGES FAILED EXTRACTION")
+            print(f"{'='*80}")
+            print(f"Pages: {sorted(failed_pages)[:30]}{'...' if len(failed_pages) > 30 else ''}")
+            print(f"\n⚠ These pages need manual investigation or retry")
 
-        # Calculate completeness
-        complete_pages = sum(1 for p_info in pages_info.values() if p_info.get("status") == "complete")
-        total_pages_processed = len(pages_info)
-        if total_pages_processed > 0:
-            completeness_pct = round((complete_pages / total_pages_processed) * 100, 1)
-            print(f"\nCompleteness: {complete_pages}/{total_pages_processed} pages ({completeness_pct}%)")
+        # Verify EAN coverage in actual CSV file
+        if OUT_CSV.exists() and FETCH_EAN:
+            try:
+                import pandas as pd
+                df = pd.read_csv(OUT_CSV)
+                total_rows_csv = len(df)
+                if 'EAN' in df.columns:
+                    missing_ean_csv = df['EAN'].isna().sum() + (df['EAN'] == '').sum()
+                    ean_coverage_pct = round(((total_rows_csv - missing_ean_csv) / total_rows_csv * 100), 2) if total_rows_csv > 0 else 0
+
+                    print(f"\n{'='*80}")
+                    print(f"CSV FILE VALIDATION")
+                    print(f"{'='*80}")
+                    print(f"Total rows in CSV:            {total_rows_csv:,}")
+                    print(f"Rows with EAN:                {total_rows_csv - missing_ean_csv:,}")
+                    print(f"Rows missing EAN:             {missing_ean_csv:,}")
+                    print(f"EAN Coverage:                 {ean_coverage_pct}%")
+
+                    if missing_ean_csv == 0:
+                        print(f"\nOK SUCCESS: 100% EAN coverage achieved!")
+                    else:
+                        print(f"\nX WARNING: {missing_ean_csv} rows still missing EAN")
+                        print(f"  This should be 0 - retry failed pages to fix")
+            except Exception as e:
+                print(f"\n[INFO] Could not verify CSV EAN coverage: {e}")
 
         print(f"[PROGRESS] Scraping pages: {end_page}/{end_page} (100%) - Completed", flush=True)
-
-        # Log metrics and state history if state machine is available
-        if STATE_MACHINE_AVAILABLE and state_machine:
-            import logging
-            logger = logging.getLogger(__name__)
-            metrics = locator.get_metrics()
-            metrics_summary = metrics.get_summary()
-            logger.info(f"[METRICS] Locator performance: {metrics_summary}")
-
-            # Log state transitions
-            state_history = state_machine.get_state_history()
-            logger.info(f"[METRICS] State transitions: {len(state_history)} transitions")
-            for state, timestamp, success in state_history:
-                status = "SUCCESS" if success else "FAILED"
-                logger.debug(f"[METRICS] State: {state.value} at {timestamp:.2f}s - {status}")
 
         # Clear progress file only if no issues
         if not pages_with_missing_ean and not failed_pages:
@@ -1387,8 +1844,9 @@ def main(headless: bool = None, start_page: int = None, end_page: int | None = N
         else:
             print("\n[INFO] Progress file retained for pages with issues. Run again to retry or use --fresh to start over.")
 
-    finally:
-        shutdown_driver(driver)
+    except Exception as e:
+        print(f"\n[ERROR] Main function failed: {e}", flush=True)
+        raise
 
 
 if __name__ == "__main__":

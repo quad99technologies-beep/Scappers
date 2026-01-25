@@ -1,0 +1,91 @@
+{
+  "schema_version": 2,
+  "completed_formulations": [
+    "ALOE VERA & OTHER COMBINATIONS",
+    "BENZOCAINE & CAMPHOR & MENTHOL & TRICLOSAN",
+    "AZILSARTAN MEDOXOMIL & CHLORTALIDONE",
+    "FLUDROCORTISONE & FURALTADONE & NEOMYCIN & POLYMYXIN B",
+    "TECHNETIUM (99MTC) TEBOROXIME",
+    "SERTACONAZOLE & ZINC PYRITHIONE"
+  ],
+  "zero_record_formulations": [
+    "CEPEGINTERFERON ALFA-2B",
+    "ASCORBIC ACID & DIMETHINDENE & PARACETAMOL & PHENYLEPHRINE & RUTIN",
+    "ASAFOETIDA TINCTURE & ETHER & OPIUM TINCTURE & VALERIAN TINCTURE",
+    "ETHEPTAZOSIN HYDROBROMIDE",
+    "METHYLSCOPOLAMINE & SECBUTABARBITAL",
+    "NYSTATIN & ZINC OXIDE",
+    "FLUNARIZINE & PROPRANOLOL",
+    "MANNITOL & SORBITOL",
+    "METHYLDOPA",
+    "LABUVIRTIDE",
+    "SODIUM FERULATE",
+    "BISMUTH SUBCITRATE & TANNIN & ZINC OXIDE",
+    "HYDROXYPROPYL METHYLCELLULOSE & POVIDONE",
+    "ALFUZOSIN",
+    "OPINERCEPT",
+    "CEFOPERAZONE",
+    "HEPARINOID & SALICYLIC ACID",
+    "MAGNESIUM COMPOUNDS",
+    "INDIGO CARMINE",
+    "MIRTAZAPINE",
+    "FOURTH-GENERATION CEPHALOSPORINS",
+    "AMINOPHYLLINE & COMBINATIONS",
+    "SALCATONIN",
+    "GRASS POLLEN",
+    "DIMETHICONE & GUAIAZULENE",
+    "ESTROGEN & NORGESTIMATE",
+    "BIPHENYL DIMETHYL DICARBOXYLATE & GARLIC OIL",
+    "AMILORIDE & BENDROFLUMETHIAZIDE",
+    "ADENOSINE",
+    "CALCIUM & POTASSIUM & SODIUM ACETATE & SODIUM CHLORIDE",
+    "SULFADIAZINE",
+    "TEMSIROLIMUS",
+    "FLUDROXYCORTIDE",
+    "BENZETHONIUM & CETYLPYRIDINIUM & CHLOROTHYMOL",
+    "BENAGLUTIDE",
+    "THENALIDINE",
+    "ISPAGHULA, COMBINATIONS",
+    "PIROHEPTINE",
+    "TRIMETHOPRIM",
+    "FENOTEROL",
+    "POLYPODIUM LEUCOTOMOS",
+    "ZOFENOPRIL",
+    "BENZILIC ACID",
+    "EUCALYPTUS OIL & PEPPERMINT OIL & ROSEMARY OIL",
+    "CETRIMIDE & ETHYL AMINOBENZOATE & LIDOCAINE & LITHOSPERMI RADIX & PREDNISOLONE",
+    "HEXAHYDROADIPHENINE & PROPYPHENAZONE",
+    "TARTARIC ACID",
+    "LIDOCAINE & MENTHOL"
+  ],
+  "failed_formulations": {
+    "VITAMINS, OTHER COMBINATIONS": {
+      "formulation": "VITAMINS, OTHER COMBINATIONS",
+      "attempts": 1,
+      "last_error": "Alert Text: Special Character <,>,' Not Allowed !!\nMessage: unexpected alert open: {Alert text : Special Character <,>,' Not Allowed !!}\n  (Session info: chrome=144.0.7559.97)\nStacktrace:\nSymbols not available. Dumping unresolved backtrace:\n\t0x7ff6b0665715\n\t0x7ff6b0665770\n\t0x7ff6b041108d\n\t0x7ff6b04ba8cb\n\t0x7ff6b045cc28\n\t0x7ff6b045db33\n\t0x7ff6b094e9f0\n\t0x7ff6b0948ded\n\t0x7ff6b096969a\n\t0x7ff6b06811e5\n\t0x7ff6b06899cc\n\t0x7ff6b066ebf4\n\t0x7ff6b066eda6\n\t0x7ff6b0654e87\n\t0x7ff9cdf2e8d7\n\t0x7ff9cedac53c\n",
+      "last_failed_at": "2026-01-25T16:54:02.369929"
+    },
+    "CARBOCISTEINE & PRENOXDIAZINE": {
+      "formulation": "CARBOCISTEINE & PRENOXDIAZINE",
+      "attempts": 1,
+      "last_error": "Message: \n",
+      "last_failed_at": "2026-01-25T16:55:23.377090"
+    },
+    "BENZALKONIUM & OXYMETAZOLINE": {
+      "formulation": "BENZALKONIUM & OXYMETAZOLINE",
+      "attempts": 1,
+      "last_error": "Message: \n",
+      "last_failed_at": "2026-01-25T16:59:08.147866"
+    }
+  },
+  "in_progress": "ALUMINUM & DICLOFENAC & PAPAIN & PARACETAMOL",
+  "last_updated": "2026-01-25T17:03:45.240013",
+  "stats": {
+    "total_processed": 54,
+    "total_success": 6,
+    "total_zero_records": 48,
+    "total_medicines": 25,
+    "total_substitutes": 37,
+    "errors": 6
+  }
+}

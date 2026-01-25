@@ -30,7 +30,12 @@
       "Bash(python3:*)",
       "Bash(python 04_format_for_export.py:*)",
       "Bash(ls -la \"d:\\\\quad99\\\\Scappers\\\\config\"\" | grep -E \".env.json)",
-      "Bash(.json \")"
+      "Bash(.json \")",
+      "Bash(powershell -Command \"Get-ChildItem -Path ''scripts\\\\North Macedonia\\\\logs'',''output\\\\*North*'' -Recurse -Filter ''*.csv'' | Where-Object {$_Length -gt 1MB} | Select-Object Name,Length,LastWriteTime | Sort-Object LastWriteTime -Descending | Select-Object -First 10 | Format-Table -AutoSize\")",
+      "Bash(powershell -Command:*)",
+      "Bash(tail:*)",
+      "Bash(taskkill /F /FI \"WINDOWTITLE eq python*01a_retry_failed_pages*\")",
+      "Bash(echo:*)"
     ]
   }
 }

@@ -2,9 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 Argentina - API Scraper (Backup)
-Processes products marked as "api" in prepared URLs file.
-These are products that Selenium failed to scrape (blank results or not found).
-API is used as backup when Selenium returns no meaningful data.
+Processes products listed in the API input CSV generated after Selenium attempts are exhausted.
+These are products that still ended with 0 records after max Selenium runs.
 """
 
 import csv
@@ -42,23 +41,23 @@ from config_loader import (
     REQUEST_PAUSE_BASE, REQUEST_PAUSE_JITTER_MIN, REQUEST_PAUSE_JITTER_MAX,
     API_REQUEST_TIMEOUT, QUEUE_GET_TIMEOUT, PAUSE_HTML_LOAD,
     API_THREADS,
-    PRODUCTLIST_FILE, PREPARED_URLS_FILE, IGNORE_LIST_FILE,
-    OUTPUT_PRODUCTS_CSV, OUTPUT_PROGRESS_CSV, OUTPUT_ERRORS_CSV
+    IGNORE_LIST_FILE,
+    OUTPUT_PRODUCTS_CSV, OUTPUT_ERRORS_CSV,
+    API_INPUT_CSV
 )
 
 from scraper_utils import (
     ensure_headers, combine_skip_sets,
-    append_rows, append_progress, append_error, update_prepared_urls_source,
+    append_rows, append_error,
     nk, ts, strip_accents, OUT_FIELDS,
-    CSV_LOCK, PROGRESS_LOCK, ERROR_LOCK
+    CSV_LOCK, ERROR_LOCK
 )
 
 # ====== PATHS ======
 INPUT_DIR = get_input_dir()
 OUTPUT_DIR = get_output_dir()
-PREPARED_URLS_FILE_PATH = OUTPUT_DIR / PREPARED_URLS_FILE
+API_INPUT_FILE_PATH = OUTPUT_DIR / API_INPUT_CSV
 OUT_CSV = OUTPUT_DIR / OUTPUT_PRODUCTS_CSV
-PROGRESS = OUTPUT_DIR / OUTPUT_PROGRESS_CSV
 ERRORS = OUTPUT_DIR / OUTPUT_ERRORS_CSV
 LOG_DIR = OUTPUT_DIR / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -489,28 +488,13 @@ def api_worker(api_queue: Queue, args, skip_set: set):
             if rows_with_values:
                 # API succeeded with actual values - save results
                 append_rows(rows_with_values)
-                append_progress(in_company, in_product, len(rows_with_values))
                 # Update skip_set to prevent reprocessing in same run (only for SUCCESS cases)
                 with _skip_lock:
                     skip_set.add(key)
-                # Update Productlist_with_urls.csv: Scraped_By_API = "yes", API_Records = number of records
-                update_prepared_urls_source(
-                    in_company, in_product, 
-                    new_source="api",
-                    scraped_by_api="yes",
-                    api_records=str(len(rows_with_values))
-                )
-                log.info(f"[API_WORKER] [SUCCESS] {in_company} | {in_product} → {len(rows_with_values)} rows with values")
+                log.info(f"[API_WORKER] [SUCCESS] {in_company} | {in_product} -> {len(rows_with_values)} rows with values")
             else:
                 # API returned no values (null, no price, connection lost, not found) - keep in API for retry
                 log.warning(f"[API_WORKER] [NO_VALUES] API returned no values for {in_company} | {in_product}, keeping in API (not recording)")
-                # Keep Source=api, Scraped_By_API="no" and API_Records="0"
-                update_prepared_urls_source(
-                    in_company, in_product, 
-                    new_source="api",
-                    scraped_by_api="no",
-                    api_records="0"
-                )
             
             # Update progress counter
             with _progress_lock:
@@ -527,13 +511,6 @@ def api_worker(api_queue: Queue, args, skip_set: set):
         except Exception as e:
             # Connection lost, timeout, or other errors - keep in API for retry
             log.warning(f"[API_WORKER] [ERROR] {in_company} | {in_product}: {e} - keeping in API (not recording)")
-            # Keep Source=api, Scraped_By_API="no" and API_Records="0"
-            update_prepared_urls_source(
-                in_company, in_product, 
-                new_source="api",
-                scraped_by_api="no",
-                api_records="0"
-            )
             
             # Update progress counter even on error
             with _progress_lock:
@@ -567,19 +544,18 @@ def main():
     ignore_file = INPUT_DIR / IGNORE_LIST_FILE
     
     log.info(f"[SKIP_SET] Files used for skip set:")
-    log.info(f"[SKIP_SET]   - Progress file: {PROGRESS.name} (exists: {PROGRESS.exists()})")
     log.info(f"[SKIP_SET]   - Products file: {OUT_CSV.name} (exists: {OUT_CSV.exists()})")
     log.info(f"[SKIP_SET]   - Ignore list: {ignore_file.name} (exists: {ignore_file.exists()})")
     
-    # Load prepared URLs file
-    if not PREPARED_URLS_FILE_PATH.exists():
-        log.error(f"Prepared URLs file not found: {PREPARED_URLS_FILE_PATH}")
-        log.error("Please run script 02 (prepare_urls.py) first to generate Productlist_with_urls.csv")
+    # Load API input file generated after Selenium attempts are exhausted
+    if not API_INPUT_FILE_PATH.exists():
+        log.info(f"[INPUT] API input file not found: {API_INPUT_FILE_PATH}")
+        log.info("[INPUT] Nothing to process in API step")
         return
     
-    log.info(f"[INPUT] Reading prepared URLs from: {PREPARED_URLS_FILE_PATH}")
+    log.info(f"[INPUT] Reading API targets from: {API_INPUT_FILE_PATH}")
     
-    # Load products marked as "api"
+    # Load products from API input file
     api_targets: List[Tuple[str, str, str]] = []  # (product, company, url)
     seen_pairs = set()  # Track seen pairs to deduplicate within the same file
     skipped_count = 0
@@ -589,7 +565,7 @@ def main():
     f = None
     for encoding in encoding_attempts:
         try:
-            f = open(PREPARED_URLS_FILE_PATH, encoding=encoding)
+            f = open(API_INPUT_FILE_PATH, encoding=encoding)
             r = csv.DictReader(f)
             headers = {nk(h): h for h in (r.fieldnames or [])}
             break  # Success, exit encoding loop
@@ -610,19 +586,15 @@ def main():
     try:
         pcol = headers.get(nk("Product")) or headers.get("product") or "Product"
         ccol = headers.get(nk("Company")) or headers.get("company") or "Company"
-        source_col = headers.get(nk("Source")) or headers.get("source") or "Source"
         url_col = headers.get(nk("URL")) or headers.get("url") or "URL"
-        scraped_by_api_col = headers.get(nk("Scraped_By_API")) or headers.get("scraped_by_api") or "Scraped_By_API"
         
         for row in r:
             prod = (row.get(pcol) or "").strip()
             comp = (row.get(ccol) or "").strip()
-            source = (row.get(source_col) or "").strip().lower()
             url = (row.get(url_col) or "").strip()
-            scraped_by_api = (row.get(scraped_by_api_col) or "").strip().lower()
             
-            # Only process products marked as "api" and Scraped_By_API = "no"
-            if source == "api" and scraped_by_api == "no" and prod and comp:
+            # Only process valid rows
+            if prod and comp:
                 # Normalize for comparison
                 key = (nk(comp), nk(prod))
                 
@@ -632,10 +604,10 @@ def main():
                     log.debug(f"[SKIP] Skipping duplicate {comp} | {prod} (already in file)")
                     continue
                 
-                # Check if combination is in skip sets (ignore_list, progress, or products)
+                # Check if combination is in skip sets (ignore_list or products)
                 if key in skip_set:
                     skipped_count += 1
-                    log.debug(f"[SKIP] Skipping {comp} | {prod} (in ignore_list, progress, or products)")
+                    log.debug(f"[SKIP] Skipping {comp} | {prod} (in ignore_list or products)")
                     continue
                 
                 # Add to seen pairs and targets
@@ -649,8 +621,8 @@ def main():
             f.close()
     
     unique_combinations = len(api_targets)
-    log.info(f"[FILTER] Found {len(api_targets) + skipped_count} products marked as 'api' and Scraped_By_API='no'")
-    log.info(f"[FILTER] - Skipped (in ignore_list/progress/products or duplicates or already scraped): {skipped_count}")
+    log.info(f"[FILTER] Found {len(api_targets) + skipped_count} products in API input file")
+    log.info(f"[FILTER] - Skipped (in ignore_list/products or duplicates): {skipped_count}")
     log.info(f"[FILTER] - Unique combinations to process: {unique_combinations}")
     
     # Apply max-rows limit if specified
@@ -667,7 +639,6 @@ def main():
     print(f"Threads: {args.threads}")
     print(f"{'='*80}")
     print(f"Skip set information:")
-    print(f"  - Progress file: {PROGRESS.name} (exists: {PROGRESS.exists()})")
     print(f"  - Products file: {OUT_CSV.name} (exists: {OUT_CSV.exists()})")
     print(f"  - Ignore list: {ignore_file.name} (exists: {ignore_file.exists()})")
     print(f"{'='*80}")

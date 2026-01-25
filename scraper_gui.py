@@ -249,8 +249,9 @@ class ScraperGUI:
                     {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
                     {"name": "01 - Extract VED Registry", "script": "01_russia_farmcom_scraper.py", "desc": "Extract VED drug pricing from farmcom.info/site/reestr (with page-level resume)"},
                     {"name": "02 - Extract Excluded List", "script": "02_russia_farmcom_excluded_scraper.py", "desc": "Extract excluded drugs from farmcom.info/site/reestr?vw=excl (with page-level resume)"},
-                    {"name": "03 - Generate Output", "script": "03_generate_output.py", "desc": "Process raw data and generate final VED and Excluded reports"},
-                    {"name": "04 - Translate Reports (EN)", "script": "04_translate_reports.py", "desc": "Translate VED and Excluded reports to English"},
+                    {"name": "03 - Retry Failed Pages", "script": "03_retry_failed_pages.py", "desc": "Retry pages with missing EAN or extraction failures (MANDATORY before translation)"},
+                    {"name": "04 - Process and Translate", "script": "04_process_and_translate.py", "desc": "Process raw data, translate Russian text to English using dictionary and AI"},
+                    {"name": "05 - Format for Export", "script": "05_format_for_export.py", "desc": "Format translated data into final export template"},
                 ],
                 "pipeline_bat": "run_pipeline.bat"
             },
@@ -814,8 +815,17 @@ class ScraperGUI:
                                     highlightthickness=1)
         telegram_section.pack(fill=tk.X, padx=8, pady=(0, 6))
 
-        tk.Label(telegram_section, text="Telegram Bot", bg=self.colors['white'], fg='#000000',
-                font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(6, 3))
+        # Header frame with title and status icon
+        telegram_header_frame = tk.Frame(telegram_section, bg=self.colors['white'])
+        telegram_header_frame.pack(fill=tk.X, padx=8, pady=(6, 3))
+
+        tk.Label(telegram_header_frame, text="Telegram Bot", bg=self.colors['white'], fg='#000000',
+                font=self.fonts['bold']).pack(side=tk.LEFT)
+
+        # Status icon (green for running, red for stopped)
+        self.telegram_status_icon = tk.Label(telegram_header_frame, text="●", bg=self.colors['white'],
+                                            fg='#dc3545', font=('Arial', 16))
+        self.telegram_status_icon.pack(side=tk.RIGHT)
 
         telegram_status_frame = tk.Frame(telegram_section, bg=self.colors['white'])
         telegram_status_frame.pack(fill=tk.X, padx=8, pady=(0, 6))
@@ -1334,7 +1344,7 @@ class ScraperGUI:
         stats_line1.pack(fill=tk.X, pady=3)
         
         self.system_stats_label_line1 = tk.Label(stats_line1,
-                                                 text="Chrome Instances: 0  |  Tor Instances: 0  |  RAM Usage: --  |  CPU Usage: --",
+                                                 text="Chrome Instances (tracked): 0  |  Tor Instances: 0  |  RAM Usage: --  |  CPU Usage: --",
                                                  bg=self.colors['white'],
                                                  fg='#000000',
                                                  font=self.fonts['standard'],
@@ -1391,7 +1401,7 @@ class ScraperGUI:
         
         # Line 1: Current status label
         status_line = tk.Frame(progress_frame, bg=self.colors['white'])
-        status_line.pack(fill=tk.X, pady=(0, 5))
+        status_line.pack(fill=tk.X, pady=(0, 2))
         
         tk.Label(
             status_line,
@@ -1400,15 +1410,23 @@ class ScraperGUI:
             fg='#000000',
             font=self.fonts['standard']
         ).pack(side=tk.LEFT, padx=(0, 5))
-        
+
+        # Lines 2-3: Current status text (wrapped)
+        status_text_line = tk.Frame(progress_frame, bg=self.colors['white'])
+        status_text_line.pack(fill=tk.X, pady=(0, 6))
+
         self.progress_label = tk.Label(
-            status_line,
+            status_text_line,
             text="Ready",
             bg=self.colors['white'],
             fg='#000000',
-            font=self.fonts['standard']
+            font=self.fonts['standard'],
+            justify=tk.LEFT,
+            anchor='w',
+            wraplength=520,
+            height=2
         )
-        self.progress_label.pack(side=tk.LEFT)
+        self.progress_label.pack(side=tk.LEFT, fill=tk.X, expand=True)
         
         # Line 2: Progress bar
         bar_line = tk.Frame(progress_frame, bg=self.colors['white'])
@@ -3558,12 +3576,18 @@ Provide a clear, concise explanation suitable for users who want to understand w
             self.telegram_status_label.config(text=f"Status: Running (PID {pid})")
             self.start_telegram_button.config(state=tk.DISABLED)
             self.stop_telegram_button.config(state=tk.NORMAL)
+            # Update status icon to green
+            if hasattr(self, "telegram_status_icon"):
+                self.telegram_status_icon.config(fg='#28a745')
         else:
             if self.telegram_process is not None and self.telegram_process.poll() is not None:
                 self.telegram_process = None
             self.telegram_status_label.config(text="Status: Stopped")
             self.start_telegram_button.config(state=tk.NORMAL)
             self.stop_telegram_button.config(state=tk.DISABLED)
+            # Update status icon to red
+            if hasattr(self, "telegram_status_icon"):
+                self.telegram_status_icon.config(fg='#dc3545')
 
         if self.telegram_log_path:
             log_name = self.telegram_log_path.name if hasattr(self.telegram_log_path, "name") else str(self.telegram_log_path)
@@ -3985,6 +4009,10 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     return
             
             extra_args = [] if resume else ["--fresh"]
+            if scraper_name == "India":
+                workers = os.getenv("INDIA_WORKERS", "5").strip()
+                if workers and "--workers" not in extra_args:
+                    extra_args += ["--workers", workers]
             self.run_script_in_thread(resume_script, scraper_info["path"], is_pipeline=True, extra_args=extra_args)
         else:
             # Fallback to workflow script or batch file
@@ -4816,19 +4844,24 @@ Provide a clear, concise explanation suitable for users who want to understand w
         try:
             import psutil
             
-            # Count Chrome instances (all scrapers) - total running
+            # Count Chrome instances tracked by scrapers (avoid counting user Chrome)
             chrome_count = 0
+            tracked_pids = set()
             try:
-                # Count all Chrome processes
-                for proc in psutil.process_iter(['pid', 'name']):
-                    try:
-                        name = proc.info['name'] or ''
-                        if 'chrome' in name.lower() or 'chromedriver' in name.lower():
-                            chrome_count += 1
-                    except (psutil.NoSuchProcess, psutil.AccessDenied):
-                        pass
+                from core.chrome_pid_tracker import load_chrome_pids
+                for scraper_name in self.scrapers.keys():
+                    tracked_pids.update(load_chrome_pids(scraper_name, self.repo_root))
             except Exception:
-                chrome_count = 0
+                tracked_pids = set()
+
+            if tracked_pids:
+                for pid in tracked_pids:
+                    try:
+                        proc = psutil.Process(pid)
+                        if proc.is_running():
+                            chrome_count += 1
+                    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                        pass
             
             # Count Tor instances - total running
             tor_count = 0
@@ -4930,7 +4963,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             # Update labels - show metrics in 2 lines with human-readable formatting
             if hasattr(self, 'system_stats_label_line1'):
                 # Line 1: Chrome, Tor, RAM, CPU
-                line1_text = f"Chrome Instances: {chrome_count}  |  Tor Instances: {tor_count}  |  RAM Usage: {ram_str}  |  CPU Usage: {cpu_str}"
+                line1_text = f"Chrome Instances (tracked): {chrome_count}  |  Tor Instances: {tor_count}  |  RAM Usage: {ram_str}  |  CPU Usage: {cpu_str}"
                 self.system_stats_label_line1.config(text=line1_text)
             
             if hasattr(self, 'system_stats_label_line2'):
@@ -4941,12 +4974,12 @@ Provide a clear, concise explanation suitable for users who want to understand w
             # psutil not available
             if hasattr(self, 'system_stats_label_line1'):
                 self.system_stats_label_line1.config(
-                    text="Chrome Instances: --  |  Tor Instances: --  |  RAM Usage: --  |  CPU Usage: -- (psutil not available)")
+                    text="Chrome Instances (tracked): --  |  Tor Instances: --  |  RAM Usage: --  |  CPU Usage: -- (psutil not available)")
             if hasattr(self, 'system_stats_label_line2'):
                 self.system_stats_label_line2.config(text="GPU Usage: --  |  Network: --")
         except Exception:
             if hasattr(self, 'system_stats_label_line1'):
-                self.system_stats_label_line1.config(text="Chrome Instances: --  |  Tor Instances: --  |  RAM Usage: --  |  CPU Usage: --")
+                self.system_stats_label_line1.config(text="Chrome Instances (tracked): --  |  Tor Instances: --  |  RAM Usage: --  |  CPU Usage: --")
             if hasattr(self, 'system_stats_label_line2'):
                 self.system_stats_label_line2.config(text="GPU Usage: --  |  Network: --")
         

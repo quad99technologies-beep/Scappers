@@ -22,7 +22,6 @@ Output format:
 """
 
 import sys
-import shutil
 from pathlib import Path
 from datetime import datetime
 from typing import Optional
@@ -35,8 +34,11 @@ if str(_script_dir) not in sys.path:
 from config_loader import (
     get_output_dir, get_central_output_dir,
     FINAL_REPORT_NAME_PREFIX, FINAL_REPORT_DATE_FORMAT,
-    PRODUCTS_CSV_NAME, STATIC_CURRENCY, STATIC_REGION
+    PRODUCTS_CSV_NAME, STATIC_CURRENCY, STATIC_REGION,
+    get_run_id, get_run_dir,
 )
+from core.logger import setup_standard_logger
+from core.progress_tracker import StandardProgress
 
 import pandas as pd
 
@@ -95,11 +97,22 @@ def determine_reimbursement_category(row: pd.Series) -> tuple:
 
 def main():
     """Main entry point."""
-    print()
-    print("=" * 80)
-    print("CANADA ONTARIO FINAL OUTPUT GENERATOR")
-    print("=" * 80)
-    print()
+    run_id = get_run_id()
+    run_dir = get_run_dir(run_id)
+    logger = setup_standard_logger(
+        "canada_ontario_output",
+        scraper_name="CanadaOntario",
+        log_file=run_dir / "logs" / "final_output.log",
+    )
+    progress = StandardProgress(
+        "canada_ontario_output",
+        total=3,
+        unit="steps",
+        logger=logger,
+        state_path=CENTRAL_OUTPUT_DIR / "output_progress.json",
+        log_every=1,
+    )
+    logger.info("Canada Ontario final output generator")
     
     if not INPUT_CSV.exists():
         raise FileNotFoundError(
@@ -108,12 +121,12 @@ def main():
         )
     
     # Read input CSV
-    print(f"[PROGRESS] Generating output: Loading data (1/3)", flush=True)
+    progress.update(0, message="load data", force=True)
     df = pd.read_csv(INPUT_CSV, dtype=str).fillna("")
-    print(f"Loaded {len(df)} rows from {INPUT_CSV.name}")
+    logger.info("Loaded %s rows from %s", len(df), INPUT_CSV.name)
     
     # Build final output dataframe
-    print(f"[PROGRESS] Generating output: Processing data (2/3)", flush=True)
+    progress.update(1, message="process data", force=True)
     
     # Initialize final dataframe
     df_final = pd.DataFrame()
@@ -191,20 +204,13 @@ def main():
     df_final = df_final[final_cols].copy()
     
     # Write output CSV
-    print(f"[PROGRESS] Generating output: Writing output (3/3)", flush=True)
+    progress.update(2, message="write output", force=True)
     df_final.to_csv(OUTPUT_CSV, index=False, encoding="utf-8-sig", float_format="%.2f")
-    print(f"[PROGRESS] Generating output: {len(df_final)}/{len(df_final)} (100%)", flush=True)
+    progress.update(3, message="complete", force=True)
     
-    print(f"[OK] Wrote: {OUTPUT_CSV}")
-    
-    print()
-    print("=" * 80)
-    print("FINAL OUTPUT GENERATION COMPLETED")
-    print("=" * 80)
-    print(f"Total rows: {len(df_final):,}")
-    print(f"Final Output: {OUTPUT_CSV}")
-    print("=" * 80)
-    print()
+    logger.info("Wrote output: %s", OUTPUT_CSV)
+    logger.info("Total rows: %s", len(df_final))
+    logger.info("Final output: %s", OUTPUT_CSV)
 
 
 if __name__ == "__main__":

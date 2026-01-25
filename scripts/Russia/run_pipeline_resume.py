@@ -6,14 +6,15 @@ Russia Pipeline Runner with Resume/Checkpoint Support (Simplified)
 Usage:
     python run_pipeline_resume.py          # Resume from last step or start fresh
     python run_pipeline_resume.py --fresh  # Start from step 0 (clear checkpoint)
-    python run_pipeline_resume.py --step N # Start from step N (0-3)
+    python run_pipeline_resume.py --step N # Start from step N (0-5)
 
 Pipeline Steps:
     0: Backup and Clean - Backup previous output and clean for fresh run
     1: Extract VED Pricing - Scrape VED drug pricing from farmcom.info/site/reestr
     2: Extract Excluded List - Scrape excluded drugs from farmcom.info/site/reestr?vw=excl
-    3: Process and Translate - Fix dates, translate using Dictionary.csv + AI fallback
-    4: Format for Export - Convert to standardized pricing and discontinued templates
+    3: Retry Failed Pages - Retry pages with missing EAN or extraction failures (MANDATORY)
+    4: Process and Translate - Fix dates, translate using Dictionary.csv + AI fallback
+    5: Format for Export - Convert to standardized pricing and discontinued templates
 """
 
 import sys
@@ -35,8 +36,8 @@ if str(_script_dir) not in sys.path:
 from core.pipeline_checkpoint import get_checkpoint_manager
 from config_loader import get_central_output_dir, get_output_dir
 
-# Total actual steps: steps 0-4 = 5 steps
-TOTAL_STEPS = 5
+# Total actual steps: steps 0-5 = 6 steps
+TOTAL_STEPS = 6
 
 def run_step(step_num: int, script_name: str, step_name: str, output_files: list = None, extra_args: list = None):
     """Run a pipeline step and mark it complete if successful."""
@@ -54,8 +55,9 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         0: "Preparing: Backing up previous results and cleaning output directory",
         1: "Scraping: Extracting VED drug pricing data from farmcom.info",
         2: "Scraping: Extracting excluded drugs list from farmcom.info",
-        3: "Processing: Fixing dates and translating to English",
-        4: "Formatting: Converting to standardized export templates",
+        3: "Retrying: Re-extracting pages with missing EAN or extraction failures",
+        4: "Processing: Fixing dates and translating to English",
+        5: "Formatting: Converting to standardized export templates",
     }
     step_desc = step_descriptions.get(step_num, step_name)
 
@@ -114,9 +116,10 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         next_step_descriptions = {
             0: "Ready to extract VED drug pricing data",
             1: "Ready to extract excluded drugs list",
-            2: "Ready to process and translate data",
-            3: "Ready to format data for export",
-            4: "Pipeline completed successfully",
+            2: "Ready to retry failed pages",
+            3: "Ready to process and translate data",
+            4: "Ready to format data for export",
+            5: "Pipeline completed successfully",
         }
         next_desc = next_step_descriptions.get(step_num + 1, "Moving to next step")
 
@@ -142,7 +145,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
 def main():
     parser = argparse.ArgumentParser(description="Russia Pipeline Runner with Resume Support")
     parser.add_argument("--fresh", action="store_true", help="Start from step 0 (clear checkpoint and scraper progress)")
-    parser.add_argument("--step", type=int, help="Start from specific step (0-4)")
+    parser.add_argument("--step", type=int, help="Start from specific step (0-5)")
 
     args = parser.parse_args()
 
@@ -177,12 +180,13 @@ def main():
             print("Starting fresh run (no checkpoint found)")
 
     # Define pipeline steps with their output files
-    # Pipeline: 5 steps total (0-4)
+    # Pipeline: 6 steps total (0-5)
     steps = [
         (0, "00_backup_and_clean.py", "Backup and Clean", None, None),
         (1, "01_russia_farmcom_scraper.py", "Extract VED Pricing Data", ["russia_farmcom_ved_moscow_region.csv"], None),
         (2, "02_russia_farmcom_excluded_scraper.py", "Extract Excluded List", ["russia_farmcom_excluded_list.csv"], None),
-        (3, "03_process_and_translate.py", "Process and Translate",
+        (3, "03_retry_failed_pages.py", "Retry Failed Pages", None, ["--skip-check"]),
+        (4, "04_process_and_translate.py", "Process and Translate",
          ["russia_farmcom_ved_moscow_region.csv",
           "en_russia_farmcom_ved_moscow_region.csv",
           "russia_farmcom_excluded_list.csv",
@@ -192,7 +196,7 @@ def main():
           str(central_output_dir / "Russia_Excluded_List.csv"),
           str(central_output_dir / "EN_Russia_Excluded_List.csv")],
          None),
-        (4, "04_format_for_export.py", "Format for Export",
+        (5, "05_format_for_export.py", "Format for Export",
          ["russia_pricing_data.csv",
           "russia_discontinued_list.csv",
           str(central_output_dir / "Russia_Pricing_Data.csv"),
@@ -270,8 +274,9 @@ def main():
                     0: "Skipped: Backup already completed",
                     1: "Skipped: VED pricing data already extracted",
                     2: "Skipped: Excluded list already extracted",
-                    3: "Skipped: Processing and translation already completed",
-                    4: "Skipped: Export formatting already completed",
+                    3: "Skipped: Failed pages already retried",
+                    4: "Skipped: Processing and translation already completed",
+                    5: "Skipped: Export formatting already completed",
                 }
                 skip_desc = step_descriptions.get(step_num, f"Skipped: {step_name} already completed")
 

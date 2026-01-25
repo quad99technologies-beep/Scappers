@@ -22,6 +22,8 @@ from __future__ import annotations
 import argparse
 import re
 import sys
+import time
+import random
 from datetime import datetime
 from typing import Optional, Tuple, List, Dict
 from pathlib import Path
@@ -35,12 +37,45 @@ _script_dir = Path(__file__).resolve().parent
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
 
-from config_loader import get_output_dir, EAP_PRICES_URL, EAP_PRICES_CSV_NAME
-
+from config_loader import (
+    get_output_dir,
+    get_run_id,
+    get_run_dir,
+    EAP_PRICES_URL,
+    EAP_PRICES_CSV_NAME,
+    get_proxy_config,
+    getenv_bool,
+    getenv_int,
+    getenv_float,
+)
+from core.logger import setup_standard_logger
+from core.retry_config import RetryConfig
+from core.progress_tracker import StandardProgress
 
 URL = EAP_PRICES_URL
 
 VAT_MULTIPLIER = 1.08
+
+RETRIES = getenv_int("EAP_RETRIES", RetryConfig.MAX_RETRIES)
+TIMEOUT = getenv_int("EAP_TIMEOUT", RetryConfig.CONNECTION_CHECK_TIMEOUT)
+REQUEST_JITTER_MIN = getenv_float("EAP_REQUEST_JITTER_MIN", 0.1)
+REQUEST_JITTER_MAX = getenv_float("EAP_REQUEST_JITTER_MAX", 0.6)
+ENABLE_PROGRESS_BAR = getenv_bool("EAP_ENABLE_PROGRESS_BAR", True)
+PROXIES = get_proxy_config()
+
+USER_AGENTS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15",
+]
+
+run_id = get_run_id()
+run_dir = get_run_dir(run_id)
+logger = setup_standard_logger(
+    "canada_ontario_eap",
+    scraper_name="CanadaOntario",
+    log_file=run_dir / "logs" / "eap_prices.log",
+)
 
 REIMBURSABLE_STATUS = "FULLY REIMBURSABLE"
 REIMBURSABLE_RATE = ""  # user didn't request any fixed numeric rate
@@ -54,18 +89,40 @@ COPAYMENT_VALUE = 0.00
 
 # ---------- helpers ----------
 
-def fetch_html(url: str, timeout: int = 60) -> str:
-    headers = {
+def jitter_sleep() -> None:
+    if REQUEST_JITTER_MAX <= 0:
+        return
+    time.sleep(random.uniform(REQUEST_JITTER_MIN, REQUEST_JITTER_MAX))
+
+
+def build_headers() -> dict:
+    return {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.8",
         "Cache-Control": "no-cache",
         "Pragma": "no-cache",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                      "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        "User-Agent": random.choice(USER_AGENTS),
     }
-    r = requests.get(url, headers=headers, timeout=timeout)
-    r.raise_for_status()
-    return r.text
+
+
+def fetch_html(url: str, timeout: int = 60) -> str:
+    last_err = None
+    for attempt in range(1, RETRIES + 1):
+        try:
+            headers = build_headers()
+            r = requests.get(url, headers=headers, timeout=timeout, proxies=PROXIES or None)
+            if r.status_code == 403:
+                raise RuntimeError("EAP fetch blocked (HTTP 403)")
+            if r.status_code in (429, 500, 502, 503, 504):
+                time.sleep(RetryConfig.calculate_backoff_delay(attempt - 1))
+                continue
+            r.raise_for_status()
+            jitter_sleep()
+            return r.text
+        except Exception as exc:
+            last_err = exc
+            time.sleep(RetryConfig.calculate_backoff_delay(attempt - 1))
+    raise RuntimeError(f"EAP fetch failed: {last_err}")
 
 
 def normalize_ws(s: str) -> str:
@@ -148,11 +205,18 @@ def has_pk_keyword(local_pack_description: str) -> bool:
 
 # ---------- scraper ----------
 
-def scrape_from_html(html: str) -> pd.DataFrame:
+def scrape_from_html(html: str, progress: Optional[StandardProgress] = None) -> pd.DataFrame:
     soup = BeautifulSoup(html, "lxml")
 
     tables = soup.select("table.table.full-width.numeric")
+    if not tables:
+        return pd.DataFrame()
     rows_out: List[Dict[str, object]] = []
+
+    if progress is not None:
+        total_rows = sum(len(tbl.select("tbody tr")) for tbl in tables)
+        progress.total = max(total_rows, 1)
+        progress.update(0, message="rows")
 
     for tbl in tables:
         caption = tbl.find("caption")
@@ -219,6 +283,8 @@ def scrape_from_html(html: str) -> pd.DataFrame:
                 "Reimbursable Notes": REIMBURSABLE_NOTES,
                 "Copayment Value": float(f"{COPAYMENT_VALUE:.2f}"),
             })
+            if progress is not None:
+                progress.update(len(rows_out), message="rows")
 
     df = pd.DataFrame(rows_out)
 
@@ -242,9 +308,20 @@ def main():
         with open(args.html, "r", encoding="utf-8", errors="ignore") as f:
             html = f.read()
     else:
-        html = fetch_html(args.url)
+        html = fetch_html(args.url, timeout=TIMEOUT)
 
-    df = scrape_from_html(html)
+    progress = StandardProgress(
+        "canada_ontario_eap_rows",
+        total=1,
+        unit="rows",
+        logger=logger,
+        state_path=get_output_dir() / ".checkpoints" / "eap_progress.json",
+        log_every=25,
+    ) if ENABLE_PROGRESS_BAR else None
+
+    df = scrape_from_html(html, progress=progress)
+    if progress is not None:
+        progress.update(len(df), message="complete", force=True)
 
     # Basic sanity checks
     if df.empty:
@@ -255,9 +332,7 @@ def main():
     output_path = Path(args.out) if args.out else (output_dir / EAP_PRICES_CSV_NAME)
     output_dir.mkdir(parents=True, exist_ok=True)
     df.to_csv(str(output_path), index=False, encoding="utf-8-sig")
-    print(f"[OK] Saved {len(df):,} rows -> {output_path}")
-    print("Sample:")
-    print(df.head(5).to_string(index=False))
+    logger.info(f"[OK] Saved {len(df):,} rows -> {output_path}")
 
 
 if __name__ == "__main__":

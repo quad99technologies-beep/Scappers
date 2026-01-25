@@ -1,0 +1,11 @@
+{
+  "task_id": "canada_ontario_output",
+  "current": 3,
+  "total": 3,
+  "unit": "steps",
+  "pct": 100.0,
+  "rate_per_sec": 13.4927,
+  "eta_seconds": 0,
+  "message": "complete",
+  "updated_at": "2026-01-23T17:32:30.650690+00:00"
+}

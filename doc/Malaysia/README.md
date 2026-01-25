@@ -38,6 +38,8 @@ All configuration is managed through `config/Malaysia.env.json`. The configurati
 - `SCRIPT_02_SEARCH_URL` - QUEST3+ search URL
 - `SCRIPT_02_DETAIL_URL` - QUEST3+ detail URL template
 - `SCRIPT_02_HEADLESS` - Browser headless mode
+- `SCRIPT_02_RESULT_TABLE_SELECTOR` - QUEST3+ result table element (now `table.table` so row selectors can be derived reliably)
+- `SCRIPT_02_RESULT_ROW_SELECTOR` - (Optional) Override for the row selector(s) used while verifying the table has loaded; by default this is `{TABLE_SELECTOR} tbody tr, {TABLE_SELECTOR} tr`
 - `SCRIPT_02_WAIT_BULK` - Bulk search wait time
 - `SCRIPT_04_BASE_URL` - Fully reimbursable URL
 - `SCRIPT_05_PCID_MAPPING` - PCID mapping file name
@@ -56,6 +58,8 @@ The scraper generates the following output files:
 - `malaysia_drug_prices_view_all.csv` - Drug prices from MyPriMe
 - `quest3_product_details.csv` - Product details from QUEST3+
 - `quest3_bulk_results.csv` - Bulk search results
+- `bulk_search_counts.csv` - Row-count comparison report for each QUEST3+ bulk search keyword
+- `missing_data_screenshots/` - (Optional) Screenshots captured on missing data or download failures when enabled
 - `quest3_missing_regnos.csv` - Missing registration numbers
 - `consolidated_products.csv` - Consolidated product data
 - `malaysia_fully_reimbursable_drugs.csv` - Fully reimbursable drugs
@@ -134,6 +138,12 @@ Gets product details from QUEST3+ using registration numbers.
 - `SCRIPT_02_DETAIL_DELAY` - Delay between detail fetches
 - `SCRIPT_02_PAGE_TIMEOUT` - Page load timeout
 - `SCRIPT_02_SELECTOR_TIMEOUT` - Selector wait timeout
+- `SCRIPT_02_DATA_LOAD_WAIT` - Additional seconds to wait for the bulk results table to settle before clicking CSV
+- `SCRIPT_02_OUT_COUNT_REPORT` - File name for the bulk search row-count comparison report
+- `SCRIPT_02_CSV_WAIT_SECONDS` - Seconds to wait after the results table stabilizes before clicking the CSV download button (default 60)
+- `SCRIPT_02_CSV_WAIT_MAX_SECONDS` - Maximum time (seconds) to keep waiting for loading indicators to disappear before proceeding with CSV (default 300)
+- `SCRIPT_02_CAPTURE_MISSING_SCREENSHOT` - Enable screenshot capture when a bulk search returns no data or fails (bool)
+- `SCRIPT_02_MISSING_SCREENSHOT_DIR` - Directory name (under the output folder) for storing missing-data screenshots
 
 **Features:**
 - Bulk search capability
@@ -141,6 +151,18 @@ Gets product details from QUEST3+ using registration numbers.
 - Progress tracking
 - Error handling and retry logic
 - Missing registration number tracking
+- Row-count validation and reporting (`bulk_search_counts.csv` logs how many rows were visible on the page vs. how many landed in the CSV)
+- Optional missing-data screenshots (controlled by `SCRIPT_02_CAPTURE_MISSING_SCREENSHOT`) provide visual proof whenever a keyword returns no data or a download fails
+- Extra settle time for large tables (`SCRIPT_02_DATA_LOAD_WAIT` seconds are waited after rows stabilize to ensure all rows finish loading before download)
+- Guaranteed minimum delay (`SCRIPT_02_CSV_WAIT_SECONDS`) after hitting Search plus automatic extension until loading indicators are gone (max `SCRIPT_02_CSV_WAIT_MAX_SECONDS`) before clicking CSV
+
+#### Bulk search count report
+
+After every bulk keyword search the script compares the stable row count observed on the page with the number of rows that actually downloaded into the CSV. The per-keyword snapshot (keyword, page rows, CSV rows, difference, status, reason, file path, timestamp) is written to `bulk_search_counts.csv` so you can identify and re-run keywords that yielded partial or missing exports.
+
+#### Missing-data screenshots (optional)
+
+Enable `SCRIPT_02_CAPTURE_MISSING_SCREENSHOT` to capture a screenshot whenever QUEST3+ returns no data, the CSV button disappears, or the download ultimately fails. Screenshots are saved under `missing_data_screenshots/` so you have proof of the page state before re-running the keyword or investigating site changes.
 
 ### 03_Consolidate_Results.py
 

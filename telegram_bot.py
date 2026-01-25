@@ -22,6 +22,7 @@ import time
 import threading
 import subprocess
 import re
+import signal
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, Optional, Tuple, List
@@ -111,6 +112,37 @@ def is_pid_running(pid: Optional[int]) -> bool:
             os.kill(pid, 0)
             return True
         except OSError:
+            return False
+
+
+def terminate_pid(pid: Optional[int]) -> bool:
+    if not pid:
+        return False
+    try:
+        import psutil
+        proc = psutil.Process(pid)
+        proc.terminate()
+        try:
+            proc.wait(timeout=5)
+        except Exception:
+            proc.kill()
+        return True
+    except Exception:
+        if sys.platform == "win32":
+            try:
+                result = subprocess.run(
+                    ["taskkill", "/PID", str(pid), "/T", "/F"],
+                    capture_output=True,
+                    text=True,
+                    timeout=5
+                )
+                return result.returncode == 0
+            except Exception:
+                return False
+        try:
+            os.kill(pid, signal.SIGTERM)
+            return True
+        except Exception:
             return False
 
 
@@ -436,7 +468,7 @@ class TelegramBot:
             self.send_message(chat_id, format_status_details(scraper_name, status))
             return
 
-        if cmd in ("/run", "/runfresh"):
+        if cmd in ("/run", "/runfresh", "/resume"):
             fresh = cmd == "/runfresh" or any(arg.lower() in ("fresh", "--fresh", "-f") for arg in args)
             scraper_arg = None
             for arg in args:
@@ -446,7 +478,10 @@ class TelegramBot:
                 break
             scraper_name = resolve_scraper_name(scraper_arg) if scraper_arg else self.default_scraper
             if not scraper_name:
-                self.send_message(chat_id, "Usage: /run <scraper> [fresh]")
+                if cmd == "/resume":
+                    self.send_message(chat_id, "Usage: /resume <scraper>")
+                else:
+                    self.send_message(chat_id, "Usage: /run <scraper> [fresh]")
                 return
             status = get_pipeline_status(scraper_name)
             if status["state"] == "running":
@@ -461,6 +496,30 @@ class TelegramBot:
                 )
             except Exception as exc:
                 self.send_message(chat_id, f"Failed to start {scraper_name}: {exc}")
+            return
+
+        if cmd == "/stop":
+            scraper_name = resolve_scraper_name(args[0]) if args else self.default_scraper
+            if not scraper_name:
+                self.send_message(chat_id, "Usage: /stop <scraper>")
+                return
+            status = get_pipeline_status(scraper_name)
+            if status["state"] != "running":
+                self.send_message(chat_id, f"{scraper_name} is not running.")
+                return
+            pid = None
+            if status.get("pid"):
+                try:
+                    pid = int(str(status["pid"]))
+                except Exception:
+                    pid = None
+            if not terminate_pid(pid):
+                self.send_message(chat_id, f"Failed to stop {scraper_name}.")
+                return
+            lock_path = status.get("lock_file")
+            if lock_path:
+                remove_lock_file(Path(lock_path))
+            self.send_message(chat_id, f"Stopped {scraper_name} (pid {pid}).")
             return
 
         if cmd == "/clear":
@@ -490,6 +549,8 @@ class TelegramBot:
             "/ping - Health check\n"
             "/status <scraper|all> - Check pipeline status\n"
             "/run <scraper> [fresh] - Start pipeline if idle\n"
+            "/resume <scraper> - Resume pipeline if idle\n"
+            "/stop <scraper> - Stop running pipeline\n"
             "/runfresh <scraper> - Start a fresh pipeline\n"
             "/clear <scraper> - Clear stale lock file\n"
         )
@@ -523,14 +584,28 @@ class TelegramBot:
                     text = message.get("text", "")
                     if not chat_id or not text:
                         continue
-                    if not self.is_authorized(chat_id):
-                        continue
-
                     if text.strip().startswith("/"):
+                        cmd = text.strip().split()[0].split("@")[0].lower()
+                        if cmd == "/whoami":
+                            try:
+                                self.handle_command(chat_id, text)
+                            except Exception:
+                                continue
+                            continue
+                        if not self.is_authorized(chat_id):
+                            try:
+                                self.send_message(
+                                    chat_id,
+                                    "Not authorized. Send /whoami to get your chat ID."
+                                )
+                            except Exception:
+                                pass
+                            continue
                         try:
                             self.handle_command(chat_id, text)
                         except Exception:
                             continue
+                        continue
 
                 if new_last_update_id is not None:
                     self.last_update_id = new_last_update_id

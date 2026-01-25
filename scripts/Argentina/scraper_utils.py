@@ -4,8 +4,10 @@ Contains common functions used by both API and Selenium scrapers.
 """
 
 import csv
+import os
 import re
 import time
+import tempfile
 import logging
 import threading
 from pathlib import Path
@@ -15,7 +17,8 @@ from typing import Optional, Set, Tuple
 from config_loader import (
     get_input_dir, get_output_dir,
     IGNORE_LIST_FILE, PREPARED_URLS_FILE,
-    OUTPUT_PRODUCTS_CSV, OUTPUT_PROGRESS_CSV, OUTPUT_ERRORS_CSV
+    OUTPUT_PRODUCTS_CSV, OUTPUT_PROGRESS_CSV, OUTPUT_ERRORS_CSV,
+    SELENIUM_MAX_RUNS
 )
 
 # ====== LOGGING ======
@@ -33,6 +36,55 @@ ERRORS = OUTPUT_DIR / OUTPUT_ERRORS_CSV
 CSV_LOCK = threading.Lock()
 PROGRESS_LOCK = threading.Lock()
 ERROR_LOCK = threading.Lock()
+
+# Track per-process attempts to avoid double-counting if a caller writes progress multiple times.
+_ATTEMPTED_THIS_RUN: set[tuple[str, str]] = set()
+_ATTEMPTED_LOCK = threading.Lock()
+
+
+def _simple_state_columns(fieldnames: list) -> tuple[str, str] | tuple[None, None]:
+    """Return (loop_col, total_col) if the prepared URLs file uses simple loop-count schema."""
+    if not fieldnames:
+        return (None, None)
+    headers = {nk(h): h for h in fieldnames}
+    loop_col = headers.get(nk("Loop Count")) or headers.get(nk("Loop_Count")) or headers.get(nk("LoopCount"))
+    total_col = headers.get(nk("Total Records")) or headers.get(nk("Total_Records")) or headers.get(nk("TotalRecords"))
+    if loop_col and total_col:
+        return (loop_col, total_col)
+    return (None, None)
+
+
+class _LockFile:
+    """Best-effort cross-process lock using exclusive lock-file creation."""
+
+    def __init__(self, path: Path, timeout_seconds: float = 30.0, poll_seconds: float = 0.1):
+        self.path = path
+        self.timeout_seconds = timeout_seconds
+        self.poll_seconds = poll_seconds
+        self._fd = None
+
+    def __enter__(self):
+        deadline = time.time() + self.timeout_seconds
+        while True:
+            try:
+                self._fd = os.open(str(self.path), os.O_CREAT | os.O_EXCL | os.O_RDWR)
+                os.write(self._fd, str(os.getpid()).encode("ascii", errors="ignore"))
+                return self
+            except FileExistsError:
+                if time.time() >= deadline:
+                    raise TimeoutError(f"Timed out waiting for lock: {self.path}")
+                time.sleep(self.poll_seconds)
+
+    def __exit__(self, exc_type, exc, tb):
+        try:
+            if self._fd is not None:
+                os.close(self._fd)
+        finally:
+            self._fd = None
+            try:
+                self.path.unlink(missing_ok=True)
+            except Exception:
+                pass
 
 # ====== OUTPUT FIELDS ======
 OUT_FIELDS = [
@@ -71,9 +123,6 @@ def ensure_headers():
     if not OUT_CSV.exists():
         with open(OUT_CSV, "w", newline="", encoding="utf-8-sig") as f:
             csv.DictWriter(f, fieldnames=OUT_FIELDS).writeheader()
-    if not PROGRESS.exists():
-        with open(PROGRESS, "w", newline="", encoding="utf-8-sig") as f:
-            csv.writer(f).writerow(["input_company","input_product_name","timestamp","records_found"])
     if not ERRORS.exists():
         with open(ERRORS, "w", newline="", encoding="utf-8-sig") as f:
             csv.writer(f).writerow(["input_company","input_product_name","timestamp","error_message"])
@@ -161,21 +210,101 @@ def load_ignore_list() -> Set[Tuple[str, str]]:
 def combine_skip_sets() -> Set[Tuple[str, str]]:
     """Combine all three skip sources: progress, output, and ignore list.
     Returns a set of normalized (company, product) tuples."""
-    progress_set = load_progress_set()
     output_set = load_output_set()
     ignore_set = load_ignore_list()
     
-    skip_set = progress_set | output_set | ignore_set
+    # Legacy progress CSV is deprecated in simple loop-count mode; output is authoritative.
+    progress_set = set()
+    skip_set = output_set | ignore_set
     
     log.info(f"[SKIP_SET] Loaded skip_set size = {len(skip_set)} (progress={len(progress_set)}, products={len(output_set)}, ignore={len(ignore_set)})")
     
     return skip_set
 
 def append_progress(company: str, product: str, count: int):
-    """Append progress entry to progress file. Always writes count as string (0 not blank)."""
-    with PROGRESS_LOCK, open(PROGRESS, "a", newline="", encoding="utf-8-sig") as f:
-        # Convert count to string explicitly - ensures 0 is written as "0" not blank
-        csv.writer(f).writerow([company, product, ts(), str(count)])
+    """
+    Update Productlist_with_urls.csv in simple loop-count mode.
+
+    - Increments "Loop Count" once per product per process run (guards duplicate calls).
+    - Sets "Total Records" to count when count > 0.
+
+    The old alfabeta_progress.csv file is no longer written.
+    """
+    if not PREPARED_URLS_FILE_PATH.exists():
+        return
+
+    key = (nk(company), nk(product))
+
+    # Prevent double-increment within a single run if append_progress is called multiple times for same product.
+    should_increment = False
+    with _ATTEMPTED_LOCK:
+        if key not in _ATTEMPTED_THIS_RUN:
+            _ATTEMPTED_THIS_RUN.add(key)
+            should_increment = True
+
+    lock_path = PREPARED_URLS_FILE_PATH.with_suffix(PREPARED_URLS_FILE_PATH.suffix + ".lock")
+    with _LockFile(lock_path), CSV_LOCK:
+        encoding_attempts = ["utf-8-sig", "utf-8", "latin-1", "windows-1252", "cp1252"]
+        rows = []
+        fieldnames = None
+        for encoding in encoding_attempts:
+            try:
+                with open(PREPARED_URLS_FILE_PATH, "r", encoding=encoding, newline="") as f:
+                    reader = csv.DictReader(f)
+                    fieldnames = reader.fieldnames
+                    if not fieldnames:
+                        return
+                    rows = list(reader)
+                break
+            except UnicodeDecodeError:
+                continue
+            except Exception:
+                return
+
+        loop_col, total_col = _simple_state_columns(fieldnames or [])
+        if not loop_col or not total_col:
+            return
+
+        updated = False
+        for row in rows:
+            rc = (row.get("Company") or "").strip()
+            rp = (row.get("Product") or "").strip()
+            if nk(rc) != key[0] or nk(rp) != key[1]:
+                continue
+
+            if count is not None:
+                try:
+                    count_int = int(float(count))
+                except Exception:
+                    count_int = 0
+                if count_int > 0:
+                    row[total_col] = str(count_int)
+                    updated = True
+
+            if should_increment:
+                try:
+                    cur = int(float((row.get(loop_col) or "0").strip() or "0"))
+                except Exception:
+                    cur = 0
+                row[loop_col] = str(cur + 1)
+                updated = True
+            # Don't break: keep state consistent for duplicate rows of the same product/company.
+
+        if not updated:
+            return
+
+        with tempfile.NamedTemporaryFile(
+            "w",
+            delete=False,
+            dir=str(PREPARED_URLS_FILE_PATH.parent),
+            newline="",
+            encoding="utf-8-sig",
+        ) as tf:
+            writer = csv.DictWriter(tf, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+            tmp_name = tf.name
+        os.replace(tmp_name, PREPARED_URLS_FILE_PATH)
 
 def append_error(company: str, product: str, msg: str):
     """Append error entry to error file."""
@@ -198,7 +327,7 @@ def is_product_already_scraped(company: str, product: str) -> bool:
         product: Product name to check
     
     Returns:
-        True if product is already marked as Scraped_By_Selenium == "yes", False otherwise
+        True if Total Records > 0 (simple schema), otherwise falls back to legacy flags when present.
     """
     if not PREPARED_URLS_FILE_PATH.exists():
         return False  # File doesn't exist, not scraped
@@ -213,7 +342,8 @@ def is_product_already_scraped(company: str, product: str) -> bool:
                         reader = csv.DictReader(f)
                         if not reader.fieldnames:
                             return False
-                        
+
+                        loop_col, total_col = _simple_state_columns(reader.fieldnames or [])
                         scraped_selenium_col = None
                         scraped_api_col = None
                         for col in reader.fieldnames:
@@ -222,21 +352,30 @@ def is_product_already_scraped(company: str, product: str) -> bool:
                                 scraped_selenium_col = col
                             elif col_norm == nk("Scraped_By_API"):
                                 scraped_api_col = col
-                        
-                        if not scraped_selenium_col and not scraped_api_col:
-                            return False  # Columns don't exist
+
+                        if not total_col and not scraped_selenium_col and not scraped_api_col:
+                            return False  # No recognized schema
                         
                         # Check each row
+                        found_any = False
                         for row in reader:
                             row_company = (row.get("Company") or "").strip()
                             row_product = (row.get("Product") or "").strip()
                             
                             if nk(row_company) == nk(company) and nk(row_product) == nk(product):
+                                found_any = True
+                                if total_col:
+                                    try:
+                                        if int(float((row.get(total_col) or "0").strip() or "0")) > 0:
+                                            return True
+                                    except Exception:
+                                        continue
                                 selenium_value = (row.get(scraped_selenium_col) or "").strip().lower() if scraped_selenium_col else ""
                                 api_value = (row.get(scraped_api_col) or "").strip().lower() if scraped_api_col else ""
-                                return selenium_value == "yes" or api_value == "yes"
+                                if selenium_value == "yes" or api_value == "yes":
+                                    return True
                         
-                        return False  # Product not found in CSV
+                        return False
                 except UnicodeDecodeError:
                     continue
                 except Exception:
@@ -249,7 +388,9 @@ def is_product_already_scraped(company: str, product: str) -> bool:
 def update_prepared_urls_source(company: str, product: str, new_source: str = "selenium", 
                                  scraped_by_selenium: str = None, scraped_by_api: str = None,
                                  selenium_records: str = None, api_records: str = None):
-    """Update the Source, Scraped_By_Selenium, Scraped_By_API, Selenium_Records, and API_Records columns in Productlist_with_urls.csv.
+    """Legacy helper for updating Productlist_with_urls.csv.
+
+    In simple loop-count mode, only updates "Total Records" when a positive record count is provided.
     Thread-safe: uses CSV_LOCK to prevent race conditions when multiple threads update the file.
     Handles multiple encodings when reading, writes with utf-8-sig.
     
@@ -294,6 +435,47 @@ def update_prepared_urls_source(company: str, product: str, new_source: str = "s
             
             if encoding_used is None:
                 log.warning(f"[CSV_UPDATE] Failed to read file with any encoding")
+                return
+
+            # Simple schema: only Total Records matters.
+            loop_col, total_col = _simple_state_columns(fieldnames or [])
+            if loop_col and total_col:
+                count_val = None
+                for candidate in (selenium_records, api_records):
+                    if candidate is None:
+                        continue
+                    try:
+                        count_val = int(float(str(candidate).strip() or "0"))
+                    except Exception:
+                        count_val = None
+                    if count_val is not None:
+                        break
+                if not count_val or count_val <= 0:
+                    return
+
+                updated = False
+                for row in rows:
+                    row_company = (row.get("Company") or "").strip()
+                    row_product = (row.get("Product") or "").strip()
+                    if nk(row_company) == nk(company) and nk(row_product) == nk(product):
+                        row[total_col] = str(count_val)
+                        updated = True
+                        # Don't break: keep state consistent for duplicate rows.
+                if not updated:
+                    return
+
+                with tempfile.NamedTemporaryFile(
+                    "w",
+                    delete=False,
+                    dir=str(PREPARED_URLS_FILE_PATH.parent),
+                    newline="",
+                    encoding="utf-8-sig",
+                ) as tf:
+                    writer = csv.DictWriter(tf, fieldnames=fieldnames)
+                    writer.writeheader()
+                    writer.writerows(rows)
+                    tmp_name = tf.name
+                os.replace(tmp_name, PREPARED_URLS_FILE_PATH)
                 return
             
             # Process rows to find and update matching entry
@@ -397,6 +579,18 @@ def sync_files_before_selenium():
     if not PREPARED_URLS_FILE_PATH.exists():
         log.warning("[PRE-SYNC] Productlist_with_urls.csv not found, cannot pre-sync")
         return
+
+    # Simple loop-count schema: no pre-sync needed (state is maintained via Loop Count/Total Records).
+    try:
+        with open(PREPARED_URLS_FILE_PATH, "r", encoding="utf-8-sig", newline="") as f:
+            reader = csv.DictReader(f)
+            if reader.fieldnames:
+                loop_col, total_col = _simple_state_columns(reader.fieldnames)
+                if loop_col and total_col:
+                    log.info("[PRE-SYNC] Simple loop-count schema detected; skipping pre-sync")
+                    return
+    except Exception:
+        pass
     
     log.info("[PRE-SYNC] Aligning files with output before Selenium step starts...")
     print("[PRE-SYNC] Aligning files before Selenium starts...", flush=True)
@@ -444,77 +638,7 @@ def sync_files_before_selenium():
     
     log.info(f"[PRE-SYNC] Found {len(products_from_output)} unique products in output file with data")
     
-    # Step 2: Update alfabeta_progress.csv (only products with records > 0, counts from output)
-    products_to_keep_in_progress = {key for key, count in products_from_output.items() if count > 0}
-    
-    progress_fieldnames = ["input_company", "input_product_name", "timestamp", "records_found"]
-    final_progress_dict = {}  # normalized_key -> row (final entries to write)
-    
-    if PROGRESS.exists():
-        try:
-            for encoding in encoding_attempts:
-                try:
-                    with open(PROGRESS, encoding=encoding, newline="") as f:
-                        reader = csv.DictReader(f)
-                        if reader.fieldnames:
-                            progress_fieldnames = reader.fieldnames
-                        for row in reader:
-                            company = (row.get("input_company") or "").strip()
-                            product = (row.get("input_product_name") or "").strip()
-                            if company and product:
-                                key = (nk(company), nk(product))
-                                # Only keep products that have records > 0 in output
-                                if key in products_to_keep_in_progress:
-                                    final_progress_dict[key] = row
-                    break
-                except UnicodeDecodeError:
-                    continue
-                except Exception as e:
-                    log.warning(f"[PRE-SYNC] Error reading progress file with {encoding}: {e}")
-                    continue
-        except Exception as e:
-            log.warning(f"[PRE-SYNC] Error reading progress file: {e}")
-    
-    # Update/add entries for products with records > 0 (counts from output)
-    for key, record_count in products_from_output.items():
-        if record_count > 0:
-            count_str = str(record_count).strip() if record_count else "0"
-            if key in final_progress_dict:
-                # Update existing entry
-                final_progress_dict[key]["records_found"] = count_str if count_str else "0"
-                final_progress_dict[key]["timestamp"] = ts()
-            else:
-                # Add new entry
-                if key in products_with_original_names:
-                    orig_company, orig_product = products_with_original_names[key]
-                    new_row = {
-                        "input_company": orig_company,
-                        "input_product_name": orig_product,
-                        "timestamp": ts(),
-                        "records_found": count_str if count_str else "0"
-                    }
-                    for field in progress_fieldnames:
-                        if field not in new_row:
-                            new_row[field] = "0" if field == "records_found" else ""
-                    final_progress_dict[key] = new_row
-    
-    # Write back progress file (ONLY products with records > 0)
-    with PROGRESS_LOCK:
-        with open(PROGRESS, "w", encoding="utf-8-sig", newline="") as f:
-            writer = csv.DictWriter(f, fieldnames=progress_fieldnames)
-            writer.writeheader()
-            for row in final_progress_dict.values():
-                # Normalize records_found to ensure "0" not blank
-                if "records_found" in row:
-                    records_found = row.get("records_found") or "0"
-                    row["records_found"] = str(records_found).strip() if str(records_found).strip() else "0"
-                else:
-                    row["records_found"] = "0"
-                writer.writerow(row)
-    
-    log.info(f"[PRE-SYNC] Progress file: {len(final_progress_dict)} entries (only products with records > 0)")
-    
-    # Step 3: Update Productlist_with_urls.csv (ALL products: Source="selenium", counts match output)
+    # Step 2: Update Productlist_with_urls.csv (ALL products: Source="selenium", counts match output)
     updates_made = 0
     try:
         with CSV_LOCK:
@@ -556,6 +680,8 @@ def sync_files_before_selenium():
                     fieldnames.append("Selenium_Records")
                 if "API_Records" not in fieldnames:
                     fieldnames.append("API_Records")
+            
+            loop_col, total_col = _simple_state_columns(fieldnames or [])
             
             # Update all products while preserving pending API state
             for row in rows:
@@ -605,6 +731,19 @@ def sync_files_before_selenium():
                             if current_api_records != api_records:
                                 row["API_Records"] = api_records
                                 update_made = True
+                            if loop_col:
+                                try:
+                                    cur_loop = int(float((row.get(loop_col) or "0").strip() or "0"))
+                                except Exception:
+                                    cur_loop = 0
+                                target_loop = max(cur_loop, int(SELENIUM_MAX_RUNS))
+                                if target_loop != cur_loop:
+                                    row[loop_col] = str(target_loop)
+                                    update_made = True
+                            if total_col:
+                                if str(row.get(total_col) or "").strip() != selenium_records:
+                                    row[total_col] = selenium_records
+                                    update_made = True
                         else:
                             # API already done: keep source as api, preserve counts
                             if current_source != "api":
@@ -711,6 +850,18 @@ def sync_files_from_output():
     if not PREPARED_URLS_FILE_PATH.exists():
         log.warning("[SYNC] Productlist_with_urls.csv not found, cannot sync")
         return
+
+    # Simple loop-count schema: do not sync legacy progress/source flags.
+    try:
+        with open(PREPARED_URLS_FILE_PATH, "r", encoding="utf-8-sig", newline="") as f:
+            reader = csv.DictReader(f)
+            if reader.fieldnames:
+                loop_col, total_col = _simple_state_columns(reader.fieldnames)
+                if loop_col and total_col:
+                    log.info("[SYNC] Simple loop-count schema detected; skipping legacy sync_files_from_output")
+                    return
+    except Exception:
+        pass
     
     log.info("[SYNC] Starting file synchronization from output data...")
     print("[SYNC] Starting file synchronization...", flush=True)

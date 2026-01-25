@@ -1,27 +1,16 @@
 {
   "scraper": "India",
-  "last_run": "2026-01-21T20:53:42.832464",
+  "last_run": "2026-01-25T16:36:14.667466",
   "completed_steps": [
-    0,
-    1
+    0
   ],
   "step_outputs": {
     "step_0": {
       "step_number": 0,
       "step_name": "Backup and Clean",
-      "completed_at": "2026-01-21T17:35:25.662342",
+      "completed_at": "2026-01-25T16:36:14.667459",
       "output_files": [],
-      "duration_seconds": 0.18910455703735352
-    },
-    "step_1": {
-      "step_number": 1,
-      "step_name": "Extract Medicine Details",
-      "completed_at": "2026-01-21T20:53:42.832438",
-      "output_files": [
-        "D:\\quad99\\Scappers\\output\\India\\details",
-        "D:\\quad99\\Scappers\\output\\India\\scraping_report.json"
-      ],
-      "duration_seconds": 89.40959477424622
+      "duration_seconds": 0.09750080108642578
     }
   },
   "metadata": {}

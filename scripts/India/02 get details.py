@@ -53,7 +53,7 @@ if str(_script_dir) not in sys.path:
 # Import platform components
 from config_loader import (
     get_output_dir, get_input_dir, get_download_dir, get_repo_root,
-    getenv_bool, getenv_int, getenv_float, load_env_file, SCRAPER_ID
+    getenv, getenv_bool, getenv_int, getenv_float, load_env_file, SCRAPER_ID
 )
 
 # Load environment configuration early
@@ -139,6 +139,10 @@ class FormulationCheckpoint:
         self.checkpoint_dir.mkdir(parents=True, exist_ok=True)
         self.checkpoint_file = self.checkpoint_dir / "formulation_progress.json"
         self._data = None
+
+    @staticmethod
+    def _key(formulation: str) -> str:
+        return (formulation or "").strip().upper()
     
     def _load(self) -> Dict:
         """Load checkpoint data."""
@@ -154,18 +158,54 @@ class FormulationCheckpoint:
                 self._data = self._default_data()
         else:
             self._data = self._default_data()
+
+        # Ensure required keys exist (supports older checkpoint schemas)
+        if not isinstance(self._data, dict):
+            self._data = self._default_data()
+            return self._data
+
+        self._data.setdefault("schema_version", 2)
+        self._data.setdefault("completed_formulations", [])
+        self._data.setdefault("zero_record_formulations", [])
+        self._data.setdefault("failed_formulations", {})
+        self._data.setdefault("in_progress", None)
+        self._data.setdefault("last_updated", None)
+        self._data.setdefault("stats", {})
+
+        stats = self._data["stats"]
+        had_total_success = "total_success" in stats
+        had_total_zero_records = "total_zero_records" in stats
+
+        stats.setdefault("total_processed", 0)  # terminal (success + zero-record)
+        stats.setdefault("total_success", 0)
+        stats.setdefault("total_zero_records", 0)
+        stats.setdefault("total_medicines", 0)
+        stats.setdefault("total_substitutes", 0)
+        stats.setdefault("errors", 0)  # failures only
+
+        # Best-effort migration from older schema (which only tracked "total_processed" as success count).
+        if not had_total_success and stats.get("total_success", 0) == 0:
+            stats["total_success"] = int(stats.get("total_processed", 0) or 0)
+        if not had_total_zero_records:
+            stats["total_zero_records"] = int(stats.get("total_zero_records", 0) or 0)
+
         return self._data
     
     def _default_data(self) -> Dict:
         return {
+            "schema_version": 2,
             "completed_formulations": [],
+            "zero_record_formulations": [],
+            "failed_formulations": {},
             "in_progress": None,
             "last_updated": None,
             "stats": {
-                "total_processed": 0,
+                "total_processed": 0,  # terminal (success + zero-record)
+                "total_success": 0,
+                "total_zero_records": 0,
                 "total_medicines": 0,
                 "total_substitutes": 0,
-                "errors": 0
+                "errors": 0  # failures only
             }
         }
     
@@ -183,27 +223,83 @@ class FormulationCheckpoint:
             print(f"[ERROR] Failed to save formulation checkpoint: {e}")
     
     def is_completed(self, formulation: str) -> bool:
-        """Check if a formulation has been fully completed."""
+        """
+        Check if a formulation is in a terminal state (success OR confirmed zero-record).
+
+        Note: Historically this meant "success". We treat "zero-record" as terminal too so
+        resume runs don't keep re-trying formulations that legitimately have no results.
+        """
         data = self._load()
-        return formulation.strip().upper() in [f.upper() for f in data["completed_formulations"]]
+        k = self._key(formulation)
+        if not k:
+            return False
+        if k in [self._key(f) for f in data.get("completed_formulations", [])]:
+            return True
+        if k in [self._key(f) for f in data.get("zero_record_formulations", [])]:
+            return True
+        return False
     
     def mark_completed(self, formulation: str, medicines_count: int = 0, substitutes_count: int = 0):
-        """Mark a formulation as fully completed."""
+        self.mark_success(formulation, medicines_count, substitutes_count)
+
+    def mark_success(self, formulation: str, medicines_count: int = 0, substitutes_count: int = 0):
+        """Mark a formulation as successfully completed (results found or already captured)."""
         data = self._load()
-        formulation_upper = formulation.strip().upper()
-        
-        if formulation_upper not in [f.upper() for f in data["completed_formulations"]]:
+        formulation_upper = self._key(formulation)
+        if not formulation_upper:
+            return
+
+        # Clear failed/zero-record state if present
+        data["failed_formulations"].pop(formulation_upper, None)
+        data["zero_record_formulations"] = [
+            f for f in data.get("zero_record_formulations", []) if self._key(f) != formulation_upper
+        ]
+
+        first_time = formulation_upper not in [self._key(f) for f in data["completed_formulations"]]
+        if first_time:
             data["completed_formulations"].append(formulation)
             data["stats"]["total_processed"] += 1
-            data["stats"]["total_medicines"] += medicines_count
-            data["stats"]["total_substitutes"] += substitutes_count
-        
+            data["stats"]["total_success"] += 1
+
+        # Add record counts (best-effort) – caller should pass only "new" counts.
+        data["stats"]["total_medicines"] += medicines_count
+        data["stats"]["total_substitutes"] += substitutes_count
+
         # Clear in_progress if it matches
-        if data["in_progress"] and data["in_progress"].upper() == formulation_upper:
+        if data["in_progress"] and self._key(data["in_progress"]) == formulation_upper:
             data["in_progress"] = None
-        
+
         self._save()
         print(f"[CHECKPOINT] Marked formulation '{formulation}' as completed")
+
+    def mark_zero_record(self, formulation: str, reason: Optional[str] = None):
+        """Mark a formulation as terminal with no records found (do not retry on resume)."""
+        data = self._load()
+        formulation_upper = self._key(formulation)
+        if not formulation_upper:
+            return
+
+        # Clear failed/success state if present
+        data["failed_formulations"].pop(formulation_upper, None)
+        data["completed_formulations"] = [
+            f for f in data.get("completed_formulations", []) if self._key(f) != formulation_upper
+        ]
+
+        first_time = formulation_upper not in [self._key(f) for f in data["zero_record_formulations"]]
+        if first_time:
+            data["zero_record_formulations"].append(formulation)
+            data["stats"]["total_processed"] += 1
+            data["stats"]["total_zero_records"] += 1
+
+        # Clear in_progress if it matches
+        if data["in_progress"] and self._key(data["in_progress"]) == formulation_upper:
+            data["in_progress"] = None
+
+        self._save()
+        msg = f"[CHECKPOINT] Marked formulation '{formulation}' as zero-record"
+        if reason:
+            msg += f" ({reason})"
+        print(msg)
     
     def mark_in_progress(self, formulation: str):
         """Mark a formulation as currently being processed."""
@@ -212,9 +308,30 @@ class FormulationCheckpoint:
         self._save()
     
     def mark_error(self, formulation: str):
-        """Record an error for a formulation."""
+        self.mark_failed(formulation, error=None)
+
+    def mark_failed(self, formulation: str, error: Optional[str] = None):
+        """Record a failure for a formulation (will be retried on resume)."""
         data = self._load()
         data["stats"]["errors"] += 1
+
+        k = self._key(formulation)
+        if k:
+            entry = data["failed_formulations"].get(k) or {
+                "formulation": formulation,
+                "attempts": 0,
+                "last_error": None,
+                "last_failed_at": None,
+            }
+            entry["attempts"] = int(entry.get("attempts", 0) or 0) + 1
+            entry["last_error"] = error
+            entry["last_failed_at"] = datetime.now().isoformat()
+            data["failed_formulations"][k] = entry
+
+        # Clear in_progress if it matches
+        if data["in_progress"] and self._key(data["in_progress"]) == k:
+            data["in_progress"] = None
+
         self._save()
     
     def get_completed_count(self) -> int:
@@ -223,7 +340,12 @@ class FormulationCheckpoint:
     
     def get_stats(self) -> Dict:
         """Get processing statistics."""
-        return self._load()["stats"]
+        data = self._load()
+        stats = data["stats"]
+        stats["failed_formulations"] = len(data.get("failed_formulations", {}))
+        stats["zero_record_formulations"] = len(data.get("zero_record_formulations", []))
+        stats["success_formulations"] = len(data.get("completed_formulations", []))
+        return stats
     
     def clear(self):
         """Clear all checkpoint data for fresh start."""
@@ -237,9 +359,20 @@ class FormulationCheckpoint:
 # -----------------------------
 
 
+def should_emit_progress() -> bool:
+    return not getenv_bool("SUPPRESS_WORKER_PROGRESS", False)
+
+
 def load_formulations_from_input() -> List[str]:
-    """Load formulations from input/India/formulations.csv."""
-    input_file = get_input_dir() / "formulations.csv"
+    """Load formulations from input/India/formulations.csv or an override path."""
+    override_env = os.getenv("FORMULATIONS_FILE")
+    override = (override_env or getenv("FORMULATIONS_FILE", "") or "").strip()
+    if override:
+        input_file = Path(override)
+        if not input_file.is_absolute():
+            input_file = get_input_dir() / input_file
+    else:
+        input_file = get_input_dir() / "formulations.csv"
     print(f"[INFO] Loading formulations from: {input_file}")
 
     if input_file.exists():
@@ -260,6 +393,23 @@ def load_formulations_from_input() -> List[str]:
             # Filter out empty strings
             formulations = [f for f in formulations if f]
 
+            # De-duplicate by normalized key to avoid repeated work in a single run
+            seen = set()
+            deduped = []
+            dup_count = 0
+            for f in formulations:
+                k = f.strip().upper()
+                if not k:
+                    continue
+                if k in seen:
+                    dup_count += 1
+                    continue
+                seen.add(k)
+                deduped.append(f)
+            formulations = deduped
+
+            if dup_count:
+                print(f"[INFO] Removed {dup_count} duplicate formulation(s)")
             print(f"[OK] Loaded {len(formulations)} formulations from input file")
 
             # Show sample
@@ -1169,10 +1319,10 @@ def run_for_formulation(
     Process a single formulation and return statistics.
     
     Returns:
-        Dict with stats: {"medicines": int, "substitutes": int, "success": bool}
+        Dict with stats: {"medicines": int, "substitutes": int, "status": str}
     """
     formulation_slug = slugify(formulation)
-    stats = {"medicines": 0, "substitutes": 0, "success": False}
+    stats = {"medicines": 0, "substitutes": 0, "status": "zero_records"}
 
     # Get delay settings from config
     detail_delay = getenv_float("DETAIL_DELAY", 1.5)
@@ -1218,6 +1368,7 @@ def run_for_formulation(
         print(f"[WARN] Autocomplete failed for '{safe_name}' - skipping this formulation")
         # Dismiss any alert that may have appeared
         dismiss_alert_if_present(driver)
+        stats["reason"] = "autocomplete_failed"
         return stats
 
     # Step 4: Click GO button
@@ -1229,6 +1380,7 @@ def run_for_formulation(
     if dismiss_alert_if_present(driver):
         safe_name = formulation.encode('ascii', 'replace').decode('ascii')
         print(f"[WARN] Alert appeared after GO for '{safe_name}' - skipping")
+        stats["reason"] = "alert_after_go"
         return stats
 
     # Wait results injected
@@ -1242,6 +1394,7 @@ def run_for_formulation(
     
     if not medicine_links:
         print(f"[WARN] No medicine links found for {formulation}.")
+        stats["reason"] = "no_medicine_links"
         return stats
     
     print(f"[OK] Found {len(medicine_links)} medicine links")
@@ -1321,7 +1474,7 @@ def run_for_formulation(
     unique_medicines = set(r.get("MedicineName", "") for r in detail_rows)
     stats["medicines"] = len(unique_medicines)
     stats["substitutes"] = len(detail_rows)
-    stats["success"] = True
+    stats["status"] = "success"
     
     return stats
 
@@ -1354,8 +1507,11 @@ def generate_final_report(out_dir: Path, checkpoint: FormulationCheckpoint, tota
         "duration_formatted": f"{int(duration // 3600)}h {int((duration % 3600) // 60)}m {int(duration % 60)}s",
         "summary": {
             "total_formulations_input": total_formulations,
-            "formulations_completed": stats["total_processed"],
-            "formulations_skipped": total_formulations - stats["total_processed"],
+            "formulations_terminal": stats.get("total_processed", 0),
+            "formulations_success": stats.get("total_success", 0),
+            "formulations_zero_records": stats.get("total_zero_records", 0),
+            "formulations_failed": stats.get("failed_formulations", 0),
+            "formulations_remaining": total_formulations - stats.get("total_processed", 0),
             "total_medicines_processed": stats["total_medicines"],
             "total_substitute_rows": stats["total_substitutes"],
             "errors": stats["errors"]
@@ -1376,7 +1532,10 @@ def generate_final_report(out_dir: Path, checkpoint: FormulationCheckpoint, tota
     print("FINAL SCRAPING REPORT")
     print("=" * 70)
     print(f"Duration: {report['duration_formatted']}")
-    print(f"Formulations processed: {stats['total_processed']}/{total_formulations}")
+    print(f"Formulations terminal: {stats.get('total_processed', 0)}/{total_formulations}")
+    print(f"  Success: {stats.get('total_success', 0)}")
+    print(f"  Zero-record: {stats.get('total_zero_records', 0)}")
+    print(f"  Failed: {stats.get('failed_formulations', 0)}")
     print(f"Total medicines: {stats['total_medicines']}")
     print(f"Total detail rows: {total_detail_rows}")
     print(f"Errors: {stats['errors']}")
@@ -1403,6 +1562,9 @@ def main():
     print(f"[CONFIG] Input dir: {input_dir}")
     print(f"[CONFIG] Output dir: {out_dir}")
     print(f"[CONFIG] Download dir: {download_dir}")
+    worker_id = (getenv("WORKER_ID", "") or "").strip()
+    if worker_id:
+        print(f"[CONFIG] Worker ID: {worker_id}")
 
     # Show feature status
     print(f"[CONFIG] PID Tracker: {'enabled' if _PID_TRACKER_AVAILABLE else 'disabled'}")
@@ -1493,7 +1655,11 @@ def main():
             progress_pct = round(((completed_so_far + 1) / total_formulations) * 100, 1)
 
             # Print progress (parseable format for orchestration)
-            print(f"\n[PROGRESS] Formulation: {completed_so_far + 1}/{total_formulations} ({progress_pct}%)", flush=True)
+            if should_emit_progress():
+                print(
+                    f"\n[PROGRESS] Formulation: {completed_so_far + 1}/{total_formulations} ({progress_pct}%)",
+                    flush=True,
+                )
 
             # Safe print formulation name
             safe_name = f.encode('ascii', 'replace').decode('ascii')
@@ -1502,20 +1668,19 @@ def main():
             try:
                 stats = run_for_formulation(driver, wait, f, download_dir, out_dir, checkpoint)
 
-                if stats["success"]:
-                    checkpoint.mark_completed(f, stats["medicines"], stats["substitutes"])
+                if stats.get("status") == "success":
+                    checkpoint.mark_success(f, stats.get("medicines", 0), stats.get("substitutes", 0))
                     total_medicines += stats["medicines"]
                     total_substitutes += stats["substitutes"]
                     print_status(f"Completed: {safe_name} ({stats['medicines']} medicines)", "success")
                 else:
-                    checkpoint.mark_error(f)
-                    errors_count += 1
-                    print_status(f"No results for: {safe_name}", "warning")
+                    checkpoint.mark_zero_record(f, reason=stats.get("reason"))
+                    print_status(f"No records for: {safe_name}", "warning")
 
             except Exception as e:
                 error_msg = str(e).encode('ascii', 'replace').decode('ascii')
                 print_status(f"Failed: {safe_name} - {error_msg[:100]}", "error")
-                checkpoint.mark_error(f)
+                checkpoint.mark_failed(f, error=error_msg[:500])
                 errors_count += 1
                 continue
             finally:

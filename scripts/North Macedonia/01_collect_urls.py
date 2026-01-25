@@ -3,8 +3,10 @@ import json
 import time
 import sys
 import math
+import threading
+from queue import Queue, Empty
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Set
 
 import pandas as pd
 from selenium import webdriver
@@ -120,6 +122,10 @@ BASE_URL = "https://lekovi.zdravstvo.gov.mk/drugsregister/overview"
 URLS_CSV = getenv("SCRIPT_01_URLS_CSV", "north_macedonia_detail_urls.csv")
 CHECKPOINT_JSON = getenv("SCRIPT_01_CHECKPOINT_JSON", "mk_urls_checkpoint.json")
 TOTAL_PAGES_OVERRIDE = getenv("SCRIPT_01_TOTAL_PAGES", "")
+
+# Multi-threading configuration
+NUM_WORKERS = getenv_int("SCRIPT_01_NUM_WORKERS", 3) if USE_CONFIG else 3
+MAX_RETRIES_PER_PAGE = getenv_int("SCRIPT_01_MAX_RETRIES_PER_PAGE", 3) if USE_CONFIG else 3
 
 # Navigation retry settings
 NAV_RETRIES = getenv_int("SCRIPT_01_NAV_RETRIES", 3) if USE_CONFIG else 3
@@ -485,6 +491,77 @@ def set_rows_per_page(driver: webdriver.Chrome, value: str = "200") -> bool:
     return False
 
 
+def count_grid_rows(driver: webdriver.Chrome) -> int:
+    """Count the number of rows in the current grid."""
+    try:
+        rows = driver.find_elements(By.CSS_SELECTOR, "div#grid table tbody tr")
+        return len(rows)
+    except Exception:
+        return 0
+
+
+def wait_for_correct_row_count(
+    driver: webdriver.Chrome,
+    expected_rows: int,
+    max_wait_seconds: int = 30,
+    is_last_page: bool = False
+) -> bool:
+    """
+    Wait until the grid has the expected number of rows.
+
+    Args:
+        driver: Chrome webdriver instance
+        expected_rows: Expected number of rows (e.g., 200)
+        max_wait_seconds: Maximum time to wait in seconds
+        is_last_page: If True, accept any count <= expected_rows
+
+    Returns:
+        True if correct row count achieved, False otherwise
+    """
+    deadline = time.time() + max_wait_seconds
+    attempts = 0
+
+    while time.time() < deadline:
+        attempts += 1
+        current_count = count_grid_rows(driver)
+
+        # Check if we have the correct number of rows
+        if is_last_page:
+            # Last page can have fewer rows
+            if 0 < current_count <= expected_rows:
+                print(f"  [OK] Grid has {current_count} rows (last page)", flush=True)
+                return True
+        else:
+            # Non-last pages should have exactly expected_rows
+            if current_count == expected_rows:
+                print(f"  [OK] Grid has {current_count} rows", flush=True)
+                return True
+
+        # Log current status every few attempts
+        if attempts % 3 == 0:
+            print(f"  [WAIT] Grid has {current_count} rows, expecting {expected_rows}... (attempt {attempts})", flush=True)
+
+        # If we have wrong count, try refreshing the grid
+        if attempts == 5:
+            print(f"  [RETRY] Grid stuck at {current_count} rows, trying to refresh...", flush=True)
+            try:
+                # Try to re-trigger the page size setting
+                current_page_size = get_rows_per_page_value(driver)
+                if current_page_size != str(expected_rows):
+                    print(f"  [WARN] Page size is {current_page_size}, should be {expected_rows}. Re-setting...", flush=True)
+                    set_rows_per_page(driver, str(expected_rows))
+                    wait_grid_loaded(driver, 20)
+            except Exception as e:
+                print(f"  [WARN] Failed to refresh grid: {e}", flush=True)
+
+        time.sleep(1)
+
+    # Timeout - report final count
+    final_count = count_grid_rows(driver)
+    print(f"  [WARN] Timeout waiting for {expected_rows} rows. Grid has {final_count} rows", flush=True)
+    return False
+
+
 def extract_detail_url_list_from_current_grid(driver: webdriver.Chrome, state_machine=None) -> List[str]:
     """Extract detail URLs from the current grid page."""
     wait_grid_loaded(driver, WAIT_TIMEOUT)
@@ -685,7 +762,7 @@ def read_checkpoint() -> Dict:
     return default_checkpoint
 
 
-def write_checkpoint(page_num: int, total_pages: int = 0, pages_info: dict = None, failed_pages: list = None) -> None:
+def write_checkpoint(page_num: int, total_pages: int = 0, pages_info: dict = None, failed_pages: list = None, lock: threading.Lock = None) -> None:
     """
     Persist checkpoint with page-level tracking.
 
@@ -694,21 +771,29 @@ def write_checkpoint(page_num: int, total_pages: int = 0, pages_info: dict = Non
         total_pages: Total number of pages detected
         pages_info: Dict mapping page_num -> {status, urls_extracted, error}
         failed_pages: List of page numbers that failed extraction
+        lock: Optional threading lock for thread-safe writes
     """
     checkpoint_path = OUTPUT_DIR / CHECKPOINT_JSON
 
-    # Load existing checkpoint to preserve page history
-    existing = read_checkpoint()
+    def _write():
+        # Load existing checkpoint to preserve page history
+        existing = read_checkpoint()
 
-    payload = {
-        "page": int(page_num),
-        "total_pages": int(total_pages),
-        "pages": pages_info or existing.get("pages", {}),
-        "failed_pages": failed_pages or existing.get("failed_pages", [])
-    }
+        payload = {
+            "page": int(page_num),
+            "total_pages": int(total_pages),
+            "pages": pages_info or existing.get("pages", {}),
+            "failed_pages": failed_pages or existing.get("failed_pages", [])
+        }
 
-    with open(checkpoint_path, "w", encoding="utf-8") as f:
-        json.dump(payload, f, ensure_ascii=False, indent=2)
+        with open(checkpoint_path, "w", encoding="utf-8") as f:
+            json.dump(payload, f, ensure_ascii=False, indent=2)
+
+    if lock:
+        with lock:
+            _write()
+    else:
+        _write()
 
 
 def validate_page_completeness(checkpoint: dict, start_page: int, end_page: int) -> List[int]:
@@ -747,6 +832,12 @@ def validate_page_completeness(checkpoint: dict, start_page: int, end_page: int)
         urls_extracted = page_data.get("urls_extracted", 0)
         if urls_extracted == 0:
             pages_to_reextract.append(page_num)
+            continue
+
+        # Check if page has abnormally low URL count (< 50 when it should be ~200)
+        # This catches cases where page size wasn't properly set to 200 rows
+        if page_num < end_page and urls_extracted < 50:  # Last page can have fewer
+            pages_to_reextract.append(page_num)
 
     return pages_to_reextract
 
@@ -766,11 +857,208 @@ def ensure_csv_has_header(path: Path, columns: List[str]) -> None:
         pd.DataFrame([], columns=columns).to_csv(str(path), index=False, encoding="utf-8-sig")
 
 
-def append_urls(path: Path, rows: List[Dict[str, str]]) -> None:
+def append_urls(path: Path, rows: List[Dict[str, str]], lock: threading.Lock = None) -> None:
     if not rows:
         return
-    df = pd.DataFrame(rows)
-    df.to_csv(str(path), mode="a", header=False, index=False, encoding="utf-8-sig")
+
+    def _write():
+        df = pd.DataFrame(rows)
+        df.to_csv(str(path), mode="a", header=False, index=False, encoding="utf-8-sig")
+
+    if lock:
+        with lock:
+            _write()
+    else:
+        _write()
+
+
+def worker_fn(
+    worker_id: int,
+    page_queue: Queue,
+    urls_path: Path,
+    seen_urls: Set[str],
+    seen_urls_lock: threading.Lock,
+    csv_lock: threading.Lock,
+    checkpoint: Dict,
+    checkpoint_lock: threading.Lock,
+    progress: Dict,
+    progress_lock: threading.Lock,
+    headless: bool,
+    rows_per_page: str,
+    total_pages: int
+) -> None:
+    """Worker function to process pages in parallel."""
+    driver = None
+    state_machine = None
+    locator = None
+
+    try:
+        driver = build_driver(headless=headless)
+        if driver is None:
+            print(f"[Worker {worker_id}] Failed to create driver", flush=True)
+            return
+
+        # Initialize state machine for this worker
+        if STATE_MACHINE_AVAILABLE:
+            import logging
+            logger = logging.getLogger(f"worker_{worker_id}")
+            locator = SmartLocator(driver, logger=logger)
+            state_machine = NavigationStateMachine(locator, logger=logger)
+
+        print(f"[Worker {worker_id}] Started", flush=True)
+
+        # Initialize session: go to base URL and set rows per page first
+        print(f"  [Worker {worker_id}] Initializing session with page size {rows_per_page}...", flush=True)
+        try:
+            driver = navigate_with_retries(driver, BASE_URL, wait_grid_loaded, f"worker {worker_id} init", headless=headless, state_machine=state_machine)
+            set_rows_per_page(driver, rows_per_page)
+            wait_grid_loaded(driver, 30)
+
+            # Verify page size was set
+            for _ in range(10):
+                current_val = get_rows_per_page_value(driver)
+                if current_val == rows_per_page:
+                    break
+                pause(0.3, 0.5)
+                wait_grid_loaded(driver, 20)
+
+            print(f"  [Worker {worker_id}] Session initialized, page size: {get_rows_per_page_value(driver)}", flush=True)
+        except Exception as e:
+            print(f"  [Worker {worker_id}] Failed to initialize session: {e}", flush=True)
+
+        while True:
+            try:
+                page_num = page_queue.get(timeout=2)
+            except Empty:
+                break
+
+            if page_num is None:
+                page_queue.task_done()
+                continue
+
+            print(f"\n[Worker {worker_id}] Processing page {page_num}", flush=True)
+
+            success = False
+            for attempt in range(1, MAX_RETRIES_PER_PAGE + 1):
+                try:
+                    # Navigate to page using direct pager URL with pageSize parameter
+                    pager_url = f"https://lekovi.zdravstvo.gov.mk/drugsregister.grid.pager/{page_num}/grid_0?t:ac=overview&pageSize={rows_per_page}"
+                    driver = navigate_with_retries(driver, pager_url, wait_grid_loaded, f"page {page_num}", headless=headless, state_machine=state_machine)
+
+                    # Ensure page size is set - re-apply if needed
+                    current_page_size = get_rows_per_page_value(driver)
+                    if current_page_size != rows_per_page:
+                        print(f"  [Worker {worker_id}] Page size is {current_page_size}, setting to {rows_per_page}...", flush=True)
+                        set_rows_per_page(driver, rows_per_page)
+                        wait_grid_loaded(driver, 30)
+                        # Re-navigate to the same page after changing page size
+                        driver = navigate_with_retries(driver, pager_url, wait_grid_loaded, f"page {page_num} retry", headless=headless, state_machine=state_machine)
+
+                    # Validate row count
+                    expected_row_count = int(rows_per_page) if rows_per_page.isdigit() else 200
+                    is_last_page = (total_pages > 0 and page_num == total_pages)
+
+                    print(f"  [Worker {worker_id}] Validating row count (expecting {expected_row_count})...", flush=True)
+
+                    # Check current row count
+                    actual_count = count_grid_rows(driver)
+
+                    # If row count is very low (default 10), the page size wasn't applied - reapply it
+                    if actual_count <= 10 and not is_last_page:
+                        print(f"  [Worker {worker_id}] Low row count ({actual_count}), re-applying page size...", flush=True)
+                        set_rows_per_page(driver, rows_per_page)
+                        wait_grid_loaded(driver, 30)
+                        time.sleep(2)  # Extra wait for grid refresh
+
+                    if not wait_for_correct_row_count(driver, expected_row_count, max_wait_seconds=30, is_last_page=is_last_page):
+                        actual_count = count_grid_rows(driver)
+
+                        if not is_last_page and actual_count < 50:
+                            print(f"  [Worker {worker_id}] Page {page_num} has insufficient rows ({actual_count}), retrying...", flush=True)
+                            raise RuntimeError(f"Insufficient rows: {actual_count}/{expected_row_count}")
+
+                        print(f"  [Worker {worker_id}] Proceeding with {actual_count} rows", flush=True)
+
+                    # Add human-like pause
+                    if HUMAN_ACTIONS_AVAILABLE:
+                        pause(0.3, 0.8)
+
+                    # Extract URLs
+                    detail_urls = extract_detail_url_list_from_current_grid(driver, state_machine=state_machine)
+
+                    # Filter out already seen URLs (thread-safe)
+                    with seen_urls_lock:
+                        new_urls = [u for u in detail_urls if u not in seen_urls]
+                        seen_urls.update(new_urls)
+
+                    if new_urls:
+                        rows = [{"detail_url": u, "page_num": page_num, "detailed_view_scraped": "no"} for u in new_urls]
+                        append_urls(urls_path, rows, lock=csv_lock)
+
+                    print(f"  [Worker {worker_id}] Page {page_num}: {len(detail_urls)} URLs found, {len(new_urls)} new", flush=True)
+
+                    # Update checkpoint (thread-safe)
+                    with checkpoint_lock:
+                        pages_info = checkpoint.get("pages", {})
+                        failed_pages = checkpoint.get("failed_pages", [])
+
+                        pages_info[str(page_num)] = {
+                            "status": "complete",
+                            "urls_extracted": len(detail_urls),
+                            "new_urls": len(new_urls)
+                        }
+
+                        if page_num in failed_pages:
+                            failed_pages.remove(page_num)
+
+                        checkpoint["pages"] = pages_info
+                        checkpoint["failed_pages"] = failed_pages
+                        write_checkpoint(page_num, total_pages, pages_info, failed_pages, lock=None)  # Already locked
+
+                    # Update progress
+                    with progress_lock:
+                        progress["done"] += 1
+                        progress["new_urls"] += len(new_urls)
+                        pct = round((progress["done"] / progress["total"]) * 100, 1)
+                        print(f"[PROGRESS] {progress['done']}/{progress['total']} ({pct}%) pages - {progress['new_urls']} total new URLs", flush=True)
+
+                    success = True
+                    break
+
+                except Exception as e:
+                    print(f"  [Worker {worker_id}] Attempt {attempt}/{MAX_RETRIES_PER_PAGE} failed for page {page_num}: {e}", flush=True)
+                    if attempt == MAX_RETRIES_PER_PAGE:
+                        # Mark as failed
+                        with checkpoint_lock:
+                            failed_pages = checkpoint.get("failed_pages", [])
+                            if page_num not in failed_pages:
+                                failed_pages.append(page_num)
+                            checkpoint["failed_pages"] = failed_pages
+                            write_checkpoint(page_num, total_pages, checkpoint.get("pages", {}), failed_pages, lock=None)
+                        print(f"  [Worker {worker_id}] Page {page_num} marked as FAILED", flush=True)
+                    else:
+                        # Restart driver on failure and reinitialize session
+                        try:
+                            driver = restart_driver(driver, headless=headless)
+                            if STATE_MACHINE_AVAILABLE:
+                                import logging
+                                logger = logging.getLogger(f"worker_{worker_id}")
+                                locator = SmartLocator(driver, logger=logger)
+                                state_machine = NavigationStateMachine(locator, logger=logger)
+                            # Reinitialize session with page size
+                            driver = navigate_with_retries(driver, BASE_URL, wait_grid_loaded, f"worker {worker_id} reinit", headless=headless, state_machine=state_machine)
+                            set_rows_per_page(driver, rows_per_page)
+                            wait_grid_loaded(driver, 30)
+                            print(f"  [Worker {worker_id}] Session reinitialized", flush=True)
+                        except Exception:
+                            pass
+                        time.sleep(2)
+
+            page_queue.task_done()
+
+    finally:
+        shutdown_driver(driver)
+        print(f"[Worker {worker_id}] Stopped", flush=True)
 
 
 def main(headless: bool = True, rows_per_page: str = "200") -> None:
@@ -797,12 +1085,17 @@ def main(headless: bool = True, rows_per_page: str = "200") -> None:
 
     checkpoint = read_checkpoint()
     seen_urls = set(load_existing_detail_urls(urls_path))
-    page_num = int(checkpoint.get("page", 1))
 
     # Initialize page-level tracking
     pages_info = checkpoint.get("pages", {})
     failed_pages = checkpoint.get("failed_pages", [])
 
+    print("\n" + "="*60, flush=True)
+    print("URL COLLECTION - PARALLEL VERSION", flush=True)
+    print("="*60, flush=True)
+
+    # First, determine total pages with a single driver
+    print("\n[INIT] Determining total pages...", flush=True)
     driver = build_driver(headless=headless)
     if driver is None:
         raise RuntimeError("Failed to initialize overview Chrome driver")
@@ -819,7 +1112,6 @@ def main(headless: bool = True, rows_per_page: str = "200") -> None:
     try:
         driver = navigate_with_retries(driver, BASE_URL, wait_grid_loaded, "initial page", headless=headless, state_machine=state_machine)
 
-        initial_total_pages = get_total_pages(driver, page_num)
         initial_total_records = get_total_records(driver)
         total_records = initial_total_records
 
@@ -843,12 +1135,10 @@ def main(headless: bool = True, rows_per_page: str = "200") -> None:
                 except Exception:
                     pass
                 rows_now = get_rows_per_page_value(driver)
-                pager_total = get_total_pages(driver, page_num)
+                pager_total = get_total_pages(driver, 1)
                 records_now = get_total_records(driver)
                 if records_now:
                     total_records = records_now
-                if rows_now == rows_per_page and pager_total and pager_total != initial_total_pages:
-                    break
                 if rows_now == rows_per_page and records_now:
                     try:
                         rows_int = int(rows_per_page)
@@ -857,328 +1147,134 @@ def main(headless: bool = True, rows_per_page: str = "200") -> None:
                     except Exception:
                         pass
                 time.sleep(3)
-        else:
-            print(f"[WARN] Could not confirm rows-per-page={rows_per_page}; continuing with current grid size.", flush=True)
 
-        # Move to checkpoint page
-        current_page = 1
-        while current_page < page_num:
-            ok = click_next_page(driver)
-            if not ok:
-                break
-            current_page += 1
-
-        total_new = 0
-        # Try to read total pages from pager after rows-per-page is applied
-        total_pages = pager_total if pager_total else get_total_pages(driver, page_num)
-        expected_pages = None
+        # Calculate total pages
+        total_pages = pager_total if pager_total else get_total_pages(driver, 1)
         if total_records and rows_per_page.isdigit():
             try:
                 expected_pages = math.ceil(int(total_records) / int(rows_per_page))
+                if expected_pages:
+                    total_pages = expected_pages
             except Exception:
-                expected_pages = None
-        if expected_pages:
-            if total_pages and total_pages != expected_pages:
-                print(f"[INFO] Pager pages mismatch; using computed pages from total_records: pager={total_pages}, computed={expected_pages}", flush=True)
-            total_pages = expected_pages
+                pass
         if TOTAL_PAGES_OVERRIDE:
             try:
                 total_pages = int(TOTAL_PAGES_OVERRIDE)
             except Exception:
                 pass
-        current_rows = get_rows_per_page_value(driver)
-        if total_pages:
-            print(f"[INFO] Grid ready: rows_per_page={current_rows or 'unknown'}, total_pages={total_pages}, total_records={initial_total_records or 'unknown'}", flush=True)
-        else:
-            print(f"[INFO] Grid ready: rows_per_page={current_rows or 'unknown'}, total_pages=unknown (will rely on pager navigation), total_records={initial_total_records or 'unknown'}", flush=True)
 
-        # Ensure we start from page 1 with the selected page size applied (avoid 10-row first page)
-        try:
-            driver = navigate_with_retries(driver, BASE_URL, wait_grid_loaded, "reload for page size", headless=headless, state_machine=state_machine)
-            if get_rows_per_page_value(driver) != rows_per_page:
-                set_rows_per_page(driver, rows_per_page)
-                wait_grid_loaded(driver, 20)
-            total_pages = get_total_pages(driver, 1) or total_pages
-        except Exception:
-            print("[WARN] Reload after page-size change failed; continuing with current session.", flush=True)
-
-        # Validate page completeness if resuming
-        pages_to_reextract = []
-        if page_num > 1 and checkpoint.get("page", 1) > 1:
-            print("\n[VALIDATION] Checking completeness of previously scraped pages...", flush=True)
-            missing_pages = validate_page_completeness(checkpoint, 1, page_num - 1)
-            if missing_pages:
-                print(f"[VALIDATION] Found {len(missing_pages)} incomplete pages: {missing_pages[:10]}{'...' if len(missing_pages) > 10 else ''}", flush=True)
-                pages_to_reextract.extend(missing_pages)
-            else:
-                print(f"[VALIDATION] All {page_num - 1} pages are complete", flush=True)
-
-        # Remove duplicates and sort
-        pages_to_reextract = sorted(set(pages_to_reextract))
-
-        while True:
-            # Check session health before extracting
-            if not is_session_valid(driver):
-                print("  [WARN] Chrome session invalid, restarting browser...", flush=True)
-
-                # Send Telegram warning notification
-                if telegram_notifier:
-                    try:
-                        telegram_notifier.send_warning(
-                            "Chrome session restarted",
-                            details=f"Restarting at page {page_num}",
-                            force=True
-                        )
-                    except Exception:
-                        pass
-
-                driver = restart_driver(driver, headless=headless)
-                if STATE_MACHINE_AVAILABLE:
-                    locator = SmartLocator(driver, logger=logger)
-                    state_machine = NavigationStateMachine(locator, logger=logger)
-                driver = navigate_with_retries(driver, BASE_URL, wait_grid_loaded, "session restart", headless=headless, state_machine=state_machine)
-                if get_rows_per_page_value(driver) != rows_per_page:
-                    set_rows_per_page(driver, rows_per_page)
-
-            # Make sure page size sticks across navigations
-            if get_rows_per_page_value(driver) != rows_per_page:
-                set_rows_per_page(driver, rows_per_page)
-                wait_grid_loaded(driver, 20)
-                total_pages = get_total_pages(driver, page_num) or total_pages
-            if total_records and rows_per_page.isdigit():
-                try:
-                    computed_pages = math.ceil(int(total_records) / int(rows_per_page))
-                    if computed_pages and computed_pages != total_pages:
-                        total_pages = computed_pages
-                except Exception:
-                    pass
-            if total_pages is None:
-                total_pages = get_total_pages(driver, page_num)
-
-            # Add human-like pause
-            if HUMAN_ACTIONS_AVAILABLE:
-                pause(0.3, 0.8)
-
-            try:
-                detail_urls = extract_detail_url_list_from_current_grid(driver, state_machine=state_machine)
-                new_urls = [u for u in detail_urls if u not in seen_urls]
-
-                if new_urls:
-                    rows = [{"detail_url": u, "page_num": page_num, "detailed_view_scraped": "no"} for u in new_urls]
-                    append_urls(urls_path, rows)
-                    seen_urls.update(new_urls)
-                    total_new += len(new_urls)
-                    if total_pages:
-                        percent = round((page_num / total_pages) * 100, 1)
-                        print(f"[PROGRESS] Collecting URLs: page {page_num}/{total_pages} ({percent}%) - new {len(new_urls)} (total {total_new})", flush=True)
-
-                        # Send Telegram status update (rate-limited)
-                        if telegram_notifier:
-                            try:
-                                telegram_notifier.send_progress(
-                                    page_num,
-                                    total_pages,
-                                    "Collect URLs",
-                                    details=f"New URLs: {len(new_urls)} | Total: {total_new}"
-                                )
-                            except Exception:
-                                pass
-                    else:
-                        print(f"[PROGRESS] Collecting URLs: page {page_num} - new {len(new_urls)} (total {total_new})", flush=True)
-
-                # Track page status
-                pages_info[str(page_num)] = {
-                    "status": "complete",
-                    "urls_extracted": len(detail_urls),
-                    "new_urls": len(new_urls)
-                }
-
-                # Remove from failed pages if it was there
-                if page_num in failed_pages:
-                    failed_pages.remove(page_num)
-
-            except Exception as e:
-                print(f"  [ERROR] Failed to extract page {page_num}: {e}", flush=True)
-                pages_info[str(page_num)] = {
-                    "status": "failed",
-                    "urls_extracted": 0,
-                    "error": str(e)
-                }
-                if page_num not in failed_pages:
-                    failed_pages.append(page_num)
-
-                # Send Telegram error notification
-                if telegram_notifier:
-                    try:
-                        telegram_notifier.send_error(
-                            f"Failed to extract page {page_num}",
-                            details=str(e)[:200],
-                            force=False  # Don't spam on every error
-                        )
-                    except Exception:
-                        pass
-
-            # Save checkpoint after each page with page-level tracking
-            write_checkpoint(page_num, total_pages or 0, pages_info, failed_pages)
-
-            # Advance page using direct pager URL if known (preferred)
-            if total_pages and page_num < total_pages:
-                next_page = page_num + 1
-                pager_url = f"https://lekovi.zdravstvo.gov.mk/drugsregister.grid.pager/{next_page}/grid_0?t:ac=overview"
-                try:
-                    driver = navigate_with_retries(driver, pager_url, wait_grid_loaded, f"page {next_page}", headless=headless, state_machine=state_machine)
-                    # Ensure page size persists
-                    if get_rows_per_page_value(driver) != rows_per_page:
-                        set_rows_per_page(driver, rows_per_page)
-                        wait_grid_loaded(driver, 20)
-                        total_pages = get_total_pages(driver, next_page) or total_pages
-                    page_num = next_page
-                    continue
-                except Exception:
-                    pass
-
-            # Fallback to click navigation
-            next_ok = click_next_page(driver)
-            if not next_ok:
-                break
-            page_num += 1
-
-        # Re-extract pages with missing or failed data
-        if pages_to_reextract or failed_pages:
-            all_reextract = sorted(set(pages_to_reextract + failed_pages))
-            print(f"\n\n=== RE-EXTRACTION PHASE ===", flush=True)
-            print(f"Re-extracting {len(all_reextract)} pages with missing/incomplete data...", flush=True)
-
-            for idx, p in enumerate(all_reextract, 1):
-                print(f"\n--- Re-extracting Page {p} ({idx}/{len(all_reextract)}) ---", flush=True)
-
-                # Check session health
-                if not is_session_valid(driver):
-                    print("  [WARN] Chrome session invalid, restarting browser...", flush=True)
-                    driver = restart_driver(driver, headless=headless)
-                    if STATE_MACHINE_AVAILABLE:
-                        locator = SmartLocator(driver, logger=logger)
-                        state_machine = NavigationStateMachine(locator, logger=logger)
-                    driver = navigate_with_retries(driver, BASE_URL, wait_grid_loaded, "session restart", headless=headless, state_machine=state_machine)
-                    if get_rows_per_page_value(driver) != rows_per_page:
-                        set_rows_per_page(driver, rows_per_page)
-
-                try:
-                    # Navigate to missing page
-                    pager_url = f"https://lekovi.zdravstvo.gov.mk/drugsregister.grid.pager/{p}/grid_0?t:ac=overview"
-                    try:
-                        driver = navigate_with_retries(driver, pager_url, wait_grid_loaded, f"re-extract page {p}", headless=headless, state_machine=state_machine)
-                    except Exception:
-                        # Fallback: navigate to base and click through
-                        driver = navigate_with_retries(driver, BASE_URL, wait_grid_loaded, "base for re-extract", headless=headless, state_machine=state_machine)
-                        if get_rows_per_page_value(driver) != rows_per_page:
-                            set_rows_per_page(driver, rows_per_page)
-                        # Click to page
-                        for _ in range(p - 1):
-                            if not click_next_page(driver):
-                                break
-
-                    # Ensure page size persists
-                    if get_rows_per_page_value(driver) != rows_per_page:
-                        set_rows_per_page(driver, rows_per_page)
-                        wait_grid_loaded(driver, 20)
-
-                    # Add human-like pause
-                    if HUMAN_ACTIONS_AVAILABLE:
-                        pause(0.5, 1.0)
-
-                    # Extract URLs
-                    detail_urls = extract_detail_url_list_from_current_grid(driver, state_machine=state_machine)
-                    new_urls = [u for u in detail_urls if u not in seen_urls]
-
-                    print(f"Re-extract: Found URLs: {len(detail_urls)} | New URLs: {len(new_urls)}", flush=True)
-
-                    if new_urls:
-                        rows = [{"detail_url": u, "page_num": p, "detailed_view_scraped": "no"} for u in new_urls]
-                        append_urls(urls_path, rows)
-                        seen_urls.update(new_urls)
-                        total_new += len(new_urls)
-
-                    # Update page status
-                    pages_info[str(p)] = {
-                        "status": "complete",
-                        "urls_extracted": len(detail_urls),
-                        "new_urls": len(new_urls),
-                        "reextracted": True
-                    }
-
-                    # Remove from failed pages
-                    if p in failed_pages:
-                        failed_pages.remove(p)
-
-                except Exception as e:
-                    print(f"  [ERROR] Re-extraction failed for page {p}: {e}", flush=True)
-                    pages_info[str(p)] = {
-                        "status": "failed",
-                        "urls_extracted": 0,
-                        "error": str(e),
-                        "reextraction_failed": True
-                    }
-
-                # Save progress after each re-extraction
-                write_checkpoint(p, total_pages or 0, pages_info, failed_pages)
-
-                # Add small delay
-                if HUMAN_ACTIONS_AVAILABLE:
-                    pause(0.3, 0.8)
-
-        print(f"\n{'='*60}", flush=True)
-        print(f"URL COLLECTION COMPLETED", flush=True)
-        print(f"{'='*60}", flush=True)
-        print(f"Total unique detail URLs: {len(seen_urls)}", flush=True)
-        print(f"Total new URLs added: {total_new}", flush=True)
-
-        # Report on pages with issues
-        if failed_pages:
-            print(f"\n[WARNING] {len(failed_pages)} pages failed extraction:", flush=True)
-            print(f"  Pages: {failed_pages[:20]}{'...' if len(failed_pages) > 20 else ''}", flush=True)
-            print(f"  You may need to manually investigate these pages", flush=True)
-
-        # Calculate completeness
-        complete_pages = sum(1 for p_info in pages_info.values() if p_info.get("status") == "complete")
-        total_pages_processed = len(pages_info)
-        if total_pages_processed > 0:
-            completeness_pct = round((complete_pages / total_pages_processed) * 100, 1)
-            print(f"\nCompleteness: {complete_pages}/{total_pages_processed} pages ({completeness_pct}%)", flush=True)
-
-        # Log metrics if state machine is available
-        if STATE_MACHINE_AVAILABLE and locator:
-            metrics = locator.get_metrics()
-            metrics_summary = metrics.get_summary()
-            print(f"[METRICS] Locator performance: {metrics_summary}", flush=True)
-
-        # Success message
-        if not failed_pages:
-            print("\n[SUCCESS] All pages extracted successfully.", flush=True)
-            # Send Telegram success notification
-            if telegram_notifier:
-                try:
-                    details = f"Total URLs: {len(seen_urls)}\nNew URLs: {total_new}\nPages: {complete_pages}/{total_pages_processed}"
-                    telegram_notifier.send_success("URL Collection Completed", details=details)
-                except Exception:
-                    pass
-        else:
-            print(f"\n[INFO] Progress file retained for {len(failed_pages)} pages with issues. Run again to retry.", flush=True)
-            # Send Telegram warning notification
-            if telegram_notifier:
-                try:
-                    details = f"Total URLs: {len(seen_urls)}\nNew URLs: {total_new}\nFailed pages: {len(failed_pages)}"
-                    telegram_notifier.send_warning("URL Collection Completed with Issues", details=details)
-                except Exception:
-                    pass
+        print(f"[INIT] Total pages: {total_pages}, Total records: {total_records}", flush=True)
 
     finally:
         shutdown_driver(driver)
-        if terminate_scraper_pids:
+
+    if not total_pages or total_pages <= 0:
+        print("[ERROR] Could not determine total pages", flush=True)
+        return
+
+    # Build list of pages to process
+    all_pages = list(range(1, total_pages + 1))
+    completed_pages = set(int(p) for p in pages_info.keys() if pages_info.get(p, {}).get("status") == "complete")
+    pending_pages = [p for p in all_pages if p not in completed_pages]
+
+    # Add failed pages to retry
+    pages_to_process = sorted(set(pending_pages + failed_pages))
+
+    print(f"\n[STATUS] Pages completed: {len(completed_pages)}", flush=True)
+    print(f"[STATUS] Pages failed: {len(failed_pages)}", flush=True)
+    print(f"[STATUS] Pages pending: {len(pages_to_process)}", flush=True)
+    print(f"[STATUS] Workers: {NUM_WORKERS}", flush=True)
+
+    if not pages_to_process:
+        print("\n[COMPLETE] All pages already scraped!", flush=True)
+        # Send Telegram success notification
+        if telegram_notifier:
             try:
-                terminate_scraper_pids("NorthMacedonia", _repo_root, silent=True)
+                details = f"Total URLs: {len(seen_urls)}\nAll {total_pages} pages complete"
+                telegram_notifier.send_success("URL Collection Already Complete", details=details)
             except Exception:
                 pass
+        return
+
+    print(f"\n[START] Processing {len(pages_to_process)} pages with {NUM_WORKERS} workers...\n", flush=True)
+
+    # Setup threading
+    page_queue: Queue = Queue()
+    for p in pages_to_process:
+        page_queue.put(p)
+
+    seen_urls_lock = threading.Lock()
+    csv_lock = threading.Lock()
+    checkpoint_lock = threading.Lock()
+    progress_lock = threading.Lock()
+
+    progress = {"done": 0, "total": len(pages_to_process), "new_urls": 0}
+
+    # Update checkpoint with total pages
+    checkpoint["total_pages"] = total_pages
+    write_checkpoint(0, total_pages, pages_info, failed_pages)
+
+    # Start worker threads
+    threads = []
+    for i in range(NUM_WORKERS):
+        t = threading.Thread(
+            target=worker_fn,
+            args=(i+1, page_queue, urls_path, seen_urls, seen_urls_lock, csv_lock,
+                  checkpoint, checkpoint_lock, progress, progress_lock, headless, rows_per_page, total_pages)
+        )
+        t.start()
+        threads.append(t)
+        time.sleep(0.5)  # Stagger worker starts
+
+    # Wait for all workers to complete
+    for t in threads:
+        t.join()
+
+    # Reload checkpoint to get final state
+    final_checkpoint = read_checkpoint()
+    final_pages_info = final_checkpoint.get("pages", {})
+    final_failed_pages = final_checkpoint.get("failed_pages", [])
+
+    # Calculate final statistics
+    complete_pages = sum(1 for p_info in final_pages_info.values() if p_info.get("status") == "complete")
+    total_new = sum(p_info.get("new_urls", 0) for p_info in final_pages_info.values())
+
+    print(f"\n{'='*60}", flush=True)
+    print(f"URL COLLECTION COMPLETED", flush=True)
+    print(f"{'='*60}", flush=True)
+    print(f"Total unique detail URLs: {len(seen_urls)}", flush=True)
+    print(f"Total new URLs added: {total_new}", flush=True)
+    print(f"Completed pages: {complete_pages}/{total_pages}", flush=True)
+    print(f"Failed pages: {len(final_failed_pages)}", flush=True)
+
+    if final_failed_pages:
+        print(f"\n[WARNING] {len(final_failed_pages)} pages failed extraction:", flush=True)
+        print(f"  Pages: {sorted(final_failed_pages)[:20]}{'...' if len(final_failed_pages) > 20 else ''}", flush=True)
+        print(f"  Run again to retry failed pages.", flush=True)
+        # Send Telegram warning notification
+        if telegram_notifier:
+            try:
+                details = f"Total URLs: {len(seen_urls)}\nNew URLs: {total_new}\nFailed pages: {len(final_failed_pages)}"
+                telegram_notifier.send_warning("URL Collection Completed with Issues", details=details)
+            except Exception:
+                pass
+    else:
+        print("\n[SUCCESS] All pages extracted successfully.", flush=True)
+        # Send Telegram success notification
+        if telegram_notifier:
+            try:
+                details = f"Total URLs: {len(seen_urls)}\nNew URLs: {total_new}\nPages: {complete_pages}/{total_pages}"
+                telegram_notifier.send_success("URL Collection Completed", details=details)
+            except Exception:
+                pass
+
+    print("="*60 + "\n", flush=True)
+
+    if terminate_scraper_pids:
+        try:
+            terminate_scraper_pids("NorthMacedonia", _repo_root, silent=True)
+        except Exception:
+            pass
 
 
 if __name__ == "__main__":

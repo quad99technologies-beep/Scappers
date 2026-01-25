@@ -29,6 +29,37 @@ if str(_script_dir) not in sys.path:
 from core.pipeline_checkpoint import get_checkpoint_manager
 from config_loader import get_output_dir, PREPARED_URLS_FILE, OUTPUT_PRODUCTS_CSV, OUTPUT_TRANSLATED_CSV, USE_API_STEPS
 
+def cleanup_temp_files(output_dir: Path):
+    """Remove stale temp files created during CSV rewrites (tmp* with no extension)."""
+    try:
+        removed = 0
+        for item in output_dir.iterdir():
+            if not item.is_file():
+                continue
+            if item.suffix:
+                continue
+            if not item.name.startswith("tmp"):
+                continue
+            try:
+                item.unlink()
+                removed += 1
+            except Exception:
+                continue
+        if removed:
+            print(f"[CLEANUP] Removed {removed} stale temp file(s) from {output_dir}", flush=True)
+    except Exception:
+        pass
+
+def cleanup_legacy_progress(output_dir: Path):
+    """Remove deprecated alfabeta_progress.csv if present."""
+    try:
+        legacy = output_dir / "alfabeta_progress.csv"
+        if legacy.exists():
+            legacy.unlink()
+            print(f"[CLEANUP] Removed deprecated progress file: {legacy}", flush=True)
+    except Exception:
+        pass
+
 def run_step(step_num: int, script_name: str, step_name: str, output_files: list = None):
     """Run a pipeline step and mark it complete if successful."""
     # Total actual steps: steps 0-6 = 7 steps
@@ -49,7 +80,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         0: "Preparing: Backing up previous results and cleaning output directory",
         1: "Scraping: Fetching product list from AlfaBeta website",
         2: "Preparing: Building product URLs for scraping",
-        3: "Scraping: Extracting product details using Selenium with 3-round retry (this may take a while)",
+        3: "Scraping: Extracting product details using Selenium with 5-round retry (this may take a while)",
         4: "Scraping: Extracting remaining products using API",
         5: "Processing: Translating Spanish terms to English using dictionary",
         6: "Generating: Creating final output files with PCID mapping"
@@ -72,6 +103,10 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
     try:
         env = os.environ.copy()
         env["PIPELINE_RUNNER"] = "1"
+        env["PIPELINE_STEP_DISPLAY"] = str(display_step)
+        env["PIPELINE_TOTAL_STEPS"] = str(total_steps)
+        env["PIPELINE_STEP_NAME"] = step_name
+        env["PIPELINE_SCRIPT"] = script_name
         result = subprocess.run(
             [sys.executable, "-u", str(script_path)],
             check=True,
@@ -103,6 +138,10 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
             cp.mark_step_complete(step_num, step_name, abs_output_files, duration_seconds=duration_seconds)
         else:
             cp.mark_step_complete(step_num, step_name, duration_seconds=duration_seconds)
+
+        # Cleanup stale temp files (e.g., tmp* from CSV rewrites)
+        cleanup_temp_files(get_output_dir())
+        cleanup_legacy_progress(get_output_dir())
         
         # Output completion progress with descriptive message
         completion_percent = round(((step_num + 1) / total_steps) * 100, 1)
@@ -166,7 +205,7 @@ def main():
         (0, "00_backup_and_clean.py", "Backup and Clean", None),
         (1, "01_getProdList.py", "Get Product List", None),  # Output is in input dir
         (2, "02_prepare_urls.py", "Prepare URLs", [str(output_dir / PREPARED_URLS_FILE)]),
-        (3, "03_selenium_3round_wrapper.py", "Scrape Products (Selenium - 3 Rounds)", [str(output_dir / OUTPUT_PRODUCTS_CSV)]),
+        (3, "03_alfabeta_selenium_scraper.py", "Scrape Products (Selenium - 5 Rounds)", [str(output_dir / OUTPUT_PRODUCTS_CSV)]),
         (4, "04_alfabeta_api_scraper.py", "Scrape Products (API)", [str(output_dir / OUTPUT_PRODUCTS_CSV)]),
         (5, "05_TranslateUsingDictionary.py", "Translate Using Dictionary", [str(output_dir / OUTPUT_TRANSLATED_CSV)]),
         (6, "06_GenerateOutput.py", "Generate Output", None),  # Output files vary by date
@@ -289,6 +328,8 @@ def main():
     print(f"[TIMING] Total pipeline duration: {total_duration_str}")
     print(f"{'='*80}\n")
     print(f"[PROGRESS] Pipeline Step: 7/7 (100%)", flush=True)
+    cleanup_temp_files(get_output_dir())
+    cleanup_legacy_progress(get_output_dir())
     
     # Clean up lock file
     try:

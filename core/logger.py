@@ -10,10 +10,23 @@ Business Logic Unchanged: Only standardizes logging format, no parsing/selectors
 """
 
 import logging
+import os
+import re
 import sys
 import threading
-from typing import Optional
+from typing import Optional, List
 from pathlib import Path
+
+
+def _collect_sensitive_values() -> List[str]:
+    keywords = ("TOKEN", "PASSWORD", "SECRET", "API_KEY", "ACCESS_KEY", "PRIVATE_KEY")
+    values = []
+    for key, value in os.environ.items():
+        if any(k in key.upper() for k in keywords):
+            if value and isinstance(value, str) and len(value) >= 4:
+                values.append(value)
+    values = sorted(set(values), key=len, reverse=True)
+    return values
 
 
 def setup_standard_logger(
@@ -41,24 +54,35 @@ def setup_standard_logger(
     logger.handlers.clear()
     
     # Standard formatter: [{level}] [{scraper}] [{step}] [thread-{id}] {message}
+    sensitive_values = _collect_sensitive_values()
+
     class StandardFormatter(logging.Formatter):
-        """Custom formatter that includes thread ID"""
+        """Custom formatter that includes thread ID."""
         def format(self, record):
-            # Add thread ID to record
             record.thread_id = threading.get_ident()
-            
-            # Build prefix parts
+
             prefix_parts = [f"[{record.levelname}]"]
-            if hasattr(record, 'scraper_name') and record.scraper_name:
+            if getattr(record, "scraper_name", None):
                 prefix_parts.append(f"[{record.scraper_name}]")
-            if hasattr(record, 'step_name') and record.step_name:
+            if getattr(record, "step_name", None):
                 prefix_parts.append(f"[{record.step_name}]")
             prefix_parts.append(f"[thread-{record.thread_id}]")
-            
             prefix = " ".join(prefix_parts)
-            record.msg = f"{prefix} {record.getMessage()}"
-            
-            return super().format(record)
+
+            formatted = record.getMessage()
+            if sensitive_values:
+                for secret in sensitive_values:
+                    if secret in formatted:
+                        formatted = formatted.replace(secret, "***")
+            original_msg = record.msg
+            original_args = record.args
+            try:
+                record.msg = f"{prefix} {formatted}"
+                record.args = ()
+                return super().format(record)
+            finally:
+                record.msg = original_msg
+                record.args = original_args
     
     # File handler (if log_file provided)
     if log_file:

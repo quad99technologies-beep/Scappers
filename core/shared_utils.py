@@ -14,6 +14,47 @@ from datetime import datetime
 from typing import Dict, Optional
 
 
+def _is_within(path: Path, root: Path) -> bool:
+    """Return True if path is the same as or inside root."""
+    try:
+        return path.is_relative_to(root)
+    except AttributeError:  # Python <3.9 fallback
+        path_str = str(path)
+        root_str = str(root)
+        return path_str == root_str or path_str.startswith(root_str + os.sep)
+
+
+def _is_within_any(path: Path, roots: list[Path]) -> bool:
+    """Return True if path is the same as or inside any path in roots."""
+    for root in roots:
+        if _is_within(path, root):
+            return True
+    return False
+
+
+def _collect_files(base: Path, exclude_dirs: Optional[list] = None) -> list[Path]:
+    """
+    Collect all file paths under base (relative to base), excluding directories in exclude_dirs.
+    """
+    base = base.resolve()
+    exclude_resolved = [Path(d).resolve() for d in (exclude_dirs or [])]
+    files: list[Path] = []
+
+    for root, dirs, filenames in os.walk(base):
+        root_path = Path(root).resolve()
+
+        # Prune excluded directories
+        dirs[:] = [d for d in dirs if not _is_within_any((root_path / d).resolve(), exclude_resolved)]
+
+        for name in filenames:
+            file_path = (root_path / name).resolve()
+            if _is_within_any(file_path, exclude_resolved):
+                continue
+            files.append(file_path.relative_to(base))
+
+    return files
+
+
 def get_latest_modification_time(directory: Path, exclude_dirs: Optional[list] = None) -> datetime:
     """
     Get the latest modification time of any file in the directory tree.
@@ -87,18 +128,16 @@ def backup_output_folder(
             "status": "skipped",
             "message": "Output folder does not exist, nothing to backup"
         }
-    
-    # Check if output folder is empty
-    has_files = False
-    for item in output_dir.iterdir():
-        if item.is_file() and item.name != "execution_log.txt":
-            has_files = True
-            break
-        elif item.is_dir():
-            has_files = True
-            break
-    
-    if not has_files:
+
+    exclude_dirs = exclude_dirs or []
+    # Always exclude the destination backup directory to avoid recursion
+    if backup_dir:
+        exclude_dirs = [*exclude_dirs, str(backup_dir)]
+
+    # Gather source file list (relative paths) to verify copy completeness
+    source_files = _collect_files(output_dir, exclude_dirs)
+
+    if not source_files:
         return {
             "status": "skipped",
             "message": "Output folder is empty, nothing to backup"
@@ -115,6 +154,10 @@ def backup_output_folder(
     backup_dir.mkdir(parents=True, exist_ok=True)
     
     try:
+        # If a backup folder with the same timestamp exists, rebuild it to avoid partial copies
+        if backup_folder.exists():
+            shutil.rmtree(backup_folder)
+
         # Copy entire output folder to backup location
         # Use ignore function to prevent copying backup directories (recursion prevention)
         backup_dir_str = str(backup_dir.resolve())
@@ -151,9 +194,26 @@ def backup_output_folder(
                     shutil.copy2(item, exports_backup_dir / item.name)
                 elif item.is_dir():
                     shutil.copytree(item, exports_backup_dir / item.name, dirs_exist_ok=True)
+
+            # Track central/export files for completeness verification
+            exports_files = _collect_files(central_output_dir, [])
+            source_files.extend([Path("exports") / rel for rel in exports_files])
         
         # Count files backed up
-        file_count = sum(1 for _ in backup_folder.rglob('*') if _.is_file())
+        dest_files = [p.relative_to(backup_folder) for p in backup_folder.rglob('*') if p.is_file()]
+        file_count = len(dest_files)
+
+        # Verify completeness
+        if file_count != len(source_files):
+            return {
+                "status": "error",
+                "message": f"Backup incomplete: copied {file_count} of {len(source_files)} files",
+                "backup_folder": str(backup_folder),
+                "timestamp": timestamp,
+                "latest_modification": latest_time.strftime("%Y-%m-%d %H:%M:%S"),
+                "files_backed_up": file_count,
+                "files_expected": len(source_files),
+            }
         
         return {
             "status": "ok",

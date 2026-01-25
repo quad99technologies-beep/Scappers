@@ -42,6 +42,7 @@ class ConfigManager:
     
     _app_root: Optional[Path] = None
     _initialized: bool = False
+    _loaded_env: Dict[str, Dict[str, str]] = {}
     
     @classmethod
     def _detect_repo_root(cls) -> Path:
@@ -215,7 +216,27 @@ class ConfigManager:
                     f"Please configure them in: {scraper_env if scraper_env.exists() else platform_env}"
                 )
         
+        cls._loaded_env[scraper_name] = dict(loaded_vars)
         return loaded_vars
+
+    @classmethod
+    def get_env_value(cls, scraper_name: str, key: str, default: Optional[str] = None) -> str:
+        """
+        Get a configuration value loaded by ConfigManager.
+
+        Precedence:
+        1. OS environment (runtime overrides)
+        2. Loaded env files (platform.env then scraper env)
+        3. Default
+        """
+        if scraper_name not in cls._loaded_env:
+            try:
+                cls.load_env(scraper_name)
+            except FileNotFoundError:
+                cls.ensure_dirs()
+        if key in os.environ:
+            return os.environ.get(key, default if default is not None else "")
+        return cls._loaded_env.get(scraper_name, {}).get(key, default if default is not None else "")
     
     @classmethod
     def validate(cls) -> Dict[str, Any]:

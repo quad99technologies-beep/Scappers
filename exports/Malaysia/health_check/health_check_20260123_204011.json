@@ -1,0 +1,56 @@
+[
+  {
+    "step": "Config",
+    "check": "MyPriMe URL reachable",
+    "status": "PASS",
+    "detail": "HTTP 200"
+  },
+  {
+    "step": "Config",
+    "check": "Quest3+ search URL reachable",
+    "status": "PASS",
+    "detail": "HTTP 200"
+  },
+  {
+    "step": "Config",
+    "check": "Malaysia PCID file present",
+    "status": "PASS",
+    "detail": "D:\\quad99\\Scappers\\input\\Malaysia\\PCID Mapping - Malaysia.csv"
+  },
+  {
+    "step": "Layout",
+    "check": "'View All' text / button",
+    "status": "PASS",
+    "detail": "Found text: view all (HTTP 200)"
+  },
+  {
+    "step": "Layout",
+    "check": "MyPriMe price table",
+    "status": "PASS",
+    "detail": "Selectors ok (HTTP 200)"
+  },
+  {
+    "step": "Layout",
+    "check": "Quest3+ search form",
+    "status": "PASS",
+    "detail": "Selectors ok (HTTP 200)"
+  },
+  {
+    "step": "Layout",
+    "check": "Quest3+ result table selector",
+    "status": "PASS",
+    "detail": "Selector configured: table.table (Note: Table appears after search, cannot verify on initial page)"
+  },
+  {
+    "step": "Config",
+    "check": "FUKKM URL reachable",
+    "status": "PASS",
+    "detail": "HTTP 200"
+  },
+  {
+    "step": "Layout",
+    "check": "FUKKM table selector",
+    "status": "PASS",
+    "detail": "Selectors ok (HTTP 200)"
+  }
+]

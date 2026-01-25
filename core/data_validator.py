@@ -97,8 +97,9 @@ class DataValidator:
         },
         "CanadaOntario": {
             "columns": {
-                "DIN": {"dtype": str, "nullable": True},
-                "Drug Name": {"dtype": str, "nullable": False},
+                "local_pack_code": {"dtype": str, "nullable": False},
+                "generic_name": {"dtype": str, "nullable": False},
+                "brand_name_strength_dosage": {"dtype": str, "nullable": True},
             },
             "strict": False,
         },

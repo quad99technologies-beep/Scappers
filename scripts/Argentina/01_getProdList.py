@@ -15,6 +15,8 @@ import csv
 import time
 import logging
 import socket
+import subprocess
+import threading
 from pathlib import Path
 from typing import List, Tuple, Set, Optional
 
@@ -41,7 +43,8 @@ from config_loader import (
     PRODUCTLIST_FILE,
     WAIT_SHORT, WAIT_LONG, WAIT_ALERT, PAUSE_BETWEEN_OPERATIONS,
     PAGE_LOAD_TIMEOUT, IMPLICIT_WAIT, MAX_RETRIES_SUBMIT,
-    PAUSE_SHORT, PAUSE_MEDIUM, PAUSE_AFTER_ALERT
+    PAUSE_SHORT, PAUSE_MEDIUM, PAUSE_AFTER_ALERT,
+    REQUIRE_TOR_PROXY, AUTO_START_TOR_PROXY
 )
 
 # Try to import requests for VPN check
@@ -72,6 +75,68 @@ log = logging.getLogger("alfabeta-products-dump")
 # ====== TOR CONFIGURATION ======
 # Global variable to store detected Tor port (9050 for Tor service, 9150 for Tor Browser)
 TOR_PROXY_PORT = 9050  # Default to Tor service port
+
+def _auto_start_tor_proxy() -> bool:
+    """
+    Best-effort auto-start for a standalone Tor daemon on 127.0.0.1:9050 (control 9051).
+    Reuses Tor Browser's tor.exe if present.
+    """
+    if not AUTO_START_TOR_PROXY:
+        return False
+
+    already_running, _ = check_tor_running()
+    if already_running:
+        return True
+
+    home = Path.home()
+    tor_exe_candidates = [
+        home / "OneDrive" / "Desktop" / "Tor Browser" / "Browser" / "TorBrowser" / "Tor" / "tor.exe",
+        home / "Desktop" / "Tor Browser" / "Browser" / "TorBrowser" / "Tor" / "tor.exe",
+    ]
+    tor_exe = next((p for p in tor_exe_candidates if p.exists()), None)
+    if not tor_exe:
+        log.warning("[TOR_AUTO] tor.exe not found; cannot auto-start Tor proxy")
+        return False
+
+    torrc = Path("C:/TorProxy/torrc")
+    data_dir = Path("C:/TorProxy/data")
+    data_dir.mkdir(parents=True, exist_ok=True)
+    torrc.parent.mkdir(parents=True, exist_ok=True)
+
+    desired_torrc = (
+        "DataDirectory C:\\TorProxy\\data\n"
+        "SocksPort 9050\n"
+        "ControlPort 9051\n"
+        "CookieAuthentication 1\n"
+    )
+    try:
+        torrc.write_text(desired_torrc, encoding="ascii")
+    except Exception as e:
+        log.warning(f"[TOR_AUTO] Failed to write torrc: {e}")
+        return False
+
+    try:
+        log.info(f"[TOR_AUTO] Starting Tor proxy: {tor_exe} -f {torrc}")
+        subprocess.Popen(
+            [str(tor_exe), "-f", str(torrc)],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0),
+        )
+    except Exception as e:
+        log.warning(f"[TOR_AUTO] Failed to start Tor: {e}")
+        return False
+
+    # Wait for SOCKS port to open (best-effort)
+    deadline = time.time() + 90
+    while time.time() < deadline:
+        running, port = check_tor_running(timeout=1)
+        if running:
+            log.info(f"[TOR_AUTO] Tor proxy is now running on port {port}")
+            return True
+        time.sleep(1)
+    log.warning("[TOR_AUTO] Tor proxy did not come up within 90s")
+    return False
 
 def check_tor_running(host="127.0.0.1", timeout=2):
     """
@@ -179,9 +244,14 @@ def check_tor_requirements():
         log.error("[TOR_CHECK] Firefox/Tor Browser not found")
         all_ok = False
     
-    # Check 2: Tor service running
+    # Check 2: Tor service running (optional unless REQUIRE_TOR_PROXY=true)
     print("\n[TOR_CHECK] 2. Checking Tor proxy service...")
     tor_running, tor_port = check_tor_running()
+    if not tor_running and AUTO_START_TOR_PROXY:
+        print("  [INFO] Tor proxy not detected; attempting auto-start (standalone Tor on 9050)...")
+        log.info("[TOR_CHECK] Tor proxy not detected; attempting auto-start")
+        if _auto_start_tor_proxy():
+            tor_running, tor_port = check_tor_running()
     if tor_running:
         port_name = "Tor Browser" if tor_port == 9150 else "Tor service"
         print(f"  [OK] {port_name} proxy is running on localhost:{tor_port}")
@@ -191,18 +261,27 @@ def check_tor_requirements():
         TOR_PROXY_PORT = tor_port
     else:
         print("  [FAIL] Tor proxy is not running on localhost:9050 or localhost:9150")
-        print("  [INFO] Please start Tor before running the scraper:")
-        print("  [INFO]   Option 1: Start Tor Browser (uses port 9150)")
-        print("  [INFO]   Option 2: Start Tor service separately (uses port 9050)")
-        print("  [INFO]   The scraper will automatically detect which port Tor is using")
-        log.error("[TOR_CHECK] Tor proxy is not running")
-        all_ok = False
+        if REQUIRE_TOR_PROXY:
+            print("  [INFO] REQUIRE_TOR_PROXY=true, please start Tor before running the scraper:")
+            print("  [INFO]   Option 1: Start Tor Browser (uses port 9150)")
+            print("  [INFO]   Option 2: Run scripts/Argentina/start_tor_proxy.bat (uses port 9050)")
+            print("  [INFO]   The scraper will automatically detect which port Tor is using")
+            log.error("[TOR_CHECK] Tor proxy is not running (required)")
+            all_ok = False
+        else:
+            print("  [WARN] Tor is not running; continuing WITHOUT Tor (direct connection).")
+            log.warning("[TOR_CHECK] Tor proxy is not running; continuing without Tor (REQUIRE_TOR_PROXY=false)")
+            TOR_PROXY_PORT = None
     
     # Summary
     print("\n" + "=" * 80)
     if all_ok:
-        print("[TOR_CHECK] [OK] Tor connection verified. Starting scraper...")
-        log.info("[TOR_CHECK] Tor connection verified. Starting scraper...")
+        if TOR_PROXY_PORT:
+            print("[TOR_CHECK] [OK] Tor connection verified. Starting scraper...")
+            log.info("[TOR_CHECK] Tor connection verified. Starting scraper...")
+        else:
+            print("[TOR_CHECK] [OK] Proceeding without Tor. Starting scraper...")
+            log.info("[TOR_CHECK] Proceeding without Tor (direct connection)")
     else:
         print("[TOR_CHECK] [FAIL] Tor requirements not met. Please fix the issues above.")
         log.error("[TOR_CHECK] Tor requirements check failed")
@@ -444,14 +523,17 @@ def setup_driver(headless: bool = HEADLESS):
     # User agent
     profile.set_preference("general.useragent.override", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0")
     
-    # Configure Tor SOCKS5 proxy (uses detected port: 9050 for Tor service, 9150 for Tor Browser)
-    # Note: Tor must be running separately (either Tor service or Tor Browser)
-    profile.set_preference("network.proxy.type", 1)  # Manual proxy configuration
-    profile.set_preference("network.proxy.socks", "127.0.0.1")
-    profile.set_preference("network.proxy.socks_port", TOR_PROXY_PORT)
-    profile.set_preference("network.proxy.socks_version", 5)
-    profile.set_preference("network.proxy.socks_remote_dns", True)  # Route DNS through Tor
-    log.info(f"[TOR_CONFIG] Using Tor proxy on port {TOR_PROXY_PORT} ({'Tor Browser' if TOR_PROXY_PORT == 9150 else 'Tor service'})")
+    # Configure Tor SOCKS5 proxy if available; otherwise run direct.
+    if TOR_PROXY_PORT:
+        profile.set_preference("network.proxy.type", 1)  # Manual proxy configuration
+        profile.set_preference("network.proxy.socks", "127.0.0.1")
+        profile.set_preference("network.proxy.socks_port", int(TOR_PROXY_PORT))
+        profile.set_preference("network.proxy.socks_version", 5)
+        profile.set_preference("network.proxy.socks_remote_dns", True)  # Route DNS through Tor
+        log.info(f"[TOR_CONFIG] Using Tor proxy on port {TOR_PROXY_PORT} ({'Tor Browser' if TOR_PROXY_PORT == 9150 else 'Tor service'})")
+    else:
+        profile.set_preference("network.proxy.type", 0)  # Direct connection
+        log.info("[TOR_CONFIG] Tor not enabled; using direct connection")
     
     # Update preferences
     opts.profile = profile
@@ -567,6 +649,64 @@ def open_products_page(d):
             d.switch_to.alert.accept()
         except TimeoutException:
             pass
+
+def navigate_to_products_page(d, max_nav_retries=3):
+    nav_timeout = PAGE_LOAD_TIMEOUT
+    if TOR_PROXY_PORT:
+        nav_timeout = max(nav_timeout, 120)
+    navigation_timeout = nav_timeout + 10
+    last_error = None
+
+    for attempt in range(1, max_nav_retries + 1):
+        try:
+            d.set_page_load_timeout(nav_timeout)
+            log.info(f"[NAVIGATE] Attempt {attempt}/{max_nav_retries} to {PRODUCTS_URL} (timeout: {nav_timeout}s)")
+            start = time.time()
+            navigation_complete = threading.Event()
+            navigation_error = [None]
+
+            def do_nav():
+                try:
+                    d.get(PRODUCTS_URL)
+                except Exception as e:
+                    navigation_error[0] = e
+                finally:
+                    navigation_complete.set()
+
+            nav_thread = threading.Thread(target=do_nav, daemon=True)
+            nav_thread.start()
+
+            if navigation_complete.wait(timeout=navigation_timeout):
+                if navigation_error[0]:
+                    raise navigation_error[0]
+                elapsed = time.time() - start
+                log.info(f"[NAVIGATE] driver.get() completed in {elapsed:.2f}s. Current URL: {d.current_url}")
+                d.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
+                return
+
+            elapsed = time.time() - start
+            log.warning(f"[NAVIGATE] Navigation hung after {elapsed:.2f}s (timeout: {navigation_timeout}s)")
+            try:
+                d.execute_script("window.stop();")
+            except Exception:
+                pass
+            last_error = TimeoutException(f"Navigation hung after {navigation_timeout}s")
+        except TimeoutException as e:
+            last_error = e
+            log.warning(f"[NAVIGATE] Navigation timed out on attempt {attempt}/{max_nav_retries}: {e}")
+        except Exception as e:
+            last_error = e
+            log.warning(f"[NAVIGATE] Navigation error on attempt {attempt}/{max_nav_retries}: {e}")
+
+        if attempt < max_nav_retries:
+            wait_time = 60
+            log.info(f"[NAVIGATE] Waiting {wait_time}s before retry...")
+            time.sleep(wait_time)
+        else:
+            break
+
+    safe_screenshot_and_source(d, name_prefix="nav_failure")
+    raise last_error or TimeoutException(f"Failed to navigate to {PRODUCTS_URL} after {max_nav_retries} attempts")
 
 # ====== UTIL ======
 def dismiss_alert_if_present(d):
@@ -941,7 +1081,7 @@ def extract_products_page(d) -> List[Tuple[str, str]]:
 def main():
     log.info("===== Starting AlfaBeta Products Scraper =====")
     
-    # Check Tor connection before starting
+    # Check Tor connection before starting (Tor is optional unless REQUIRE_TOR_PROXY=true)
     if not check_tor_requirements():
         print("\n" + "=" * 80)
         print("[STARTUP] [FAIL] Tor connection check failed!")
@@ -952,18 +1092,23 @@ def main():
         return 1
     
     print("\n" + "=" * 80)
-    print("[STARTUP] [OK] Tor connection verified. Starting scraper...")
-    print("[STARTUP] Using Tor proxy for all requests")
+    if TOR_PROXY_PORT:
+        print("[STARTUP] [OK] Tor connection verified. Starting scraper...")
+        print("[STARTUP] Using Tor proxy for all requests")
+        log.info("[STARTUP] Tor connection verified. Starting scraper...")
+        log.info("[STARTUP] Using Tor proxy for all requests")
+    else:
+        print("[STARTUP] [OK] Starting scraper WITHOUT Tor (direct connection)...")
+        print("[STARTUP] Tip: set REQUIRE_TOR_PROXY=true to enforce Tor usage")
+        log.info("[STARTUP] Starting scraper without Tor (direct connection)")
     print("=" * 80 + "\n")
-    log.info("[STARTUP] Tor connection verified. Starting scraper...")
-    log.info("[STARTUP] Using Tor proxy for all requests")
     
     # Force headless mode for product list extraction
     d = setup_driver(headless=True)
     try:
         # Go directly to alfabeta.net/precio/
         log.info(f"Navigating to {PRODUCTS_URL}")
-        d.get(PRODUCTS_URL)
+        navigate_to_products_page(d)
         ensure_logged_in(d)
         
         # Wait for page to load (wait for form#srvPr)

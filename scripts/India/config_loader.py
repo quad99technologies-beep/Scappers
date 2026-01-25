@@ -46,6 +46,9 @@ def load_env_file() -> None:
 
 
 def getenv(key: str, default: str = None):
+    env_val = os.getenv(key)
+    if env_val is not None and env_val != "":
+        return env_val
     if _PLATFORM_CONFIG_AVAILABLE:
         cr = get_config_resolver()
         return cr.get(SCRAPER_ID, key, default if default is not None else "")

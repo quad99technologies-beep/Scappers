@@ -370,6 +370,11 @@ def get_total_pages(driver: webdriver.Chrome) -> Optional[int]:
             t = safe_text(el)
             if t.isdigit():
                 nums.append(int(t))
+        spans = driver.find_elements(By.CSS_SELECTOR, "div.t-data-grid-pager span.current")
+        for el in spans:
+            t = safe_text(el)
+            if t.isdigit():
+                nums.append(int(t))
         return max(nums) if nums else None
     except Exception:
         return None
@@ -775,4 +780,3 @@ def run() -> None:
 
 if __name__ == "__main__":
     run()
-

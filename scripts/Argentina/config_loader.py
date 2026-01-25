@@ -108,18 +108,38 @@ def getenv_float(key: str, default: float = 0.0) -> float:
 
 def getenv_bool(key: str, default: bool = False) -> bool:
     """Get environment variable as boolean."""
-    val = getenv(key, "")
-    
-    # Handle case where val might already be a boolean (from JSON config)
-    if isinstance(val, bool):
-        return val
-    
-    # Convert to string and process
-    val_str = str(val).strip().lower()
-    if val_str in ("1", "true", "yes", "on"):
-        return True
-    elif val_str in ("0", "false", "no", "off", ""):
-        return False
+    # Preserve default when key is not set anywhere.
+    env_val = os.getenv(key)
+    if env_val is not None:
+        val_str = str(env_val).strip().lower()
+        if val_str in ("1", "true", "yes", "on"):
+            return True
+        if val_str in ("0", "false", "no", "off", ""):
+            return False
+        return default
+
+    if _PLATFORM_CONFIG_AVAILABLE:
+        cr = get_config_resolver()
+        val = cr.get(SCRAPER_ID, key, None)
+        if val is not None:
+            if isinstance(val, bool):
+                return val
+            val_str = str(val).strip().lower()
+            if val_str in ("1", "true", "yes", "on"):
+                return True
+            if val_str in ("0", "false", "no", "off", ""):
+                return False
+            return default
+
+        secret_val = cr.get_secret_value(SCRAPER_ID, key, "")
+        if secret_val:
+            val_str = str(secret_val).strip().lower()
+            if val_str in ("1", "true", "yes", "on"):
+                return True
+            if val_str in ("0", "false", "no", "off", ""):
+                return False
+            return default
+
     return default
 
 
@@ -248,6 +268,15 @@ SELENIUM_SINGLE_ATTEMPT = getenv_bool("SELENIUM_SINGLE_ATTEMPT", False)  # If tr
 # 3-Round Retry configuration
 SELENIUM_ROUNDS = getenv_int("SELENIUM_ROUNDS", 3)  # Number of Selenium retry rounds (1, 2, or 3)
 ROUND_PAUSE_SECONDS = getenv_int("ROUND_PAUSE_SECONDS", 60)  # Pause between rounds in seconds
+SELENIUM_MAX_RUNS = getenv_int("SELENIUM_MAX_RUNS", SELENIUM_ROUNDS)  # Max attempts per product (simple loop-count mode)
+API_INPUT_CSV = getenv("API_INPUT_CSV", "Productlist_for_api.csv")  # Generated after Selenium: rows with Total Records=0 and Loop Count>=SELENIUM_MAX_RUNS
+
+# Browser restart / health configuration
+SELENIUM_PRODUCTS_PER_RESTART = getenv_int("SELENIUM_PRODUCTS_PER_RESTART", 100)
+SLOW_PAGE_RESTART_ENABLED = getenv_bool("SLOW_PAGE_RESTART_ENABLED", True)
+SLOW_PAGE_MEDIAN_WINDOW = getenv_int("SLOW_PAGE_MEDIAN_WINDOW", 15)
+SLOW_PAGE_MIN_SAMPLES = getenv_int("SLOW_PAGE_MIN_SAMPLES", 8)
+SLOW_PAGE_MEDIAN_THRESHOLD_SECONDS = getenv_float("SLOW_PAGE_MEDIAN_THRESHOLD_SECONDS", 60.0)
 
 # File names
 DICTIONARY_FILE = getenv("DICTIONARY_FILE", "Dictionary.csv")
@@ -297,6 +326,26 @@ PAUSE_AFTER_ALERT = getenv_int("PAUSE_AFTER_ALERT", 1)
 # Driver configuration
 PAGE_LOAD_TIMEOUT = getenv_int("PAGE_LOAD_TIMEOUT", 90)
 IMPLICIT_WAIT = getenv_int("IMPLICIT_WAIT", 2)
+
+# Tor control / New Identity configuration
+TOR_CONTROL_HOST = getenv("TOR_CONTROL_HOST", "127.0.0.1")
+TOR_CONTROL_PORT = getenv_int("TOR_CONTROL_PORT", 0)
+TOR_CONTROL_PASSWORD = getenv("TOR_CONTROL_PASSWORD", "")
+TOR_CONTROL_COOKIE_FILE = getenv("TOR_CONTROL_COOKIE_FILE", "")
+TOR_NEWNYM_ENABLED = getenv_bool("TOR_NEWNYM_ENABLED", False)
+TOR_NEWNYM_INTERVAL_SECONDS = getenv_int("TOR_NEWNYM_INTERVAL_SECONDS", 720)
+TOR_SOCKS_PORT = getenv_int("TOR_SOCKS_PORT", 0)
+TOR_NEWNYM_COOLDOWN_SECONDS = getenv_int("TOR_NEWNYM_COOLDOWN_SECONDS", 10)
+REQUIRE_TOR_PROXY = getenv_bool("REQUIRE_TOR_PROXY", False)  # If true, steps will hard-fail when Tor SOCKS isn't running
+AUTO_START_TOR_PROXY = getenv_bool("AUTO_START_TOR_PROXY", True)  # Best-effort: auto-start standalone Tor on 9050/9051 when missing
+
+# Surfshark (VPN) handling
+SURFSHARK_RECONNECT_CMD = getenv("SURFSHARK_RECONNECT_CMD", "")
+SURFSHARK_ROTATE_INTERVAL_SECONDS = getenv_int("SURFSHARK_ROTATE_INTERVAL_SECONDS", 600)
+SURFSHARK_IP_CHANGE_TIMEOUT_SECONDS = getenv_int("SURFSHARK_IP_CHANGE_TIMEOUT_SECONDS", 120)
+
+# Browser lifecycle
+MAX_BROWSER_RUNTIME_SECONDS = getenv_int("MAX_BROWSER_RUNTIME_SECONDS", 480)  # <8 minutes
 
 # Retry configuration
 MAX_RETRIES_SUBMIT = getenv_int("MAX_RETRIES_SUBMIT", 4)

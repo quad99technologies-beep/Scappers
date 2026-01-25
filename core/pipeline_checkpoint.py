@@ -45,6 +45,28 @@ class PipelineCheckpoint:
         self.checkpoint_dir.mkdir(parents=True, exist_ok=True)
         self.checkpoint_file = self.checkpoint_dir / "pipeline_checkpoint.json"
         self._checkpoint_data = None
+
+    def _default_checkpoint_data(self) -> Dict:
+        return {
+            "scraper": self.scraper_name,
+            "last_run": None,
+            "completed_steps": [],
+            "step_outputs": {},
+            "metadata": {}
+        }
+
+    def _validate_checkpoint_data(self, data: Dict) -> bool:
+        if not isinstance(data, dict):
+            return False
+        if data.get("scraper") != self.scraper_name:
+            return False
+        if "completed_steps" not in data or not isinstance(data["completed_steps"], list):
+            return False
+        if "step_outputs" not in data or not isinstance(data["step_outputs"], dict):
+            return False
+        if "metadata" not in data or not isinstance(data["metadata"], dict):
+            return False
+        return True
     
     def _load_checkpoint(self) -> Dict:
         """Load checkpoint data from file."""
@@ -54,20 +76,23 @@ class PipelineCheckpoint:
         if self.checkpoint_file.exists():
             try:
                 with open(self.checkpoint_file, 'r', encoding='utf-8') as f:
-                    self._checkpoint_data = json.load(f)
+                    data = json.load(f)
+                if not self._validate_checkpoint_data(data):
+                    raise ValueError("Invalid checkpoint structure or scraper mismatch")
+                self._checkpoint_data = data
                 return self._checkpoint_data
             except Exception as e:
                 log.warning(f"Failed to load checkpoint file: {e}")
-                self._checkpoint_data = {}
+                try:
+                    backup_path = self.checkpoint_file.with_suffix(".invalid.json")
+                    self.checkpoint_file.replace(backup_path)
+                    log.warning(f"Checkpoint file moved to: {backup_path}")
+                except Exception:
+                    pass
+                self._checkpoint_data = self._default_checkpoint_data()
                 return self._checkpoint_data
         else:
-            self._checkpoint_data = {
-                "scraper": self.scraper_name,
-                "last_run": None,
-                "completed_steps": [],
-                "step_outputs": {},
-                "metadata": {}
-            }
+            self._checkpoint_data = self._default_checkpoint_data()
             return self._checkpoint_data
     
     def _save_checkpoint(self):
@@ -146,13 +171,7 @@ class PipelineCheckpoint:
     
     def clear_checkpoint(self):
         """Clear all checkpoint data (start fresh)."""
-        self._checkpoint_data = {
-            "scraper": self.scraper_name,
-            "last_run": None,
-            "completed_steps": [],
-            "step_outputs": {},
-            "metadata": {}
-        }
+        self._checkpoint_data = self._default_checkpoint_data()
         self._save_checkpoint()
         log.info(f"[CHECKPOINT] Cleared checkpoint data for {self.scraper_name}")
     
@@ -170,6 +189,27 @@ class PipelineCheckpoint:
             "next_step": next_step,
             "total_completed": len(checkpoint_data["completed_steps"])
         }
+
+    def get_metadata(self) -> Dict:
+        """Get checkpoint metadata."""
+        checkpoint_data = self._load_checkpoint()
+        return dict(checkpoint_data.get("metadata", {}))
+
+    def update_metadata(self, updates: Dict, replace: bool = False) -> None:
+        """
+        Update checkpoint metadata.
+
+        Args:
+            updates: Metadata updates to apply.
+            replace: If True, replaces metadata entirely.
+        """
+        checkpoint_data = self._load_checkpoint()
+        if replace:
+            checkpoint_data["metadata"] = dict(updates)
+        else:
+            checkpoint_data.setdefault("metadata", {})
+            checkpoint_data["metadata"].update(updates)
+        self._save_checkpoint()
     
     def get_pipeline_timing(self) -> Dict:
         """

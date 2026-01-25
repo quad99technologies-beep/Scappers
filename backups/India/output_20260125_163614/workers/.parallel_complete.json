@@ -1,0 +1,14 @@
+{
+  "completed_at": "2026-01-25T16:31:45.113877",
+  "workers": 5,
+  "input_file": "D:\\quad99\\Scappers\\input\\India\\formulations.csv",
+  "output_base": "D:\\quad99\\Scappers\\output\\India\\workers",
+  "duration_seconds": 41.68,
+  "exit_codes": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0
+  }
+}

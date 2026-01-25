@@ -58,7 +58,8 @@ PIPELINE_STEPS = {
     "CanadaOntario": [
         (0, "Backup and Clean"),
         (1, "Extract Product Details"),
-        (2, "Generate Final Output"),
+        (2, "Extract EAP Prices"),
+        (3, "Generate Final Output"),
     ],
     "Netherlands": [
         (0, "Backup and Clean"),

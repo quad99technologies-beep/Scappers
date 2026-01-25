@@ -41,19 +41,128 @@ import time
 import string
 import json
 import sys
+import random
+from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple, Set
 from pathlib import Path
+from urllib.parse import urlencode
 
 # Add script directory to path for config_loader import
 _script_dir = Path(__file__).resolve().parent
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
 
-from config_loader import get_output_dir
+from config_loader import (
+    get_output_dir,
+    get_logs_dir,
+    get_run_id,
+    get_run_dir,
+    get_proxy_config,
+    getenv,
+    getenv_bool,
+    getenv_int,
+    getenv_float,
+)
+from core.logger import setup_standard_logger
+from core.retry_config import RetryConfig
+from core.progress_tracker import StandardProgress
+from core.pipeline_checkpoint import get_checkpoint_manager
 
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+
+try:
+    from rich.progress import Progress, BarColumn, TextColumn, TimeElapsedColumn, TimeRemainingColumn
+    RICH_AVAILABLE = True
+except ImportError:
+    RICH_AVAILABLE = False
+    Progress = None
+
+try:
+    from selenium import webdriver
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.common.keys import Keys
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+    from selenium.common.exceptions import TimeoutException, WebDriverException
+    from selenium.webdriver.chrome.service import Service as ChromeService
+    SELENIUM_AVAILABLE = True
+except ImportError:
+    SELENIUM_AVAILABLE = False
+    webdriver = None
+    By = None
+    Keys = None
+    WebDriverWait = None
+    EC = None
+    TimeoutException = None
+    WebDriverException = None
+    ChromeService = None
+
+try:
+    from webdriver_manager.chrome import ChromeDriverManager
+    WEBDRIVER_MANAGER_AVAILABLE = True
+except ImportError:
+    WEBDRIVER_MANAGER_AVAILABLE = False
+    ChromeDriverManager = None
+
+try:
+    from smart_locator import SmartLocator
+    from state_machine import NavigationStateMachine, NavigationState, StateCondition
+    STATE_MACHINE_AVAILABLE = True
+except ImportError:
+    STATE_MACHINE_AVAILABLE = False
+    SmartLocator = None
+    NavigationStateMachine = None
+    NavigationState = None
+    StateCondition = None
+
+try:
+    from core.stealth_profile import apply_selenium
+    STEALTH_PROFILE_AVAILABLE = True
+except ImportError:
+    STEALTH_PROFILE_AVAILABLE = False
+    def apply_selenium(options):
+        return None
+
+try:
+    from core.browser_observer import observe_selenium, wait_until_idle
+    BROWSER_OBSERVER_AVAILABLE = True
+except ImportError:
+    BROWSER_OBSERVER_AVAILABLE = False
+    def observe_selenium(driver):
+        return None
+    def wait_until_idle(state, timeout=RetryConfig.NAVIGATION_TIMEOUT):
+        return None
+
+try:
+    from core.human_actions import pause, type_delay
+    HUMAN_ACTIONS_AVAILABLE = True
+except ImportError:
+    HUMAN_ACTIONS_AVAILABLE = False
+    def pause(min_s=0.2, max_s=0.6):
+        time.sleep(random.uniform(min_s, max_s))
+    def type_delay():
+        time.sleep(random.uniform(0.04, 0.12))
+
+try:
+    from core.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids, terminate_chrome_pids
+    CHROME_PID_TRACKING_AVAILABLE = True
+except ImportError:
+    CHROME_PID_TRACKING_AVAILABLE = False
+    def get_chrome_pids_from_driver(driver):
+        return set()
+    def save_chrome_pids(scraper_name, repo_root, pids):
+        return None
+    def terminate_chrome_pids(scraper_name, repo_root, silent=True):
+        return 0
+
+try:
+    from core.chrome_manager import get_chromedriver_path as _core_get_chromedriver_path
+    CORE_CHROMEDRIVER_AVAILABLE = True
+except ImportError:
+    CORE_CHROMEDRIVER_AVAILABLE = False
+    _core_get_chromedriver_path = None
 
 BASE = "https://www.formulary.health.gov.on.ca/formulary/"
 RESULTS_URL = BASE + "results.xhtml"
@@ -70,10 +179,51 @@ COMPLETED_LETTERS_JSON = str(OUT_DIR / "completed_letters.json")
 # Tuning (be nice to the server)
 SLEEP_BETWEEN_Q = 0.35
 SLEEP_BETWEEN_DETAIL = 0.15
-RETRIES = 4
-TIMEOUT = 45
+RETRIES = getenv_int("MAX_RETRIES", RetryConfig.MAX_RETRIES)
+TIMEOUT = getenv_int("PAGE_LOAD_TIMEOUT", RetryConfig.PAGE_LOAD_TIMEOUT)
+REQUEST_TIMEOUT = getenv_int("REQUEST_TIMEOUT", RetryConfig.CONNECTION_CHECK_TIMEOUT)
 
 BAD_NAME_SET = {"", "n/a", "na", "none", "unknown", "-", "--"}
+
+# Browser and anti-bot controls
+USE_BROWSER = getenv_bool("USE_BROWSER", False)
+USE_SEARCH_INPUT = getenv_bool("USE_SEARCH_INPUT", True)
+HEADLESS = getenv_bool("HEADLESS", True)
+ENABLE_STEALTH = getenv_bool("ENABLE_STEALTH", True)
+ENABLE_BROWSER_OBSERVER = getenv_bool("ENABLE_BROWSER_OBSERVER", True)
+HUMANIZE_TYPING = getenv_bool("HUMANIZE_TYPING", True)
+HUMANIZE_MIN_DELAY = getenv_float("HUMANIZE_MIN_DELAY", 0.05)
+HUMANIZE_MAX_DELAY = getenv_float("HUMANIZE_MAX_DELAY", 0.16)
+RESTART_DRIVER_EVERY_N = getenv_int("RESTART_DRIVER_EVERY_N", 0)  # 0 disables
+CAPTURE_BROWSER_ERRORS = getenv_bool("CAPTURE_BROWSER_ERRORS", False)
+
+# Integrity checks
+PAGE_VALIDATION_RETRIES = getenv_int("PAGE_VALIDATION_RETRIES", RetryConfig.MAX_RETRY_LOOPS)
+PAGE_MIN_ROWS = getenv_int("PAGE_MIN_ROWS", 1)
+MAX_BAD_ROW_RATIO = getenv_float("MAX_BAD_ROW_RATIO", 0.2)
+ALLOW_EMPTY_RESULTS = getenv_bool("ALLOW_EMPTY_RESULTS", True)
+
+# Progress/output
+ENABLE_PROGRESS_BAR = getenv_bool("ENABLE_PROGRESS_BAR", True)
+LOG_TO_FILE = getenv_bool("LOG_TO_FILE", False)
+
+# Request behavior
+REQUEST_JITTER_MIN = getenv_float("REQUEST_JITTER_MIN", 0.1)
+REQUEST_JITTER_MAX = getenv_float("REQUEST_JITTER_MAX", 0.6)
+USER_AGENTS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+]
+
+PROXIES = get_proxy_config()
+
+run_id = get_run_id()
+run_dir = get_run_dir(run_id)
+log_path = (run_dir / "logs" / "canada_ontario_extract.log") if LOG_TO_FILE else None
+logger = setup_standard_logger("canada_ontario_extract", scraper_name="CanadaOntario", log_file=log_path)
 
 
 def norm(s: str) -> str:
@@ -100,27 +250,273 @@ def parse_float(s: str) -> Optional[float]:
         return None
 
 
-def safe_get(session: requests.Session, url: str, params: dict = None) -> str:
-    last = None
-    headers = {
+def jitter_sleep(min_s: float = None, max_s: float = None) -> None:
+    lo = REQUEST_JITTER_MIN if min_s is None else min_s
+    hi = REQUEST_JITTER_MAX if max_s is None else max_s
+    if hi <= 0:
+        return
+    time.sleep(random.uniform(lo, hi))
+
+
+def backoff_sleep(attempt: int) -> None:
+    time.sleep(RetryConfig.calculate_backoff_delay(max(attempt - 1, 0)))
+
+
+def build_headers() -> Dict[str, str]:
+    return {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.8",
         "Cache-Control": "no-cache",
         "Pragma": "no-cache",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                      "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        "User-Agent": random.choice(USER_AGENTS),
     }
+
+
+def human_type(element, text: str) -> None:
+    if not HUMANIZE_TYPING:
+        element.send_keys(text)
+        return
+    for ch in text:
+        element.send_keys(ch)
+        time.sleep(random.uniform(HUMANIZE_MIN_DELAY, HUMANIZE_MAX_DELAY))
+
+
+class ProgressReporter:
+    def __init__(self, total_letters: int) -> None:
+        self.total_letters = total_letters
+        self.use_rich = ENABLE_PROGRESS_BAR and RICH_AVAILABLE
+        self.progress = None
+        self.task_letters = None
+        self.task_rows = None
+        if self.use_rich:
+            self.progress = Progress(
+                TextColumn("{task.description}"),
+                BarColumn(),
+                TextColumn("{task.completed}/{task.total}"),
+                TimeElapsedColumn(),
+                TimeRemainingColumn(),
+            )
+            self.progress.start()
+            self.task_letters = self.progress.add_task("Letters", total=total_letters)
+            self.task_rows = self.progress.add_task("Rows", total=1)
+
+    def start_rows(self, total_rows: int) -> None:
+        if self.use_rich and self.progress is not None and self.task_rows is not None:
+            self.progress.update(self.task_rows, total=max(total_rows, 1), completed=0)
+
+    def advance_row(self, n: int = 1) -> None:
+        if self.use_rich and self.progress is not None and self.task_rows is not None:
+            self.progress.advance(self.task_rows, n)
+
+    def advance_letter(self, n: int = 1) -> None:
+        if self.use_rich and self.progress is not None and self.task_letters is not None:
+            self.progress.advance(self.task_letters, n)
+
+    def close(self) -> None:
+        if self.use_rich and self.progress is not None:
+            self.progress.stop()
+
+
+def _get_chromedriver_path() -> Optional[str]:
+    if CORE_CHROMEDRIVER_AVAILABLE and _core_get_chromedriver_path:
+        try:
+            return _core_get_chromedriver_path()
+        except Exception:
+            return None
+    if WEBDRIVER_MANAGER_AVAILABLE and ChromeDriverManager:
+        try:
+            return ChromeDriverManager().install()
+        except Exception:
+            return None
+    return None
+
+
+def build_driver() -> webdriver.Chrome:
+    if not SELENIUM_AVAILABLE:
+        raise RuntimeError("Selenium is not available but USE_BROWSER is enabled.")
+    options = webdriver.ChromeOptions()
+    if ENABLE_STEALTH and STEALTH_PROFILE_AVAILABLE:
+        apply_selenium(options)
+    if HEADLESS:
+        options.add_argument("--headless=new")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--window-size=1600,1000")
+    options.add_argument("--lang=en-US")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--disable-infobars")
+    options.add_argument("--disable-popup-blocking")
+    options.add_argument("--disable-translate")
+    options.add_argument("--disable-background-networking")
+    options.add_argument("--disable-sync")
+    options.add_argument("--disable-default-apps")
+    options.add_argument("--mute-audio")
+    options.add_argument("--no-first-run")
+    options.add_argument("--no-default-browser-check")
+    options.add_argument(f"--user-agent={random.choice(USER_AGENTS)}")
+    profile_dir = run_dir / "browser_profiles" / "chrome"
+    profile_dir.mkdir(parents=True, exist_ok=True)
+    options.add_argument(f"--user-data-dir={profile_dir}")
+
+    driver_path = _get_chromedriver_path()
+    if driver_path:
+        service = ChromeService(driver_path)
+        driver = webdriver.Chrome(service=service, options=options)
+    else:
+        driver = webdriver.Chrome(options=options)
+
+    driver.set_page_load_timeout(TIMEOUT)
+    try:
+        driver.execute_script("Object.defineProperty(navigator,'webdriver',{get:()=>undefined})")
+    except Exception:
+        pass
+
+    if CHROME_PID_TRACKING_AVAILABLE:
+        repo_root = Path(__file__).resolve().parents[2]
+        try:
+            pids = get_chrome_pids_from_driver(driver)
+            save_chrome_pids("CanadaOntario", repo_root, pids)
+        except Exception:
+            pass
+
+    return driver
+
+
+@dataclass
+class BrowserSession:
+    driver: Optional[webdriver.Chrome] = None
+    observer_state: Optional[object] = None
+    locator: Optional[SmartLocator] = None
+    state_machine: Optional[NavigationStateMachine] = None
+    uses: int = 0
+
+    def ensure(self) -> webdriver.Chrome:
+        if self.driver is None:
+            self.driver = build_driver()
+            if ENABLE_BROWSER_OBSERVER and BROWSER_OBSERVER_AVAILABLE:
+                try:
+                    self.observer_state = observe_selenium(self.driver)
+                except Exception:
+                    self.observer_state = None
+            if STATE_MACHINE_AVAILABLE:
+                try:
+                    self.locator = SmartLocator(self.driver, logger=logger)
+                    self.state_machine = NavigationStateMachine(self.locator, logger=logger)
+                except Exception:
+                    self.locator = None
+                    self.state_machine = None
+        return self.driver
+
+    def restart(self) -> None:
+        self.close()
+        self.ensure()
+
+    def close(self) -> None:
+        if self.driver:
+            try:
+                self.driver.quit()
+            except Exception:
+                pass
+        self.driver = None
+        self.observer_state = None
+        self.locator = None
+        self.state_machine = None
+
+    def get_page_html(self, url: str, label: str = "") -> str:
+        driver = self.ensure()
+        last_err = None
+        for attempt in range(1, RETRIES + 1):
+            try:
+                driver.get(url)
+                if self.observer_state and ENABLE_BROWSER_OBSERVER and BROWSER_OBSERVER_AVAILABLE:
+                    wait_until_idle(self.observer_state, timeout=RetryConfig.NAVIGATION_TIMEOUT)
+                pause(0.2, 0.6)
+                self.uses += 1
+                if RESTART_DRIVER_EVERY_N and self.uses % RESTART_DRIVER_EVERY_N == 0:
+                    self.restart()
+                return driver.page_source
+            except Exception as exc:
+                last_err = exc
+                if CAPTURE_BROWSER_ERRORS:
+                    try:
+                        safe_label = re.sub(r"[^A-Za-z0-9_-]+", "_", label or "page")
+                        debug_dir = run_dir / "artifacts" / "browser_failures"
+                        debug_dir.mkdir(parents=True, exist_ok=True)
+                        screenshot_path = debug_dir / f"{safe_label}_attempt{attempt}.png"
+                        html_path = debug_dir / f"{safe_label}_attempt{attempt}.html"
+                        driver.save_screenshot(str(screenshot_path))
+                        with open(html_path, "w", encoding="utf-8") as fh:
+                            fh.write(driver.page_source or "")
+                        logger.info("Captured browser failure: %s, %s", screenshot_path, html_path)
+                    except Exception:
+                        pass
+                logger.warning(f"[BROWSER] {label} attempt {attempt} failed: {exc}")
+                backoff_sleep(attempt)
+                if attempt < RETRIES:
+                    self.restart()
+        raise RuntimeError(f"Browser GET failed for {label}: {last_err}")
+
+    def try_search_input(self, query: str) -> None:
+        if not USE_SEARCH_INPUT:
+            return
+        driver = self.ensure()
+        input_elem = None
+        if self.locator:
+            for css in [
+                "input[name='q']",
+                "input[name='searchTerm']",
+                "input[type='search']",
+                "input[id*='search']",
+                "input[id*='Search']",
+            ]:
+                try:
+                    input_elem = self.locator.find_element(css=css, required=False, timeout=RetryConfig.ELEMENT_WAIT_TIMEOUT)
+                    if input_elem:
+                        break
+                except Exception:
+                    continue
+        if not input_elem:
+            for css in [
+                "input[name='q']",
+                "input[name='searchTerm']",
+                "input[type='search']",
+                "input[id*='search']",
+                "input[id*='Search']",
+            ]:
+                try:
+                    input_elem = driver.find_element(By.CSS_SELECTOR, css)
+                    break
+                except Exception:
+                    continue
+        if not input_elem:
+            return
+        try:
+            input_elem.clear()
+            human_type(input_elem, query)
+            input_elem.send_keys(Keys.ENTER)
+            pause(0.2, 0.6)
+        except Exception:
+            return
+
+
+def safe_get(session: requests.Session, url: str, params: dict = None, timeout: int = REQUEST_TIMEOUT) -> str:
+    last = None
+    headers = build_headers()
     for i in range(1, RETRIES + 1):
         try:
-            r = session.get(url, params=params, timeout=TIMEOUT, headers=headers)
+            r = session.get(url, params=params, timeout=timeout, headers=headers, proxies=PROXIES or None)
+            if r.status_code == 403:
+                raise RuntimeError(f"Request blocked (HTTP 403): {url}")
             if r.status_code in (429, 500, 502, 503, 504):
-                time.sleep(i * 2)
+                backoff_sleep(i)
                 continue
             r.raise_for_status()
+            jitter_sleep()
             return r.text
         except Exception as e:
             last = e
-            time.sleep(i * 2)
+            backoff_sleep(i)
     raise RuntimeError(f"GET failed: {url} params={params} err={last}")
 
 
@@ -144,23 +540,35 @@ def save_mfr_master(path: str, master: Dict[str, str]) -> None:
     df.to_csv(path, index=False, encoding="utf-8-sig")
 
 
-def load_completed_letters() -> Set[str]:
-    """Load set of completed letters from JSON file"""
-    if not os.path.exists(COMPLETED_LETTERS_JSON):
-        return set()
-    try:
-        with open(COMPLETED_LETTERS_JSON, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-            return set(data.get("completed_letters", []))
-    except Exception:
-        return set()
+def load_completed_letters(cp) -> Set[str]:
+    """Load set of completed letters from JSON file or checkpoint metadata."""
+    path = Path(COMPLETED_LETTERS_JSON)
+    if path.exists():
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return set(data.get("completed_letters", []))
+        except Exception:
+            return set()
+    metadata = cp.get_metadata() if cp else {}
+    return set(metadata.get("completed_letters", []))
 
 
 def save_completed_letters(completed: Set[str]) -> None:
-    """Save set of completed letters to JSON file"""
+    """Save set of completed letters to JSON file (atomic)."""
     data = {"completed_letters": sorted(list(completed))}
-    with open(COMPLETED_LETTERS_JSON, 'w', encoding='utf-8') as f:
-        json.dump(data, f, indent=2)
+    path = Path(COMPLETED_LETTERS_JSON)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp_path = path.with_suffix(".tmp")
+    try:
+        with open(temp_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+        temp_path.replace(path)
+    except Exception:
+        if temp_path.exists():
+            temp_path.unlink()
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
 
 
 def detect_price_type(local_pack_code: str, brand_desc: str) -> str:
@@ -185,19 +593,25 @@ def detect_price_type(local_pack_code: str, brand_desc: str) -> str:
     return "UNIT"
 
 
-def parse_results_rows(html: str, q_letter: str) -> List[dict]:
+def page_has_no_results(html: str) -> bool:
+    return bool(re.search(r"No results found|No results were found|No matches", html, re.I))
+
+
+def parse_results_rows(html: str, q_letter: str) -> Tuple[List[dict], int]:
     soup = BeautifulSoup(html, "lxml")
 
     tbody = soup.select_one('tbody#j_id_l\\:searchResultFull_data')
     if not tbody:
         tbody = soup.find("tbody", id=re.compile(r"searchResultFull_data$"))
     if not tbody:
-        return []
+        return [], 0
 
     out: List[dict] = []
+    bad_rows = 0
     for tr in tbody.select("tr"):
         tds = tr.select("td")
         if len(tds) < 9:
+            bad_rows += 1
             continue
 
         din_a = tds[0].select_one("a[href*='detail.xhtml?drugId=']")
@@ -254,7 +668,72 @@ def parse_results_rows(html: str, q_letter: str) -> List[dict]:
             }
         )
 
-    return out
+    return out, bad_rows
+
+
+def validate_results_page(html: str, rows: List[dict], bad_rows: int) -> Tuple[bool, str]:
+    if rows:
+        bad_ratio = bad_rows / max(len(rows), 1)
+        if len(rows) < PAGE_MIN_ROWS:
+            return False, f"row_count_below_min ({len(rows)} < {PAGE_MIN_ROWS})"
+        if bad_ratio > MAX_BAD_ROW_RATIO:
+            return False, f"bad_row_ratio {bad_ratio:.2f} > {MAX_BAD_ROW_RATIO:.2f}"
+        return True, "ok"
+
+    if ALLOW_EMPTY_RESULTS and page_has_no_results(html):
+        return True, "empty_ok"
+    return False, "empty_without_no_results"
+
+
+def fetch_results_page(session: requests.Session, q_letter: str, browser: Optional[BrowserSession]) -> Tuple[str, List[dict]]:
+    last_err = None
+    for attempt in range(1, PAGE_VALIDATION_RETRIES + 2):
+        try:
+            if USE_BROWSER and browser:
+                params = {"q": q_letter, "s": "true", "type": "4"}
+                url = f"{RESULTS_URL}?{urlencode(params)}"
+                html = browser.get_page_html(url, label=f"results q={q_letter}")
+                browser.try_search_input(q_letter)
+                html = browser.driver.page_source if browser.driver else html
+            else:
+                html = safe_get(session, RESULTS_URL, params={"q": q_letter, "s": "true", "type": "4"})
+
+            rows, bad_rows = parse_results_rows(html, q_letter=q_letter)
+            ok, reason = validate_results_page(html, rows, bad_rows)
+            if ok:
+                return html, rows
+            last_err = RuntimeError(f"Validation failed: {reason}")
+            logger.warning(f"[Q={q_letter}] Validation failed (attempt {attempt}): {reason}")
+        except Exception as exc:
+            last_err = exc
+            logger.warning(f"[Q={q_letter}] Fetch failed (attempt {attempt}): {exc}")
+        backoff_sleep(attempt)
+        if USE_BROWSER and browser:
+            browser.restart()
+    raise RuntimeError(f"Failed to fetch valid results page for '{q_letter}': {last_err}")
+
+
+def fetch_detail_page(session: requests.Session, drug_id: str, browser: Optional[BrowserSession]) -> str:
+    last_err = None
+    for attempt in range(1, PAGE_VALIDATION_RETRIES + 2):
+        try:
+            if USE_BROWSER and browser:
+                url = f"{DETAIL_URL}?drugId={drug_id}"
+                html = browser.get_page_html(url, label=f"detail drugId={drug_id}")
+            else:
+                html = safe_get(session, DETAIL_URL, params={"drugId": drug_id})
+            extracted = parse_manufacturer_from_detail(html)
+            if not is_bad_name(extracted):
+                return html
+            last_err = RuntimeError("Manufacturer not found in detail page")
+            logger.warning(f"[DETAIL {drug_id}] Missing manufacturer (attempt {attempt})")
+        except Exception as exc:
+            last_err = exc
+            logger.warning(f"[DETAIL {drug_id}] Fetch failed (attempt {attempt}): {exc}")
+        backoff_sleep(attempt)
+        if USE_BROWSER and browser:
+            browser.restart()
+    raise RuntimeError(f"Failed to fetch valid detail page for {drug_id}: {last_err}")
 
 
 def parse_manufacturer_from_detail(html: str) -> str:
@@ -327,7 +806,7 @@ def load_existing_products(path: str) -> Tuple[pd.DataFrame, Set[str]]:
         seen = set(df["local_pack_code"].astype(str).tolist()) if "local_pack_code" in df.columns else set()
         return df, seen
     except Exception as e:
-        print(f"[WARNING] Error loading existing products: {e}")
+        logger.warning("Error loading existing products: %s", e)
         return pd.DataFrame(), set()
 
 
@@ -379,7 +858,11 @@ def save_products_incremental(path: str, new_rows: List[dict], existing_df: pd.D
         existing_df = finalize(existing_df)
         # Combine and deduplicate by local_pack_code (keep first occurrence)
         combined_df = pd.concat([existing_df, new_df], ignore_index=True)
+        before = len(combined_df)
         final_df = combined_df.drop_duplicates(subset=["local_pack_code"], keep="first")
+        dropped = before - len(final_df)
+        if dropped:
+            logger.info("Deduped %s duplicate rows by local_pack_code", dropped)
     else:
         final_df = new_df
 
@@ -393,27 +876,34 @@ def save_products_incremental(path: str, new_rows: List[dict], existing_df: pd.D
 
 
 def main():
+    cp = get_checkpoint_manager("CanadaOntario")
     session = requests.Session()
-    session.headers.update(
-        {
-            "User-Agent": (
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-            ),
-            "Accept-Language": "en-US,en;q=0.9",
-        }
-    )
+    session.headers.update(build_headers())
+    if PROXIES:
+        session.proxies.update(PROXIES)
+        logger.info("Proxy enabled for requests")
+    logger.info("Retry config: max_retries=%s timeout=%s", RETRIES, REQUEST_TIMEOUT)
+    logger.info("Jitter config: min=%s max=%s", REQUEST_JITTER_MIN, REQUEST_JITTER_MAX)
+
+    browser = None
+    if USE_BROWSER:
+        if not SELENIUM_AVAILABLE:
+            raise RuntimeError("USE_BROWSER is enabled but Selenium is not installed.")
+        browser = BrowserSession()
 
     # Load completed letters (resume support)
-    completed_letters = load_completed_letters()
-    print(f"[RESUME] Loaded {len(completed_letters)} completed letters: {sorted(completed_letters)}")
+    completed_letters = load_completed_letters(cp)
+    if completed_letters:
+        logger.info("[RESUME] Loaded %s completed letters: %s", len(completed_letters), sorted(completed_letters))
+    else:
+        logger.info("[RESUME] No completed letters found")
 
     # Local manufacturer cache (master)
     mfr_master = load_mfr_master(MFR_MASTER_CSV)
 
     # Load existing products
     existing_df, seen_codes = load_existing_products(PRODUCTS_CSV)
-    print(f"[RESUME] Loaded {len(existing_df)} existing products, {len(seen_codes)} unique codes")
+    logger.info(f"[RESUME] Loaded {len(existing_df)} existing products, {len(seen_codes)} unique codes")
 
     # Get all letters to process
     all_letters = list(string.ascii_lowercase)
@@ -421,108 +911,137 @@ def main():
     total_letters = len(all_letters)
     completed_count = len(completed_letters)
 
-    print(f"[RESUME] Processing {len(remaining_letters)} remaining letters out of {total_letters} total ({completed_count} already completed)")
+    logger.info(
+        f"[RESUME] Processing {len(remaining_letters)} remaining letters out of "
+        f"{total_letters} total ({completed_count} already completed)"
+    )
 
     if not remaining_letters:
-        print("[DONE] All letters already processed!")
+        logger.info("[DONE] All letters already processed!")
         return
 
-    # Process remaining letters
-    for idx, q in enumerate(remaining_letters):
-        current_letter_num = completed_count + idx + 1
-        print(f"[Q={q}] Fetching results... (Letter {current_letter_num}/{total_letters})")
-        
-        # Output progress message for GUI synchronization (including current letter in progress)
-        # Calculate combined progress: step 1 of 2 (50% base) + letter progress within step (50% range)
-        # Progress includes the current letter being processed (completed_count + idx + 1)
-        letters_in_progress = completed_count + idx + 1
-        letter_progress_percent = round((letters_in_progress / total_letters) * 100, 1) if total_letters > 0 else 0
-        combined_percent = round(50.0 + (letter_progress_percent * 0.5), 1)
-        print(f"[PROGRESS] Pipeline Step: 1/2 ({combined_percent}%) - Letter {current_letter_num}/{total_letters}", flush=True)
-        
-        try:
-            html = safe_get(session, RESULTS_URL, params={"q": q, "s": "true", "type": "4"})
-            rows = parse_results_rows(html, q_letter=q)
-            print(f"[Q={q}] Rows parsed: {len(rows)}")
+    progress = ProgressReporter(total_letters=total_letters)
+    letters_progress = StandardProgress(
+        "canada_ontario_letters",
+        total=total_letters,
+        unit="letters",
+        logger=logger,
+        state_path=cp.checkpoint_dir / "letters_progress.json",
+        log_every=1,
+    )
+    letters_progress.update(completed_count, message="resume", force=True)
+    try:
+        # Process remaining letters
+        for idx, q in enumerate(remaining_letters):
+            current_letter_num = completed_count + idx + 1
+            logger.info(f"[Q={q}] Fetching results... (Letter {current_letter_num}/{total_letters})")
 
-            new_rows: List[dict] = []
-            new_count = 0
-            skipped_count = 0
+            try:
+                _, rows = fetch_results_page(session, q, browser)
+                logger.info(f"[Q={q}] Rows parsed: {len(rows)}")
+                progress.start_rows(len(rows))
+                row_progress = StandardProgress(
+                    f"canada_ontario_rows_{q}",
+                    total=max(len(rows), 1),
+                    unit="rows",
+                    logger=logger,
+                    state_path=cp.checkpoint_dir / "rows_progress.json",
+                    log_every=25,
+                )
+                row_progress.update(0, message=f"letter={q}", force=True)
 
-            for row in rows:
-                code = row["local_pack_code"]
-                if not code or code in seen_codes:
-                    skipped_count += 1
-                    continue
+                new_rows: List[dict] = []
+                new_count = 0
+                skipped_count = 0
 
-                # Manufacturer resolution:
-                # 1) LOCAL MASTER FIRST
-                mfr_code = row.get("mfr_code", "")
-                resolved_name = mfr_master.get(mfr_code, "") if mfr_code else ""
+                for row in rows:
+                    code = row["local_pack_code"]
+                    if not code or code in seen_codes:
+                        skipped_count += 1
+                        progress.advance_row(1)
+                        row_progress.update(skipped_count + new_count, message=f"letter={q}")
+                        continue
 
-                # 2) ONLY IF missing/bad -> open DIN detail page and extract Manufacturer name
-                if is_bad_name(resolved_name):
-                    drug_id = row.get("drug_id", "")
-                    if drug_id:
-                        detail_html = safe_get(session, DETAIL_URL, params={"drugId": drug_id})
-                        extracted = parse_manufacturer_from_detail(detail_html)
+                    # Manufacturer resolution:
+                    # 1) LOCAL MASTER FIRST
+                    mfr_code = row.get("mfr_code", "")
+                    resolved_name = mfr_master.get(mfr_code, "") if mfr_code else ""
 
-                        if not is_bad_name(extracted):
-                            resolved_name = extracted
-                            if mfr_code:
-                                mfr_master[mfr_code] = extracted  # update local master
+                    # 2) ONLY IF missing/bad -> open DIN detail page and extract Manufacturer name
+                    if is_bad_name(resolved_name):
+                        drug_id = row.get("drug_id", "")
+                        if drug_id:
+                            detail_html = fetch_detail_page(session, drug_id, browser)
+                            extracted = parse_manufacturer_from_detail(detail_html)
 
-                        time.sleep(SLEEP_BETWEEN_DETAIL)
+                            if not is_bad_name(extracted):
+                                resolved_name = extracted
+                                if mfr_code:
+                                    mfr_master[mfr_code] = extracted  # update local master
 
-                row["manufacturer_name"] = resolved_name if not is_bad_name(resolved_name) else ""
+                            time.sleep(SLEEP_BETWEEN_DETAIL)
 
-                # Compute reimbursement/vat/copay
-                row = compute_prices(row)
+                    row["manufacturer_name"] = resolved_name if not is_bad_name(resolved_name) else ""
 
-                new_rows.append(row)
-                seen_codes.add(code)
-                new_count += 1
+                    # Compute reimbursement/vat/copay
+                    row = compute_prices(row)
 
-            # Save data after each letter (incremental save)
-            if new_rows:
-                existing_df, seen_codes = save_products_incremental(PRODUCTS_CSV, new_rows, existing_df, seen_codes)
-                print(f"[Q={q}] Saved {new_count} new products (skipped {skipped_count} duplicates)")
-            else:
-                print(f"[Q={q}] No new products (all {skipped_count} were duplicates)")
+                    new_rows.append(row)
+                    seen_codes.add(code)
+                    new_count += 1
+                    progress.advance_row(1)
+                    row_progress.update(skipped_count + new_count, message=f"letter={q}")
 
-            # Persist manufacturer master after each letter
-            save_mfr_master(MFR_MASTER_CSV, mfr_master)
+                row_progress.update(len(rows), message=f"letter={q} done", force=True)
 
-            # Mark letter as completed
-            completed_letters.add(q)
-            save_completed_letters(completed_letters)
-            print(f"[Q={q}] Letter completed and saved")
-            
-            # Update progress after letter completion
-            completed_letter_count = len(completed_letters)
-            letter_progress_percent = round((completed_letter_count / total_letters) * 100, 1) if total_letters > 0 else 0
-            combined_percent = round(50.0 + (letter_progress_percent * 0.5), 1)
-            print(f"[PROGRESS] Pipeline Step: 1/2 ({combined_percent}%) - Letter {completed_letter_count}/{total_letters}", flush=True)
+                # Save data after each letter (incremental save)
+                if new_rows:
+                    existing_df, seen_codes = save_products_incremental(PRODUCTS_CSV, new_rows, existing_df, seen_codes)
+                    logger.info(f"[Q={q}] Saved {new_count} new products (skipped {skipped_count} duplicates)")
+                else:
+                    logger.info(f"[Q={q}] No new products (all {skipped_count} were duplicates)")
 
-        except Exception as e:
-            print(f"[ERROR] Failed to process letter '{q}': {e}")
-            print(f"[ERROR] Letter '{q}' will be retried on next run")
-            # Don't mark as completed if there was an error
-            continue
+                # Persist manufacturer master after each letter
+                save_mfr_master(MFR_MASTER_CSV, mfr_master)
 
-        time.sleep(SLEEP_BETWEEN_Q)
+                # Mark letter as completed
+                completed_letters.add(q)
+                save_completed_letters(completed_letters)
+                cp.update_metadata(
+                    {
+                        "completed_letters": sorted(list(completed_letters)),
+                        "completed_letters_count": len(completed_letters),
+                        "last_letter": q,
+                    }
+                )
+                logger.info(f"[Q={q}] Letter completed and saved")
+                progress.advance_letter(1)
 
-    # Final summary
-    final_df, _ = load_existing_products(PRODUCTS_CSV)
-    
-    # Final progress update - step 1 complete (100% of step 1 = 50% + 50% = 100% overall for step 1)
-    print(f"[PROGRESS] Pipeline Step: 1/2 (100.0%) - Letter {total_letters}/{total_letters}", flush=True)
-    
-    print(f"\n[DONE] All letters processed!")
-    print(f"[DONE] Total products: {len(final_df)}")
-    print(f"[DONE] Saved products: {PRODUCTS_CSV}")
-    print(f"[DONE] Saved manufacturer master: {MFR_MASTER_CSV} (unique={len(mfr_master)})")
-    print(f"[DONE] Completed letters: {len(completed_letters)}/{total_letters}")
+                letters_progress.update(len(completed_letters), message=f"letter={q}", force=True)
+
+            except Exception as e:
+                logger.error(f"[ERROR] Failed to process letter '{q}': {e}")
+                logger.error(f"[ERROR] Letter '{q}' will be retried on next run")
+                continue
+
+            time.sleep(SLEEP_BETWEEN_Q)
+
+        # Final summary
+        final_df, _ = load_existing_products(PRODUCTS_CSV)
+        letters_progress.update(total_letters, message="complete", force=True)
+
+        logger.info("[DONE] All letters processed!")
+        logger.info(f"[DONE] Total products: {len(final_df)}")
+        logger.info(f"[DONE] Saved products: {PRODUCTS_CSV}")
+        logger.info(f"[DONE] Saved manufacturer master: {MFR_MASTER_CSV} (unique={len(mfr_master)})")
+        logger.info(f"[DONE] Completed letters: {len(completed_letters)}/{total_letters}")
+    finally:
+        progress.close()
+        if browser:
+            browser.close()
+        if CHROME_PID_TRACKING_AVAILABLE:
+            repo_root = Path(__file__).resolve().parents[2]
+            terminate_chrome_pids("CanadaOntario", repo_root, silent=True)
 
 
 if __name__ == "__main__":

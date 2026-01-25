@@ -18,6 +18,8 @@ Use the Telegram bot to check pipeline status and start pipelines remotely.
 - `/list` - List available scrapers
 - `/status <scraper|all>` - Show status for one or all
 - `/run <scraper> [fresh]` - Start pipeline if idle
+- `/resume <scraper>` - Resume pipeline if idle
+- `/stop <scraper>` - Stop a running pipeline
 - `/runfresh <scraper>` - Start a fresh pipeline
 - `/clear <scraper>` - Clear a stale lock file
 

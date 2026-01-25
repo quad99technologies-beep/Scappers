@@ -2,12 +2,16 @@
 # -*- coding: utf-8 -*-
 
 """
-Argentina. URL Preparation Step
+Argentina. URL Preparation Step (Simple State File)
 
-Keeps Product and Company exactly as in Productlist.csv.
-Only the URL slug is normalized.
+Keeps Product and Company exactly as in Productlist.csv, builds URL.
 
-Writes Productlist_with_urls.csv with UTF-8 BOM for Excel.
+Writes Productlist_with_urls.csv with UTF-8 BOM for Excel using a minimal schema:
+- Product
+- Company
+- URL
+- Loop Count
+- Total Records
 """
 
 import csv
@@ -110,13 +114,8 @@ def main():
             "Product": prod,
             "Company": comp,
             "URL": url,
-            "Source": "selenium",
-            "Scraped_By_Selenium": "no",
-            "Scraped_By_API": "no",
-            "Selenium_Records": "0",
-            "API_Records": "0",
-            "Selenium_Attempt": "0",
-            "Last_Attempt_Records": "0"
+            "Loop Count": "0",
+            "Total Records": "0",
         })
 
         if idx % 100 == 0 or idx == total:
@@ -127,10 +126,8 @@ def main():
 
     with open(output_file, "w", newline="", encoding="utf-8-sig") as f:
         fieldnames = [
-            "Product", "Company", "URL", "Source",
-            "Scraped_By_Selenium", "Scraped_By_API",
-            "Selenium_Records", "API_Records",
-            "Selenium_Attempt", "Last_Attempt_Records"
+            "Product", "Company", "URL",
+            "Loop Count", "Total Records",
         ]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()

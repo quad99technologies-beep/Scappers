@@ -58,7 +58,7 @@ class Deduplicator:
         "Argentina": ["PRODUCTO", "TROQUEL"],
         "India": ["Medicine Name"],
         "CanadaQuebec": ["Product", "DIN"],
-        "CanadaOntario": ["Drug Name", "DIN"],
+        "CanadaOntario": ["local_pack_code", "LOCAL_PACK_CODE"],
         "Netherlands": ["Product"],
         "Belarus": ["Name"],
         "Russia": ["Name"],

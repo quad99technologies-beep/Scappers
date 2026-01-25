@@ -1,0 +1,16 @@
+Russia Scraper Health Check
+============================================================
+Step   | Check                                   | Status | Detail
+------------------------------------------------------------------
+Config | VED Registry URL reachable              | PASS   | HTTP 200
+Config | Excluded List URL reachable             | PASS   | HTTP 200
+Config | Russia PCID file present                | FAIL   | missing file (optional - will be created during pipeline)
+Layout | VED Registry region select (reg_id)     | PASS   | Selectors ok (HTTP 200)
+Layout | VED Registry search button (btn_submit) | PASS   | Selectors may require JavaScript/Selenium (HTTP 200) - scraper uses Selenium
+Layout | VED Registry table structure            | PASS   | Selectors ok (HTTP 200)
+Layout | Excluded List region select (reg_id)    | PASS   | Selectors may require JavaScript/Selenium (HTTP 200) - scraper uses Selenium
+Layout | Excluded List search button             | PASS   | Selectors may require JavaScript/Selenium (HTTP 200) - scraper uses Selenium
+Layout | Excluded List table structure           | PASS   | Selectors ok (HTTP 200)
+
+============================================================
+Generated: 2026-01-23 20:40:30
