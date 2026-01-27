@@ -1,0 +1,162 @@
+[
+  {
+    "brandName": "STROM (LINCOLN)",
+    "packSize": "2",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "18.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.42"
+  },
+  {
+    "brandName": "TRUMP",
+    "packSize": "2",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "19.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "RAMCET",
+    "packSize": "2",
+    "company": "SUNDYOTA NUMANDIS PHARMA PVT LTD",
+    "brandMrp": "21.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "brandName": "SEDATE",
+    "packSize": "2",
+    "company": "VENUS REMEDIES LTD",
+    "brandMrp": "23.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.54"
+  },
+  {
+    "brandName": "NEXDOL",
+    "packSize": "2",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "23.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.75"
+  },
+  {
+    "brandName": "TRAMOT (BENNET)",
+    "packSize": "2",
+    "company": "BENNET PHARMACEUTICALS LIMITED",
+    "brandMrp": "24.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.37"
+  },
+  {
+    "brandName": "BESTODOL",
+    "packSize": "2",
+    "company": "BESTOCHEM FORMULATIONS (I) LTD",
+    "brandMrp": "25.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.55"
+  },
+  {
+    "brandName": "SUPRIDOL",
+    "packSize": "2",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "25.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.56"
+  },
+  {
+    "brandName": "TRAMADIN",
+    "packSize": "2",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "25.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.56"
+  },
+  {
+    "brandName": "TRAMASURE",
+    "packSize": "2",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "25.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.57"
+  },
+  {
+    "brandName": "CONTRAMAL",
+    "packSize": "2",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "25.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.58"
+  },
+  {
+    "brandName": "DOMADOL",
+    "packSize": "2",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "25.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.58"
+  },
+  {
+    "brandName": "TRAMAZAC",
+    "packSize": "2",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "25.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.58"
+  },
+  {
+    "brandName": "TRAZODAC",
+    "packSize": "2",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "25.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.59"
+  },
+  {
+    "brandName": "TROMANIL",
+    "packSize": "2",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "26.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.15"
+  },
+  {
+    "brandName": "TRICARE",
+    "packSize": "2",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "26.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.18"
+  },
+  {
+    "brandName": "ORTHODEX",
+    "packSize": "2",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "26.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.19"
+  },
+  {
+    "brandName": "ULTRAM",
+    "packSize": "2",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "26.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.23"
+  },
+  {
+    "brandName": "TRAMAPRIDE",
+    "packSize": "2",
+    "company": "INNOVATIVE PHARMACEUTICALS",
+    "brandMrp": "29.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.98"
+  },
+  {
+    "brandName": "TRAMAGESIC",
+    "packSize": "2",
+    "company": "ANTHUS PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "131.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.85"
+  }
+]

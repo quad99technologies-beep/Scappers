@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PROBU",
+    "packSize": "5",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "45.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.19"
+  },
+  {
+    "brandName": "BIFILAC CLAUSI",
+    "packSize": "5",
+    "company": "TABLETS INDIA LTD",
+    "brandMrp": "46.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  },
+  {
+    "brandName": "AQUAGERMINA",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "66.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.31"
+  }
+]

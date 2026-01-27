@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LIVOSIL B",
+    "packSize": "10",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "53.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.37"
+  },
+  {
+    "brandName": "HIGADO L",
+    "packSize": "10",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "215.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.56"
+  },
+  {
+    "brandName": "LIVFUN",
+    "packSize": "15",
+    "company": "STANWELL LIFE SCIENCES PVT.LTD",
+    "brandMrp": "443.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.54"
+  }
+]

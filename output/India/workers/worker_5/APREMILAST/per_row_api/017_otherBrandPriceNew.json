@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "APRAIZE",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "113.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.34"
+  },
+  {
+    "brandName": "APRETAS",
+    "packSize": "4",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "APRAIZE",
+    "packSize": "4",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "113.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.36"
+  },
+  {
+    "brandName": "APREZO",
+    "packSize": "4",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "117.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.41"
+  },
+  {
+    "brandName": "APREZO",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "309.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.94"
+  }
+]

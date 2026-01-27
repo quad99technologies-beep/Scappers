@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "AZTREFIC",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "999.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "999.00"
+  },
+  {
+    "brandName": "EFFTREO",
+    "packSize": "1",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "1600.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1600.00"
+  },
+  {
+    "brandName": "CROMOBACT",
+    "packSize": "1",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "1719.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1719.00"
+  },
+  {
+    "brandName": "AZTREO",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "1850.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1850.00"
+  },
+  {
+    "brandName": "AZTROHIGH",
+    "packSize": "1",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "1860.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1860.36"
+  }
+]

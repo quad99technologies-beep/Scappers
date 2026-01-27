@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521006641@1509@101102560@3749@101068@200740",
+    "skuName": "ALPOSTIN 500 MCG INJECTION 1 ML",
+    "composition": "ALPROSTADIL INJECTION 500 MCG",
+    "packSize": "1 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "6213.02",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "scheduleFlag": "1",
+    "mrp": "6522.56",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6522.56"
+  },
+  {
+    "hiddenId": "1521007802@128147@101104482@3749@101068@200740",
+    "skuName": "BIOGLANDIN 500 MCG INJECTION 1 ML",
+    "composition": "ALPROSTADIL INJECTION 500 MCG",
+    "packSize": "1 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "6213.02",
+    "company": "UNITED BIOTECH (P) LTD",
+    "scheduleFlag": "1",
+    "mrp": "6520.00",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6520.00"
+  },
+  {
+    "hiddenId": "1521094069@340278@101190037@3749@101068@200740",
+    "skuName": "PROSTACEL 500 MCG INJECTION 1 ML",
+    "composition": "ALPROSTADIL INJECTION 500 MCG",
+    "packSize": "1 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "6213.02",
+    "company": "CELON LABS",
+    "scheduleFlag": "1",
+    "mrp": "6411.50",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6411.50"
+  },
+  {
+    "hiddenId": "1521064208@164838@101166863@3749@101068@200740",
+    "skuName": "PROSTAL (CELON) 500 MCG INJECTION 1 ML",
+    "composition": "ALPROSTADIL INJECTION 500 MCG",
+    "packSize": "1 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "6213.02",
+    "company": "CELON LABS",
+    "scheduleFlag": "1",
+    "mrp": "5960.77",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5960.77"
+  }
+]

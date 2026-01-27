@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521066449@98715@101168956@3460@101126@202664",
+    "skuName": "RAPITUS 30 MG SYRUP 100 ML",
+    "composition": "LEVODROPROPIZINE SYRUP 30 MG",
+    "packSize": "100 ML SYRUP",
+    "dosageForm": "SYRUP",
+    "ceilingPrice": "-1",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "112.26",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.12"
+  },
+  {
+    "hiddenId": "1521155215@9999994810@101168956@-1@101126@202664",
+    "skuName": "RAPITUS SYRUP 60 ML",
+    "composition": "LEVODROPROPIZINE SYRUP ",
+    "packSize": "60 ML SYRUP",
+    "dosageForm": "SYRUP",
+    "ceilingPrice": "-1",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "70.30",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.17"
+  }
+]

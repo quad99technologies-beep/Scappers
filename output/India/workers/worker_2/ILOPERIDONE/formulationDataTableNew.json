@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521036272@179846@101139478@3708@101006@202251",
+    "skuName": "ILOSURE 4 MG TABLET 10",
+    "composition": "ILOPERIDONE TABLET 4 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "scheduleFlag": "0",
+    "mrp": "122.34",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.23"
+  },
+  {
+    "hiddenId": "1521036273@179845@101139478@3914@101006@202251",
+    "skuName": "ILOSURE 6 MG TABLET 10",
+    "composition": "ILOPERIDONE TABLET 6 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "scheduleFlag": "0",
+    "mrp": "169.69",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.97"
+  }
+]

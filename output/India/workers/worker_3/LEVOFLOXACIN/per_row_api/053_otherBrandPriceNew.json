@@ -1,0 +1,226 @@
+[
+  {
+    "brandName": "LQUIN",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "66.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.65"
+  },
+  {
+    "brandName": "LEE (SHREYA)",
+    "packSize": "15",
+    "company": "SHREYA LIFE SCIENCES PVT. LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "R FLOX (RELIANCE)",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "85.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.57"
+  },
+  {
+    "brandName": "LEVOTOP (MARC)",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "103.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.34"
+  },
+  {
+    "brandName": "LEVOSTAT",
+    "packSize": "10",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "104.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.42"
+  },
+  {
+    "brandName": "HILEFLOX",
+    "packSize": "5",
+    "company": "HIGLANCE LABORATORIES PVT LTD",
+    "brandMrp": "57.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.40"
+  },
+  {
+    "brandName": "LEVOTEC",
+    "packSize": "5",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "57.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.40"
+  },
+  {
+    "brandName": "LQUIN",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "59.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.97"
+  },
+  {
+    "brandName": "QURE",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "119.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.98"
+  },
+  {
+    "brandName": "LF",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "121.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.10"
+  },
+  {
+    "brandName": "LEON",
+    "packSize": "5",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "60.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.11"
+  },
+  {
+    "brandName": "LEVORAC",
+    "packSize": "5",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "63.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.71"
+  },
+  {
+    "brandName": "BEXCIN",
+    "packSize": "10",
+    "company": "INTEL PHARMACEUTICALS",
+    "brandMrp": "130.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.03"
+  },
+  {
+    "brandName": "LEVOGRAND",
+    "packSize": "10",
+    "company": "GRANDCURE HEALTHCARE PVT. LTD.",
+    "brandMrp": "130.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.06"
+  },
+  {
+    "brandName": "ALEVO",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "130.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.07"
+  },
+  {
+    "brandName": "LEVOKEM (HIQUEM)",
+    "packSize": "10",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "130.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.07"
+  },
+  {
+    "brandName": "GLEVO",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "132.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.29"
+  },
+  {
+    "brandName": "L-CIN",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "132.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.29"
+  },
+  {
+    "brandName": "LEVOMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "132.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.29"
+  },
+  {
+    "brandName": "LOXOF",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "132.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.29"
+  },
+  {
+    "brandName": "LEVOBACT",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "133.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.30"
+  },
+  {
+    "brandName": "LEVOFLOX",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "66.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.30"
+  },
+  {
+    "brandName": "ULTRAMYCIN",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "133.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.30"
+  },
+  {
+    "brandName": "URIBACT",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "133.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.30"
+  },
+  {
+    "brandName": "OLVO",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "133.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.38"
+  },
+  {
+    "brandName": "EMCARE",
+    "packSize": "10",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "139.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.93"
+  },
+  {
+    "brandName": "LEVOLVE",
+    "packSize": "10",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "139.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.93"
+  },
+  {
+    "brandName": "MEGALEVO",
+    "packSize": "10",
+    "company": "UNISTAR BIOTECH LIMITED",
+    "brandMrp": "139.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.94"
+  }
+]

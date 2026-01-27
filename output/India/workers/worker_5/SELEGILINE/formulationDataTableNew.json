@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521020941@14554@101126734@3854@101006@202241",
+    "skuName": "ELDEPRYL 5 MG TABLET 10",
+    "composition": "SELEGILINE TABLET 5 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "THEMIS MEDICARE LTD.",
+    "scheduleFlag": "0",
+    "mrp": "38.21",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.82"
+  },
+  {
+    "hiddenId": "1521072362@65191@101172994@3854@101006@202241",
+    "skuName": "SELGIN 5 MG TABLET 10",
+    "composition": "SELEGILINE TABLET 5 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "96.56",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.66"
+  }
+]

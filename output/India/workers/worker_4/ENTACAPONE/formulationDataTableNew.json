@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521022401@667@101115704@2974@101006@202237",
+    "skuName": "ADCAPONE 200 MG TABLET 10",
+    "composition": "ENTACAPONE TABLET 200 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "scheduleFlag": "0",
+    "mrp": "98.44",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.84"
+  },
+  {
+    "hiddenId": "1521022436@64673@101127857@2974@101006@202237",
+    "skuName": "ENTACOM 200 MG TABLET 10",
+    "composition": "ENTACAPONE TABLET 200 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "86.48",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.65"
+  }
+]

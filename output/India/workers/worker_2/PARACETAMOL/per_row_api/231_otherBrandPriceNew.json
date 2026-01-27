@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "PARACIN",
+    "packSize": "15",
+    "company": "STADMED PVT. LTD",
+    "brandMrp": "10.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.67"
+  },
+  {
+    "brandName": "P",
+    "packSize": "15",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "28.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  },
+  {
+    "brandName": "MYPOL",
+    "packSize": "15",
+    "company": "ANHOX HEALTHCARE PVT LTD",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  },
+  {
+    "brandName": "P U C",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "30.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  }
+]

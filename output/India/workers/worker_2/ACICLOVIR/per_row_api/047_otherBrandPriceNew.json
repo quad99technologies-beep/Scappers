@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "ZOVIRAX FD",
+    "packSize": "10",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "361.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.11"
+  },
+  {
+    "brandName": "VIR",
+    "packSize": "5",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "455.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "91.07"
+  },
+  {
+    "brandName": "AXOVIR",
+    "packSize": "1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "293.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "293.23"
+  },
+  {
+    "brandName": "UNIVIR",
+    "packSize": "1",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "373.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "373.40"
+  },
+  {
+    "brandName": "VIRCILON",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "398.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "398.91"
+  },
+  {
+    "brandName": "HERZOVIR",
+    "packSize": "1",
+    "company": "CHANDRA BHAGAT PHARMA PVT. LTD.",
+    "brandMrp": "465.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "465.00"
+  },
+  {
+    "brandName": "ACICLOVIR",
+    "packSize": "1",
+    "company": "VHB LIFE SCIENCES LIMITED",
+    "brandMrp": "810.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "810.00"
+  }
+]

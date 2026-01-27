@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "NOVEX DS",
+    "packSize": "15",
+    "company": "HLL LIFE CARE LTD",
+    "brandMrp": "286.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.07"
+  },
+  {
+    "brandName": "ORMEFEN",
+    "packSize": "10",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "215.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.54"
+  },
+  {
+    "brandName": "SEVISTA",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "486.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.42"
+  }
+]

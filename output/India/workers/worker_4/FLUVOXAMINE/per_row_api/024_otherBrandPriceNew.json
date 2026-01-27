@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "VOXINIX",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "328.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.81"
+  },
+  {
+    "brandName": "FLUVOXIN",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "346.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.69"
+  },
+  {
+    "brandName": "UVOX",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "467.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.76"
+  }
+]

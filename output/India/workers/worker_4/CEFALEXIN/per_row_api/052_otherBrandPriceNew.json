@@ -1,0 +1,186 @@
+[
+  {
+    "brandName": "STAPHYDEX",
+    "packSize": "10",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "33.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.31"
+  },
+  {
+    "brandName": "CEFTOP (INDSWIFT)",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "37.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.79"
+  },
+  {
+    "brandName": "SPORIVENT",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "44.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.40"
+  },
+  {
+    "brandName": "LABOCEPH",
+    "packSize": "10",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "46.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.63"
+  },
+  {
+    "brandName": "PHALEXIN",
+    "packSize": "10",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "48.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.81"
+  },
+  {
+    "brandName": "SPOROLIN",
+    "packSize": "10",
+    "company": "FRANKLIN LABORATORIES (INDIA) PVT. LTD.",
+    "brandMrp": "62.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.23"
+  },
+  {
+    "brandName": "CEFTOP",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "68.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.83"
+  },
+  {
+    "brandName": "SEAFAX",
+    "packSize": "10",
+    "company": "ASSAM CHEMICAL & PHARMACEUTICAL PVT. LTD.",
+    "brandMrp": "108.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.82"
+  },
+  {
+    "brandName": "MONACEF",
+    "packSize": "10",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "CEFTER",
+    "packSize": "10",
+    "company": "GUJARAT TERCE LABORATORIES LTD",
+    "brandMrp": "134.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.40"
+  },
+  {
+    "brandName": "CEPHALKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "141.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.10"
+  },
+  {
+    "brandName": "CEPHY (LEEF)",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "144.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.40"
+  },
+  {
+    "brandName": "LEXIPIL",
+    "packSize": "10",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "145.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.50"
+  },
+  {
+    "brandName": "CEPHAL (ALKEM)",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "INTACEPH",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "159.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.95"
+  },
+  {
+    "brandName": "CEPHADEX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "179.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.92"
+  },
+  {
+    "brandName": "LX",
+    "packSize": "10",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "191.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.19"
+  },
+  {
+    "brandName": "CEPHAXIN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "196.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.68"
+  },
+  {
+    "brandName": "ROFEX",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "247.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.79"
+  },
+  {
+    "brandName": "CEFF",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "256.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.65"
+  },
+  {
+    "brandName": "SPORIDEX",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "256.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.69"
+  },
+  {
+    "brandName": "CEFALADEX",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "260.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.00"
+  },
+  {
+    "brandName": "PHEXIN",
+    "packSize": "10",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "269.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.96"
+  }
+]

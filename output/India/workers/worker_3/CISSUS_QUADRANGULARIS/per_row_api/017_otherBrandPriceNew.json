@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "ALEVEO CQ",
+    "packSize": "30",
+    "company": "QUALITY PHARMA PVT.LTD",
+    "brandMrp": "379.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.65"
+  },
+  {
+    "brandName": "QULARIS",
+    "packSize": "10",
+    "company": "STARTELL BIOCEUTICALS PVT LTD",
+    "brandMrp": "213.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.36"
+  },
+  {
+    "brandName": "SUPERCISS",
+    "packSize": "10",
+    "company": "ARNON HEALTHCARE LLP",
+    "brandMrp": "253.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.36"
+  },
+  {
+    "brandName": "CQRIS PLUS",
+    "packSize": "10",
+    "company": "STARUS PHARMACEUTICALS",
+    "brandMrp": "285.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.57"
+  }
+]

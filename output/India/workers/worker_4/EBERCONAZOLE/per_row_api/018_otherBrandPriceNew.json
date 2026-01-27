@@ -1,0 +1,274 @@
+[
+  {
+    "brandName": "ERCOVAN",
+    "packSize": "30",
+    "company": "AVANCER LAB",
+    "brandMrp": "258.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.63"
+  },
+  {
+    "brandName": "EBERWIN",
+    "packSize": "60",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "525.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.75"
+  },
+  {
+    "brandName": "EBERCLIN",
+    "packSize": "50",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "464.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "EBSPOR",
+    "packSize": "50",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "467.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.36"
+  },
+  {
+    "brandName": "EBERFINE XL",
+    "packSize": "50",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "482.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.66"
+  },
+  {
+    "brandName": "EBERZOLE",
+    "packSize": "15",
+    "company": "AVANCER LAB",
+    "brandMrp": "149.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.93"
+  },
+  {
+    "brandName": "ERCOVAN",
+    "packSize": "15",
+    "company": "AVANCER LAB",
+    "brandMrp": "153.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.25"
+  },
+  {
+    "brandName": "EBERFINE",
+    "packSize": "30",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "314.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.47"
+  },
+  {
+    "brandName": "ERICLEAR",
+    "packSize": "50",
+    "company": "USV PVT LTD",
+    "brandMrp": "525.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.50"
+  },
+  {
+    "brandName": "EBERDERM",
+    "packSize": "15",
+    "company": "PALSONS DERMA PVT. LTD",
+    "brandMrp": "159.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.60"
+  },
+  {
+    "brandName": "EZHH",
+    "packSize": "30",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "323.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.78"
+  },
+  {
+    "brandName": "EBERFORD",
+    "packSize": "15",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "164.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.93"
+  },
+  {
+    "brandName": "EBSPOR",
+    "packSize": "30",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "332.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.09"
+  },
+  {
+    "brandName": "EBERCLIN",
+    "packSize": "30",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "347.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.57"
+  },
+  {
+    "brandName": "EBROTOP",
+    "packSize": "15",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "174.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.65"
+  },
+  {
+    "brandName": "EBERBEST",
+    "packSize": "15",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "180.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "ERICLEAR",
+    "packSize": "30",
+    "company": "USV PVT LTD",
+    "brandMrp": "360.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "EBERBEST",
+    "packSize": "30",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "372.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.40"
+  },
+  {
+    "brandName": "EBERCLIN",
+    "packSize": "15",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "187.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.47"
+  },
+  {
+    "brandName": "EZOB",
+    "packSize": "30",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "379.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.66"
+  },
+  {
+    "brandName": "EBSPOR",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "192.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.81"
+  },
+  {
+    "brandName": "EBERFUN",
+    "packSize": "30",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "385.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.85"
+  },
+  {
+    "brandName": "CRURIX",
+    "packSize": "30",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "389.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.97"
+  },
+  {
+    "brandName": "EBROTOP",
+    "packSize": "30",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "396.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.21"
+  },
+  {
+    "brandName": "EBERMED",
+    "packSize": "30",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "396.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.22"
+  },
+  {
+    "brandName": "EBERFINE",
+    "packSize": "15",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "201.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.44"
+  },
+  {
+    "brandName": "EBERDERM",
+    "packSize": "30",
+    "company": "PALSONS DERMA PVT. LTD",
+    "brandMrp": "410.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.69"
+  },
+  {
+    "brandName": "EBERWIN",
+    "packSize": "30",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "431.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.38"
+  },
+  {
+    "brandName": "EBERCOS",
+    "packSize": "30",
+    "company": "PERCOS INDIA PVT. LTD.",
+    "brandMrp": "450.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "EBERNET",
+    "packSize": "60",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "941.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.70"
+  },
+  {
+    "brandName": "ELTINA",
+    "packSize": "15",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "246.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.41"
+  },
+  {
+    "brandName": "EBERCOS",
+    "packSize": "15",
+    "company": "PERCOS INDIA PVT. LTD.",
+    "brandMrp": "267.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "EBERNET",
+    "packSize": "30",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "583.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.45"
+  },
+  {
+    "brandName": "EBERNET",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "323.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.56"
+  }
+]

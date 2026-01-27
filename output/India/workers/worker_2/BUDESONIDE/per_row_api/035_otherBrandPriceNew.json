@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "BINAFIDE",
+    "packSize": "2",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "25.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.79"
+  },
+  {
+    "brandName": "BUDECORT",
+    "packSize": "2",
+    "company": "CIPLA LTD.",
+    "brandMrp": "28.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.03"
+  },
+  {
+    "brandName": "BUDESONIDE",
+    "packSize": "2",
+    "company": "CIPLA LTD.",
+    "brandMrp": "28.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.03"
+  },
+  {
+    "brandName": "DERINIDE",
+    "packSize": "2",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "28.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.03"
+  },
+  {
+    "brandName": "BUDAZA",
+    "packSize": "2",
+    "company": "UNIZA HEALTHCARE LLP",
+    "brandMrp": "137.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "68.98"
+  }
+]

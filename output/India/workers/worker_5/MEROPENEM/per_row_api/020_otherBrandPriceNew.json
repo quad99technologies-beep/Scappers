@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "MEROCRIT",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "430.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.03"
+  },
+  {
+    "brandName": "MEROTROL",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "274.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "274.20"
+  },
+  {
+    "brandName": "MEROREACH",
+    "packSize": "1",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "281.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "281.91"
+  },
+  {
+    "brandName": "MEROWAR",
+    "packSize": "1",
+    "company": "BIO WARRIORS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "290.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "290.00"
+  },
+  {
+    "brandName": "MEROMAC",
+    "packSize": "1",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "369.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "369.19"
+  },
+  {
+    "brandName": "MERO",
+    "packSize": "1",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "379.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "379.68"
+  },
+  {
+    "brandName": "MEROSURE",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "383.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "383.40"
+  },
+  {
+    "brandName": "MEROTEC",
+    "packSize": "1",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "405.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "405.15"
+  },
+  {
+    "brandName": "MEROCRIT",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "430.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "430.29"
+  },
+  {
+    "brandName": "MEROGRAM",
+    "packSize": "1",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "467.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "467.81"
+  },
+  {
+    "brandName": "RONEM",
+    "packSize": "1",
+    "company": "VENUS REMEDIES LTD",
+    "brandMrp": "469.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "469.00"
+  },
+  {
+    "brandName": "MEROBAX",
+    "packSize": "1",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "585.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "585.94"
+  },
+  {
+    "brandName": "ZAXTER",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "758.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "758.75"
+  }
+]

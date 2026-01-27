@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PAROT",
+    "packSize": "10",
+    "company": "ZEUS PHARMA",
+    "brandMrp": "160.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.03"
+  },
+  {
+    "brandName": "PARI",
+    "packSize": "15",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "319.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.32"
+  },
+  {
+    "brandName": "PEXEP",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "233.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.39"
+  }
+]

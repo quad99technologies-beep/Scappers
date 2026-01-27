@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "OPTIVIRAL",
+    "packSize": "10",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "54.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.40"
+  },
+  {
+    "brandName": "HERPERAX",
+    "packSize": "5",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "38.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.60"
+  },
+  {
+    "brandName": "ZOVISTAR",
+    "packSize": "10",
+    "company": "MONICHEM HEALTHCARE PVT LTD",
+    "brandMrp": "78.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.89"
+  },
+  {
+    "brandName": "HERPEX",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "79.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.99"
+  },
+  {
+    "brandName": "TRIKASE",
+    "packSize": "10",
+    "company": "EAST INDIA PHARMACEUTICAL WORKS LTD.",
+    "brandMrp": "79.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.99"
+  },
+  {
+    "brandName": "HERPIKIND",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "81.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.11"
+  },
+  {
+    "brandName": "ZOVIRAX",
+    "packSize": "5",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "40.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.13"
+  }
+]

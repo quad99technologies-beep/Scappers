@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "GUTGERMINA",
+    "packSize": "5",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "40.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.19"
+  },
+  {
+    "brandName": "TUFPRO",
+    "packSize": "5",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "57.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.57"
+  },
+  {
+    "brandName": "ENTEROLIFE",
+    "packSize": "5",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "58.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.62"
+  },
+  {
+    "brandName": "VOGUT PRO",
+    "packSize": "5",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "617.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "123.51"
+  }
+]

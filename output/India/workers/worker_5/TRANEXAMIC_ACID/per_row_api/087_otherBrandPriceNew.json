@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "GLOWTREX",
+    "packSize": "10",
+    "company": "STARUS PHARMACEUTICALS",
+    "brandMrp": "175.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.53"
+  },
+  {
+    "brandName": "MELAPIK TX",
+    "packSize": "10",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "182.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.23"
+  },
+  {
+    "brandName": "TRANSIG",
+    "packSize": "10",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "185.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.52"
+  },
+  {
+    "brandName": "PYNOMAX PLUS",
+    "packSize": "10",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.66"
+  },
+  {
+    "brandName": "TNZ",
+    "packSize": "10",
+    "company": "MARSHA PHARMA",
+    "brandMrp": "194.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.41"
+  },
+  {
+    "brandName": "TEXAWAYS",
+    "packSize": "10",
+    "company": "MANKIND PRIME LABS PVT.LTD",
+    "brandMrp": "194.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.45"
+  },
+  {
+    "brandName": "TRANOSTAT",
+    "packSize": "10",
+    "company": "OZONE PHARMACEUTICALS",
+    "brandMrp": "239.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.99"
+  },
+  {
+    "brandName": "COSKLOT HMB",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "510.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.05"
+  }
+]

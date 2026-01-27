@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "AD",
+    "packSize": "1",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "13.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.50"
+  },
+  {
+    "brandName": "ENUFF",
+    "packSize": "1",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "14.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.75"
+  },
+  {
+    "brandName": "REDOTIL",
+    "packSize": "1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "15.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.43"
+  }
+]

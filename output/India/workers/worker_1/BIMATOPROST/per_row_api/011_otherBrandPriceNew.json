@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "BPROS",
+    "packSize": "5",
+    "company": "SUNWAYS (INDIA) PVT LTD",
+    "brandMrp": "303.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "60.75"
+  },
+  {
+    "brandName": "BITOD",
+    "packSize": "3",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "230.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "76.67"
+  },
+  {
+    "brandName": "VISMATO",
+    "packSize": "3",
+    "company": "ASTA VISION CARE PVT.LTD",
+    "brandMrp": "250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "83.33"
+  },
+  {
+    "brandName": "BIMAT",
+    "packSize": "3",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "411.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "137.19"
+  },
+  {
+    "brandName": "INTAPROST",
+    "packSize": "3",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "528.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "176.33"
+  },
+  {
+    "brandName": "LUMIGAN",
+    "packSize": "3",
+    "company": "ALLERGAN INDIA LTD",
+    "brandMrp": "892.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "297.62"
+  }
+]

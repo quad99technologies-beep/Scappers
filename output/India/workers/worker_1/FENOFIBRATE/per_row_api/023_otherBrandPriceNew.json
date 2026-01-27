@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "TRIFENO",
+    "packSize": "10",
+    "company": "MITOCH PHARMA PVT LTD",
+    "brandMrp": "72.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.22"
+  },
+  {
+    "brandName": "FIBROLIP",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "122.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.29"
+  },
+  {
+    "brandName": "FENOBATE",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "148.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.86"
+  },
+  {
+    "brandName": "FENOCOR",
+    "packSize": "10",
+    "company": "EXELTIS",
+    "brandMrp": "212.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.25"
+  }
+]

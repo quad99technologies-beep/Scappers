@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "AZACYTIN",
+    "packSize": "14",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "19900.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1421.43"
+  },
+  {
+    "brandName": "AZATEND O",
+    "packSize": "14",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "20567.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1469.08"
+  },
+  {
+    "brandName": "XPREZA",
+    "packSize": "14",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "22000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1571.43"
+  },
+  {
+    "brandName": "AZADINE O",
+    "packSize": "14",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "22500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1607.14"
+  }
+]

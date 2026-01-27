@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "CABGON",
+    "packSize": "2",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "124.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.00"
+  },
+  {
+    "brandName": "CABTAS",
+    "packSize": "2",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "124.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.00"
+  },
+  {
+    "brandName": "CABERNOL",
+    "packSize": "4",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "264.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "66.06"
+  },
+  {
+    "brandName": "CABERCET",
+    "packSize": "2",
+    "company": "BHARAT SERUMS & VACCINES LTD",
+    "brandMrp": "149.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "74.87"
+  },
+  {
+    "brandName": "CEGOLIN",
+    "packSize": "4",
+    "company": "STARUS PHARMACEUTICALS",
+    "brandMrp": "379.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "94.75"
+  },
+  {
+    "brandName": "CABERLACT",
+    "packSize": "2",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "191.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "95.60"
+  },
+  {
+    "brandName": "RUPACTIN",
+    "packSize": "4",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "412.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "103.13"
+  },
+  {
+    "brandName": "TT CAB",
+    "packSize": "4",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "470.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "117.70"
+  },
+  {
+    "brandName": "CABERNORM",
+    "packSize": "4",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "480.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "120.09"
+  },
+  {
+    "brandName": "CABERLIN",
+    "packSize": "4",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "514.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "128.67"
+  },
+  {
+    "brandName": "CABGOLIN",
+    "packSize": "4",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "514.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "128.67"
+  },
+  {
+    "brandName": "CABLIZ",
+    "packSize": "2",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "276.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "138.19"
+  },
+  {
+    "brandName": "CAMFORTE",
+    "packSize": "2",
+    "company": "MANEESH PHARMACEUTICALS LTD",
+    "brandMrp": "291.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "145.81"
+  }
+]

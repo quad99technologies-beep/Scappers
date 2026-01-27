@@ -1,0 +1,130 @@
+[
+  {
+    "brandName": "BD TAXEL",
+    "packSize": "43",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "1875.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.60"
+  },
+  {
+    "brandName": "TAXELEON",
+    "packSize": "43",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "2104.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.95"
+  },
+  {
+    "brandName": "CELTAX",
+    "packSize": "43",
+    "company": "CELON LABS",
+    "brandMrp": "4166.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "96.90"
+  },
+  {
+    "brandName": "INTAXEL",
+    "packSize": "43",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "4285.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "99.67"
+  },
+  {
+    "brandName": "TORTAXEL",
+    "packSize": "43",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "4761.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "110.74"
+  },
+  {
+    "brandName": "PACLITEC",
+    "packSize": "43",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "5252.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "122.14"
+  },
+  {
+    "brandName": "PACLICAD",
+    "packSize": "43",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "7142.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "166.11"
+  },
+  {
+    "brandName": "ZPAC",
+    "packSize": "43",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "7142.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "166.11"
+  },
+  {
+    "brandName": "DUTAXEL",
+    "packSize": "43",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "8666.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "201.55"
+  },
+  {
+    "brandName": "GROS",
+    "packSize": "43",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "9801.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "227.93"
+  },
+  {
+    "brandName": "ALTAXEL NOVA",
+    "packSize": "43",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "9803.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "227.99"
+  },
+  {
+    "brandName": "PETAXEL",
+    "packSize": "43",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "9817.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "228.31"
+  },
+  {
+    "brandName": "CYTAX",
+    "packSize": "43",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "9974.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "231.97"
+  },
+  {
+    "brandName": "PACLITERO",
+    "packSize": "43",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "9986.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "232.23"
+  },
+  {
+    "brandName": "PACLITAX",
+    "packSize": "43",
+    "company": "CIPLA LTD.",
+    "brandMrp": "10333.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "240.31"
+  },
+  {
+    "brandName": "PACLISTAR",
+    "packSize": "43",
+    "company": "LUPIN LTD",
+    "brandMrp": "11121.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "258.64"
+  }
+]

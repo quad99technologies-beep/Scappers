@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ROPICAINE",
+    "packSize": "30",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "118.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.96"
+  },
+  {
+    "brandName": "NAROPIN",
+    "packSize": "20",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "140.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "ROPIZUVA",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "276.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "276.03"
+  }
+]

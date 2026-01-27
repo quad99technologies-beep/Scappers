@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521092123@129624@101104776@3215@101068@200589",
+    "skuName": "BIVASAVE 250 MG INJECTION 1",
+    "composition": "BIVALIRUDIN INJECTION 250 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "scheduleFlag": "0",
+    "mrp": "11490.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11490.00"
+  },
+  {
+    "hiddenId": "1521008060@193707@101104777@3215@101068@200589",
+    "skuName": "BIVASTAT 250 MG INJECTION 5 ML",
+    "composition": "BIVALIRUDIN INJECTION 250 MG",
+    "packSize": "5 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "7486.87",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1497.37"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "LORNICAM",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "64.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.46"
+  },
+  {
+    "brandName": "LODOL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "68.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.80"
+  },
+  {
+    "brandName": "LOFECAM",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "118.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.80"
+  },
+  {
+    "brandName": "QUIKLOR",
+    "packSize": "10",
+    "company": "UMANO HEALTHCARE PVT.LIMITED",
+    "brandMrp": "134.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.40"
+  },
+  {
+    "brandName": "FLEXILOR",
+    "packSize": "10",
+    "company": "INTEGRACE HEALTH",
+    "brandMrp": "146.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.67"
+  },
+  {
+    "brandName": "LORSAID SD",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "179.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.94"
+  }
+]

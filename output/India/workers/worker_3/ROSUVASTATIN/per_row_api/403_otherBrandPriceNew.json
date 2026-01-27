@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ROSUHOP",
+    "packSize": "10",
+    "company": "ANAX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "RVS GOLD",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "158.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.88"
+  },
+  {
+    "brandName": "ROZAVEL",
+    "packSize": "30",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "480.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.00"
+  }
+]

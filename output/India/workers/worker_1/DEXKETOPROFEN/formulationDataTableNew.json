@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521036742@124119@101139940@2291@101101@201896",
+    "skuName": "INFEN 12.5 % GEL 30 GM",
+    "composition": "DEXKETOPROFEN GEL 12.5 %",
+    "packSize": "30 GM GEL",
+    "dosageForm": "GEL",
+    "ceilingPrice": "-1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "181.85",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.06"
+  },
+  {
+    "hiddenId": "1521036745@98210@101139940@3312@101006@201896",
+    "skuName": "INFEN 25 MG TABLET 10",
+    "composition": "DEXKETOPROFEN TABLET 25 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "59.95",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "hiddenId": "1521036747@162045@101139940@3791@101068@201896",
+    "skuName": "INFEN 50 MG INJECTION 2 ML",
+    "composition": "DEXKETOPROFEN INJECTION 50 MG",
+    "packSize": "2 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "30.35",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.18"
+  }
+]

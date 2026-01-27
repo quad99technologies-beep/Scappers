@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521013738@205982@101118906@3650@101076@200241",
+    "skuName": "COLPEP 40 MG DROPS 15 ML",
+    "composition": "DIMETHICONE DROPS 40 MG",
+    "packSize": "15 ML DROPS",
+    "dosageForm": "DROPS",
+    "ceilingPrice": "-1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "scheduleFlag": "0",
+    "mrp": "53.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.53"
+  },
+  {
+    "hiddenId": "1521016936@68593@101231091@3650@101006@200241",
+    "skuName": "DIMOL 40 MG TABLET 10",
+    "composition": "DIMETHICONE TABLET 40 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "14.30",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.43"
+  },
+  {
+    "hiddenId": "1521072850@65194@101173485@-1@101068@200241",
+    "skuName": "SILOIL INJECTION 10 ML",
+    "composition": "DIMETHICONE INJECTION ",
+    "packSize": "10 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "2548.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "254.80"
+  }
+]

@@ -1,0 +1,226 @@
+[
+  {
+    "brandName": "K-PIO",
+    "packSize": "15",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "51.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.44"
+  },
+  {
+    "brandName": "PIOSYS",
+    "packSize": "30",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "104.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.47"
+  },
+  {
+    "brandName": "PIOPAR",
+    "packSize": "30",
+    "company": "MITOCH PHARMA PVT LTD",
+    "brandMrp": "110.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.69"
+  },
+  {
+    "brandName": "DIAVISTA",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "39.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.97"
+  },
+  {
+    "brandName": "PIODOT",
+    "packSize": "10",
+    "company": "THREE DOTS LIFESCIENCE",
+    "brandMrp": "40.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.02"
+  },
+  {
+    "brandName": "G TASE",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "43.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.31"
+  },
+  {
+    "brandName": "PIONEER",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "44.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.40"
+  },
+  {
+    "brandName": "GLITA",
+    "packSize": "10",
+    "company": "STADMED PVT. LTD",
+    "brandMrp": "44.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.44"
+  },
+  {
+    "brandName": "BETAPRIDE",
+    "packSize": "10",
+    "company": "AVINASH HEALTH PRODUCTS PVT. LTD.",
+    "brandMrp": "44.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.49"
+  },
+  {
+    "brandName": "ADGLIM P",
+    "packSize": "10",
+    "company": "CADOMED PHARMACEUTICALS INDIA PVT.LTD",
+    "brandMrp": "51.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.13"
+  },
+  {
+    "brandName": "PAZO (SHINE PHARMA)",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "57.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.74"
+  },
+  {
+    "brandName": "PIOTROL",
+    "packSize": "10",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "59.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.90"
+  },
+  {
+    "brandName": "GLITANIR",
+    "packSize": "10",
+    "company": "NIRVANA HEALTH CARE",
+    "brandMrp": "61.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.10"
+  },
+  {
+    "brandName": "PZVIO",
+    "packSize": "10",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "68.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.86"
+  },
+  {
+    "brandName": "PIOSENZ",
+    "packSize": "10",
+    "company": "OPSISCARE LIFESCIENCSE PVT LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "PIOHOPE",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "87.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.77"
+  },
+  {
+    "brandName": "DIAGLIT",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "91.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.11"
+  },
+  {
+    "brandName": "PIONORM",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "91.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.19"
+  },
+  {
+    "brandName": "PIONORM",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "137.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.19"
+  },
+  {
+    "brandName": "PIOGLAZ",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "92.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "PIOKIND",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "92.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "BIODIB",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "94.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "PIOZ",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "116.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.68"
+  },
+  {
+    "brandName": "PIOGLIT",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "118.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.81"
+  },
+  {
+    "brandName": "PIOMED",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "120.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.06"
+  },
+  {
+    "brandName": "GLITARIS",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "120.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.09"
+  },
+  {
+    "brandName": "PIOPOD",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "124.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "PIOSAFE",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "135.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.59"
+  }
+]

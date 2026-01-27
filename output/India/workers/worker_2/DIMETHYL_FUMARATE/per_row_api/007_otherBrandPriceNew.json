@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "MS (MSN)",
+    "packSize": "14",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "858.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "61.31"
+  },
+  {
+    "brandName": "SCLERIFUMA",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "620.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.06"
+  },
+  {
+    "brandName": "DYFIRA",
+    "packSize": "60",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "5648.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "94.14"
+  }
+]

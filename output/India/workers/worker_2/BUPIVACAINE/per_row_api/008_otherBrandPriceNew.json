@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "BUPICAIN",
+    "packSize": "20",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "94.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.71"
+  },
+  {
+    "brandName": "ANAWIN",
+    "packSize": "4",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "31.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.87"
+  },
+  {
+    "brandName": "BUPITROY",
+    "packSize": "4",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "53.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.47"
+  },
+  {
+    "brandName": "BUPIFIX H",
+    "packSize": "1",
+    "company": "VARENYAM HEALTHCARE PVT LTD.",
+    "brandMrp": "28.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.94"
+  }
+]

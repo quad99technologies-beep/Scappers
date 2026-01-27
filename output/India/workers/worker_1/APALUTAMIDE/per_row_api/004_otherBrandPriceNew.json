@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ERLAMIDE",
+    "packSize": "60",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "15357.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "255.95"
+  },
+  {
+    "brandName": "ERLAMIDE",
+    "packSize": "120",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "30715.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "255.96"
+  },
+  {
+    "brandName": "APNAT",
+    "packSize": "120",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "32812.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "273.44"
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "CICOZEE",
+    "packSize": "50",
+    "company": "TALENT INDIA",
+    "brandMrp": "280.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.61"
+  },
+  {
+    "brandName": "CICOZEE",
+    "packSize": "30",
+    "company": "TALENT INDIA",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.22"
+  },
+  {
+    "brandName": "PRETIFUNGIN",
+    "packSize": "30",
+    "company": "PRETIUM PHARMACEUTICALS",
+    "brandMrp": "191.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.38"
+  },
+  {
+    "brandName": "ZYCOZOL",
+    "packSize": "50",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "328.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  }
+]

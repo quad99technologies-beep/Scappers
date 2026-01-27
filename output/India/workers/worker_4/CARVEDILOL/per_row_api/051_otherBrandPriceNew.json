@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "CARDICHEM",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "25.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.50"
+  },
+  {
+    "brandName": "CARVIBETA",
+    "packSize": "10",
+    "company": "SHRRISHTI HEALTHCARE",
+    "brandMrp": "43.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.31"
+  },
+  {
+    "brandName": "CHLORVIX",
+    "packSize": "15",
+    "company": "ELBRIT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "CARVENOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "64.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.40"
+  },
+  {
+    "brandName": "CARELOL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "74.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.48"
+  },
+  {
+    "brandName": "CARVEFINE",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "CARLOC",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "175.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.67"
+  },
+  {
+    "brandName": "CARCA",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "197.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.19"
+  },
+  {
+    "brandName": "CARDIVAS",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "137.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.78"
+  },
+  {
+    "brandName": "CARVIL",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "142.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.30"
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "X VIR",
+    "packSize": "30",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "3380.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "112.67"
+  },
+  {
+    "brandName": "ENTAVIR",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "1240.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "124.09"
+  },
+  {
+    "brandName": "ENTECA",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "1249.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "124.93"
+  },
+  {
+    "brandName": "ANTICANOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "1300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "130.00"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521155952@700086@101242951@-1@101006@207765",
+    "skuName": "EUDILAGE TABLET 10",
+    "composition": "RESVERATROL TABLET ",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "INEX MEDICAMENTS PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "238.21",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.82"
+  },
+  {
+    "hiddenId": "1521141560@9999996389@101237659@-1@101006@207765",
+    "skuName": "RESLIVA TABLET 10",
+    "composition": "RESVERATROL TABLET ",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "LYCEUM LIFE SCIENCE PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "445.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.50"
+  },
+  {
+    "hiddenId": "1521070006@331172@101170637@-1@101038@207765",
+    "skuName": "REVSTER CAPSULE 10",
+    "composition": "RESVERATROL CAPSULE ",
+    "packSize": "10 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "990.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "99.00"
+  }
+]

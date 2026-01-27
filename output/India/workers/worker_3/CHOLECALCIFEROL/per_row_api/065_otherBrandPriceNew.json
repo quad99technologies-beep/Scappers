@@ -1,0 +1,234 @@
+[
+  {
+    "brandName": "CALCINET D3",
+    "packSize": "1",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "0.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.13"
+  },
+  {
+    "brandName": "CALSHINE P",
+    "packSize": "1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "0.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.13"
+  },
+  {
+    "brandName": "VITASHYNE",
+    "packSize": "1",
+    "company": "MERIDIAN MEDICARE LTD.",
+    "brandMrp": "20.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.52"
+  },
+  {
+    "brandName": "OFAR D3",
+    "packSize": "1",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "20.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.63"
+  },
+  {
+    "brandName": "BIOFEROL D3",
+    "packSize": "1",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "22.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.32"
+  },
+  {
+    "brandName": "MINMIN D3",
+    "packSize": "4",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "96.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.02"
+  },
+  {
+    "brandName": "SOLE D3",
+    "packSize": "1",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "24.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.75"
+  },
+  {
+    "brandName": "CALOCAL D3",
+    "packSize": "1",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "25.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.00"
+  },
+  {
+    "brandName": "DETRIOL",
+    "packSize": "1",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "26.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.09"
+  },
+  {
+    "brandName": "ARKACAL D3",
+    "packSize": "1",
+    "company": "ARKAS PHARMA PRIVATE LIMITED",
+    "brandMrp": "28.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.13"
+  },
+  {
+    "brandName": "SURGE D3",
+    "packSize": "1",
+    "company": "SURGE BIOTECH PVT LTD",
+    "brandMrp": "28.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.13"
+  },
+  {
+    "brandName": "MARSHEL D3",
+    "packSize": "1",
+    "company": "AURZ PHARMACEUTICALS PVT LTD",
+    "brandMrp": "28.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.59"
+  },
+  {
+    "brandName": "AL D3 (ALDE)",
+    "packSize": "1",
+    "company": "ALDE MEDI IMPEX",
+    "brandMrp": "28.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.98"
+  },
+  {
+    "brandName": "CACIRISE D3",
+    "packSize": "1",
+    "company": "AGGROWIN PHARMA",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.00"
+  },
+  {
+    "brandName": "LIMEVITA",
+    "packSize": "1",
+    "company": "ANAX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "30.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.94"
+  },
+  {
+    "brandName": "OSTEE D3",
+    "packSize": "1",
+    "company": "SHANKUS ACME PHARMA PVT.LTD.",
+    "brandMrp": "31.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.88"
+  },
+  {
+    "brandName": "OB CAL 3",
+    "packSize": "1",
+    "company": "OBSURGE BIOTECH LTD",
+    "brandMrp": "33.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.25"
+  },
+  {
+    "brandName": "D3 SURE",
+    "packSize": "1",
+    "company": "AAREEN HEALTHCARE",
+    "brandMrp": "33.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.65"
+  },
+  {
+    "brandName": "TURBOCAL",
+    "packSize": "1",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "34.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.95"
+  },
+  {
+    "brandName": "CALCIJOINT",
+    "packSize": "1",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "35.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.00"
+  },
+  {
+    "brandName": "KAL C",
+    "packSize": "1",
+    "company": "SIGNITY PHARMACEUTICALS PVT LTD",
+    "brandMrp": "35.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.63"
+  },
+  {
+    "brandName": "GEN D3",
+    "packSize": "1",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "35.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.67"
+  },
+  {
+    "brandName": "MACTROL",
+    "packSize": "1",
+    "company": "MACMILLON PHARMACEUTICALS",
+    "brandMrp": "35.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.68"
+  },
+  {
+    "brandName": "GOLDCAL",
+    "packSize": "1",
+    "company": "RONYD HEALTH CARE PVT LTD",
+    "brandMrp": "35.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.99"
+  },
+  {
+    "brandName": "CALCIQUICK D3",
+    "packSize": "1",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "36.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.29"
+  },
+  {
+    "brandName": "CALCIROL MDS",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "36.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.30"
+  },
+  {
+    "brandName": "BYCALVIT D3",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "38.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.40"
+  },
+  {
+    "brandName": "SUNLITE",
+    "packSize": "8",
+    "company": "BION THEARAPEUTICS",
+    "brandMrp": "412.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.56"
+  },
+  {
+    "brandName": "D3 PRO",
+    "packSize": "1",
+    "company": "PREMIER NUTRACEUTICALS PVT LTD",
+    "brandMrp": "217.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "217.80"
+  }
+]

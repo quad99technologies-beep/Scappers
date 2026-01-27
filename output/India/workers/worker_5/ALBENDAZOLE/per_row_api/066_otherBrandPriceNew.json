@@ -1,0 +1,226 @@
+[
+  {
+    "brandName": "ALBENDABEST",
+    "packSize": "10",
+    "company": "BESTOCHEM FORMULATIONS (I) LTD",
+    "brandMrp": "8.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.81"
+  },
+  {
+    "brandName": "ALBEN",
+    "packSize": "10",
+    "company": "AR-EX LABORATORIES PVT . LTD",
+    "brandMrp": "15.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.50"
+  },
+  {
+    "brandName": "WENKIL",
+    "packSize": "10",
+    "company": "WENS PHARMA PVT LTD",
+    "brandMrp": "15.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.54"
+  },
+  {
+    "brandName": "ZTL",
+    "packSize": "10",
+    "company": "ELDER LABS LTD",
+    "brandMrp": "15.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.59"
+  },
+  {
+    "brandName": "HELMEX (MARS THERAPUTICS)",
+    "packSize": "10",
+    "company": "MARS THERAPUTICS & CHEMICALS LTD.",
+    "brandMrp": "16.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.68"
+  },
+  {
+    "brandName": "ALDEZOLE",
+    "packSize": "10",
+    "company": "ALDE MEDI IMPEX",
+    "brandMrp": "16.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.69"
+  },
+  {
+    "brandName": "ABD",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "17.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.78"
+  },
+  {
+    "brandName": "ALBENDAZOLE",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "18.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  },
+  {
+    "brandName": "WORMORID",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "18.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  },
+  {
+    "brandName": "ANTHEL",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "19.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.90"
+  },
+  {
+    "brandName": "ALVELA",
+    "packSize": "10",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "19.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "ALZAD",
+    "packSize": "10",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "19.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "BANDY",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "19.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "BENDEX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "19.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "BEND P",
+    "packSize": "10",
+    "company": "S.K.N ORGANICS",
+    "brandMrp": "19.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "CIDAZOLE",
+    "packSize": "10",
+    "company": "JUGGAT PHARMA",
+    "brandMrp": "19.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "LUPIBEND",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "19.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "NOWORM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "19.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "SIOBAN",
+    "packSize": "10",
+    "company": "ALBERT DAVID",
+    "brandMrp": "19.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "XENITH",
+    "packSize": "10",
+    "company": "MAPRA LABORATORIES PVT. LTD",
+    "brandMrp": "19.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "ZEEBEE",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "19.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "ZENTEL",
+    "packSize": "10",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "19.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "ZYBEND",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "19.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "WORMPEL",
+    "packSize": "10",
+    "company": "AGLOWMED PHARMACEUTICALS LTD.",
+    "brandMrp": "19.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.94"
+  },
+  {
+    "brandName": "ALONE",
+    "packSize": "10",
+    "company": "ACRON PHARMACEUTICALS",
+    "brandMrp": "19.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.98"
+  },
+  {
+    "brandName": "ELDOBEN",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "19.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.98"
+  },
+  {
+    "brandName": "ZENBEN",
+    "packSize": "10",
+    "company": "ZEN LABS INDIA",
+    "brandMrp": "27.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.70"
+  },
+  {
+    "brandName": "WORMFRESH PLUS",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "33.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.38"
+  }
+]

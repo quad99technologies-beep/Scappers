@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "DENURIL",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "8085.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8085.90"
+  },
+  {
+    "brandName": "DENSUCOR",
+    "packSize": "1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "10000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10000.00"
+  },
+  {
+    "brandName": "DENOCI OP",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "15468.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15468.75"
+  },
+  {
+    "brandName": "DENAXA",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "17531.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17531.25"
+  },
+  {
+    "brandName": "ODENSOMAB",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "18375.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18375.00"
+  },
+  {
+    "brandName": "NU CLASTA",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "18478.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18478.13"
+  },
+  {
+    "brandName": "DENOCLAST",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "19687.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19687.50"
+  },
+  {
+    "brandName": "PROLIA",
+    "packSize": "1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "19687.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19687.50"
+  },
+  {
+    "brandName": "DEBRUMAB",
+    "packSize": "1",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "22031.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22031.25"
+  },
+  {
+    "brandName": "OGAIN",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "23821.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23821.88"
+  },
+  {
+    "brandName": "DENBRI",
+    "packSize": "1",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "26650.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26650.24"
+  }
+]

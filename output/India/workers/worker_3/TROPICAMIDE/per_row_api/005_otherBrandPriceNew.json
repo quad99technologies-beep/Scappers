@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "TROPICACYL",
+    "packSize": "5",
+    "company": "SUNWAYS (INDIA) PVT LTD",
+    "brandMrp": "46.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  },
+  {
+    "brandName": "TROPAC",
+    "packSize": "5",
+    "company": "OPTHO REMEDIES PVT.LTD",
+    "brandMrp": "47.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.42"
+  },
+  {
+    "brandName": "TROPHTHA",
+    "packSize": "5",
+    "company": "OPTHO REMEDIES PVT.LTD",
+    "brandMrp": "49.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.89"
+  },
+  {
+    "brandName": "TROPICO",
+    "packSize": "5",
+    "company": "BELL PHARMA PVT. LTD",
+    "brandMrp": "51.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.22"
+  },
+  {
+    "brandName": "TROPAC",
+    "packSize": "3",
+    "company": "OPTHO REMEDIES PVT.LTD",
+    "brandMrp": "50.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.78"
+  }
+]

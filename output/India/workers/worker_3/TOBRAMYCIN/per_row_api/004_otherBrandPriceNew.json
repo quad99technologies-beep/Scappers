@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "SAPTOB",
+    "packSize": "5",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "72.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.40"
+  },
+  {
+    "brandName": "NEXTOB",
+    "packSize": "5",
+    "company": "NEOMEDIX HEALTHCARE INDIA PVT.LTD",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.00"
+  },
+  {
+    "brandName": "TOBRAWIN",
+    "packSize": "5",
+    "company": "ZIVIRA LABS PVT. LTD.",
+    "brandMrp": "128.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.70"
+  }
+]

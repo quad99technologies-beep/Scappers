@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "MIBETA",
+    "packSize": "15",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "48.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.25"
+  },
+  {
+    "brandName": "PROVANIX",
+    "packSize": "10",
+    "company": "SANIX FORMULATIONS PVT LTD",
+    "brandMrp": "34.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.44"
+  },
+  {
+    "brandName": "MOVALOL",
+    "packSize": "10",
+    "company": "MOVA PHARMACEUTICALS PVT LTD",
+    "brandMrp": "94.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.46"
+  }
+]

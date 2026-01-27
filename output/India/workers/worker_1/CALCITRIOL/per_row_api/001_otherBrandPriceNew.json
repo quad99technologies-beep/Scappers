@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "SEPTRIOL",
+    "packSize": "10",
+    "company": "SEPTALYST LIFESCIENCES PVT LTD",
+    "brandMrp": "134.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.41"
+  },
+  {
+    "brandName": "CALCIT SG",
+    "packSize": "40",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "679.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.98"
+  },
+  {
+    "brandName": "BIO D3",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "274.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.45"
+  },
+  {
+    "brandName": "CALTIVE",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "293.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.32"
+  },
+  {
+    "brandName": "ROCALTROL",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "354.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.44"
+  }
+]

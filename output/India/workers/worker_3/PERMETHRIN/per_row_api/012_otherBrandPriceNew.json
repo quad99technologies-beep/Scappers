@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "SCALIX",
+    "packSize": "60",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "0.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.00"
+  },
+  {
+    "brandName": "PERTHIMOON",
+    "packSize": "50",
+    "company": "MOONSTAR LIFECARE PVT.LTD",
+    "brandMrp": "33.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.66"
+  },
+  {
+    "brandName": "SCABIFINE PMR",
+    "packSize": "50",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "35.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.71"
+  },
+  {
+    "brandName": "EXCIMITE",
+    "packSize": "60",
+    "company": "EUMEDICA PHARMACEUTICALS",
+    "brandMrp": "62.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.04"
+  },
+  {
+    "brandName": "PMT (NEMUS)",
+    "packSize": "100",
+    "company": "NEMUS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.05"
+  },
+  {
+    "brandName": "RINMITE",
+    "packSize": "50",
+    "company": "RHINE BIOGENICS PVT LTD",
+    "brandMrp": "52.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.05"
+  },
+  {
+    "brandName": "T MITE",
+    "packSize": "100",
+    "company": "PRAISE PHARMA",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.05"
+  },
+  {
+    "brandName": "EXCIMITE",
+    "packSize": "100",
+    "company": "EUMEDICA PHARMACEUTICALS",
+    "brandMrp": "107.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.07"
+  },
+  {
+    "brandName": "PERMIFORCE",
+    "packSize": "100",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "107.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.07"
+  },
+  {
+    "brandName": "ESCARB",
+    "packSize": "100",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "107.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.08"
+  },
+  {
+    "brandName": "PRESCAB",
+    "packSize": "50",
+    "company": "AUSTRO LAB",
+    "brandMrp": "55.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.11"
+  },
+  {
+    "brandName": "PRETIMID",
+    "packSize": "50",
+    "company": "PRETIUM PHARMACEUTICALS",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.73"
+  }
+]

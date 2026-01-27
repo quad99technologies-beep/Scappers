@@ -1,0 +1,146 @@
+[
+  {
+    "brandName": "ZENTHRIN",
+    "packSize": "75",
+    "company": "ZEN LABS INDIA",
+    "brandMrp": "22.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.30"
+  },
+  {
+    "brandName": "PERTEC",
+    "packSize": "75",
+    "company": "TRIPADA BIOTEC PVT LTD",
+    "brandMrp": "50.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.68"
+  },
+  {
+    "brandName": "SCABITREAT",
+    "packSize": "75",
+    "company": "SMARTWAY WELLNESS PVT. LTD.",
+    "brandMrp": "66.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.88"
+  },
+  {
+    "brandName": "LISCAB",
+    "packSize": "75",
+    "company": "M.D.C. PHARMACEUTICALS (P) LTD.",
+    "brandMrp": "68.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.91"
+  },
+  {
+    "brandName": "SCABIPLUS",
+    "packSize": "75",
+    "company": "PARKER ROBINSON PVT. LTD",
+    "brandMrp": "71.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.95"
+  },
+  {
+    "brandName": "PSURE",
+    "packSize": "75",
+    "company": "DERMAKARE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "75.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.01"
+  },
+  {
+    "brandName": "DAT",
+    "packSize": "75",
+    "company": "OMEGA REMEDIES PVT LTD",
+    "brandMrp": "76.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.03"
+  },
+  {
+    "brandName": "PERBIS",
+    "packSize": "75",
+    "company": "ABARIS HEALTHCARE",
+    "brandMrp": "77.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.03"
+  },
+  {
+    "brandName": "RINMITE",
+    "packSize": "75",
+    "company": "RHINE BIOGENICS PVT LTD",
+    "brandMrp": "77.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.03"
+  },
+  {
+    "brandName": "PRESCAB",
+    "packSize": "75",
+    "company": "AUSTRO LAB",
+    "brandMrp": "88.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.17"
+  },
+  {
+    "brandName": "GAMA P",
+    "packSize": "75",
+    "company": "DERMO CARE LABORATORIES",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.20"
+  },
+  {
+    "brandName": "MEDILICE",
+    "packSize": "75",
+    "company": "WINGS PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "97.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "PLITE",
+    "packSize": "75",
+    "company": "TRICOS DERMATOLOGICS PVT LTD",
+    "brandMrp": "126.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.68"
+  },
+  {
+    "brandName": "T MITE",
+    "packSize": "75",
+    "company": "PRAISE PHARMA",
+    "brandMrp": "133.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.78"
+  },
+  {
+    "brandName": "MITE",
+    "packSize": "75",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "136.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.82"
+  },
+  {
+    "brandName": "EXCIMITE",
+    "packSize": "75",
+    "company": "EUMEDICA PHARMACEUTICALS",
+    "brandMrp": "137.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.83"
+  },
+  {
+    "brandName": "H H MITE",
+    "packSize": "75",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "137.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.84"
+  },
+  {
+    "brandName": "ELICE",
+    "packSize": "75",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "145.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.93"
+  }
+]

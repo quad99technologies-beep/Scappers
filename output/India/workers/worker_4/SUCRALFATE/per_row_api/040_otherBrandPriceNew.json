@@ -1,0 +1,154 @@
+[
+  {
+    "brandName": "ALBEFATE",
+    "packSize": "200",
+    "company": "ALBERT DAVID",
+    "brandMrp": "77.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.39"
+  },
+  {
+    "brandName": "NUCOOL-S",
+    "packSize": "100",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "52.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.53"
+  },
+  {
+    "brandName": "SUCRAT",
+    "packSize": "200",
+    "company": "ZEN LABS INDIA",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.55"
+  },
+  {
+    "brandName": "SUCRON",
+    "packSize": "170",
+    "company": "INTRA LABS",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.62"
+  },
+  {
+    "brandName": "LENOCARB S",
+    "packSize": "200",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "135.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.68"
+  },
+  {
+    "brandName": "SUCRAMAL",
+    "packSize": "100",
+    "company": "MENARINI INDIA",
+    "brandMrp": "71.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.71"
+  },
+  {
+    "brandName": "SUCRAMAL",
+    "packSize": "200",
+    "company": "MENARINI INDIA",
+    "brandMrp": "144.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.72"
+  },
+  {
+    "brandName": "SUCRAPIL",
+    "packSize": "100",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.75"
+  },
+  {
+    "brandName": "SUCRADAY",
+    "packSize": "100",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "77.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.77"
+  },
+  {
+    "brandName": "MACRALFATE",
+    "packSize": "200",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "165.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.83"
+  },
+  {
+    "brandName": "NUCOOL-S",
+    "packSize": "200",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "165.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.83"
+  },
+  {
+    "brandName": "STALFATE",
+    "packSize": "200",
+    "company": "STADMED PVT. LTD",
+    "brandMrp": "171.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.86"
+  },
+  {
+    "brandName": "SUCRAGARD",
+    "packSize": "200",
+    "company": "STADCHEM OF INDIA",
+    "brandMrp": "174.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.87"
+  },
+  {
+    "brandName": "SUCRAWALL",
+    "packSize": "200",
+    "company": "VOTARY LABORATORIES (I) LTD.",
+    "brandMrp": "173.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.87"
+  },
+  {
+    "brandName": "SUCRACHEM",
+    "packSize": "200",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "182.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.91"
+  },
+  {
+    "brandName": "SUCRACON O",
+    "packSize": "200",
+    "company": "CONCEPT BIOSCIENCES PVT LTD",
+    "brandMrp": "184.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.92"
+  },
+  {
+    "brandName": "SKF",
+    "packSize": "200",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "193.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.97"
+  },
+  {
+    "brandName": "SUCRAGARD",
+    "packSize": "100",
+    "company": "STADCHEM OF INDIA",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.17"
+  },
+  {
+    "brandName": "SIGRAL",
+    "packSize": "100",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "122.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.22"
+  }
+]

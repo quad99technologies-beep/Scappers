@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ALCAFT",
+    "packSize": "5",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "240.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.00"
+  },
+  {
+    "brandName": "CAFTADINE",
+    "packSize": "5",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "246.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.31"
+  },
+  {
+    "brandName": "CAFTA",
+    "packSize": "5",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "280.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.06"
+  }
+]

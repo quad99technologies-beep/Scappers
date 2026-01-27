@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "CLOB",
+    "packSize": "30",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "0.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.00"
+  },
+  {
+    "brandName": "PLECIKOID",
+    "packSize": "20",
+    "company": "PRETIUM PHARMACEUTICALS",
+    "brandMrp": "48.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.43"
+  },
+  {
+    "brandName": "CLOBKARE NM",
+    "packSize": "20",
+    "company": "DERMAKARE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "49.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.46"
+  },
+  {
+    "brandName": "PRAISVATE",
+    "packSize": "50",
+    "company": "PRAISE PHARMA",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.53"
+  },
+  {
+    "brandName": "CLOBETASOL",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "30.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.06"
+  },
+  {
+    "brandName": "CLOBKARE",
+    "packSize": "30",
+    "company": "DERMAKARE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "108.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.61"
+  },
+  {
+    "brandName": "CORTISOL",
+    "packSize": "30",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "123.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.13"
+  },
+  {
+    "brandName": "CLOBRICH",
+    "packSize": "30",
+    "company": "GENEES PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "125.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.19"
+  },
+  {
+    "brandName": "CLOBKARE NM",
+    "packSize": "10",
+    "company": "DERMAKARE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "42.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.24"
+  },
+  {
+    "brandName": "CLODEL",
+    "packSize": "30",
+    "company": "DELBRUK LIFESCIENCE PVT.LTD",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.38"
+  },
+  {
+    "brandName": "CATADERM",
+    "packSize": "30",
+    "company": "ANHOX HEALTHCARE PVT LTD",
+    "brandMrp": "148.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.93"
+  },
+  {
+    "brandName": "PRAISVATE",
+    "packSize": "10",
+    "company": "PRAISE PHARMA",
+    "brandMrp": "52.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.24"
+  },
+  {
+    "brandName": "CLOBKARE XL",
+    "packSize": "30",
+    "company": "DERMAKARE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "159.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.31"
+  }
+]

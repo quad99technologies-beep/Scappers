@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "CPROSTIN",
+    "packSize": "1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "228.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "228.52"
+  },
+  {
+    "brandName": "ENDOPROST",
+    "packSize": "1",
+    "company": "BHARAT SERUMS & VACCINES LTD",
+    "brandMrp": "253.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "253.30"
+  },
+  {
+    "brandName": "CABOPROST",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "318.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "318.50"
+  }
+]

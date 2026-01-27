@@ -7,11 +7,29 @@ import os
 import sys
 from pathlib import Path
 
-_repo_root = Path(__file__).resolve().parents[2]
+_resolved_file = Path(__file__).resolve()
+_script_dir = _resolved_file.parent
+_parents = _resolved_file.parents
+if len(_parents) >= 3:
+    _repo_root = _parents[2]
+else:
+    _repo_root = _parents[-1]
+
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
 SCRAPER_ID = "India"
+
+_LOCAL_INPUT_BASE = _script_dir / "input" / SCRAPER_ID
+_LOCAL_OUTPUT_BASE = _script_dir / "output" / SCRAPER_ID
+
+def _ensure_dir(base: Path, fallback: Path) -> Path:
+    try:
+        base.mkdir(parents=True, exist_ok=True)
+        return base
+    except OSError:
+        fallback.mkdir(parents=True, exist_ok=True)
+        return fallback
 
 try:
     from platform_config import get_path_manager, get_config_resolver
@@ -111,10 +129,9 @@ def get_output_dir(subpath: str = None) -> Path:
         if _PLATFORM_CONFIG_AVAILABLE:
             pm = get_path_manager()
             base = pm.get_output_dir(SCRAPER_ID)
-            base.mkdir(parents=True, exist_ok=True)
         else:
             base = get_repo_root() / "output" / SCRAPER_ID
-            base.mkdir(parents=True, exist_ok=True)
+    base = _ensure_dir(base, _LOCAL_OUTPUT_BASE)
     if subpath:
         result = base / subpath
         result.mkdir(parents=True, exist_ok=True)
@@ -126,12 +143,13 @@ def get_input_dir(subpath: str = None) -> Path:
     if _PLATFORM_CONFIG_AVAILABLE:
         pm = get_path_manager()
         base = pm.get_input_dir(SCRAPER_ID)
-        base.mkdir(parents=True, exist_ok=True)
     else:
         base = get_repo_root() / "input" / SCRAPER_ID
-        base.mkdir(parents=True, exist_ok=True)
+    base = _ensure_dir(base, _LOCAL_INPUT_BASE)
     if subpath:
-        return base / subpath
+        result = base / subpath
+        result.mkdir(parents=True, exist_ok=True)
+        return result
     return base
 
 

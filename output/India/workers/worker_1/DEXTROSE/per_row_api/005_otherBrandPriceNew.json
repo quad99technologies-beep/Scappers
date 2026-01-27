@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "DEXTROSE (NIRLIFE)",
+    "packSize": "1000",
+    "company": "NIRLIFE HEALTHCARE",
+    "brandMrp": "42.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.04"
+  },
+  {
+    "brandName": "DEXTROSE (TABLETS INDIA)",
+    "packSize": "540",
+    "company": "TABLETS INDIA LTD",
+    "brandMrp": "23.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.04"
+  },
+  {
+    "brandName": "DEXTROSE (NIRLIFE)",
+    "packSize": "500",
+    "company": "NIRLIFE HEALTHCARE",
+    "brandMrp": "22.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.05"
+  },
+  {
+    "brandName": "ELECTROLYTE-M",
+    "packSize": "500",
+    "company": "BAXTER INDIA PVT.LTD",
+    "brandMrp": "32.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.06"
+  },
+  {
+    "brandName": "DNS (DENIS)",
+    "packSize": "1000",
+    "company": "DENIS CHEM LAB LTD",
+    "brandMrp": "72.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.07"
+  },
+  {
+    "brandName": "DEXTROSE (AL-PLASTIC)",
+    "packSize": "500",
+    "company": "ALBERT DAVID",
+    "brandMrp": "40.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.08"
+  },
+  {
+    "brandName": "DEXTROSE(PDL)",
+    "packSize": "250",
+    "company": "PARENTERAL DRUGS (INDIA) LTD.",
+    "brandMrp": "21.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.08"
+  },
+  {
+    "brandName": "DEXTROSE(PDL)",
+    "packSize": "500",
+    "company": "PARENTERAL DRUGS (INDIA) LTD.",
+    "brandMrp": "42.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.09"
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "MONTASMA",
+    "packSize": "10",
+    "company": "ICARUS HEALTHCARE PRIMUS",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "LASMA",
+    "packSize": "10",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "91.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.17"
+  },
+  {
+    "brandName": "MONTEPRL",
+    "packSize": "10",
+    "company": "PRISTINE PEARL PHARMA PVT.LTD",
+    "brandMrp": "118.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.80"
+  },
+  {
+    "brandName": "LM AIR",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "120.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.05"
+  },
+  {
+    "brandName": "ROMILAST",
+    "packSize": "15",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "188.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.60"
+  },
+  {
+    "brandName": "MONTAIR",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "192.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.83"
+  },
+  {
+    "brandName": "TELEKAST",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "128.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.83"
+  },
+  {
+    "brandName": "SINGULAIR",
+    "packSize": "7",
+    "company": "MSD PHARMACEUTICALS PRIVATE LTD.",
+    "brandMrp": "100.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.32"
+  },
+  {
+    "brandName": "INCID AIR",
+    "packSize": "10",
+    "company": "BAYER PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "162.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.20"
+  }
+]

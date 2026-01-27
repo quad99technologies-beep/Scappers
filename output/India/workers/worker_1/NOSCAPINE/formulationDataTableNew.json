@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521058096@195898@101119329@3312@101006@202642",
+    "skuName": "CONOS 25 MG TABLET 10",
+    "composition": "NOSCAPINE TABLET 25 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "INGA LABORATORIES PVT. LTD.",
+    "scheduleFlag": "0",
+    "mrp": "141.85",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.19"
+  },
+  {
+    "hiddenId": "1521013853@291587@101119329@3943@101126@202642",
+    "skuName": "CONOS SF 7 MG SYRUP 100 ML",
+    "composition": "NOSCAPINE SYRUP 7 MG",
+    "packSize": "100 ML SYRUP",
+    "dosageForm": "SYRUP",
+    "ceilingPrice": "-1",
+    "company": "INGA LABORATORIES PVT. LTD.",
+    "scheduleFlag": "0",
+    "mrp": "134.10",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.34"
+  },
+  {
+    "hiddenId": "1521061035@250779@101119844@2844@101076@202642",
+    "skuName": "COSCOPIN 1.83 MG DROPS 50 ML",
+    "composition": "NOSCAPINE DROPS 1.83 MG",
+    "packSize": "50 ML DROPS",
+    "dosageForm": "DROPS",
+    "ceilingPrice": "-1",
+    "company": "BIOLOGICAL E LTD",
+    "scheduleFlag": "0",
+    "mrp": "20.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.40"
+  }
+]

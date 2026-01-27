@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521154044@9999995753@101107926@2107@101068@201823",
+    "skuName": "ARSENOX 10 MG INJECTION 10 ML",
+    "composition": "ARSENIC TRIOXIDE INJECTION 10 MG",
+    "packSize": "10 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "342.05",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.21"
+  },
+  {
+    "hiddenId": "1521003608@98717@101107926@2864@101068@201823",
+    "skuName": "ARSENOX 1 MG INJECTION 10 ML",
+    "composition": "ARSENIC TRIOXIDE INJECTION 1 MG",
+    "packSize": "10 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "31.07",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "1",
+    "mrp": "609.62",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "60.96"
+  }
+]

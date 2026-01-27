@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "PIROXICAM (PFIZER)",
+    "packSize": "2",
+    "company": "PFIZER LTD",
+    "brandMrp": "3.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.85"
+  },
+  {
+    "brandName": "RUCAPROX",
+    "packSize": "2",
+    "company": "MACMILLON PHARMACEUTICALS",
+    "brandMrp": "35.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.82"
+  },
+  {
+    "brandName": "PIROX",
+    "packSize": "2",
+    "company": "CIPLA LTD.",
+    "brandMrp": "51.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.81"
+  },
+  {
+    "brandName": "MEDICAM",
+    "packSize": "2",
+    "company": "MMC PHARMACEUTICALS LTD",
+    "brandMrp": "55.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.65"
+  },
+  {
+    "brandName": "DOLOXICAM",
+    "packSize": "2",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "60.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.10"
+  }
+]

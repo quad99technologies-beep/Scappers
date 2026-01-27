@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521042710@22277@101225909@3311@101006@201329",
+    "skuName": "LIVIAL 2.5 MG TABLET 28",
+    "composition": "TIBOLONE TABLET 2.5 MG",
+    "packSize": "28 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "MSD PHARMACEUTICALS PRIVATE LTD.",
+    "scheduleFlag": "0",
+    "mrp": "1644.38",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.73"
+  },
+  {
+    "hiddenId": "1521072776@51929@101173418@3311@101006@201329",
+    "skuName": "SIBOLONE 2.5 MG TABLET 15",
+    "composition": "TIBOLONE TABLET 2.5 MG",
+    "packSize": "15 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "scheduleFlag": "0",
+    "mrp": "397.03",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.47"
+  },
+  {
+    "hiddenId": "1521077524@75934@101177933@3311@101006@201329",
+    "skuName": "TIBOFEM 2.5 MG TABLET 14",
+    "composition": "TIBOLONE TABLET 2.5 MG",
+    "packSize": "14 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "395.53",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.25"
+  }
+]

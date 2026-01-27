@@ -1,0 +1,290 @@
+[
+  {
+    "brandName": "FLUVERT (EAST WEST)",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "11.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.16"
+  },
+  {
+    "brandName": "FLUZ (EAST WEST)",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "11.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.16"
+  },
+  {
+    "brandName": "GRENIL F",
+    "packSize": "10",
+    "company": "KARNATAKA ANTIBIOTICS & PHARMACEUTICALS LTD(KAPL)",
+    "brandMrp": "18.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.84"
+  },
+  {
+    "brandName": "MIGARID",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "22.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.22"
+  },
+  {
+    "brandName": "FLURTRIP",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "24.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.48"
+  },
+  {
+    "brandName": "FLUNER",
+    "packSize": "10",
+    "company": "GENO PHARMACEUTICALS LTD",
+    "brandMrp": "25.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.50"
+  },
+  {
+    "brandName": "FRACIL",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "25.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.53"
+  },
+  {
+    "brandName": "PREVENTEK",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "25.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.57"
+  },
+  {
+    "brandName": "RAZIN",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "25.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.57"
+  },
+  {
+    "brandName": "FLUNAREST",
+    "packSize": "10",
+    "company": "SENSES PHARMACEUTICALS LTD",
+    "brandMrp": "25.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.59"
+  },
+  {
+    "brandName": "FLUNORM",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "38.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.59"
+  },
+  {
+    "brandName": "MIGNIL",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "25.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.59"
+  },
+  {
+    "brandName": "MIGREX",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "25.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.59"
+  },
+  {
+    "brandName": "SIBELIUM",
+    "packSize": "30",
+    "company": "JANSSEN",
+    "brandMrp": "77.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.59"
+  },
+  {
+    "brandName": "ZEROACH",
+    "packSize": "10",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "25.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.59"
+  },
+  {
+    "brandName": "MIGRAVAS",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "26.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.60"
+  },
+  {
+    "brandName": "OXIGRAN",
+    "packSize": "10",
+    "company": "OXFORD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "26.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.60"
+  },
+  {
+    "brandName": "LUNA",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "26.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.62"
+  },
+  {
+    "brandName": "FLURY",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "26.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.63"
+  },
+  {
+    "brandName": "MERLIN",
+    "packSize": "10",
+    "company": "MARSHA PHARMA",
+    "brandMrp": "26.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.64"
+  },
+  {
+    "brandName": "NOMIGAN",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "26.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.64"
+  },
+  {
+    "brandName": "FLUNARIN",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "26.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.65"
+  },
+  {
+    "brandName": "MGR",
+    "packSize": "10",
+    "company": "INGA LABORATORIES PVT. LTD.",
+    "brandMrp": "26.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.65"
+  },
+  {
+    "brandName": "MIGRANEX",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "26.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.65"
+  },
+  {
+    "brandName": "MIGRAZE",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "26.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.65"
+  },
+  {
+    "brandName": "PROMIG",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "26.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.65"
+  },
+  {
+    "brandName": "FLUZINE",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "28.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.80"
+  },
+  {
+    "brandName": "GRENATE",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "27.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.80"
+  },
+  {
+    "brandName": "PROFIGRAN",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "28.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.90"
+  },
+  {
+    "brandName": "VISIGRAIN",
+    "packSize": "10",
+    "company": "ASTA VISION CARE PVT.LTD",
+    "brandMrp": "30.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.02"
+  },
+  {
+    "brandName": "ACTIGRAIN",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "33.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.38"
+  },
+  {
+    "brandName": "EFIGRAINE",
+    "packSize": "10",
+    "company": "MOLEKULE (IND)PVT LTD",
+    "brandMrp": "35.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.50"
+  },
+  {
+    "brandName": "FLUNORM",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "38.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.89"
+  },
+  {
+    "brandName": "FALCON (CONCERN)",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "42.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.28"
+  },
+  {
+    "brandName": "FLUNATOD",
+    "packSize": "10",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "45.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.59"
+  },
+  {
+    "brandName": "FRACIL PLUS",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "101.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.12"
+  }
+]

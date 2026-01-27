@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "CLOSPORT",
+    "packSize": "75",
+    "company": "MOONSTAR LIFECARE PVT.LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.00"
+  },
+  {
+    "brandName": "CLOCIP AF",
+    "packSize": "75",
+    "company": "CIPLA LTD.",
+    "brandMrp": "87.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.16"
+  },
+  {
+    "brandName": "CLOMAD",
+    "packSize": "75",
+    "company": "AUSTRO LAB",
+    "brandMrp": "93.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.25"
+  },
+  {
+    "brandName": "CLOCIP AF",
+    "packSize": "100",
+    "company": "CIPLA LTD.",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "CLOCIP AF",
+    "packSize": "120",
+    "company": "CIPLA LTD.",
+    "brandMrp": "157.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "TUFTINA CT",
+    "packSize": "100",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "149.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.49"
+  }
+]

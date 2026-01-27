@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521090134@334419@101189031@3708@101006@203080",
+    "skuName": "DRONIS P 4 MG TABLET 24",
+    "composition": "DROSPIRENONE TABLET 4 MG",
+    "packSize": "24 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "scheduleFlag": "0",
+    "mrp": "480.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.00"
+  },
+  {
+    "hiddenId": "1521090830@337515@101189280@3708@101006@203080",
+    "skuName": "DROSPERT 4 MG TABLET 28",
+    "composition": "DROSPIRENONE TABLET 4 MG",
+    "packSize": "28 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "490.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.50"
+  },
+  {
+    "hiddenId": "1521136100@9999997055@101227133@3708@101006@203080",
+    "skuName": "SLINDA 4 MG TABLET 28",
+    "composition": "DROSPIRENONE TABLET 4 MG",
+    "packSize": "28 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "EXELTIS",
+    "scheduleFlag": "0",
+    "mrp": "545.97",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.50"
+  }
+]

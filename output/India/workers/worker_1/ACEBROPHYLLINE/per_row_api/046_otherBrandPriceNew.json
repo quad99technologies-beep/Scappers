@@ -1,0 +1,346 @@
+[
+  {
+    "brandName": "ACEBROFON",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "19.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.98"
+  },
+  {
+    "brandName": "BROPHYLIN (PFIZER)",
+    "packSize": "10",
+    "company": "PFIZER LTD",
+    "brandMrp": "24.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.40"
+  },
+  {
+    "brandName": "ACEBROLIN",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "66.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.67"
+  },
+  {
+    "brandName": "ACEVEL",
+    "packSize": "10",
+    "company": "AVIS LIFE CARE PVT LTD",
+    "brandMrp": "69.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.90"
+  },
+  {
+    "brandName": "BRONCOCET ACB",
+    "packSize": "10",
+    "company": "SEAGULL LABS(I) LTD",
+    "brandMrp": "69.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.94"
+  },
+  {
+    "brandName": "EROPHYLLINE",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "73.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.30"
+  },
+  {
+    "brandName": "ACEBROMAX",
+    "packSize": "10",
+    "company": "MEDREXCARE PHARMA PVT.LTD",
+    "brandMrp": "78.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.80"
+  },
+  {
+    "brandName": "BROLIN(MEDICO)",
+    "packSize": "10",
+    "company": "MEDICO LABS",
+    "brandMrp": "79.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.90"
+  },
+  {
+    "brandName": "ACEGROW",
+    "packSize": "10",
+    "company": "FORGEN HEALTHCARE LTD.",
+    "brandMrp": "82.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.25"
+  },
+  {
+    "brandName": "P DOX A",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "85.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.50"
+  },
+  {
+    "brandName": "IJESKA",
+    "packSize": "10",
+    "company": "CADOMED PHARMACEUTICALS INDIA PVT.LTD",
+    "brandMrp": "86.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.66"
+  },
+  {
+    "brandName": "DUOFYLIN",
+    "packSize": "10",
+    "company": "HIGLANCE LABORATORIES PVT LTD",
+    "brandMrp": "87.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.72"
+  },
+  {
+    "brandName": "MUCOPHYLINE",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "87.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.79"
+  },
+  {
+    "brandName": "BRONCOFIL",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "89.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.90"
+  },
+  {
+    "brandName": "RESPIRA ACE",
+    "packSize": "10",
+    "company": "GENO PHARMACEUTICALS LTD",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.91"
+  },
+  {
+    "brandName": "VENPHYLIN",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.91"
+  },
+  {
+    "brandName": "VENTIBRO",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "90.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.06"
+  },
+  {
+    "brandName": "ELU BM",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "93.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.32"
+  },
+  {
+    "brandName": "SOMAPHYLLINE",
+    "packSize": "10",
+    "company": "SOMATICO PHARMACAL PVT. LTD",
+    "brandMrp": "93.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.37"
+  },
+  {
+    "brandName": "BROFY",
+    "packSize": "10",
+    "company": "BIOMAX BIOTECHNICS",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  },
+  {
+    "brandName": "ACEDRIL",
+    "packSize": "10",
+    "company": "INTRA LABS",
+    "brandMrp": "95.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "AMUCOE",
+    "packSize": "10",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "95.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "ACEBROGEN",
+    "packSize": "10",
+    "company": "ESTRAGEN PHARMA",
+    "brandMrp": "97.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.70"
+  },
+  {
+    "brandName": "AMBRODIL XP",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "99.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.94"
+  },
+  {
+    "brandName": "OXYBRO",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "101.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "BESTOFYLINE A",
+    "packSize": "10",
+    "company": "BESTOCHEM FORMULATIONS (I) LTD",
+    "brandMrp": "101.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.14"
+  },
+  {
+    "brandName": "APHYREN",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "104.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.41"
+  },
+  {
+    "brandName": "ABEVIA",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "161.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.77"
+  },
+  {
+    "brandName": "BAYACE",
+    "packSize": "10",
+    "company": "BAYER PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "112.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.20"
+  },
+  {
+    "brandName": "AB DAY",
+    "packSize": "10",
+    "company": "EYSYS PHARMACEUTICAL PVT LTD",
+    "brandMrp": "112.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.22"
+  },
+  {
+    "brandName": "ABEVIA",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "114.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.50"
+  },
+  {
+    "brandName": "ABLUNG",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "116.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.70"
+  },
+  {
+    "brandName": "ACIBRO",
+    "packSize": "10",
+    "company": "SYNOKEM PHARMACEUTICALS LTD",
+    "brandMrp": "120.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.10"
+  },
+  {
+    "brandName": "ACEBROBID",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "123.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.33"
+  },
+  {
+    "brandName": "MACPHYLLINE",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "129.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.94"
+  },
+  {
+    "brandName": "APHYL",
+    "packSize": "10",
+    "company": "FRANCO INDIAN PHARMACEUTICALS PVT LTD",
+    "brandMrp": "130.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.08"
+  },
+  {
+    "brandName": "PHYLIN A",
+    "packSize": "10",
+    "company": "OBSURGE BIOTECH LTD",
+    "brandMrp": "143.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.33"
+  },
+  {
+    "brandName": "BROPHYLE",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "145.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.53"
+  },
+  {
+    "brandName": "BIGBRO",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "157.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.75"
+  },
+  {
+    "brandName": "AB-FLO",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "164.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.45"
+  },
+  {
+    "brandName": "AB PHYLLINE",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "177.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.70"
+  },
+  {
+    "brandName": "AB-FLO",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "279.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.65"
+  },
+  {
+    "brandName": "AB PHYLLINE",
+    "packSize": "15",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.00"
+  }
+]

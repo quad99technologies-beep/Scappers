@@ -1,0 +1,250 @@
+[
+  {
+    "brandName": "ACNETOIN I",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "12.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.20"
+  },
+  {
+    "brandName": "ETHITRET",
+    "packSize": "10",
+    "company": "ETHINEXT PHARMA PVT.LTD",
+    "brandMrp": "103.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "ISAC",
+    "packSize": "10",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "111.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.15"
+  },
+  {
+    "brandName": "ISOFEEL",
+    "packSize": "10",
+    "company": "DERMAKARE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "128.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.84"
+  },
+  {
+    "brandName": "ISORET",
+    "packSize": "10",
+    "company": "TRIPADA BIOTEC PVT LTD",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.00"
+  },
+  {
+    "brandName": "ALTRET",
+    "packSize": "10",
+    "company": "ALBATROSS HEALTH CARE PVT LTD",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.13"
+  },
+  {
+    "brandName": "ITRNOIN",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.13"
+  },
+  {
+    "brandName": "ISOTINO",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "139.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.92"
+  },
+  {
+    "brandName": "TETILIN",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "139.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.00"
+  },
+  {
+    "brandName": "ISOPAD",
+    "packSize": "10",
+    "company": "TRIPADA BIOTEC PVT LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "ISOPURE",
+    "packSize": "10",
+    "company": "GENEES PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "151.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.10"
+  },
+  {
+    "brandName": "ACCUFINE",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "151.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.19"
+  },
+  {
+    "brandName": "NAYZIT",
+    "packSize": "10",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "158.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.80"
+  },
+  {
+    "brandName": "TRETIVA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.88"
+  },
+  {
+    "brandName": "EUNOZIT",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "169.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.90"
+  },
+  {
+    "brandName": "I DERIVA",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "172.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.20"
+  },
+  {
+    "brandName": "LACNE",
+    "packSize": "10",
+    "company": "LA PRISTINE BIOCEUTICALS PVT LTD",
+    "brandMrp": "172.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.25"
+  },
+  {
+    "brandName": "PINOIN",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "180.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.09"
+  },
+  {
+    "brandName": "D ACNE I",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "183.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.30"
+  },
+  {
+    "brandName": "TUFACNE",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "183.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.31"
+  },
+  {
+    "brandName": "I 10",
+    "packSize": "10",
+    "company": "PRISM LIFESCIENCE",
+    "brandMrp": "188.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.84"
+  },
+  {
+    "brandName": "RESOTEN",
+    "packSize": "10",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "192.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.22"
+  },
+  {
+    "brandName": "IBITRET",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "194.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.40"
+  },
+  {
+    "brandName": "ISOTANE",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "196.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.69"
+  },
+  {
+    "brandName": "ISOTROIN",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "199.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.90"
+  },
+  {
+    "brandName": "TRETIN ISO",
+    "packSize": "10",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "210.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.09"
+  },
+  {
+    "brandName": "ZITBLOW",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "210.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.09"
+  },
+  {
+    "brandName": "ACUTRET",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "221.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.16"
+  },
+  {
+    "brandName": "SOTRET",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "226.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.69"
+  },
+  {
+    "brandName": "ISOTROIN",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "345.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.05"
+  },
+  {
+    "brandName": "ISOIN",
+    "packSize": "10",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "243.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.38"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LUPIDEXA",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "23.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.38"
+  },
+  {
+    "brandName": "DEXANIC",
+    "packSize": "2",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "10.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.44"
+  },
+  {
+    "brandName": "DEXAKING",
+    "packSize": "2",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "11.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.68"
+  }
+]

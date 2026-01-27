@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LARAP",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "106.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.65"
+  },
+  {
+    "brandName": "PIMIDE",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "115.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.53"
+  },
+  {
+    "brandName": "MOZEP",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "128.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.89"
+  }
+]

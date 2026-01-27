@@ -1,0 +1,394 @@
+[
+  {
+    "brandName": "SULPITAC",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "50.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "AMIVAL",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "55.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.58"
+  },
+  {
+    "brandName": "AMIPANS",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "AMIS",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "58.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.89"
+  },
+  {
+    "brandName": "AMITREND",
+    "packSize": "10",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "59.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.90"
+  },
+  {
+    "brandName": "AMILYST",
+    "packSize": "10",
+    "company": "SEPTALYST LIFESCIENCES PVT LTD",
+    "brandMrp": "69.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.96"
+  },
+  {
+    "brandName": "GOLDPRIDE",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "LOKPAM",
+    "packSize": "10",
+    "company": "K.C LABORATORIES",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "RESTPRIDE",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "70.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.05"
+  },
+  {
+    "brandName": "SULPICAD",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "72.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.28"
+  },
+  {
+    "brandName": "SULPRA",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "73.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.32"
+  },
+  {
+    "brandName": "AMIMIND",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "74.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.42"
+  },
+  {
+    "brandName": "SOLPRIWEL",
+    "packSize": "10",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "74.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.48"
+  },
+  {
+    "brandName": "AMCALM",
+    "packSize": "10",
+    "company": "PULSE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "76.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.60"
+  },
+  {
+    "brandName": "AMISYT",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "77.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.70"
+  },
+  {
+    "brandName": "KIVIPRIDE",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "79.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.98"
+  },
+  {
+    "brandName": "GRESSAMI",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "83.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.34"
+  },
+  {
+    "brandName": "AMISET",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "86.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.62"
+  },
+  {
+    "brandName": "AMGRACE",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "86.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.65"
+  },
+  {
+    "brandName": "JOYPRIDE",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "86.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.68"
+  },
+  {
+    "brandName": "AMPICON",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "87.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.70"
+  },
+  {
+    "brandName": "SYNAPRIDE",
+    "packSize": "10",
+    "company": "CYRUS REMEDIES PVT LTD",
+    "brandMrp": "88.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.80"
+  },
+  {
+    "brandName": "TRIKOSUL",
+    "packSize": "10",
+    "company": "TRIKO PHARMACEUTICALS",
+    "brandMrp": "88.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.82"
+  },
+  {
+    "brandName": "SALMIRIDE",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "88.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.86"
+  },
+  {
+    "brandName": "AMIPRIDE",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.91"
+  },
+  {
+    "brandName": "AMSYC",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "90.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.07"
+  },
+  {
+    "brandName": "JOYSTIFF",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "MAXPRIDE",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "93.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.37"
+  },
+  {
+    "brandName": "AMISTRIDE",
+    "packSize": "10",
+    "company": "MEDOPHARM",
+    "brandMrp": "94.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.48"
+  },
+  {
+    "brandName": "AMISANT (ABBOTT)",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "96.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.68"
+  },
+  {
+    "brandName": "WELLPRIDE",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "98.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.84"
+  },
+  {
+    "brandName": "ASULPA",
+    "packSize": "10",
+    "company": "HEALTH N U",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.90"
+  },
+  {
+    "brandName": "PRIDE(SOLVATE)",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "99.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.97"
+  },
+  {
+    "brandName": "AMAZEO",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "102.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.21"
+  },
+  {
+    "brandName": "SULPIDON",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "102.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.28"
+  },
+  {
+    "brandName": "SKIZOTUS",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "109.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.94"
+  },
+  {
+    "brandName": "AMIDE",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "SIZOPRIDE",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "113.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.32"
+  },
+  {
+    "brandName": "AGIPRIDE",
+    "packSize": "10",
+    "company": "AGM BIOTEC",
+    "brandMrp": "113.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.34"
+  },
+  {
+    "brandName": "SULPINIX",
+    "packSize": "10",
+    "company": "SANIX FORMULATIONS PVT LTD",
+    "brandMrp": "113.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.37"
+  },
+  {
+    "brandName": "SOLTUS",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "114.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.44"
+  },
+  {
+    "brandName": "SULPITAC",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "115.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.53"
+  },
+  {
+    "brandName": "JOYKEM O",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "116.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "JOYKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "124.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.40"
+  },
+  {
+    "brandName": "SOLIAN",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "133.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.30"
+  },
+  {
+    "brandName": "AMIGOLD",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "141.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.12"
+  },
+  {
+    "brandName": "SOLIAN",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "226.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.13"
+  },
+  {
+    "brandName": "AMALT",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "167.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.77"
+  },
+  {
+    "brandName": "SOLAZE",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "247.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.75"
+  }
+]

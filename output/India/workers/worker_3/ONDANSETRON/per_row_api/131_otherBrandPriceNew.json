@@ -1,0 +1,394 @@
+[
+  {
+    "brandName": "OTROY",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "5.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.58"
+  },
+  {
+    "brandName": "VOMCE",
+    "packSize": "10",
+    "company": "COMED CHEMICALS PVT LTD",
+    "brandMrp": "6.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.63"
+  },
+  {
+    "brandName": "ONDISET (MICRO)",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "8.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.86"
+  },
+  {
+    "brandName": "VOMIREK",
+    "packSize": "10",
+    "company": "REKVINA PHARMACEUTICALS",
+    "brandMrp": "32.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.21"
+  },
+  {
+    "brandName": "ETERNA",
+    "packSize": "10",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "32.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.28"
+  },
+  {
+    "brandName": "ONDION",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "41.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.17"
+  },
+  {
+    "brandName": "ONDAGEN",
+    "packSize": "10",
+    "company": "ACME PHARMACEUTICALS",
+    "brandMrp": "42.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.26"
+  },
+  {
+    "brandName": "ONDIVOM",
+    "packSize": "10",
+    "company": "ACME PHARMACEUTICALS",
+    "brandMrp": "42.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.30"
+  },
+  {
+    "brandName": "VISIRON (UNISERVE)",
+    "packSize": "10",
+    "company": "UNISERVE HEALTH CARE PVT.LTD",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "XENATER",
+    "packSize": "10",
+    "company": "BIOMAX BIOTECHNICS",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "OSET",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "45.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.55"
+  },
+  {
+    "brandName": "VOMIKIND",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "48.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.81"
+  },
+  {
+    "brandName": "VONARIL",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "49.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.94"
+  },
+  {
+    "brandName": "EMIOF",
+    "packSize": "10",
+    "company": "HLL LIFE CARE LTD",
+    "brandMrp": "51.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.10"
+  },
+  {
+    "brandName": "ONTIC",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "51.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.13"
+  },
+  {
+    "brandName": "4 ON",
+    "packSize": "10",
+    "company": "GRAF LABORATORIES PVT LTD",
+    "brandMrp": "52.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.23"
+  },
+  {
+    "brandName": "EMESET",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "52.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.26"
+  },
+  {
+    "brandName": "ONSAT",
+    "packSize": "10",
+    "company": "ST. MORRISON",
+    "brandMrp": "53.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.33"
+  },
+  {
+    "brandName": "LESETRON",
+    "packSize": "10",
+    "company": "LEO LIFE SCIENCE PVT LTD",
+    "brandMrp": "53.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.34"
+  },
+  {
+    "brandName": "OZOTRON",
+    "packSize": "10",
+    "company": "OZONE PHARMACEUTICALS",
+    "brandMrp": "53.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.36"
+  },
+  {
+    "brandName": "ONDAMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "53.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.39"
+  },
+  {
+    "brandName": "ONDITRON",
+    "packSize": "10",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "53.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.39"
+  },
+  {
+    "brandName": "ZYSET",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "53.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.39"
+  },
+  {
+    "brandName": "ONDAHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "54.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.40"
+  },
+  {
+    "brandName": "HONDA",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "54.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.45"
+  },
+  {
+    "brandName": "OND MD",
+    "packSize": "10",
+    "company": "BESTOCHEM FORMULATIONS (I) LTD",
+    "brandMrp": "54.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.47"
+  },
+  {
+    "brandName": "EMITINO",
+    "packSize": "10",
+    "company": "CACHET PHARMACEUTICALS PVT LTD",
+    "brandMrp": "54.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.48"
+  },
+  {
+    "brandName": "ISV",
+    "packSize": "10",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "54.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.48"
+  },
+  {
+    "brandName": "ONSURGE",
+    "packSize": "10",
+    "company": "OBSURGE BIOTECH LTD",
+    "brandMrp": "54.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.48"
+  },
+  {
+    "brandName": "ONVIN",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "54.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.48"
+  },
+  {
+    "brandName": "VOMIGO(AURUM)",
+    "packSize": "10",
+    "company": "AURUM LIFE SCIENCE PVT. LTD.",
+    "brandMrp": "54.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.48"
+  },
+  {
+    "brandName": "VOMIOVER",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "54.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.48"
+  },
+  {
+    "brandName": "VOMISET",
+    "packSize": "10",
+    "company": "INDI PHARMA",
+    "brandMrp": "54.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.48"
+  },
+  {
+    "brandName": "ZOFER",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "54.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.48"
+  },
+  {
+    "brandName": "EMEGON",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "54.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.49"
+  },
+  {
+    "brandName": "EMIGO",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "54.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.49"
+  },
+  {
+    "brandName": "ONDAFRESH",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "54.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.49"
+  },
+  {
+    "brandName": "ONDAPIL",
+    "packSize": "10",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "54.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.49"
+  },
+  {
+    "brandName": "ONDEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "54.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.49"
+  },
+  {
+    "brandName": "ONDEMET",
+    "packSize": "10",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "54.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.49"
+  },
+  {
+    "brandName": "ONDISET (MICRO)",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "54.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.49"
+  },
+  {
+    "brandName": "ONDY MD",
+    "packSize": "10",
+    "company": "RONYD HEALTH CARE PVT LTD",
+    "brandMrp": "54.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.49"
+  },
+  {
+    "brandName": "ONKAM",
+    "packSize": "10",
+    "company": "KAMRON LABORATORIES",
+    "brandMrp": "54.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.49"
+  },
+  {
+    "brandName": "PERISET",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "54.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.49"
+  },
+  {
+    "brandName": "VOMISHUNT",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "54.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.49"
+  },
+  {
+    "brandName": "EDGON",
+    "packSize": "10",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "57.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.75"
+  },
+  {
+    "brandName": "ODANSE",
+    "packSize": "10",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "57.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.75"
+  },
+  {
+    "brandName": "VOMIRID",
+    "packSize": "10",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "58.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.85"
+  },
+  {
+    "brandName": "ODIWIN",
+    "packSize": "10",
+    "company": "INTRA LABS",
+    "brandMrp": "534.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.40"
+  }
+]

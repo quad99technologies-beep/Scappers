@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "BUSCOHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "33.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.38"
+  },
+  {
+    "brandName": "BIOSPAN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "36.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.69"
+  },
+  {
+    "brandName": "BELLOID",
+    "packSize": "10",
+    "company": "INGA LABORATORIES PVT. LTD.",
+    "brandMrp": "38.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.87"
+  },
+  {
+    "brandName": "EXOSPAS",
+    "packSize": "10",
+    "company": "SHANKUS ACME PHARMA PVT.LTD.",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.00"
+  },
+  {
+    "brandName": "BUSCOGAST",
+    "packSize": "10",
+    "company": "SANOFI INDIA  LTD.",
+    "brandMrp": "41.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.16"
+  }
+]

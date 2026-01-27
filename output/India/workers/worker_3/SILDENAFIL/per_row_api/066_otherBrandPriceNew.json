@@ -1,0 +1,410 @@
+[
+  {
+    "brandName": "VIGOJOY",
+    "packSize": "4",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "10.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.60"
+  },
+  {
+    "brandName": "VIGARA",
+    "packSize": "5",
+    "company": "CONCEPT BIOSCIENCES PVT LTD",
+    "brandMrp": "13.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.63"
+  },
+  {
+    "brandName": "FENGRA",
+    "packSize": "5",
+    "company": "FRANKLIN LABORATORIES (INDIA) PVT. LTD.",
+    "brandMrp": "14.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.85"
+  },
+  {
+    "brandName": "ZESTOGRA",
+    "packSize": "4",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "11.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.97"
+  },
+  {
+    "brandName": "ZENEGRA RED",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "3.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.12"
+  },
+  {
+    "brandName": "ZENEGRA RED",
+    "packSize": "100",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "323.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.23"
+  },
+  {
+    "brandName": "1 2 3",
+    "packSize": "4",
+    "company": "AGLOWMED PHARMACEUTICALS LTD.",
+    "brandMrp": "13.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.33"
+  },
+  {
+    "brandName": "MANFLY",
+    "packSize": "4",
+    "company": "ORISON PHARMACEUTICALS",
+    "brandMrp": "13.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.44"
+  },
+  {
+    "brandName": "MOONTIME",
+    "packSize": "10",
+    "company": "MOONSTAR LIFECARE PVT.LTD",
+    "brandMrp": "43.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.38"
+  },
+  {
+    "brandName": "ZENEGRA RED",
+    "packSize": "4",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "20.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.04"
+  },
+  {
+    "brandName": "HIFORCE (HEALING)",
+    "packSize": "4",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "31.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.81"
+  },
+  {
+    "brandName": "POWER VEGRA",
+    "packSize": "4",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "54.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.55"
+  },
+  {
+    "brandName": "SANAGRA",
+    "packSize": "4",
+    "company": "UNICURE INDIA PVT LTD",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.25"
+  },
+  {
+    "brandName": "FUNTIME",
+    "packSize": "4",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.50"
+  },
+  {
+    "brandName": "BIGFUN",
+    "packSize": "4",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.44"
+  },
+  {
+    "brandName": "ZOYAGRA",
+    "packSize": "4",
+    "company": "INTRA LIFE PVT.LTD",
+    "brandMrp": "96.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.11"
+  },
+  {
+    "brandName": "DOUBLE FORCE",
+    "packSize": "5",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "123.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.76"
+  },
+  {
+    "brandName": "SIOGRA",
+    "packSize": "4",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.13"
+  },
+  {
+    "brandName": "VIGHODA",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "295.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.50"
+  },
+  {
+    "brandName": "VIGORE",
+    "packSize": "4",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "119.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.88"
+  },
+  {
+    "brandName": "EXYGRA",
+    "packSize": "4",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.00"
+  },
+  {
+    "brandName": "VISTAGRA",
+    "packSize": "4",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "121.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.40"
+  },
+  {
+    "brandName": "VIRGO",
+    "packSize": "4",
+    "company": "SYNCOM FORMULATIONS (I) LIMITED",
+    "brandMrp": "126.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.50"
+  },
+  {
+    "brandName": "VIGOTAB",
+    "packSize": "4",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "127.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.95"
+  },
+  {
+    "brandName": "ZAGORE",
+    "packSize": "4",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "128.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.00"
+  },
+  {
+    "brandName": "FULLPLAY",
+    "packSize": "4",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "129.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.38"
+  },
+  {
+    "brandName": "NICOGRA",
+    "packSize": "4",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "131.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.95"
+  },
+  {
+    "brandName": "POWERMAN (PSYCHOTROPICE)",
+    "packSize": "4",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "137.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.32"
+  },
+  {
+    "brandName": "ZEAGRA",
+    "packSize": "4",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "145.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.25"
+  },
+  {
+    "brandName": "VIGORWAY",
+    "packSize": "4",
+    "company": "SMARTWAY WELLNESS PVT. LTD.",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.50"
+  },
+  {
+    "brandName": "INTAGRA",
+    "packSize": "4",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.67"
+  },
+  {
+    "brandName": "VICOGRA",
+    "packSize": "4",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "159.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.85"
+  },
+  {
+    "brandName": "MANPIL",
+    "packSize": "4",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "164.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "41.18"
+  },
+  {
+    "brandName": "VIGROCK",
+    "packSize": "4",
+    "company": "AUSTRO LAB",
+    "brandMrp": "184.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.17"
+  },
+  {
+    "brandName": "6XE SILD",
+    "packSize": "4",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "204.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.21"
+  },
+  {
+    "brandName": "DEPER",
+    "packSize": "10",
+    "company": "LIFECOM PHARMACEUTICALS",
+    "brandMrp": "517.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.79"
+  },
+  {
+    "brandName": "ALFORCE",
+    "packSize": "4",
+    "company": "MANKIND PRIME LABS PVT.LTD",
+    "brandMrp": "215.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.88"
+  },
+  {
+    "brandName": "ZENEGRA",
+    "packSize": "4",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "215.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.90"
+  },
+  {
+    "brandName": "DEPER",
+    "packSize": "4",
+    "company": "LIFECOM PHARMACEUTICALS",
+    "brandMrp": "217.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "54.38"
+  },
+  {
+    "brandName": "SUHAGRA",
+    "packSize": "4",
+    "company": "CIPLA LTD.",
+    "brandMrp": "217.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "54.45"
+  },
+  {
+    "brandName": "SEREGRA",
+    "packSize": "4",
+    "company": "BAL PHARMA",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.25"
+  },
+  {
+    "brandName": "ENTHUSIA",
+    "packSize": "4",
+    "company": "LUPIN LTD",
+    "brandMrp": "231.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "57.81"
+  },
+  {
+    "brandName": "INSTARISE",
+    "packSize": "4",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "232.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.00"
+  },
+  {
+    "brandName": "MACSUTRA",
+    "packSize": "4",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "232.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.00"
+  },
+  {
+    "brandName": "DA SUTRA X",
+    "packSize": "4",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "239.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "59.75"
+  },
+  {
+    "brandName": "MANFORCE",
+    "packSize": "4",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "243.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "60.75"
+  },
+  {
+    "brandName": "JUAN",
+    "packSize": "4",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "298.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "74.65"
+  },
+  {
+    "brandName": "VIRAHA",
+    "packSize": "4",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "380.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "95.00"
+  },
+  {
+    "brandName": "CAVERTA",
+    "packSize": "4",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "443.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "110.86"
+  },
+  {
+    "brandName": "VIAGRA",
+    "packSize": "4",
+    "company": "VIATRIS",
+    "brandMrp": "1125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "281.25"
+  },
+  {
+    "brandName": "VIAGRA",
+    "packSize": "2",
+    "company": "VIATRIS",
+    "brandMrp": "1125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "562.50"
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "MELAN",
+    "packSize": "10",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "25.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.53"
+  },
+  {
+    "brandName": "MELADERM (INGA)",
+    "packSize": "30",
+    "company": "INGA LABORATORIES PVT. LTD.",
+    "brandMrp": "102.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.42"
+  },
+  {
+    "brandName": "MELCYL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "34.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.43"
+  },
+  {
+    "brandName": "OCTAMOP",
+    "packSize": "20",
+    "company": "PALSONS DERMA PVT. LTD",
+    "brandMrp": "78.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.94"
+  },
+  {
+    "brandName": "MACSORLEN X",
+    "packSize": "10",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "46.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.60"
+  },
+  {
+    "brandName": "KUVAGOLD",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "46.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.61"
+  },
+  {
+    "brandName": "MELANOCYL",
+    "packSize": "40",
+    "company": "FRANCO INDIAN PHARMACEUTICALS PVT LTD",
+    "brandMrp": "190.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.75"
+  },
+  {
+    "brandName": "MACSORLEN",
+    "packSize": "10",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "61.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.10"
+  }
+]

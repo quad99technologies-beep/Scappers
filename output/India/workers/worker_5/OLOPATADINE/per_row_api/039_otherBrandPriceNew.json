@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "OLARCHEK",
+    "packSize": "5",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "167.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.56"
+  },
+  {
+    "brandName": "OLOGUARD",
+    "packSize": "5",
+    "company": "BERRY & HERBS PHARMA PVT.LTD",
+    "brandMrp": "190.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.06"
+  },
+  {
+    "brandName": "HISTAFREE MAX",
+    "packSize": "5",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "234.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.87"
+  },
+  {
+    "brandName": "PATVIRA",
+    "packSize": "2",
+    "company": "ZIVIRA LABS PVT. LTD.",
+    "brandMrp": "209.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "69.83"
+  }
+]

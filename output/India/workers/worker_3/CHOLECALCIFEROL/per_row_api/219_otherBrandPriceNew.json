@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "BIOCITRAL D",
+    "packSize": "30",
+    "company": "INTRA LABS",
+    "brandMrp": "74.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.48"
+  },
+  {
+    "brandName": "HID-3",
+    "packSize": "30",
+    "company": "SAF FERMION LTD",
+    "brandMrp": "87.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.90"
+  },
+  {
+    "brandName": "BONEFLASH D3",
+    "packSize": "30",
+    "company": "SYMBIOTIC DRUGS",
+    "brandMrp": "96.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.23"
+  },
+  {
+    "brandName": "D FIRST NANO",
+    "packSize": "5",
+    "company": "4 CARE LIFESCIENCE PVT LTD",
+    "brandMrp": "54.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.87"
+  },
+  {
+    "brandName": "KIDRICH D3",
+    "packSize": "5",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "56.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.23"
+  },
+  {
+    "brandName": "D QUATRO",
+    "packSize": "5",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.00"
+  }
+]

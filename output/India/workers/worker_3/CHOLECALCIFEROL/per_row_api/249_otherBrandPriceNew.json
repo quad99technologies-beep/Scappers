@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "CALCIROL MX",
+    "packSize": "5",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "69.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.83"
+  },
+  {
+    "brandName": "SCOCH D",
+    "packSize": "5",
+    "company": "MEDISUN PHARMA",
+    "brandMrp": "69.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.86"
+  },
+  {
+    "brandName": "TRAVECAL D3",
+    "packSize": "5",
+    "company": "AVIS LIFE CARE PVT LTD",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.00"
+  },
+  {
+    "brandName": "ARISTOCAL D3",
+    "packSize": "5",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "74.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.96"
+  },
+  {
+    "brandName": "UV3",
+    "packSize": "5",
+    "company": "MERCURY HEALTH CARE PVT LTD",
+    "brandMrp": "76.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.38"
+  },
+  {
+    "brandName": "CIPCAL D3",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "78.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.78"
+  },
+  {
+    "brandName": "DSOL",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "78.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.78"
+  },
+  {
+    "brandName": "SWIFT D3",
+    "packSize": "5",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "82.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.50"
+  },
+  {
+    "brandName": "DSENTIAL",
+    "packSize": "5",
+    "company": "BLISSON MEDIPLUS PVT.LTD",
+    "brandMrp": "91.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.23"
+  },
+  {
+    "brandName": "MYRA D3",
+    "packSize": "15",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "388.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.88"
+  }
+]

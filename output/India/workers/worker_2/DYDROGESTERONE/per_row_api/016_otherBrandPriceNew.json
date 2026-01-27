@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "DYDROFEM SR",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "749.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "74.91"
+  },
+  {
+    "brandName": "EMDYDRO SR",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "749.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "74.91"
+  },
+  {
+    "brandName": "DYDROEVA SR",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "799.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "79.90"
+  },
+  {
+    "brandName": "DYDROSURE SR",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "820.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "82.03"
+  },
+  {
+    "brandName": "ISOFIT SR",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "936.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "93.66"
+  },
+  {
+    "brandName": "LUPIHOPE SR",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "936.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "93.66"
+  },
+  {
+    "brandName": "DYDROJOY SR",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "999.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "99.90"
+  },
+  {
+    "brandName": "DYDROEASE SR",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "1115.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "111.56"
+  },
+  {
+    "brandName": "DROPHARM SR",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "1116.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "111.61"
+  },
+  {
+    "brandName": "GESTANOL SR",
+    "packSize": "10",
+    "company": "WALTER BUSHNELL",
+    "brandMrp": "1195.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "119.50"
+  },
+  {
+    "brandName": "NOVOGEST SR",
+    "packSize": "10",
+    "company": "WALTER BUSHNELL",
+    "brandMrp": "1195.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "119.50"
+  },
+  {
+    "brandName": "DYDROBOON SR",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "1222.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "122.20"
+  },
+  {
+    "brandName": "DYDROHOPE SR",
+    "packSize": "4",
+    "company": "CORONA",
+    "brandMrp": "608.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "152.11"
+  }
+]

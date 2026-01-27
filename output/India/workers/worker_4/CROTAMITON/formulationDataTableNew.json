@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521092282@11111@101120442@1554@101028@202448",
+    "skuName": "CROTORAX 10 % CREAM 20 GM",
+    "composition": "CROTAMITON CREAM 10 %",
+    "packSize": "20 GM CREAM",
+    "dosageForm": "CREAM",
+    "ceilingPrice": "-1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "scheduleFlag": "0",
+    "mrp": "66.12",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.31"
+  },
+  {
+    "hiddenId": "1521091990@11112@101120442@1554@101019@202448",
+    "skuName": "CROTORAX 10 % LOTION 60 ML",
+    "composition": "CROTAMITON LOTION 10 %",
+    "packSize": "60 ML LOTION",
+    "dosageForm": "LOTION",
+    "ceilingPrice": "-1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "scheduleFlag": "0",
+    "mrp": "179.19",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.99"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "CIZASPA",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "196.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.61"
+  },
+  {
+    "brandName": "MOREASE",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "196.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.66"
+  },
+  {
+    "brandName": "MYCOLON",
+    "packSize": "10",
+    "company": "WATERLEY PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "200.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.06"
+  },
+  {
+    "brandName": "COLORID",
+    "packSize": "10",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "215.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.56"
+  },
+  {
+    "brandName": "MEBIZ",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "242.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.28"
+  },
+  {
+    "brandName": "MATIZ (TAS MED)",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "253.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.31"
+  }
+]

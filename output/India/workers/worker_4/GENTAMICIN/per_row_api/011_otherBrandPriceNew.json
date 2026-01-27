@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LEEGENTA",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "8.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.88"
+  },
+  {
+    "brandName": "GENTICYN",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "9.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.99"
+  },
+  {
+    "brandName": "GRACIN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "13.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.33"
+  }
+]

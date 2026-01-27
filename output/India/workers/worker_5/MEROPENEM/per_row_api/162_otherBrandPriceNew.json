@@ -1,0 +1,610 @@
+[
+  {
+    "brandName": "MEROCRIT",
+    "packSize": "20",
+    "company": "CIPLA LTD.",
+    "brandMrp": "476.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.82"
+  },
+  {
+    "brandName": "FYTOPENEM",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "772.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "77.23"
+  },
+  {
+    "brandName": "FRESONEM",
+    "packSize": "20",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "1611.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "80.55"
+  },
+  {
+    "brandName": "AKUPEN",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "809.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "80.97"
+  },
+  {
+    "brandName": "MEROMAC",
+    "packSize": "5",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "451.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "90.30"
+  },
+  {
+    "brandName": "MEROCRIT",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "476.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "95.29"
+  },
+  {
+    "brandName": "EUPEN (NEON)",
+    "packSize": "5",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "772.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "154.40"
+  },
+  {
+    "brandName": "VARNEM",
+    "packSize": "1",
+    "company": "VARENYAM HEALTHCARE PVT LTD.",
+    "brandMrp": "171.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "171.25"
+  },
+  {
+    "brandName": "NOSOPENEM",
+    "packSize": "1",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "183.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "183.00"
+  },
+  {
+    "brandName": "MEROSEAL",
+    "packSize": "1",
+    "company": "CONVERGE BIOTECH PVT.LTD",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "225.00"
+  },
+  {
+    "brandName": "IXZA",
+    "packSize": "1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "263.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "263.00"
+  },
+  {
+    "brandName": "TROYPENEM",
+    "packSize": "1",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "267.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "267.33"
+  },
+  {
+    "brandName": "TREONAM",
+    "packSize": "1",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "268.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "268.11"
+  },
+  {
+    "brandName": "MEROEVA",
+    "packSize": "1",
+    "company": "CONCORD BIOTECH LTD",
+    "brandMrp": "312.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "312.50"
+  },
+  {
+    "brandName": "VIVEM",
+    "packSize": "5",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "1700.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "340.00"
+  },
+  {
+    "brandName": "ACUPENEM",
+    "packSize": "1",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "383.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "383.90"
+  },
+  {
+    "brandName": "MEROTIVA",
+    "packSize": "1",
+    "company": "CACHET PHARMACEUTICALS PVT LTD",
+    "brandMrp": "395.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "395.82"
+  },
+  {
+    "brandName": "MEROKWIK",
+    "packSize": "1",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "399.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "399.00"
+  },
+  {
+    "brandName": "NILGRAM",
+    "packSize": "1",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "413.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "413.00"
+  },
+  {
+    "brandName": "IBIMERO",
+    "packSize": "1",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "422.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "422.29"
+  },
+  {
+    "brandName": "MEROWAR",
+    "packSize": "1",
+    "company": "BIO WARRIORS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "450.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "450.00"
+  },
+  {
+    "brandName": "MEROFIC",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "462.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "462.50"
+  },
+  {
+    "brandName": "MEROCIDE",
+    "packSize": "1",
+    "company": "GLAND PHARMA LIMITED",
+    "brandMrp": "487.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "487.50"
+  },
+  {
+    "brandName": "GMERO",
+    "packSize": "1",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "500.00"
+  },
+  {
+    "brandName": "MERONIC",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "506.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "506.25"
+  },
+  {
+    "brandName": "MEROSIG",
+    "packSize": "1",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "510.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "510.94"
+  },
+  {
+    "brandName": "MEROREACH",
+    "packSize": "1",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "514.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "514.00"
+  },
+  {
+    "brandName": "KUPEN",
+    "packSize": "1",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "519.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "519.80"
+  },
+  {
+    "brandName": "MERO",
+    "packSize": "1",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "540.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "540.03"
+  },
+  {
+    "brandName": "ZAXTER KIT",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "545.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "545.00"
+  },
+  {
+    "brandName": "MEROWIN",
+    "packSize": "1",
+    "company": "VIATRIS",
+    "brandMrp": "577.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "577.50"
+  },
+  {
+    "brandName": "MERROBE",
+    "packSize": "1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "603.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "603.18"
+  },
+  {
+    "brandName": "MEROSURE",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "614.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "614.95"
+  },
+  {
+    "brandName": "VERPENEM",
+    "packSize": "1",
+    "company": "KARNATAKA ANTIBIOTICS & PHARMACEUTICALS LTD(KAPL)",
+    "brandMrp": "618.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "618.75"
+  },
+  {
+    "brandName": "MEROTROL",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "622.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "622.60"
+  },
+  {
+    "brandName": "GERMERO",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "622.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "622.76"
+  },
+  {
+    "brandName": "ZAXTER",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "629.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "629.65"
+  },
+  {
+    "brandName": "MERINTA",
+    "packSize": "0",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "634.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "634.21"
+  },
+  {
+    "brandName": "MUCAD",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "656.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "656.85"
+  },
+  {
+    "brandName": "EMSTAR",
+    "packSize": "1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "658.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "658.56"
+  },
+  {
+    "brandName": "MEROHUGE",
+    "packSize": "1",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "695.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "695.11"
+  },
+  {
+    "brandName": "MEROFIC DCB",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "722.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "722.96"
+  },
+  {
+    "brandName": "MERO G",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "735.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "735.55"
+  },
+  {
+    "brandName": "INROME",
+    "packSize": "1",
+    "company": "GOLD LINE",
+    "brandMrp": "750.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "750.00"
+  },
+  {
+    "brandName": "INNOMER",
+    "packSize": "1",
+    "company": "INNOVA LIFESCIENCE",
+    "brandMrp": "758.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "758.44"
+  },
+  {
+    "brandName": "MERONEM",
+    "packSize": "1",
+    "company": "PFIZER LTD",
+    "brandMrp": "759.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "759.09"
+  },
+  {
+    "brandName": "PENMER",
+    "packSize": "1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "771.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "771.62"
+  },
+  {
+    "brandName": "MEROGRAM",
+    "packSize": "1",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "772.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "772.22"
+  },
+  {
+    "brandName": "MAXOPEN",
+    "packSize": "1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "772.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "772.33"
+  },
+  {
+    "brandName": "MEROBAX",
+    "packSize": "1",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "772.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "772.37"
+  },
+  {
+    "brandName": "MEROPLAN",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "772.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "772.37"
+  },
+  {
+    "brandName": "MEROZA",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "772.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "772.37"
+  },
+  {
+    "brandName": "MICROPENAM",
+    "packSize": "1",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "809.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "809.73"
+  },
+  {
+    "brandName": "TRANEP",
+    "packSize": "1",
+    "company": "BIOLOGICAL E LTD",
+    "brandMrp": "809.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "809.73"
+  },
+  {
+    "brandName": "REDIPENEM",
+    "packSize": "1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "824.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "824.00"
+  },
+  {
+    "brandName": "MEROGOL",
+    "packSize": "1",
+    "company": "PARENTERAL DRUGS (INDIA) LTD.",
+    "brandMrp": "900.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "900.00"
+  },
+  {
+    "brandName": "MINIPENEM",
+    "packSize": "1",
+    "company": "BHARAT SERUMS & VACCINES LTD",
+    "brandMrp": "950.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "950.00"
+  },
+  {
+    "brandName": "MAXINEM",
+    "packSize": "1",
+    "company": "VHB LIFE SCIENCES LIMITED",
+    "brandMrp": "990.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "990.00"
+  },
+  {
+    "brandName": "MENY",
+    "packSize": "1",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "999.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "999.00"
+  },
+  {
+    "brandName": "AZOPEN",
+    "packSize": "1",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "1000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1000.00"
+  },
+  {
+    "brandName": "MEROJECT",
+    "packSize": "1",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "1095.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1095.23"
+  },
+  {
+    "brandName": "MEROSPECT",
+    "packSize": "1",
+    "company": "CHANDRA BHAGAT PHARMA PVT. LTD.",
+    "brandMrp": "1150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1150.00"
+  },
+  {
+    "brandName": "RONEM",
+    "packSize": "1",
+    "company": "VENUS REMEDIES LTD",
+    "brandMrp": "1190.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1190.00"
+  },
+  {
+    "brandName": "MEPEM",
+    "packSize": "1",
+    "company": "ZYPHARS PHARMACEUTICS PVT. LTD",
+    "brandMrp": "1200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1200.00"
+  },
+  {
+    "brandName": "MEROPIK",
+    "packSize": "1",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "1250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1250.00"
+  },
+  {
+    "brandName": "MEROLON",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "1370.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1370.00"
+  },
+  {
+    "brandName": "MENEM",
+    "packSize": "1",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "1445.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1445.00"
+  },
+  {
+    "brandName": "MEPECON",
+    "packSize": "1",
+    "company": "CONCORD BIOTECH LTD",
+    "brandMrp": "1473.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1473.21"
+  },
+  {
+    "brandName": "ICUBAC",
+    "packSize": "1",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "1498.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1498.00"
+  },
+  {
+    "brandName": "MEROFIT",
+    "packSize": "1",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "1678.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1678.75"
+  },
+  {
+    "brandName": "MEROFIC PLUS",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "1726.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1726.25"
+  },
+  {
+    "brandName": "LEADERBACT",
+    "packSize": "1",
+    "company": "VARENYAM HEALTHCARE PVT LTD.",
+    "brandMrp": "1783.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1783.93"
+  },
+  {
+    "brandName": "EMPIMER",
+    "packSize": "1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "1855.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1855.62"
+  },
+  {
+    "brandName": "MERIWOK",
+    "packSize": "1",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "2100.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2100.00"
+  },
+  {
+    "brandName": "PACEMERO",
+    "packSize": "1",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "2200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2200.00"
+  },
+  {
+    "brandName": "GUFINEM",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "2632.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2632.13"
+  }
+]

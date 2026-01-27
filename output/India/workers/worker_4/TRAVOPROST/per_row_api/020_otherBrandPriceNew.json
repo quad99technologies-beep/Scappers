@@ -1,0 +1,162 @@
+[
+  {
+    "brandName": "TRAVAXO",
+    "packSize": "2",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "157.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.61"
+  },
+  {
+    "brandName": "TRAVORITE",
+    "packSize": "3",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "206.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "68.75"
+  },
+  {
+    "brandName": "TRAVISIGHT",
+    "packSize": "3",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "233.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "77.81"
+  },
+  {
+    "brandName": "SCLEROST",
+    "packSize": "3",
+    "company": "PHOENIX LIFESCIENCES",
+    "brandMrp": "243.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "81.00"
+  },
+  {
+    "brandName": "DOPROST T",
+    "packSize": "3",
+    "company": "DOESHEALTH SYSTEMS PVT.LTD",
+    "brandMrp": "269.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "89.69"
+  },
+  {
+    "brandName": "TRAVOSUNT",
+    "packSize": "2",
+    "company": "SUNWAYS (INDIA) PVT LTD",
+    "brandMrp": "315.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "105.31"
+  },
+  {
+    "brandName": "TRAVOPTA",
+    "packSize": "3",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "326.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "108.75"
+  },
+  {
+    "brandName": "TRAVOPURE",
+    "packSize": "3",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "328.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "109.37"
+  },
+  {
+    "brandName": "RAYPROST",
+    "packSize": "3",
+    "company": "RAYMOND PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "364.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "121.56"
+  },
+  {
+    "brandName": "XOVATRA",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "744.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "148.85"
+  },
+  {
+    "brandName": "OPACIA",
+    "packSize": "3",
+    "company": "SENTISS PHARMA PVT.LTD",
+    "brandMrp": "450.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "150.00"
+  },
+  {
+    "brandName": "TOVAXO",
+    "packSize": "3",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "450.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "150.00"
+  },
+  {
+    "brandName": "TOVAXO",
+    "packSize": "2",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "450.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "150.00"
+  },
+  {
+    "brandName": "LUPITROS Z",
+    "packSize": "3",
+    "company": "LUPIN LTD",
+    "brandMrp": "455.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "151.80"
+  },
+  {
+    "brandName": "TRAVO-Z",
+    "packSize": "3",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "464.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "154.67"
+  },
+  {
+    "brandName": "ZYTRAV",
+    "packSize": "3",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "514.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "171.56"
+  },
+  {
+    "brandName": "XOVATRA",
+    "packSize": "2",
+    "company": "CIPLA LTD.",
+    "brandMrp": "535.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "178.59"
+  },
+  {
+    "brandName": "TRAVOTAS",
+    "packSize": "3",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "556.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "185.63"
+  },
+  {
+    "brandName": "TAVAREN",
+    "packSize": "3",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "580.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "193.45"
+  },
+  {
+    "brandName": "TAVAREN",
+    "packSize": "2",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "650.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "216.67"
+  }
+]

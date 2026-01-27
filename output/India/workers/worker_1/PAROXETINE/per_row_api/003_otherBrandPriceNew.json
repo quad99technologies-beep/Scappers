@@ -1,0 +1,114 @@
+[
+  {
+    "brandName": "PAROGEN",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "153.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.30"
+  },
+  {
+    "brandName": "XEPAR",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "175.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.50"
+  },
+  {
+    "brandName": "PATRIOT",
+    "packSize": "10",
+    "company": "AGM BIOTEC",
+    "brandMrp": "215.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.56"
+  },
+  {
+    "brandName": "XEPAR",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "231.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.16"
+  },
+  {
+    "brandName": "PATINEX",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "245.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.56"
+  },
+  {
+    "brandName": "ONBIXIN",
+    "packSize": "10",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "265.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.55"
+  },
+  {
+    "brandName": "ROXIENT",
+    "packSize": "10",
+    "company": "ARRIENT HEALTHCARE PVT.LTD.",
+    "brandMrp": "299.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.91"
+  },
+  {
+    "brandName": "PAXONIL",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "464.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.94"
+  },
+  {
+    "brandName": "PAXOTUS",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "314.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.45"
+  },
+  {
+    "brandName": "PATROXTA",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "348.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.88"
+  },
+  {
+    "brandName": "PARI",
+    "packSize": "15",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "561.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.44"
+  },
+  {
+    "brandName": "DEPAXIL",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "392.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.28"
+  },
+  {
+    "brandName": "XET",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "426.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.69"
+  },
+  {
+    "brandName": "PEXEP",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "441.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.16"
+  }
+]

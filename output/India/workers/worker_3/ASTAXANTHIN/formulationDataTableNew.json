@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521003883@179115@101108159@-1@101038@207710",
+    "skuName": "ASTABIS CAPSULE 10",
+    "composition": "ASTAXANTHIN CAPSULE ",
+    "packSize": "10 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "INDIAN DRUG & PHARMACEUTICALS LTD (IDPL)",
+    "scheduleFlag": "0",
+    "mrp": "100.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.00"
+  },
+  {
+    "hiddenId": "1521157729@702450@101244302@-1@101006@207710",
+    "skuName": "IMPROSYN TABLET 10",
+    "composition": "ASTAXANTHIN TABLET ",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "PHARMED LTD",
+    "scheduleFlag": "0",
+    "mrp": "391.53",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.15"
+  },
+  {
+    "hiddenId": "1521058689@233484@101161630@3973@101006@207710",
+    "skuName": "OVAXID 8 MG TABLET 25",
+    "composition": "ASTAXANTHIN TABLET 8 MG",
+    "packSize": "25 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "VASU ORGANICS PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "553.29",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.13"
+  },
+  {
+    "hiddenId": "1521156349@247082@101243073@-1@101006@207710",
+    "skuName": "PINEMAX TABLET 10",
+    "composition": "ASTAXANTHIN TABLET ",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "INEX MEDICAMENTS PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "193.32",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.33"
+  }
+]

@@ -1,0 +1,202 @@
+[
+  {
+    "brandName": "DIENONORM",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "328.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.81"
+  },
+  {
+    "brandName": "DINOWEST",
+    "packSize": "10",
+    "company": "WEST COAST PHARMA WORKS",
+    "brandMrp": "399.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.90"
+  },
+  {
+    "brandName": "DINOBLISS",
+    "packSize": "10",
+    "company": "AKESISS PHARMA (P) LTD",
+    "brandMrp": "401.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.13"
+  },
+  {
+    "brandName": "UVAZEST",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "450.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.09"
+  },
+  {
+    "brandName": "DNG",
+    "packSize": "15",
+    "company": "CORONA",
+    "brandMrp": "742.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.50"
+  },
+  {
+    "brandName": "DINOPIL",
+    "packSize": "10",
+    "company": "INNOVCARE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "499.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.90"
+  },
+  {
+    "brandName": "DYNOCAD",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "499.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.90"
+  },
+  {
+    "brandName": "DINOR",
+    "packSize": "15",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "792.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.80"
+  },
+  {
+    "brandName": "ENDONOK",
+    "packSize": "10",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "brandMrp": "528.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.80"
+  },
+  {
+    "brandName": "EVAFACT",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "570.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "57.06"
+  },
+  {
+    "brandName": "ENDOREG",
+    "packSize": "14",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "821.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.67"
+  },
+  {
+    "brandName": "ENDOFIT",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "591.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "59.20"
+  },
+  {
+    "brandName": "DINOGEST",
+    "packSize": "10",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "593.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "59.34"
+  },
+  {
+    "brandName": "EMERSA",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "612.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "61.22"
+  },
+  {
+    "brandName": "DINOMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "621.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.16"
+  },
+  {
+    "brandName": "TEROZESTA",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "622.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.27"
+  },
+  {
+    "brandName": "ENDOBYE",
+    "packSize": "10",
+    "company": "AR-EX LABORATORIES PVT . LTD",
+    "brandMrp": "623.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.34"
+  },
+  {
+    "brandName": "DINOFIRST",
+    "packSize": "14",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "909.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "64.96"
+  },
+  {
+    "brandName": "DIENOFEM",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "663.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "66.33"
+  },
+  {
+    "brandName": "DEINEST",
+    "packSize": "10",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "667.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "66.73"
+  },
+  {
+    "brandName": "CIPGEST",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "681.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "68.13"
+  },
+  {
+    "brandName": "MIRUMIGEST",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "719.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "71.92"
+  },
+  {
+    "brandName": "ENDOBREAK",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "735.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "73.59"
+  },
+  {
+    "brandName": "VISANNE",
+    "packSize": "28",
+    "company": "BAYER PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "3717.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "132.75"
+  },
+  {
+    "brandName": "VISANNE (BAYER)",
+    "packSize": "14",
+    "company": "BAYER PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "3965.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "283.21"
+  }
+]

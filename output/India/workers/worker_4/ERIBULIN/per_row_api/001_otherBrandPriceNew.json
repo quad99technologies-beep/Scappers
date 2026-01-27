@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "EVAIRA",
+    "packSize": "2",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "18745.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9372.76"
+  },
+  {
+    "brandName": "MITOBULIN",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "10441.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10441.47"
+  },
+  {
+    "brandName": "EMBREMMA",
+    "packSize": "2",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "23551.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11775.50"
+  },
+  {
+    "brandName": "HALAVEN",
+    "packSize": "0",
+    "company": "EISAI PHARMACEUTICALS INDIA LTD",
+    "brandMrp": "29887.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29887.50"
+  }
+]

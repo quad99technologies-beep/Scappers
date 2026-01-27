@@ -1,0 +1,426 @@
+[
+  {
+    "brandName": "SERIN",
+    "packSize": "10",
+    "company": "ANTHUS PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.00"
+  },
+  {
+    "brandName": "SERTAJ",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "42.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.29"
+  },
+  {
+    "brandName": "EPISOD",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "44.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.46"
+  },
+  {
+    "brandName": "SETRAL",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "51.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.12"
+  },
+  {
+    "brandName": "SERTAFINE",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "51.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.16"
+  },
+  {
+    "brandName": "SERTOP",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "SLETRAL",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.50"
+  },
+  {
+    "brandName": "ROLLOSERT",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "67.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.79"
+  },
+  {
+    "brandName": "BIOSERT",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "68.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.88"
+  },
+  {
+    "brandName": "VISERT",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "70.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.01"
+  },
+  {
+    "brandName": "SERTACAD",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "72.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.27"
+  },
+  {
+    "brandName": "SERTANOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "74.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.45"
+  },
+  {
+    "brandName": "S R T",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "SERTAPIK",
+    "packSize": "10",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "76.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.60"
+  },
+  {
+    "brandName": "SERTIN",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "77.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.73"
+  },
+  {
+    "brandName": "SENBEST",
+    "packSize": "10",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "82.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.27"
+  },
+  {
+    "brandName": "SERTEO",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "83.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.34"
+  },
+  {
+    "brandName": "DEPSERT",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "83.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.35"
+  },
+  {
+    "brandName": "SERNORM",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "83.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.35"
+  },
+  {
+    "brandName": "LIFT",
+    "packSize": "10",
+    "company": "AARPIK REMEDIES PVT.LTD.",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "SETALIN",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "84.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.48"
+  },
+  {
+    "brandName": "SNATOS",
+    "packSize": "10",
+    "company": "ANAX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "86.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.63"
+  },
+  {
+    "brandName": "ZOLINE",
+    "packSize": "10",
+    "company": "OPTHO REMEDIES PVT.LTD",
+    "brandMrp": "87.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.72"
+  },
+  {
+    "brandName": "SERJET",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "87.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.74"
+  },
+  {
+    "brandName": "SERNEXT",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "91.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.11"
+  },
+  {
+    "brandName": "SERLINE",
+    "packSize": "10",
+    "company": "AGM BIOTEC",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "DEPRALINE",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "95.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "SERMIND",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "95.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.59"
+  },
+  {
+    "brandName": "SERBEST",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "96.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.66"
+  },
+  {
+    "brandName": "SERTAGRESS",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "96.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.66"
+  },
+  {
+    "brandName": "SERTEE",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "97.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.75"
+  },
+  {
+    "brandName": "SETEX",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "98.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.80"
+  },
+  {
+    "brandName": "SERTRAX",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "100.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.00"
+  },
+  {
+    "brandName": "TRALIN",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "100.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.00"
+  },
+  {
+    "brandName": "SEDEPTINE",
+    "packSize": "10",
+    "company": "TRIKO PHARMACEUTICALS",
+    "brandMrp": "100.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.03"
+  },
+  {
+    "brandName": "SEPTALINE",
+    "packSize": "10",
+    "company": "SEPTALYST LIFESCIENCES PVT LTD",
+    "brandMrp": "101.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.11"
+  },
+  {
+    "brandName": "CNSERT",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "101.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.12"
+  },
+  {
+    "brandName": "SROTEC",
+    "packSize": "10",
+    "company": "SURGE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "103.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "SERZEST",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "108.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.84"
+  },
+  {
+    "brandName": "ZOTRAL",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "109.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "brandName": "S R T",
+    "packSize": "15",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "165.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.03"
+  },
+  {
+    "brandName": "STALIN",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "111.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.17"
+  },
+  {
+    "brandName": "DAXID",
+    "packSize": "15",
+    "company": "VIATRIS",
+    "brandMrp": "168.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "OSMOSET",
+    "packSize": "10",
+    "company": "OXFORD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "113.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.34"
+  },
+  {
+    "brandName": "SERLIFT",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "125.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.56"
+  },
+  {
+    "brandName": "SENTA",
+    "packSize": "10",
+    "company": "K.C LABORATORIES",
+    "brandMrp": "126.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.66"
+  },
+  {
+    "brandName": "SERTIMA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "130.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.03"
+  },
+  {
+    "brandName": "INOSERT",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "130.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.05"
+  },
+  {
+    "brandName": "LUPISERT",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "196.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.12"
+  },
+  {
+    "brandName": "SERTIGEM",
+    "packSize": "10",
+    "company": "SANIX FORMULATIONS PVT LTD",
+    "brandMrp": "131.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.15"
+  },
+  {
+    "brandName": "ZOSERT",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.50"
+  },
+  {
+    "brandName": "SERTA",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "223.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.87"
+  },
+  {
+    "brandName": "LUPISERT",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "196.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.69"
+  }
+]

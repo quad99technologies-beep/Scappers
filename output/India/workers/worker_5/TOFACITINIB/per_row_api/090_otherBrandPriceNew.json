@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "TCITIB",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "467.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.78"
+  },
+  {
+    "brandName": "JAKAUTO",
+    "packSize": "20",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "1133.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.67"
+  },
+  {
+    "brandName": "FACITINIB",
+    "packSize": "10",
+    "company": "TRICOS DERMATOLOGICS PVT LTD",
+    "brandMrp": "1099.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "109.90"
+  },
+  {
+    "brandName": "JAKAUTO",
+    "packSize": "10",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "1133.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "113.33"
+  }
+]

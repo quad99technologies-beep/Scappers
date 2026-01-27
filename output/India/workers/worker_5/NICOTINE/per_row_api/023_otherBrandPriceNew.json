@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "NICOTEX",
+    "packSize": "40",
+    "company": "CIPLA LTD.",
+    "brandMrp": "500.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.51"
+  },
+  {
+    "brandName": "NICOTEX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "152.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.26"
+  },
+  {
+    "brandName": "NICOTEX PLUS",
+    "packSize": "9",
+    "company": "CIPLA LTD.",
+    "brandMrp": "152.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.96"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ACNESOL",
+    "packSize": "25",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "116.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.64"
+  },
+  {
+    "brandName": "ERYTOP",
+    "packSize": "25",
+    "company": "USV PVT LTD",
+    "brandMrp": "159.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.37"
+  },
+  {
+    "brandName": "CLINMISKIN",
+    "packSize": "30",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "215.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.20"
+  }
+]

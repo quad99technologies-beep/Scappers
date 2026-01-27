@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "ROLIMUS",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "10395.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1039.50"
+  },
+  {
+    "brandName": "RAPACT",
+    "packSize": "10",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "23809.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2380.95"
+  },
+  {
+    "brandName": "EVERTOR",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "28253.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2825.40"
+  },
+  {
+    "brandName": "EVERMIL",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "28538.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2853.88"
+  },
+  {
+    "brandName": "XOLIMUS",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "28571.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2857.14"
+  },
+  {
+    "brandName": "AFINITOR",
+    "packSize": "10",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "85923.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8592.38"
+  }
+]

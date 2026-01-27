@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "GKOBA",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "105.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.56"
+  },
+  {
+    "brandName": "ZINCOCID",
+    "packSize": "10",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "126.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.68"
+  },
+  {
+    "brandName": "TEBOKAN",
+    "packSize": "10",
+    "company": "DR.WILLMAR SCHWABE INDIA PVT.LTD",
+    "brandMrp": "182.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.20"
+  },
+  {
+    "brandName": "GB",
+    "packSize": "10",
+    "company": "MOVA PHARMACEUTICALS PVT LTD",
+    "brandMrp": "206.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.63"
+  },
+  {
+    "brandName": "MEMOCER",
+    "packSize": "10",
+    "company": "INGA LABORATORIES PVT. LTD.",
+    "brandMrp": "246.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.69"
+  },
+  {
+    "brandName": "GINKOCER",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "264.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.43"
+  },
+  {
+    "brandName": "BILOVAS",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "327.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.72"
+  }
+]

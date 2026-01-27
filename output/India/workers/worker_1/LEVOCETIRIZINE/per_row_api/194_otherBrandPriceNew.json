@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "AL 5",
+    "packSize": "60",
+    "company": "AVANCER LAB",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.08"
+  },
+  {
+    "brandName": "MAHAZIN (MANKIND PRIME)",
+    "packSize": "60",
+    "company": "MANKIND PRIME LABS PVT.LTD",
+    "brandMrp": "68.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.14"
+  },
+  {
+    "brandName": "LDOC",
+    "packSize": "60",
+    "company": "IZNG PHARMACEUTICALS",
+    "brandMrp": "69.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.16"
+  },
+  {
+    "brandName": "EURTICA",
+    "packSize": "30",
+    "company": "EUMEDICA PHARMACEUTICALS",
+    "brandMrp": "34.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.17"
+  },
+  {
+    "brandName": "LEMSKY",
+    "packSize": "60",
+    "company": "AVANCER LAB",
+    "brandMrp": "77.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.28"
+  },
+  {
+    "brandName": "LIVCET",
+    "packSize": "30",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "43.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.46"
+  },
+  {
+    "brandName": "ALEHIZ",
+    "packSize": "60",
+    "company": "ANAX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.48"
+  },
+  {
+    "brandName": "C FRESH L",
+    "packSize": "30",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "46.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.55"
+  },
+  {
+    "brandName": "CETRITREAT L",
+    "packSize": "30",
+    "company": "SMARTWAY WELLNESS PVT. LTD.",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.83"
+  }
+]

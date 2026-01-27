@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "DILCARDIA",
+    "packSize": "10",
+    "company": "JB CHEMICALS",
+    "brandMrp": "64.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.44"
+  },
+  {
+    "brandName": "DILTANOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "79.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.96"
+  },
+  {
+    "brandName": "ISKI",
+    "packSize": "10",
+    "company": "STADMED PVT. LTD",
+    "brandMrp": "84.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.42"
+  },
+  {
+    "brandName": "DILZEM",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "216.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.42"
+  }
+]

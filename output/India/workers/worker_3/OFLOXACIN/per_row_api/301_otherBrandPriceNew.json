@@ -1,0 +1,114 @@
+[
+  {
+    "brandName": "FESTIVE",
+    "packSize": "100",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "17.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.18"
+  },
+  {
+    "brandName": "OFLOXACIN (FRESENIUS)",
+    "packSize": "100",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "18.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.19"
+  },
+  {
+    "brandName": "OFLOXACIN(BAX)",
+    "packSize": "100",
+    "company": "BAXTER INDIA PVT.LTD",
+    "brandMrp": "27.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.28"
+  },
+  {
+    "brandName": "OFLOBID",
+    "packSize": "100",
+    "company": "OLCARE LTD",
+    "brandMrp": "59.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.59"
+  },
+  {
+    "brandName": "ZO",
+    "packSize": "100",
+    "company": "FDC LTD.",
+    "brandMrp": "77.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.77"
+  },
+  {
+    "brandName": "CURADEX",
+    "packSize": "100",
+    "company": "CLARIS LIFESCIENCES LIMITED",
+    "brandMrp": "80.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.81"
+  },
+  {
+    "brandName": "ZANOVID",
+    "packSize": "100",
+    "company": "BAL PHARMA",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.99"
+  },
+  {
+    "brandName": "OFLER",
+    "packSize": "100",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "100.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.00"
+  },
+  {
+    "brandName": "OF",
+    "packSize": "100",
+    "company": "JB CHEMICALS",
+    "brandMrp": "153.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.53"
+  },
+  {
+    "brandName": "OFLOTAS",
+    "packSize": "100",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "172.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.73"
+  },
+  {
+    "brandName": "ZANOCIN",
+    "packSize": "100",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.87"
+  },
+  {
+    "brandName": "OFLOKEM",
+    "packSize": "100",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "203.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.03"
+  },
+  {
+    "brandName": "OFLOX",
+    "packSize": "100",
+    "company": "CIPLA LTD.",
+    "brandMrp": "216.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.16"
+  },
+  {
+    "brandName": "OFLIN",
+    "packSize": "100",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "237.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.37"
+  }
+]

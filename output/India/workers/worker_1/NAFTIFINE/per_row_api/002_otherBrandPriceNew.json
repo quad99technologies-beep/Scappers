@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "NAFTIFAST",
+    "packSize": "50",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "514.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.29"
+  },
+  {
+    "brandName": "NINAF",
+    "packSize": "20",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "214.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.73"
+  },
+  {
+    "brandName": "NAFTIFAST",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "109.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "brandName": "NAFTIFAST",
+    "packSize": "30",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "395.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.18"
+  },
+  {
+    "brandName": "NINAF",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.50"
+  }
+]

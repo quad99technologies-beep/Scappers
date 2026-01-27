@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "RANPREGA",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "33.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.38"
+  },
+  {
+    "brandName": "PREBANEURO",
+    "packSize": "15",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "160.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.71"
+  },
+  {
+    "brandName": "PARVOLIN",
+    "packSize": "10",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "132.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.21"
+  }
+]

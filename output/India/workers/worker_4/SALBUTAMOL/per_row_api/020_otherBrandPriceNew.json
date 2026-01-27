@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "SALBUTAMOL (PFIZER)",
+    "packSize": "10",
+    "company": "PFIZER LTD",
+    "brandMrp": "2.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.20"
+  },
+  {
+    "brandName": "ASTHALIN",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "6.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.22"
+  },
+  {
+    "brandName": "SALBUTAMOL(CIP)",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "2.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.24"
+  },
+  {
+    "brandName": "ASTHALIN",
+    "packSize": "45",
+    "company": "CIPLA LTD.",
+    "brandMrp": "15.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.35"
+  }
+]

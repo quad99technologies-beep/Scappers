@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "CITALKA",
+    "packSize": "100",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "50.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.50"
+  },
+  {
+    "brandName": "CITRO",
+    "packSize": "100",
+    "company": "MENDINE PHARMACEUTICALS",
+    "brandMrp": "63.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.64"
+  },
+  {
+    "brandName": "ELDISODA",
+    "packSize": "100",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.70"
+  },
+  {
+    "brandName": "UNICITRAL(UCR)",
+    "packSize": "60",
+    "company": "UNICURE REMEDIES PVT. LTD",
+    "brandMrp": "45.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.77"
+  },
+  {
+    "brandName": "ALLCITRA",
+    "packSize": "100",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "79.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.80"
+  },
+  {
+    "brandName": "ALKAL",
+    "packSize": "200",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "196.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.98"
+  },
+  {
+    "brandName": "ALTRACIROL",
+    "packSize": "100",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "106.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.07"
+  },
+  {
+    "brandName": "ALKACITRAL",
+    "packSize": "100",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "138.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.39"
+  }
+]

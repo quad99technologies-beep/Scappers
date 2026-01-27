@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "VILTAB SR",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "85.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.67"
+  },
+  {
+    "brandName": "TORGLIP OD",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "82.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.22"
+  },
+  {
+    "brandName": "ENCELIN OD",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "82.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.24"
+  },
+  {
+    "brandName": "VILDAMAC OD",
+    "packSize": "15",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "148.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.88"
+  },
+  {
+    "brandName": "O VILDALOG",
+    "packSize": "10",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "100.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.00"
+  },
+  {
+    "brandName": "VYLDA",
+    "packSize": "15",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "153.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.26"
+  },
+  {
+    "brandName": "JUBIVILDA",
+    "packSize": "15",
+    "company": "JUBILANT GENERICS LIMITED",
+    "brandMrp": "162.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.83"
+  },
+  {
+    "brandName": "ZAVA SR",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "110.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.06"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "BYBACLO",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "165.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.50"
+  },
+  {
+    "brandName": "BACLOF",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "260.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.08"
+  },
+  {
+    "brandName": "GLEEFEN",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "274.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.40"
+  }
+]

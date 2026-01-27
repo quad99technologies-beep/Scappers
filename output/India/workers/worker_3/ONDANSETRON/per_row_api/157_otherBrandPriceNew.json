@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "LESETRON",
+    "packSize": "10",
+    "company": "LEO LIFE SCIENCE PVT LTD",
+    "brandMrp": "15.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.53"
+  },
+  {
+    "brandName": "FLATRON",
+    "packSize": "10",
+    "company": "ST. MORRISON",
+    "brandMrp": "42.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.25"
+  },
+  {
+    "brandName": "EPINORM MD",
+    "packSize": "10",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "50.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.03"
+  },
+  {
+    "brandName": "ONDATREAT MD",
+    "packSize": "10",
+    "company": "SMARTWAY WELLNESS PVT. LTD.",
+    "brandMrp": "54.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.40"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "G FLOX",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "62.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.25"
+  },
+  {
+    "brandName": "BIOGAT",
+    "packSize": "5",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "32.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.48"
+  },
+  {
+    "brandName": "GATE (AJANTA)",
+    "packSize": "5",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "38.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.68"
+  }
+]

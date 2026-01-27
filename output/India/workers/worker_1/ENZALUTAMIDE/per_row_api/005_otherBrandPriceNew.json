@@ -1,0 +1,114 @@
+[
+  {
+    "brandName": "GLENZA",
+    "packSize": "28",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "5900.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "210.71"
+  },
+  {
+    "brandName": "ENZYL",
+    "packSize": "28",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "6440.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "230.00"
+  },
+  {
+    "brandName": "XYLUTIDE",
+    "packSize": "28",
+    "company": "CIPLA LTD.",
+    "brandMrp": "6440.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "230.00"
+  },
+  {
+    "brandName": "AZEL",
+    "packSize": "28",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "8156.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "291.29"
+  },
+  {
+    "brandName": "ENZANDRO",
+    "packSize": "28",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "9600.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "342.86"
+  },
+  {
+    "brandName": "XTIDE",
+    "packSize": "28",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "9843.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "351.56"
+  },
+  {
+    "brandName": "ENCRPC",
+    "packSize": "28",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "10781.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "385.04"
+  },
+  {
+    "brandName": "ENZAMIDE",
+    "packSize": "28",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "10781.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "385.04"
+  },
+  {
+    "brandName": "SAMLUTA",
+    "packSize": "28",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "10781.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "385.04"
+  },
+  {
+    "brandName": "ENZILIX",
+    "packSize": "28",
+    "company": "CELON LABS",
+    "brandMrp": "16875.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "602.68"
+  },
+  {
+    "brandName": "BDENZA",
+    "packSize": "28",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "24555.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "876.96"
+  },
+  {
+    "brandName": "ENZANA",
+    "packSize": "7",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "6250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "892.86"
+  },
+  {
+    "brandName": "ENZUTA",
+    "packSize": "28",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "27500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "982.14"
+  },
+  {
+    "brandName": "EZURVIA",
+    "packSize": "28",
+    "company": "LUPIN LTD",
+    "brandMrp": "32375.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1156.25"
+  }
+]

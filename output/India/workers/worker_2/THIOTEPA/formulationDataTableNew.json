@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521147459@355461@101225403@1846@101068@201757",
+    "skuName": "TEPAPRO 100 MG INJECTION 1",
+    "composition": "THIOTEPA INJECTION 100 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "89000.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "89000.00"
+  },
+  {
+    "hiddenId": "1521134979@355462@101225403@2744@101068@201757",
+    "skuName": "TEPAPRO 15 MG INJECTION 1",
+    "composition": "THIOTEPA INJECTION 15 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "10920.94",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10920.94"
+  },
+  {
+    "hiddenId": "1521077314@238793@101177731@2744@101068@201757",
+    "skuName": "THIOPLAN 15 MG INJECTION 1",
+    "composition": "THIOTEPA INJECTION 15 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "NATCO PHARMA LTD",
+    "scheduleFlag": "0",
+    "mrp": "14928.10",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14928.10"
+  },
+  {
+    "hiddenId": "1521133444@344271@101217535@2744@101068@201757",
+    "skuName": "THIOPTA 15 MG INJECTION 1",
+    "composition": "THIOTEPA INJECTION 15 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "CELON LABS",
+    "scheduleFlag": "0",
+    "mrp": "16071.42",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16071.42"
+  }
+]

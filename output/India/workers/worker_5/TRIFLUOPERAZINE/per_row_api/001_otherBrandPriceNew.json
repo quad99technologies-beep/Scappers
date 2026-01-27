@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "SHICALM",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "13.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.30"
+  },
+  {
+    "brandName": "TALECALM",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "14.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.47"
+  },
+  {
+    "brandName": "TRIKOZIN",
+    "packSize": "10",
+    "company": "TRIKO PHARMACEUTICALS",
+    "brandMrp": "20.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.06"
+  }
+]

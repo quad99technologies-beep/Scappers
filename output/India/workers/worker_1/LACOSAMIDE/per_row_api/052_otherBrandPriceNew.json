@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LACOXA",
+    "packSize": "100",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "252.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.53"
+  },
+  {
+    "brandName": "LACOPTAL",
+    "packSize": "200",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "515.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.58"
+  },
+  {
+    "brandName": "LACOSAM",
+    "packSize": "200",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "600.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  }
+]

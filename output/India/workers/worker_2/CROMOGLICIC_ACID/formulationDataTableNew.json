@@ -1,0 +1,72 @@
+[
+  {
+    "hiddenId": "1521002000@71910@101106504@2888@101103@206899",
+    "skuName": "ALLERCROM 2 % EYE DROPS 5 ML",
+    "composition": "CROMOGLICIC ACID EYE DROPS 2 %",
+    "packSize": "5 ML EYE DROPS",
+    "dosageForm": "EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "FDC LTD.",
+    "scheduleFlag": "0",
+    "mrp": "42.32",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.46"
+  },
+  {
+    "hiddenId": "1521014065@74599@101120417@2888@101103@206899",
+    "skuName": "CROMAL 2 % EYE DROPS 5 ML",
+    "composition": "CROMOGLICIC ACID EYE DROPS 2 %",
+    "packSize": "5 ML EYE DROPS",
+    "dosageForm": "EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "46.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.20"
+  },
+  {
+    "hiddenId": "1521063516@74602@101120417@3594@101103@206899",
+    "skuName": "CROMAL FORTE 4 % EYE DROPS 5 ML",
+    "composition": "CROMOGLICIC ACID EYE DROPS 4 %",
+    "packSize": "5 ML EYE DROPS",
+    "dosageForm": "EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "114.73",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.95"
+  },
+  {
+    "hiddenId": "1521014066@157174@101120425@2888@101103@206899",
+    "skuName": "CROMOL (CIP) 2 % EYE DROPS 5 ML",
+    "composition": "CROMOGLICIC ACID EYE DROPS 2 %",
+    "packSize": "5 ML EYE DROPS",
+    "dosageForm": "EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "46.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.20"
+  },
+  {
+    "hiddenId": "1521063587@157224@101120425@3594@101103@206899",
+    "skuName": "CROMOL (CIP) FORTE 4 % EYE DROPS 5 ML",
+    "composition": "CROMOGLICIC ACID EYE DROPS 4 %",
+    "packSize": "5 ML EYE DROPS",
+    "dosageForm": "EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "114.73",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.95"
+  }
+]

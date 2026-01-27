@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "TRAXANEL",
+    "packSize": "5",
+    "company": "ELDER LABS LTD",
+    "brandMrp": "15.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.13"
+  },
+  {
+    "brandName": "BIOSTAT (INVISION)",
+    "packSize": "5",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "CYKLOKAPRON",
+    "packSize": "5",
+    "company": "PFIZER LTD",
+    "brandMrp": "64.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.80"
+  },
+  {
+    "brandName": "MCK PLUS",
+    "packSize": "5",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "71.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.40"
+  },
+  {
+    "brandName": "STALIA",
+    "packSize": "5",
+    "company": "WANBURY LTD",
+    "brandMrp": "73.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.64"
+  },
+  {
+    "brandName": "VARCLOT",
+    "packSize": "5",
+    "company": "VARENYAM HEALTHCARE PVT LTD.",
+    "brandMrp": "540.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "108.00"
+  }
+]

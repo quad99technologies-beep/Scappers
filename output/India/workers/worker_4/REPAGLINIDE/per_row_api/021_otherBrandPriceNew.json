@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "RESTRICT",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "185.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.59"
+  },
+  {
+    "brandName": "LUNCH ON (ICON)",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "192.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.22"
+  },
+  {
+    "brandName": "NOVONORM",
+    "packSize": "15",
+    "company": "NOVO NORDISK INDIA PVT LTD",
+    "brandMrp": "340.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.69"
+  },
+  {
+    "brandName": "NOVONORM",
+    "packSize": "30",
+    "company": "NOVO NORDISK INDIA PVT LTD",
+    "brandMrp": "680.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.69"
+  },
+  {
+    "brandName": "MAGE",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "262.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.23"
+  },
+  {
+    "brandName": "EUREPA",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "410.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.37"
+  }
+]

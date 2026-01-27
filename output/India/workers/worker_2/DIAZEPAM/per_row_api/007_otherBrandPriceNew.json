@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "MEDIP AM",
+    "packSize": "10",
+    "company": "MEDICO LABS",
+    "brandMrp": "12.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.20"
+  },
+  {
+    "brandName": "DIPAX",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "12.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.26"
+  },
+  {
+    "brandName": "REPAM",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "32.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.20"
+  },
+  {
+    "brandName": "DIAZECO",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "32.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.24"
+  },
+  {
+    "brandName": "VALIUM",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "107.01",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.70"
+  }
+]

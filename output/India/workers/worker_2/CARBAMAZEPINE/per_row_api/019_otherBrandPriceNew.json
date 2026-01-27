@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "CARBATOL",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "30.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.10"
+  },
+  {
+    "brandName": "ZEPTOL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "31.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.19"
+  },
+  {
+    "brandName": "ZIGMA",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "37.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.71"
+  },
+  {
+    "brandName": "MAZETOL",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "37.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.79"
+  },
+  {
+    "brandName": "TEGRITAL",
+    "packSize": "10",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "37.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.79"
+  },
+  {
+    "brandName": "VERSITOL",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "48.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.89"
+  },
+  {
+    "brandName": "TEGRITAL",
+    "packSize": "10",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "49.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.98"
+  },
+  {
+    "brandName": "ZEN",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "49.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.98"
+  }
+]

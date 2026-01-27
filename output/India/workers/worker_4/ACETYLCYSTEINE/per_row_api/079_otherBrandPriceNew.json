@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "NACEL",
+    "packSize": "2",
+    "company": "CELON LABS",
+    "brandMrp": "21.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.71"
+  },
+  {
+    "brandName": "MUCOSYS",
+    "packSize": "2",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "44.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.03"
+  },
+  {
+    "brandName": "COENAC",
+    "packSize": "2",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "47.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.56"
+  },
+  {
+    "brandName": "MUCYST",
+    "packSize": "2",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "50.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.18"
+  },
+  {
+    "brandName": "MUCOTROY",
+    "packSize": "2",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "50.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.22"
+  },
+  {
+    "brandName": "MUCOMIX",
+    "packSize": "2",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "50.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.24"
+  },
+  {
+    "brandName": "MUCINAC",
+    "packSize": "2",
+    "company": "CIPLA LTD.",
+    "brandMrp": "50.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.25"
+  },
+  {
+    "brandName": "MUCOMELT",
+    "packSize": "2",
+    "company": "VENUS REMEDIES LTD",
+    "brandMrp": "50.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.25"
+  },
+  {
+    "brandName": "ATYCY",
+    "packSize": "2",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "51.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.80"
+  }
+]

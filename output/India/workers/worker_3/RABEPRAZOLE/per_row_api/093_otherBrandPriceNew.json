@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "PEPCIA",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "21.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.12"
+  },
+  {
+    "brandName": "RAB",
+    "packSize": "10",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "25.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.50"
+  },
+  {
+    "brandName": "PEPTARD",
+    "packSize": "10",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "28.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.85"
+  },
+  {
+    "brandName": "RABIUM",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "29.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.95"
+  },
+  {
+    "brandName": "RABONIK",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "38.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.85"
+  },
+  {
+    "brandName": "REKOOL",
+    "packSize": "15",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "103.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.89"
+  },
+  {
+    "brandName": "RAZO",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "75.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.59"
+  },
+  {
+    "brandName": "RABLET",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "132.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.85"
+  },
+  {
+    "brandName": "DREGO",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "117.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.78"
+  }
+]

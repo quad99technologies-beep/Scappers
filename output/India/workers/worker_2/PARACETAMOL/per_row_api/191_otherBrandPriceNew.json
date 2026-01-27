@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "ACTON (FRANKLIN)",
+    "packSize": "60",
+    "company": "FRANKLIN LABORATORIES (INDIA) PVT. LTD.",
+    "brandMrp": "32.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.53"
+  },
+  {
+    "brandName": "PA",
+    "packSize": "60",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "35.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.59"
+  },
+  {
+    "brandName": "PARASAN",
+    "packSize": "60",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "35.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.59"
+  },
+  {
+    "brandName": "ULTRAMOL",
+    "packSize": "60",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "35.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.59"
+  },
+  {
+    "brandName": "CALPOL",
+    "packSize": "100",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "334.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.34"
+  }
+]

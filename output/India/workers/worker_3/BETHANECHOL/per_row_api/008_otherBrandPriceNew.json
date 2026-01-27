@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "BETHSEAS",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "285.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.52"
+  },
+  {
+    "brandName": "UROTONE",
+    "packSize": "10",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "295.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.53"
+  },
+  {
+    "brandName": "BCHOL",
+    "packSize": "10",
+    "company": "TYCOON PHARMACEUTICALS PVT LTD",
+    "brandMrp": "342.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.20"
+  }
+]

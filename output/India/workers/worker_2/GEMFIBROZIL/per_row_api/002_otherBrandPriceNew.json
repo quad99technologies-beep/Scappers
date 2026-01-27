@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "LIPIZYL",
+    "packSize": "20",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "76.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.81"
+  },
+  {
+    "brandName": "NORMOLIP",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "123.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.30"
+  }
+]

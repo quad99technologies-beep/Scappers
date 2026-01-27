@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "MEPHNOR",
+    "packSize": "10",
+    "company": "CELON LABS",
+    "brandMrp": "318.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.80"
+  },
+  {
+    "brandName": "THEMICAR",
+    "packSize": "10",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "331.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.12"
+  },
+  {
+    "brandName": "TERMIN",
+    "packSize": "10",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "390.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.04"
+  }
+]

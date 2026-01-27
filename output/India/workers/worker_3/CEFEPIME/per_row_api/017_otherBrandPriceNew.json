@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "CACHEPIME",
+    "packSize": "1",
+    "company": "CACHET PHARMACEUTICALS PVT LTD",
+    "brandMrp": "33.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.75"
+  },
+  {
+    "brandName": "ENPIME",
+    "packSize": "1",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "64.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "64.00"
+  },
+  {
+    "brandName": "SCUD",
+    "packSize": "1",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "91.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "91.75"
+  },
+  {
+    "brandName": "MAPIME",
+    "packSize": "1",
+    "company": "MAPRA LABORATORIES PVT. LTD",
+    "brandMrp": "109.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "109.03"
+  },
+  {
+    "brandName": "NOVAPIME",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "132.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "132.30"
+  },
+  {
+    "brandName": "MAXICEF",
+    "packSize": "1",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "142.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "142.50"
+  }
+]

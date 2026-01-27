@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "CLARICIN",
+    "packSize": "30",
+    "company": "WAVES BIOTECH PVT. LTD.",
+    "brandMrp": "148.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.97"
+  },
+  {
+    "brandName": "CLARINOVA",
+    "packSize": "30",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "206.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.87"
+  },
+  {
+    "brandName": "KLARIM",
+    "packSize": "30",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "254.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.48"
+  },
+  {
+    "brandName": "CLOFF",
+    "packSize": "30",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "268.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.94"
+  },
+  {
+    "brandName": "SYNCLAR",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "278.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  }
+]

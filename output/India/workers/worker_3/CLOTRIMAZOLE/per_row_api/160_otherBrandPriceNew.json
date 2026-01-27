@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "CANAZOLE",
+    "packSize": "30",
+    "company": "LUPIN LTD",
+    "brandMrp": "75.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.53"
+  },
+  {
+    "brandName": "CLOFRESH V",
+    "packSize": "30",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "84.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.80"
+  },
+  {
+    "brandName": "KANSEL",
+    "packSize": "30",
+    "company": "PALSONS DERMA PVT. LTD",
+    "brandMrp": "121.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.06"
+  },
+  {
+    "brandName": "CANDID V",
+    "packSize": "30",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  }
+]

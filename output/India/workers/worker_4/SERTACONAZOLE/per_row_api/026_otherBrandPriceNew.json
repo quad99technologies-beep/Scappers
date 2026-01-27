@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "SERTASPOR",
+    "packSize": "50",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "304.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.09"
+  },
+  {
+    "brandName": "SETRABET",
+    "packSize": "30",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "355.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.83"
+  },
+  {
+    "brandName": "ONABET",
+    "packSize": "30",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "389.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.98"
+  },
+  {
+    "brandName": "MYCOCLIN",
+    "packSize": "15",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  }
+]

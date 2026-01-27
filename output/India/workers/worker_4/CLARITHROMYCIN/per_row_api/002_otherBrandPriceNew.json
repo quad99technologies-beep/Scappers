@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "CLARIAN",
+    "packSize": "15",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "111.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.42"
+  },
+  {
+    "brandName": "CRIXAN",
+    "packSize": "15",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "163.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.88"
+  }
+]

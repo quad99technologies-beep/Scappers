@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "MESALMILE",
+    "packSize": "10",
+    "company": "STERIS HEALTHCARE",
+    "brandMrp": "48.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.88"
+  },
+  {
+    "brandName": "MESAHENZ",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "82.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.25"
+  },
+  {
+    "brandName": "MESACOL",
+    "packSize": "15",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "126.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.46"
+  },
+  {
+    "brandName": "INFLACOL",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "93.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.30"
+  }
+]

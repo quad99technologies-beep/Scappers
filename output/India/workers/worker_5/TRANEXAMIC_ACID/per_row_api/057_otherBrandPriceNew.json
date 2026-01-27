@@ -1,0 +1,354 @@
+[
+  {
+    "brandName": "RAZOTRAN",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "TRANOSTAT",
+    "packSize": "10",
+    "company": "OZONE PHARMACEUTICALS",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.50"
+  },
+  {
+    "brandName": "SYSTRA",
+    "packSize": "10",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "111.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.19"
+  },
+  {
+    "brandName": "NEXA",
+    "packSize": "10",
+    "company": "KAMRON LABORATORIES",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "TRANEE",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "115.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.50"
+  },
+  {
+    "brandName": "NEXI",
+    "packSize": "10",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "116.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.69"
+  },
+  {
+    "brandName": "TRANEXAHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "123.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.38"
+  },
+  {
+    "brandName": "CAPITRAX",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "129.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.90"
+  },
+  {
+    "brandName": "TRANOFAST",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "149.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.98"
+  },
+  {
+    "brandName": "STIC T",
+    "packSize": "10",
+    "company": "DEPSONS PHARMA",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "SYNOSTAT",
+    "packSize": "10",
+    "company": "SYNOKEM PHARMACEUTICALS LTD",
+    "brandMrp": "157.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.76"
+  },
+  {
+    "brandName": "TAMIK",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "158.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.90"
+  },
+  {
+    "brandName": "TEXAKIND",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "159.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.90"
+  },
+  {
+    "brandName": "COSKLOT T",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "164.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.40"
+  },
+  {
+    "brandName": "TRANLOK",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "166.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.67"
+  },
+  {
+    "brandName": "TRENAXA",
+    "packSize": "6",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "104.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.37"
+  },
+  {
+    "brandName": "TYRODIN FSR",
+    "packSize": "10",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "176.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.60"
+  },
+  {
+    "brandName": "TRANFIB",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "178.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.83"
+  },
+  {
+    "brandName": "NEXAMIC",
+    "packSize": "10",
+    "company": "MACMILLON PHARMACEUTICALS",
+    "brandMrp": "178.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.85"
+  },
+  {
+    "brandName": "TREXANET",
+    "packSize": "10",
+    "company": "BENNET PHARMACEUTICALS LIMITED",
+    "brandMrp": "179.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.99"
+  },
+  {
+    "brandName": "TEXID",
+    "packSize": "10",
+    "company": "RAPROSS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "180.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.00"
+  },
+  {
+    "brandName": "PYNOMAX OD",
+    "packSize": "10",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "182.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.28"
+  },
+  {
+    "brandName": "CLIP",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "184.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.42"
+  },
+  {
+    "brandName": "TRANOSTAT",
+    "packSize": "15",
+    "company": "OZONE PHARMACEUTICALS",
+    "brandMrp": "287.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.13"
+  },
+  {
+    "brandName": "NOBLEED",
+    "packSize": "10",
+    "company": "SAF FERMION LTD",
+    "brandMrp": "194.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.40"
+  },
+  {
+    "brandName": "EMSYL T",
+    "packSize": "10",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "194.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.46"
+  },
+  {
+    "brandName": "REDOTREX",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "194.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.46"
+  },
+  {
+    "brandName": "TENACID",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "194.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.46"
+  },
+  {
+    "brandName": "TRAKLOT",
+    "packSize": "6",
+    "company": "KONTEST CHEMICALS LTD.",
+    "brandMrp": "116.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.46"
+  },
+  {
+    "brandName": "ENHEMO",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "194.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.47"
+  },
+  {
+    "brandName": "TRANEFIT",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "194.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.47"
+  },
+  {
+    "brandName": "T STAT",
+    "packSize": "10",
+    "company": "MERCURY HEALTH CARE PVT LTD",
+    "brandMrp": "194.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.47"
+  },
+  {
+    "brandName": "CLOSTOP",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "198.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.80"
+  },
+  {
+    "brandName": "FIBOTRAN",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "198.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.80"
+  },
+  {
+    "brandName": "PAUSE",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "198.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.80"
+  },
+  {
+    "brandName": "STALIA",
+    "packSize": "10",
+    "company": "WANBURY LTD",
+    "brandMrp": "198.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.80"
+  },
+  {
+    "brandName": "STOPBLEED",
+    "packSize": "10",
+    "company": "SAF FERMION LTD",
+    "brandMrp": "198.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.80"
+  },
+  {
+    "brandName": "TRANCYNENE",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "198.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.80"
+  },
+  {
+    "brandName": "TRANTAS",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "198.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.80"
+  },
+  {
+    "brandName": "TRAPIC",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "198.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.80"
+  },
+  {
+    "brandName": "TRENAXA",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "198.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.80"
+  },
+  {
+    "brandName": "XAMIC",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "198.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.80"
+  },
+  {
+    "brandName": "NOLOSS",
+    "packSize": "10",
+    "company": "SURGE BIOTECH PVT LTD",
+    "brandMrp": "200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.00"
+  },
+  {
+    "brandName": "PAUSE XT",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "648.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "64.86"
+  }
+]

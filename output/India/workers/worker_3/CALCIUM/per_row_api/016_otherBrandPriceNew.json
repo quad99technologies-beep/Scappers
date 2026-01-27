@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "B2B",
+    "packSize": "10",
+    "company": "HLL LIFE CARE LTD",
+    "brandMrp": "66.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.60"
+  },
+  {
+    "brandName": "OROTATE",
+    "packSize": "10",
+    "company": "AKESISS PHARMA (P) LTD",
+    "brandMrp": "107.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.70"
+  },
+  {
+    "brandName": "ORORICH",
+    "packSize": "10",
+    "company": "INDIAN DRUG & PHARMACEUTICALS LTD (IDPL)",
+    "brandMrp": "127.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.75"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "IOPROST",
+    "packSize": "2",
+    "company": "FDC LTD.",
+    "brandMrp": "207.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "69.21"
+  },
+  {
+    "brandName": "LAPROST",
+    "packSize": "3",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "398.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "132.67"
+  },
+  {
+    "brandName": "XALATAN",
+    "packSize": "2",
+    "company": "VIATRIS",
+    "brandMrp": "596.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "198.84"
+  }
+]

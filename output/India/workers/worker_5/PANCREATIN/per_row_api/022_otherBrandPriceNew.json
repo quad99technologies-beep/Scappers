@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "ENZELO",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "185.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.50"
+  },
+  {
+    "brandName": "PANLIPASE",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "228.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.80"
+  },
+  {
+    "brandName": "PANLIPASE",
+    "packSize": "15",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "406.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.13"
+  },
+  {
+    "brandName": "LUPASE",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "291.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.19"
+  },
+  {
+    "brandName": "DIGEMAX",
+    "packSize": "10",
+    "company": "PIRAMAL HEALTHCARE LIMITED",
+    "brandMrp": "329.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.95"
+  }
+]

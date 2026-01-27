@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "ALCOSPA",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "320.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.00"
+  },
+  {
+    "brandName": "BACLOCLAS XL",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "334.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.50"
+  },
+  {
+    "brandName": "BACLU",
+    "packSize": "10",
+    "company": "TRION PHARMA",
+    "brandMrp": "349.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.90"
+  },
+  {
+    "brandName": "BIZLO",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "404.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.40"
+  },
+  {
+    "brandName": "LIOFIT",
+    "packSize": "10",
+    "company": "WANDER MEDICARE PVT.LTD",
+    "brandMrp": "457.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.70"
+  },
+  {
+    "brandName": "LUPIBAC",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "460.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.00"
+  }
+]

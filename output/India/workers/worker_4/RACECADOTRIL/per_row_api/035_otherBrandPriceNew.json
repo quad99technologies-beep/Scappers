@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "DAIAGON",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "RACEX",
+    "packSize": "10",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "NORMET-R",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "81.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.20"
+  },
+  {
+    "brandName": "RONTAP",
+    "packSize": "10",
+    "company": "ST. MORRISON",
+    "brandMrp": "98.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.80"
+  },
+  {
+    "brandName": "RACEBREK",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "100.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.00"
+  },
+  {
+    "brandName": "RACELOC",
+    "packSize": "10",
+    "company": "INTRA LABS",
+    "brandMrp": "100.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.09"
+  },
+  {
+    "brandName": "AD",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "128.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.80"
+  },
+  {
+    "brandName": "LEEDOTT",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "149.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.91"
+  },
+  {
+    "brandName": "RALOP",
+    "packSize": "10",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "ENUFF",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "161.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.17"
+  },
+  {
+    "brandName": "RACEDOT",
+    "packSize": "6",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "113.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.99"
+  },
+  {
+    "brandName": "REDOTIL",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "440.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.36"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "DT XT",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "84.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "D FAX",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "159.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.65"
+  },
+  {
+    "brandName": "MDD",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "193.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.88"
+  }
+]

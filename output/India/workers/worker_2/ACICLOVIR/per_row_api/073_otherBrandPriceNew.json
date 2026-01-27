@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "VIRAPT",
+    "packSize": "5",
+    "company": "CHETHANA PHARMACEUTICALS",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "OPTIVIRAL",
+    "packSize": "5",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "61.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.38"
+  },
+  {
+    "brandName": "OCUVIR",
+    "packSize": "5",
+    "company": "FDC LTD.",
+    "brandMrp": "62.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  }
+]

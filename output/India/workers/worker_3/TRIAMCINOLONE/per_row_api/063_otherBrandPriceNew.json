@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PRETICORT",
+    "packSize": "15",
+    "company": "PRETIUM PHARMACEUTICALS",
+    "brandMrp": "51.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.43"
+  },
+  {
+    "brandName": "PRETICORT",
+    "packSize": "20",
+    "company": "PRETIUM PHARMACEUTICALS",
+    "brandMrp": "74.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.70"
+  },
+  {
+    "brandName": "TURBOCORT",
+    "packSize": "15",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "138.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.25"
+  }
+]

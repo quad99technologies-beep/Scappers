@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "DOLOTUSS SF",
+    "packSize": "100",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "125.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.26"
+  },
+  {
+    "brandName": "SOVENTUS DC",
+    "packSize": "100",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "156.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.57"
+  },
+  {
+    "brandName": "LUPITUSS",
+    "packSize": "100",
+    "company": "LUPIN LTD",
+    "brandMrp": "179.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.79"
+  },
+  {
+    "brandName": "LUPITUSS",
+    "packSize": "100",
+    "company": "LUPIN LTD",
+    "brandMrp": "182.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.83"
+  }
+]

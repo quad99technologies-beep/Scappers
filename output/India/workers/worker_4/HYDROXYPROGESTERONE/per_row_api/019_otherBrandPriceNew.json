@@ -1,0 +1,130 @@
+[
+  {
+    "brandName": "GYNONYS",
+    "packSize": "2",
+    "company": "JB CHEMICALS",
+    "brandMrp": "107.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.61"
+  },
+  {
+    "brandName": "LGP H",
+    "packSize": "1",
+    "company": "ST. MORRISON",
+    "brandMrp": "69.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "69.90"
+  },
+  {
+    "brandName": "HPROGEST",
+    "packSize": "1",
+    "company": "OLCARE LTD",
+    "brandMrp": "92.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "92.85"
+  },
+  {
+    "brandName": "PROLUTIL",
+    "packSize": "1",
+    "company": "TABLETS INDIA LTD",
+    "brandMrp": "94.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "94.28"
+  },
+  {
+    "brandName": "BIOSTERONE-DEPOT",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "113.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "113.10"
+  },
+  {
+    "brandName": "FETUGEST",
+    "packSize": "1",
+    "company": "OBSURGE BIOTECH LTD",
+    "brandMrp": "115.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "115.31"
+  },
+  {
+    "brandName": "CAPROGEN DEPOT",
+    "packSize": "1",
+    "company": "MACMILLON PHARMACEUTICALS",
+    "brandMrp": "127.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "127.83"
+  },
+  {
+    "brandName": "NT NATAL",
+    "packSize": "1",
+    "company": "KEE PHARMA",
+    "brandMrp": "163.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "163.50"
+  },
+  {
+    "brandName": "PROGESHIELD",
+    "packSize": "1",
+    "company": "INDIAN IMMUNOLOGICALS LTD",
+    "brandMrp": "175.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "175.00"
+  },
+  {
+    "brandName": "PRO-9",
+    "packSize": "2",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "354.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "177.06"
+  },
+  {
+    "brandName": "PRO-9",
+    "packSize": "1",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "209.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "209.26"
+  },
+  {
+    "brandName": "ANIN",
+    "packSize": "1",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "216.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "216.38"
+  },
+  {
+    "brandName": "COR9",
+    "packSize": "1",
+    "company": "CORONA",
+    "brandMrp": "230.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "230.06"
+  },
+  {
+    "brandName": "PROLUTON",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "260.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "260.91"
+  },
+  {
+    "brandName": "UNIPROGESTIN",
+    "packSize": "1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "272.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "272.30"
+  },
+  {
+    "brandName": "PROLOUTON DPT",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "278.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "278.30"
+  }
+]

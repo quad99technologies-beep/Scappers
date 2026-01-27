@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "ZONAM",
+    "packSize": "1",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "13.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.50"
+  },
+  {
+    "brandName": "AZENAM",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "507.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.72"
+  },
+  {
+    "brandName": "AZTRE",
+    "packSize": "1",
+    "company": "VHB LIFE SCIENCES LIMITED",
+    "brandMrp": "340.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "340.00"
+  },
+  {
+    "brandName": "AZTREO",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "416.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "416.00"
+  },
+  {
+    "brandName": "AZTREMAC",
+    "packSize": "1",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "445.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "445.31"
+  },
+  {
+    "brandName": "AZTROHIGH",
+    "packSize": "1",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "598.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "598.94"
+  },
+  {
+    "brandName": "AZTRONE",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "704.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "704.98"
+  }
+]

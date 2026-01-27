@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521066748@315157@101121494@2744@101006@206054",
+    "skuName": "DACOPLICE 15 MG TABLET 30",
+    "composition": "DACOMITINIB TABLET 15 MG",
+    "packSize": "30 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "PFIZER LTD",
+    "scheduleFlag": "0",
+    "mrp": "44500.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1483.33"
+  },
+  {
+    "hiddenId": "1521013101@315158@101121494@3460@101006@206054",
+    "skuName": "DACOPLICE 30 MG TABLET 30",
+    "composition": "DACOMITINIB TABLET 30 MG",
+    "packSize": "30 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "PFIZER LTD",
+    "scheduleFlag": "0",
+    "mrp": "60046.88",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2001.56"
+  },
+  {
+    "hiddenId": "1521014400@315159@101121494@3683@101006@206054",
+    "skuName": "DACOPLICE 45 MG TABLET 30",
+    "composition": "DACOMITINIB TABLET 45 MG",
+    "packSize": "30 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "PFIZER LTD",
+    "scheduleFlag": "0",
+    "mrp": "65000.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2166.67"
+  }
+]

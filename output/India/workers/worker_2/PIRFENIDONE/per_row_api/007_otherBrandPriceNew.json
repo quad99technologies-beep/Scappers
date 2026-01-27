@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PIRFEMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "290.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.00"
+  },
+  {
+    "brandName": "FIBRODONE",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "419.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "41.93"
+  },
+  {
+    "brandName": "PIRFENEX",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "727.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.48"
+  }
+]

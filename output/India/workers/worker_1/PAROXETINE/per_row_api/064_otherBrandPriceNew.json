@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PARI",
+    "packSize": "15",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "319.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.32"
+  },
+  {
+    "brandName": "XET",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "223.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.30"
+  },
+  {
+    "brandName": "PEXEP",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "233.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.39"
+  }
+]

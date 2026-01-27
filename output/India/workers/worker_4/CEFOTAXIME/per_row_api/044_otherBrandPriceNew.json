@@ -1,0 +1,162 @@
+[
+  {
+    "brandName": "BIOTAX",
+    "packSize": "30",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "42.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.42"
+  },
+  {
+    "brandName": "CEFOTIM",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "25.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.50"
+  },
+  {
+    "brandName": "TOX (LABORATE)",
+    "packSize": "5",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "22.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "LUPITAX",
+    "packSize": "5",
+    "company": "LUPIN LTD",
+    "brandMrp": "33.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.75"
+  },
+  {
+    "brandName": "CEFAXIL (LEBEN)",
+    "packSize": "5",
+    "company": "LEBEN LABORATORIES PVT.LTD",
+    "brandMrp": "37.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.53"
+  },
+  {
+    "brandName": "CEFANTRAL",
+    "packSize": "5",
+    "company": "LUPIN LTD",
+    "brandMrp": "41.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.38"
+  },
+  {
+    "brandName": "C TAX",
+    "packSize": "5",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "42.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.53"
+  },
+  {
+    "brandName": "MACTAX",
+    "packSize": "5",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "42.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.53"
+  },
+  {
+    "brandName": "TAXIM",
+    "packSize": "5",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "42.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.53"
+  },
+  {
+    "brandName": "CEFENTRAL",
+    "packSize": "5",
+    "company": "LUPIN LTD",
+    "brandMrp": "44.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.94"
+  },
+  {
+    "brandName": "CEFOTAX",
+    "packSize": "2",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "34.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.43"
+  },
+  {
+    "brandName": "OMNATAX",
+    "packSize": "2",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "41.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.97"
+  },
+  {
+    "brandName": "OMNICEF",
+    "packSize": "2",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "42.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.34"
+  },
+  {
+    "brandName": "EVACEF",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "39.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.30"
+  },
+  {
+    "brandName": "AURACT",
+    "packSize": "1",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "42.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.19"
+  },
+  {
+    "brandName": "CEFORAZ",
+    "packSize": "1",
+    "company": "BIOLOGICAL E LTD",
+    "brandMrp": "42.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.68"
+  },
+  {
+    "brandName": "OMINAX",
+    "packSize": "1",
+    "company": "MAPRA LABORATORIES PVT. LTD",
+    "brandMrp": "42.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.68"
+  },
+  {
+    "brandName": "BIOCEF (PACIFIC)",
+    "packSize": "1",
+    "company": "PACIFIC DRUGS & CHEMICALS",
+    "brandMrp": "69.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "69.50"
+  },
+  {
+    "brandName": "BLUTAX",
+    "packSize": "1",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "86.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "86.60"
+  },
+  {
+    "brandName": "CEFTRIAXONE FOR INJECTION",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "185.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "185.00"
+  }
+]

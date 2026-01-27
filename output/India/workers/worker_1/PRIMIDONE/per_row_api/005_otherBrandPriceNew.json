@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PROLET",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "EPIAD",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "84.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.43"
+  },
+  {
+    "brandName": "PROLET",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "134.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.95"
+  }
+]

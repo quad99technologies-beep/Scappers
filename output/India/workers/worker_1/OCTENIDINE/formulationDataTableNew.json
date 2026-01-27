@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521055612@316440@101158548@1095@101101@205585",
+    "skuName": "OCTENOXA 0.05 % GEL 20 GM",
+    "composition": "OCTENIDINE GEL 0.05 %",
+    "packSize": "20 GM GEL",
+    "dosageForm": "GEL",
+    "ceilingPrice": "-1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "189.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.45"
+  },
+  {
+    "hiddenId": "1521055642@239617@101158580@3049@101028@205585",
+    "skuName": "OCTISEPT 20 MG CREAM 20 GM",
+    "composition": "OCTENIDINE CREAM 20 MG",
+    "packSize": "20 GM CREAM",
+    "dosageForm": "CREAM",
+    "ceilingPrice": "-1",
+    "company": "HETERO HEALTHCARE LTD",
+    "scheduleFlag": "0",
+    "mrp": "120.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "hiddenId": "1521086289@231617@101187160@1095@101101@205585",
+    "skuName": "ZOTOBAC 0.05 % GEL 20 GM",
+    "composition": "OCTENIDINE GEL 0.05 %",
+    "packSize": "20 GM GEL",
+    "dosageForm": "GEL",
+    "ceilingPrice": "-1",
+    "company": "AJANTA PHARMA LTD",
+    "scheduleFlag": "0",
+    "mrp": "160.31",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.02"
+  },
+  {
+    "hiddenId": "1521086290@243285@101187160@1095@101083@205585",
+    "skuName": "ZOTOBAC 0.05 % SOLUTION 50 ML",
+    "composition": "OCTENIDINE ORAL SOLUTION 0.05 %",
+    "packSize": "50 ML ORAL SOLUTION",
+    "dosageForm": "ORAL SOLUTION",
+    "ceilingPrice": "-1",
+    "company": "AJANTA PHARMA LTD",
+    "scheduleFlag": "0",
+    "mrp": "125.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.50"
+  }
+]

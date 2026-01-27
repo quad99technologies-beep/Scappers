@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "NOAPNEA",
+    "packSize": "2",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "522.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "261.00"
+  },
+  {
+    "brandName": "CAFNEON OS",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "262.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "262.20"
+  },
+  {
+    "brandName": "APNICAF",
+    "packSize": "3",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "789.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "263.03"
+  },
+  {
+    "brandName": "CAFNEON",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "267.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "267.45"
+  },
+  {
+    "brandName": "CAPNEA",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "267.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "267.59"
+  },
+  {
+    "brandName": "CAPNEA",
+    "packSize": "2",
+    "company": "CIPLA LTD.",
+    "brandMrp": "535.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "267.60"
+  }
+]

@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "BIOCEF (LEEF)",
+    "packSize": "30",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.50"
+  },
+  {
+    "brandName": "ACCUZON",
+    "packSize": "30",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "147.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.92"
+  },
+  {
+    "brandName": "MONOTAX",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "147.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.75"
+  },
+  {
+    "brandName": "XONE",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "147.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.76"
+  },
+  {
+    "brandName": "MONOCEF",
+    "packSize": "5",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "147.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.51"
+  },
+  {
+    "brandName": "ODICEF",
+    "packSize": "2",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "125.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.70"
+  },
+  {
+    "brandName": "TRIXON",
+    "packSize": "1",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "145.01",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "145.01"
+  },
+  {
+    "brandName": "C LET",
+    "packSize": "1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "147.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "147.52"
+  },
+  {
+    "brandName": "C TRI",
+    "packSize": "1",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "147.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "147.52"
+  },
+  {
+    "brandName": "TORIXONE",
+    "packSize": "1",
+    "company": "TORIN PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "154.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "154.00"
+  },
+  {
+    "brandName": "SUPERCEF",
+    "packSize": "1",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "154.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "154.68"
+  },
+  {
+    "brandName": "GREATCEF",
+    "packSize": "1",
+    "company": "RONYD HEALTH CARE PVT LTD",
+    "brandMrp": "159.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "159.00"
+  },
+  {
+    "brandName": "PILCEF",
+    "packSize": "1",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "159.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "159.36"
+  }
+]

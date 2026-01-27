@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "BILA BANG",
+    "packSize": "10",
+    "company": "ENCORE HEALTHCARE PVT LTD",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "MEGABIL",
+    "packSize": "10",
+    "company": "RHINE BIOGENICS PVT LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "T BIL",
+    "packSize": "10",
+    "company": "TRIKONA PHARMACEUTICALS PVT LTD",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "BILAXYL",
+    "packSize": "10",
+    "company": "SAIN MEDICAMENTS",
+    "brandMrp": "135.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.59"
+  }
+]

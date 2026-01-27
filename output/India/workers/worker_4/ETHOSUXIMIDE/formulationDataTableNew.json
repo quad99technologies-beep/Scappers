@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521006519@280327@101110438@3215@101083@206450",
+    "skuName": "ABSENZ 250 MG SOLUTION 100 ML",
+    "composition": "ETHOSUXIMIDE ORAL SOLUTION 250 MG",
+    "packSize": "100 ML ORAL SOLUTION",
+    "dosageForm": "ORAL SOLUTION",
+    "ceilingPrice": "-1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "scheduleFlag": "0",
+    "mrp": "514.69",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "hiddenId": "1521141738@112845@101239307@-1@101006@206450",
+    "skuName": "THIOZYL H TABLET 10",
+    "composition": "ETHOSUXIMIDE TABLET ",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "D.D PHARMACEUTICALS",
+    "scheduleFlag": "0",
+    "mrp": "30.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  }
+]

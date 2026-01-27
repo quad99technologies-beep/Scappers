@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "DEXTROSE (FRESENIUS)",
+    "packSize": "500",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "22.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.04"
+  },
+  {
+    "brandName": "DEXTROSE (FRESENIUS)",
+    "packSize": "100",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "18.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.19"
+  },
+  {
+    "brandName": "DEXTROSE (CLARIS LIFE)",
+    "packSize": "100",
+    "company": "CLARIS LIFESCIENCES LIMITED",
+    "brandMrp": "21.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.21"
+  }
+]

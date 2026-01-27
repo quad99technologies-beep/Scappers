@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "ALCOCEL",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "39.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.92"
+  },
+  {
+    "brandName": "CAMPSATE",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "86.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.64"
+  },
+  {
+    "brandName": "ACMACAL",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "ACAMAPTAS",
+    "packSize": "6",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "71.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.86"
+  },
+  {
+    "brandName": "ACAMPCON 333",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "170.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.00"
+  },
+  {
+    "brandName": "ATOMAX",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "267.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.86"
+  },
+  {
+    "brandName": "ACAMSTAIN",
+    "packSize": "6",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "ACAMPROL",
+    "packSize": "6",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.53"
+  }
+]

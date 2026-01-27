@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "NUCORT",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "6.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.65"
+  },
+  {
+    "brandName": "HISOLONE",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "6.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.69"
+  },
+  {
+    "brandName": "PREDNISOLONE (WYETH)",
+    "packSize": "10",
+    "company": "PFIZER LTD",
+    "brandMrp": "10.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.10"
+  },
+  {
+    "brandName": "PCORT (PHARMTAK)",
+    "packSize": "10",
+    "company": "PHARMTAK",
+    "brandMrp": "11.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.12"
+  },
+  {
+    "brandName": "EMSOLONE",
+    "packSize": "20",
+    "company": "MEDOPHARM",
+    "brandMrp": "24.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.25"
+  },
+  {
+    "brandName": "ACTICORT",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "12.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.28"
+  },
+  {
+    "brandName": "DELSONE",
+    "packSize": "10",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "12.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.28"
+  },
+  {
+    "brandName": "OMNACORTIL",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "12.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.28"
+  },
+  {
+    "brandName": "VENTOCORTIL",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "12.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.28"
+  },
+  {
+    "brandName": "PREDNIHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "12.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "NISEFLO",
+    "packSize": "10",
+    "company": "THYONE HEALTH CARE",
+    "brandMrp": "33.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.39"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "PHEXIN",
+    "packSize": "100",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "101.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.01"
+  },
+  {
+    "brandName": "ROFEX",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.00"
+  },
+  {
+    "brandName": "CEPHAXIN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "49.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.98"
+  },
+  {
+    "brandName": "CEPHADEX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "167.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.74"
+  },
+  {
+    "brandName": "CEFF",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "222.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.21"
+  },
+  {
+    "brandName": "PHEXIN",
+    "packSize": "10",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "241.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.17"
+  }
+]

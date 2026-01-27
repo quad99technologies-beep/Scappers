@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PREGATEO",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.66"
+  },
+  {
+    "brandName": "GABAFIX",
+    "packSize": "10",
+    "company": "AAREEN HEALTHCARE",
+    "brandMrp": "194.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.49"
+  },
+  {
+    "brandName": "NERVPHIL",
+    "packSize": "10",
+    "company": "STARTOS HEALTH CARE PVT.LTD",
+    "brandMrp": "210.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.09"
+  }
+]

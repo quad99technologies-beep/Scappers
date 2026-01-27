@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "AZADINE O",
+    "packSize": "14",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "15000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1071.43"
+  },
+  {
+    "brandName": "XPREZA",
+    "packSize": "14",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "16000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1142.86"
+  },
+  {
+    "brandName": "AZATEND O",
+    "packSize": "14",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "17995.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1285.36"
+  }
+]

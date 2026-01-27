@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "CHILKUL SB",
+    "packSize": "10",
+    "company": "APTUS PHARMA PVT.LTD",
+    "brandMrp": "43.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.39"
+  },
+  {
+    "brandName": "RZOLE (ABBOTT)",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "86.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.68"
+  },
+  {
+    "brandName": "PHILRAB D",
+    "packSize": "10",
+    "company": "STARTOS HEALTH CARE PVT.LTD",
+    "brandMrp": "94.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.43"
+  }
+]

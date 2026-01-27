@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ACENOMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "124.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.47"
+  },
+  {
+    "brandName": "ARTIFLO",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "160.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.02"
+  },
+  {
+    "brandName": "ACITROM",
+    "packSize": "30",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "705.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.51"
+  }
+]

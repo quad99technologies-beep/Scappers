@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "OLFENAC",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "39.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.90"
+  },
+  {
+    "brandName": "SAMONEC",
+    "packSize": "10",
+    "company": "ST. MORRISON",
+    "brandMrp": "45.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.58"
+  },
+  {
+    "brandName": "VIVIAN-A SR",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "46.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.63"
+  },
+  {
+    "brandName": "ACIMOL (LFH)",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "49.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.97"
+  },
+  {
+    "brandName": "ACENT",
+    "packSize": "10",
+    "company": "INTRA LABS",
+    "brandMrp": "50.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.06"
+  },
+  {
+    "brandName": "ICOBIT",
+    "packSize": "10",
+    "company": "CUBIT HEALTHCARE",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "ALOCK SR",
+    "packSize": "10",
+    "company": "GODDRES PHARMACEUTICALS LTD",
+    "brandMrp": "55.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.60"
+  },
+  {
+    "brandName": "MOVEL OD",
+    "packSize": "10",
+    "company": "EMCEE PHARMACEUTICALS PVT. LTD",
+    "brandMrp": "65.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.59"
+  },
+  {
+    "brandName": "NOCK CR (WAN)",
+    "packSize": "10",
+    "company": "WANBURY LTD",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "ARYL",
+    "packSize": "10",
+    "company": "JARUN PHARMACEUTICALS",
+    "brandMrp": "81.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.10"
+  },
+  {
+    "brandName": "ZIX",
+    "packSize": "10",
+    "company": "JENBURKT PHARMACEUTICALS LTD",
+    "brandMrp": "105.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.52"
+  },
+  {
+    "brandName": "AC (MACLEODS)",
+    "packSize": "6",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "83.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.83"
+  }
+]

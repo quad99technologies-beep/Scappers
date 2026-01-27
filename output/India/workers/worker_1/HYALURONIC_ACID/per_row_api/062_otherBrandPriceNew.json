@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "SYNJECT",
+    "packSize": "2",
+    "company": "GLAND PHARMA LIMITED",
+    "brandMrp": "781.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "390.63"
+  },
+  {
+    "brandName": "HALONIX",
+    "packSize": "2",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "936.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "468.13"
+  },
+  {
+    "brandName": "VISCOSAFE",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "598.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "598.00"
+  },
+  {
+    "brandName": "KINEFLEX",
+    "packSize": "2",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "2050.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1025.24"
+  }
+]

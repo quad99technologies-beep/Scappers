@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "IRBAN OD",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.00"
+  },
+  {
+    "brandName": "IVABEAT",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "507.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.75"
+  },
+  {
+    "brandName": "IVABID",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "617.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "61.77"
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "CYSTRAN",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "125.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.56"
+  },
+  {
+    "brandName": "OXYSPAS",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "134.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.43"
+  }
+]

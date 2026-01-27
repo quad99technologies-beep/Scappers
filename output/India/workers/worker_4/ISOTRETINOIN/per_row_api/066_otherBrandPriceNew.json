@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "ISONAK",
+    "packSize": "10",
+    "company": "PRAISE PHARMA",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  },
+  {
+    "brandName": "SAFERET",
+    "packSize": "30",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "330.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "ISOWELL",
+    "packSize": "10",
+    "company": "CURIOUS BIOTECH",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "ISOPEV",
+    "packSize": "10",
+    "company": "PRETIUM PHARMACEUTICALS",
+    "brandMrp": "125.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.59"
+  },
+  {
+    "brandName": "ISOGRACE",
+    "packSize": "10",
+    "company": "GRACE DERMA HEALTHCARE PVT.LTD",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.13"
+  },
+  {
+    "brandName": "ACNERUS I",
+    "packSize": "10",
+    "company": "CYRUS REMEDIES PVT LTD",
+    "brandMrp": "133.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.39"
+  },
+  {
+    "brandName": "ACNETRET",
+    "packSize": "10",
+    "company": "BIOS LAB PVT.LTD",
+    "brandMrp": "148.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.85"
+  },
+  {
+    "brandName": "GLOTRET",
+    "packSize": "10",
+    "company": "TRICOS DERMATOLOGICS PVT LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.88"
+  },
+  {
+    "brandName": "ACTAME",
+    "packSize": "10",
+    "company": "SOLDERMA PHARMACEUTICALS PVT. LTD",
+    "brandMrp": "200.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.06"
+  },
+  {
+    "brandName": "REZISORT",
+    "packSize": "10",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "217.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.75"
+  }
+]

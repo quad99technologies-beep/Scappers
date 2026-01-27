@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "BETHANEVOID",
+    "packSize": "10",
+    "company": "STERIS HEALTHCARE",
+    "brandMrp": "60.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.05"
+  },
+  {
+    "brandName": "MICTUEASE",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "175.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.59"
+  },
+  {
+    "brandName": "BETHERAN",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "182.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.28"
+  },
+  {
+    "brandName": "UROTONE",
+    "packSize": "10",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "189.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.00"
+  },
+  {
+    "brandName": "BETHSEAS",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "193.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.33"
+  },
+  {
+    "brandName": "BCHOL",
+    "packSize": "10",
+    "company": "TYCOON PHARMACEUTICALS PVT LTD",
+    "brandMrp": "210.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.09"
+  },
+  {
+    "brandName": "URIVOID",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "213.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.34"
+  }
+]

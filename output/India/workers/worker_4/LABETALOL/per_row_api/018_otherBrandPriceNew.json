@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LABLOL",
+    "packSize": "20",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "863.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.18"
+  },
+  {
+    "brandName": "LABEBET",
+    "packSize": "2",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "104.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.48"
+  },
+  {
+    "brandName": "LOBET",
+    "packSize": "20",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "1067.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.39"
+  }
+]

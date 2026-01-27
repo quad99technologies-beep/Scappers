@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "OLOBLU OD",
+    "packSize": "5",
+    "company": "LUPIN LTD",
+    "brandMrp": "126.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.28"
+  },
+  {
+    "brandName": "PATALO DS",
+    "packSize": "5",
+    "company": "EXELTIS",
+    "brandMrp": "130.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.12"
+  },
+  {
+    "brandName": "OLODAY",
+    "packSize": "5",
+    "company": "NRI VISION CARE",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.25"
+  },
+  {
+    "brandName": "PATIF",
+    "packSize": "5",
+    "company": "NEOMEDIX HEALTHCARE INDIA PVT.LTD",
+    "brandMrp": "159.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.87"
+  },
+  {
+    "brandName": "OLOTOP",
+    "packSize": "5",
+    "company": "SUNWAYS (INDIA) PVT LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.75"
+  },
+  {
+    "brandName": "OLAPTINE",
+    "packSize": "5",
+    "company": "DEYS MEDICAL",
+    "brandMrp": "182.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.56"
+  },
+  {
+    "brandName": "RAPIDON OD",
+    "packSize": "3",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "155.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.88"
+  },
+  {
+    "brandName": "OLOPLUS OD",
+    "packSize": "3",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "195.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.00"
+  },
+  {
+    "brandName": "ALERCHEK OD",
+    "packSize": "3",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "203.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "67.80"
+  },
+  {
+    "brandName": "WINOLAP",
+    "packSize": "2",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "242.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "80.94"
+  },
+  {
+    "brandName": "PATADAY",
+    "packSize": "2",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "493.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "164.58"
+  }
+]

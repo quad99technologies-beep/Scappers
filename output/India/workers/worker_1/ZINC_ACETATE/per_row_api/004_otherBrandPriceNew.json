@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "ZINCOCEPT",
+    "packSize": "100",
+    "company": "CONCEPT PHARMACEUTICALS LTD",
+    "brandMrp": "78.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.78"
+  },
+  {
+    "brandName": "ZINCOFEM",
+    "packSize": "100",
+    "company": "DABUR INDIA LTD.",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.80"
+  },
+  {
+    "brandName": "ZINKID",
+    "packSize": "100",
+    "company": "EMCEE PHARMACEUTICALS PVT. LTD",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.89"
+  },
+  {
+    "brandName": "ZINC UP",
+    "packSize": "50",
+    "company": "MAPRA LABORATORIES PVT. LTD",
+    "brandMrp": "49.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.98"
+  },
+  {
+    "brandName": "ZINCMORE",
+    "packSize": "100",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "101.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.01"
+  },
+  {
+    "brandName": "ZINC UP",
+    "packSize": "100",
+    "company": "MAPRA LABORATORIES PVT. LTD",
+    "brandMrp": "108.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.08"
+  },
+  {
+    "brandName": "ZICOSYP",
+    "packSize": "60",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.17"
+  },
+  {
+    "brandName": "WARZINC",
+    "packSize": "60",
+    "company": "BIO WARRIORS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "77.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "Z & D (JB)",
+    "packSize": "100",
+    "company": "JB CHEMICALS",
+    "brandMrp": "152.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.53"
+  },
+  {
+    "brandName": "ZINI (STADCHEM)",
+    "packSize": "60",
+    "company": "STADCHEM OF INDIA",
+    "brandMrp": "103.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.72"
+  }
+]

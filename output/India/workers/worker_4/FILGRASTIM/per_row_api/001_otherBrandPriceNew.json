@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "GRANFILL",
+    "packSize": "1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "400.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "400.00"
+  },
+  {
+    "brandName": "COLSTIM",
+    "packSize": "1",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "495.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "495.00"
+  },
+  {
+    "brandName": "EMGRAST",
+    "packSize": "1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "1153.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1153.84"
+  },
+  {
+    "brandName": "GUFIGRAST",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "1175.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1175.68"
+  },
+  {
+    "brandName": "EMGRAST",
+    "packSize": "0",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "1239.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1239.14"
+  },
+  {
+    "brandName": "LUPIFIL",
+    "packSize": "0",
+    "company": "LUPIN LTD",
+    "brandMrp": "1299.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1299.05"
+  },
+  {
+    "brandName": "IMUMAX",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "1299.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1299.09"
+  },
+  {
+    "brandName": "FASTOGRAF",
+    "packSize": "0",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "1442.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1442.33"
+  },
+  {
+    "brandName": "XPHIL",
+    "packSize": "1",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "1442.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1442.57"
+  },
+  {
+    "brandName": "GRAFEEL",
+    "packSize": "1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "1706.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1706.45"
+  },
+  {
+    "brandName": "NEUMAX",
+    "packSize": "1",
+    "company": "DABUR INDIA LTD.",
+    "brandMrp": "2031.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2031.25"
+  },
+  {
+    "brandName": "NEUFIL",
+    "packSize": "1",
+    "company": "VHB LIFE SCIENCES LIMITED",
+    "brandMrp": "2308.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2308.08"
+  }
+]

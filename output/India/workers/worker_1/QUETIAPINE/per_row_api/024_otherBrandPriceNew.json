@@ -1,0 +1,258 @@
+[
+  {
+    "brandName": "SEROQUIT",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "19.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.95"
+  },
+  {
+    "brandName": "QUANTICO",
+    "packSize": "10",
+    "company": "K.C LABORATORIES",
+    "brandMrp": "26.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.68"
+  },
+  {
+    "brandName": "Q SIZ (TRI)",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "28.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  },
+  {
+    "brandName": "QUTIN",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "SENZA Q",
+    "packSize": "10",
+    "company": "SPECTRA THERAPEUTICS PVT. LTD.",
+    "brandMrp": "30.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.05"
+  },
+  {
+    "brandName": "DELIQUET",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "33.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.30"
+  },
+  {
+    "brandName": "QUPIN",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "33.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.31"
+  },
+  {
+    "brandName": "QUITAL",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "36.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.63"
+  },
+  {
+    "brandName": "QUTIWEL",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "38.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.80"
+  },
+  {
+    "brandName": "QUTICOOL",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.00"
+  },
+  {
+    "brandName": "QUTIDIN",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "41.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.10"
+  },
+  {
+    "brandName": "ADEQUET",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "41.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.11"
+  },
+  {
+    "brandName": "QUETIGRESS",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "43.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.31"
+  },
+  {
+    "brandName": "QMED",
+    "packSize": "10",
+    "company": "UNISTAR BIOTECH LIMITED",
+    "brandMrp": "44.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.41"
+  },
+  {
+    "brandName": "QPEN",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "45.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.54"
+  },
+  {
+    "brandName": "PSYQUIT",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "47.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.70"
+  },
+  {
+    "brandName": "AQUITI",
+    "packSize": "10",
+    "company": "AURUM LIFE SCIENCE PVT. LTD.",
+    "brandMrp": "50.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.01"
+  },
+  {
+    "brandName": "QUTACE",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "50.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.06"
+  },
+  {
+    "brandName": "SIZ Q",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "51.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.11"
+  },
+  {
+    "brandName": "QUTIDEP",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "51.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "brandName": "CYQUEL",
+    "packSize": "10",
+    "company": "CYRUS REMEDIES PVT LTD",
+    "brandMrp": "51.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.16"
+  },
+  {
+    "brandName": "Q MIND",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "51.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.17"
+  },
+  {
+    "brandName": "KYU (CNX)",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "59.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.91"
+  },
+  {
+    "brandName": "QUTIWIND",
+    "packSize": "10",
+    "company": "SANIX FORMULATIONS PVT LTD",
+    "brandMrp": "61.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.16"
+  },
+  {
+    "brandName": "QTRIPIL",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "62.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.24"
+  },
+  {
+    "brandName": "Q PIN",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "64.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.47"
+  },
+  {
+    "brandName": "QUEL",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "65.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.52"
+  },
+  {
+    "brandName": "QUSER (ICON)",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "65.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "QUPEX",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "66.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.64"
+  },
+  {
+    "brandName": "QUTAN",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "67.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.80"
+  },
+  {
+    "brandName": "QUTIPIN",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "SEROPAX",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "94.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.47"
+  }
+]

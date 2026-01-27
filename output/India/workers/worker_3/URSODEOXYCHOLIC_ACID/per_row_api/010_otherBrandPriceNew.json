@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "URSOKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "247.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.76"
+  },
+  {
+    "brandName": "UCLICK SR",
+    "packSize": "10",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "550.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "55.00"
+  },
+  {
+    "brandName": "UDIWOK",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "599.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "59.90"
+  },
+  {
+    "brandName": "UDILIV",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "925.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "92.51"
+  }
+]

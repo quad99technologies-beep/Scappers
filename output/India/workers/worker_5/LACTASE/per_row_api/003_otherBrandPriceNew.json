@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LACTOIN",
+    "packSize": "15",
+    "company": "ESKAG PHARMA PVT.LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "MACTASE",
+    "packSize": "15",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "154.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.28"
+  },
+  {
+    "brandName": "YAMOO",
+    "packSize": "15",
+    "company": "WALTER BUSHNELL",
+    "brandMrp": "182.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.15"
+  }
+]

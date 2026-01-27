@@ -1,0 +1,162 @@
+[
+  {
+    "brandName": "OLO",
+    "packSize": "5",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.80"
+  },
+  {
+    "brandName": "RAPIDON (MICRO)",
+    "packSize": "5",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "102.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.40"
+  },
+  {
+    "brandName": "NAYANPAT",
+    "packSize": "5",
+    "company": "CHETHANA PHARMACEUTICALS",
+    "brandMrp": "103.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.63"
+  },
+  {
+    "brandName": "VEULAP",
+    "packSize": "5",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.00"
+  },
+  {
+    "brandName": "PETOLO",
+    "packSize": "5",
+    "company": "SAPIENT",
+    "brandMrp": "110.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.13"
+  },
+  {
+    "brandName": "OLOTOP",
+    "packSize": "5",
+    "company": "SUNWAYS (INDIA) PVT LTD",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.44"
+  },
+  {
+    "brandName": "OLOBLU",
+    "packSize": "5",
+    "company": "LUPIN LTD",
+    "brandMrp": "125.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.11"
+  },
+  {
+    "brandName": "ZYOPTA",
+    "packSize": "5",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.00"
+  },
+  {
+    "brandName": "ODIN",
+    "packSize": "5",
+    "company": "OPTHO REMEDIES PVT.LTD",
+    "brandMrp": "139.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.91"
+  },
+  {
+    "brandName": "OPAVIEW",
+    "packSize": "5",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "159.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.88"
+  },
+  {
+    "brandName": "OLOTAD",
+    "packSize": "5",
+    "company": "SYNTHO PHARMACEUTICALS (P) LTD.",
+    "brandMrp": "164.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.80"
+  },
+  {
+    "brandName": "HISTAFREE",
+    "packSize": "5",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "166.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.21"
+  },
+  {
+    "brandName": "IF 2",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "168.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.67"
+  },
+  {
+    "brandName": "ALLERPAT",
+    "packSize": "5",
+    "company": "SENSES PHARMACEUTICALS LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.75"
+  },
+  {
+    "brandName": "OLOPLUS",
+    "packSize": "5",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "174.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.88"
+  },
+  {
+    "brandName": "ALERCHEK",
+    "packSize": "5",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "181.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.20"
+  },
+  {
+    "brandName": "OLOMED",
+    "packSize": "5",
+    "company": "RAYMED PHARMACEUTICALS PVT. LTD",
+    "brandMrp": "181.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.30"
+  },
+  {
+    "brandName": "WINOLAP",
+    "packSize": "5",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.31"
+  },
+  {
+    "brandName": "OLOCURE",
+    "packSize": "5",
+    "company": "JAWA LABORATORIES",
+    "brandMrp": "210.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.17"
+  },
+  {
+    "brandName": "OLOPAT",
+    "packSize": "5",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "223.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.63"
+  }
+]

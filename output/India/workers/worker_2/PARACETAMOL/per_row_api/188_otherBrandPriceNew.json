@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "PARAVID",
+    "packSize": "15",
+    "company": "ALBERT DAVID",
+    "brandMrp": "14.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.98"
+  },
+  {
+    "brandName": "VENTOPAR",
+    "packSize": "15",
+    "company": "INTRA LIFE PVT.LTD",
+    "brandMrp": "25.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.67"
+  },
+  {
+    "brandName": "TYNOL",
+    "packSize": "15",
+    "company": "GUJARAT TERCE LABORATORIES LTD",
+    "brandMrp": "28.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.87"
+  },
+  {
+    "brandName": "LEEMOL P",
+    "packSize": "15",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "29.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.93"
+  }
+]

@@ -1,0 +1,378 @@
+[
+  {
+    "brandName": "SCABIGO (TORQUE)",
+    "packSize": "100",
+    "company": "TORQUE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "18.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.18"
+  },
+  {
+    "brandName": "SCABWAL PLUS",
+    "packSize": "50",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "30.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.61"
+  },
+  {
+    "brandName": "SCABOVATE",
+    "packSize": "50",
+    "company": "LUPIN LTD",
+    "brandMrp": "37.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.74"
+  },
+  {
+    "brandName": "ZEROSCAB",
+    "packSize": "120",
+    "company": "PALSONS DERMA PVT. LTD",
+    "brandMrp": "92.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.77"
+  },
+  {
+    "brandName": "P SCAB",
+    "packSize": "60",
+    "company": "MARK INDIA",
+    "brandMrp": "56.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.93"
+  },
+  {
+    "brandName": "P SCAB",
+    "packSize": "100",
+    "company": "MARK INDIA",
+    "brandMrp": "94.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.94"
+  },
+  {
+    "brandName": "P SCAB",
+    "packSize": "40",
+    "company": "MARK INDIA",
+    "brandMrp": "38.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.95"
+  },
+  {
+    "brandName": "SCARBIC",
+    "packSize": "50",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "51.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.02"
+  },
+  {
+    "brandName": "SCRABEL",
+    "packSize": "50",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "51.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.02"
+  },
+  {
+    "brandName": "SCRABIC",
+    "packSize": "50",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "51.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.02"
+  },
+  {
+    "brandName": "MITE",
+    "packSize": "100",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "103.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.03"
+  },
+  {
+    "brandName": "SCABOMA P",
+    "packSize": "50",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "51.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.03"
+  },
+  {
+    "brandName": "BIOMETHRIN",
+    "packSize": "40",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "41.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.04"
+  },
+  {
+    "brandName": "GAMADERM P",
+    "packSize": "60",
+    "company": "VILCO LABORATORIES PVT. LTD",
+    "brandMrp": "62.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.04"
+  },
+  {
+    "brandName": "NIXIPER",
+    "packSize": "100",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "104.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.04"
+  },
+  {
+    "brandName": "NIXIPER",
+    "packSize": "50",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "52.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.04"
+  },
+  {
+    "brandName": "PERITOP",
+    "packSize": "60",
+    "company": "MONICHEM HEALTHCARE PVT LTD",
+    "brandMrp": "62.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.04"
+  },
+  {
+    "brandName": "SCABENIL",
+    "packSize": "50",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "51.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.04"
+  },
+  {
+    "brandName": "SCABEST",
+    "packSize": "100",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "103.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.04"
+  },
+  {
+    "brandName": "SCABITE",
+    "packSize": "100",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "103.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.04"
+  },
+  {
+    "brandName": "SCABPER",
+    "packSize": "60",
+    "company": "MENARINI INDIA",
+    "brandMrp": "62.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.04"
+  },
+  {
+    "brandName": "PERITOP",
+    "packSize": "100",
+    "company": "MONICHEM HEALTHCARE PVT LTD",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.05"
+  },
+  {
+    "brandName": "PERMELAN",
+    "packSize": "50",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "52.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.05"
+  },
+  {
+    "brandName": "SCABIGARD P",
+    "packSize": "50",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "52.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.05"
+  },
+  {
+    "brandName": "ESCRAB",
+    "packSize": "100",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "105.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.06"
+  },
+  {
+    "brandName": "CUREMITE",
+    "packSize": "60",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "64.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.07"
+  },
+  {
+    "brandName": "NUPERMY",
+    "packSize": "60",
+    "company": "NULIFE PHARMACEUTICALS",
+    "brandMrp": "64.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.07"
+  },
+  {
+    "brandName": "PERMED",
+    "packSize": "60",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "64.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.07"
+  },
+  {
+    "brandName": "PERMETRON",
+    "packSize": "50",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "53.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.07"
+  },
+  {
+    "brandName": "PERMOM",
+    "packSize": "60",
+    "company": "OMNI LIFE SCIENCES PVT LTD",
+    "brandMrp": "64.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.07"
+  },
+  {
+    "brandName": "PERNIL",
+    "packSize": "100",
+    "company": "TALENT INDIA",
+    "brandMrp": "106.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.07"
+  },
+  {
+    "brandName": "SCABEPIL",
+    "packSize": "50",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "53.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.07"
+  },
+  {
+    "brandName": "SCABIPLUS",
+    "packSize": "100",
+    "company": "PARKER ROBINSON PVT. LTD",
+    "brandMrp": "107.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.08"
+  },
+  {
+    "brandName": "ELICE",
+    "packSize": "60",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "67.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.12"
+  },
+  {
+    "brandName": "PMT (NEMUS)",
+    "packSize": "50",
+    "company": "NEMUS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "56.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.12"
+  },
+  {
+    "brandName": "PERTEC",
+    "packSize": "60",
+    "company": "TRIPADA BIOTEC PVT LTD",
+    "brandMrp": "68.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.13"
+  },
+  {
+    "brandName": "PEDIMITE",
+    "packSize": "50",
+    "company": "DERMO CARE LABORATORIES",
+    "brandMrp": "57.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.14"
+  },
+  {
+    "brandName": "NOSCAB",
+    "packSize": "50",
+    "company": "ETHICARE REMEDIES",
+    "brandMrp": "58.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.17"
+  },
+  {
+    "brandName": "GALMITE",
+    "packSize": "60",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "71.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.19"
+  },
+  {
+    "brandName": "PMT",
+    "packSize": "30",
+    "company": "SALVE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "36.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.20"
+  },
+  {
+    "brandName": "SCABVENT",
+    "packSize": "60",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "73.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.22"
+  },
+  {
+    "brandName": "NOSCAB (SHAUNON)",
+    "packSize": "50",
+    "company": "SHAUNON REMEDIES",
+    "brandMrp": "62.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.25"
+  },
+  {
+    "brandName": "DAT",
+    "packSize": "30",
+    "company": "OMEGA REMEDIES PVT LTD",
+    "brandMrp": "51.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.72"
+  },
+  {
+    "brandName": "SCAMER",
+    "packSize": "60",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "103.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.72"
+  },
+  {
+    "brandName": "SCABIPLUS",
+    "packSize": "30",
+    "company": "PARKER ROBINSON PVT. LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  },
+  {
+    "brandName": "PERMICER",
+    "packSize": "30",
+    "company": "AVANCER LAB",
+    "brandMrp": "62.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.08"
+  },
+  {
+    "brandName": "PERIN",
+    "packSize": "30",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "64.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.13"
+  }
+]

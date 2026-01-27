@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "DECINTAS",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "5656.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5656.75"
+  },
+  {
+    "brandName": "DECITEX",
+    "packSize": "1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "5840.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5840.05"
+  },
+  {
+    "brandName": "DECZUBA",
+    "packSize": "1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "7500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7500.00"
+  },
+  {
+    "brandName": "NATDECITA",
+    "packSize": "1",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "7800.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7800.00"
+  },
+  {
+    "brandName": "XALIBO",
+    "packSize": "1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "8100.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8100.00"
+  }
+]

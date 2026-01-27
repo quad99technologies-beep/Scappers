@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "IMOJAC",
+    "packSize": "15",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "647.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.13"
+  },
+  {
+    "brandName": "TOFAJAK",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "703.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.87"
+  },
+  {
+    "brandName": "TOFAJAK",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "1406.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.88"
+  },
+  {
+    "brandName": "TOFASURE",
+    "packSize": "20",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "990.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.50"
+  },
+  {
+    "brandName": "OFACITIX",
+    "packSize": "15",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "745.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.69"
+  },
+  {
+    "brandName": "TOFATAS",
+    "packSize": "8",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "398.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.81"
+  },
+  {
+    "brandName": "TACITINIX",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "750.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.00"
+  },
+  {
+    "brandName": "EVERTOP",
+    "packSize": "20",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "1133.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.67"
+  }
+]

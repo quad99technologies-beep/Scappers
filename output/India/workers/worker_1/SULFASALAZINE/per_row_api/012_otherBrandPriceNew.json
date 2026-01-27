@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "SALAZOPYRIN",
+    "packSize": "10",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "0.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.00"
+  },
+  {
+    "brandName": "SULFALET",
+    "packSize": "10",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "44.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.42"
+  },
+  {
+    "brandName": "SELZOTAS",
+    "packSize": "15",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "74.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.95"
+  },
+  {
+    "brandName": "SZN",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "50.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.03"
+  },
+  {
+    "brandName": "SALAZAR",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "50.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.04"
+  },
+  {
+    "brandName": "SAZO",
+    "packSize": "15",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "75.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.04"
+  },
+  {
+    "brandName": "SULSEAS",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "50.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.04"
+  }
+]

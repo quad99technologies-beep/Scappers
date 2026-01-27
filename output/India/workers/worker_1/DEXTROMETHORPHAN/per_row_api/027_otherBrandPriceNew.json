@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "COF Q",
+    "packSize": "6",
+    "company": "CIPLA LTD.",
+    "brandMrp": "47.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.94"
+  },
+  {
+    "brandName": "ASCORIL D",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "97.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.70"
+  },
+  {
+    "brandName": "MAGNATUSS DX",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "ALEX",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "120.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.09"
+  },
+  {
+    "brandName": "ALEX",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "135.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.59"
+  }
+]

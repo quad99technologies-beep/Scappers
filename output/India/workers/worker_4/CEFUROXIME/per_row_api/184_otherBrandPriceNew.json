@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "CEFAPRIME",
+    "packSize": "30",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "43.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.46"
+  },
+  {
+    "brandName": "CEFSTAL (STALLION)",
+    "packSize": "30",
+    "company": "STALLION LABORATORIES (P) LTD",
+    "brandMrp": "82.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.76"
+  },
+  {
+    "brandName": "ENGEL (BLUECROSS)",
+    "packSize": "30",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "109.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.66"
+  },
+  {
+    "brandName": "TWOCEF",
+    "packSize": "30",
+    "company": "EMBIOTIC LAB",
+    "brandMrp": "151.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.06"
+  },
+  {
+    "brandName": "RESTUM",
+    "packSize": "30",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "160.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.36"
+  },
+  {
+    "brandName": "C-FURO",
+    "packSize": "30",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "168.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.61"
+  },
+  {
+    "brandName": "CELFEE",
+    "packSize": "30",
+    "company": "ICARUS HEALTHCARE PRIMUS",
+    "brandMrp": "170.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.67"
+  },
+  {
+    "brandName": "CEROM",
+    "packSize": "30",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "170.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.67"
+  },
+  {
+    "brandName": "XOXE",
+    "packSize": "30",
+    "company": "CORONA",
+    "brandMrp": "170.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.67"
+  },
+  {
+    "brandName": "OCEF",
+    "packSize": "30",
+    "company": "GUJARAT TERCE LABORATORIES LTD",
+    "brandMrp": "176.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.88"
+  }
+]

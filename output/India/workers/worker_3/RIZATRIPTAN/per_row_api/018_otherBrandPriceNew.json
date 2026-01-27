@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "RIZORA ODS",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "63.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.35"
+  },
+  {
+    "brandName": "RIZANET (SUN)",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "75.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.59"
+  },
+  {
+    "brandName": "RITZA",
+    "packSize": "6",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "169.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.17"
+  },
+  {
+    "brandName": "RIZAMELT",
+    "packSize": "1",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "49.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.11"
+  },
+  {
+    "brandName": "RECEPTAN",
+    "packSize": "4",
+    "company": "INGA LABORATORIES PVT. LTD.",
+    "brandMrp": "291.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "72.89"
+  },
+  {
+    "brandName": "RIZACT",
+    "packSize": "4",
+    "company": "CIPLA LTD.",
+    "brandMrp": "382.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "95.51"
+  }
+]

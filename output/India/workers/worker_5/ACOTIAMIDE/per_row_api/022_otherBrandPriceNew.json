@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ACOMORE",
+    "packSize": "10",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "374.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.41"
+  },
+  {
+    "brandName": "ACTAPRO",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "454.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.47"
+  },
+  {
+    "brandName": "ACOTRUST",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "480.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.02"
+  }
+]

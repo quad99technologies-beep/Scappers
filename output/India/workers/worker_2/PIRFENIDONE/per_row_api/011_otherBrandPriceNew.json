@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "PIRFEHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "PIRFENAIR",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "175.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.50"
+  },
+  {
+    "brandName": "PIRFENOID",
+    "packSize": "10",
+    "company": "STERIS HEALTHCARE",
+    "brandMrp": "181.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.17"
+  },
+  {
+    "brandName": "SPIROPIRF",
+    "packSize": "10",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "223.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.30"
+  },
+  {
+    "brandName": "PIRFETID",
+    "packSize": "10",
+    "company": "JB CHEMICALS",
+    "brandMrp": "223.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.32"
+  },
+  {
+    "brandName": "PIRFEZA",
+    "packSize": "10",
+    "company": "UNIZA HEALTHCARE LLP",
+    "brandMrp": "228.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.80"
+  },
+  {
+    "brandName": "PULMOFIB",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "229.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.91"
+  },
+  {
+    "brandName": "FIBORESP",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "261.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.10"
+  },
+  {
+    "brandName": "PIRFENEX",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "433.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.88"
+  },
+  {
+    "brandName": "FIBRODONE",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "290.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.09"
+  },
+  {
+    "brandName": "PIRFETAB",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "348.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.87"
+  }
+]

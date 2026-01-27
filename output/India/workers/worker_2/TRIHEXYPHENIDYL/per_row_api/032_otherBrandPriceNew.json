@@ -1,0 +1,226 @@
+[
+  {
+    "brandName": "TEXY",
+    "packSize": "10",
+    "company": "TRITON HEALTH CARE PVT LTD",
+    "brandMrp": "12.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.25"
+  },
+  {
+    "brandName": "THP",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "13.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.30"
+  },
+  {
+    "brandName": "PARKIN",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "13.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.37"
+  },
+  {
+    "brandName": "MATCALM",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "14.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.41"
+  },
+  {
+    "brandName": "PARALES",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "14.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.41"
+  },
+  {
+    "brandName": "TREMTANE",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "14.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.41"
+  },
+  {
+    "brandName": "MAPHYL",
+    "packSize": "10",
+    "company": "K.C LABORATORIES",
+    "brandMrp": "14.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.42"
+  },
+  {
+    "brandName": "ECITANE",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "14.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.43"
+  },
+  {
+    "brandName": "TREMNIL",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "14.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.43"
+  },
+  {
+    "brandName": "LAHEXY",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "14.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.44"
+  },
+  {
+    "brandName": "TRIKOTAME",
+    "packSize": "10",
+    "company": "TRIKO PHARMACEUTICALS",
+    "brandMrp": "14.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.44"
+  },
+  {
+    "brandName": "TRIXYL",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "14.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.44"
+  },
+  {
+    "brandName": "TRYHP",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "14.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.44"
+  },
+  {
+    "brandName": "DYSKINIL",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "14.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.45"
+  },
+  {
+    "brandName": "HEKSI",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "14.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.45"
+  },
+  {
+    "brandName": "PACITANE",
+    "packSize": "30",
+    "company": "VIATRIS",
+    "brandMrp": "43.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.45"
+  },
+  {
+    "brandName": "PARKIN",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "21.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.45"
+  },
+  {
+    "brandName": "PARKINTA",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "14.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.45"
+  },
+  {
+    "brandName": "RELIHEXY",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "14.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.45"
+  },
+  {
+    "brandName": "TRIHEXY",
+    "packSize": "10",
+    "company": "GUJARAT TERCE LABORATORIES LTD",
+    "brandMrp": "14.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.45"
+  },
+  {
+    "brandName": "ANTICHOL",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "14.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.46"
+  },
+  {
+    "brandName": "BEXOL",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "14.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.46"
+  },
+  {
+    "brandName": "HEXYLENT",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "14.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.46"
+  },
+  {
+    "brandName": "PARNIL",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "14.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.46"
+  },
+  {
+    "brandName": "RINI",
+    "packSize": "10",
+    "company": "OXFORD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "14.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.46"
+  },
+  {
+    "brandName": "TRIHEXY (EAST WEST)",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "15.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.52"
+  },
+  {
+    "brandName": "AP",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "PARKITANE",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "164.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.41"
+  }
+]

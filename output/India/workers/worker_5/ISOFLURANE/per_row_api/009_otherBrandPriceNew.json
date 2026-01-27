@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "SOSRANE",
+    "packSize": "250",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "2577.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "SOSRANE",
+    "packSize": "30",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "309.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "SOSRANE [ISOFLURANE]",
+    "packSize": "100",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "1031.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "FORANE",
+    "packSize": "250",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "2603.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.41"
+  }
+]

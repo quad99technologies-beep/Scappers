@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "VERNACE",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "192.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.22"
+  },
+  {
+    "brandName": "CARNIGLO M",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "224.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.49"
+  },
+  {
+    "brandName": "CARNIPIL",
+    "packSize": "10",
+    "company": "GLADSTONE PHARMA INDIA PVT.LTD",
+    "brandMrp": "234.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.44"
+  },
+  {
+    "brandName": "CARNIMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "242.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.23"
+  },
+  {
+    "brandName": "LEVOCAT",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "270.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.00"
+  },
+  {
+    "brandName": "CARNITOR",
+    "packSize": "10",
+    "company": "WIN-MEDICARE PVT. LTD.",
+    "brandMrp": "385.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.53"
+  },
+  {
+    "brandName": "LEVOCARNIL",
+    "packSize": "10",
+    "company": "MODI MUNDI PHARMA PVT LTD",
+    "brandMrp": "403.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.30"
+  },
+  {
+    "brandName": "CARNISURE",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "437.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.78"
+  },
+  {
+    "brandName": "NUCARNIT",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "456.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.64"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "ADDTREX",
+    "packSize": "10",
+    "company": "RUSAN HEALTHCARE PVT. LTD",
+    "brandMrp": "751.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "75.18"
+  },
+  {
+    "brandName": "NALTOX",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "800.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "80.05"
+  },
+  {
+    "brandName": "NALCON",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "833.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "83.34"
+  },
+  {
+    "brandName": "NAL",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "858.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "85.80"
+  },
+  {
+    "brandName": "NALTRUST",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "1010.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "101.00"
+  },
+  {
+    "brandName": "NALTIMA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "1048.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "104.81"
+  }
+]

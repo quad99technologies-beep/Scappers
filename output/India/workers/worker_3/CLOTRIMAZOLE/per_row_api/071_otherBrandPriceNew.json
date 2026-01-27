@@ -1,0 +1,210 @@
+[
+  {
+    "brandName": "CLODOC",
+    "packSize": "75",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "21.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.28"
+  },
+  {
+    "brandName": "TAF",
+    "packSize": "100",
+    "company": "HELIOS PHARMACEUTICALS",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.75"
+  },
+  {
+    "brandName": "CANDID",
+    "packSize": "120",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "106.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.89"
+  },
+  {
+    "brandName": "TOTALDERM",
+    "packSize": "100",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "95.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.95"
+  },
+  {
+    "brandName": "RING OUT",
+    "packSize": "65",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "65.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.01"
+  },
+  {
+    "brandName": "CLOTIGEM",
+    "packSize": "100",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "103.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.03"
+  },
+  {
+    "brandName": "LEEZOLE",
+    "packSize": "100",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "103.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.03"
+  },
+  {
+    "brandName": "ONECAN C",
+    "packSize": "100",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.05"
+  },
+  {
+    "brandName": "AF C",
+    "packSize": "100",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "105.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.06"
+  },
+  {
+    "brandName": "RING OUT",
+    "packSize": "120",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.09"
+  },
+  {
+    "brandName": "CZSON",
+    "packSize": "100",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "111.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.12"
+  },
+  {
+    "brandName": "KIVZOLE",
+    "packSize": "100",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "CANESTEN",
+    "packSize": "100",
+    "company": "BAYER PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "133.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.33"
+  },
+  {
+    "brandName": "CLOTRISAF",
+    "packSize": "100",
+    "company": "SAF FERMION LTD",
+    "brandMrp": "134.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.34"
+  },
+  {
+    "brandName": "CZHH",
+    "packSize": "100",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "135.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.36"
+  },
+  {
+    "brandName": "SURFAZ",
+    "packSize": "100",
+    "company": "FRANCO INDIAN PHARMACEUTICALS PVT LTD",
+    "brandMrp": "139.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.39"
+  },
+  {
+    "brandName": "B N C DUSTING",
+    "packSize": "100",
+    "company": "OMEGA REMEDIES PVT LTD",
+    "brandMrp": "139.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.40"
+  },
+  {
+    "brandName": "CANESTEN DERM",
+    "packSize": "50",
+    "company": "BAYER PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.50"
+  },
+  {
+    "brandName": "CANZORB",
+    "packSize": "50",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.50"
+  },
+  {
+    "brandName": "PANDERM PLUS",
+    "packSize": "100",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "152.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.53"
+  },
+  {
+    "brandName": "CANZORB",
+    "packSize": "100",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "153.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.54"
+  },
+  {
+    "brandName": "CLOZOL (BIOCHEM)",
+    "packSize": "100",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "159.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.59"
+  },
+  {
+    "brandName": "CANDID",
+    "packSize": "50",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.60"
+  },
+  {
+    "brandName": "MONPIC",
+    "packSize": "75",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "120.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.61"
+  },
+  {
+    "brandName": "CLODOSPIN",
+    "packSize": "100",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "171.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.71"
+  },
+  {
+    "brandName": "FUNZI-MX",
+    "packSize": "75",
+    "company": "CORONA",
+    "brandMrp": "155.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.08"
+  }
+]

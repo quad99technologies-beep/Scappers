@@ -1,0 +1,1466 @@
+[
+  {
+    "brandName": "ROSUDER (ELD)",
+    "packSize": "10",
+    "company": "ELDER LABS LTD",
+    "brandMrp": "23.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.35"
+  },
+  {
+    "brandName": "ROSUFINE",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "33.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.35"
+  },
+  {
+    "brandName": "ACMEROSE",
+    "packSize": "10",
+    "company": "ACMEDIX PHARMA LLP",
+    "brandMrp": "48.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.88"
+  },
+  {
+    "brandName": "ROSUSON",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "74.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.41"
+  },
+  {
+    "brandName": "R VASTA",
+    "packSize": "10",
+    "company": "SUNIJ PHARMA PVT LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "ROZITAZ",
+    "packSize": "10",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "79.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.97"
+  },
+  {
+    "brandName": "ROVASTAT",
+    "packSize": "10",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "85.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.50"
+  },
+  {
+    "brandName": "ROSUVASTIN",
+    "packSize": "10",
+    "company": "HELIOS PHARMACEUTICALS",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "TEKROZ",
+    "packSize": "10",
+    "company": "MEDINZA BIOTECH",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "ROSLOY",
+    "packSize": "10",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "97.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.75"
+  },
+  {
+    "brandName": "ROSYS",
+    "packSize": "10",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "97.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.75"
+  },
+  {
+    "brandName": "ROSUCREST AS",
+    "packSize": "10",
+    "company": "CMR LIFE SCIENCES",
+    "brandMrp": "107.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.78"
+  },
+  {
+    "brandName": "ROSENIR",
+    "packSize": "10",
+    "company": "NIRVANA HEALTH CARE",
+    "brandMrp": "108.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.80"
+  },
+  {
+    "brandName": "ATHEROS",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "REJUROZ",
+    "packSize": "10",
+    "company": "REJUVENATE REMEDIES PVT LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "ROSUHOP",
+    "packSize": "10",
+    "company": "ANAX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "RVS",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "113.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.38"
+  },
+  {
+    "brandName": "ROSUCHEK",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "117.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.79"
+  },
+  {
+    "brandName": "ROSUMAT (MATIAS)",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "124.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.41"
+  },
+  {
+    "brandName": "NORMALIP",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "124.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.48"
+  },
+  {
+    "brandName": "ROSULESS",
+    "packSize": "15",
+    "company": "CORONA",
+    "brandMrp": "191.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.78"
+  },
+  {
+    "brandName": "ROZUXIA",
+    "packSize": "10",
+    "company": "WINGS PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.00"
+  },
+  {
+    "brandName": "REPSTAT",
+    "packSize": "10",
+    "company": "REPS PHARMACEUTICALS",
+    "brandMrp": "130.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.03"
+  },
+  {
+    "brandName": "ROZUTION",
+    "packSize": "10",
+    "company": "DAYLON HEALTHCARE PVT LTD",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.13"
+  },
+  {
+    "brandName": "JUBIRA",
+    "packSize": "10",
+    "company": "JUBILANT GENERICS LIMITED",
+    "brandMrp": "132.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.25"
+  },
+  {
+    "brandName": "ROSEVAST",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "135.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.59"
+  },
+  {
+    "brandName": "ROSEPIL",
+    "packSize": "10",
+    "company": "SPECTRA THERAPEUTICS PVT. LTD.",
+    "brandMrp": "139.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.97"
+  },
+  {
+    "brandName": "ROSTA",
+    "packSize": "10",
+    "company": "SHRRISHTI HEALTHCARE",
+    "brandMrp": "145.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.58"
+  },
+  {
+    "brandName": "FAVROS",
+    "packSize": "10",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "151.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.14"
+  },
+  {
+    "brandName": "JBROS",
+    "packSize": "10",
+    "company": "JB CHEMICALS",
+    "brandMrp": "154.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.45"
+  },
+  {
+    "brandName": "ROSUGOAL",
+    "packSize": "10",
+    "company": "JB CHEMICALS",
+    "brandMrp": "154.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.45"
+  },
+  {
+    "brandName": "AZUVAS",
+    "packSize": "10",
+    "company": "AZKKA PHARMACEUTICALS PVT LTD",
+    "brandMrp": "159.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "ZUVA",
+    "packSize": "10",
+    "company": "THREE DOTS LIFESCIENCE",
+    "brandMrp": "159.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "HIVAST",
+    "packSize": "10",
+    "company": "CKRIS LABORATORIES PVT LTD",
+    "brandMrp": "160.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.00"
+  },
+  {
+    "brandName": "CREOLIP",
+    "packSize": "10",
+    "company": "4 CARE LIFESCIENCE PVT LTD",
+    "brandMrp": "161.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.13"
+  },
+  {
+    "brandName": "ROZULA",
+    "packSize": "15",
+    "company": "ELBRIT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "243.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.25"
+  },
+  {
+    "brandName": "TRUVAS",
+    "packSize": "10",
+    "company": "NEUCURE LIFESCIENCES PVT.LTD",
+    "brandMrp": "165.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.50"
+  },
+  {
+    "brandName": "ROLISTAT",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "166.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.60"
+  },
+  {
+    "brandName": "ROSYCAP",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "167.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.75"
+  },
+  {
+    "brandName": "XOTEN A",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "252.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.80"
+  },
+  {
+    "brandName": "ROSUVARIN",
+    "packSize": "10",
+    "company": "TORIN PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "168.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.84"
+  },
+  {
+    "brandName": "OPVAST",
+    "packSize": "10",
+    "company": "OPSISCARE LIFESCIENCSE PVT LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.88"
+  },
+  {
+    "brandName": "ROFON (RUSI)",
+    "packSize": "10",
+    "company": "RUSI REMEDIES P. LTD.",
+    "brandMrp": "169.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.96"
+  },
+  {
+    "brandName": "ROSUVAS",
+    "packSize": "15",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "262.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.50"
+  },
+  {
+    "brandName": "GLORISTAT",
+    "packSize": "10",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "176.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.68"
+  },
+  {
+    "brandName": "REVOSTAT",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "177.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.77"
+  },
+  {
+    "brandName": "ROZUCHEM",
+    "packSize": "10",
+    "company": "VASUCHEM LIFESCIENCES PVT LTD",
+    "brandMrp": "177.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.77"
+  },
+  {
+    "brandName": "CREVAST",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "178.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.80"
+  },
+  {
+    "brandName": "ASTEROS",
+    "packSize": "10",
+    "company": "MCRONUS LIFESCIENCE PVT LTD",
+    "brandMrp": "178.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "LIPICROSS R",
+    "packSize": "10",
+    "company": "MANKIND PRIME LABS PVT.LTD",
+    "brandMrp": "178.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "ROZEDOC",
+    "packSize": "10",
+    "company": "EDOC LIFE SCIENCES",
+    "brandMrp": "178.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "STATCARE",
+    "packSize": "10",
+    "company": "FIDUS HEALTHCARE",
+    "brandMrp": "178.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "SULTATIN",
+    "packSize": "10",
+    "company": "MEDOPHARM",
+    "brandMrp": "178.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "RASWIN",
+    "packSize": "10",
+    "company": "RANMARC LABS",
+    "brandMrp": "178.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.82"
+  },
+  {
+    "brandName": "ROSUGUD",
+    "packSize": "10",
+    "company": "CUROSIS HEALTHCARE PVT.LTD",
+    "brandMrp": "179.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.90"
+  },
+  {
+    "brandName": "ROSUMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "180.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.00"
+  },
+  {
+    "brandName": "ROZANEX",
+    "packSize": "10",
+    "company": "KEPLER HEALTH CARE",
+    "brandMrp": "180.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.00"
+  },
+  {
+    "brandName": "STEMATIN",
+    "packSize": "10",
+    "company": "CONVERGE BIOTECH PVT.LTD",
+    "brandMrp": "180.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.00"
+  },
+  {
+    "brandName": "MAHASTAT",
+    "packSize": "15",
+    "company": "GODDRES PHARMACEUTICALS LTD",
+    "brandMrp": "271.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.12"
+  },
+  {
+    "brandName": "ROZPURE",
+    "packSize": "10",
+    "company": "ARRIENT HEALTHCARE PVT.LTD.",
+    "brandMrp": "182.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.28"
+  },
+  {
+    "brandName": "ROSULIFE",
+    "packSize": "10",
+    "company": "ORRIS PHARMACEUTICALS",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.66"
+  },
+  {
+    "brandName": "ROZATREND",
+    "packSize": "10",
+    "company": "GALAXUS PHARMAECUTICALS",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.66"
+  },
+  {
+    "brandName": "ROZSTYL",
+    "packSize": "10",
+    "company": "PRIMUS REMEDIES PVT LTD",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.66"
+  },
+  {
+    "brandName": "ROZUDOSE",
+    "packSize": "10",
+    "company": "VASUCHEM LIFESCIENCES PVT LTD",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.66"
+  },
+  {
+    "brandName": "ROFON",
+    "packSize": "10",
+    "company": "FONCER PHARMA PVT. LTD",
+    "brandMrp": "187.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.70"
+  },
+  {
+    "brandName": "ROSUFAB",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "187.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.74"
+  },
+  {
+    "brandName": "ROSUREX",
+    "packSize": "10",
+    "company": "MEDREXCARE PHARMA PVT.LTD",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "ROZNYLE",
+    "packSize": "10",
+    "company": "ERINYLE PHARMA",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "FORTIUS",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "188.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.83"
+  },
+  {
+    "brandName": "ROSEDAY",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "190.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.08"
+  },
+  {
+    "brandName": "CANAROS",
+    "packSize": "10",
+    "company": "ELICAD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "191.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.17"
+  },
+  {
+    "brandName": "ROSULESS",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "191.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.17"
+  },
+  {
+    "brandName": "ROSUPACK",
+    "packSize": "10",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "193.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.36"
+  },
+  {
+    "brandName": "ROSYCAP",
+    "packSize": "15",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "292.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.48"
+  },
+  {
+    "brandName": "ROSADIX",
+    "packSize": "10",
+    "company": "UCARDIX PHARMACEUTICALS PVT LTD",
+    "brandMrp": "195.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.58"
+  },
+  {
+    "brandName": "COTQ",
+    "packSize": "10",
+    "company": "TRION PHARMA",
+    "brandMrp": "195.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.59"
+  },
+  {
+    "brandName": "LIPITRACK",
+    "packSize": "10",
+    "company": "JARUN PHARMACEUTICALS",
+    "brandMrp": "195.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.59"
+  },
+  {
+    "brandName": "ROZUTOS",
+    "packSize": "10",
+    "company": "ATOS LIFESCIENCES PVT.LTD",
+    "brandMrp": "196.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.69"
+  },
+  {
+    "brandName": "ROSUTOR",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "197.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.70"
+  },
+  {
+    "brandName": "ROSUCREST",
+    "packSize": "10",
+    "company": "CMR LIFE SCIENCES",
+    "brandMrp": "200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.00"
+  },
+  {
+    "brandName": "ROZSTYL",
+    "packSize": "15",
+    "company": "PRIMUS REMEDIES PVT LTD",
+    "brandMrp": "300.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.01"
+  },
+  {
+    "brandName": "ROSUFIT",
+    "packSize": "15",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "300.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.06"
+  },
+  {
+    "brandName": "CREVAST",
+    "packSize": "15",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "302.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.15"
+  },
+  {
+    "brandName": "XOTEN",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "304.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.33"
+  },
+  {
+    "brandName": "VALROS",
+    "packSize": "10",
+    "company": "DIOS LIFESCIENCES PRIVATE LIMITED",
+    "brandMrp": "203.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.34"
+  },
+  {
+    "brandName": "LIPIOUT",
+    "packSize": "10",
+    "company": "FORGEN HEALTHCARE LTD.",
+    "brandMrp": "205.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.52"
+  },
+  {
+    "brandName": "ROSUCARD",
+    "packSize": "10",
+    "company": "TYCOON PHARMACEUTICALS PVT LTD",
+    "brandMrp": "206.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.63"
+  },
+  {
+    "brandName": "XOR",
+    "packSize": "10",
+    "company": "WONSET HEALTH CARE PRIVATE LIMITED",
+    "brandMrp": "206.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.63"
+  },
+  {
+    "brandName": "CONSIVAS",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "210.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.10"
+  },
+  {
+    "brandName": "QROVAS",
+    "packSize": "10",
+    "company": "GOLD LINE",
+    "brandMrp": "211.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.10"
+  },
+  {
+    "brandName": "ROSUPHARM",
+    "packSize": "10",
+    "company": "MEDOPHARM",
+    "brandMrp": "213.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.35"
+  },
+  {
+    "brandName": "ROSUWON",
+    "packSize": "10",
+    "company": "WALRON HEALTHCARE PVT.LTD",
+    "brandMrp": "214.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.47"
+  },
+  {
+    "brandName": "YOGAROS",
+    "packSize": "15",
+    "company": "HIGLANCE LABORATORIES PVT LTD",
+    "brandMrp": "324.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.66"
+  },
+  {
+    "brandName": "ROSUBEST",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "217.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.72"
+  },
+  {
+    "brandName": "KEMOROSE",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "326.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.75"
+  },
+  {
+    "brandName": "ROSUCIA",
+    "packSize": "10",
+    "company": "PRECIA PHARMA",
+    "brandMrp": "218.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.80"
+  },
+  {
+    "brandName": "ROSUFIT",
+    "packSize": "20",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "438.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.94"
+  },
+  {
+    "brandName": "ROSUVAS",
+    "packSize": "90",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "1980.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.00"
+  },
+  {
+    "brandName": "ROZAVEL",
+    "packSize": "90",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "1980.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.00"
+  },
+  {
+    "brandName": "STATSET",
+    "packSize": "10",
+    "company": "ESWAR THERAPEUTICS PVT.LTD",
+    "brandMrp": "220.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.03"
+  },
+  {
+    "brandName": "ROZFIRST",
+    "packSize": "10",
+    "company": "SINSAN PHARMACEUTICALS",
+    "brandMrp": "221.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.11"
+  },
+  {
+    "brandName": "ROZUSTAT",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "223.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.38"
+  },
+  {
+    "brandName": "REZARA",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "224.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.40"
+  },
+  {
+    "brandName": "VAST R",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "224.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.48"
+  },
+  {
+    "brandName": "ABROZU",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "224.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.49"
+  },
+  {
+    "brandName": "STATSET",
+    "packSize": "15",
+    "company": "ESWAR THERAPEUTICS PVT.LTD",
+    "brandMrp": "337.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.50"
+  },
+  {
+    "brandName": "TG ROSE",
+    "packSize": "10",
+    "company": "ALLYSIA LIFESCIENCES PVT.LTD",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.50"
+  },
+  {
+    "brandName": "LIPIROSE",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "226.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.64"
+  },
+  {
+    "brandName": "GLIHYPO PLUS",
+    "packSize": "10",
+    "company": "AN PHARMACEUTICALS PVT.LTD.",
+    "brandMrp": "226.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.69"
+  },
+  {
+    "brandName": "ROZMIN",
+    "packSize": "10",
+    "company": "KREIOS PHARMA",
+    "brandMrp": "226.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.69"
+  },
+  {
+    "brandName": "ROLIPTIN",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "230.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.03"
+  },
+  {
+    "brandName": "RECOTOR",
+    "packSize": "10",
+    "company": "ECON HEALTHCARE PVT LTD",
+    "brandMrp": "233.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.31"
+  },
+  {
+    "brandName": "YOGAROS",
+    "packSize": "10",
+    "company": "HIGLANCE LABORATORIES PVT LTD",
+    "brandMrp": "233.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.34"
+  },
+  {
+    "brandName": "STATFIT",
+    "packSize": "10",
+    "company": "ENOVUS HEALTHCARE PVT.LTD",
+    "brandMrp": "234.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.44"
+  },
+  {
+    "brandName": "TURBOVAS",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "235.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.53"
+  },
+  {
+    "brandName": "ROSUHENZ",
+    "packSize": "10",
+    "company": "METALIS LIFESCIENCES PVT LTD",
+    "brandMrp": "239.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.95"
+  },
+  {
+    "brandName": "ROSUNOVA",
+    "packSize": "10",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "240.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.00"
+  },
+  {
+    "brandName": "ROSUZEN",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "240.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.00"
+  },
+  {
+    "brandName": "ROZAT",
+    "packSize": "14",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "336.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.01"
+  },
+  {
+    "brandName": "HYROSTAT",
+    "packSize": "10",
+    "company": "HYGEN HEALTHCARE PRIVATE LTD",
+    "brandMrp": "241.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.11"
+  },
+  {
+    "brandName": "ROZTEK",
+    "packSize": "10",
+    "company": "FIDELITY LIFESCIENCE",
+    "brandMrp": "242.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.28"
+  },
+  {
+    "brandName": "ROZUTIN",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "243.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.33"
+  },
+  {
+    "brandName": "TROYROSU",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "243.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.33"
+  },
+  {
+    "brandName": "TURBOVAS",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "365.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.37"
+  },
+  {
+    "brandName": "RDL",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "243.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.38"
+  },
+  {
+    "brandName": "RAZEL",
+    "packSize": "15",
+    "company": "JB CHEMICALS",
+    "brandMrp": "369.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.63"
+  },
+  {
+    "brandName": "ROZUPREX",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "247.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.74"
+  },
+  {
+    "brandName": "ROSVIN",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "247.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.75"
+  },
+  {
+    "brandName": "UNIZUVA",
+    "packSize": "10",
+    "company": "UNIZA HEALTHCARE LLP",
+    "brandMrp": "249.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.91"
+  },
+  {
+    "brandName": "STATPURE",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "251.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.13"
+  },
+  {
+    "brandName": "ROVAX",
+    "packSize": "10",
+    "company": "THRIVEX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "257.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.78"
+  },
+  {
+    "brandName": "BESTOR",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "258.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.83"
+  },
+  {
+    "brandName": "ADVASTAT",
+    "packSize": "10",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "260.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.00"
+  },
+  {
+    "brandName": "ALVIROZ",
+    "packSize": "10",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "260.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.06"
+  },
+  {
+    "brandName": "ROSMI",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "260.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.06"
+  },
+  {
+    "brandName": "ROSUSAL",
+    "packSize": "15",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "395.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.34"
+  },
+  {
+    "brandName": "CARDIROSE",
+    "packSize": "15",
+    "company": "HBC LIFESCIENCES PVT LTD",
+    "brandMrp": "399.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.66"
+  },
+  {
+    "brandName": "AROSTAT",
+    "packSize": "10",
+    "company": "AAREEN HEALTHCARE",
+    "brandMrp": "267.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.71"
+  },
+  {
+    "brandName": "ROZBITE",
+    "packSize": "10",
+    "company": "XENA CORONUS HEALTH CARE PVT.LTD",
+    "brandMrp": "267.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.72"
+  },
+  {
+    "brandName": "ROSUR",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "268.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.83"
+  },
+  {
+    "brandName": "ROZFIRST",
+    "packSize": "15",
+    "company": "SINSAN PHARMACEUTICALS",
+    "brandMrp": "404.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.94"
+  },
+  {
+    "brandName": "ROZUSTAT",
+    "packSize": "15",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "414.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.66"
+  },
+  {
+    "brandName": "ROSEDAY",
+    "packSize": "15",
+    "company": "USV PVT LTD",
+    "brandMrp": "416.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.76"
+  },
+  {
+    "brandName": "LIPIGO",
+    "packSize": "10",
+    "company": "MERCK SPECIALITIES PVT.LTD",
+    "brandMrp": "280.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.08"
+  },
+  {
+    "brandName": "VAROS",
+    "packSize": "15",
+    "company": "AVIS LIFE CARE PVT LTD",
+    "brandMrp": "423.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.20"
+  },
+  {
+    "brandName": "CARDIROSE",
+    "packSize": "10",
+    "company": "HBC LIFESCIENCES PVT LTD",
+    "brandMrp": "287.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.75"
+  },
+  {
+    "brandName": "JUPIROS",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "431.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.78"
+  },
+  {
+    "brandName": "ROSUKEM",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "431.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.78"
+  },
+  {
+    "brandName": "ROSUGARD",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "291.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.17"
+  },
+  {
+    "brandName": "ROVIO",
+    "packSize": "10",
+    "company": "BAYER PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "296.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.60"
+  },
+  {
+    "brandName": "ROSUFREE",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "299.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.91"
+  },
+  {
+    "brandName": "LIPITAS",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.00"
+  },
+  {
+    "brandName": "ROSAFIN",
+    "packSize": "10",
+    "company": "EVEREN HEALTHCARE PVT.LTD",
+    "brandMrp": "300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.00"
+  },
+  {
+    "brandName": "ADIPOSTAT",
+    "packSize": "10",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "302.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.29"
+  },
+  {
+    "brandName": "ROZAT",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "460.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.72"
+  },
+  {
+    "brandName": "ROZUMAZE",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "461.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.73"
+  },
+  {
+    "brandName": "ABOROS",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "311.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.12"
+  },
+  {
+    "brandName": "IMPUROSE",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "311.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.12"
+  },
+  {
+    "brandName": "ROSLAREN",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "311.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.12"
+  },
+  {
+    "brandName": "ROSLOY",
+    "packSize": "15",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "472.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.51"
+  },
+  {
+    "brandName": "ROSULIP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "320.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.08"
+  },
+  {
+    "brandName": "ROSURICA",
+    "packSize": "10",
+    "company": "APRICA HEALTHCARE PVT LTD",
+    "brandMrp": "320.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.09"
+  },
+  {
+    "brandName": "ROSUMAC",
+    "packSize": "15",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "487.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.50"
+  },
+  {
+    "brandName": "STATPURE",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "487.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.53"
+  },
+  {
+    "brandName": "RONASTIN",
+    "packSize": "10",
+    "company": "SAFFRON FORMULATIONS",
+    "brandMrp": "328.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.81"
+  },
+  {
+    "brandName": "ROZUDOC",
+    "packSize": "10",
+    "company": "ERGOS LIFE SCIENCES",
+    "brandMrp": "328.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.90"
+  },
+  {
+    "brandName": "RXTOR",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "330.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.01"
+  },
+  {
+    "brandName": "JUBIRA",
+    "packSize": "15",
+    "company": "JUBILANT GENERICS LIMITED",
+    "brandMrp": "505.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.67"
+  },
+  {
+    "brandName": "ROSUKAA",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "364.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.50"
+  },
+  {
+    "brandName": "R2 (PHC)",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "371.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.16"
+  },
+  {
+    "brandName": "ARVAST",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "372.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.27"
+  },
+  {
+    "brandName": "COLTRO",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "372.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.27"
+  },
+  {
+    "brandName": "LIPITAS",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "558.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.27"
+  },
+  {
+    "brandName": "ROSAVE",
+    "packSize": "15",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "614.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.94"
+  },
+  {
+    "brandName": "ROZUCOR",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "421.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.19"
+  },
+  {
+    "brandName": "ROZAVEL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "431.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.10"
+  },
+  {
+    "brandName": "ROZAVEL",
+    "packSize": "15",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "659.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.94"
+  },
+  {
+    "brandName": "ROSUVAS",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "439.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.97"
+  },
+  {
+    "brandName": "ZYROVA",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "464.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.45"
+  },
+  {
+    "brandName": "CRESTOR",
+    "packSize": "10",
+    "company": "ASTRAZENECA PHARMA INDIA LTD",
+    "brandMrp": "469.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.90"
+  },
+  {
+    "brandName": "NOVASTAT",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "704.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.98"
+  },
+  {
+    "brandName": "CRESTOR",
+    "packSize": "15",
+    "company": "ASTRAZENECA PHARMA INDIA LTD",
+    "brandMrp": "796.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.12"
+  },
+  {
+    "brandName": "ROSUVAS CP",
+    "packSize": "30",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "1980.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "66.00"
+  }
+]

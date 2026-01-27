@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521040761@65485@101143993@3215@101006@202430",
+    "skuName": "LARIMEF 250 MG TABLET 6",
+    "composition": "MEFLOQUINE TABLET 250 MG",
+    "packSize": "6 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "53.07",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "scheduleFlag": "1",
+    "mrp": "341.58",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.93"
+  },
+  {
+    "hiddenId": "1521046372@70375@101149494@3215@101006@202430",
+    "skuName": "MEFLOC 250 MG TABLET 4",
+    "composition": "MEFLOQUINE TABLET 250 MG",
+    "packSize": "4 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "53.07",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "scheduleFlag": "1",
+    "mrp": "212.89",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.22"
+  },
+  {
+    "hiddenId": "1521046373@64904@101149495@3215@101006@202430",
+    "skuName": "MEFLOTAS 250 MG TABLET 2",
+    "composition": "MEFLOQUINE TABLET 250 MG",
+    "packSize": "2 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "53.07",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "1",
+    "mrp": "116.07",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.04"
+  },
+  {
+    "hiddenId": "1521046395@77388@101246548@3215@101006@202430",
+    "skuName": "MEFQUE 250 MG TABLET 4",
+    "composition": "MEFLOQUINE TABLET 250 MG",
+    "packSize": "4 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "53.07",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "scheduleFlag": "1",
+    "mrp": "219.07",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "54.77"
+  }
+]

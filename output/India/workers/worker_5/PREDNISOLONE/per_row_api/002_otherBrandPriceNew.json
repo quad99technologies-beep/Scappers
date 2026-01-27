@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "VENTOCORTIL",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "16.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.63"
+  },
+  {
+    "brandName": "PCORT (PHARMTAK)",
+    "packSize": "10",
+    "company": "PHARMTAK",
+    "brandMrp": "22.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.28"
+  },
+  {
+    "brandName": "DELSONE",
+    "packSize": "10",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "25.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.56"
+  },
+  {
+    "brandName": "OMNACORTIL",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "25.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.56"
+  },
+  {
+    "brandName": "PREDNIHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "26.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.68"
+  }
+]

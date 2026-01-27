@@ -1,0 +1,314 @@
+[
+  {
+    "brandName": "B-OZE",
+    "packSize": "10",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "88.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.88"
+  },
+  {
+    "brandName": "NOXA",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "132.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.28"
+  },
+  {
+    "brandName": "OZAMORE",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "155.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.50"
+  },
+  {
+    "brandName": "NOXA",
+    "packSize": "5",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "81.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.35"
+  },
+  {
+    "brandName": "OZAMORE",
+    "packSize": "5",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "XEPINOXIN",
+    "packSize": "10",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "200.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.09"
+  },
+  {
+    "brandName": "OZEWID",
+    "packSize": "5",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "103.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.63"
+  },
+  {
+    "brandName": "HETERONOX",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "210.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.08"
+  },
+  {
+    "brandName": "TIGOTREAT",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "210.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.09"
+  },
+  {
+    "brandName": "OZEGO",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "214.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.47"
+  },
+  {
+    "brandName": "PRIZENO",
+    "packSize": "10",
+    "company": "LA PRISTINE BIOCEUTICALS PVT LTD",
+    "brandMrp": "216.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.60"
+  },
+  {
+    "brandName": "NOXPRIN",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.50"
+  },
+  {
+    "brandName": "OZEBRUT",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.50"
+  },
+  {
+    "brandName": "OZEWID",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "226.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.69"
+  },
+  {
+    "brandName": "ZIMBA",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "228.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.88"
+  },
+  {
+    "brandName": "OZX",
+    "packSize": "10",
+    "company": "GLOWDERMA",
+    "brandMrp": "231.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.16"
+  },
+  {
+    "brandName": "TIGOTREAT",
+    "packSize": "5",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "116.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.25"
+  },
+  {
+    "brandName": "OZECIP",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "120.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.11"
+  },
+  {
+    "brandName": "OZEGO",
+    "packSize": "5",
+    "company": "TALENT INDIA",
+    "brandMrp": "120.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.19"
+  },
+  {
+    "brandName": "NICORIZEN",
+    "packSize": "10",
+    "company": "PREMIER NUTRACEUTICALS PVT LTD",
+    "brandMrp": "243.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.30"
+  },
+  {
+    "brandName": "CHOOZ",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "245.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.50"
+  },
+  {
+    "brandName": "PRIZENO",
+    "packSize": "5",
+    "company": "LA PRISTINE BIOCEUTICALS PVT LTD",
+    "brandMrp": "126.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.20"
+  },
+  {
+    "brandName": "HETERONOX",
+    "packSize": "5",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "126.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.30"
+  },
+  {
+    "brandName": "O2 BACT",
+    "packSize": "5",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.31"
+  },
+  {
+    "brandName": "S CLEAR",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "254.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.41"
+  },
+  {
+    "brandName": "OZEFIT",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "255.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.52"
+  },
+  {
+    "brandName": "MARTIDERM",
+    "packSize": "10",
+    "company": "WALTER BUSHNELL",
+    "brandMrp": "260.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.06"
+  },
+  {
+    "brandName": "MARTIDERM",
+    "packSize": "5",
+    "company": "WALTER BUSHNELL",
+    "brandMrp": "130.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.06"
+  },
+  {
+    "brandName": "NOXPRIN",
+    "packSize": "5",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.00"
+  },
+  {
+    "brandName": "OZEBRUT",
+    "packSize": "5",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.00"
+  },
+  {
+    "brandName": "S CLEAR",
+    "packSize": "5",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.00"
+  },
+  {
+    "brandName": "NOXOF",
+    "packSize": "5",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "138.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.75"
+  },
+  {
+    "brandName": "OZX",
+    "packSize": "5",
+    "company": "GLOWDERMA",
+    "brandMrp": "138.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.75"
+  },
+  {
+    "brandName": "CHOOZ",
+    "packSize": "5",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "140.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.00"
+  },
+  {
+    "brandName": "XEPIBACT",
+    "packSize": "5",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "140.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.00"
+  },
+  {
+    "brandName": "IMPINOZ",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "280.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.03"
+  },
+  {
+    "brandName": "XEPINOXIN",
+    "packSize": "5",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "145.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.06"
+  },
+  {
+    "brandName": "OZEFIT",
+    "packSize": "5",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "153.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.63"
+  },
+  {
+    "brandName": "B-OZE",
+    "packSize": "5",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "155.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.00"
+  }
+]

@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "PIOZAR",
+    "packSize": "10",
+    "company": "SPECTRA THERAPEUTICS PVT. LTD.",
+    "brandMrp": "30.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.06"
+  },
+  {
+    "brandName": "PIOLON",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "32.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.20"
+  },
+  {
+    "brandName": "INSUPIO",
+    "packSize": "10",
+    "company": "MEDICURE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "44.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.41"
+  },
+  {
+    "brandName": "PIODOZE",
+    "packSize": "10",
+    "company": "CKRIS LABORATORIES PVT LTD",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "PIOHOPE",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "51.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.16"
+  },
+  {
+    "brandName": "PIORAN",
+    "packSize": "10",
+    "company": "RANMARC LABS",
+    "brandMrp": "57.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.70"
+  },
+  {
+    "brandName": "PATH",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "86.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.74"
+  },
+  {
+    "brandName": "PIORUN",
+    "packSize": "10",
+    "company": "JARUN PHARMACEUTICALS",
+    "brandMrp": "64.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.47"
+  },
+  {
+    "brandName": "PIOGLAR",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "66.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.65"
+  },
+  {
+    "brandName": "PIOGLIT",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "GLITARIS",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "90.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.02"
+  },
+  {
+    "brandName": "PIOPAR",
+    "packSize": "10",
+    "company": "MITOCH PHARMA PVT LTD",
+    "brandMrp": "109.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.92"
+  }
+]

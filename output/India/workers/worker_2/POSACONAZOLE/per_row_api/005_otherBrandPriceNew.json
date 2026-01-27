@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "POSACAD GR",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "8430.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "843.00"
+  },
+  {
+    "brandName": "ZYPOSA",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "8512.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "851.25"
+  },
+  {
+    "brandName": "POSAHIT",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "10536.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1053.66"
+  }
+]

@@ -1,0 +1,114 @@
+[
+  {
+    "brandName": "ABLU",
+    "packSize": "10",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "236.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.63"
+  },
+  {
+    "brandName": "CALBIMIDE",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "374.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.44"
+  },
+  {
+    "brandName": "COSALON",
+    "packSize": "10",
+    "company": "CELON LABS",
+    "brandMrp": "390.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.00"
+  },
+  {
+    "brandName": "TABI",
+    "packSize": "30",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "1239.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "41.30"
+  },
+  {
+    "brandName": "TABI",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "419.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "41.97"
+  },
+  {
+    "brandName": "CALURAN CP",
+    "packSize": "30",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "1322.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.09"
+  },
+  {
+    "brandName": "CASTRAMID",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "442.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.27"
+  },
+  {
+    "brandName": "CASODEX",
+    "packSize": "14",
+    "company": "ASTRAZENECA PHARMA INDIA LTD",
+    "brandMrp": "635.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.36"
+  },
+  {
+    "brandName": "UTAMIDE",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "454.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.47"
+  },
+  {
+    "brandName": "CALUTIDE",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "462.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.25"
+  },
+  {
+    "brandName": "SAMTIDE",
+    "packSize": "10",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "462.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.25"
+  },
+  {
+    "brandName": "CALUDEC",
+    "packSize": "10",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "484.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.49"
+  },
+  {
+    "brandName": "AVOBI",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "525.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.50"
+  },
+  {
+    "brandName": "CALURAN",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "1322.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "132.27"
+  }
+]

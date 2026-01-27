@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521003565@73283@101107886@3312@101006@201856",
+    "skuName": "AROMASIN 25 MG TABLET 15",
+    "composition": "EXEMESTANE TABLET 25 MG",
+    "packSize": "15 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "PFIZER LTD",
+    "scheduleFlag": "0",
+    "mrp": "5506.38",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "367.09"
+  },
+  {
+    "hiddenId": "1521101789@344273@101194623@3312@101006@201856",
+    "skuName": "XMALON 25 MG TABLET 10",
+    "composition": "EXEMESTANE TABLET 25 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "CELON LABS",
+    "scheduleFlag": "0",
+    "mrp": "204.60",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.46"
+  },
+  {
+    "hiddenId": "1521084339@103942@101185096@3312@101006@201856",
+    "skuName": "XTANE 25 MG TABLET 30",
+    "composition": "EXEMESTANE TABLET 25 MG",
+    "packSize": "30 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "NATCO PHARMA LTD",
+    "scheduleFlag": "0",
+    "mrp": "993.71",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.12"
+  }
+]

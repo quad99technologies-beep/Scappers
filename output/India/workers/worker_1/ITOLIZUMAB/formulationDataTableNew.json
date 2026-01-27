@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521013154@204602@101245666@3312@101068@201890",
+    "skuName": "ALZUMAB 25 MG INJECTION 5 ML",
+    "composition": "ITOLIZUMAB INJECTION 25 MG",
+    "packSize": "5 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "OAKNET HEALTHCARE",
+    "scheduleFlag": "0",
+    "mrp": "7950.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1590.00"
+  },
+  {
+    "hiddenId": "1521005305@319796@101245667@1846@101068@201890",
+    "skuName": "ALZUMAB L 100 MG INJECTION 1",
+    "composition": "ITOLIZUMAB INJECTION 100 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "OAKNET HEALTHCARE",
+    "scheduleFlag": "0",
+    "mrp": "31800.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31800.00"
+  },
+  {
+    "hiddenId": "1521037660@322096@101140843@1846@101068@201890",
+    "skuName": "ITOLIZAC 100 MG INJECTION 1 ML",
+    "composition": "ITOLIZUMAB INJECTION 100 MG",
+    "packSize": "1 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "scheduleFlag": "0",
+    "mrp": "31800.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31800.00"
+  }
+]

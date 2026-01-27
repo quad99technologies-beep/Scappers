@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "ROMISET",
+    "packSize": "6",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "3290.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "548.33"
+  },
+  {
+    "brandName": "ROMISET",
+    "packSize": "6",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "3392.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "565.47"
+  },
+  {
+    "brandName": "ROMY",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "3736.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3736.17"
+  },
+  {
+    "brandName": "ROMPOST",
+    "packSize": "1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "4267.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4267.86"
+  }
+]

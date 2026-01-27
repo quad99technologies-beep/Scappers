@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "GLYCINE",
+    "packSize": "3000",
+    "company": "CLARIS LIFESCIENCES LIMITED",
+    "brandMrp": "147.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.05"
+  },
+  {
+    "brandName": "GLYCINE (DENIS)",
+    "packSize": "3000",
+    "company": "DENIS CHEM LAB LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.05"
+  },
+  {
+    "brandName": "GLYCINE (FRESENIUS)",
+    "packSize": "3000",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.05"
+  }
+]

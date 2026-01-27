@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PARKIROP",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "13.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.37"
+  },
+  {
+    "brandName": "ADROLE",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "52.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.25"
+  },
+  {
+    "brandName": "ROPARK",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "85.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.53"
+  }
+]

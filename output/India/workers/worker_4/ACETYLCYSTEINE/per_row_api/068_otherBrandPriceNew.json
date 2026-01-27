@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "MUCYST",
+    "packSize": "5",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "49.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.80"
+  },
+  {
+    "brandName": "MUCOMIX",
+    "packSize": "1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "25.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.23"
+  },
+  {
+    "brandName": "MUCINAC",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "126.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.25"
+  }
+]

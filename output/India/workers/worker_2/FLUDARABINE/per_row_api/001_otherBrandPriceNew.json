@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "FLUDOCYTE",
+    "packSize": "2",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "10791.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5395.50"
+  },
+  {
+    "brandName": "FLUDACEL",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "6500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6500.00"
+  },
+  {
+    "brandName": "FLUDABINE",
+    "packSize": "1",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "10096.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10096.12"
+  },
+  {
+    "brandName": "FLUDARA",
+    "packSize": "1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "14313.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14313.08"
+  }
+]

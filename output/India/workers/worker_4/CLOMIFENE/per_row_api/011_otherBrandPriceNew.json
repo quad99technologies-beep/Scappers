@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "REJUN",
+    "packSize": "10",
+    "company": "SANZYME LTD",
+    "brandMrp": "67.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.76"
+  },
+  {
+    "brandName": "SIPHENE M",
+    "packSize": "30",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "brandMrp": "234.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.80"
+  },
+  {
+    "brandName": "FERTOMID",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "86.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.68"
+  },
+  {
+    "brandName": "FERTYL M",
+    "packSize": "30",
+    "company": "AR-EX LABORATORIES PVT . LTD",
+    "brandMrp": "262.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.75"
+  },
+  {
+    "brandName": "CLOME",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "98.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.80"
+  },
+  {
+    "brandName": "CLOFERT",
+    "packSize": "30",
+    "company": "MANEESH PHARMACEUTICALS LTD",
+    "brandMrp": "328.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.93"
+  },
+  {
+    "brandName": "FERTOVA",
+    "packSize": "10",
+    "company": "TRITON HEALTH CARE PVT LTD",
+    "brandMrp": "533.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.31"
+  }
+]

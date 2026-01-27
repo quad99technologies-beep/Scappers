@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "ZEROTUSS",
+    "packSize": "100",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "132.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.32"
+  },
+  {
+    "brandName": "ZEROTUSS",
+    "packSize": "60",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "84.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.41"
+  },
+  {
+    "brandName": "SOVENTUS DC",
+    "packSize": "100",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "156.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.57"
+  },
+  {
+    "brandName": "LUPITUSS",
+    "packSize": "100",
+    "company": "LUPIN LTD",
+    "brandMrp": "179.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.79"
+  },
+  {
+    "brandName": "LUPITUSS",
+    "packSize": "100",
+    "company": "LUPIN LTD",
+    "brandMrp": "182.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.83"
+  }
+]

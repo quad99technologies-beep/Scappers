@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521051406@25438@101154338@3622@101068@202390",
+    "skuName": "NALOX 400 MCG INJECTION 1 ML",
+    "composition": "NALOXONE INJECTION 400 MCG",
+    "packSize": "1 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "94.33",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "scheduleFlag": "1",
+    "mrp": "97.31",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "97.31"
+  },
+  {
+    "hiddenId": "1521052971@86335@101155922@3622@101068@202390",
+    "skuName": "NEX(NEL) 400 MCG INJECTION 1 ML",
+    "composition": "NALOXONE INJECTION 400 MCG",
+    "packSize": "1 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "94.33",
+    "company": "NEON LABORATORIES LTD",
+    "scheduleFlag": "1",
+    "mrp": "97.31",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "97.31"
+  }
+]

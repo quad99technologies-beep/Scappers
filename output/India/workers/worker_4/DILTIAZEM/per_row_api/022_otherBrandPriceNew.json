@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "DILCARE (OLCARE)",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "21.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.10"
+  },
+  {
+    "brandName": "ELDIZEM",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "23.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.34"
+  },
+  {
+    "brandName": "ISDIL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "23.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.39"
+  },
+  {
+    "brandName": "DTM",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "24.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.44"
+  },
+  {
+    "brandName": "DZ",
+    "packSize": "10",
+    "company": "SUNIJ PHARMA PVT LTD",
+    "brandMrp": "27.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.76"
+  },
+  {
+    "brandName": "ANGIZEM",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "28.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.80"
+  },
+  {
+    "brandName": "CHANNEL",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "28.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  }
+]

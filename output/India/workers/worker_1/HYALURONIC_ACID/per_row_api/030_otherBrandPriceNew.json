@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "HYVISC",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "299.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.90"
+  },
+  {
+    "brandName": "HYTAK",
+    "packSize": "10",
+    "company": "PHARMTAK",
+    "brandMrp": "328.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.81"
+  },
+  {
+    "brandName": "HYLOAID",
+    "packSize": "5",
+    "company": "SAPIENT",
+    "brandMrp": "182.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.56"
+  },
+  {
+    "brandName": "HYSIGHT",
+    "packSize": "5",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "256.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.38"
+  },
+  {
+    "brandName": "HYLA FUSION",
+    "packSize": "10",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "566.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.63"
+  }
+]

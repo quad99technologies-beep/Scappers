@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521072855@71794@101227113@1553@101028@201601",
+    "skuName": "SILVA 1 % CREAM 20 GM",
+    "composition": "SULFADIAZINE CREAM 1 %",
+    "packSize": "20 GM CREAM",
+    "dosageForm": "CREAM",
+    "ceilingPrice": "-1",
+    "company": "ELDER PROJECTS LIMITED",
+    "scheduleFlag": "0",
+    "mrp": "64.69",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.23"
+  },
+  {
+    "hiddenId": "1521142025@139956@101238305@-1@101028@201601",
+    "skuName": "SILVA C (TORQUE) CREAM 20 GM",
+    "composition": "SULFADIAZINE CREAM ",
+    "packSize": "20 GM CREAM",
+    "dosageForm": "CREAM",
+    "ceilingPrice": "-1",
+    "company": "TORQUE PHARMACEUTICALS PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "14.37",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.72"
+  },
+  {
+    "hiddenId": "1521072874@60916@101173508@1553@101028@201601",
+    "skuName": "SILVEZ 1 % CREAM 20 GM",
+    "composition": "SULFADIAZINE CREAM 1 %",
+    "packSize": "20 GM CREAM",
+    "dosageForm": "CREAM",
+    "ceilingPrice": "-1",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "scheduleFlag": "0",
+    "mrp": "25.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.25"
+  },
+  {
+    "hiddenId": "1521084641@40934@101185421@3719@101028@201601",
+    "skuName": "ZAD G 5 % CREAM 15 GM",
+    "composition": "SULFADIAZINE CREAM 5 %",
+    "packSize": "15 GM CREAM",
+    "dosageForm": "CREAM",
+    "ceilingPrice": "-1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "scheduleFlag": "0",
+    "mrp": "38.70",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.58"
+  }
+]

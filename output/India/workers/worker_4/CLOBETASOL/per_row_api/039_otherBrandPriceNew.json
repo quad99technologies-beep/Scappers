@@ -1,0 +1,418 @@
+[
+  {
+    "brandName": "KLOSOFT",
+    "packSize": "15",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "22.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.47"
+  },
+  {
+    "brandName": "CVATE",
+    "packSize": "30",
+    "company": "OMEGA REMEDIES PVT LTD",
+    "brandMrp": "46.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.54"
+  },
+  {
+    "brandName": "FREEDOM",
+    "packSize": "15",
+    "company": "ALBATROSS HEALTH CARE PVT LTD",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  },
+  {
+    "brandName": "TUFFCLO",
+    "packSize": "30",
+    "company": "FDC LTD.",
+    "brandMrp": "66.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.22"
+  },
+  {
+    "brandName": "FREEDOM",
+    "packSize": "50",
+    "company": "ALBATROSS HEALTH CARE PVT LTD",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.53"
+  },
+  {
+    "brandName": "NUVATE",
+    "packSize": "30",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "79.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.63"
+  },
+  {
+    "brandName": "TOPINATE",
+    "packSize": "30",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "78.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.63"
+  },
+  {
+    "brandName": "CLOPIC (ATOPIC)",
+    "packSize": "30",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "81.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.72"
+  },
+  {
+    "brandName": "CATADERM",
+    "packSize": "50",
+    "company": "ANHOX HEALTHCARE PVT LTD",
+    "brandMrp": "138.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.78"
+  },
+  {
+    "brandName": "CLOVATE",
+    "packSize": "30",
+    "company": "DERMO CARE LABORATORIES",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  },
+  {
+    "brandName": "FREEDOM",
+    "packSize": "30",
+    "company": "ALBATROSS HEALTH CARE PVT LTD",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  },
+  {
+    "brandName": "CLOBETAMIL",
+    "packSize": "15",
+    "company": "PROCTER & GAMBLE HEALTH LTD",
+    "brandMrp": "46.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.08"
+  },
+  {
+    "brandName": "CVATE",
+    "packSize": "15",
+    "company": "OMEGA REMEDIES PVT LTD",
+    "brandMrp": "46.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.09"
+  },
+  {
+    "brandName": "DERMOTYL",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "33.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.37"
+  },
+  {
+    "brandName": "POWERCORT",
+    "packSize": "30",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "104.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.47"
+  },
+  {
+    "brandName": "CLONEXT",
+    "packSize": "30",
+    "company": "SHAUNON REMEDIES",
+    "brandMrp": "107.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.59"
+  },
+  {
+    "brandName": "CLOSAL",
+    "packSize": "15",
+    "company": "SAPIENT",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.67"
+  },
+  {
+    "brandName": "PLOSAT",
+    "packSize": "15",
+    "company": "WINSOME LAB LTD",
+    "brandMrp": "56.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.73"
+  },
+  {
+    "brandName": "CLOBEZINE",
+    "packSize": "15",
+    "company": "AVANCER LAB",
+    "brandMrp": "59.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.94"
+  },
+  {
+    "brandName": "CORTENT",
+    "packSize": "30",
+    "company": "LA PRISTINE BIOCEUTICALS PVT LTD",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.00"
+  },
+  {
+    "brandName": "TEZCORT",
+    "packSize": "30",
+    "company": "GLOWDERMA",
+    "brandMrp": "120.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.03"
+  },
+  {
+    "brandName": "CLOBEZINE",
+    "packSize": "30",
+    "company": "AVANCER LAB",
+    "brandMrp": "123.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.13"
+  },
+  {
+    "brandName": "CLOREGA",
+    "packSize": "30",
+    "company": "REGALIZ MEDICARE LTD",
+    "brandMrp": "130.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.34"
+  },
+  {
+    "brandName": "CLOPAD",
+    "packSize": "30",
+    "company": "TRIPADA BIOTEC PVT LTD",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.38"
+  },
+  {
+    "brandName": "CLOBITAL",
+    "packSize": "30",
+    "company": "TALENT INDIA",
+    "brandMrp": "133.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.44"
+  },
+  {
+    "brandName": "SUPRAVATE",
+    "packSize": "10",
+    "company": "PARKER ROBINSON PVT. LTD",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "EPIVATE",
+    "packSize": "30",
+    "company": "PRISM LIFESCIENCE",
+    "brandMrp": "135.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.53"
+  },
+  {
+    "brandName": "SOLTOP",
+    "packSize": "30",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "137.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.58"
+  },
+  {
+    "brandName": "EPIVATE",
+    "packSize": "15",
+    "company": "PRISM LIFESCIENCE",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.69"
+  },
+  {
+    "brandName": "VICLOB",
+    "packSize": "30",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "146.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.88"
+  },
+  {
+    "brandName": "CLOSALVE",
+    "packSize": "30",
+    "company": "SALVE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "147.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.91"
+  },
+  {
+    "brandName": "EXDERM",
+    "packSize": "30",
+    "company": "OMNI LIFE SCIENCES PVT LTD",
+    "brandMrp": "148.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.94"
+  },
+  {
+    "brandName": "CLOMIC",
+    "packSize": "20",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "99.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.97"
+  },
+  {
+    "brandName": "TUFDERM",
+    "packSize": "30",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "158.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.29"
+  },
+  {
+    "brandName": "TENOVATE",
+    "packSize": "30",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "160.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.36"
+  },
+  {
+    "brandName": "DIPLENE-AF",
+    "packSize": "20",
+    "company": "MSD PHARMACEUTICALS PRIVATE LTD.",
+    "brandMrp": "111.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.55"
+  },
+  {
+    "brandName": "TOPCLO NM",
+    "packSize": "15",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "87.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.84"
+  },
+  {
+    "brandName": "CLOP",
+    "packSize": "30",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "182.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.09"
+  },
+  {
+    "brandName": "EXEL",
+    "packSize": "30",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "185.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "COSVATE",
+    "packSize": "30",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "186.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.20"
+  },
+  {
+    "brandName": "CLOP",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "63.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.33"
+  },
+  {
+    "brandName": "NIOSOL",
+    "packSize": "30",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "196.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "CANDIPRAZ OC",
+    "packSize": "15",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "98.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.59"
+  },
+  {
+    "brandName": "CLOBELAC",
+    "packSize": "15",
+    "company": "STEDMAN PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "102.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.86"
+  },
+  {
+    "brandName": "LOZIVATE",
+    "packSize": "20",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "139.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.95"
+  },
+  {
+    "brandName": "ZINCODERM",
+    "packSize": "15",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "104.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "RECLO",
+    "packSize": "20",
+    "company": "RELY ON PHARMACEUTICALS",
+    "brandMrp": "149.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.45"
+  },
+  {
+    "brandName": "BELSONATE",
+    "packSize": "20",
+    "company": "BELLISSA PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "151.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.59"
+  },
+  {
+    "brandName": "CLOP E",
+    "packSize": "20",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "158.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.91"
+  },
+  {
+    "brandName": "CLONATE",
+    "packSize": "30",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "245.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.19"
+  },
+  {
+    "brandName": "LOBATE",
+    "packSize": "30",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "251.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.38"
+  },
+  {
+    "brandName": "COSVATE",
+    "packSize": "15",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "126.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  }
+]

@@ -1,0 +1,186 @@
+[
+  {
+    "brandName": "AMIKEF",
+    "packSize": "2",
+    "company": "LUPIN LTD",
+    "brandMrp": "34.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.30"
+  },
+  {
+    "brandName": "ENCIN (SHRINIVAS)",
+    "packSize": "2",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "35.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.65"
+  },
+  {
+    "brandName": "INKACIN",
+    "packSize": "2",
+    "company": "INTRA LABS",
+    "brandMrp": "36.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.20"
+  },
+  {
+    "brandName": "AMILAB",
+    "packSize": "2",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "38.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.00"
+  },
+  {
+    "brandName": "UNIMIKA",
+    "packSize": "2",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "41.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.50"
+  },
+  {
+    "brandName": "AMIJECT",
+    "packSize": "2",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "44.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.25"
+  },
+  {
+    "brandName": "AMITAX",
+    "packSize": "2",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "48.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.25"
+  },
+  {
+    "brandName": "AMISTER",
+    "packSize": "2",
+    "company": "STERKEM",
+    "brandMrp": "49.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.50"
+  },
+  {
+    "brandName": "MIKASTAR",
+    "packSize": "2",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "50.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.20"
+  },
+  {
+    "brandName": "EMICA",
+    "packSize": "2",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "51.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.55"
+  },
+  {
+    "brandName": "AMIKAMED",
+    "packSize": "2",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "55.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.75"
+  },
+  {
+    "brandName": "MIK",
+    "packSize": "2",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "55.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.85"
+  },
+  {
+    "brandName": "ALFAKIM(RANBAXY)",
+    "packSize": "2",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "56.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.00"
+  },
+  {
+    "brandName": "AMICIN",
+    "packSize": "2",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.13"
+  },
+  {
+    "brandName": "MBKACIN",
+    "packSize": "2",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "56.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.26"
+  },
+  {
+    "brandName": "AMIKIND",
+    "packSize": "2",
+    "company": "MANKIND PRIME LABS PVT.LTD",
+    "brandMrp": "56.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.44"
+  },
+  {
+    "brandName": "AMIVA",
+    "packSize": "2",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "57.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.90"
+  },
+  {
+    "brandName": "AMIKAMAC",
+    "packSize": "2",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "61.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.53"
+  },
+  {
+    "brandName": "MACMIKA",
+    "packSize": "2",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "61.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.53"
+  },
+  {
+    "brandName": "OMNIKACIN",
+    "packSize": "2",
+    "company": "CIPLA LTD.",
+    "brandMrp": "61.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.55"
+  },
+  {
+    "brandName": "ALINFEC",
+    "packSize": "2",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "61.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.99"
+  },
+  {
+    "brandName": "NKACIN",
+    "packSize": "2",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "61.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.99"
+  },
+  {
+    "brandName": "MIKACIN",
+    "packSize": "2",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "67.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.55"
+  }
+]

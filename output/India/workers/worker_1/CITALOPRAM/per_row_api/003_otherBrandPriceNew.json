@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LEXATAL",
+    "packSize": "10",
+    "company": "SEPTALYST LIFESCIENCES PVT LTD",
+    "brandMrp": "49.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.96"
+  },
+  {
+    "brandName": "VOCITA",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "49.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.97"
+  },
+  {
+    "brandName": "CITADEP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "52.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.23"
+  }
+]

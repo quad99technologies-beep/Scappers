@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "KIVICORT",
+    "packSize": "6",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.25"
+  },
+  {
+    "brandName": "SOLO-D (OMNI)",
+    "packSize": "10",
+    "company": "OMNI LIFE SCIENCES PVT LTD",
+    "brandMrp": "332.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.28"
+  },
+  {
+    "brandName": "ZECORT",
+    "packSize": "6",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "203.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.96"
+  },
+  {
+    "brandName": "DELACORT",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "431.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.13"
+  },
+  {
+    "brandName": "ORTHOCORT",
+    "packSize": "6",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "270.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.03"
+  },
+  {
+    "brandName": "CORTIMAX",
+    "packSize": "6",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "288.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.15"
+  },
+  {
+    "brandName": "DEFZA",
+    "packSize": "6",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "319.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.28"
+  }
+]

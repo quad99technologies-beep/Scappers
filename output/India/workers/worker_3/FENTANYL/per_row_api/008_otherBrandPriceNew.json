@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "THEMIFENT",
+    "packSize": "10",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "201.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.11"
+  },
+  {
+    "brandName": "FENSTUD",
+    "packSize": "2",
+    "company": "RUSAN HEALTHCARE PVT. LTD",
+    "brandMrp": "40.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.46"
+  },
+  {
+    "brandName": "THEMIFENT",
+    "packSize": "2",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "44.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.38"
+  },
+  {
+    "brandName": "FENSTUD",
+    "packSize": "10",
+    "company": "RUSAN HEALTHCARE PVT. LTD",
+    "brandMrp": "857.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "85.72"
+  }
+]

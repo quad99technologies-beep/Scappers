@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521102245@353067@101194762@5589@101038@200464",
+    "skuName": "GUTFIX 8 MCG CAPSULE 10",
+    "composition": "LUBIPROSTONE CAPSULE 8 MCG",
+    "packSize": "10 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "AJANTA PHARMA LTD",
+    "scheduleFlag": "0",
+    "mrp": "128.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.80"
+  },
+  {
+    "hiddenId": "1521043843@211550@101147020@3973@101085@200464",
+    "skuName": "LUBOWEL 8 MG SOFTGEL CAPSULE 15",
+    "composition": "LUBIPROSTONE SOFTGEL CAPSULE 8 MG",
+    "packSize": "15 SOFTGEL CAPSULE",
+    "dosageForm": "SOFTGEL CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "scheduleFlag": "0",
+    "mrp": "203.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.53"
+  },
+  {
+    "hiddenId": "1521043842@211551@101147020@5588@101085@200464",
+    "skuName": "LUBOWEL (DUPLICATE) 24 MCG SOFTGEL CAPSULE 15",
+    "composition": "LUBIPROSTONE SOFTGEL CAPSULE 24 MCG",
+    "packSize": "15 SOFTGEL CAPSULE",
+    "dosageForm": "SOFTGEL CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "scheduleFlag": "0",
+    "mrp": "426.56",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.44"
+  }
+]

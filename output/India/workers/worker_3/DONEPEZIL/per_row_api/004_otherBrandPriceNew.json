@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "DONETAZ",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "325.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.50"
+  },
+  {
+    "brandName": "ARICEP",
+    "packSize": "10",
+    "company": "EISAI PHARMACEUTICALS INDIA LTD",
+    "brandMrp": "394.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.47"
+  }
+]

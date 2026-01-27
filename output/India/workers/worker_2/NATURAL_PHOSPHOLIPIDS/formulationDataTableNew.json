@@ -1,0 +1,72 @@
+[
+  {
+    "hiddenId": "1521011958@288954@101240877@3791@101068@206796",
+    "skuName": "ALVEOFACT 50 MG INJECTION 1",
+    "composition": "NATURAL PHOSPHOLIPIDS INJECTION 50 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "BHARAT SERUMS & VACCINES LTD",
+    "scheduleFlag": "0",
+    "mrp": "3754.67",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3754.67"
+  },
+  {
+    "hiddenId": "1521101802@353410@101194708@-1@101085@206796",
+    "skuName": "COGNICHEK SOFTGEL CAPSULE 10",
+    "composition": "NATURAL PHOSPHOLIPIDS SOFTGEL CAPSULE ",
+    "packSize": "10 SOFTGEL CAPSULE",
+    "dosageForm": "SOFTGEL CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "440.46",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.05"
+  },
+  {
+    "hiddenId": "1521104098@354964@101196407@-1@101085@206796",
+    "skuName": "NAYSTROC SOFTGEL CAPSULE 10",
+    "composition": "NATURAL PHOSPHOLIPIDS SOFTGEL CAPSULE ",
+    "packSize": "10 SOFTGEL CAPSULE",
+    "dosageForm": "SOFTGEL CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "1334.74",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "133.47"
+  },
+  {
+    "hiddenId": "1521052188@97938@101155140@-1@101068@206796",
+    "skuName": "NEOSURF INJECTION 3 ML",
+    "composition": "NATURAL PHOSPHOLIPIDS INJECTION ",
+    "packSize": "3 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "6835.46",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2278.49"
+  },
+  {
+    "hiddenId": "1521052189@86313@101155140@-1@101068@206796",
+    "skuName": "NEOSURF INJECTION 5 ML",
+    "composition": "NATURAL PHOSPHOLIPIDS INJECTION ",
+    "packSize": "5 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "11392.44",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2278.49"
+  }
+]

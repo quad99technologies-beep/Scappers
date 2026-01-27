@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "FULVIRA",
+    "packSize": "5",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "15191.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3038.25"
+  },
+  {
+    "brandName": "FULVETRAZ",
+    "packSize": "5",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "16284.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3256.87"
+  },
+  {
+    "brandName": "FASLODEX",
+    "packSize": "5",
+    "company": "ASTRAZENECA PHARMA INDIA LTD",
+    "brandMrp": "21100.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4220.00"
+  },
+  {
+    "brandName": "FULVIDAX",
+    "packSize": "5",
+    "company": "AUREATE HEALTHCARE PVT.LTD",
+    "brandMrp": "28200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5640.00"
+  },
+  {
+    "brandName": "CELVESTRANT",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "11340.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11340.00"
+  },
+  {
+    "brandName": "FULVENAT",
+    "packSize": "1",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "11465.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11465.31"
+  }
+]

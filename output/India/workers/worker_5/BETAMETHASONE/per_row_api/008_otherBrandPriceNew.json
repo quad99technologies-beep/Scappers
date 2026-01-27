@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "BETAMINE",
+    "packSize": "10",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "6.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.63"
+  },
+  {
+    "brandName": "BETACHLOR",
+    "packSize": "10",
+    "company": "FRANKLIN LABORATORIES (INDIA) PVT. LTD.",
+    "brandMrp": "9.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.94"
+  },
+  {
+    "brandName": "BZON",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "11.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.19"
+  },
+  {
+    "brandName": "ALERKIM",
+    "packSize": "10",
+    "company": "KIM LAB",
+    "brandMrp": "13.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.37"
+  },
+  {
+    "brandName": "BETNESOL",
+    "packSize": "20",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "29.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.46"
+  },
+  {
+    "brandName": "STEMIN",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "15.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.53"
+  }
+]

@@ -1,0 +1,282 @@
+[
+  {
+    "brandName": "C-FLOX",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "10.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.03"
+  },
+  {
+    "brandName": "CIFLOX",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "11.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.13"
+  },
+  {
+    "brandName": "BACTOSPAN",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "12.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.25"
+  },
+  {
+    "brandName": "CIPROCIN",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "13.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "CIPROFLOXACIN (CIPLA)",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "17.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.75"
+  },
+  {
+    "brandName": "CIPBID",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "19.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.95"
+  },
+  {
+    "brandName": "CEBRAN",
+    "packSize": "10",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "20.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.05"
+  },
+  {
+    "brandName": "CIPROVA",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "21.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.10"
+  },
+  {
+    "brandName": "SUPRACIF",
+    "packSize": "10",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "21.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.19"
+  },
+  {
+    "brandName": "BAYCIP",
+    "packSize": "10",
+    "company": "BAYER PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "22.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.27"
+  },
+  {
+    "brandName": "ALCIFLOX",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "23.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.30"
+  },
+  {
+    "brandName": "CIPCOZ",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "22.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.30"
+  },
+  {
+    "brandName": "CIPROTAS",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "23.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.31"
+  },
+  {
+    "brandName": "CIPROLET N",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "23.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.33"
+  },
+  {
+    "brandName": "ALCIPRO",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "23.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.34"
+  },
+  {
+    "brandName": "CIFRAN",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "23.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.34"
+  },
+  {
+    "brandName": "CIPROKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "23.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.34"
+  },
+  {
+    "brandName": "CIPLOX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "23.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.35"
+  },
+  {
+    "brandName": "CIPROBID",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "23.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.35"
+  },
+  {
+    "brandName": "ZOXAN",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "23.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.35"
+  },
+  {
+    "brandName": "CEFLOX",
+    "packSize": "10",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "24.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.45"
+  },
+  {
+    "brandName": "CIPRODAC",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "24.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.45"
+  },
+  {
+    "brandName": "CIPROWIN",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "24.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.45"
+  },
+  {
+    "brandName": "CIPROFEN",
+    "packSize": "10",
+    "company": "FRANKLIN LABORATORIES (INDIA) PVT. LTD.",
+    "brandMrp": "28.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.80"
+  },
+  {
+    "brandName": "CIPRODAY",
+    "packSize": "10",
+    "company": "BESTOCHEM FORMULATIONS (I) LTD",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "CIPROPEN",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "30.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.04"
+  },
+  {
+    "brandName": "SERVIFLOX",
+    "packSize": "10",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "31.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.18"
+  },
+  {
+    "brandName": "OMNIFLOX",
+    "packSize": "10",
+    "company": "EMBIOTIC LAB",
+    "brandMrp": "33.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.30"
+  },
+  {
+    "brandName": "PANZER",
+    "packSize": "15",
+    "company": "STRIDES SHASUN LIMITED",
+    "brandMrp": "50.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.36"
+  },
+  {
+    "brandName": "CEFOBAC",
+    "packSize": "10",
+    "company": "RUSAN HEALTHCARE PVT. LTD",
+    "brandMrp": "46.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.65"
+  },
+  {
+    "brandName": "FULGRAM",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "47.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.73"
+  },
+  {
+    "brandName": "ECOFLOX",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "70.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.07"
+  },
+  {
+    "brandName": "ORICIN",
+    "packSize": "10",
+    "company": "ORISON PHARMACEUTICALS",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.50"
+  },
+  {
+    "brandName": "CEFOBANG CV",
+    "packSize": "6",
+    "company": "CANVARZYS HEALTHCARE PVT.LTD",
+    "brandMrp": "185.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.83"
+  },
+  {
+    "brandName": "STROX(DAB)",
+    "packSize": "10",
+    "company": "DABUR INDIA LTD.",
+    "brandMrp": "1594.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "159.40"
+  }
+]

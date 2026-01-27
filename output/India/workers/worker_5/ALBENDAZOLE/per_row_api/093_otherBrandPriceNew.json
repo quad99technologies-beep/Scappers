@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "ZEEBEE",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "10.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.03"
+  },
+  {
+    "brandName": "WORMOFF",
+    "packSize": "10",
+    "company": "CAPLET INDIA PRIVATE LIMITED",
+    "brandMrp": "17.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.73"
+  },
+  {
+    "brandName": "ABIWORM",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "18.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.80"
+  },
+  {
+    "brandName": "EXPORM",
+    "packSize": "10",
+    "company": "RAVIAN PHARMACEUTICALS PVT LTD",
+    "brandMrp": "18.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.85"
+  },
+  {
+    "brandName": "ABENDOL",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "18.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  },
+  {
+    "brandName": "WORMFRESH",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "18.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  },
+  {
+    "brandName": "OLWORM",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "19.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  }
+]

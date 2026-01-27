@@ -1,0 +1,72 @@
+[
+  {
+    "hiddenId": "1521005581@42219@101103116@2974@101006@202552",
+    "skuName": "BARKEIT 200 MG TABLET 10",
+    "composition": "GUAIFENESIN TABLET 200 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "SANZYME LTD",
+    "scheduleFlag": "0",
+    "mrp": "125.78",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.58"
+  },
+  {
+    "hiddenId": "1521134989@242850@101225109@-1@101006@202552",
+    "skuName": "CERVITHIN TABLET 10",
+    "composition": "GUAIFENESIN TABLET ",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ZERICO LIFESCIENCES PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "123.75",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.38"
+  },
+  {
+    "hiddenId": "1521060442@103439@101163390@-1@101036@202552",
+    "skuName": "PATSON (PATSON) EXPECTORANT 100 ML",
+    "composition": "GUAIFENESIN EXPECTORANT ",
+    "packSize": "100 ML EXPECTORANT",
+    "dosageForm": "EXPECTORANT",
+    "ceilingPrice": "-1",
+    "company": "PATSON LABORATORIES PVT. LTD.",
+    "scheduleFlag": "0",
+    "mrp": "75.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.75"
+  },
+  {
+    "hiddenId": "1521104185@204254@101195978@-1@101126@202552",
+    "skuName": "TOX DMR SYRUP 60 ML",
+    "composition": "GUAIFENESIN SYRUP ",
+    "packSize": "60 ML SYRUP",
+    "dosageForm": "SYRUP",
+    "ceilingPrice": "-1",
+    "company": "BENNET PHARMACEUTICALS LIMITED",
+    "scheduleFlag": "0",
+    "mrp": "48.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.80"
+  },
+  {
+    "hiddenId": "1521079963@218466@101180524@2489@101126@202552",
+    "skuName": "TUSSALYTE G1 133 MG SYRUP 100 ML",
+    "composition": "GUAIFENESIN SYRUP 133 MG",
+    "packSize": "100 ML SYRUP",
+    "dosageForm": "SYRUP",
+    "ceilingPrice": "-1",
+    "company": "MERIDIAN ENTERPRISES PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "70.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.70"
+  }
+]

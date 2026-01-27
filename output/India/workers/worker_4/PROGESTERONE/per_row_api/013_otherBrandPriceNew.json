@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "PRESNA SR",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "281.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.12"
+  },
+  {
+    "brandName": "FM GEST",
+    "packSize": "10",
+    "company": "ENDOCARD",
+    "brandMrp": "320.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.00"
+  },
+  {
+    "brandName": "PERCENT",
+    "packSize": "10",
+    "company": "FIDUS HEALTHCARE",
+    "brandMrp": "325.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.50"
+  },
+  {
+    "brandName": "GESTOGEST",
+    "packSize": "10",
+    "company": "REGENIX DRUGS LTD",
+    "brandMrp": "360.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.09"
+  },
+  {
+    "brandName": "AGROGEST",
+    "packSize": "10",
+    "company": "AGGROWIN PHARMA",
+    "brandMrp": "389.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.91"
+  },
+  {
+    "brandName": "NIDAGLAN SR",
+    "packSize": "10",
+    "company": "GLAND PHARMA LIMITED",
+    "brandMrp": "399.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.90"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "MAHACEF",
+    "packSize": "60",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "206.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.44"
+  },
+  {
+    "brandName": "TAXIM O",
+    "packSize": "60",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "273.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.56"
+  },
+  {
+    "brandName": "TAXIM O",
+    "packSize": "30",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "139.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.66"
+  }
+]

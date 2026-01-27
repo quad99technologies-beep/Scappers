@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521043168@22430@101146369@3625@101006@201533",
+    "skuName": "LOMADAY 400 MG TABLET 10",
+    "composition": "LOMEFLOXACIN TABLET 400 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "scheduleFlag": "0",
+    "mrp": "111.52",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.15"
+  },
+  {
+    "hiddenId": "1521112846@73047@101235962@3590@101076@201533",
+    "skuName": "OKACIN 3 MG DROPS 5 ML",
+    "composition": "LOMEFLOXACIN DROPS 3 MG",
+    "packSize": "5 ML DROPS",
+    "dosageForm": "DROPS",
+    "ceilingPrice": "-1",
+    "company": "NOVARTIS INDIA LTD",
+    "scheduleFlag": "0",
+    "mrp": "36.45",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.29"
+  }
+]

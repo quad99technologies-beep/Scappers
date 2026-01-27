@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "LEVOGOLD",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "79.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.90"
+  },
+  {
+    "brandName": "ANXURIDE",
+    "packSize": "10",
+    "company": "UNISTAR BIOTECH LIMITED",
+    "brandMrp": "96.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.64"
+  },
+  {
+    "brandName": "LESOPHEG",
+    "packSize": "15",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "147.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.82"
+  },
+  {
+    "brandName": "LEVOSUL",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "98.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.87"
+  },
+  {
+    "brandName": "LEVOGUT",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "SIZONATE",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "LEVOSEAL",
+    "packSize": "10",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "LEVORIDE",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "123.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.30"
+  },
+  {
+    "brandName": "LEFIT",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "123.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.37"
+  },
+  {
+    "brandName": "NEOPRIDE",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "161.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.17"
+  },
+  {
+    "brandName": "NEXIPRIDE",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "166.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.69"
+  }
+]

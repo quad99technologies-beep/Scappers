@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521137412@142612@101232396@2974@101038@207175",
+    "skuName": "FORTOVASE 200 MG CAPSULE 180",
+    "composition": "SAQUINAVIR CAPSULE 200 MG",
+    "packSize": "180 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "scheduleFlag": "0",
+    "mrp": "4444.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.69"
+  },
+  {
+    "hiddenId": "1521102290@353556@101194798@3625@101006@207175",
+    "skuName": "MAXIMUNE 400 MG TABLET 10",
+    "composition": "SAQUINAVIR TABLET 400 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "399.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.90"
+  },
+  {
+    "hiddenId": "1521102282@353554@101194798@3951@101006@207175",
+    "skuName": "MAXIMUNE 800 MG TABLET 10",
+    "composition": "SAQUINAVIR TABLET 800 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "699.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "69.90"
+  }
+]

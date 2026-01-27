@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "ELTROMAG",
+    "packSize": "7",
+    "company": "CIPLA LTD.",
+    "brandMrp": "458.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.56"
+  },
+  {
+    "brandName": "ELTROG",
+    "packSize": "7",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "821.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "117.32"
+  },
+  {
+    "brandName": "PLATIFY",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "1500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "150.00"
+  },
+  {
+    "brandName": "ROMPAG",
+    "packSize": "7",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "1210.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "172.86"
+  },
+  {
+    "brandName": "ELROMO",
+    "packSize": "7",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "1230.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "175.85"
+  },
+  {
+    "brandName": "TROMBONAT",
+    "packSize": "7",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "1312.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "187.50"
+  },
+  {
+    "brandName": "REBOPAG",
+    "packSize": "7",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "1546.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "220.98"
+  },
+  {
+    "brandName": "REVUGAM",
+    "packSize": "7",
+    "company": "BHARAT SERUMS & VACCINES LTD",
+    "brandMrp": "1650.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "235.71"
+  },
+  {
+    "brandName": "TROMBOPAG",
+    "packSize": "7",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "1800.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "257.14"
+  },
+  {
+    "brandName": "REVOLADE",
+    "packSize": "7",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "7827.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1118.21"
+  }
+]

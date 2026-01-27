@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "EPINEPH",
+    "packSize": "1",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "16.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.51"
+  },
+  {
+    "brandName": "NORALIN",
+    "packSize": "2",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.00"
+  },
+  {
+    "brandName": "NOR EPINEPH",
+    "packSize": "2",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "45.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.59"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "CIPIN (D.D PHARMA)",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "19.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.92"
+  },
+  {
+    "brandName": "RESTOPAX",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "34.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.43"
+  },
+  {
+    "brandName": "ZAPORIL",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "36.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.65"
+  }
+]

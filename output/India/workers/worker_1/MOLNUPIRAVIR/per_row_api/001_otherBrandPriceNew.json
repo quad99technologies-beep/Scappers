@@ -1,0 +1,114 @@
+[
+  {
+    "brandName": "MOLNUDAC",
+    "packSize": "40",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "1399.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.98"
+  },
+  {
+    "brandName": "MOLULIFE",
+    "packSize": "40",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "1399.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.98"
+  },
+  {
+    "brandName": "MOLFLU",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "350.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.00"
+  },
+  {
+    "brandName": "MOLXVIR",
+    "packSize": "40",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "1520.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.00"
+  },
+  {
+    "brandName": "MOLENA",
+    "packSize": "40",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "1562.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.06"
+  },
+  {
+    "brandName": "LIZUVIRA",
+    "packSize": "40",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "1750.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.75"
+  },
+  {
+    "brandName": "MOLNAFLU",
+    "packSize": "40",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "1784.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.62"
+  },
+  {
+    "brandName": "MOLNULUP",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.00"
+  },
+  {
+    "brandName": "MOLNUNAT",
+    "packSize": "40",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "2000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.00"
+  },
+  {
+    "brandName": "MOLVITON",
+    "packSize": "10",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "600.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "60.00"
+  },
+  {
+    "brandName": "MOVFOR",
+    "packSize": "40",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "2490.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.25"
+  },
+  {
+    "brandName": "MOLUNAMAX",
+    "packSize": "10",
+    "company": "JB CHEMICALS",
+    "brandMrp": "650.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.00"
+  },
+  {
+    "brandName": "MOLNUMIZE",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "690.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "69.00"
+  },
+  {
+    "brandName": "MOLNUTOR",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "690.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "69.00"
+  }
+]

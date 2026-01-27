@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "NABOTA",
+    "packSize": "1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "22827.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22827.00"
+  },
+  {
+    "brandName": "ZARBOT",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "23990.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23990.00"
+  },
+  {
+    "brandName": "STUNNOX",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "25132.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25132.37"
+  }
+]

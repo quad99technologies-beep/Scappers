@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ZAFIMOVE",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "229.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.97"
+  },
+  {
+    "brandName": "SAFIMAO",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "255.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.50"
+  },
+  {
+    "brandName": "XAFINACT",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "255.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.50"
+  }
+]

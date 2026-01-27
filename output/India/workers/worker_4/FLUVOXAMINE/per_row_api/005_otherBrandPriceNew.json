@@ -1,0 +1,194 @@
+[
+  {
+    "brandName": "VOXIN CR",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "223.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.91"
+  },
+  {
+    "brandName": "UVAMAT",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "174.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.41"
+  },
+  {
+    "brandName": "FLUXAM",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "178.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.86"
+  },
+  {
+    "brandName": "PSYVOXIN",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "243.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.38"
+  },
+  {
+    "brandName": "LOFEBRIL",
+    "packSize": "10",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "246.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.60"
+  },
+  {
+    "brandName": "PSYVOXIN",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "253.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.31"
+  },
+  {
+    "brandName": "VOXADAY",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "260.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.06"
+  },
+  {
+    "brandName": "LUVOMINE",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "261.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.16"
+  },
+  {
+    "brandName": "OCDOX",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "272.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.28"
+  },
+  {
+    "brandName": "FLUVO",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "281.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.18"
+  },
+  {
+    "brandName": "OCIVOX",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "290.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.06"
+  },
+  {
+    "brandName": "XUVOX",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "295.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.53"
+  },
+  {
+    "brandName": "OXVUN",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "310.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.04"
+  },
+  {
+    "brandName": "CEREREST",
+    "packSize": "10",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "315.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.50"
+  },
+  {
+    "brandName": "FLUVOXIN",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "319.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.97"
+  },
+  {
+    "brandName": "VOXINIX",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "319.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.97"
+  },
+  {
+    "brandName": "FLUVOSAL",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "331.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.19"
+  },
+  {
+    "brandName": "FLUVO",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "343.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.35"
+  },
+  {
+    "brandName": "VOXIDEP",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "349.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.97"
+  },
+  {
+    "brandName": "SOREST",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "354.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.47"
+  },
+  {
+    "brandName": "FREXT",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "355.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.58"
+  },
+  {
+    "brandName": "VOXAMIN",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "359.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.90"
+  },
+  {
+    "brandName": "FLUVARIS",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "391.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.11"
+  },
+  {
+    "brandName": "UVOX",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "514.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.43"
+  }
+]

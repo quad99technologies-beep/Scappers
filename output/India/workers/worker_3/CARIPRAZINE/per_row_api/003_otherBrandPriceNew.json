@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "CARINIA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "237.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.72"
+  },
+  {
+    "brandName": "CARISPEC",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "253.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.31"
+  },
+  {
+    "brandName": "CARIQUEL",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "260.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.02"
+  }
+]

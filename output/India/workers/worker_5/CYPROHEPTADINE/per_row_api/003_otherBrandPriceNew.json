@@ -1,0 +1,130 @@
+[
+  {
+    "brandName": "CYWIN",
+    "packSize": "200",
+    "company": "PHARMTAK",
+    "brandMrp": "58.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.29"
+  },
+  {
+    "brandName": "LUPACTIN",
+    "packSize": "200",
+    "company": "LUPIN LTD",
+    "brandMrp": "76.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.38"
+  },
+  {
+    "brandName": "ABITOL",
+    "packSize": "200",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "86.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.43"
+  },
+  {
+    "brandName": "LYCIP",
+    "packSize": "200",
+    "company": "M.D.C. PHARMACEUTICALS (P) LTD.",
+    "brandMrp": "98.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.49"
+  },
+  {
+    "brandName": "CYPTAN",
+    "packSize": "200",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "115.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.58"
+  },
+  {
+    "brandName": "TANGRIDINE",
+    "packSize": "200",
+    "company": "EL-DORADO BIO-TECH PVT LTD",
+    "brandMrp": "117.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.59"
+  },
+  {
+    "brandName": "TUK TUK",
+    "packSize": "200",
+    "company": "AARPIK REMEDIES PVT.LTD.",
+    "brandMrp": "138.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.69"
+  },
+  {
+    "brandName": "CIPLACTIN",
+    "packSize": "200",
+    "company": "CIPLA LTD.",
+    "brandMrp": "145.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.73"
+  },
+  {
+    "brandName": "HILIV",
+    "packSize": "200",
+    "company": "TAURUS LABORATORIES PVT LTD",
+    "brandMrp": "145.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.73"
+  },
+  {
+    "brandName": "APEAT",
+    "packSize": "200",
+    "company": "COLINZ LABORATORIES LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.75"
+  },
+  {
+    "brandName": "RARRITOL",
+    "packSize": "200",
+    "company": "K.C LABORATORIES",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.77"
+  },
+  {
+    "brandName": "MACTROL",
+    "packSize": "100",
+    "company": "MACMILLON PHARMACEUTICALS",
+    "brandMrp": "81.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.81"
+  },
+  {
+    "brandName": "PRACTIN",
+    "packSize": "200",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "164.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.82"
+  },
+  {
+    "brandName": "HUNGREE (LABO)",
+    "packSize": "200",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "165.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.83"
+  },
+  {
+    "brandName": "NEOPEDINE",
+    "packSize": "200",
+    "company": "RAPTAKOS BRETT & CO. LTD.",
+    "brandMrp": "167.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.84"
+  },
+  {
+    "brandName": "APETAMIN",
+    "packSize": "200",
+    "company": "TABLETS INDIA LTD",
+    "brandMrp": "184.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.92"
+  }
+]

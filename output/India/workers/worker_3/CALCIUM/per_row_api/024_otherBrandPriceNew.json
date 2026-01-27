@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "CORCAL",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.50"
+  },
+  {
+    "brandName": "CORCELL",
+    "packSize": "10",
+    "company": "OKINAWA PHARMACEUTICALS PVT LTD",
+    "brandMrp": "112.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.20"
+  },
+  {
+    "brandName": "NU CORCAL",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "LOYCORAL",
+    "packSize": "10",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "125.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.58"
+  },
+  {
+    "brandName": "VEHYCAL C",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "127.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.70"
+  },
+  {
+    "brandName": "CORAL CALCIUM",
+    "packSize": "10",
+    "company": "PREMIER NUTRACEUTICALS PVT LTD",
+    "brandMrp": "135.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.57"
+  },
+  {
+    "brandName": "CORAL CALCIUM",
+    "packSize": "15",
+    "company": "PREMIER NUTRACEUTICALS PVT LTD",
+    "brandMrp": "229.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.30"
+  },
+  {
+    "brandName": "CALCORAL PLUS",
+    "packSize": "10",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "236.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.64"
+  }
+]

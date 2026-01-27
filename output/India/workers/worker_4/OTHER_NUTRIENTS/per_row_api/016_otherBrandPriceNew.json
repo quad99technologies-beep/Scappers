@@ -1,0 +1,138 @@
+[
+  {
+    "brandName": "VIZE (LEO L.S)",
+    "packSize": "35",
+    "company": "LEO LIFE SCIENCE PVT LTD",
+    "brandMrp": "10.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.29"
+  },
+  {
+    "brandName": "BOURNVITA",
+    "packSize": "500",
+    "company": "CADBURY INDIA LIMITED",
+    "brandMrp": "263.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.53"
+  },
+  {
+    "brandName": "ONERGY",
+    "packSize": "400",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "222.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.56"
+  },
+  {
+    "brandName": "NUTRISURE",
+    "packSize": "200",
+    "company": "BIO VITAMINS",
+    "brandMrp": "144.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.72"
+  },
+  {
+    "brandName": "PUROTEIN",
+    "packSize": "200",
+    "company": "B.V.BIO CORP PRIVATE LTD",
+    "brandMrp": "143.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.72"
+  },
+  {
+    "brandName": "FERRADOL",
+    "packSize": "200",
+    "company": "PIRAMAL HEALTHCARE LIMITED",
+    "brandMrp": "164.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.82"
+  },
+  {
+    "brandName": "FERRADOL",
+    "packSize": "450",
+    "company": "PIRAMAL HEALTHCARE LIMITED",
+    "brandMrp": "370.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.82"
+  },
+  {
+    "brandName": "RESOURCE RENAL",
+    "packSize": "200",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "179.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.90"
+  },
+  {
+    "brandName": "ENDURA MASS",
+    "packSize": "600",
+    "company": "MEDINN BELLE HERBAL CARE PVT.LTD",
+    "brandMrp": "666.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.11"
+  },
+  {
+    "brandName": "OPTIFAST",
+    "packSize": "200",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "223.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.12"
+  },
+  {
+    "brandName": "APYPROT",
+    "packSize": "200",
+    "company": "NOPEX HEALTHCARE",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.13"
+  },
+  {
+    "brandName": "PROTO UP",
+    "packSize": "200",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "255.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.28"
+  },
+  {
+    "brandName": "PREGMOM",
+    "packSize": "200",
+    "company": "CUREWIN PHARMACEUTICALS LTD",
+    "brandMrp": "295.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.48"
+  },
+  {
+    "brandName": "APYPROT",
+    "packSize": "200",
+    "company": "NOPEX HEALTHCARE",
+    "brandMrp": "352.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.76"
+  },
+  {
+    "brandName": "RESOURCE DIABETIC",
+    "packSize": "200",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "425.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.13"
+  },
+  {
+    "brandName": "BOURNVITA",
+    "packSize": "1",
+    "company": "CADBURY INDIA LIMITED",
+    "brandMrp": "471.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "471.61"
+  },
+  {
+    "brandName": "X TRA MASS",
+    "packSize": "1",
+    "company": "BRITISH BIOLOGICAL",
+    "brandMrp": "912.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "912.50"
+  }
+]

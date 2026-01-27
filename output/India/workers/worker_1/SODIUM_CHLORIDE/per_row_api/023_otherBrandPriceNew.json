@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "DNS (ZEE)",
+    "packSize": "500",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "40.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.08"
+  },
+  {
+    "brandName": "UNISPRAY",
+    "packSize": "20",
+    "company": "UNIZA HEALTHCARE LLP",
+    "brandMrp": "55.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.76"
+  },
+  {
+    "brandName": "NASOTROY",
+    "packSize": "100",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "474.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.74"
+  }
+]

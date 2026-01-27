@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "DONETINE",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "107.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.71"
+  },
+  {
+    "brandName": "ALMERZIL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "116.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.61"
+  },
+  {
+    "brandName": "DONANCE",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "121.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "DONPLZ",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "150.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.05"
+  },
+  {
+    "brandName": "DONZINOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "163.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.31"
+  },
+  {
+    "brandName": "DONECEPT",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "170.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.07"
+  },
+  {
+    "brandName": "LAPEZIL",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "178.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "JIYI",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "179.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.94"
+  },
+  {
+    "brandName": "COGNIDEP",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "274.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.32"
+  },
+  {
+    "brandName": "DOPE",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "183.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.32"
+  },
+  {
+    "brandName": "ARICEP",
+    "packSize": "10",
+    "company": "EISAI PHARMACEUTICALS INDIA LTD",
+    "brandMrp": "186.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.61"
+  },
+  {
+    "brandName": "DONEP",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "279.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.64"
+  },
+  {
+    "brandName": "ALZIL",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "186.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.65"
+  }
+]

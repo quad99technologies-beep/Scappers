@@ -1,0 +1,482 @@
+[
+  {
+    "brandName": "CALCIWAY D3",
+    "packSize": "5",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "46.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.30"
+  },
+  {
+    "brandName": "RAP (RAPROSS)",
+    "packSize": "5",
+    "company": "RAPROSS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "48.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.60"
+  },
+  {
+    "brandName": "OFAR D3",
+    "packSize": "5",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "48.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.75"
+  },
+  {
+    "brandName": "CALCIJOINT D3",
+    "packSize": "5",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "51.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.30"
+  },
+  {
+    "brandName": "CALBONA D3",
+    "packSize": "5",
+    "company": "QUREWELL LIFESCIENCES",
+    "brandMrp": "55.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.06"
+  },
+  {
+    "brandName": "INTOTO D3",
+    "packSize": "5",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "DAILY SHINE 60K",
+    "packSize": "5",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "59.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.80"
+  },
+  {
+    "brandName": "DALBONE D3",
+    "packSize": "5",
+    "company": "PHOENIX LIFESCIENCES",
+    "brandMrp": "59.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.80"
+  },
+  {
+    "brandName": "HI D",
+    "packSize": "5",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "59.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.86"
+  },
+  {
+    "brandName": "GOLDCAL",
+    "packSize": "5",
+    "company": "RONYD HEALTH CARE PVT LTD",
+    "brandMrp": "60.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.18"
+  },
+  {
+    "brandName": "HNU D3",
+    "packSize": "5",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "60.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "SOLHIKE D3",
+    "packSize": "5",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "60.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "D3SIP",
+    "packSize": "5",
+    "company": "LAVUE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "63.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.63"
+  },
+  {
+    "brandName": "BIGRISE SHOT",
+    "packSize": "5",
+    "company": "FORGEN HEALTHCARE LTD.",
+    "brandMrp": "63.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.79"
+  },
+  {
+    "brandName": "D LIQ MAX",
+    "packSize": "5",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "64.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.80"
+  },
+  {
+    "brandName": "D LIQUID",
+    "packSize": "5",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "64.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.95"
+  },
+  {
+    "brandName": "D3 MORE",
+    "packSize": "5",
+    "company": "PRIMUS REMEDIES PVT LTD",
+    "brandMrp": "65.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.07"
+  },
+  {
+    "brandName": "VEEBION D3",
+    "packSize": "5",
+    "company": "HBC PHARMACEUTICALS PVT LTD",
+    "brandMrp": "65.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.12"
+  },
+  {
+    "brandName": "D3 RICH",
+    "packSize": "5",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "66.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.30"
+  },
+  {
+    "brandName": "DSUN NANO",
+    "packSize": "5",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "66.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.31"
+  },
+  {
+    "brandName": "RAYSHOT D3",
+    "packSize": "5",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "67.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.40"
+  },
+  {
+    "brandName": "CALCIROL BMD",
+    "packSize": "5",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "67.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.47"
+  },
+  {
+    "brandName": "D GAIN",
+    "packSize": "5",
+    "company": "MEDSOL INDIA OVERSEAS PVT. LTD.",
+    "brandMrp": "67.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.50"
+  },
+  {
+    "brandName": "NANOFEROL",
+    "packSize": "5",
+    "company": "DR. JOHNS LABORATORIES PVT LTD",
+    "brandMrp": "67.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.50"
+  },
+  {
+    "brandName": "STAD D3",
+    "packSize": "5",
+    "company": "STADMED PVT. LTD",
+    "brandMrp": "67.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.50"
+  },
+  {
+    "brandName": "TAYO SHOTS",
+    "packSize": "5",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "67.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.55"
+  },
+  {
+    "brandName": "ADDII D3",
+    "packSize": "5",
+    "company": "ADDII BIOTECH PVT.LTD",
+    "brandMrp": "68.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.78"
+  },
+  {
+    "brandName": "CATCH D3",
+    "packSize": "5",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "69.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.82"
+  },
+  {
+    "brandName": "WEEK D3 (VASU)",
+    "packSize": "5",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "69.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.82"
+  },
+  {
+    "brandName": "CALCIGEN D3",
+    "packSize": "5",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "69.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.88"
+  },
+  {
+    "brandName": "SOLPURE",
+    "packSize": "5",
+    "company": "ARRIENT HEALTHCARE PVT.LTD.",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.00"
+  },
+  {
+    "brandName": "VISUN D3",
+    "packSize": "5",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "VITANOVA D3",
+    "packSize": "5",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "70.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.15"
+  },
+  {
+    "brandName": "COM D3",
+    "packSize": "5",
+    "company": "COMED CHEMICALS PVT LTD",
+    "brandMrp": "70.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.16"
+  },
+  {
+    "brandName": "CALDIKIND",
+    "packSize": "5",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "73.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.74"
+  },
+  {
+    "brandName": "D3 MUST",
+    "packSize": "5",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "73.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.74"
+  },
+  {
+    "brandName": "KALZIN",
+    "packSize": "5",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "74.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.81"
+  },
+  {
+    "brandName": "EPIONE D3",
+    "packSize": "5",
+    "company": "EPIONE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "GEMSOLINE D3",
+    "packSize": "5",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "75.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.19"
+  },
+  {
+    "brandName": "MAHACAL D3",
+    "packSize": "5",
+    "company": "MANKIND PRIME LABS PVT.LTD",
+    "brandMrp": "76.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.29"
+  },
+  {
+    "brandName": "KLM D3",
+    "packSize": "5",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "76.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.38"
+  },
+  {
+    "brandName": "OSTEOVIN D3",
+    "packSize": "5",
+    "company": "CANVARZYS HEALTHCARE PVT.LTD",
+    "brandMrp": "76.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.38"
+  },
+  {
+    "brandName": "WALCIUM D3",
+    "packSize": "5",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "78.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.67"
+  },
+  {
+    "brandName": "ZEST D3",
+    "packSize": "5",
+    "company": "DWD PHARMACEUTICALS LTD",
+    "brandMrp": "78.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.75"
+  },
+  {
+    "brandName": "NANONAT D3",
+    "packSize": "5",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "79.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "MY D3 (SOMA)",
+    "packSize": "5",
+    "company": "SOMATICO PHARMACAL PVT. LTD",
+    "brandMrp": "80.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.03"
+  },
+  {
+    "brandName": "DEVIVO",
+    "packSize": "5",
+    "company": "VIVO LIFE SCIENCE",
+    "brandMrp": "81.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.39"
+  },
+  {
+    "brandName": "VITCOL D3",
+    "packSize": "5",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "86.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.25"
+  },
+  {
+    "brandName": "MYMI NANO",
+    "packSize": "5",
+    "company": "HBC LIFESCIENCES PVT LTD",
+    "brandMrp": "88.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.72"
+  },
+  {
+    "brandName": "ULIZEN D3 NANO",
+    "packSize": "5",
+    "company": "HBC LIFESCIENCES PVT LTD",
+    "brandMrp": "88.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.72"
+  },
+  {
+    "brandName": "TOPUP D3",
+    "packSize": "5",
+    "company": "NUVOX HEALTHCARE PVT.LTD",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.00"
+  },
+  {
+    "brandName": "D3 SURE",
+    "packSize": "5",
+    "company": "AAREEN HEALTHCARE",
+    "brandMrp": "90.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.12"
+  },
+  {
+    "brandName": "FOSAMIN (WILBURT)",
+    "packSize": "5",
+    "company": "WILBURT REMEDIES PVT.LTD",
+    "brandMrp": "91.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.36"
+  },
+  {
+    "brandName": "DEKSEL CD",
+    "packSize": "5",
+    "company": "PULSE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "94.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.94"
+  },
+  {
+    "brandName": "DEKSEL NANO",
+    "packSize": "5",
+    "company": "PULSE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "94.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.94"
+  },
+  {
+    "brandName": "DEKSEL NEO",
+    "packSize": "5",
+    "company": "PULSE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "94.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.94"
+  },
+  {
+    "brandName": "SAMSHOT D3",
+    "packSize": "5",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "96.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.33"
+  },
+  {
+    "brandName": "UNS D3",
+    "packSize": "5",
+    "company": "UNIVERSAL NUTRISCIENCE PVT LTD",
+    "brandMrp": "102.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.40"
+  },
+  {
+    "brandName": "DEPURA",
+    "packSize": "5",
+    "company": "SANOFI INDIA  LTD.",
+    "brandMrp": "107.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.54"
+  },
+  {
+    "brandName": "SUNLITE",
+    "packSize": "5",
+    "company": "BION THEARAPEUTICS",
+    "brandMrp": "412.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "82.50"
+  }
+]

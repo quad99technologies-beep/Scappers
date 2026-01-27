@@ -1,0 +1,442 @@
+[
+  {
+    "brandName": "LOXAQUIN",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "20.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  },
+  {
+    "brandName": "LEVODOC",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "21.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.19"
+  },
+  {
+    "brandName": "LEVOCT",
+    "packSize": "10",
+    "company": "OCTANE BIOTECH",
+    "brandMrp": "23.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.34"
+  },
+  {
+    "brandName": "ESLEVO",
+    "packSize": "21",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "67.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.23"
+  },
+  {
+    "brandName": "LEBACT",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "37.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.77"
+  },
+  {
+    "brandName": "LEVOSTAL",
+    "packSize": "10",
+    "company": "STALLION LABORATORIES (P) LTD",
+    "brandMrp": "38.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.81"
+  },
+  {
+    "brandName": "LEVOMED(MEDICO)",
+    "packSize": "10",
+    "company": "MEDICO LABS",
+    "brandMrp": "41.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.10"
+  },
+  {
+    "brandName": "FLEVO",
+    "packSize": "10",
+    "company": "ACME PHARMACEUTICALS",
+    "brandMrp": "41.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.14"
+  },
+  {
+    "brandName": "LEVOTROY",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "42.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.29"
+  },
+  {
+    "brandName": "MEGALEVO",
+    "packSize": "10",
+    "company": "UNISTAR BIOTECH LIMITED",
+    "brandMrp": "44.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.46"
+  },
+  {
+    "brandName": "LORVOX",
+    "packSize": "10",
+    "company": "LORANCE PHARMA LTD",
+    "brandMrp": "44.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.48"
+  },
+  {
+    "brandName": "LEVORITE",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "LIVOMAC",
+    "packSize": "5",
+    "company": "MACMILLON PHARMACEUTICALS",
+    "brandMrp": "22.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "LOSON",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "45.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.52"
+  },
+  {
+    "brandName": "LEVOCRON",
+    "packSize": "10",
+    "company": "ACRON PHARMACEUTICALS",
+    "brandMrp": "46.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.60"
+  },
+  {
+    "brandName": "LEVOCIDE",
+    "packSize": "5",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "23.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.63"
+  },
+  {
+    "brandName": "QURE",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "46.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.63"
+  },
+  {
+    "brandName": "LEVOCIN (EAST WEST)",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "46.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.64"
+  },
+  {
+    "brandName": "LEVUM",
+    "packSize": "5",
+    "company": "JB CHEMICALS",
+    "brandMrp": "23.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.64"
+  },
+  {
+    "brandName": "QULEF",
+    "packSize": "5",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "23.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.70"
+  },
+  {
+    "brandName": "SOVAXIN",
+    "packSize": "5",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "23.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.79"
+  },
+  {
+    "brandName": "GLEVO",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "48.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.83"
+  },
+  {
+    "brandName": "LVFX",
+    "packSize": "10",
+    "company": "EMBIOTIC LAB",
+    "brandMrp": "48.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.84"
+  },
+  {
+    "brandName": "BENLEVO",
+    "packSize": "10",
+    "company": "INNOVATIVE PHARMACEUTICALS",
+    "brandMrp": "49.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.91"
+  },
+  {
+    "brandName": "LEVOTEC",
+    "packSize": "10",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "49.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.97"
+  },
+  {
+    "brandName": "LFX",
+    "packSize": "10",
+    "company": "SKYMAX LABORATORIES LTD.",
+    "brandMrp": "49.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.97"
+  },
+  {
+    "brandName": "LTR",
+    "packSize": "10",
+    "company": "GUJARAT TERCE LABORATORIES LTD",
+    "brandMrp": "49.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.97"
+  },
+  {
+    "brandName": "LEVELFOX",
+    "packSize": "5",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "24.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.99"
+  },
+  {
+    "brandName": "LEVORAC",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "49.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "ALEVO",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "50.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.06"
+  },
+  {
+    "brandName": "LEVOBACT",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "50.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.06"
+  },
+  {
+    "brandName": "LEVOQUIN",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "25.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.06"
+  },
+  {
+    "brandName": "LOVOLKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "50.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.06"
+  },
+  {
+    "brandName": "LQUIN",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "50.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.06"
+  },
+  {
+    "brandName": "ULTRAMYCIN",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "50.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.06"
+  },
+  {
+    "brandName": "URIBACT",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "50.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.06"
+  },
+  {
+    "brandName": "LEON",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "50.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.08"
+  },
+  {
+    "brandName": "OLEVO",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "50.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.09"
+  },
+  {
+    "brandName": "OLVO",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "50.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.09"
+  },
+  {
+    "brandName": "LEVOSTAND",
+    "packSize": "10",
+    "company": "MANKIND PRIME LABS PVT.LTD",
+    "brandMrp": "51.01",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.10"
+  },
+  {
+    "brandName": "LEVOF",
+    "packSize": "10",
+    "company": "ORISON PHARMACEUTICALS",
+    "brandMrp": "51.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.12"
+  },
+  {
+    "brandName": "L-CIN",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "51.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.14"
+  },
+  {
+    "brandName": "LEVODAY",
+    "packSize": "5",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "25.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.14"
+  },
+  {
+    "brandName": "FYNAL",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "51.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "brandName": "LEVOFLOX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "51.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "brandName": "LEVOMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "51.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "brandName": "LEVONIJ",
+    "packSize": "5",
+    "company": "SUNIJ PHARMA PVT LTD",
+    "brandMrp": "25.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "brandName": "LOXOF",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "51.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "brandName": "R FLOX (RELIANCE)",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "51.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "brandName": "LF",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "52.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.20"
+  },
+  {
+    "brandName": "ALBACTIN(MERIDIAN)",
+    "packSize": "10",
+    "company": "MERIDIAN MEDICARE LTD.",
+    "brandMrp": "53.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.40"
+  },
+  {
+    "brandName": "LEVOSON",
+    "packSize": "10",
+    "company": "PATSON LABORATORIES PVT. LTD.",
+    "brandMrp": "54.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.40"
+  },
+  {
+    "brandName": "LEVOMAN",
+    "packSize": "5",
+    "company": "MANEESH PHARMACEUTICALS LTD",
+    "brandMrp": "48.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.63"
+  },
+  {
+    "brandName": "LEVOFRESH",
+    "packSize": "5",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "51.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.29"
+  },
+  {
+    "brandName": "MULBACTIN",
+    "packSize": "10",
+    "company": "SURGE BIOTECH PVT LTD",
+    "brandMrp": "189.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.90"
+  }
+]

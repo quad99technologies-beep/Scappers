@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "RUCAZA",
+    "packSize": "60",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "39055.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "650.92"
+  },
+  {
+    "brandName": "NUPARP",
+    "packSize": "60",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "41500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "691.67"
+  },
+  {
+    "brandName": "RUPARIB",
+    "packSize": "60",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "42190.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "703.17"
+  },
+  {
+    "brandName": "LUCAPARIB",
+    "packSize": "60",
+    "company": "LUPIN LTD",
+    "brandMrp": "46125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "768.75"
+  }
+]

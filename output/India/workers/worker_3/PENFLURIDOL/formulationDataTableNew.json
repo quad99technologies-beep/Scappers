@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521028617@206384@101132268@3049@101006@202250",
+    "skuName": "FLURILEPT 20 MG TABLET 4",
+    "composition": "PENFLURIDOL TABLET 20 MG",
+    "packSize": "4 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "scheduleFlag": "0",
+    "mrp": "153.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.25"
+  },
+  {
+    "hiddenId": "1521060843@231393@101163780@3049@101006@202250",
+    "skuName": "PENRIDOL 20 MG TABLET 4",
+    "composition": "PENFLURIDOL TABLET 20 MG",
+    "packSize": "4 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "LINUX LABORATORIES",
+    "scheduleFlag": "0",
+    "mrp": "160.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.00"
+  }
+]

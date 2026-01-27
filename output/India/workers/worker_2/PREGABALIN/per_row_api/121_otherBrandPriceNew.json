@@ -1,0 +1,258 @@
+[
+  {
+    "brandName": "PREGAZIDE",
+    "packSize": "10",
+    "company": "INNOVATIVE PHARMACEUTICALS",
+    "brandMrp": "0.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.01"
+  },
+  {
+    "brandName": "PREGLIN",
+    "packSize": "15",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "1.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.08"
+  },
+  {
+    "brandName": "LEGASY",
+    "packSize": "10",
+    "company": "WALTON HEALTH CARE PVT.LTD",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.50"
+  },
+  {
+    "brandName": "PREBANEURO",
+    "packSize": "15",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "124.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.31"
+  },
+  {
+    "brandName": "PREGAROL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "83.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.33"
+  },
+  {
+    "brandName": "NUROGAB",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "90.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.02"
+  },
+  {
+    "brandName": "PREGAOHM",
+    "packSize": "15",
+    "company": "VOTARY LABORATORIES (I) LTD.",
+    "brandMrp": "135.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.06"
+  },
+  {
+    "brandName": "NEUROSTAB",
+    "packSize": "10",
+    "company": "STARUS PHARMACEUTICALS",
+    "brandMrp": "98.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.82"
+  },
+  {
+    "brandName": "PREBID",
+    "packSize": "10",
+    "company": "EXELTIS",
+    "brandMrp": "100.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.08"
+  },
+  {
+    "brandName": "PRENURA",
+    "packSize": "14",
+    "company": "PULSE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "145.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.36"
+  },
+  {
+    "brandName": "PREGANERVE",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "117.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.80"
+  },
+  {
+    "brandName": "PREGAWICK",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.00"
+  },
+  {
+    "brandName": "WEGALIN SR",
+    "packSize": "10",
+    "company": "RONYD HEALTH CARE PVT LTD",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.00"
+  },
+  {
+    "brandName": "PREGASTAR",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "131.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.10"
+  },
+  {
+    "brandName": "PREROPAIN",
+    "packSize": "10",
+    "company": "CYRUS REMEDIES PVT LTD",
+    "brandMrp": "134.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.41"
+  },
+  {
+    "brandName": "PREEGA",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "135.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.59"
+  },
+  {
+    "brandName": "NOVA",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "139.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.97"
+  },
+  {
+    "brandName": "PRYNERVE",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "143.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.35"
+  },
+  {
+    "brandName": "NEURICA",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "144.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.43"
+  },
+  {
+    "brandName": "JUNELIN",
+    "packSize": "10",
+    "company": "PRIMUS REMEDIES PVT LTD",
+    "brandMrp": "144.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.44"
+  },
+  {
+    "brandName": "NEUTAPRIG",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "148.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.80"
+  },
+  {
+    "brandName": "NEURON M",
+    "packSize": "10",
+    "company": "AGM BIOTEC",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "PRESTILLER",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "160.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.03"
+  },
+  {
+    "brandName": "PREGALEX",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "169.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.91"
+  },
+  {
+    "brandName": "GABAWIN",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "176.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.63"
+  },
+  {
+    "brandName": "PREGABID",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "266.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.77"
+  },
+  {
+    "brandName": "PBREN",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "182.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.28"
+  },
+  {
+    "brandName": "PREGACENT",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "190.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.10"
+  },
+  {
+    "brandName": "NEUROKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "197.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.78"
+  },
+  {
+    "brandName": "PEGSR",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "198.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.89"
+  },
+  {
+    "brandName": "PRIGASURME",
+    "packSize": "10",
+    "company": "SURGE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "206.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.63"
+  },
+  {
+    "brandName": "PREGEB",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "210.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.00"
+  }
+]

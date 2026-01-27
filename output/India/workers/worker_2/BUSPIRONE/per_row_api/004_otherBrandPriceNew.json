@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "BIZIRON",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "22.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.25"
+  },
+  {
+    "brandName": "BUSPINET",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "26.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.62"
+  },
+  {
+    "brandName": "BUSPIN",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "41.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.20"
+  }
+]

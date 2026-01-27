@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "SUTIB",
+    "packSize": "7",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "1750.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "250.00"
+  },
+  {
+    "brandName": "SUTYKINE",
+    "packSize": "7",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "1850.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "264.29"
+  },
+  {
+    "brandName": "HEALTINIB",
+    "packSize": "7",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "1908.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "272.57"
+  },
+  {
+    "brandName": "SUTINAT",
+    "packSize": "28",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "10000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "357.14"
+  },
+  {
+    "brandName": "TUNIB",
+    "packSize": "28",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "11652.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "416.16"
+  },
+  {
+    "brandName": "SUTENT",
+    "packSize": "7",
+    "company": "PFIZER LTD",
+    "brandMrp": "61003.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8714.78"
+  }
+]

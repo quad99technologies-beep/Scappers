@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "SUCRAGEL",
+    "packSize": "100",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "65.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.65"
+  },
+  {
+    "brandName": "ANCOOL-SF",
+    "packSize": "200",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "178.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.89"
+  },
+  {
+    "brandName": "SPARACID",
+    "packSize": "100",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "108.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.08"
+  },
+  {
+    "brandName": "COATZ",
+    "packSize": "200",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "220.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.10"
+  },
+  {
+    "brandName": "ANCOOL-SF",
+    "packSize": "170",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "198.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.17"
+  }
+]

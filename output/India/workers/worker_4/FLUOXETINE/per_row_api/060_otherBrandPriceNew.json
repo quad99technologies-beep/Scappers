@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "FLUMOD",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "34.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.47"
+  },
+  {
+    "brandName": "FLOOD",
+    "packSize": "10",
+    "company": "K.C LABORATORIES",
+    "brandMrp": "35.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.52"
+  },
+  {
+    "brandName": "FLUDAC",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "35.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.54"
+  },
+  {
+    "brandName": "FLUSMILE",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "35.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.54"
+  },
+  {
+    "brandName": "PRODEP",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "35.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.54"
+  },
+  {
+    "brandName": "FLUNIL",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "35.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.55"
+  }
+]

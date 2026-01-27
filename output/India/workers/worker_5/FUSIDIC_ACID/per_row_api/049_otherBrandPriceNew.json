@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "FUSICLEAN",
+    "packSize": "10",
+    "company": "GENO PHARMACEUTICALS LTD",
+    "brandMrp": "100.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.03"
+  },
+  {
+    "brandName": "FUSICLEAN",
+    "packSize": "5",
+    "company": "GENO PHARMACEUTICALS LTD",
+    "brandMrp": "51.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.29"
+  },
+  {
+    "brandName": "FUSICLEAN",
+    "packSize": "15",
+    "company": "GENO PHARMACEUTICALS LTD",
+    "brandMrp": "165.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "TRINEW",
+    "packSize": "20",
+    "company": "TRIKONA PHARMACEUTICALS PVT LTD",
+    "brandMrp": "300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "TRINEW",
+    "packSize": "10",
+    "company": "TRIKONA PHARMACEUTICALS PVT LTD",
+    "brandMrp": "196.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.69"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "DOLFRE",
+    "packSize": "10",
+    "company": "RAVENBHEL PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "46.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.68"
+  },
+  {
+    "brandName": "OC-DOL",
+    "packSize": "10",
+    "company": "OCTANE BIOTECH",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "TRAPSURE",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "DOLMUNDIN",
+    "packSize": "5",
+    "company": "MODI MUNDI PHARMA PVT LTD",
+    "brandMrp": "128.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.63"
+  },
+  {
+    "brandName": "TRAMBELE SR",
+    "packSize": "10",
+    "company": "VIATRIS",
+    "brandMrp": "274.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.40"
+  }
+]

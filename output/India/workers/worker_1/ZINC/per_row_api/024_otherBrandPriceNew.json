@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "ZINCSTER",
+    "packSize": "60",
+    "company": "MERIDIAN MEDICARE LTD.",
+    "brandMrp": "32.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.55"
+  },
+  {
+    "brandName": "ZYZINC",
+    "packSize": "60",
+    "company": "HIGLANCE LABORATORIES PVT LTD",
+    "brandMrp": "43.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.73"
+  },
+  {
+    "brandName": "ZINCIWELL",
+    "packSize": "200",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.77"
+  },
+  {
+    "brandName": "SUPRAZINC",
+    "packSize": "150",
+    "company": "PREMIER NUTRACEUTICALS PVT LTD",
+    "brandMrp": "176.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.17"
+  }
+]

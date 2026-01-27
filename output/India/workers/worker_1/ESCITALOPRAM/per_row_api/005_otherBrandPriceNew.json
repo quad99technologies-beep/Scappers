@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "SCITAREL",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "77.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.73"
+  },
+  {
+    "brandName": "ESITEO LITE",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.72"
+  },
+  {
+    "brandName": "DEPSIVAL",
+    "packSize": "10",
+    "company": "WALNUT LIFE SCIENCES PVT LTD",
+    "brandMrp": "122.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.20"
+  },
+  {
+    "brandName": "SCITAREL",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "123.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.38"
+  }
+]

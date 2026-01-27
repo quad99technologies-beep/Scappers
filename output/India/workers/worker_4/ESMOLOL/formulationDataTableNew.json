@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521136845@9999996311@101227487@20017@101101@200809",
+    "skuName": "DIULCUS 14 % GEL 15 GM",
+    "composition": "ESMOLOL GEL 14 %",
+    "packSize": "15 GM GEL",
+    "dosageForm": "GEL",
+    "ceilingPrice": "-1",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "scheduleFlag": "0",
+    "mrp": "1279.69",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "85.31"
+  },
+  {
+    "hiddenId": "1521147949@287636@101231739@1846@101068@200809",
+    "skuName": "ESMOTOR 100 MG INJECTION 1",
+    "composition": "ESMOLOL INJECTION 100 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "CELON LABS",
+    "scheduleFlag": "0",
+    "mrp": "237.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "237.00"
+  },
+  {
+    "hiddenId": "1521023904@15604@101128868@1846@101068@200809",
+    "skuName": "ESOCARD (SAMARTH) 100 MG INJECTION 10 ML",
+    "composition": "ESMOLOL INJECTION 100 MG",
+    "packSize": "10 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "281.79",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.18"
+  },
+  {
+    "hiddenId": "1521052190@25784@101155141@2107@101068@200809",
+    "skuName": "NEOTACH 10 MG INJECTION 10 ML",
+    "composition": "ESMOLOL INJECTION 10 MG",
+    "packSize": "10 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "26.84",
+    "company": "NEON LABORATORIES LTD",
+    "scheduleFlag": "1",
+    "mrp": "281.70",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.17"
+  }
+]

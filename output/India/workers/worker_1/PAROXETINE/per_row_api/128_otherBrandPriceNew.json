@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PARO",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "291.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.11"
+  },
+  {
+    "brandName": "PAXIDEP-CR",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "336.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.66"
+  },
+  {
+    "brandName": "PAXINTA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "441.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.16"
+  }
+]

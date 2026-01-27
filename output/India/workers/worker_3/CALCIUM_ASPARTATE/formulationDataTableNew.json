@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521045197@80986@101148333@3833@101006@207267",
+    "skuName": "MACZORB 560 MG TABLET 10",
+    "composition": "CALCIUM ASPARTATE TABLET 560 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "125.81",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.58"
+  },
+  {
+    "hiddenId": "1521045211@80987@101245359@2220@101006@207267",
+    "skuName": "MACZORB FORTE 1120 MG TABLET 10",
+    "composition": "CALCIUM ASPARTATE TABLET 1120 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "198.75",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.88"
+  }
+]

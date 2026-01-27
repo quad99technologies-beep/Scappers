@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "CALCIROL NANO",
+    "packSize": "5",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "69.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.83"
+  },
+  {
+    "brandName": "MAX D3",
+    "packSize": "4",
+    "company": "MOLEKULE (IND)PVT LTD",
+    "brandMrp": "138.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.63"
+  },
+  {
+    "brandName": "CALCIROL",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "36.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.30"
+  },
+  {
+    "brandName": "MAC D3",
+    "packSize": "1",
+    "company": "MACMILLON PHARMACEUTICALS",
+    "brandMrp": "62.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.40"
+  },
+  {
+    "brandName": "CALCIROL NU",
+    "packSize": "2",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "77.35"
+  }
+]

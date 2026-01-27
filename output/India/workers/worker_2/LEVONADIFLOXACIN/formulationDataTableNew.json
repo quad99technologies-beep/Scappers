@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521020465@315630@101114192@3951@101068@205876",
+    "skuName": "EMROK 800 MG INJECTION 100 ML",
+    "composition": "LEVONADIFLOXACIN INJECTION 800 MG",
+    "packSize": "100 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "WOCKHARDT LTD",
+    "scheduleFlag": "0",
+    "mrp": "3720.75",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.21"
+  },
+  {
+    "hiddenId": "1521020219@315629@101127283@3755@101006@205876",
+    "skuName": "EMROK O 500 MG TABLET 4",
+    "composition": "LEVONADIFLOXACIN TABLET 500 MG",
+    "packSize": "4 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "WOCKHARDT LTD",
+    "scheduleFlag": "0",
+    "mrp": "2918.06",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "729.52"
+  },
+  {
+    "hiddenId": "1521134788@9999998385@101225313@3951@101060@205876",
+    "skuName": "NUWOK 800 MG INFUSION 100 ML",
+    "composition": "LEVONADIFLOXACIN INFUSION 800 MG",
+    "packSize": "100 ML INFUSION",
+    "dosageForm": "INFUSION",
+    "ceilingPrice": "-1",
+    "company": "WOCKHARDT LTD",
+    "scheduleFlag": "0",
+    "mrp": "3382.50",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.83"
+  },
+  {
+    "hiddenId": "1521134742@9999998386@101225314@3755@101006@205876",
+    "skuName": "NUWOK O 500 MG TABLET 4",
+    "composition": "LEVONADIFLOXACIN TABLET 500 MG",
+    "packSize": "4 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "WOCKHARDT LTD",
+    "scheduleFlag": "0",
+    "mrp": "2652.84",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "663.21"
+  }
+]

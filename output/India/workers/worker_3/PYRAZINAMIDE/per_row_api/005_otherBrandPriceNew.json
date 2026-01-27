@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "MZIDE",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "64.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.40"
+  },
+  {
+    "brandName": "PYRANIJ",
+    "packSize": "10",
+    "company": "SUNIJ PHARMA PVT LTD",
+    "brandMrp": "67.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.77"
+  },
+  {
+    "brandName": "PZA CIBA",
+    "packSize": "10",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "76.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.69"
+  },
+  {
+    "brandName": "P ZIDE",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "76.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.69"
+  },
+  {
+    "brandName": "PYZINA",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "77.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.70"
+  },
+  {
+    "brandName": "P MIDE",
+    "packSize": "10",
+    "company": "CONCEPT PHARMACEUTICALS LTD",
+    "brandMrp": "79.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.90"
+  }
+]

@@ -1,0 +1,146 @@
+[
+  {
+    "brandName": "LANIB",
+    "packSize": "30",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "14.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.47"
+  },
+  {
+    "brandName": "HERDUO",
+    "packSize": "150",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "6000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.00"
+  },
+  {
+    "brandName": "HERTAB",
+    "packSize": "150",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "26604.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "177.36"
+  },
+  {
+    "brandName": "CADILAP",
+    "packSize": "30",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "5400.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "180.00"
+  },
+  {
+    "brandName": "HERTAB",
+    "packSize": "30",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "7166.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "238.87"
+  },
+  {
+    "brandName": "HERLAPSA",
+    "packSize": "30",
+    "company": "VIATRIS",
+    "brandMrp": "7673.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "255.78"
+  },
+  {
+    "brandName": "ABNIB",
+    "packSize": "30",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "8000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "266.67"
+  },
+  {
+    "brandName": "TYLIDYS",
+    "packSize": "30",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "8022.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "267.42"
+  },
+  {
+    "brandName": "COMBINIB",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "8228.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "274.27"
+  },
+  {
+    "brandName": "LAPAHOPE",
+    "packSize": "30",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "8750.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "291.67"
+  },
+  {
+    "brandName": "TYKERB",
+    "packSize": "10",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "3000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "300.00"
+  },
+  {
+    "brandName": "ETIBO",
+    "packSize": "150",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "47142.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "314.29"
+  },
+  {
+    "brandName": "TYKERB (NOVARTIS)",
+    "packSize": "30",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "9483.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "316.10"
+  },
+  {
+    "brandName": "LUPIDOC",
+    "packSize": "30",
+    "company": "LUPIN LTD",
+    "brandMrp": "9562.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "318.75"
+  },
+  {
+    "brandName": "LAPATEM",
+    "packSize": "30",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "10476.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "349.21"
+  },
+  {
+    "brandName": "ETIBO",
+    "packSize": "30",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "10840.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "361.35"
+  },
+  {
+    "brandName": "BRETOLAP",
+    "packSize": "30",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "11427.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "380.92"
+  },
+  {
+    "brandName": "TYKERB",
+    "packSize": "6",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "2672.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "445.44"
+  }
+]

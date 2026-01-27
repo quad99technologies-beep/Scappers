@@ -1,0 +1,138 @@
+[
+  {
+    "brandName": "TARGOCID",
+    "packSize": "100",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "1638.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.39"
+  },
+  {
+    "brandName": "KABIPLANIN",
+    "packSize": "20",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "416.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.83"
+  },
+  {
+    "brandName": "ZICOPLANIN",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "1410.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "141.00"
+  },
+  {
+    "brandName": "T-PLANIN",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "1437.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "143.70"
+  },
+  {
+    "brandName": "TICOCIN",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "1713.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "171.40"
+  },
+  {
+    "brandName": "TICOBACT",
+    "packSize": "1",
+    "company": "GLAND PHARMA LIMITED",
+    "brandMrp": "406.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "406.25"
+  },
+  {
+    "brandName": "TICOFIC",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "657.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "657.80"
+  },
+  {
+    "brandName": "TECOCIDE",
+    "packSize": "1",
+    "company": "VENUS REMEDIES LTD",
+    "brandMrp": "675.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "675.00"
+  },
+  {
+    "brandName": "TICOGEM",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "912.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "912.00"
+  },
+  {
+    "brandName": "TECOPLAN",
+    "packSize": "1",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "1095.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1095.00"
+  },
+  {
+    "brandName": "CELPLANIN",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "1168.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1168.00"
+  },
+  {
+    "brandName": "TICOREX",
+    "packSize": "1",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "1227.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1227.62"
+  },
+  {
+    "brandName": "TEICOGRESS",
+    "packSize": "1",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "1316.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1316.00"
+  },
+  {
+    "brandName": "TICOTHEM",
+    "packSize": "1",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "1415.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1415.70"
+  },
+  {
+    "brandName": "TICOBRAVE",
+    "packSize": "1",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "1419.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1419.05"
+  },
+  {
+    "brandName": "TICOFIC PLUS",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "1753.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1753.71"
+  },
+  {
+    "brandName": "TEICOBIOTIC",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "2089.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2089.00"
+  }
+]

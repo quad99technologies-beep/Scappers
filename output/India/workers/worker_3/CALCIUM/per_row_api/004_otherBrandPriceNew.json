@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "OROTATE",
+    "packSize": "10",
+    "company": "AKESISS PHARMA (P) LTD",
+    "brandMrp": "107.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.70"
+  },
+  {
+    "brandName": "ORORICH",
+    "packSize": "10",
+    "company": "INDIAN DRUG & PHARMACEUTICALS LTD (IDPL)",
+    "brandMrp": "127.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.75"
+  },
+  {
+    "brandName": "CHECAL",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "251.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.76"
+  }
+]

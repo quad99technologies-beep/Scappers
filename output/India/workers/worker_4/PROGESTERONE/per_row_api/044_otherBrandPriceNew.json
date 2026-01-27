@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "CUGEST",
+    "packSize": "10",
+    "company": "CUREILL PHARMA PVT.LTD",
+    "brandMrp": "480.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.00"
+  },
+  {
+    "brandName": "GESTOCARE",
+    "packSize": "10",
+    "company": "CAREXIA HEALTHCARE",
+    "brandMrp": "497.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.78"
+  },
+  {
+    "brandName": "FEGEST",
+    "packSize": "10",
+    "company": "CANVARZYS HEALTHCARE PVT.LTD",
+    "brandMrp": "553.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "55.31"
+  },
+  {
+    "brandName": "TRENDYGEST",
+    "packSize": "10",
+    "company": "STARUS PHARMACEUTICALS",
+    "brandMrp": "569.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.90"
+  },
+  {
+    "brandName": "VOPREG",
+    "packSize": "10",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "612.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "61.26"
+  }
+]

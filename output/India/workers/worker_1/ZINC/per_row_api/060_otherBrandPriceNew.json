@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "ZIORAL",
+    "packSize": "15",
+    "company": "FDC LTD.",
+    "brandMrp": "82.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.48"
+  },
+  {
+    "brandName": "OROZINC",
+    "packSize": "15",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.25"
+  },
+  {
+    "brandName": "ZIDUST",
+    "packSize": "15",
+    "company": "MERCURY HEALTH CARE PVT LTD",
+    "brandMrp": "103.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.88"
+  },
+  {
+    "brandName": "ZN20",
+    "packSize": "15",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "105.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.06"
+  },
+  {
+    "brandName": "ZINCOGUT DROPS",
+    "packSize": "15",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "129.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.63"
+  }
+]

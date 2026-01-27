@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521066552@74618@101121118@3215@101006@201861",
+    "skuName": "CYTOMID 250 MG TABLET 10",
+    "composition": "FLUTAMIDE TABLET 250 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "146.17",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.62"
+  },
+  {
+    "hiddenId": "1521091017@337681@101189556@-1@101006@201861",
+    "skuName": "FLUDITE TABLET 10",
+    "composition": "FLUTAMIDE TABLET ",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "SALAS PHARMA PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "42.63",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.26"
+  },
+  {
+    "hiddenId": "1521068073@17222@101132337@3215@101006@201861",
+    "skuName": "FLUTIDE 250 MG TABLET 10",
+    "composition": "FLUTAMIDE TABLET 250 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "107.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.70"
+  }
+]

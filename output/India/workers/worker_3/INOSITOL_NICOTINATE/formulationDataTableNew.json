@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521005692@187438@101109699@-1@101019@205035",
+    "skuName": "ANTI WRINKLES AND FIRMING LOTION 30 ML",
+    "composition": "INOSITOL NICOTINATE LOTION ",
+    "packSize": "30 ML LOTION",
+    "dosageForm": "LOTION",
+    "ceilingPrice": "-1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "4517.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "150.57"
+  },
+  {
+    "hiddenId": "1521143130@353141@101233401@3755@101006@205035",
+    "skuName": "INOHDL 500 MG TABLET 10",
+    "composition": "INOSITOL NICOTINATE TABLET 500 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "EPIONE PHARMACEUTICALS PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "140.62",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "hiddenId": "1521037127@232167@101140302@10106@101083@205035",
+    "skuName": "INTASOL PP 0.49/0.39/0.075/0.048 % SOLUTION 500 ML",
+    "composition": "INOSITOL NICOTINATE ORAL SOLUTION 0.49/0.39/0.075/0.048 %",
+    "packSize": "500 ML ORAL SOLUTION",
+    "dosageForm": "ORAL SOLUTION",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "349.22",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.70"
+  },
+  {
+    "hiddenId": "1521062696@65957@101165395@-1@101064@205035",
+    "skuName": "POVIDERM(JAG) MOUTH WASH 500 ML",
+    "composition": "INOSITOL NICOTINATE MOUTH WASH ",
+    "packSize": "500 ML MOUTH WASH",
+    "dosageForm": "MOUTH WASH",
+    "ceilingPrice": "-1",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "84.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.17"
+  }
+]

@@ -1,0 +1,218 @@
+[
+  {
+    "brandName": "SUNFLOX",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "1.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.11"
+  },
+  {
+    "brandName": "OFLACAD",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "27.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.77"
+  },
+  {
+    "brandName": "BESTOFLOX",
+    "packSize": "10",
+    "company": "BESTOCHEM FORMULATIONS (I) LTD",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.50"
+  },
+  {
+    "brandName": "AFLOX (PSYCO REMEDIES)",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "OPTRA",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "82.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.29"
+  },
+  {
+    "brandName": "RONFLOX",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "83.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.30"
+  },
+  {
+    "brandName": "GALOXIN",
+    "packSize": "10",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "NOZO",
+    "packSize": "10",
+    "company": "KAISER PHARMACEUTICALS",
+    "brandMrp": "85.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.50"
+  },
+  {
+    "brandName": "TERFLOX (STALLION)",
+    "packSize": "10",
+    "company": "STALLION LABORATORIES (P) LTD",
+    "brandMrp": "85.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.50"
+  },
+  {
+    "brandName": "OSON",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "87.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.78"
+  },
+  {
+    "brandName": "OLOX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "95.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "ZOCIN(WSL)",
+    "packSize": "10",
+    "company": "WINSOME LAB LTD",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.90"
+  },
+  {
+    "brandName": "OFLOCHEM",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "ZO",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "122.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.25"
+  },
+  {
+    "brandName": "OFLOBID",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "BROADBACT",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "134.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.40"
+  },
+  {
+    "brandName": "OFRON",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "135.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.59"
+  },
+  {
+    "brandName": "JOX",
+    "packSize": "10",
+    "company": "DR. JOHNS LABORATORIES PVT LTD",
+    "brandMrp": "139.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.97"
+  },
+  {
+    "brandName": "ECOFLOX (EAST WEST)",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "143.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.30"
+  },
+  {
+    "brandName": "ZENFLOX",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "170.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.02"
+  },
+  {
+    "brandName": "OFLOKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "OFLOMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "190.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.03"
+  },
+  {
+    "brandName": "OF",
+    "packSize": "10",
+    "company": "JB CHEMICALS",
+    "brandMrp": "216.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.63"
+  },
+  {
+    "brandName": "OFLIN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "257.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.78"
+  },
+  {
+    "brandName": "ZANOCIN",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "295.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.53"
+  },
+  {
+    "brandName": "OFLOX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "364.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.46"
+  },
+  {
+    "brandName": "ZANOCIN",
+    "packSize": "5",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "239.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "47.81"
+  }
+]

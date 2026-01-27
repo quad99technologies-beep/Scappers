@@ -3,8 +3,8 @@
 """
 India NPPA Scraper - Parallel Worker Runner
 
-Splits formulations into N parts and runs N worker processes in parallel.
-Each worker writes to its own output directory to avoid collisions.
+Discovers per-formulation CSV chunks and launches one worker process per file.
+Workers can run concurrently via threads and each writes to its own output directory.
 """
 
 import argparse
@@ -16,9 +16,10 @@ import re
 import subprocess
 import sys
 import time
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 from datetime import datetime
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 _repo_root = Path(__file__).resolve().parents[2]
 if str(_repo_root) not in sys.path:
@@ -68,6 +69,26 @@ def write_csv_rows(path: Path, rows: List[List[str]]) -> None:
     with path.open("w", newline="", encoding="utf-8-sig") as f:
         writer = csv.writer(f)
         writer.writerows(rows)
+
+
+def combine_part_files(part_files: List[Path], out_path: Path) -> Path:
+    """Combine multiple *_part*.csv files into a single CSV (header from first file)."""
+    if not part_files:
+        raise ValueError("No part files provided")
+    rows0 = read_csv_rows(part_files[0])
+    if not rows0:
+        raise ValueError(f"Empty part file: {part_files[0]}")
+    header = rows0[0]
+    combined: List[List[str]] = [header]
+    combined.extend(rows0[1:])
+    for pf in part_files[1:]:
+        rows = read_csv_rows(pf)
+        if not rows:
+            continue
+        body = rows[1:] if rows and rows[0] == header else rows
+        combined.extend(body)
+    write_csv_rows(out_path, combined)
+    return out_path
 
 
 def count_formulations_in_csv(path: Path) -> int:
@@ -173,33 +194,37 @@ def split_formulations(input_file: Path, parts: int, parts_dir: Path) -> List[Pa
     return part_files
 
 
-def launch_workers(part_files: List[Path], output_base: Path, script_path: Path) -> List[Tuple[int, subprocess.Popen, Path]]:
-    processes: List[Tuple[int, subprocess.Popen, Path]] = []
-    for idx, part_file in enumerate(part_files, start=1):
-        worker_output = output_base / f"worker_{idx}"
-        worker_output.mkdir(parents=True, exist_ok=True)
-        env = os.environ.copy()
-        env["FORMULATIONS_FILE"] = str(part_file)
-        env["OUTPUT_DIR"] = str(worker_output)
-        env["WORKER_ID"] = str(idx)
-        env.setdefault("SUPPRESS_WORKER_PROGRESS", "1")
-        env.setdefault("PYTHONUNBUFFERED", "1")
+def detect_prebuilt_parts(base_dir: Path, pattern: str) -> List[Path]:
+    candidates = [p for p in base_dir.glob(pattern) if p.is_file()]
 
-        cmd = [sys.executable, "-u", str(script_path)]
-        print(
-            f"[START] Worker {idx}: {script_path} | "
-            f"FORMULATIONS_FILE={part_file} | OUTPUT_DIR={worker_output}",
-            flush=True,
-        )
-        proc = subprocess.Popen(cmd, env=env)
-        processes.append((idx, proc, worker_output))
-    return processes
+    def sort_key(p: Path) -> int:
+        m = re.search(r"_part(\\d+)", p.stem, flags=re.IGNORECASE)
+        return int(m.group(1)) if m else 0
+
+    return sorted(candidates, key=sort_key)
 
 
-def read_worker_checkpoint(worker_output: Path) -> Tuple[int, int]:
+def run_worker_job(worker_id: int, part_file: Path, worker_output: Path, script_path: Path) -> Tuple[int, int]:
+    env = os.environ.copy()
+    env["FORMULATIONS_FILE"] = str(part_file)
+    env["OUTPUT_DIR"] = str(worker_output)
+    env["WORKER_ID"] = str(worker_id)
+    env.setdefault("PYTHONUNBUFFERED", "1")
+
+    cmd = [sys.executable, "-u", str(script_path)]
+    print(
+        f"[START] Worker {worker_id}: {script_path} | "
+        f"FORMULATIONS_FILE={part_file} | OUTPUT_DIR={worker_output}",
+        flush=True,
+    )
+    result = subprocess.run(cmd, env=env, check=False)
+    return worker_id, result.returncode
+
+
+def read_worker_checkpoint(worker_output: Path) -> Dict[str, Any]:
     checkpoint_file = worker_output / ".checkpoints" / "formulation_progress.json"
     if not checkpoint_file.exists():
-        return 0, 0
+        return {"terminal": 0, "failed": 0, "completed": 0, "zero_records": 0, "stats": {}}
     try:
         with checkpoint_file.open("r", encoding="utf-8") as f:
             data = json.load(f)
@@ -207,19 +232,34 @@ def read_worker_checkpoint(worker_output: Path) -> Tuple[int, int]:
         zero = len(data.get("zero_record_formulations", []))
         failed = data.get("failed_formulations", {})
         failed_count = len(failed) if isinstance(failed, dict) else 0
-        return completed + zero, failed_count
+        return {
+            "terminal": completed + zero,
+            "failed": failed_count,
+            "completed": completed,
+            "zero_records": zero,
+            "stats": data.get("stats", {}),
+        }
     except Exception:
-        return 0, 0
+        return {"terminal": 0, "failed": 0, "completed": 0, "zero_records": 0, "stats": {}}
 
 
 def emit_parallel_progress(worker_totals: dict, worker_outputs: dict) -> Tuple[int, int]:
     total_terminal = 0
     total_failed = 0
     per_worker = []
+    total_completed = 0
+    total_zero = 0
+    total_rows = 0
     for worker_id in sorted(worker_totals.keys()):
-        terminal, failed = read_worker_checkpoint(worker_outputs[worker_id])
+        checkpoint_data = read_worker_checkpoint(worker_outputs[worker_id])
+        terminal = checkpoint_data["terminal"]
+        failed = checkpoint_data["failed"]
         total_terminal += terminal
         total_failed += failed
+        total_completed += checkpoint_data.get("completed", 0)
+        total_zero += checkpoint_data.get("zero_records", 0)
+        stats = checkpoint_data.get("stats", {}) or {}
+        total_rows += int(stats.get("total_substitutes", 0) or 0)
         per_worker.append(f"W{worker_id} {terminal}/{worker_totals[worker_id]}")
     total_all = sum(worker_totals.values())
     percent = (total_terminal / total_all) * 100 if total_all else 0.0
@@ -228,6 +268,10 @@ def emit_parallel_progress(worker_totals: dict, worker_outputs: dict) -> Tuple[i
         suffix = f"{suffix} | failed={total_failed}"
     print(
         f"[PROGRESS] Parallel Formulations: {total_terminal}/{total_all} ({percent:.1f}%) - {suffix}",
+        flush=True,
+    )
+    print(
+        f"[STATS] Success: {total_completed} | Zero-records: {total_zero} | Detail rows: {total_rows}",
         flush=True,
     )
     return total_terminal, total_failed
@@ -303,6 +347,16 @@ def main() -> None:
         help="Path to formulations CSV (default: input/India/formulations.csv).",
     )
     parser.add_argument(
+        "--input-dir",
+        default="",
+        help="Directory containing worker-specific formulation files (overrides splitting).",
+    )
+    parser.add_argument(
+        "--pattern",
+        default="formulations_part*.csv",
+        help="Glob pattern to detect per-worker formulation CSVs.",
+    )
+    parser.add_argument(
         "--output-base",
         default="",
         help="Base directory for worker outputs (default: output/India/workers).",
@@ -326,9 +380,6 @@ def main() -> None:
 
     workers = max(1, int(args.workers))
     input_file = resolve_input_file(args.input)
-    if not input_file.exists() and not args.use_existing_parts:
-        print(f"[ERROR] Input file not found: {input_file}", flush=True)
-        sys.exit(1)
     parts_dir = resolve_parts_dir(args.parts_dir, input_file)
 
     output_base = resolve_output_base(args.output_base)
@@ -338,20 +389,38 @@ def main() -> None:
     print(f"[CONFIG] Output base: {output_base}", flush=True)
     print(f"[CONFIG] Workers: {workers}", flush=True)
 
-    if args.use_existing_parts:
+    script_path = _script_dir / "02_get_details.py"
+    if not script_path.exists():
+        print(f"[ERROR] Worker script not found: {script_path}", flush=True)
+        sys.exit(1)
+
+    search_dir = Path(args.input_dir) if args.input_dir else (input_file.parent if input_file else get_input_dir())
+    auto_parts: List[Path] = []
+    if search_dir and search_dir.exists():
+        auto_parts = detect_prebuilt_parts(search_dir, args.pattern or "formulations_part*.csv")
+
+    part_files: List[Path] = []
+    if auto_parts and len(auto_parts) == workers:
+        part_files = auto_parts
+        print(f"[INFO] Using {len(part_files)} pre-split part file(s) in {search_dir}", flush=True)
+    elif auto_parts:
+        print(
+            f"[WARN] Found {len(auto_parts)} pre-split part file(s) but workers={workers}; re-splitting input.",
+            flush=True,
+        )
+    elif args.use_existing_parts:
+        if not input_file.exists():
+            print(f"[ERROR] Input file not found: {input_file}", flush=True)
+            sys.exit(1)
         part_files = find_existing_parts(input_file, parts_dir)
         if not part_files:
             print("[ERROR] No existing part files found.", flush=True)
             sys.exit(1)
-        if len(part_files) != workers:
-            print(
-                f"[ERROR] Found {len(part_files)} part file(s), but workers={workers}.",
-                flush=True,
-            )
-            print("[ERROR] Adjust --workers or regenerate part files.", flush=True)
-            sys.exit(1)
-        print(f"[INFO] Using {len(part_files)} existing part file(s).", flush=True)
+        print(f"[INFO] Reusing {len(part_files)} existing part file(s).", flush=True)
     else:
+        if not input_file.exists():
+            print(f"[ERROR] Input file not found: {input_file}", flush=True)
+            sys.exit(1)
         target_dir = parts_dir or input_file.parent
         part_files = split_formulations(input_file, workers, target_dir)
         if not part_files:
@@ -359,39 +428,70 @@ def main() -> None:
             sys.exit(1)
         print(f"[INFO] Created {len(part_files)} part file(s).", flush=True)
 
-    script_path = _script_dir / "02 get details.py"
-    if not script_path.exists():
-        print(f"[ERROR] Worker script not found: {script_path}", flush=True)
+    # If pre-split parts were present but count mismatched, create fresh parts under output.
+    # If the master input file doesn't exist, rebuild it by combining the pre-split parts.
+    if not part_files and auto_parts:
+        target_dir = output_base / "_parts"
+        target_dir.mkdir(parents=True, exist_ok=True)
+        master = input_file
+        if not master.exists():
+            master = combine_part_files(auto_parts, target_dir / "formulations_master_from_parts.csv")
+            print(f"[INFO] Rebuilt missing input file from parts: {master}", flush=True)
+        part_files = split_formulations(master, workers, target_dir)
+        if not part_files:
+            print("[ERROR] No part files created; check input file contents.", flush=True)
+            sys.exit(1)
+        print(f"[INFO] Created {len(part_files)} part file(s) in {target_dir}", flush=True)
+
+    worker_count = len(part_files)
+    if worker_count == 0:
+        print("[ERROR] No formulation files detected.", flush=True)
         sys.exit(1)
 
-    processes = launch_workers(part_files, output_base, script_path)
     worker_totals = {idx: count_formulations_in_csv(pf) for idx, pf in enumerate(part_files, start=1)}
-    worker_outputs = {idx: out for idx, _, out in processes}
+    worker_outputs: Dict[int, Path] = {}
+    for idx in worker_totals:
+        worker_outputs[idx] = output_base / f"worker_{idx}"
+        worker_outputs[idx].mkdir(parents=True, exist_ok=True)
 
-    progress_interval = max(5, getenv_int("PARALLEL_PROGRESS_EVERY_SEC", 15))
-    last_print_ts = 0.0
-    last_terminal = -1
-    while True:
-        alive = any(proc.poll() is None for _, proc, _ in processes)
-        now = time.time()
-        if (now - last_print_ts) >= progress_interval or not alive:
-            total_terminal, _ = emit_parallel_progress(worker_totals, worker_outputs)
-            if total_terminal != last_terminal or not alive:
-                last_terminal = total_terminal
-            last_print_ts = now
-        if not alive:
-            break
-        time.sleep(1)
+    max_workers = min(max(1, workers), worker_count)
+    progress_interval = max(3, getenv_int("PARALLEL_PROGRESS_EVERY_SEC", 15))
+    exit_codes: Dict[int, int] = {}
+    futures = {}
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        for idx, part_file in enumerate(part_files, start=1):
+            future = executor.submit(run_worker_job, idx, part_file, worker_outputs[idx], script_path)
+            futures[future] = idx
 
-    exit_codes = {}
-    for idx, proc, _ in processes:
-        code = proc.wait()
-        exit_codes[idx] = code
-        status = "OK" if code == 0 else "FAIL"
-        print(f"[DONE] Worker {idx}: exit={code} ({status})", flush=True)
+        pending = set(futures.keys())
+        try:
+            while pending:
+                done, pending = wait(pending, timeout=progress_interval, return_when=FIRST_COMPLETED)
+                emit_parallel_progress(worker_totals, worker_outputs)
+                for future in done:
+                    worker_id = futures.pop(future)
+                    try:
+                        idx, code = future.result()
+                    except Exception as exc:
+                        print(f"[ERROR] Worker {worker_id} crashed: {exc}", flush=True)
+                        idx, code = worker_id, 1
+                    exit_codes[idx] = code
+                    status = "OK" if code == 0 else "FAIL"
+                    print(f"[DONE] Worker {idx}: exit={code} ({status})", flush=True)
+        except KeyboardInterrupt:
+            print("[WARN] Interrupted; cancelling remaining workers", flush=True)
+            for future in pending:
+                future.cancel()
+            sys.exit(1)
+
+    emit_parallel_progress(worker_totals, worker_outputs)
+
+    for idx in worker_totals:
+        exit_codes.setdefault(idx, 1)
 
     if not args.no_combine_details:
-        for idx, _, worker_output in processes:
+        for idx in sorted(worker_outputs.keys()):
+            worker_output = worker_outputs[idx]
             combined = combine_worker_details(worker_output)
             if combined:
                 print(f"[COMBINE] Worker {idx}: {combined}", flush=True)
@@ -404,7 +504,7 @@ def main() -> None:
         sys.exit(1)
 
     duration = time.time() - start_ts
-    marker = write_parallel_marker(output_base, workers, input_file, exit_codes, duration)
+    marker = write_parallel_marker(output_base, worker_count, input_file, exit_codes, duration)
     print(f"[MARKER] {marker}", flush=True)
     print("[OK] All workers completed successfully.", flush=True)
 

@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "DANOZOLIS",
+    "packSize": "10",
+    "company": "STERIS HEALTHCARE",
+    "brandMrp": "212.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.25"
+  },
+  {
+    "brandName": "ZENDOL",
+    "packSize": "30",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "brandMrp": "991.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.05"
+  },
+  {
+    "brandName": "DANOZEC",
+    "packSize": "10",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "416.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "41.63"
+  },
+  {
+    "brandName": "GYNAZOL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "553.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "55.31"
+  },
+  {
+    "brandName": "ZENDOL",
+    "packSize": "10",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "brandMrp": "632.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "63.22"
+  },
+  {
+    "brandName": "DANOGEN",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "646.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "64.64"
+  },
+  {
+    "brandName": "GONABLOK",
+    "packSize": "10",
+    "company": "WIN-MEDICARE PVT. LTD.",
+    "brandMrp": "1059.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "105.94"
+  }
+]

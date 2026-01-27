@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "EMQUIN",
+    "packSize": "30",
+    "company": "PROCTER & GAMBLE HEALTH LTD",
+    "brandMrp": "20.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.69"
+  },
+  {
+    "brandName": "NIVAQUINE P",
+    "packSize": "2",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "3.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.52"
+  },
+  {
+    "brandName": "NIVAQUINE P",
+    "packSize": "5",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "9.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.90"
+  }
+]

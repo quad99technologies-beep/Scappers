@@ -1,0 +1,274 @@
+[
+  {
+    "brandName": "LACTOMED PLUS",
+    "packSize": "100",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "13.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.14"
+  },
+  {
+    "brandName": "CREMAPIL",
+    "packSize": "170",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "102.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.60"
+  },
+  {
+    "brandName": "EVALEX",
+    "packSize": "200",
+    "company": "OLCARE LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.77"
+  },
+  {
+    "brandName": "BESTOLOOS",
+    "packSize": "150",
+    "company": "BESTOCHEM FORMULATIONS (I) LTD",
+    "brandMrp": "166.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.11"
+  },
+  {
+    "brandName": "LIVOLUK",
+    "packSize": "200",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "234.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.17"
+  },
+  {
+    "brandName": "ELDOLUC",
+    "packSize": "100",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "123.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.23"
+  },
+  {
+    "brandName": "LACTULAC",
+    "packSize": "200",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "256.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.28"
+  },
+  {
+    "brandName": "CADILOSE",
+    "packSize": "100",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "129.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "EVALEX",
+    "packSize": "100",
+    "company": "OLCARE LTD",
+    "brandMrp": "129.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "EVICT",
+    "packSize": "150",
+    "company": "ALBERT DAVID",
+    "brandMrp": "193.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "EVICT",
+    "packSize": "100",
+    "company": "ALBERT DAVID",
+    "brandMrp": "129.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "FREELAC (LEEFORD)",
+    "packSize": "200",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "258.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "INLUSE",
+    "packSize": "200",
+    "company": "INDIAN DRUG & PHARMACEUTICALS LTD (IDPL)",
+    "brandMrp": "258.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "LACTOPIL",
+    "packSize": "100",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "129.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "LACTULAC",
+    "packSize": "100",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "129.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "LAXOFORD",
+    "packSize": "200",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "258.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "LAXOFORD",
+    "packSize": "100",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "129.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "LAXOSE",
+    "packSize": "150",
+    "company": "INDI PHARMA",
+    "brandMrp": "193.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "LIVOLUK",
+    "packSize": "450",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "579.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "LIVOLUK",
+    "packSize": "100",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "128.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "OMEZ LAX L",
+    "packSize": "200",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "258.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "OMEZ LAX L",
+    "packSize": "450",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "581.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "SHINOLAX",
+    "packSize": "200",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "258.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "EMTY",
+    "packSize": "450",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "590.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "EVICT",
+    "packSize": "450",
+    "company": "ALBERT DAVID",
+    "brandMrp": "591.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "LACTOPIL",
+    "packSize": "200",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "262.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "LAXIWAL",
+    "packSize": "150",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "196.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "LIVOLUK KID",
+    "packSize": "60",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "78.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "OMEZ LAX L",
+    "packSize": "100",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "OSOLAC",
+    "packSize": "100",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "SWIFTOLAC",
+    "packSize": "150",
+    "company": "SHREYA LIFE SCIENCES PVT. LTD",
+    "brandMrp": "196.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "LACTOSAN",
+    "packSize": "200",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "265.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.33"
+  },
+  {
+    "brandName": "EVICT",
+    "packSize": "200",
+    "company": "ALBERT DAVID",
+    "brandMrp": "322.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.61"
+  },
+  {
+    "brandName": "BESTOLOOS",
+    "packSize": "60",
+    "company": "BESTOCHEM FORMULATIONS (I) LTD",
+    "brandMrp": "116.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.95"
+  }
+]

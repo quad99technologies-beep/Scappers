@@ -1,0 +1,138 @@
+[
+  {
+    "brandName": "ZIFRA",
+    "packSize": "100",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "63.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.64"
+  },
+  {
+    "brandName": "ZINCOBEST",
+    "packSize": "100",
+    "company": "DERMAKARE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "67.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.67"
+  },
+  {
+    "brandName": "MINTONIA",
+    "packSize": "100",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "brandMrp": "72.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.73"
+  },
+  {
+    "brandName": "RADIZINC",
+    "packSize": "100",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "79.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.80"
+  },
+  {
+    "brandName": "ZINCOGRAND",
+    "packSize": "100",
+    "company": "GRANDCURE HEALTHCARE PVT. LTD.",
+    "brandMrp": "82.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.82"
+  },
+  {
+    "brandName": "ASCAZIN",
+    "packSize": "70",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "61.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.87"
+  },
+  {
+    "brandName": "PEDIZINC",
+    "packSize": "100",
+    "company": "VOTARY LABORATORIES (I) LTD.",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.89"
+  },
+  {
+    "brandName": "ZINCRIS",
+    "packSize": "100",
+    "company": "CIPLA LTD.",
+    "brandMrp": "91.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.92"
+  },
+  {
+    "brandName": "ZINC G",
+    "packSize": "100",
+    "company": "DR. JOHNS LABORATORIES PVT LTD",
+    "brandMrp": "93.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.93"
+  },
+  {
+    "brandName": "ZINCOMAC",
+    "packSize": "60",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.17"
+  },
+  {
+    "brandName": "ZIPZ",
+    "packSize": "60",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "74.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.23"
+  },
+  {
+    "brandName": "ZIDUST",
+    "packSize": "70",
+    "company": "MERCURY HEALTH CARE PVT LTD",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.27"
+  },
+  {
+    "brandName": "ZINCONIA",
+    "packSize": "100",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "131.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.32"
+  },
+  {
+    "brandName": "ZN20",
+    "packSize": "100",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.41"
+  },
+  {
+    "brandName": "ZINCOGUT",
+    "packSize": "100",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "146.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.47"
+  },
+  {
+    "brandName": "ZINCOLIFE",
+    "packSize": "50",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "76.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.54"
+  },
+  {
+    "brandName": "BABIZINC",
+    "packSize": "60",
+    "company": "SOMATICO PHARMACAL PVT. LTD",
+    "brandMrp": "103.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.73"
+  }
+]

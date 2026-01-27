@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521073367@35459@101173959@3650@101006@200813",
+    "skuName": "SOLET 40 MG TABLET 10",
+    "composition": "SOTALOL TABLET 40 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "111.62",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.16"
+  },
+  {
+    "hiddenId": "1521073612@118086@101174189@3650@101006@200813",
+    "skuName": "SOTALAR 40 MG TABLET 10",
+    "composition": "SOTALOL TABLET 40 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "152.52",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.25"
+  }
+]

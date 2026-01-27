@@ -1,0 +1,154 @@
+[
+  {
+    "brandName": "ZOLMET",
+    "packSize": "10",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "37.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.79"
+  },
+  {
+    "brandName": "ZOLWAY",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "44.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.43"
+  },
+  {
+    "brandName": "ZOLPIREST",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "59.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.90"
+  },
+  {
+    "brandName": "SLANATE",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "61.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "ZOPID",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "61.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "ZOLIP",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "64.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.50"
+  },
+  {
+    "brandName": "SOBRIUM",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "65.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.51"
+  },
+  {
+    "brandName": "ZEDTIME",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "65.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.52"
+  },
+  {
+    "brandName": "ZOLETOP",
+    "packSize": "10",
+    "company": "AGM BIOTEC",
+    "brandMrp": "65.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.52"
+  },
+  {
+    "brandName": "ZOLNYT",
+    "packSize": "10",
+    "company": "AURUM LIFE SCIENCE PVT. LTD.",
+    "brandMrp": "65.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.52"
+  },
+  {
+    "brandName": "ZUMIA",
+    "packSize": "10",
+    "company": "K.C LABORATORIES",
+    "brandMrp": "66.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.60"
+  },
+  {
+    "brandName": "ZOLNAP",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "66.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.61"
+  },
+  {
+    "brandName": "ZOLPINITE",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "66.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.62"
+  },
+  {
+    "brandName": "NITREST",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "66.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.63"
+  },
+  {
+    "brandName": "ZOLFRESH",
+    "packSize": "15",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "99.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.63"
+  },
+  {
+    "brandName": "SOVE",
+    "packSize": "15",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "99.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.64"
+  },
+  {
+    "brandName": "SOVE",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "66.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.70"
+  },
+  {
+    "brandName": "ZOLMAT",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "69.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.90"
+  },
+  {
+    "brandName": "ZOLFRESH ODT",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "97.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.78"
+  }
+]

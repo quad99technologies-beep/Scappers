@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ZIA",
+    "packSize": "10",
+    "company": "WEST COAST PHARMA WORKS",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "ZSMART",
+    "packSize": "10",
+    "company": "EPIONE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "ZINCIWELL",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "61.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.10"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ZITHROX XL",
+    "packSize": "30",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "95.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.19"
+  },
+  {
+    "brandName": "AZEE",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "52.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.47"
+  },
+  {
+    "brandName": "AZEE",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.50"
+  }
+]

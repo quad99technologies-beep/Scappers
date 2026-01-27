@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "CETRILEK",
+    "packSize": "75",
+    "company": "MENARINI INDIA",
+    "brandMrp": "48.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.64"
+  },
+  {
+    "brandName": "BABY (PSYCHOTROPICS )",
+    "packSize": "75",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "68.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.91"
+  },
+  {
+    "brandName": "CETRILAK",
+    "packSize": "75",
+    "company": "MENARINI INDIA",
+    "brandMrp": "97.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "CETRILAK H",
+    "packSize": "75",
+    "company": "MENARINI INDIA",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.47"
+  },
+  {
+    "brandName": "CETRILAK",
+    "packSize": "75",
+    "company": "MENARINI INDIA",
+    "brandMrp": "115.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.54"
+  },
+  {
+    "brandName": "AQUAOAT",
+    "packSize": "75",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.67"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "NEUROSTAB",
+    "packSize": "10",
+    "company": "STARUS PHARMACEUTICALS",
+    "brandMrp": "43.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.38"
+  },
+  {
+    "brandName": "NEUTAPRIG",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "53.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.36"
+  },
+  {
+    "brandName": "GABAWIN",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "79.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.96"
+  }
+]

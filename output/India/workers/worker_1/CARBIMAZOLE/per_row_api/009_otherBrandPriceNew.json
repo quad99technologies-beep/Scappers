@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "CARBIZOLE",
+    "packSize": "100",
+    "company": "STERIS HEALTHCARE",
+    "brandMrp": "334.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.34"
+  },
+  {
+    "brandName": "CAROL (ERIS)",
+    "packSize": "120",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "511.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.26"
+  },
+  {
+    "brandName": "ANTI THYROX",
+    "packSize": "100",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "454.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.55"
+  },
+  {
+    "brandName": "THYROCAB",
+    "packSize": "100",
+    "company": "CORONA",
+    "brandMrp": "454.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.55"
+  }
+]

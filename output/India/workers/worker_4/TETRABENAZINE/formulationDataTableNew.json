@@ -1,0 +1,72 @@
+[
+  {
+    "hiddenId": "1521004349@225331@101108556@2403@101006@202242",
+    "skuName": "ATREST 12.5 MG TABLET 10",
+    "composition": "TETRABENAZINE TABLET 12.5 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "210.67",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.07"
+  },
+  {
+    "hiddenId": "1521004350@225528@101108556@3312@101006@202242",
+    "skuName": "ATREST 25 MG TABLET 10",
+    "composition": "TETRABENAZINE TABLET 25 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "393.02",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.30"
+  },
+  {
+    "hiddenId": "1521070001@33058@101170633@3312@101006@202242",
+    "skuName": "REVOCON 25 MG TABLET 10",
+    "composition": "TETRABENAZINE TABLET 25 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "scheduleFlag": "0",
+    "mrp": "422.81",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.28"
+  },
+  {
+    "hiddenId": "1521140475@9999996400@101239249@3312@101006@202242",
+    "skuName": "TETBENZ 25 MG TABLET 10",
+    "composition": "TETRABENAZINE TABLET 25 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "281.25",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.13"
+  },
+  {
+    "hiddenId": "1521077548@188090@101177956@3312@101006@202242",
+    "skuName": "TICSTOP 25 MG TABLET 10",
+    "composition": "TETRABENAZINE TABLET 25 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "436.41",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.64"
+  }
+]

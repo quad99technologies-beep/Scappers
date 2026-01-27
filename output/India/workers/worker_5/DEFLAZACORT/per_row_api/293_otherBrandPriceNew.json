@@ -1,0 +1,178 @@
+[
+  {
+    "brandName": "ZEFCORT",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "135.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.59"
+  },
+  {
+    "brandName": "DIASCORT",
+    "packSize": "10",
+    "company": "JUPITER BIOLABS PVT.LTD",
+    "brandMrp": "139.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.90"
+  },
+  {
+    "brandName": "FLACORT",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "152.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.24"
+  },
+  {
+    "brandName": "SERDEZ",
+    "packSize": "10",
+    "company": "AVANCER LAB",
+    "brandMrp": "154.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "FASTCORT",
+    "packSize": "10",
+    "company": "GRANDCURE HEALTHCARE PVT. LTD.",
+    "brandMrp": "187.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.72"
+  },
+  {
+    "brandName": "IMMULAZ",
+    "packSize": "10",
+    "company": "EUMEDICA PHARMACEUTICALS",
+    "brandMrp": "191.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.13"
+  },
+  {
+    "brandName": "LOGICORT",
+    "packSize": "10",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "223.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.32"
+  },
+  {
+    "brandName": "TAGCORT",
+    "packSize": "10",
+    "company": "INTAG REMEDIES",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.50"
+  },
+  {
+    "brandName": "ZECORT",
+    "packSize": "6",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "138.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.07"
+  },
+  {
+    "brandName": "SOLO-D (OMNI)",
+    "packSize": "10",
+    "company": "OMNI LIFE SCIENCES PVT LTD",
+    "brandMrp": "234.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.44"
+  },
+  {
+    "brandName": "DEFSEAS",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "243.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.38"
+  },
+  {
+    "brandName": "DEFCORT",
+    "packSize": "6",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "151.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.31"
+  },
+  {
+    "brandName": "DEFCORT",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "253.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.31"
+  },
+  {
+    "brandName": "ORTHOCORT",
+    "packSize": "6",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "151.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.31"
+  },
+  {
+    "brandName": "ORTHOCORT",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "253.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.31"
+  },
+  {
+    "brandName": "DEFLASIG",
+    "packSize": "10",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "268.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.81"
+  },
+  {
+    "brandName": "TYZOCORT",
+    "packSize": "10",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "271.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.18"
+  },
+  {
+    "brandName": "DEFZA",
+    "packSize": "6",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "166.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.78"
+  },
+  {
+    "brandName": "DEFZA",
+    "packSize": "10",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "304.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.47"
+  },
+  {
+    "brandName": "CORTIMAX",
+    "packSize": "6",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "183.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.55"
+  },
+  {
+    "brandName": "DEFLAMAX",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "345.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.54"
+  },
+  {
+    "brandName": "DEFCICOT",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "1045.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "104.50"
+  }
+]

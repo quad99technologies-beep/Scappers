@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "ZUVILIX",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "796.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "79.69"
+  },
+  {
+    "brandName": "MACGOLIX",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "843.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "84.37"
+  },
+  {
+    "brandName": "ELADONNA",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "843.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "84.38"
+  },
+  {
+    "brandName": "ENDOGOLIX",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "843.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "84.38"
+  },
+  {
+    "brandName": "EVAGOLIX",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "843.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "84.38"
+  },
+  {
+    "brandName": "FEMGOLIX",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "843.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "84.38"
+  },
+  {
+    "brandName": "GONLIX",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "843.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "84.38"
+  },
+  {
+    "brandName": "ILATAB",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "843.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "84.38"
+  },
+  {
+    "brandName": "UNIGOLIX",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "843.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "84.38"
+  },
+  {
+    "brandName": "EGOLIX",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "900.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "90.00"
+  },
+  {
+    "brandName": "ENDGONA",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "984.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "98.44"
+  }
+]

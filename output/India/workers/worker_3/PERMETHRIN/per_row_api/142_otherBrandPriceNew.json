@@ -1,0 +1,258 @@
+[
+  {
+    "brandName": "PERMED",
+    "packSize": "120",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.67"
+  },
+  {
+    "brandName": "PLITE",
+    "packSize": "30",
+    "company": "TRICOS DERMATOLOGICS PVT LTD",
+    "brandMrp": "49.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.67"
+  },
+  {
+    "brandName": "NIXIPER",
+    "packSize": "30",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "52.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.73"
+  },
+  {
+    "brandName": "PEDIMITE",
+    "packSize": "30",
+    "company": "DERMO CARE LABORATORIES",
+    "brandMrp": "57.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.90"
+  },
+  {
+    "brandName": "SCABIPLUS",
+    "packSize": "20",
+    "company": "PARKER ROBINSON PVT. LTD",
+    "brandMrp": "37.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.90"
+  },
+  {
+    "brandName": "MEDPER",
+    "packSize": "30",
+    "company": "MEDICO LABS",
+    "brandMrp": "58.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.93"
+  },
+  {
+    "brandName": "NIXIPER",
+    "packSize": "60",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "116.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.93"
+  },
+  {
+    "brandName": "PMT (NEMUS)",
+    "packSize": "30",
+    "company": "NEMUS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "58.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.93"
+  },
+  {
+    "brandName": "DAT",
+    "packSize": "30",
+    "company": "OMEGA REMEDIES PVT LTD",
+    "brandMrp": "58.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.94"
+  },
+  {
+    "brandName": "KLMITE",
+    "packSize": "60",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "116.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.94"
+  },
+  {
+    "brandName": "PERIN",
+    "packSize": "30",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "58.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.94"
+  },
+  {
+    "brandName": "PERITOP",
+    "packSize": "30",
+    "company": "MONICHEM HEALTHCARE PVT LTD",
+    "brandMrp": "58.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.94"
+  },
+  {
+    "brandName": "PERMOM",
+    "packSize": "30",
+    "company": "OMNI LIFE SCIENCES PVT LTD",
+    "brandMrp": "58.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.94"
+  },
+  {
+    "brandName": "RINMITE",
+    "packSize": "30",
+    "company": "RHINE BIOGENICS PVT LTD",
+    "brandMrp": "58.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.94"
+  },
+  {
+    "brandName": "SCABPER",
+    "packSize": "30",
+    "company": "MENARINI INDIA",
+    "brandMrp": "58.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.94"
+  },
+  {
+    "brandName": "CUREMITE",
+    "packSize": "30",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "59.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.97"
+  },
+  {
+    "brandName": "ESCRAB",
+    "packSize": "60",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "118.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.97"
+  },
+  {
+    "brandName": "H H MITE",
+    "packSize": "30",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "59.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.97"
+  },
+  {
+    "brandName": "H H MITE",
+    "packSize": "60",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "118.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.97"
+  },
+  {
+    "brandName": "NUPERMY",
+    "packSize": "30",
+    "company": "NULIFE PHARMACEUTICALS",
+    "brandMrp": "59.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.97"
+  },
+  {
+    "brandName": "PERMITE",
+    "packSize": "60",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "118.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.97"
+  },
+  {
+    "brandName": "PERNIL",
+    "packSize": "30",
+    "company": "TALENT INDIA",
+    "brandMrp": "59.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.97"
+  },
+  {
+    "brandName": "SCABIFRESH",
+    "packSize": "30",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "59.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.97"
+  },
+  {
+    "brandName": "SCABIGO",
+    "packSize": "60",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "118.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.97"
+  },
+  {
+    "brandName": "ZEROMTE",
+    "packSize": "30",
+    "company": "RESILIENT COSMECEUTICALS PRIVATE LIMITED",
+    "brandMrp": "59.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.97"
+  },
+  {
+    "brandName": "ZEROSCAB",
+    "packSize": "120",
+    "company": "PALSONS DERMA PVT. LTD",
+    "brandMrp": "236.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.97"
+  },
+  {
+    "brandName": "ZEROSCAB",
+    "packSize": "60",
+    "company": "PALSONS DERMA PVT. LTD",
+    "brandMrp": "118.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.97"
+  },
+  {
+    "brandName": "GAMADERM P",
+    "packSize": "30",
+    "company": "VILCO LABORATORIES PVT. LTD",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  },
+  {
+    "brandName": "PERTEC",
+    "packSize": "30",
+    "company": "TRIPADA BIOTEC PVT LTD",
+    "brandMrp": "63.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.10"
+  },
+  {
+    "brandName": "KLMITE",
+    "packSize": "30",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "64.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.16"
+  },
+  {
+    "brandName": "OLMITE",
+    "packSize": "25",
+    "company": "OLCARE LTD",
+    "brandMrp": "61.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.46"
+  },
+  {
+    "brandName": "HYSCAB",
+    "packSize": "1",
+    "company": "SOLDERMA PHARMACEUTICALS PVT. LTD",
+    "brandMrp": "56.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.50"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "CALAK",
+    "packSize": "50",
+    "company": "MENARINI INDIA",
+    "brandMrp": "52.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.04"
+  },
+  {
+    "brandName": "CALAK",
+    "packSize": "100",
+    "company": "MENARINI INDIA",
+    "brandMrp": "107.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.08"
+  },
+  {
+    "brandName": "HISTACALAMINE",
+    "packSize": "100",
+    "company": "PASTEUR LABORATORIES PVT. LTD.",
+    "brandMrp": "153.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.53"
+  },
+  {
+    "brandName": "CALOMOIST",
+    "packSize": "100",
+    "company": "PRISM LIFESCIENCE",
+    "brandMrp": "208.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.08"
+  },
+  {
+    "brandName": "CUREAC",
+    "packSize": "70",
+    "company": "SALVE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "189.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.70"
+  },
+  {
+    "brandName": "CALOMOIST",
+    "packSize": "50",
+    "company": "PRISM LIFESCIENCE",
+    "brandMrp": "136.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.74"
+  }
+]

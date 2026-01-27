@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "HETQ",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.50"
+  },
+  {
+    "brandName": "HETQUENIL",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "141.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.15"
+  },
+  {
+    "brandName": "HQTOR",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "154.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.44"
+  },
+  {
+    "brandName": "OXCQ",
+    "packSize": "10",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "HCQS",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "203.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.33"
+  },
+  {
+    "brandName": "HCQS",
+    "packSize": "15",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "314.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.96"
+  },
+  {
+    "brandName": "HYQ",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "209.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.96"
+  },
+  {
+    "brandName": "ZY Q",
+    "packSize": "30",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "641.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.39"
+  }
+]

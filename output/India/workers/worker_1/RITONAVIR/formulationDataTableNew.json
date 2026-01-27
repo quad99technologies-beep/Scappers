@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521021691@98112@101127345@1846@101006@201684",
+    "skuName": "EMPETUS 100 MG TABLET 30",
+    "composition": "RITONAVIR TABLET 100 MG",
+    "packSize": "30 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "29.72",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "scheduleFlag": "1",
+    "mrp": "932.19",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.07"
+  },
+  {
+    "hiddenId": "1521070702@75764@101171376@1846@101038@201684",
+    "skuName": "RITOMUNE 100 MG CAPSULE 60",
+    "composition": "RITONAVIR CAPSULE 100 MG",
+    "packSize": "60 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "851.77",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.20"
+  },
+  {
+    "hiddenId": "1521070710@98570@101171376@1846@101006@201684",
+    "skuName": "RITOMUNE 100 MG TABLET 30",
+    "composition": "RITONAVIR TABLET 100 MG",
+    "packSize": "30 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "29.72",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "1",
+    "mrp": "851.77",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.39"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "DT XT",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "84.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "VENTAB DXT",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "110.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.02"
+  },
+  {
+    "brandName": "MDD",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "193.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.88"
+  }
+]

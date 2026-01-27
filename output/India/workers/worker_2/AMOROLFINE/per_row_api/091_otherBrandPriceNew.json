@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "GALFIN",
+    "packSize": "30",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "285.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "AMROLSTAR",
+    "packSize": "30",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "293.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.80"
+  },
+  {
+    "brandName": "AMROLMAC",
+    "packSize": "2",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "497.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "165.87"
+  }
+]

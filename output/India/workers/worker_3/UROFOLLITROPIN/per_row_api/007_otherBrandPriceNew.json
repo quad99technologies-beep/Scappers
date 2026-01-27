@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "FOLLICARE",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "603.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "603.75"
+  },
+  {
+    "brandName": "QUALIFOL",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "2145.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2145.00"
+  },
+  {
+    "brandName": "INVY FSH HP",
+    "packSize": "1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "2267.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2267.86"
+  },
+  {
+    "brandName": "FOLLICARE",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "2357.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2357.13"
+  },
+  {
+    "brandName": "QUALIFOL",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "2357.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2357.13"
+  },
+  {
+    "brandName": "OVUTAS HP",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "2528.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2528.75"
+  }
+]

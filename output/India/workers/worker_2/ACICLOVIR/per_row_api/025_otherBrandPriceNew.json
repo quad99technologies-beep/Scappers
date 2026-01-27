@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "HERPERAX",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "178.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.87"
+  },
+  {
+    "brandName": "HERPERAX",
+    "packSize": "5",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "60.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "HERPIKIND",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "139.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.97"
+  }
+]

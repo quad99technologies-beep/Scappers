@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "CLINOPAK",
+    "packSize": "2",
+    "company": "BENNET PHARMACEUTICALS LIMITED",
+    "brandMrp": "99.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.61"
+  },
+  {
+    "brandName": "DALCINEX",
+    "packSize": "2",
+    "company": "CIPLA LTD.",
+    "brandMrp": "129.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "64.73"
+  },
+  {
+    "brandName": "DALCINEX",
+    "packSize": "4",
+    "company": "CIPLA LTD.",
+    "brandMrp": "258.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "64.73"
+  },
+  {
+    "brandName": "CLINDYM",
+    "packSize": "2",
+    "company": "VARENYAM HEALTHCARE PVT LTD.",
+    "brandMrp": "405.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "202.50"
+  }
+]

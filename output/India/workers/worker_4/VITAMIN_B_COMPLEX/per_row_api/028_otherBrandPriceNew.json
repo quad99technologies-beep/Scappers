@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "ABEZ",
+    "packSize": "200",
+    "company": "AARPIK REMEDIES PVT.LTD.",
+    "brandMrp": "72.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.36"
+  },
+  {
+    "brandName": "HEMBIT",
+    "packSize": "200",
+    "company": "CUBIT HEALTHCARE",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.45"
+  },
+  {
+    "brandName": "HICOPLEX",
+    "packSize": "200",
+    "company": "LEBEN LABORATORIES PVT.LTD",
+    "brandMrp": "103.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.52"
+  },
+  {
+    "brandName": "HICOPLEX",
+    "packSize": "100",
+    "company": "LEBEN LABORATORIES PVT.LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.56"
+  },
+  {
+    "brandName": "KIVIT",
+    "packSize": "200",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "112.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.56"
+  },
+  {
+    "brandName": "HYVIT",
+    "packSize": "200",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "132.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.66"
+  }
+]

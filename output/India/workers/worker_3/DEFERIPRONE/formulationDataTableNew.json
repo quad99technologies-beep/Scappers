@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521038926@75048@101142110@3215@101038@202960",
+    "skuName": "KELFER 250 MG CAPSULE 50",
+    "composition": "DEFERIPRONE CAPSULE 250 MG",
+    "packSize": "50 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "293.48",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.87"
+  },
+  {
+    "hiddenId": "1521038927@75049@101142110@3755@101038@202960",
+    "skuName": "KELFER 500 MG CAPSULE 50",
+    "composition": "DEFERIPRONE CAPSULE 500 MG",
+    "packSize": "50 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "563.67",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.27"
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "COMPLEX B",
+    "packSize": "1000",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "90.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.09"
+  },
+  {
+    "brandName": "FRANVIT",
+    "packSize": "500",
+    "company": "FRANKLIN LABORATORIES (INDIA) PVT. LTD.",
+    "brandMrp": "175.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.35"
+  },
+  {
+    "brandName": "COMPLEX B",
+    "packSize": "10",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "4.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.41"
+  },
+  {
+    "brandName": "CYNOCAL M",
+    "packSize": "20",
+    "company": "OZONE PHARMACEUTICALS",
+    "brandMrp": "115.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.75"
+  }
+]

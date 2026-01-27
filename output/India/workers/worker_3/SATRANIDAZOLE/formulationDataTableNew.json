@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521101064@349784@101172840@2642@101006@202402",
+    "skuName": "SATROGYL 150 MG TABLET 10",
+    "composition": "SATRANIDAZOLE TABLET 150 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "scheduleFlag": "0",
+    "mrp": "137.42",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.74"
+  },
+  {
+    "hiddenId": "1521072199@69843@101172840@3426@101006@202402",
+    "skuName": "SATROGYL 300 MG TABLET 10",
+    "composition": "SATRANIDAZOLE TABLET 300 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "scheduleFlag": "0",
+    "mrp": "180.90",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.09"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "CEFEL",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "58.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.82"
+  },
+  {
+    "brandName": "CAREFEX",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "73.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.40"
+  },
+  {
+    "brandName": "CEPHARIL",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "84.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.40"
+  },
+  {
+    "brandName": "NUFEX",
+    "packSize": "10",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "118.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "SPORIDEX",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "213.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.38"
+  },
+  {
+    "brandName": "CEFTER",
+    "packSize": "10",
+    "company": "GUJARAT TERCE LABORATORIES LTD",
+    "brandMrp": "216.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.65"
+  },
+  {
+    "brandName": "CEFF CF",
+    "packSize": "4",
+    "company": "LUPIN LTD",
+    "brandMrp": "110.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.56"
+  }
+]

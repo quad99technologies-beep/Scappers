@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "FLUTION",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "17.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.72"
+  },
+  {
+    "brandName": "ALBAFLUT",
+    "packSize": "10",
+    "company": "ALBATROSS HEALTH CARE PVT LTD",
+    "brandMrp": "79.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.90"
+  },
+  {
+    "brandName": "FLUTICIN",
+    "packSize": "5",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "109.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.80"
+  }
+]

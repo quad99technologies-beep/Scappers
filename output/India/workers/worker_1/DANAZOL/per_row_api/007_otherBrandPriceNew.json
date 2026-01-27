@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "DANOZEC",
+    "packSize": "10",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "273.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.38"
+  },
+  {
+    "brandName": "GYNAZOL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "330.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.00"
+  },
+  {
+    "brandName": "DANOGEN",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "378.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.89"
+  },
+  {
+    "brandName": "ZENDOL",
+    "packSize": "10",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "brandMrp": "379.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.97"
+  },
+  {
+    "brandName": "GONABLOK",
+    "packSize": "10",
+    "company": "WIN-MEDICARE PVT. LTD.",
+    "brandMrp": "490.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.03"
+  }
+]

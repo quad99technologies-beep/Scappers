@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "LB (ACRON)",
+    "packSize": "10",
+    "company": "ACRON PHARMACEUTICALS",
+    "brandMrp": "32.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.26"
+  },
+  {
+    "brandName": "UNILAC",
+    "packSize": "10",
+    "company": "SANZYME LTD",
+    "brandMrp": "35.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.55"
+  }
+]

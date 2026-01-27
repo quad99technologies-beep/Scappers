@@ -1,0 +1,386 @@
+[
+  {
+    "brandName": "COLIGUT",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "96.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.64"
+  },
+  {
+    "brandName": "RIFGEM",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "RIFEASY",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "122.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.21"
+  },
+  {
+    "brandName": "RIDOL RX",
+    "packSize": "10",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "133.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.39"
+  },
+  {
+    "brandName": "RIFIDOR",
+    "packSize": "10",
+    "company": "PROCTER & GAMBLE HEALTH LTD",
+    "brandMrp": "137.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.72"
+  },
+  {
+    "brandName": "RIXMIN",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "142.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.29"
+  },
+  {
+    "brandName": "GUTWIN",
+    "packSize": "10",
+    "company": "WIN-MEDICARE PVT. LTD.",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "RIFABIZ",
+    "packSize": "10",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "RIFALET",
+    "packSize": "10",
+    "company": "INNOVATIVE PHARMACEUTICALS",
+    "brandMrp": "151.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.10"
+  },
+  {
+    "brandName": "CURIFIX",
+    "packSize": "10",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "152.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.20"
+  },
+  {
+    "brandName": "RIFAXIGRESS",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "163.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.31"
+  },
+  {
+    "brandName": "MENARIF",
+    "packSize": "10",
+    "company": "MENARINI INDIA",
+    "brandMrp": "164.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.40"
+  },
+  {
+    "brandName": "RIFATREAT",
+    "packSize": "10",
+    "company": "MANKIND PRIME LABS PVT.LTD",
+    "brandMrp": "164.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.41"
+  },
+  {
+    "brandName": "RIFACOOL",
+    "packSize": "10",
+    "company": "ECON HEALTHCARE PVT LTD",
+    "brandMrp": "176.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.60"
+  },
+  {
+    "brandName": "RIFGUARD",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "179.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.90"
+  },
+  {
+    "brandName": "RIFLECT",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "180.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.00"
+  },
+  {
+    "brandName": "RIFACLEAN",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "180.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.03"
+  },
+  {
+    "brandName": "TORLEPT",
+    "packSize": "10",
+    "company": "UNISTAR BIOTECH LIMITED",
+    "brandMrp": "183.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.38"
+  },
+  {
+    "brandName": "NORDYS",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "184.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.46"
+  },
+  {
+    "brandName": "RIFAPRIDE",
+    "packSize": "10",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "184.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.47"
+  },
+  {
+    "brandName": "R GUT",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "185.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.50"
+  },
+  {
+    "brandName": "GIFAXIN",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "185.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.52"
+  },
+  {
+    "brandName": "ENTEROGUARD",
+    "packSize": "10",
+    "company": "MACKENZIE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "189.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.90"
+  },
+  {
+    "brandName": "RIFNIM",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "191.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.13"
+  },
+  {
+    "brandName": "RIFAKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "194.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.41"
+  },
+  {
+    "brandName": "SAFGUT",
+    "packSize": "10",
+    "company": "SAF FERMION LTD",
+    "brandMrp": "196.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.69"
+  },
+  {
+    "brandName": "SIBOCURE",
+    "packSize": "10",
+    "company": "SAFFRON FORMULATIONS",
+    "brandMrp": "197.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.78"
+  },
+  {
+    "brandName": "RIFASMART",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "198.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.85"
+  },
+  {
+    "brandName": "RIFASTOP",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "198.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.85"
+  },
+  {
+    "brandName": "RIFIGON",
+    "packSize": "10",
+    "company": "ERGOS LIFE SCIENCES",
+    "brandMrp": "198.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.85"
+  },
+  {
+    "brandName": "FAXICAD",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "199.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.97"
+  },
+  {
+    "brandName": "IBS FREE",
+    "packSize": "10",
+    "company": "MANEESH PHARMACEUTICALS LTD",
+    "brandMrp": "201.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.17"
+  },
+  {
+    "brandName": "REXIGUT",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "206.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.62"
+  },
+  {
+    "brandName": "RIFASET",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "206.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.64"
+  },
+  {
+    "brandName": "DIRIFA",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "218.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.88"
+  },
+  {
+    "brandName": "CIBOZ",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "230.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.03"
+  },
+  {
+    "brandName": "RAFLE",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "232.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.20"
+  },
+  {
+    "brandName": "RIFAREX",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "232.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.29"
+  },
+  {
+    "brandName": "RIFAGUT",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "234.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.44"
+  },
+  {
+    "brandName": "SIBOFIX",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "235.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.58"
+  },
+  {
+    "brandName": "RIFAXIMAX",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "236.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.70"
+  },
+  {
+    "brandName": "RIFAXIGYL",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "239.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.91"
+  },
+  {
+    "brandName": "RIFAFIX",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "239.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.98"
+  },
+  {
+    "brandName": "ZIMIGUT",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "244.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.42"
+  },
+  {
+    "brandName": "TORFIX",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "249.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.94"
+  },
+  {
+    "brandName": "RIFABET",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.00"
+  },
+  {
+    "brandName": "RIFNIMX",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "252.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.20"
+  },
+  {
+    "brandName": "RONYRIFA",
+    "packSize": "10",
+    "company": "RONYD HEALTH CARE PVT LTD",
+    "brandMrp": "260.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.00"
+  }
+]

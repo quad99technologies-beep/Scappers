@@ -1,0 +1,114 @@
+[
+  {
+    "brandName": "SITGLYPT",
+    "packSize": "15",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "67.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "SITARED",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "45.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.59"
+  },
+  {
+    "brandName": "SITARED",
+    "packSize": "7",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "45.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "SUITGLIP",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "65.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.60"
+  },
+  {
+    "brandName": "ISTAVEL",
+    "packSize": "7",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "49.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "SITABET",
+    "packSize": "7",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "53.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.70"
+  },
+  {
+    "brandName": "ISTAVEL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "77.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.78"
+  },
+  {
+    "brandName": "SITANORM",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "119.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.93"
+  },
+  {
+    "brandName": "SITAPRIDE",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "119.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.93"
+  },
+  {
+    "brandName": "SITALEMBIC",
+    "packSize": "15",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.67"
+  },
+  {
+    "brandName": "SITADOC",
+    "packSize": "15",
+    "company": "ELBRIT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "143.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.53"
+  },
+  {
+    "brandName": "STALIX",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "163.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.90"
+  },
+  {
+    "brandName": "FIDGLIPS",
+    "packSize": "7",
+    "company": "FIDELITY LIFESCIENCE",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.14"
+  },
+  {
+    "brandName": "JANUVIA",
+    "packSize": "7",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "257.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.83"
+  }
+]

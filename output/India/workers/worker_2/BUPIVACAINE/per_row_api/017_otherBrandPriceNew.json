@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ANAWIN",
+    "packSize": "20",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "59.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.96"
+  },
+  {
+    "brandName": "BUPICAIN",
+    "packSize": "20",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "60.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.01"
+  },
+  {
+    "brandName": "LEVO ANAWIN",
+    "packSize": "10",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "146.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.60"
+  }
+]

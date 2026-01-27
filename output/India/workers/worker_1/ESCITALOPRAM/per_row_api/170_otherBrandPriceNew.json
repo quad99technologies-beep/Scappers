@@ -1,0 +1,466 @@
+[
+  {
+    "brandName": "ESETALO",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "35.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.50"
+  },
+  {
+    "brandName": "ELPRAM S",
+    "packSize": "10",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "ESTOMINE",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "85.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.53"
+  },
+  {
+    "brandName": "CELOR S",
+    "packSize": "10",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "95.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.52"
+  },
+  {
+    "brandName": "PRACIDEP S",
+    "packSize": "10",
+    "company": "AARPIK REMEDIES PVT.LTD.",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.90"
+  },
+  {
+    "brandName": "CENSPRAM",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "113.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.31"
+  },
+  {
+    "brandName": "DIPWEL",
+    "packSize": "10",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "ECENTOPAM",
+    "packSize": "10",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "123.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.36"
+  },
+  {
+    "brandName": "ESCADA",
+    "packSize": "10",
+    "company": "AGM BIOTEC",
+    "brandMrp": "124.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.47"
+  },
+  {
+    "brandName": "ESCIDENT",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "124.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.47"
+  },
+  {
+    "brandName": "ESNAX",
+    "packSize": "10",
+    "company": "ANAX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "ESCIPIL",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.00"
+  },
+  {
+    "brandName": "S CITAPAD",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.00"
+  },
+  {
+    "brandName": "CITIGLOR",
+    "packSize": "15",
+    "company": "HBC HEALTHCARE PVT.LTD",
+    "brandMrp": "196.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.13"
+  },
+  {
+    "brandName": "CITAWOK",
+    "packSize": "10",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "132.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.24"
+  },
+  {
+    "brandName": "ECITELO",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "133.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.31"
+  },
+  {
+    "brandName": "SCITAREL",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "142.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.25"
+  },
+  {
+    "brandName": "FIRSITO",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "142.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.29"
+  },
+  {
+    "brandName": "ESJOY",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "143.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.35"
+  },
+  {
+    "brandName": "S-CITADEP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "145.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.57"
+  },
+  {
+    "brandName": "ESCIBLISS",
+    "packSize": "10",
+    "company": "SANIX FORMULATIONS PVT LTD",
+    "brandMrp": "148.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.81"
+  },
+  {
+    "brandName": "ESITAMAT",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "149.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.91"
+  },
+  {
+    "brandName": "ESCIGRESS",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "ESCNX",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "149.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "TALO S",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "150.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.05"
+  },
+  {
+    "brandName": "S VOCITA",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "150.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.07"
+  },
+  {
+    "brandName": "CITAPURE",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "150.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.08"
+  },
+  {
+    "brandName": "C-PRAM S",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "150.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.08"
+  },
+  {
+    "brandName": "ESCITALENT",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "150.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.08"
+  },
+  {
+    "brandName": "ESCITAPAX",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "150.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.08"
+  },
+  {
+    "brandName": "FELIZ S",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "150.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.08"
+  },
+  {
+    "brandName": "GALOP",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "150.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.08"
+  },
+  {
+    "brandName": "S CELEPRA",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "150.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.08"
+  },
+  {
+    "brandName": "S-CITADEP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "150.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.08"
+  },
+  {
+    "brandName": "CITALIN",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "152.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.21"
+  },
+  {
+    "brandName": "CYRATOR",
+    "packSize": "10",
+    "company": "CYRUS REMEDIES PVT LTD",
+    "brandMrp": "152.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.28"
+  },
+  {
+    "brandName": "ESCIPRA",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "152.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.28"
+  },
+  {
+    "brandName": "DEPITAME",
+    "packSize": "10",
+    "company": "TRIKO PHARMACEUTICALS",
+    "brandMrp": "153.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.33"
+  },
+  {
+    "brandName": "RENOPRAM",
+    "packSize": "10",
+    "company": "WANDER MEDICARE PVT.LTD",
+    "brandMrp": "153.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.33"
+  },
+  {
+    "brandName": "STALOPAM",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "153.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.33"
+  },
+  {
+    "brandName": "CILAPAM",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "230.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "CILENTRA",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "153.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "CITA S",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "153.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "COXITO S",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "153.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "DEPRANEX",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "153.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "DESILAM",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "153.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "DEXANIL",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "153.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "ESCITLOCAD",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "153.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "ESITOR",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "153.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "ESSITA",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "153.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "ESTA (D.D)",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "153.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "NEWCITA",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "153.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "NEXITO",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "153.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "RECITA",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "153.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "REXIPRA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "153.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "SZETALO",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "230.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "TALOPREX",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "153.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.34"
+  },
+  {
+    "brandName": "YELLOWPAM",
+    "packSize": "10",
+    "company": "K.C LABORATORIES",
+    "brandMrp": "160.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.07"
+  }
+]

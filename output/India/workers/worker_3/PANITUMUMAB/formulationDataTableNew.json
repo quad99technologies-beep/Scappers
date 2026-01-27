@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521093229@242373@101189728@1846@101068@203133",
+    "skuName": "VECTIBIX 100 MG INJECTION 5 ML",
+    "composition": "PANITUMUMAB INJECTION 100 MG",
+    "packSize": "5 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "36618.75",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7323.75"
+  },
+  {
+    "hiddenId": "1521138626@296136@101239945@3049@101068@203133",
+    "skuName": "VECTIBIX (DR.RED) 20 MG INJECTION 1",
+    "composition": "PANITUMUMAB INJECTION 20 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "scheduleFlag": "0",
+    "mrp": "37200.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37200.00"
+  }
+]

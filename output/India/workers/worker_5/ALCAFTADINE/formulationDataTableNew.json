@@ -1,0 +1,72 @@
+[
+  {
+    "hiddenId": "1521003526@300329@101101715@1231@101103@202775",
+    "skuName": "ALCAFT 0.25 % EYE DROPS 5 ML",
+    "composition": "ALCAFTADINE EYE DROPS 0.25 %",
+    "packSize": "5 ML EYE DROPS",
+    "dosageForm": "EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "MICRO LABS LTD",
+    "scheduleFlag": "0",
+    "mrp": "240.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.00"
+  },
+  {
+    "hiddenId": "1521001419@233023@101101718@3311@101103@202775",
+    "skuName": "ALCAREX 2.5 MG EYE DROPS 5 ML",
+    "composition": "ALCAFTADINE EYE DROPS 2.5 MG",
+    "packSize": "5 ML EYE DROPS",
+    "dosageForm": "EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "AJANTA PHARMA LTD",
+    "scheduleFlag": "0",
+    "mrp": "294.38",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.88"
+  },
+  {
+    "hiddenId": "1521088881@332482@101107087@1231@101103@202775",
+    "skuName": "ALCATOP 0.25 % EYE DROPS 5 ML",
+    "composition": "ALCAFTADINE EYE DROPS 0.25 %",
+    "packSize": "5 ML EYE DROPS",
+    "dosageForm": "EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "SUNWAYS (INDIA) PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "181.88",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.38"
+  },
+  {
+    "hiddenId": "1521015049@305731@101122136@1231@101103@202775",
+    "skuName": "CAFTA 0.25 % EYE DROPS 5 ML",
+    "composition": "ALCAFTADINE EYE DROPS 0.25 %",
+    "packSize": "5 ML EYE DROPS",
+    "dosageForm": "EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "scheduleFlag": "0",
+    "mrp": "280.31",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.06"
+  },
+  {
+    "hiddenId": "1521093562@339904@101189869@1231@101103@202775",
+    "skuName": "CAFTADINE 0.25 % EYE DROPS 5 ML",
+    "composition": "ALCAFTADINE EYE DROPS 0.25 %",
+    "packSize": "5 ML EYE DROPS",
+    "dosageForm": "EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "246.56",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.31"
+  }
+]

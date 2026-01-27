@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "PROLET",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "PROLET",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "161.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.78"
+  },
+  {
+    "brandName": "TREMIDON",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "133.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.31"
+  },
+  {
+    "brandName": "PRIDONE",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "151.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.14"
+  }
+]

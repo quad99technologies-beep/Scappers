@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521070823@33525@101171501@1846@101068@202056",
+    "skuName": "ROBINAX 100 MG INJECTION 10 ML",
+    "composition": "METHOCARBAMOL INJECTION 100 MG",
+    "packSize": "10 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "scheduleFlag": "0",
+    "mrp": "42.33",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.23"
+  },
+  {
+    "hiddenId": "1521070820@33526@101171501@3755@101006@202056",
+    "skuName": "ROBINAX 500 MG TABLET 10",
+    "composition": "METHOCARBAMOL TABLET 500 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "scheduleFlag": "0",
+    "mrp": "118.69",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.87"
+  }
+]

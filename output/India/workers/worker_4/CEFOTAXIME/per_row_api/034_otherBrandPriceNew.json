@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "CEFANTRAL",
+    "packSize": "5",
+    "company": "LUPIN LTD",
+    "brandMrp": "16.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.27"
+  },
+  {
+    "brandName": "C TAX",
+    "packSize": "5",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "18.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.72"
+  },
+  {
+    "brandName": "MACTAX",
+    "packSize": "5",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "18.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.72"
+  },
+  {
+    "brandName": "OMNATAX",
+    "packSize": "2",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "17.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.74"
+  },
+  {
+    "brandName": "TOX (LABORATE)",
+    "packSize": "2",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "17.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.76"
+  },
+  {
+    "brandName": "ORITAXIM",
+    "packSize": "2",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "18.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.30"
+  },
+  {
+    "brandName": "BIOTAX",
+    "packSize": "2",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "18.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.46"
+  },
+  {
+    "brandName": "OMNICEF",
+    "packSize": "2",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "18.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.46"
+  },
+  {
+    "brandName": "TAXIM",
+    "packSize": "2",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "18.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.46"
+  },
+  {
+    "brandName": "UNITAX",
+    "packSize": "1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "12.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "CEFORAZ",
+    "packSize": "1",
+    "company": "BIOLOGICAL E LTD",
+    "brandMrp": "18.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.61"
+  },
+  {
+    "brandName": "BIOCEF (PACIFIC)",
+    "packSize": "1",
+    "company": "PACIFIC DRUGS & CHEMICALS",
+    "brandMrp": "31.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.00"
+  }
+]

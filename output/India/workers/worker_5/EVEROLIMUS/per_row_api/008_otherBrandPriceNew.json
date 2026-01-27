@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "EVERMIL",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "5650.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "565.00"
+  },
+  {
+    "brandName": "ROLIMUS",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "8070.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "807.08"
+  },
+  {
+    "brandName": "XOLIMUS",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "8785.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "878.50"
+  },
+  {
+    "brandName": "AFINITOR",
+    "packSize": "10",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "60146.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6014.64"
+  }
+]

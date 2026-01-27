@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "LETOJET",
+    "packSize": "10",
+    "company": "STARUS PHARMACEUTICALS",
+    "brandMrp": "220.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.00"
+  },
+  {
+    "brandName": "FOLLETRO",
+    "packSize": "5",
+    "company": "UNIZA HEALTHCARE LLP",
+    "brandMrp": "224.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.81"
+  },
+  {
+    "brandName": "STIMULET",
+    "packSize": "5",
+    "company": "CORONA",
+    "brandMrp": "224.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.88"
+  },
+  {
+    "brandName": "PINKLETRO",
+    "packSize": "5",
+    "company": "J.S.LABORTORIES (P) LTD",
+    "brandMrp": "262.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.50"
+  },
+  {
+    "brandName": "ONEOVA",
+    "packSize": "5",
+    "company": "BLISSON MEDIPLUS PVT.LTD",
+    "brandMrp": "318.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "63.75"
+  },
+  {
+    "brandName": "GOODOVA L",
+    "packSize": "5",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "350.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "70.13"
+  }
+]

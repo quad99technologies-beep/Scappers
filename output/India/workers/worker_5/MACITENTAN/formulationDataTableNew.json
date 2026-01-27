@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521045006@258329@101148150@2107@101006@200746",
+    "skuName": "MACIKAD 10 MG TABLET 10",
+    "composition": "MACITENTAN TABLET 10 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "LUPIN LTD",
+    "scheduleFlag": "0",
+    "mrp": "2291.70",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "229.17"
+  },
+  {
+    "hiddenId": "1521150358@316553@101234416@2107@101006@200746",
+    "skuName": "MACIROL 10 MG TABLET 10",
+    "composition": "MACITENTAN TABLET 10 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "RENE PHARMACEUTICALS PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "1562.50",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "156.25"
+  },
+  {
+    "hiddenId": "1521045008@246028@101148152@2107@101006@200746",
+    "skuName": "MACITENT 10 MG TABLET 10",
+    "composition": "MACITENTAN TABLET 10 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "MSN LABORATORIES LTD",
+    "scheduleFlag": "0",
+    "mrp": "2393.25",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "239.33"
+  },
+  {
+    "hiddenId": "1521043002@254241@101160692@2107@101006@200746",
+    "skuName": "OPSUTAN 10 MG TABLET 10",
+    "composition": "MACITENTAN TABLET 10 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "2084.40",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "208.44"
+  }
+]

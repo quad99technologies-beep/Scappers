@@ -1,0 +1,666 @@
+[
+  {
+    "brandName": "CUPINE",
+    "packSize": "10",
+    "company": "CUBIT HEALTHCARE",
+    "brandMrp": "0.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.01"
+  },
+  {
+    "brandName": "AMLODIPINE BESYLATE (LUPIN)",
+    "packSize": "90",
+    "company": "LUPIN LTD",
+    "brandMrp": "6.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.08"
+  },
+  {
+    "brandName": "AMLODEPIN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "4.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.49"
+  },
+  {
+    "brandName": "AVACARD (RANBAXY)",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "6.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.61"
+  },
+  {
+    "brandName": "UDP",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "7.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.75"
+  },
+  {
+    "brandName": "ANGIGUARD",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "8.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.80"
+  },
+  {
+    "brandName": "UDP",
+    "packSize": "30",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "26.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.89"
+  },
+  {
+    "brandName": "AMLOPEN",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "9.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.94"
+  },
+  {
+    "brandName": "AMODEP",
+    "packSize": "15",
+    "company": "FDC LTD.",
+    "brandMrp": "18.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.23"
+  },
+  {
+    "brandName": "AMODEP",
+    "packSize": "14",
+    "company": "FDC LTD.",
+    "brandMrp": "17.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.23"
+  },
+  {
+    "brandName": "AMLOKIND",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "13.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.33"
+  },
+  {
+    "brandName": "AMLOTRAC",
+    "packSize": "10",
+    "company": "INTRA LABS",
+    "brandMrp": "14.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.50"
+  },
+  {
+    "brandName": "AMLOKIND",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "23.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.58"
+  },
+  {
+    "brandName": "AMFIRST",
+    "packSize": "15",
+    "company": "SINSAN PHARMACEUTICALS",
+    "brandMrp": "24.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.60"
+  },
+  {
+    "brandName": "AMPINE",
+    "packSize": "10",
+    "company": "SUNIJ PHARMA PVT LTD",
+    "brandMrp": "16.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.60"
+  },
+  {
+    "brandName": "ANGICAM",
+    "packSize": "15",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "25.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.69"
+  },
+  {
+    "brandName": "AMLIN",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "17.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.76"
+  },
+  {
+    "brandName": "STAMLO M",
+    "packSize": "28",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "52.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.87"
+  },
+  {
+    "brandName": "AMOPIN",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "20.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  },
+  {
+    "brandName": "AMDAC(CMR)",
+    "packSize": "10",
+    "company": "CMR LIFE SCIENCES",
+    "brandMrp": "20.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.06"
+  },
+  {
+    "brandName": "AMCARD",
+    "packSize": "14",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "29.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.14"
+  },
+  {
+    "brandName": "AMCARD",
+    "packSize": "7",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "14.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.14"
+  },
+  {
+    "brandName": "A 1",
+    "packSize": "10",
+    "company": "PATSON LABORATORIES PVT. LTD.",
+    "brandMrp": "22.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.20"
+  },
+  {
+    "brandName": "AMLO",
+    "packSize": "10",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "22.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.20"
+  },
+  {
+    "brandName": "AMVIO",
+    "packSize": "14",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "31.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.28"
+  },
+  {
+    "brandName": "AMLOSURE",
+    "packSize": "10",
+    "company": "CADELL HEALTH CARE PVT.LTD",
+    "brandMrp": "23.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.30"
+  },
+  {
+    "brandName": "AMLOVEL",
+    "packSize": "10",
+    "company": "INDIABULLS PHARMACEUTICALS LTD",
+    "brandMrp": "23.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.30"
+  },
+  {
+    "brandName": "AMLOCHEM",
+    "packSize": "10",
+    "company": "MEDICHEM PHARMCEUTICALS LTD",
+    "brandMrp": "23.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.33"
+  },
+  {
+    "brandName": "AMLOBIG",
+    "packSize": "15",
+    "company": "MANKIND PRIME LABS PVT.LTD",
+    "brandMrp": "35.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.34"
+  },
+  {
+    "brandName": "AMO",
+    "packSize": "15",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "35.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.35"
+  },
+  {
+    "brandName": "AMLOSUN",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "24.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.40"
+  },
+  {
+    "brandName": "CAMLODIP",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "24.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.44"
+  },
+  {
+    "brandName": "AMLIBON",
+    "packSize": "10",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "24.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.49"
+  },
+  {
+    "brandName": "AMLO CB",
+    "packSize": "10",
+    "company": "SHRRISHTI HEALTHCARE",
+    "brandMrp": "24.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.49"
+  },
+  {
+    "brandName": "AMLEOD",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "26.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.60"
+  },
+  {
+    "brandName": "ALDO",
+    "packSize": "15",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "39.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.62"
+  },
+  {
+    "brandName": "AMDOT",
+    "packSize": "10",
+    "company": "THREE DOTS LIFESCIENCE",
+    "brandMrp": "26.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.63"
+  },
+  {
+    "brandName": "AMLOHEAL",
+    "packSize": "30",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "78.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.63"
+  },
+  {
+    "brandName": "BAMLO",
+    "packSize": "10",
+    "company": "REGENIX DRUGS LTD",
+    "brandMrp": "26.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.63"
+  },
+  {
+    "brandName": "DEFIDIN",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "26.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.63"
+  },
+  {
+    "brandName": "ADBLOCK",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "26.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.64"
+  },
+  {
+    "brandName": "AMLOWAVE",
+    "packSize": "14",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "37.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.64"
+  },
+  {
+    "brandName": "AMSORT",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "26.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.65"
+  },
+  {
+    "brandName": "AMLOHEART",
+    "packSize": "10",
+    "company": "LIVIDUS PHARMA PVT LTD",
+    "brandMrp": "26.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.66"
+  },
+  {
+    "brandName": "AMLOVIN",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "26.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.66"
+  },
+  {
+    "brandName": "AMLOWALK",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "26.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.66"
+  },
+  {
+    "brandName": "LUPIDIP",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "26.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.66"
+  },
+  {
+    "brandName": "PRIMODIL",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "26.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.66"
+  },
+  {
+    "brandName": "ADP",
+    "packSize": "15",
+    "company": "CAPLET INDIA PRIVATE LIMITED",
+    "brandMrp": "40.01",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "AGINAL",
+    "packSize": "15",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "AMDEPIN",
+    "packSize": "15",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "AMLIP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "26.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "AMLO",
+    "packSize": "15",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "AMLODAC",
+    "packSize": "30",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "80.01",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "AMLOGARD",
+    "packSize": "30",
+    "company": "VIATRIS",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "AMLOGOLD",
+    "packSize": "10",
+    "company": "GOLD LINE",
+    "brandMrp": "26.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "AMLONG",
+    "packSize": "30",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "AMLOPIL",
+    "packSize": "10",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "26.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "AMLOPIN",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "26.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "AMLOPRES",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "AMLOSAFE",
+    "packSize": "15",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "AMLOVAS",
+    "packSize": "15",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "AMLOZ",
+    "packSize": "30",
+    "company": "SHREYA LIFE SCIENCES PVT. LTD",
+    "brandMrp": "80.01",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "AMTAS",
+    "packSize": "30",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "80.01",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "BIODIPIN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "26.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "CALCHEK",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "26.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "CORVADIL",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "26.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "LAMA",
+    "packSize": "10",
+    "company": "STADMED PVT. LTD",
+    "brandMrp": "26.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "PRELO",
+    "packSize": "10",
+    "company": "MARSHA PHARMA",
+    "brandMrp": "26.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "STAMLO",
+    "packSize": "30",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "ACORD",
+    "packSize": "10",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "26.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.68"
+  },
+  {
+    "brandName": "ALDO",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "27.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.73"
+  },
+  {
+    "brandName": "AVACARD",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "27.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.74"
+  },
+  {
+    "brandName": "AMLOSAFE",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "28.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.82"
+  },
+  {
+    "brandName": "AMDEPIN",
+    "packSize": "14",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.86"
+  },
+  {
+    "brandName": "AMLOSTAT",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "28.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.86"
+  },
+  {
+    "brandName": "AMCHEK",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "29.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.91"
+  },
+  {
+    "brandName": "AMLOD",
+    "packSize": "10",
+    "company": "ACRON PHARMACEUTICALS",
+    "brandMrp": "32.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.20"
+  },
+  {
+    "brandName": "AMLONG",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "48.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.24"
+  },
+  {
+    "brandName": "AMPILIFE",
+    "packSize": "10",
+    "company": "INTRA LIFE PVT.LTD",
+    "brandMrp": "35.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.52"
+  },
+  {
+    "brandName": "AMLOPRIDE",
+    "packSize": "10",
+    "company": "KAISER PHARMACEUTICALS",
+    "brandMrp": "46.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.64"
+  },
+  {
+    "brandName": "AMLOWIN",
+    "packSize": "10",
+    "company": "INTRA LABS",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "AMOFRESH",
+    "packSize": "15",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.67"
+  }
+]

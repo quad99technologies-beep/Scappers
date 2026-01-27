@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521038747@20780@101141928@1642@101068@201558",
+    "skuName": "KANAMAC 1000 MG INJECTION 5 ML",
+    "composition": "KANAMYCIN INJECTION 1000 MG",
+    "packSize": "5 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "43.66",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.73"
+  },
+  {
+    "hiddenId": "1521038748@20781@101141928@3755@101068@201558",
+    "skuName": "KANAMAC 500 MG INJECTION 5 ML",
+    "composition": "KANAMYCIN INJECTION 500 MG",
+    "packSize": "5 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "23.82",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.76"
+  },
+  {
+    "hiddenId": "1521038749@20782@101141928@3930@101068@201558",
+    "skuName": "KANAMAC 750 MG INJECTION 5 ML",
+    "composition": "KANAMYCIN INJECTION 750 MG",
+    "packSize": "5 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "40.69",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.14"
+  }
+]

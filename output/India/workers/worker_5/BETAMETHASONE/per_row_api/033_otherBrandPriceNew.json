@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "BENICORT",
+    "packSize": "10",
+    "company": "P &B LABORATORIES PVT LTD",
+    "brandMrp": "7.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.75"
+  },
+  {
+    "brandName": "BENICORT",
+    "packSize": "15",
+    "company": "P &B LABORATORIES PVT LTD",
+    "brandMrp": "12.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.81"
+  },
+  {
+    "brandName": "BETASONE (TORQUE)",
+    "packSize": "15",
+    "company": "TORQUE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "19.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.27"
+  },
+  {
+    "brandName": "ALERKIM",
+    "packSize": "15",
+    "company": "KIM LAB",
+    "brandMrp": "26.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.77"
+  },
+  {
+    "brandName": "STEMIN",
+    "packSize": "15",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "31.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.10"
+  }
+]

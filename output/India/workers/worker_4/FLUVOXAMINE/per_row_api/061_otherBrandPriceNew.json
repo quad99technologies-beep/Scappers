@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "FLUVOXIN",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "346.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.69"
+  },
+  {
+    "brandName": "FREXT",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "358.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.86"
+  },
+  {
+    "brandName": "UVOX",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "467.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.76"
+  }
+]

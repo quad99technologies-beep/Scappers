@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "BUDATE",
+    "packSize": "200",
+    "company": "LUPIN LTD",
+    "brandMrp": "300.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.50"
+  },
+  {
+    "brandName": "BUDECORT",
+    "packSize": "200",
+    "company": "CIPLA LTD.",
+    "brandMrp": "300.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.50"
+  },
+  {
+    "brandName": "BUDEFLAM HFA",
+    "packSize": "300",
+    "company": "CIPLA LTD.",
+    "brandMrp": "474.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.58"
+  },
+  {
+    "brandName": "DERINIDE",
+    "packSize": "200",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "315.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.58"
+  }
+]

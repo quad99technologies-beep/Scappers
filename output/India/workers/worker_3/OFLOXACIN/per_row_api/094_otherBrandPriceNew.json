@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "OBAKTERIE",
+    "packSize": "60",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "49.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.82"
+  },
+  {
+    "brandName": "OFLOTAG",
+    "packSize": "60",
+    "company": "INNOVATIVE PHARMACEUTICALS",
+    "brandMrp": "61.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.02"
+  },
+  {
+    "brandName": "NEX O",
+    "packSize": "60",
+    "company": "RONYD HEALTH CARE PVT LTD",
+    "brandMrp": "64.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.07"
+  },
+  {
+    "brandName": "NOVOFRAN",
+    "packSize": "30",
+    "company": "SEAGULL LABS(I) LTD",
+    "brandMrp": "39.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.32"
+  },
+  {
+    "brandName": "ZOCIN DS",
+    "packSize": "60",
+    "company": "WINSOME LAB LTD",
+    "brandMrp": "79.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.33"
+  },
+  {
+    "brandName": "JOX",
+    "packSize": "60",
+    "company": "DR. JOHNS LABORATORIES PVT LTD",
+    "brandMrp": "80.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.35"
+  },
+  {
+    "brandName": "OFIOR",
+    "packSize": "60",
+    "company": "BIO WARRIORS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "89.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.49"
+  },
+  {
+    "brandName": "SUREOF",
+    "packSize": "60",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "98.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.64"
+  },
+  {
+    "brandName": "OFLOX",
+    "packSize": "60",
+    "company": "CIPLA LTD.",
+    "brandMrp": "168.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  },
+  {
+    "brandName": "OLIFE",
+    "packSize": "30",
+    "company": "LIFE LINE BIOTECH LTD.",
+    "brandMrp": "111.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.72"
+  }
+]

@@ -1,0 +1,138 @@
+[
+  {
+    "brandName": "PENECAD",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "626.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "626.51"
+  },
+  {
+    "brandName": "PEMNAT",
+    "packSize": "1",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "2289.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2289.81"
+  },
+  {
+    "brandName": "PEMAXAM",
+    "packSize": "1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "2319.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2319.98"
+  },
+  {
+    "brandName": "PEMETREX",
+    "packSize": "1",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "2543.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2543.83"
+  },
+  {
+    "brandName": "PEMETERO",
+    "packSize": "1",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "3017.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3017.50"
+  },
+  {
+    "brandName": "PEMPRO",
+    "packSize": "1",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "3650.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3650.62"
+  },
+  {
+    "brandName": "PEMETA",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "4375.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4375.00"
+  },
+  {
+    "brandName": "PEMCURE",
+    "packSize": "1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "4500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4500.00"
+  },
+  {
+    "brandName": "PEMMET",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "6201.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6201.80"
+  },
+  {
+    "brandName": "PEMEETRON",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "6350.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6350.00"
+  },
+  {
+    "brandName": "PEXOTRA",
+    "packSize": "1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "8000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8000.00"
+  },
+  {
+    "brandName": "PEMOTIDE",
+    "packSize": "1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "8766.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8766.25"
+  },
+  {
+    "brandName": "PREXX",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "11875.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11875.00"
+  },
+  {
+    "brandName": "PEXITAZ",
+    "packSize": "1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "12785.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12785.05"
+  },
+  {
+    "brandName": "PEMEXAR",
+    "packSize": "1",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "19000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19000.00"
+  },
+  {
+    "brandName": "PEMECAD",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "19127.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19127.21"
+  },
+  {
+    "brandName": "ALIMTA",
+    "packSize": "1",
+    "company": "ELI LILLY AND COMPANY (INDIA) PVT. LTD.",
+    "brandMrp": "75961.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "75961.87"
+  }
+]

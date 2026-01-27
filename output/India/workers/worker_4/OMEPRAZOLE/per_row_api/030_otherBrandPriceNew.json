@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "OMERUM",
+    "packSize": "15",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "7.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.49"
+  },
+  {
+    "brandName": "OTIS",
+    "packSize": "15",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "12.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.83"
+  },
+  {
+    "brandName": "OM1",
+    "packSize": "10",
+    "company": "PHARMASYNTH FORMULATIONS (P) LTD",
+    "brandMrp": "11.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.17"
+  },
+  {
+    "brandName": "LOKCID",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "19.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.90"
+  },
+  {
+    "brandName": "EMEZOLE",
+    "packSize": "10",
+    "company": "ECON HEALTHCARE PVT LTD",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "TACKO M",
+    "packSize": "10",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "30.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.05"
+  },
+  {
+    "brandName": "PROPIN (SIGMUND)",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "36.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.64"
+  },
+  {
+    "brandName": "OMETAB",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "45.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.56"
+  },
+  {
+    "brandName": "OMEZ ODT",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "46.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.63"
+  },
+  {
+    "brandName": "OCID QRS",
+    "packSize": "20",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "92.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.64"
+  },
+  {
+    "brandName": "OM",
+    "packSize": "10",
+    "company": "ECON HEALTHCARE PVT LTD",
+    "brandMrp": "49.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.99"
+  },
+  {
+    "brandName": "OMEZ FF",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "61.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.12"
+  }
+]

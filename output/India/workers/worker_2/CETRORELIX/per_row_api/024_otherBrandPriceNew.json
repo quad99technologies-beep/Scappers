@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "OVURELIX",
+    "packSize": "1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "1800.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1800.00"
+  },
+  {
+    "brandName": "CETROLIX",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "2447.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2447.81"
+  },
+  {
+    "brandName": "OVUCET",
+    "packSize": "0",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "3019.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3019.71"
+  }
+]

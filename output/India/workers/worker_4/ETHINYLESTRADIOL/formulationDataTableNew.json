@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521065013@55138@101120777@1047@101006@201283",
+    "skuName": "CYCLENORM E 0.01 MG TABLET 6",
+    "composition": "ETHINYLESTRADIOL TABLET 0.01 MG",
+    "packSize": "6 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "EMPIAI PHARMACEUTICALS PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "15.28",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.55"
+  },
+  {
+    "hiddenId": "1521092439@49265@101129046@1340@101068@201283",
+    "skuName": "ESTOGEN 0.2 MG INJECTION 1 ML",
+    "composition": "ETHINYLESTRADIOL INJECTION 0.2 MG",
+    "packSize": "1 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "MACMILLON PHARMACEUTICALS",
+    "scheduleFlag": "0",
+    "mrp": "104.63",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "104.63"
+  },
+  {
+    "hiddenId": "1521024357@15720@101129171@1047@101006@201283",
+    "skuName": "ETHINORM E 0.01 MG TABLET 6",
+    "composition": "ETHINYLESTRADIOL TABLET 0.01 MG",
+    "packSize": "6 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "BENNET PHARMACEUTICALS LIMITED",
+    "scheduleFlag": "0",
+    "mrp": "14.95",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.49"
+  },
+  {
+    "hiddenId": "1521059676@159540@101162635@1083@101006@201283",
+    "skuName": "SECAM E 0.02 MG TABLET 3",
+    "composition": "ETHINYLESTRADIOL TABLET 0.02 MG",
+    "packSize": "3 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "MCW HEALTHCARE",
+    "scheduleFlag": "0",
+    "mrp": "14.06",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.69"
+  }
+]

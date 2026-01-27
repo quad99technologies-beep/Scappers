@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "NITRO",
+    "packSize": "10",
+    "company": "WEST COAST PHARMA WORKS",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "TROYDANTIN",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "84.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.49"
+  },
+  {
+    "brandName": "UTITROY",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "86.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.63"
+  },
+  {
+    "brandName": "URIHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "88.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.81"
+  },
+  {
+    "brandName": "NIFTRAN",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "92.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.23"
+  },
+  {
+    "brandName": "NIFTRAN",
+    "packSize": "30",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "276.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.23"
+  },
+  {
+    "brandName": "NITROBACT",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "92.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.23"
+  },
+  {
+    "brandName": "URIFAST",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "138.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.23"
+  },
+  {
+    "brandName": "UTISTAT DN",
+    "packSize": "10",
+    "company": "TIDAL LABORATORIES PVT LTD",
+    "brandMrp": "136.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.61"
+  }
+]

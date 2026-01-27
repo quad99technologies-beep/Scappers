@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "TAME",
+    "packSize": "2",
+    "company": "ELAN PHARMA(INDIA) PVT. LTD",
+    "brandMrp": "23.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.50"
+  },
+  {
+    "brandName": "DORINTA",
+    "packSize": "2",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "24.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.07"
+  },
+  {
+    "brandName": "DIN",
+    "packSize": "2",
+    "company": "MAPRA LABORATORIES PVT. LTD",
+    "brandMrp": "29.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.70"
+  },
+  {
+    "brandName": "DROVERA",
+    "packSize": "2",
+    "company": "MANEESH PHARMACEUTICALS LTD",
+    "brandMrp": "31.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.66"
+  },
+  {
+    "brandName": "DROTIKIND",
+    "packSize": "2",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "36.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.07"
+  },
+  {
+    "brandName": "DROTIN",
+    "packSize": "2",
+    "company": "WALTER BUSHNELL",
+    "brandMrp": "38.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.33"
+  }
+]

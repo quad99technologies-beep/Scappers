@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "LITHOCENT",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "29.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.98"
+  },
+  {
+    "brandName": "LITOX",
+    "packSize": "10",
+    "company": "AGM BIOTEC",
+    "brandMrp": "34.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.40"
+  },
+  {
+    "brandName": "INTALITH",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "44.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.45"
+  },
+  {
+    "brandName": "BSTABLE",
+    "packSize": "10",
+    "company": "BIOS LAB PVT.LTD",
+    "brandMrp": "63.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.30"
+  }
+]

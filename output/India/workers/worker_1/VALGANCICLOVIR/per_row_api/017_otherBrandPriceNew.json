@@ -1,0 +1,122 @@
+[
+  {
+    "brandName": "VALSTEAD",
+    "packSize": "2",
+    "company": "STEADFAST MEDISHIELD PVT LTD",
+    "brandMrp": "750.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "375.00"
+  },
+  {
+    "brandName": "VALGAN",
+    "packSize": "4",
+    "company": "CIPLA LTD.",
+    "brandMrp": "1527.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "381.81"
+  },
+  {
+    "brandName": "VAGACYTE",
+    "packSize": "2",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "765.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "382.61"
+  },
+  {
+    "brandName": "VALPOSE",
+    "packSize": "4",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "1550.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "387.50"
+  },
+  {
+    "brandName": "VALCIP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "4020.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "402.07"
+  },
+  {
+    "brandName": "CYTOMEGA",
+    "packSize": "2",
+    "company": "BIOKINDLE LIFESCIENCES PVT. LTD",
+    "brandMrp": "825.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "412.50"
+  },
+  {
+    "brandName": "CYMGAL",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "4207.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "420.70"
+  },
+  {
+    "brandName": "VALNICHE",
+    "packSize": "2",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "850.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "425.00"
+  },
+  {
+    "brandName": "CMVEE",
+    "packSize": "2",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "856.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "428.05"
+  },
+  {
+    "brandName": "VALCHEK",
+    "packSize": "2",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "857.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "428.50"
+  },
+  {
+    "brandName": "VALGACEL",
+    "packSize": "2",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "872.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "436.15"
+  },
+  {
+    "brandName": "VAL",
+    "packSize": "2",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "1010.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "505.00"
+  },
+  {
+    "brandName": "EMVAL",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "5495.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "549.50"
+  },
+  {
+    "brandName": "VALCYTE",
+    "packSize": "60",
+    "company": "ROCHE",
+    "brandMrp": "37250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "620.83"
+  },
+  {
+    "brandName": "CMVIGONE",
+    "packSize": "4",
+    "company": "ANTHEM BIOPHARMA PVT LTD",
+    "brandMrp": "3500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "875.00"
+  }
+]

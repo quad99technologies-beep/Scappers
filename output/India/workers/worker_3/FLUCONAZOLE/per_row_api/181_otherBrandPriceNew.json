@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "FORCAN",
+    "packSize": "4",
+    "company": "CIPLA LTD.",
+    "brandMrp": "74.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.65"
+  },
+  {
+    "brandName": "FUNGIBID",
+    "packSize": "10",
+    "company": "ENDOCARD INDIA PVT LTD",
+    "brandMrp": "257.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.78"
+  },
+  {
+    "brandName": "ULTICAN",
+    "packSize": "1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "39.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.98"
+  },
+  {
+    "brandName": "SYSCAN",
+    "packSize": "4",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "171.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.84"
+  },
+  {
+    "brandName": "CONFLU",
+    "packSize": "1",
+    "company": "EAST INDIA PHARMACEUTICAL WORKS LTD.",
+    "brandMrp": "42.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.85"
+  }
+]

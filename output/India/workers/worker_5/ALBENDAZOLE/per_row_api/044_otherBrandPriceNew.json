@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "ZENTO",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "13.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.38"
+  },
+  {
+    "brandName": "ALBEKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "18.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  }
+]

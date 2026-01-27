@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "PALNAT",
+    "packSize": "21",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "4218.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "200.89"
+  },
+  {
+    "brandName": "PALBO",
+    "packSize": "21",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "5742.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "273.44"
+  },
+  {
+    "brandName": "PALBINAS",
+    "packSize": "21",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "6500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "309.52"
+  },
+  {
+    "brandName": "KIXTA",
+    "packSize": "7",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "2245.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "320.76"
+  },
+  {
+    "brandName": "PABRECA",
+    "packSize": "21",
+    "company": "LUPIN LTD",
+    "brandMrp": "7600.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "361.90"
+  },
+  {
+    "brandName": "PICLIB",
+    "packSize": "21",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "7801.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "371.50"
+  },
+  {
+    "brandName": "CYDEKIN",
+    "packSize": "21",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "7968.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "379.46"
+  },
+  {
+    "brandName": "PALBOTOR",
+    "packSize": "21",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "9787.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "466.09"
+  },
+  {
+    "brandName": "PRIMCYV",
+    "packSize": "21",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "14500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "690.48"
+  },
+  {
+    "brandName": "PICICLIB",
+    "packSize": "7",
+    "company": "CIPLA LTD.",
+    "brandMrp": "5853.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "836.20"
+  },
+  {
+    "brandName": "HORMOCLIB",
+    "packSize": "21",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "17888.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "851.81"
+  },
+  {
+    "brandName": "ISOGEN",
+    "packSize": "21",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "21875.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1041.67"
+  },
+  {
+    "brandName": "PALBACE",
+    "packSize": "7",
+    "company": "PFIZER LTD",
+    "brandMrp": "21093.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3013.39"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521140471@81224@101107942@2642@101038@202009",
+    "skuName": "ARTAMIN 150 MG CAPSULE 10",
+    "composition": "PENICILLAMINE CAPSULE 150 MG",
+    "packSize": "10 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "VHB LIFE SCIENCES LIMITED",
+    "scheduleFlag": "0",
+    "mrp": "115.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.50"
+  },
+  {
+    "hiddenId": "1521003626@81225@101107942@3215@101038@202009",
+    "skuName": "ARTAMIN 250 MG CAPSULE 10",
+    "composition": "PENICILLAMINE CAPSULE 250 MG",
+    "packSize": "10 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "15.92",
+    "company": "VHB LIFE SCIENCES LIMITED",
+    "scheduleFlag": "1",
+    "mrp": "137.75",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.78"
+  },
+  {
+    "hiddenId": "1521034340@66940@101240981@3215@101038@202009",
+    "skuName": "CILAMIN 250 MG CAPSULE 10",
+    "composition": "PENICILLAMINE CAPSULE 250 MG",
+    "packSize": "10 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "15.92",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "scheduleFlag": "1",
+    "mrp": "165.39",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.54"
+  },
+  {
+    "hiddenId": "1521060824@182563@101163757@3215@101038@202009",
+    "skuName": "PENICITIN 250 MG CAPSULE 10",
+    "composition": "PENICILLAMINE CAPSULE 250 MG",
+    "packSize": "10 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "15.92",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "scheduleFlag": "1",
+    "mrp": "167.16",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.72"
+  }
+]

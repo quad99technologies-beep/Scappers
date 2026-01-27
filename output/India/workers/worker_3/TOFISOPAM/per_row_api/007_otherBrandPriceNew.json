@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "NEXOPAM",
+    "packSize": "10",
+    "company": "AGM BIOTEC",
+    "brandMrp": "257.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.78"
+  },
+  {
+    "brandName": "NEPRILIVE",
+    "packSize": "14",
+    "company": "ALLYSIA LIFESCIENCES PVT.LTD",
+    "brandMrp": "379.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.09"
+  },
+  {
+    "brandName": "TOFISERN",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "278.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.84"
+  },
+  {
+    "brandName": "TOLRINA",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "288.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.82"
+  },
+  {
+    "brandName": "NEXTRIL",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "341.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.10"
+  }
+]

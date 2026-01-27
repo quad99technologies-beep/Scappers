@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521132319@243499@101247198@-1@101148@205570",
+    "skuName": "WOUNDFIX LIQUID 100 ML",
+    "composition": "HYPOCHLOROUS ACID LIQUID ",
+    "packSize": "100 ML LIQUID",
+    "dosageForm": "LIQUID",
+    "ceilingPrice": "-1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "scheduleFlag": "0",
+    "mrp": "0.12",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.00"
+  },
+  {
+    "hiddenId": "1521083883@241753@101184617@-1@101083@205570",
+    "skuName": "WOUNDFIX SOLUTION 100 ML",
+    "composition": "HYPOCHLOROUS ACID ORAL SOLUTION ",
+    "packSize": "100 ML ORAL SOLUTION",
+    "dosageForm": "ORAL SOLUTION",
+    "ceilingPrice": "-1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "scheduleFlag": "0",
+    "mrp": "226.64",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.27"
+  }
+]

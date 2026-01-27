@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521136539@9999996136@101227774@-1@101103@206964",
+    "skuName": "RIFAS EYE DROPS 5 ML",
+    "composition": "RIPASUDIL EYE DROPS ",
+    "packSize": "5 ML EYE DROPS",
+    "dosageForm": "EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "SUNWAYS (INDIA) PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "328.13",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.63"
+  },
+  {
+    "hiddenId": "1521099078@350891@101193175@1394@101103@206964",
+    "skuName": "RIPAROCK 0.4 % EYE DROPS 5 ML",
+    "composition": "RIPASUDIL EYE DROPS 0.4 %",
+    "packSize": "5 ML EYE DROPS",
+    "dosageForm": "EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "337.43",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "67.49"
+  },
+  {
+    "hiddenId": "1521070518@307010@101171166@1394@101103@206964",
+    "skuName": "RIPATEC 0.4 % EYE DROPS 5 ML",
+    "composition": "RIPASUDIL EYE DROPS 0.4 %",
+    "packSize": "5 ML EYE DROPS",
+    "dosageForm": "EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "AJANTA PHARMA LTD",
+    "scheduleFlag": "0",
+    "mrp": "350.62",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "70.12"
+  }
+]

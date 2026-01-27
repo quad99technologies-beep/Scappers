@@ -1,0 +1,210 @@
+[
+  {
+    "brandName": "ROXEN",
+    "packSize": "10",
+    "company": "AARPIK REMEDIES PVT.LTD.",
+    "brandMrp": "18.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  },
+  {
+    "brandName": "ROMITHRAX",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "21.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.13"
+  },
+  {
+    "brandName": "ROXIMAC (TORQUE)",
+    "packSize": "10",
+    "company": "TORQUE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "22.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.22"
+  },
+  {
+    "brandName": "ROXIFIT",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "25.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.54"
+  },
+  {
+    "brandName": "ROXITOL",
+    "packSize": "10",
+    "company": "FRANKLIN LABORATORIES (INDIA) PVT. LTD.",
+    "brandMrp": "50.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "DEROX",
+    "packSize": "10",
+    "company": "DWD PHARMACEUTICALS LTD",
+    "brandMrp": "53.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.38"
+  },
+  {
+    "brandName": "ROXYROL",
+    "packSize": "10",
+    "company": "CONCEPT PHARMACEUTICALS LTD",
+    "brandMrp": "59.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.96"
+  },
+  {
+    "brandName": "ROXIMED",
+    "packSize": "10",
+    "company": "MEDICO LABS",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "ROXYLAB",
+    "packSize": "10",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "ROXOL",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "63.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.30"
+  },
+  {
+    "brandName": "ROXIZ (RITZ)",
+    "packSize": "10",
+    "company": "RITZ PHARMA",
+    "brandMrp": "66.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.60"
+  },
+  {
+    "brandName": "ROXINEXT",
+    "packSize": "10",
+    "company": "ETHICARE REMEDIES",
+    "brandMrp": "69.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.96"
+  },
+  {
+    "brandName": "ROXCURE",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "71.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.13"
+  },
+  {
+    "brandName": "ROXIMIN",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "74.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.40"
+  },
+  {
+    "brandName": "ROXIKA",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "84.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.47"
+  },
+  {
+    "brandName": "XTHROCIN",
+    "packSize": "10",
+    "company": "RUSI REMEDIES P. LTD.",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.91"
+  },
+  {
+    "brandName": "CADITHRO",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.90"
+  },
+  {
+    "brandName": "ROXIL (EAST WEST)",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "104.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.40"
+  },
+  {
+    "brandName": "ZIROXY",
+    "packSize": "10",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "107.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.78"
+  },
+  {
+    "brandName": "ROXIVISTA",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "113.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.35"
+  },
+  {
+    "brandName": "ROXIKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "128.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.84"
+  },
+  {
+    "brandName": "NICOROXI",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "151.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.17"
+  },
+  {
+    "brandName": "RAXITID",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "182.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.28"
+  },
+  {
+    "brandName": "ROXYCHEM",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "196.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.63"
+  },
+  {
+    "brandName": "ROXY",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "223.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.35"
+  },
+  {
+    "brandName": "ROXID",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "237.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.77"
+  }
+]

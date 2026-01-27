@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "LENVAT",
+    "packSize": "30",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "5062.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "168.75"
+  },
+  {
+    "brandName": "LENVAT",
+    "packSize": "10",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "1800.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "180.00"
+  },
+  {
+    "brandName": "BDFOIE",
+    "packSize": "10",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "2651.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "265.18"
+  },
+  {
+    "brandName": "LENCED",
+    "packSize": "10",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "3195.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "319.50"
+  },
+  {
+    "brandName": "LENTA",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "3199.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "319.90"
+  },
+  {
+    "brandName": "LENTYKINE",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "3515.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "351.56"
+  },
+  {
+    "brandName": "GLENVAS",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "3900.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "390.00"
+  },
+  {
+    "brandName": "LENVENIB",
+    "packSize": "7",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "2800.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "400.00"
+  },
+  {
+    "brandName": "LENVATOL",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "4531.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "453.18"
+  },
+  {
+    "brandName": "LENVIMA",
+    "packSize": "10",
+    "company": "EISAI PHARMACEUTICALS INDIA LTD",
+    "brandMrp": "21666.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2166.60"
+  }
+]

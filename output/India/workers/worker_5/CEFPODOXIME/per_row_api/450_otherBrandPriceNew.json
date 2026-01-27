@@ -1,0 +1,186 @@
+[
+  {
+    "brandName": "ZIDIME",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "24.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.45"
+  },
+  {
+    "brandName": "ACROCEF",
+    "packSize": "10",
+    "company": "ACRON PHARMACEUTICALS",
+    "brandMrp": "40.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.02"
+  },
+  {
+    "brandName": "GRANDCEF",
+    "packSize": "10",
+    "company": "GRANDCURE HEALTHCARE PVT. LTD.",
+    "brandMrp": "52.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.23"
+  },
+  {
+    "brandName": "METOXIM",
+    "packSize": "10",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "PRODOX",
+    "packSize": "10",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "65.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.52"
+  },
+  {
+    "brandName": "CEFOBIT",
+    "packSize": "10",
+    "company": "CUBIT HEALTHCARE",
+    "brandMrp": "69.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.90"
+  },
+  {
+    "brandName": "CODIMOL",
+    "packSize": "10",
+    "company": "GUJARAT TERCE LABORATORIES LTD",
+    "brandMrp": "69.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.95"
+  },
+  {
+    "brandName": "OPOX",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "70.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.03"
+  },
+  {
+    "brandName": "XOP",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "72.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.25"
+  },
+  {
+    "brandName": "DELPOCURE",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "79.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.95"
+  },
+  {
+    "brandName": "ZIPOD",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "80.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.05"
+  },
+  {
+    "brandName": "MACPOD",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "88.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.85"
+  },
+  {
+    "brandName": "POLYPOD",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "88.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.85"
+  },
+  {
+    "brandName": "ZEDOCEF",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "88.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.85"
+  },
+  {
+    "brandName": "CEDON",
+    "packSize": "10",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "DOXPRO",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "MONOTAX O",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "93.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.35"
+  },
+  {
+    "brandName": "MICROCEF",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "109.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "brandName": "BACTOGARD",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "110.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.06"
+  },
+  {
+    "brandName": "DOXCEF",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "126.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.66"
+  },
+  {
+    "brandName": "SWICH",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "128.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.84"
+  },
+  {
+    "brandName": "CEPODEM",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.13"
+  },
+  {
+    "brandName": "PECEF",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "164.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.49"
+  }
+]

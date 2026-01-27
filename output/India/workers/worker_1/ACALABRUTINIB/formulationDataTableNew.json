@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521099277@351013@101192957@1846@101038@206075",
+    "skuName": "ACABRUNAT 100 MG CAPSULE 30",
+    "composition": "ACALABRUTINIB CAPSULE 100 MG",
+    "packSize": "30 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "NATCO PHARMA LTD",
+    "scheduleFlag": "0",
+    "mrp": "14531.25",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "484.38"
+  },
+  {
+    "hiddenId": "1521103331@354163@101245627@1846@101038@206075",
+    "skuName": "ACAYA 100 MG CAPSULE 60",
+    "composition": "ACALABRUTINIB CAPSULE 100 MG",
+    "packSize": "60 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "scheduleFlag": "0",
+    "mrp": "30995.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "516.58"
+  },
+  {
+    "hiddenId": "1521000655@319552@101107847@1846@101038@206075",
+    "skuName": "CALQUENCE 100 MG CAPSULE 6",
+    "composition": "ACALABRUTINIB CAPSULE 100 MG",
+    "packSize": "6 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "ASTRAZENECA PHARMA INDIA LTD",
+    "scheduleFlag": "0",
+    "mrp": "81145.08",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13524.18"
+  }
+]

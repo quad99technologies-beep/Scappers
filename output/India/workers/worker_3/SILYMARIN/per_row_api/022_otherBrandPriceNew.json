@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LIMARIN",
+    "packSize": "10",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "brandMrp": "84.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.47"
+  },
+  {
+    "brandName": "HIGADO L",
+    "packSize": "10",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "215.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.56"
+  },
+  {
+    "brandName": "LIVFUN",
+    "packSize": "15",
+    "company": "STANWELL LIFE SCIENCES PVT.LTD",
+    "brandMrp": "443.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.54"
+  }
+]

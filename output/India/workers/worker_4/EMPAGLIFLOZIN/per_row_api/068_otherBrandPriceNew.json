@@ -1,0 +1,474 @@
+[
+  {
+    "brandName": "EMPASON",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "51.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.16"
+  },
+  {
+    "brandName": "EMPIGA",
+    "packSize": "10",
+    "company": "ACMEDIX PHARMA LLP",
+    "brandMrp": "55.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.53"
+  },
+  {
+    "brandName": "EMPACOOL",
+    "packSize": "10",
+    "company": "ECON HEALTHCARE PVT LTD",
+    "brandMrp": "62.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.25"
+  },
+  {
+    "brandName": "ARPIEMPA",
+    "packSize": "10",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "65.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "PROGLIF",
+    "packSize": "15",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "ELIEMPA",
+    "packSize": "10",
+    "company": "ELICAD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "84.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "EMPAHOPE",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "86.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.67"
+  },
+  {
+    "brandName": "EMPAJOY",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "86.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.67"
+  },
+  {
+    "brandName": "EMPABITE",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "EMPAGLYDE",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "92.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "EMPAGREAT",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "92.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "EMPATRU",
+    "packSize": "10",
+    "company": "HBC LIFESCIENCES PVT LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "EMPIXA",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "EMPAWAY",
+    "packSize": "10",
+    "company": "ALLYSIA LIFESCIENCES PVT.LTD",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  },
+  {
+    "brandName": "EUGLIF",
+    "packSize": "10",
+    "company": "DELVIN FORMULATIONS PRIVATE LTD",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.90"
+  },
+  {
+    "brandName": "EMPADUS",
+    "packSize": "10",
+    "company": "LIVIDUS PHARMA PVT LTD",
+    "brandMrp": "103.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "ALEMPA",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "162.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.85"
+  },
+  {
+    "brandName": "EXEMPA",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "162.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.85"
+  },
+  {
+    "brandName": "EMPAPRO",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "109.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.96"
+  },
+  {
+    "brandName": "EMPABRIT",
+    "packSize": "10",
+    "company": "ELBRIT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "EMPANEO",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "111.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.16"
+  },
+  {
+    "brandName": "EMPHA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "111.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.16"
+  },
+  {
+    "brandName": "EMPROVIN",
+    "packSize": "10",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "112.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.20"
+  },
+  {
+    "brandName": "EMPANAT",
+    "packSize": "10",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "EMPAVITA",
+    "packSize": "10",
+    "company": "CADELL HEALTH CARE PVT.LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "EMPEXEL",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "EMPACUT",
+    "packSize": "10",
+    "company": "ESWAR THERAPEUTICS PVT.LTD",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.72"
+  },
+  {
+    "brandName": "EMPARIO",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.72"
+  },
+  {
+    "brandName": "EMPATROL",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "117.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.72"
+  },
+  {
+    "brandName": "MYEMPA",
+    "packSize": "10",
+    "company": "THYONE HEALTH CARE",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.72"
+  },
+  {
+    "brandName": "EZYEMPA",
+    "packSize": "10",
+    "company": "EDOC LIFE SCIENCES",
+    "brandMrp": "120.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.09"
+  },
+  {
+    "brandName": "EMPAJUST",
+    "packSize": "10",
+    "company": "ERINYLE PHARMA",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "EMPRI",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "121.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "GLUDRAIN",
+    "packSize": "10",
+    "company": "NEUCURE LIFESCIENCES PVT.LTD",
+    "brandMrp": "121.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "EMPALO",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "130.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.03"
+  },
+  {
+    "brandName": "EMPANORM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "130.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.03"
+  },
+  {
+    "brandName": "EMPADOT",
+    "packSize": "10",
+    "company": "THREE DOTS LIFESCIENCE",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.13"
+  },
+  {
+    "brandName": "GLEMPA",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.13"
+  },
+  {
+    "brandName": "JARDIX",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.13"
+  },
+  {
+    "brandName": "EMPASHIELD",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "139.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.97"
+  },
+  {
+    "brandName": "EMPASOV",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "140.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.05"
+  },
+  {
+    "brandName": "COSPIAQ",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "140.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "EMNORM",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "140.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "EMPACT",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "140.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "EMPADON",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "EMPARIGA",
+    "packSize": "10",
+    "company": "MCRONUS LIFESCIENCE PVT LTD",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "EMPADOZ",
+    "packSize": "10",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "149.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.91"
+  },
+  {
+    "brandName": "MPABLISS",
+    "packSize": "15",
+    "company": "PRIMUS REMEDIES PVT LTD",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "XENIA",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "153.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.37"
+  },
+  {
+    "brandName": "EMPAONE",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "SULIEMPA",
+    "packSize": "10",
+    "company": "AAREEN HEALTHCARE",
+    "brandMrp": "158.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.84"
+  },
+  {
+    "brandName": "EMPAGLYN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "159.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "GIBTULIO",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "159.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "EMPASAGE",
+    "packSize": "10",
+    "company": "ELINOR PHARMA",
+    "brandMrp": "164.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.41"
+  },
+  {
+    "brandName": "JAREN",
+    "packSize": "10",
+    "company": "ANTHEM BIOPHARMA PVT LTD",
+    "brandMrp": "164.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.41"
+  },
+  {
+    "brandName": "VICRA",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.88"
+  },
+  {
+    "brandName": "AUROEMPA",
+    "packSize": "10",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "196.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.69"
+  },
+  {
+    "brandName": "JARDIANCE",
+    "packSize": "10",
+    "company": "BOEHRINGER INGELHEIM",
+    "brandMrp": "459.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.94"
+  },
+  {
+    "brandName": "OBORAVO",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "622.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.20"
+  }
+]

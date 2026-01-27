@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "TROFENTYL",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "133.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.30"
+  },
+  {
+    "brandName": "FENSTUD",
+    "packSize": "2",
+    "company": "RUSAN HEALTHCARE PVT. LTD",
+    "brandMrp": "40.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.46"
+  },
+  {
+    "brandName": "TROFENTYL",
+    "packSize": "2",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "44.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.38"
+  },
+  {
+    "brandName": "FENSTUD",
+    "packSize": "10",
+    "company": "RUSAN HEALTHCARE PVT. LTD",
+    "brandMrp": "857.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "85.72"
+  }
+]

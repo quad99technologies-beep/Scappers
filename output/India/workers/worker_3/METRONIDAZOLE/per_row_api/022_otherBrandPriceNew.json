@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "METRO (MAKERS)",
+    "packSize": "100",
+    "company": "MAKERS LABS",
+    "brandMrp": "35.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.35"
+  },
+  {
+    "brandName": "METRONIDAZOLE(JAG)",
+    "packSize": "100",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "40.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.41"
+  },
+  {
+    "brandName": "METGYL",
+    "packSize": "100",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "46.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.46"
+  },
+  {
+    "brandName": "FLAGYL",
+    "packSize": "20",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "17.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.87"
+  },
+  {
+    "brandName": "FLAGYL",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "13.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.92"
+  }
+]

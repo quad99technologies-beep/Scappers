@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ACROCITRON",
+    "packSize": "100",
+    "company": "ACRON PHARMACEUTICALS",
+    "brandMrp": "72.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.72"
+  },
+  {
+    "brandName": "ALKASAV",
+    "packSize": "100",
+    "company": "BENNET PHARMACEUTICALS LIMITED",
+    "brandMrp": "86.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.86"
+  },
+  {
+    "brandName": "JUCITRON",
+    "packSize": "100",
+    "company": "UNIVERSAL MEDIKIT",
+    "brandMrp": "98.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.98"
+  }
+]

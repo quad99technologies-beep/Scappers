@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LOWSTEROL",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "ZOSTA",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "62.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.23"
+  },
+  {
+    "brandName": "SIMVOTIN",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "78.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.80"
+  }
+]

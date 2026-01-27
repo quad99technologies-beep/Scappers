@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "ENTAVIR",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "1240.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "124.09"
+  },
+  {
+    "brandName": "ENTECA",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "1249.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "124.93"
+  },
+  {
+    "brandName": "ANTICANOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "1300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "130.00"
+  },
+  {
+    "brandName": "ENTEHEP",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "1308.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "130.80"
+  },
+  {
+    "brandName": "ENTEHEP",
+    "packSize": "30",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "4101.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "136.73"
+  }
+]

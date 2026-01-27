@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "GABAPAX SR",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "548.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.56"
+  },
+  {
+    "brandName": "ACTIGABA GRS",
+    "packSize": "15",
+    "company": "AAREEN HEALTHCARE",
+    "brandMrp": "589.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.28"
+  },
+  {
+    "brandName": "BAGA GRS",
+    "packSize": "15",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "590.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.38"
+  },
+  {
+    "brandName": "PENTANERV",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "398.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.84"
+  },
+  {
+    "brandName": "GABAPIN",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "517.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.75"
+  }
+]

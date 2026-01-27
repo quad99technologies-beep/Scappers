@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "EXALBIC",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "ROFADAY",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "243.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.31"
+  }
+]

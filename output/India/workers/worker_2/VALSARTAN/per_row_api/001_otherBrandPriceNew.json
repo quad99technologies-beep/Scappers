@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "VALEMBIC",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "177.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.71"
+  },
+  {
+    "brandName": "VALZAAR",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "433.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.35"
+  },
+  {
+    "brandName": "VALZAAR",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "669.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.66"
+  }
+]

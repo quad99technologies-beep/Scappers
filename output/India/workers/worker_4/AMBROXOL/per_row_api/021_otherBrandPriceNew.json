@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "KUFRIL A",
+    "packSize": "15",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "18.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.23"
+  },
+  {
+    "brandName": "COSCORIL",
+    "packSize": "15",
+    "company": "BIOLOGICAL E LTD",
+    "brandMrp": "36.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.43"
+  },
+  {
+    "brandName": "AMBRODIL",
+    "packSize": "15",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "44.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.97"
+  },
+  {
+    "brandName": "MUCOLITE",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "46.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.10"
+  },
+  {
+    "brandName": "KOFAREST",
+    "packSize": "15",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "60.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.01"
+  },
+  {
+    "brandName": "AMROX",
+    "packSize": "15",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.67"
+  }
+]

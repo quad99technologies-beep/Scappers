@@ -1,0 +1,194 @@
+[
+  {
+    "brandName": "ELATE (LUPIN)",
+    "packSize": "60",
+    "company": "LUPIN LTD",
+    "brandMrp": "36.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.61"
+  },
+  {
+    "brandName": "LAVETA",
+    "packSize": "30",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "23.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.80"
+  },
+  {
+    "brandName": "L ALERID",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "27.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.90"
+  },
+  {
+    "brandName": "L CETRON",
+    "packSize": "30",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "27.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.93"
+  },
+  {
+    "brandName": "L-CETIRIZ",
+    "packSize": "30",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "33.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.10"
+  },
+  {
+    "brandName": "CRIZ",
+    "packSize": "60",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "74.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.24"
+  },
+  {
+    "brandName": "LCETRIVER",
+    "packSize": "30",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "42.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.40"
+  },
+  {
+    "brandName": "LEVOCETRIZEN",
+    "packSize": "30",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "42.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.40"
+  },
+  {
+    "brandName": "ALDAY KID",
+    "packSize": "60",
+    "company": "SH PHARMACEUTICALS LTD",
+    "brandMrp": "89.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.49"
+  },
+  {
+    "brandName": "ALLERCET L",
+    "packSize": "30",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.50"
+  },
+  {
+    "brandName": "LEVOCAD",
+    "packSize": "30",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "47.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.58"
+  },
+  {
+    "brandName": "1 AL",
+    "packSize": "30",
+    "company": "FDC LTD.",
+    "brandMrp": "47.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.59"
+  },
+  {
+    "brandName": "LEVOTRYL",
+    "packSize": "30",
+    "company": "MERCURY HEALTH CARE PVT LTD",
+    "brandMrp": "47.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.59"
+  },
+  {
+    "brandName": "ALLERCET L",
+    "packSize": "60",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "97.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.63"
+  },
+  {
+    "brandName": "LECOPE",
+    "packSize": "30",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "50.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.68"
+  },
+  {
+    "brandName": "LEVOCET",
+    "packSize": "60",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "104.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.73"
+  },
+  {
+    "brandName": "HATRIC",
+    "packSize": "30",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "52.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.76"
+  },
+  {
+    "brandName": "ALLERONE",
+    "packSize": "60",
+    "company": "GLADSTONE PHARMA INDIA PVT.LTD",
+    "brandMrp": "116.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.94"
+  },
+  {
+    "brandName": "TECZINE",
+    "packSize": "60",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.11"
+  },
+  {
+    "brandName": "ELRIZ",
+    "packSize": "30",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "71.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.39"
+  },
+  {
+    "brandName": "LEZYNCET",
+    "packSize": "30",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "72.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.43"
+  },
+  {
+    "brandName": "XYZAL",
+    "packSize": "60",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "186.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.10"
+  },
+  {
+    "brandName": "HICET L",
+    "packSize": "30",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "95.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.17"
+  },
+  {
+    "brandName": "LCZ SYRUP",
+    "packSize": "30",
+    "company": "RAPROSS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "101.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.39"
+  }
+]

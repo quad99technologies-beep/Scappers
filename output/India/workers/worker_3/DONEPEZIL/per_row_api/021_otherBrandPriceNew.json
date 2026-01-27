@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "ALZIL",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "244.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.47"
+  },
+  {
+    "brandName": "ARICEP",
+    "packSize": "10",
+    "company": "EISAI PHARMACEUTICALS INDIA LTD",
+    "brandMrp": "394.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.47"
+  }
+]

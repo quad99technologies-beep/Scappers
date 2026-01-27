@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "QST EC",
+    "packSize": "10",
+    "company": "MCW HEALTHCARE",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "RADIANT",
+    "packSize": "10",
+    "company": "MCASTRO PHARMA",
+    "brandMrp": "63.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.35"
+  }
+]

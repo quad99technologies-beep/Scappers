@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "TERABET",
+    "packSize": "30",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "85.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.83"
+  },
+  {
+    "brandName": "TOPSOR",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.09"
+  },
+  {
+    "brandName": "CLOBEZINE",
+    "packSize": "50",
+    "company": "AVANCER LAB",
+    "brandMrp": "179.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.58"
+  },
+  {
+    "brandName": "CLOP",
+    "packSize": "20",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.45"
+  },
+  {
+    "brandName": "CLOREGA",
+    "packSize": "30",
+    "company": "REGALIZ MEDICARE LTD",
+    "brandMrp": "139.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.63"
+  },
+  {
+    "brandName": "CLONATE",
+    "packSize": "25",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "182.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.31"
+  }
+]

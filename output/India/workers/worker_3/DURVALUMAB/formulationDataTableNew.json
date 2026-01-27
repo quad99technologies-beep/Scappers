@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521036344@301804@101139548@2270@101068@201847",
+    "skuName": "IMFINZI 120 MG INJECTION 2.4 ML",
+    "composition": "DURVALUMAB INJECTION 120 MG",
+    "packSize": "2.4 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "ASTRAZENECA PHARMA INDIA LTD",
+    "scheduleFlag": "0",
+    "mrp": "40790.96",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20395.48"
+  },
+  {
+    "hiddenId": "1521036346@302749@101139548@3755@101068@201847",
+    "skuName": "IMFINZI 500 MG INJECTION 10 ML",
+    "composition": "DURVALUMAB INJECTION 500 MG",
+    "packSize": "10 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "ASTRAZENECA PHARMA INDIA LTD",
+    "scheduleFlag": "0",
+    "mrp": "171324.27",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17132.43"
+  }
+]

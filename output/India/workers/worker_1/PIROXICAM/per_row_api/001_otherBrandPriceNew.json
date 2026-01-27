@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "MIZOCAM",
+    "packSize": "2",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "5.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.50"
+  },
+  {
+    "brandName": "MIZOWEL",
+    "packSize": "2",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "20.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.00"
+  },
+  {
+    "brandName": "TYE",
+    "packSize": "2",
+    "company": "MYPHER PHARMACEUTICALS LLP.LTD",
+    "brandMrp": "23.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.83"
+  },
+  {
+    "brandName": "DUPOX",
+    "packSize": "2",
+    "company": "BENNET PHARMACEUTICALS LIMITED",
+    "brandMrp": "31.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "PIROXITAS",
+    "packSize": "2",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "34.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.11"
+  },
+  {
+    "brandName": "DOLOFORCE",
+    "packSize": "2",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "40.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.08"
+  },
+  {
+    "brandName": "DOLONEX",
+    "packSize": "1",
+    "company": "PFIZER LTD",
+    "brandMrp": "36.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.08"
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "PRUFLOX",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "312.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.59"
+  },
+  {
+    "brandName": "PRULICARE",
+    "packSize": "5",
+    "company": "MEYER ORGANICS PVT. LTD",
+    "brandMrp": "354.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "70.89"
+  },
+  {
+    "brandName": "PUNOX",
+    "packSize": "5",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "476.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "95.20"
+  },
+  {
+    "brandName": "PERCIN",
+    "packSize": "5",
+    "company": "LUPIN LTD",
+    "brandMrp": "722.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "144.40"
+  }
+]

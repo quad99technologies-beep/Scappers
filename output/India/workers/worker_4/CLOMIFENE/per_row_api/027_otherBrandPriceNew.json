@@ -1,0 +1,122 @@
+[
+  {
+    "brandName": "FERTILIN",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "41.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.10"
+  },
+  {
+    "brandName": "FERTOVA",
+    "packSize": "10",
+    "company": "TRITON HEALTH CARE PVT LTD",
+    "brandMrp": "50.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.08"
+  },
+  {
+    "brandName": "REFERT",
+    "packSize": "10",
+    "company": "SANZYME LTD",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "OVAGEN",
+    "packSize": "10",
+    "company": "WALTER BUSHNELL",
+    "brandMrp": "86.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.63"
+  },
+  {
+    "brandName": "FERTITRIG",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "92.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.26"
+  },
+  {
+    "brandName": "CLOME",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "92.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.27"
+  },
+  {
+    "brandName": "FERTOMID",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "VIFERT",
+    "packSize": "10",
+    "company": "COLINZ LABORATORIES LTD",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  },
+  {
+    "brandName": "FERTYL",
+    "packSize": "10",
+    "company": "AR-EX LABORATORIES PVT . LTD",
+    "brandMrp": "94.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.42"
+  },
+  {
+    "brandName": "CLOFERT",
+    "packSize": "10",
+    "company": "MANEESH PHARMACEUTICALS LTD",
+    "brandMrp": "94.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.43"
+  },
+  {
+    "brandName": "SIPHENE",
+    "packSize": "5",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "brandMrp": "47.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.43"
+  },
+  {
+    "brandName": "FERPILL-KIT",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "215.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.39"
+  },
+  {
+    "brandName": "OVANAC CC",
+    "packSize": "5",
+    "company": "NEXGEN RX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.00"
+  },
+  {
+    "brandName": "CLOMEVA Q",
+    "packSize": "5",
+    "company": "VIVO LIFE SCIENCE",
+    "brandMrp": "207.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "41.46"
+  },
+  {
+    "brandName": "ENCLOVA",
+    "packSize": "5",
+    "company": "DR. JOHNS LABORATORIES PVT LTD",
+    "brandMrp": "232.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.41"
+  }
+]

@@ -1,0 +1,834 @@
+[
+  {
+    "brandName": "GLIMEPRIDE",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "4.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.45"
+  },
+  {
+    "brandName": "GLIMISON",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "6.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.70"
+  },
+  {
+    "brandName": "HEALMARYL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "7.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.73"
+  },
+  {
+    "brandName": "K GLIM",
+    "packSize": "15",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "20.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.37"
+  },
+  {
+    "brandName": "GLIMKAP",
+    "packSize": "10",
+    "company": "KARNATAKA ANTIBIOTICS & PHARMACEUTICALS LTD(KAPL)",
+    "brandMrp": "14.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.42"
+  },
+  {
+    "brandName": "ISRYL",
+    "packSize": "10",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "16.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.67"
+  },
+  {
+    "brandName": "ZIGLIM",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "18.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.89"
+  },
+  {
+    "brandName": "RUXOGLIM",
+    "packSize": "10",
+    "company": "AARUX PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "22.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.29"
+  },
+  {
+    "brandName": "GLIMFIRST",
+    "packSize": "15",
+    "company": "SINSAN PHARMACEUTICALS",
+    "brandMrp": "35.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.33"
+  },
+  {
+    "brandName": "GEELINE",
+    "packSize": "10",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "24.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.43"
+  },
+  {
+    "brandName": "GADZ",
+    "packSize": "10",
+    "company": "ST. MORRISON",
+    "brandMrp": "24.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.50"
+  },
+  {
+    "brandName": "GLIMIXIA",
+    "packSize": "10",
+    "company": "WINGS PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "25.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.50"
+  },
+  {
+    "brandName": "MEPRIDE",
+    "packSize": "15",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "37.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.50"
+  },
+  {
+    "brandName": "GLP",
+    "packSize": "10",
+    "company": "INTRA LABS",
+    "brandMrp": "26.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.60"
+  },
+  {
+    "brandName": "GLAMOR",
+    "packSize": "10",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "27.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.70"
+  },
+  {
+    "brandName": "LIMER",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "27.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.73"
+  },
+  {
+    "brandName": "GLIMICURE",
+    "packSize": "10",
+    "company": "HBC LIFESCIENCES PVT LTD",
+    "brandMrp": "27.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.75"
+  },
+  {
+    "brandName": "GLIMIFIX",
+    "packSize": "10",
+    "company": "AKESISS PHARMA (P) LTD",
+    "brandMrp": "28.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  },
+  {
+    "brandName": "EUGLIM",
+    "packSize": "15",
+    "company": "SAI MIRRA INNOPHARM PVT. LTD.",
+    "brandMrp": "43.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.87"
+  },
+  {
+    "brandName": "DIBIGLIM",
+    "packSize": "10",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "29.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.90"
+  },
+  {
+    "brandName": "GLIMBT",
+    "packSize": "10",
+    "company": "MEDISUN PHARMA",
+    "brandMrp": "29.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.91"
+  },
+  {
+    "brandName": "AMANZA",
+    "packSize": "10",
+    "company": "MCRONUS LIFESCIENCE PVT LTD",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "GLIMBLIST",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "GLIMPIL",
+    "packSize": "10",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "ILET",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "30.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.05"
+  },
+  {
+    "brandName": "GLIMICON",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "30.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.06"
+  },
+  {
+    "brandName": "ZYMRIDE",
+    "packSize": "10",
+    "company": "WALRON HEALTHCARE PVT.LTD",
+    "brandMrp": "30.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.07"
+  },
+  {
+    "brandName": "ACCUGLIM",
+    "packSize": "10",
+    "company": "CADELL HEALTH CARE PVT.LTD",
+    "brandMrp": "31.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.10"
+  },
+  {
+    "brandName": "GLIMECAID",
+    "packSize": "10",
+    "company": "MEDICAID LABS",
+    "brandMrp": "31.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.19"
+  },
+  {
+    "brandName": "GLIMESTAR",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "31.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.19"
+  },
+  {
+    "brandName": "GLIMED",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "32.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.20"
+  },
+  {
+    "brandName": "BEPRIDE",
+    "packSize": "10",
+    "company": "AVINASH HEALTH PRODUCTS PVT. LTD.",
+    "brandMrp": "33.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.37"
+  },
+  {
+    "brandName": "GLYNAMIC",
+    "packSize": "10",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "34.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.40"
+  },
+  {
+    "brandName": "ADGLIM",
+    "packSize": "10",
+    "company": "CADOMED PHARMACEUTICALS INDIA PVT.LTD",
+    "brandMrp": "34.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.43"
+  },
+  {
+    "brandName": "GLIMIBRIT",
+    "packSize": "15",
+    "company": "ELBRIT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "51.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.43"
+  },
+  {
+    "brandName": "GMR",
+    "packSize": "10",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "34.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.43"
+  },
+  {
+    "brandName": "AB GLYMPRD",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "34.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.44"
+  },
+  {
+    "brandName": "GLIMIDER",
+    "packSize": "10",
+    "company": "ELDER LABS LTD",
+    "brandMrp": "34.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.46"
+  },
+  {
+    "brandName": "CILVORYL",
+    "packSize": "10",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "34.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.47"
+  },
+  {
+    "brandName": "GLIMITEO",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "34.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.48"
+  },
+  {
+    "brandName": "GLIMETOP",
+    "packSize": "10",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "35.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.50"
+  },
+  {
+    "brandName": "GRANDPRIDE",
+    "packSize": "10",
+    "company": "GRANDCURE HEALTHCARE PVT. LTD.",
+    "brandMrp": "35.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.50"
+  },
+  {
+    "brandName": "XILIA",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "35.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.52"
+  },
+  {
+    "brandName": "GLIMITAL",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "35.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.53"
+  },
+  {
+    "brandName": "ZETAGLIM",
+    "packSize": "10",
+    "company": "ELINOR PHARMA",
+    "brandMrp": "35.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.56"
+  },
+  {
+    "brandName": "GLI",
+    "packSize": "10",
+    "company": "EXELTIS",
+    "brandMrp": "36.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.65"
+  },
+  {
+    "brandName": "ZYVANA",
+    "packSize": "10",
+    "company": "CONVERGE BIOTECH PVT.LTD",
+    "brandMrp": "36.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.65"
+  },
+  {
+    "brandName": "GLIMEFINE",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "37.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.70"
+  },
+  {
+    "brandName": "OPGLIM",
+    "packSize": "10",
+    "company": "OPSISCARE LIFESCIENCSE PVT LTD",
+    "brandMrp": "37.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.75"
+  },
+  {
+    "brandName": "GLUSENS",
+    "packSize": "10",
+    "company": "MITOCH PHARMA PVT LTD",
+    "brandMrp": "37.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.76"
+  },
+  {
+    "brandName": "GLIMCIP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "37.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.77"
+  },
+  {
+    "brandName": "GLEAM",
+    "packSize": "10",
+    "company": "FRANCO INDIAN PHARMACEUTICALS PVT LTD",
+    "brandMrp": "37.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.80"
+  },
+  {
+    "brandName": "GLIMICER",
+    "packSize": "10",
+    "company": "RETRA LIFE SCIENCE PVT LTD",
+    "brandMrp": "38.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.80"
+  },
+  {
+    "brandName": "SULFORYL",
+    "packSize": "10",
+    "company": "METALIS LIFESCIENCES PVT LTD",
+    "brandMrp": "37.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.80"
+  },
+  {
+    "brandName": "GLIMID",
+    "packSize": "10",
+    "company": "ANTHUS PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "38.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.84"
+  },
+  {
+    "brandName": "WONRIDE",
+    "packSize": "10",
+    "company": "WONSET HEALTH CARE PRIVATE LIMITED",
+    "brandMrp": "38.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.84"
+  },
+  {
+    "brandName": "AJAPRIDE",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "38.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.85"
+  },
+  {
+    "brandName": "BITGLIM",
+    "packSize": "10",
+    "company": "ELICAD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "38.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.85"
+  },
+  {
+    "brandName": "GLIDUM",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "38.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.86"
+  },
+  {
+    "brandName": "ENRISTAS",
+    "packSize": "10",
+    "company": "ANTHEM BIOPHARMA PVT LTD",
+    "brandMrp": "38.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.88"
+  },
+  {
+    "brandName": "GLIMEFIDE",
+    "packSize": "10",
+    "company": "FIDELITY LIFESCIENCE",
+    "brandMrp": "38.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.88"
+  },
+  {
+    "brandName": "GLIMGOLD",
+    "packSize": "10",
+    "company": "GOLD LINE",
+    "brandMrp": "38.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.88"
+  },
+  {
+    "brandName": "GLISIMET",
+    "packSize": "10",
+    "company": "EYSYS PHARMACEUTICAL PVT LTD",
+    "brandMrp": "38.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.88"
+  },
+  {
+    "brandName": "DIAPRIDE",
+    "packSize": "30",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "116.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.89"
+  },
+  {
+    "brandName": "GLIMER",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "58.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.89"
+  },
+  {
+    "brandName": "GLIMP",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "38.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.89"
+  },
+  {
+    "brandName": "GLIMULIN",
+    "packSize": "15",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "58.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.89"
+  },
+  {
+    "brandName": "GLISEN",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "38.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.89"
+  },
+  {
+    "brandName": "NUGLIM",
+    "packSize": "10",
+    "company": "THREE DOTS LIFESCIENCE",
+    "brandMrp": "38.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.89"
+  },
+  {
+    "brandName": "PRICHEK",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "38.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.89"
+  },
+  {
+    "brandName": "BETAGLIM",
+    "packSize": "10",
+    "company": "PANACEA BIOTEC LTD",
+    "brandMrp": "39.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.90"
+  },
+  {
+    "brandName": "DIASET",
+    "packSize": "10",
+    "company": "STADMED PVT. LTD",
+    "brandMrp": "39.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.91"
+  },
+  {
+    "brandName": "GEPRIDE",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "39.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.91"
+  },
+  {
+    "brandName": "GLITARAY",
+    "packSize": "10",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "39.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.91"
+  },
+  {
+    "brandName": "GZOR",
+    "packSize": "15",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "58.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.91"
+  },
+  {
+    "brandName": "APRIGLIM",
+    "packSize": "15",
+    "company": "APRICA HEALTHCARE PVT LTD",
+    "brandMrp": "58.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.92"
+  },
+  {
+    "brandName": "GLIMISAVE",
+    "packSize": "15",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "58.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.92"
+  },
+  {
+    "brandName": "GLUCUT",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "39.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.93"
+  },
+  {
+    "brandName": "GPWIN",
+    "packSize": "10",
+    "company": "RANMARC LABS",
+    "brandMrp": "39.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.94"
+  },
+  {
+    "brandName": "AMARYL",
+    "packSize": "30",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "118.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.95"
+  },
+  {
+    "brandName": "AZULIX",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "39.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.95"
+  },
+  {
+    "brandName": "GEMINOR",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "39.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.95"
+  },
+  {
+    "brandName": "GLADOR",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "59.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.95"
+  },
+  {
+    "brandName": "GLIMDA",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "39.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.95"
+  },
+  {
+    "brandName": "GLIMIPREX",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "39.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.95"
+  },
+  {
+    "brandName": "GLUCORYL",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "39.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.95"
+  },
+  {
+    "brandName": "GLYPRIDE",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "39.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.95"
+  },
+  {
+    "brandName": "GLYREE",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "39.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.95"
+  },
+  {
+    "brandName": "GP",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "39.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.95"
+  },
+  {
+    "brandName": "GRIDE",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "39.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.95"
+  },
+  {
+    "brandName": "LIFE PRIDE",
+    "packSize": "10",
+    "company": "REGENIX DRUGS LTD",
+    "brandMrp": "39.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.95"
+  },
+  {
+    "brandName": "SECRETAG",
+    "packSize": "10",
+    "company": "BAL PHARMA",
+    "brandMrp": "39.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.95"
+  },
+  {
+    "brandName": "ZORYL",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "59.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.95"
+  },
+  {
+    "brandName": "BLISTO",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "40.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.02"
+  },
+  {
+    "brandName": "GLIMIPRIME",
+    "packSize": "10",
+    "company": "PRIMUS REMEDIES PVT LTD",
+    "brandMrp": "41.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.11"
+  },
+  {
+    "brandName": "GMP (ARETAEUS)",
+    "packSize": "10",
+    "company": "ARETAEUS PHARMACEUTICALS",
+    "brandMrp": "41.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.14"
+  },
+  {
+    "brandName": "GLIMY",
+    "packSize": "14",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "59.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.23"
+  },
+  {
+    "brandName": "GLIWAY",
+    "packSize": "10",
+    "company": "KANAD LABS",
+    "brandMrp": "43.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.31"
+  },
+  {
+    "brandName": "GLIMIBRIT",
+    "packSize": "10",
+    "company": "ELBRIT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "51.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "brandName": "GLIMCHEK",
+    "packSize": "10",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "58.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.81"
+  },
+  {
+    "brandName": "GRID",
+    "packSize": "10",
+    "company": "DEYS MEDICAL",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "TRIGLIMIBAY",
+    "packSize": "10",
+    "company": "ELLORA PHARMA PVT.LTD",
+    "brandMrp": "81.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.19"
+  },
+  {
+    "brandName": "GMINE",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "97.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.70"
+  },
+  {
+    "brandName": "MEPRIDE PM",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "115.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.51"
+  }
+]

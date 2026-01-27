@@ -1,0 +1,386 @@
+[
+  {
+    "brandName": "ACIBAN MAX",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "VACIBAN",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "VACILOC",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "VONASEC",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "140.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "VONATIME",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "140.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "VONCHAMP",
+    "packSize": "10",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "VONOBLOK",
+    "packSize": "10",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "VONOFIDE",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "VONZAI",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "140.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "VOSYS",
+    "packSize": "10",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "140.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "VNOPRAZ",
+    "packSize": "10",
+    "company": "AGLOWMED PHARMACEUTICALS LTD.",
+    "brandMrp": "145.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.53"
+  },
+  {
+    "brandName": "VONEFI",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "148.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.81"
+  },
+  {
+    "brandName": "VONKUL",
+    "packSize": "10",
+    "company": "APTUS PHARMA PVT.LTD",
+    "brandMrp": "149.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.91"
+  },
+  {
+    "brandName": "VOPANZA",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "149.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.91"
+  },
+  {
+    "brandName": "HETRAN",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "INTAVON",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "VOCAB",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "VOKAY",
+    "packSize": "10",
+    "company": "MMC PHARMACEUTICALS LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "VONOBASE",
+    "packSize": "10",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "VONPHA",
+    "packSize": "10",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "VONZY",
+    "packSize": "10",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "VOPRAZAN",
+    "packSize": "10",
+    "company": "DELVIN FORMULATIONS PRIVATE LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "VONALONG",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "154.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "VONO (DRL)",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "154.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "VONOLINK",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "158.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.84"
+  },
+  {
+    "brandName": "VONOTOR",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "158.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.84"
+  },
+  {
+    "brandName": "VPR",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "158.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.84"
+  },
+  {
+    "brandName": "VONACID",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "159.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.93"
+  },
+  {
+    "brandName": "CIVONO",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "159.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "PASIVON",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "159.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "THEMIKOOL V",
+    "packSize": "10",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "159.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "VAULT",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "159.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "VOCID",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "159.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "VOZAN",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "159.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "VOLSTAR",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "162.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.22"
+  },
+  {
+    "brandName": "VONOZAN",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "162.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.22"
+  },
+  {
+    "brandName": "VONOGEN",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "162.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.27"
+  },
+  {
+    "brandName": "VONOMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "162.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.27"
+  },
+  {
+    "brandName": "VONOSHIFT",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "162.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.27"
+  },
+  {
+    "brandName": "VONOFLUX",
+    "packSize": "10",
+    "company": "WILL CARE LIFE SCIENCES PVT LTD",
+    "brandMrp": "173.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.34"
+  },
+  {
+    "brandName": "KABVIE",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "174.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.42"
+  },
+  {
+    "brandName": "LUPIVON",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "174.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.43"
+  },
+  {
+    "brandName": "KBLOC",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "175.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.53"
+  },
+  {
+    "brandName": "VONOGRESS",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "178.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "VONOHENZ",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "178.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "VONOQUENCH",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "178.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "VONOHART",
+    "packSize": "10",
+    "company": "ORRIS PHARMACEUTICALS",
+    "brandMrp": "182.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.28"
+  },
+  {
+    "brandName": "VOLTAPRAZ",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.66"
+  }
+]

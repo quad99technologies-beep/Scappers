@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521150829@322035@101230558@2886@101068@200482",
+    "skuName": "CRICOLIST 1 MIU INJECTION 1",
+    "composition": "COLISTIN INJECTION 1 MIU",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "CONCORD BIOTECH LTD",
+    "scheduleFlag": "0",
+    "mrp": "981.25",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "981.25"
+  },
+  {
+    "hiddenId": "1521149285@322036@101230558@3593@101068@200482",
+    "skuName": "CRICOLIST 3 MIU INJECTION 1",
+    "composition": "COLISTIN INJECTION 3 MIU",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "CONCORD BIOTECH LTD",
+    "scheduleFlag": "0",
+    "mrp": "2767.86",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2767.86"
+  },
+  {
+    "hiddenId": "1521143025@224002@101233591@2886@101068@200482",
+    "skuName": "IVISTIN 1 MIU INJECTION 1 ML",
+    "composition": "COLISTIN INJECTION 1 MIU",
+    "packSize": "1 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "CONVERGE BIOTECH PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "803.81",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "803.81"
+  }
+]

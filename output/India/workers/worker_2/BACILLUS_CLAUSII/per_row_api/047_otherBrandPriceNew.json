@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "INBALANSE",
+    "packSize": "10",
+    "company": "ALBERT DAVID",
+    "brandMrp": "204.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.44"
+  },
+  {
+    "brandName": "ENZISPOR",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "461.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.12"
+  },
+  {
+    "brandName": "ENTEROGERMINA",
+    "packSize": "4",
+    "company": "SANOFI INDIA  LTD.",
+    "brandMrp": "201.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.48"
+  }
+]

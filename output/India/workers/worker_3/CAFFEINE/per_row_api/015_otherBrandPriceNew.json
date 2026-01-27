@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "APNICAF",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "387.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "193.65"
+  },
+  {
+    "brandName": "CAFIRATE",
+    "packSize": "3",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "787.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "262.44"
+  },
+  {
+    "brandName": "APNICAF",
+    "packSize": "3",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "804.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "268.13"
+  }
+]

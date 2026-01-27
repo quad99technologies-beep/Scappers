@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "TETBENZ",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "281.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.13"
+  },
+  {
+    "brandName": "REVOCON",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "422.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.28"
+  },
+  {
+    "brandName": "TICSTOP",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "436.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.64"
+  }
+]

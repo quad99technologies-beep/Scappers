@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PREGALIFT",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "135.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.53"
+  },
+  {
+    "brandName": "PREGALIFT",
+    "packSize": "15",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "236.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.75"
+  },
+  {
+    "brandName": "MAXGALIN",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "212.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.28"
+  }
+]

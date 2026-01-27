@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "ZYDRIL LP",
+    "packSize": "100",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "108.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.09"
+  },
+  {
+    "brandName": "FREECOF L",
+    "packSize": "100",
+    "company": "HBC PHARMACEUTICALS PVT LTD",
+    "brandMrp": "145.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.45"
+  },
+  {
+    "brandName": "GRILINCTUS L",
+    "packSize": "100",
+    "company": "FRANCO INDIAN PHARMACEUTICALS PVT LTD",
+    "brandMrp": "146.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.47"
+  },
+  {
+    "brandName": "ALEX L",
+    "packSize": "100",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.55"
+  }
+]

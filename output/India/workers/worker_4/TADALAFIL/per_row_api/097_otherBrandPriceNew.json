@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "MATELAFIL",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "53.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.36"
+  },
+  {
+    "brandName": "TADACOOL",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "EDRIVE T",
+    "packSize": "10",
+    "company": "INNOVCARE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "123.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.30"
+  },
+  {
+    "brandName": "YAW",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "137.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.73"
+  },
+  {
+    "brandName": "TADAFIL (D.D)",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "138.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.82"
+  },
+  {
+    "brandName": "FORLAST",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "157.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.79"
+  },
+  {
+    "brandName": "TADAFLO",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "160.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.00"
+  },
+  {
+    "brandName": "EFIL",
+    "packSize": "10",
+    "company": "SANZYME LTD",
+    "brandMrp": "165.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.58"
+  }
+]

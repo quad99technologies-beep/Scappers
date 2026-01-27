@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "COMCORT",
+    "packSize": "1",
+    "company": "COMED CHEMICALS PVT LTD",
+    "brandMrp": "14.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.70"
+  },
+  {
+    "brandName": "D CORT",
+    "packSize": "1",
+    "company": "DWD PHARMACEUTICALS LTD",
+    "brandMrp": "58.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.13"
+  },
+  {
+    "brandName": "TRIROID",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "74.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "74.06"
+  },
+  {
+    "brandName": "TRICORT",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "79.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "79.69"
+  },
+  {
+    "brandName": "INJICORT",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "82.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "82.50"
+  }
+]

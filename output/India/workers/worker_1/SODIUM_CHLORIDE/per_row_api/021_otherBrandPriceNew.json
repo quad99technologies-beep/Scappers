@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "NOZECLEAR",
+    "packSize": "20",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "47.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.39"
+  },
+  {
+    "brandName": "MICRO NS",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "52.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.29"
+  },
+  {
+    "brandName": "NAM COLD NS",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "59.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.98"
+  }
+]

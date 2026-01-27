@@ -1,0 +1,114 @@
+[
+  {
+    "brandName": "ANXIZIDE",
+    "packSize": "10",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "10.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.00"
+  },
+  {
+    "brandName": "EBRIUM",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "22.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.28"
+  },
+  {
+    "brandName": "VIZEP",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "29.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.97"
+  },
+  {
+    "brandName": "LIBREL",
+    "packSize": "10",
+    "company": "SYNOKEM PHARMACEUTICALS LTD",
+    "brandMrp": "31.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.16"
+  },
+  {
+    "brandName": "CLOXIDE",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "32.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.20"
+  },
+  {
+    "brandName": "XIDE",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "34.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.45"
+  },
+  {
+    "brandName": "TRIBRIUM",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "34.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.47"
+  },
+  {
+    "brandName": "CLORDISE",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "35.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.50"
+  },
+  {
+    "brandName": "ZEPOXIFE",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "41.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.13"
+  },
+  {
+    "brandName": "CHLORMAT",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "55.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.53"
+  },
+  {
+    "brandName": "CZEP",
+    "packSize": "10",
+    "company": "MARSHA PHARMA",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "EQUILIBRIUM",
+    "packSize": "10",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "57.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.80"
+  },
+  {
+    "brandName": "EQUILIBRIUM",
+    "packSize": "15",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "98.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.57"
+  },
+  {
+    "brandName": "LIBRIUM",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "161.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.74"
+  }
+]

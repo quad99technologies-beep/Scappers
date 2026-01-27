@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "SEDOGEST",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "12.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.20"
+  },
+  {
+    "brandName": "FORTIBILE",
+    "packSize": "10",
+    "company": "DEYS MEDICAL",
+    "brandMrp": "450.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.00"
+  },
+  {
+    "brandName": "URSOBILE",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "450.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.00"
+  },
+  {
+    "brandName": "LIVERMARK",
+    "packSize": "10",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "455.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.50"
+  },
+  {
+    "brandName": "SORBIDIOL",
+    "packSize": "10",
+    "company": "FRANCO INDIAN PHARMACEUTICALS PVT LTD",
+    "brandMrp": "499.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.95"
+  },
+  {
+    "brandName": "HEPAKIND",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "508.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.82"
+  },
+  {
+    "brandName": "USIBON SR",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "510.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.00"
+  },
+  {
+    "brandName": "SEDOGEST SR",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "537.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.70"
+  },
+  {
+    "brandName": "UDIMARIN SR",
+    "packSize": "10",
+    "company": "FOURRTS INDIA LABORATORIES PVT. LTD",
+    "brandMrp": "600.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "60.00"
+  },
+  {
+    "brandName": "UDILIV",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "720.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "72.07"
+  }
+]

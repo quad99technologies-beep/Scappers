@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521140962@9999996509@101141271@2107@101006@201833",
+    "skuName": "JAKAVI 10 MG TABLET 10",
+    "composition": "RUXOLITINIB TABLET 10 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "NOVARTIS INDIA LTD",
+    "scheduleFlag": "0",
+    "mrp": "43214.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4321.40"
+  },
+  {
+    "hiddenId": "1521038093@218202@101141271@2744@101006@201833",
+    "skuName": "JAKAVI 15 MG TABLET 14",
+    "composition": "RUXOLITINIB TABLET 15 MG",
+    "packSize": "14 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "NOVARTIS INDIA LTD",
+    "scheduleFlag": "0",
+    "mrp": "47193.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3370.93"
+  },
+  {
+    "hiddenId": "1521038073@218201@101141271@3049@101006@201833",
+    "skuName": "JAKAVI 20 MG TABLET 14",
+    "composition": "RUXOLITINIB TABLET 20 MG",
+    "packSize": "14 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "NOVARTIS INDIA LTD",
+    "scheduleFlag": "0",
+    "mrp": "49668.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3547.71"
+  },
+  {
+    "hiddenId": "1521023189@221451@101141271@3854@101006@201833",
+    "skuName": "JAKAVI 5 MG TABLET 14",
+    "composition": "RUXOLITINIB TABLET 5 MG",
+    "packSize": "14 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "NOVARTIS INDIA LTD",
+    "scheduleFlag": "0",
+    "mrp": "24345.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1738.93"
+  }
+]

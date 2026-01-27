@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "THIOSPAS",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "THIOGESIC",
+    "packSize": "10",
+    "company": "INTRA LABS",
+    "brandMrp": "135.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.59"
+  },
+  {
+    "brandName": "THIONOXIDE",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "178.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.85"
+  },
+  {
+    "brandName": "NEORELAX",
+    "packSize": "10",
+    "company": "MEYER ORGANICS PVT. LTD",
+    "brandMrp": "185.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.50"
+  },
+  {
+    "brandName": "TIOSCINA",
+    "packSize": "10",
+    "company": "INGA LABORATORIES PVT. LTD.",
+    "brandMrp": "203.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.36"
+  },
+  {
+    "brandName": "THIOSPAS",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "397.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.51"
+  },
+  {
+    "brandName": "THIOQUEST",
+    "packSize": "10",
+    "company": "ALCHEM PHYTOCEUTICALS LTD.",
+    "brandMrp": "279.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.94"
+  },
+  {
+    "brandName": "MYORIL",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "299.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.93"
+  }
+]

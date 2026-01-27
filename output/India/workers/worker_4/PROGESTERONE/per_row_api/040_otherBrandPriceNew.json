@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "PREGIKA",
+    "packSize": "10",
+    "company": "STADCHEM OF INDIA",
+    "brandMrp": "237.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.75"
+  },
+  {
+    "brandName": "FST PRO",
+    "packSize": "10",
+    "company": "APIOS LIFESCIENCES PVT.LTD",
+    "brandMrp": "379.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.90"
+  },
+  {
+    "brandName": "FEGEST",
+    "packSize": "10",
+    "company": "CANVARZYS HEALTHCARE PVT.LTD",
+    "brandMrp": "398.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.84"
+  },
+  {
+    "brandName": "WAYOGEST SR",
+    "packSize": "10",
+    "company": "WAYONEXT PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "463.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.30"
+  }
+]

@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "TEMOSIDE",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "3276.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "655.28"
+  },
+  {
+    "brandName": "TEMCAD",
+    "packSize": "5",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "3588.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "717.75"
+  },
+  {
+    "brandName": "GLIOZ",
+    "packSize": "5",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "4292.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "858.43"
+  },
+  {
+    "brandName": "TEMCAD",
+    "packSize": "7",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "10211.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1458.83"
+  },
+  {
+    "brandName": "TEMOREL",
+    "packSize": "5",
+    "company": "RELIANCE LIFE SCIENCE",
+    "brandMrp": "7534.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1506.98"
+  },
+  {
+    "brandName": "GLIOTEM",
+    "packSize": "1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "1584.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1584.05"
+  },
+  {
+    "brandName": "TEMOTERO",
+    "packSize": "5",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "8057.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1611.55"
+  },
+  {
+    "brandName": "NUBLAST",
+    "packSize": "5",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "8560.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1712.11"
+  },
+  {
+    "brandName": "GLISTROMA",
+    "packSize": "5",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "8738.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1747.71"
+  },
+  {
+    "brandName": "TEMOZAM",
+    "packSize": "5",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "8901.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1780.20"
+  },
+  {
+    "brandName": "TEMOZOLOMIDE",
+    "packSize": "5",
+    "company": "GLAND PHARMA LIMITED",
+    "brandMrp": "9875.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1975.00"
+  },
+  {
+    "brandName": "TEMODAL",
+    "packSize": "5",
+    "company": "MSD PHARMACEUTICALS PRIVATE LTD.",
+    "brandMrp": "10149.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2029.94"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PENVIR",
+    "packSize": "6",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "297.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.52"
+  },
+  {
+    "brandName": "FAMCIMAC",
+    "packSize": "6",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "321.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.59"
+  },
+  {
+    "brandName": "VIROVIR",
+    "packSize": "6",
+    "company": "FDC LTD.",
+    "brandMrp": "350.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.41"
+  }
+]

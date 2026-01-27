@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "PHOXELON",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "83.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "83.33"
+  },
+  {
+    "brandName": "NUPHOS",
+    "packSize": "1",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "130.00"
+  },
+  {
+    "brandName": "CYCLOXAN",
+    "packSize": "1",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "184.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "184.00"
+  },
+  {
+    "brandName": "ENDOXAN",
+    "packSize": "1",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "280.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "280.70"
+  }
+]

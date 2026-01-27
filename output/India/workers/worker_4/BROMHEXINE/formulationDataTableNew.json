@@ -1,0 +1,72 @@
+[
+  {
+    "hiddenId": "1521024756@128799@101245889@3708@101126@202615",
+    "skuName": "BROHEX 4 MG SYRUP 100 ML",
+    "composition": "BROMHEXINE SYRUP 4 MG",
+    "packSize": "100 ML SYRUP",
+    "dosageForm": "SYRUP",
+    "ceilingPrice": "-1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "scheduleFlag": "0",
+    "mrp": "40.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.40"
+  },
+  {
+    "hiddenId": "1521000255@65354@101100264@3708@101043@202615",
+    "skuName": "BROMHEXINE 4 MG ELIXIR 120 ML",
+    "composition": "BROMHEXINE ELIXIR 4 MG",
+    "packSize": "120 ML ELIXIR",
+    "dosageForm": "ELIXIR",
+    "ceilingPrice": "-1",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "scheduleFlag": "0",
+    "mrp": "162.09",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.35"
+  },
+  {
+    "hiddenId": "1521000256@65352@101100264@3973@101006@202615",
+    "skuName": "BROMHEXINE 8 MG TABLET 10",
+    "composition": "BROMHEXINE TABLET 8 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "scheduleFlag": "0",
+    "mrp": "69.19",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.92"
+  },
+  {
+    "hiddenId": "1521000448@6098@101100480@3708@101126@202615",
+    "skuName": "BROXINE 4 MG SYRUP 100 ML",
+    "composition": "BROMHEXINE SYRUP 4 MG",
+    "packSize": "100 ML SYRUP",
+    "dosageForm": "SYRUP",
+    "ceilingPrice": "-1",
+    "company": "BENNET PHARMACEUTICALS LIMITED",
+    "scheduleFlag": "0",
+    "mrp": "71.72",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.72"
+  },
+  {
+    "hiddenId": "1521025446@144626@101129945@-1@101126@202615",
+    "skuName": "EXPECTO SYRUP 100 ML",
+    "composition": "BROMHEXINE SYRUP ",
+    "packSize": "100 ML SYRUP",
+    "dosageForm": "SYRUP",
+    "ceilingPrice": "-1",
+    "company": "PAGODA PHARMACEUTICALS",
+    "scheduleFlag": "0",
+    "mrp": "93.66",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.94"
+  }
+]

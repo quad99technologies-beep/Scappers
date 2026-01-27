@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "STROZINA",
+    "packSize": "60",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "807.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.46"
+  },
+  {
+    "brandName": "PREXARON",
+    "packSize": "60",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "842.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.04"
+  },
+  {
+    "brandName": "STORAX",
+    "packSize": "60",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "842.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.04"
+  },
+  {
+    "brandName": "STROCOZ",
+    "packSize": "60",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "887.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.79"
+  }
+]

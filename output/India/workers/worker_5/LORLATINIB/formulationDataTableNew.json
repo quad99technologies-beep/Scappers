@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521042738@325558@101145949@1846@101006@206070",
+    "skuName": "LORBRIQUA 100 MG TABLET 30",
+    "composition": "LORLATINIB TABLET 100 MG",
+    "packSize": "30 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "PFIZER LTD",
+    "scheduleFlag": "0",
+    "mrp": "146250.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4875.00"
+  },
+  {
+    "hiddenId": "1521042734@325559@101145949@3312@101006@206070",
+    "skuName": "LORBRIQUA 25 MG TABLET 30",
+    "composition": "LORLATINIB TABLET 25 MG",
+    "packSize": "30 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "PFIZER LTD",
+    "scheduleFlag": "0",
+    "mrp": "102000.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3400.00"
+  }
+]

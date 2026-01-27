@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "PERAMNEL",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "182.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.28"
+  },
+  {
+    "brandName": "HETRAM",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "220.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.00"
+  },
+  {
+    "brandName": "PERCOMPA",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "222.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.24"
+  },
+  {
+    "brandName": "PERAMPA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "223.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.31"
+  },
+  {
+    "brandName": "PERAMPIL",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "340.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.69"
+  },
+  {
+    "brandName": "TORPANEL",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "247.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.76"
+  },
+  {
+    "brandName": "FYCOMPA",
+    "packSize": "14",
+    "company": "EISAI PHARMACEUTICALS INDIA LTD",
+    "brandMrp": "1107.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "79.09"
+  }
+]

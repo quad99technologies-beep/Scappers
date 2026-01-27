@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "CYNOCAL GOLD",
+    "packSize": "15",
+    "company": "OZONE PHARMACEUTICALS",
+    "brandMrp": "40.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.69"
+  },
+  {
+    "brandName": "IMMUNIV CZ",
+    "packSize": "30",
+    "company": "NAVIL LABORATORIES",
+    "brandMrp": "144.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.80"
+  },
+  {
+    "brandName": "ESVIFIL",
+    "packSize": "10",
+    "company": "BIOKINDLE LIFESCIENCES PVT. LTD",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "ZIDCOM PLUS",
+    "packSize": "10",
+    "company": "ANTHUS PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "79.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.97"
+  },
+  {
+    "brandName": "FOLCI FORTE",
+    "packSize": "10",
+    "company": "SURGE BIOTECH PVT LTD",
+    "brandMrp": "95.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "NEPHRO FE",
+    "packSize": "15",
+    "company": "MED GENIX",
+    "brandMrp": "158.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.56"
+  },
+  {
+    "brandName": "ZYVIZEST CD",
+    "packSize": "10",
+    "company": "ZYVIEON HEALTHCARE PVT.LTD",
+    "brandMrp": "124.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  }
+]

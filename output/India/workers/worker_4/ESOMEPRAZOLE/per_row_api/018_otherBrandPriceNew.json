@@ -1,0 +1,170 @@
+[
+  {
+    "brandName": "ESOMIFOR",
+    "packSize": "15",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "16.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.07"
+  },
+  {
+    "brandName": "ESOMER",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "11.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.18"
+  },
+  {
+    "brandName": "ESOMEFA",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "42.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.20"
+  },
+  {
+    "brandName": "ESILOC",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "43.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.31"
+  },
+  {
+    "brandName": "ESOMEG",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "43.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.37"
+  },
+  {
+    "brandName": "ESOKEM",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "71.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.74"
+  },
+  {
+    "brandName": "STARCID",
+    "packSize": "10",
+    "company": "STARTOS HEALTH CARE PVT.LTD",
+    "brandMrp": "51.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "brandName": "YEES",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "77.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "brandName": "ESOHEAL",
+    "packSize": "15",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "81.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.44"
+  },
+  {
+    "brandName": "ESOGRESS",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "56.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.62"
+  },
+  {
+    "brandName": "IZRA",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "88.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.89"
+  },
+  {
+    "brandName": "ESOFINE",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "60.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.09"
+  },
+  {
+    "brandName": "RACIPER",
+    "packSize": "15",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "105.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.03"
+  },
+  {
+    "brandName": "ESOMAC",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "107.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.14"
+  },
+  {
+    "brandName": "ESOTREND",
+    "packSize": "10",
+    "company": "PRIMUS REMEDIES PVT LTD",
+    "brandMrp": "74.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.49"
+  },
+  {
+    "brandName": "SOMPRAZ",
+    "packSize": "15",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "115.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.69"
+  },
+  {
+    "brandName": "NEKSIUM",
+    "packSize": "10",
+    "company": "PFIZER LTD",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "NEXPRO",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "126.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "NEKSIUM",
+    "packSize": "15",
+    "company": "PFIZER LTD",
+    "brandMrp": "136.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.08"
+  },
+  {
+    "brandName": "ESOZ",
+    "packSize": "15",
+    "company": "INTEGRACE HEALTH",
+    "brandMrp": "137.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.16"
+  },
+  {
+    "brandName": "NEXPRO FAST",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "126.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.66"
+  }
+]

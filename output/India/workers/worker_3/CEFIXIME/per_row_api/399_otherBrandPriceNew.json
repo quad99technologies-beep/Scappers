@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "SECEF",
+    "packSize": "10",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "190.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.09"
+  },
+  {
+    "brandName": "MAXICEF O",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "210.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.09"
+  },
+  {
+    "brandName": "MILIXIM",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "225.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.52"
+  },
+  {
+    "brandName": "CEFOLAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "236.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.60"
+  },
+  {
+    "brandName": "CEFTAS",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "236.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.60"
+  },
+  {
+    "brandName": "GRAMOCEF O",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "236.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.60"
+  },
+  {
+    "brandName": "ODICEF O",
+    "packSize": "10",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "235.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.60"
+  },
+  {
+    "brandName": "TAXIM O",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "236.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.60"
+  },
+  {
+    "brandName": "ZIFI",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "236.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.60"
+  },
+  {
+    "brandName": "CEFI OD",
+    "packSize": "5",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "149.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.80"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521154331@9999995558@101241204@2403@101068@200863",
+    "skuName": "GUFIMENDAN 12.5 MG INJECTION 1",
+    "composition": "LEVOSIMENDAN INJECTION 12.5 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "scheduleFlag": "0",
+    "mrp": "1104.58",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1104.58"
+  },
+  {
+    "hiddenId": "1521020343@172798@101126321@2403@101068@200863",
+    "skuName": "SIMENDA 12.5 MG INJECTION 5 ML",
+    "composition": "LEVOSIMENDAN INJECTION 12.5 MG",
+    "packSize": "5 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "LUPIN LTD",
+    "scheduleFlag": "0",
+    "mrp": "623.30",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "124.66"
+  }
+]

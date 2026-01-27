@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "VISVIN",
+    "packSize": "1",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "3379.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3379.00"
+  },
+  {
+    "brandName": "DECITAS",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "3562.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3562.52"
+  },
+  {
+    "brandName": "DECITEX",
+    "packSize": "1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "5546.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5546.43"
+  }
+]

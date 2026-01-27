@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521144879@240220@101233614@1557@101006@200540",
+    "skuName": "JECKMORAL FORTE 100000 AU TABLET 10",
+    "composition": "TRYPSIN TABLET 100000 AU",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "STALLION LABORATORIES (P) LTD",
+    "scheduleFlag": "0",
+    "mrp": "88.10",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.81"
+  },
+  {
+    "hiddenId": "1521080485@202403@101181080@3699@101006@200540",
+    "skuName": "UMANOFLAM 48 MG TABLET 10",
+    "composition": "TRYPSIN TABLET 48 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "UMANO HEALTHCARE PVT.LIMITED",
+    "scheduleFlag": "0",
+    "mrp": "246.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.60"
+  },
+  {
+    "hiddenId": "1521080486@217959@101181081@3699@101006@200540",
+    "skuName": "UMANOFLAM D 48 MG TABLET 10",
+    "composition": "TRYPSIN TABLET 48 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "UMANO HEALTHCARE PVT.LIMITED",
+    "scheduleFlag": "0",
+    "mrp": "261.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.10"
+  }
+]

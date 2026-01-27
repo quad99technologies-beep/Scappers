@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "HYPIG",
+    "packSize": "30",
+    "company": "DERMO CARE LABORATORIES",
+    "brandMrp": "77.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.57"
+  },
+  {
+    "brandName": "HYDI",
+    "packSize": "30",
+    "company": "DERMO CARE LABORATORIES",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  },
+  {
+    "brandName": "MELANORM",
+    "packSize": "30",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "130.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.34"
+  },
+  {
+    "brandName": "MELALITE FORT",
+    "packSize": "30",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "179.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.97"
+  },
+  {
+    "brandName": "BRITE",
+    "packSize": "20",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.75"
+  },
+  {
+    "brandName": "MELAPIK HQ",
+    "packSize": "20",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "135.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.80"
+  },
+  {
+    "brandName": "EUKROMA",
+    "packSize": "20",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "157.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.88"
+  }
+]

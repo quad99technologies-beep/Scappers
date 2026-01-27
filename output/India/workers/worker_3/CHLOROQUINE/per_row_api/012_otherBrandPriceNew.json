@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "RESOCHIN",
+    "packSize": "10",
+    "company": "BAYER PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "12.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.24"
+  },
+  {
+    "brandName": "LARIAGO",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "14.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.42"
+  },
+  {
+    "brandName": "CHLOROQUIN (CADILA PHARMA)",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.50"
+  }
+]

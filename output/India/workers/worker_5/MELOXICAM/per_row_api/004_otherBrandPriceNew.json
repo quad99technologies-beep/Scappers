@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "MELONE",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "48.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.81"
+  },
+  {
+    "brandName": "MELODOL (EAS)",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "54.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.45"
+  },
+  {
+    "brandName": "MUVERA",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "118.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.81"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "BECOMED",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "11.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.18"
+  },
+  {
+    "brandName": "BEDEX FORTE",
+    "packSize": "30",
+    "company": "TORQUE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "42.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.41"
+  },
+  {
+    "brandName": "CONCIPLEX",
+    "packSize": "30",
+    "company": "CONCEPT PHARMACEUTICALS LTD",
+    "brandMrp": "107.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.59"
+  },
+  {
+    "brandName": "CONCIPLEX",
+    "packSize": "10",
+    "company": "CONCEPT PHARMACEUTICALS LTD",
+    "brandMrp": "45.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.54"
+  },
+  {
+    "brandName": "NUROGRAND",
+    "packSize": "2",
+    "company": "GRANDCURE HEALTHCARE PVT. LTD.",
+    "brandMrp": "45.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.64"
+  },
+  {
+    "brandName": "NEUROBION H",
+    "packSize": "2",
+    "company": "PROCTER & GAMBLE HEALTH LTD",
+    "brandMrp": "52.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.21"
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "C TRI",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "35.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.55"
+  },
+  {
+    "brandName": "TRIXON",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "66.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.66"
+  },
+  {
+    "brandName": "TAXONE",
+    "packSize": "5",
+    "company": "MAPRA LABORATORIES PVT. LTD",
+    "brandMrp": "37.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.53"
+  },
+  {
+    "brandName": "TRAXOL",
+    "packSize": "5",
+    "company": "CACHET PHARMACEUTICALS PVT LTD",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "ODICEF",
+    "packSize": "2",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "38.01",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.01"
+  },
+  {
+    "brandName": "ANCEF",
+    "packSize": "1",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "22.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.50"
+  },
+  {
+    "brandName": "MONOCEF",
+    "packSize": "2",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.50"
+  },
+  {
+    "brandName": "ACCUZON",
+    "packSize": "1",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "39.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.14"
+  }
+]

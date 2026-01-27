@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "LOTESOL",
+    "packSize": "5",
+    "company": "NRI VISION CARE",
+    "brandMrp": "0.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.03"
+  },
+  {
+    "brandName": "PIDONE",
+    "packSize": "5",
+    "company": "SAPIENT",
+    "brandMrp": "123.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.75"
+  },
+  {
+    "brandName": "LORINOL",
+    "packSize": "5",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "138.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.60"
+  },
+  {
+    "brandName": "LOTECHEK",
+    "packSize": "5",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "142.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.43"
+  },
+  {
+    "brandName": "LOTEDROP LS",
+    "packSize": "5",
+    "company": "SYNOVIA LIFE SCIENCES",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.94"
+  }
+]

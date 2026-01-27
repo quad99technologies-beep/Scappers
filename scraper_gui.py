@@ -297,8 +297,7 @@ class ScraperGUI:
                 "docs_dir": None,  # All docs now in root doc/ folder
                 "steps": [
                     {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
-                    {"name": "01 - Download Ceiling Prices", "script": "01_Ceiling Prices of Essential Medicines downlaod.py", "desc": "Download ceiling prices Excel from NPPA (provides formulations for Step 02)"},
-                    {"name": "02 - Get Medicine Details", "script": "02 get details.py", "desc": "Extract medicine details and substitutes (auto-loads formulations from ceiling prices, supports resume)"},
+                    {"name": "01 - Get Medicine Details", "script": "02_get_details.py", "desc": "Extract medicine details and substitutes (supports resume and parallel workers)"},
                 ],
                 "pipeline_bat": "run_pipeline.bat",
                 "resume_options": {
@@ -613,25 +612,30 @@ class ScraperGUI:
         self.main_notebook = ttk.Notebook(main_container)
         self.main_notebook.pack(fill=tk.BOTH, expand=True)
 
-        # Dashboard page (execution + logs + outputs/config)
+        # Dashboard page (execution + console)
         dashboard_frame = ttk.Frame(self.main_notebook)
         self.main_notebook.add(dashboard_frame, text="Dashboard")
         self.setup_dashboard_page(dashboard_frame)
 
-        # Pipeline Steps page
+        # Output page
+        outputs_frame = ttk.Frame(self.main_notebook)
+        self.main_notebook.add(outputs_frame, text="Output")
+        self.setup_outputs_page(outputs_frame)
+
+        # Health Check page (manual diagnostics)
+        health_check_frame = ttk.Frame(self.main_notebook)
+        self.main_notebook.add(health_check_frame, text="Health Check")
+        self.setup_health_check_tab(health_check_frame)
+
+        # Pipeline page
         pipeline_steps_frame = ttk.Frame(self.main_notebook)
-        self.main_notebook.add(pipeline_steps_frame, text="Pipeline Steps")
+        self.main_notebook.add(pipeline_steps_frame, text="Pipeline")
         self.setup_pipeline_steps_tab(pipeline_steps_frame)
 
         # Documentation page
         documentation_frame = ttk.Frame(self.main_notebook)
         self.main_notebook.add(documentation_frame, text="Documentation")
         self.setup_documentation_tab(documentation_frame)
-
-        # Health Check page (manual diagnostics)
-        health_check_frame = ttk.Frame(self.main_notebook)
-        self.main_notebook.add(health_check_frame, text="Health Check")
-        self.setup_health_check_tab(health_check_frame)
 
     def _discover_health_check_scripts(self) -> dict[str, Path]:
         """Locate health_check scripts for enabled scrapers."""
@@ -643,21 +647,21 @@ class ScraperGUI:
         return result
 
     def setup_dashboard_page(self, parent):
-        """Setup dashboard page with execution controls, logs, and outputs/config tabs"""
+        """Setup dashboard page with execution controls and console"""
         # Create main container with fixed widths (no resizing)
-        # Fixed widths: 17% (exec controls) + 43% (logs) = 60% left, 40% right
+        # Fixed widths: 17% (exec controls) + 43% (log status controls) = 60% left, 40% right
         screen_width = self.root.winfo_screenwidth()
         dashboard_container = tk.Frame(parent, bg=self.colors['white'])
         dashboard_container.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
 
-        # Left panel - Execution (scraper selection, run controls, logs) - 60% total (17% + 43%)
+        # Left panel - Execution controls + log status controls - 60% total (17% + 43%)
         left_panel = ttk.Frame(dashboard_container)
         left_panel.configure(style='TFrame')
         left_panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
         left_panel.config(width=int(screen_width * 0.60))
         left_panel.pack_propagate(False)
 
-        # Right panel - Outputs/config tabs - 40%
+        # Right panel - Console (full height) - 40%
         right_panel = ttk.Frame(dashboard_container)
         right_panel.configure(style='TFrame')
         right_panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
@@ -665,17 +669,24 @@ class ScraperGUI:
         # Setup left panel (execution)
         self.setup_left_panel(left_panel)
 
-        # Setup right panel (outputs/config only)
+        # Setup right panel (console only)
+        self.setup_console_panel(right_panel)
+
+    def setup_outputs_page(self, parent):
+        """Setup outputs/config page with tabs for final output, configuration, and output files"""
         self.setup_right_panel(
-            right_panel,
+            parent,
             include_pipeline_steps=False,
+            include_final_output=True,
+            include_config=True,
+            include_output=True,
             include_docs=False
         )
         
     def setup_left_panel(self, parent):
-        """Setup left panel with execution controls and logs side by side"""
-        # Create fixed-width split for execution and logs (no resizing)
-        # Fixed widths: 17% (exec controls) + 43% (logs) = 60% total of window
+        """Setup left panel with execution controls and log status controls"""
+        # Create fixed-width split for execution and log status controls (no resizing)
+        # Fixed widths: 17% (exec controls) + 43% (log status controls) = 60% total of window
         exec_split = tk.Frame(parent, bg=self.colors['white'])
         exec_split.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
         
@@ -689,12 +700,12 @@ class ScraperGUI:
         exec_controls_frame.pack_propagate(False)
         self.setup_execution_tab(exec_controls_frame)
         
-        # Right side - Execution logs - 43% of total window (fixed width)
-        logs_frame = ttk.Frame(exec_split)
-        logs_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
-        logs_frame.config(width=int(screen_width * 0.43))
-        logs_frame.pack_propagate(False)
-        self.setup_logs_tab(logs_frame)
+        # Right side - System Status + Execution Status - 43% of total window (fixed width)
+        log_controls_frame = tk.Frame(exec_split, bg=self.colors['white'])
+        log_controls_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
+        log_controls_frame.config(width=int(screen_width * 0.43))
+        log_controls_frame.pack_propagate(False)
+        self.setup_log_status_panel(log_controls_frame)
     
     def setup_execution_tab(self, parent):
         """Setup execution control panel"""
@@ -782,11 +793,7 @@ class ScraperGUI:
         
         self.kill_all_chrome_button = ttk.Button(actions_section, text="Kill All Chrome Instances",
                   command=self.kill_all_chrome_instances, width=23, state=tk.NORMAL, style='Secondary.TButton')
-        self.kill_all_chrome_button.pack(pady=(0, 3), padx=8, fill=tk.X, expand=True)
-
-        self.open_tor_browser_button = ttk.Button(actions_section, text="Open Tor Browser",
-                  command=self.open_tor_browser, width=23, state=tk.NORMAL, style='Secondary.TButton')
-        self.open_tor_browser_button.pack(pady=(0, 6), padx=8, fill=tk.X, expand=True)
+        self.kill_all_chrome_button.pack(pady=(0, 6), padx=8, fill=tk.X, expand=True)
         
         # Checkpoint management - light gray border
         checkpoint_section = tk.Frame(parent, bg=self.colors['white'],
@@ -1319,9 +1326,15 @@ class ScraperGUI:
         
     def setup_logs_tab(self, parent):
         """Setup logs viewer panel"""
+        self.setup_log_status_panel(parent)
+        self.setup_console_panel(parent)
+    
+    def setup_log_status_panel(self, parent):
+        """Setup system status and execution controls (without console)"""
         # System Status frame (FIRST - at the top) - white background with light gray border
         stats_frame = tk.Frame(parent, bg=self.colors['white'],
-                               highlightthickness=0,
+                               highlightthickness=1,
+                               highlightbackground=self.colors['border_gray'],
                                bd=0)
         stats_frame.pack(fill=tk.X, padx=8, pady=(8, 12))
         
@@ -1369,34 +1382,25 @@ class ScraperGUI:
         # Start periodic system stats update
         self.update_system_stats()
         
-        # Execution Log section (BELOW System Status) - white background, no border
-        execution_log_frame = tk.Frame(parent, bg=self.colors['white'],
-                                       highlightthickness=0,
-                                       bd=0)
-        execution_log_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(0, 8))
+        # Execution Status section (BELOW System Status) - white background with light border
+        execution_status_frame = tk.Frame(parent, bg=self.colors['white'],
+                                          highlightthickness=1,
+                                          highlightbackground=self.colors['border_gray'],
+                                          bd=0)
+        execution_status_frame.pack(fill=tk.X, expand=False, padx=8, pady=(0, 8))
         
         # Label for the section
-        tk.Label(execution_log_frame, text="Execution Log", 
+        tk.Label(execution_status_frame, text="Execution Status", 
                 font=self.fonts['bold'],
                 bg=self.colors['white'],
                 fg='#000000').pack(anchor=tk.W, padx=16, pady=(16, 4))
         
         # Subtle horizontal separator below label
-        separator = tk.Frame(execution_log_frame, height=1, bg=self.colors['border_light'])
+        separator = tk.Frame(execution_status_frame, height=1, bg=self.colors['border_light'])
         separator.pack(fill=tk.X, padx=16, pady=(0, 8))
         
-        # Toolbar - white background
-        toolbar = tk.Frame(execution_log_frame, bg=self.colors['white'])
-        toolbar.pack(fill=tk.X, padx=5, pady=8)
-
-        ttk.Button(toolbar, text="Clear", command=self.clear_logs, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
-        ttk.Button(toolbar, text="Copy to Clipboard", command=self.copy_logs_to_clipboard, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
-        ttk.Button(toolbar, text="Save Log", command=self.save_log, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
-        ttk.Button(toolbar, text="Archive Log", command=self.archive_current_log, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
-        ttk.Button(toolbar, text="Open in Cursor", command=self.open_console_in_cursor, style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
-        
         # Progress frame - white background (2 lines)
-        progress_frame = tk.Frame(execution_log_frame, bg=self.colors['white'])
+        progress_frame = tk.Frame(execution_status_frame, bg=self.colors['white'])
         progress_frame.pack(fill=tk.X, padx=5, pady=(5, 10))
         
         # Line 1: Current status label
@@ -1453,16 +1457,46 @@ class ScraperGUI:
             font=self.fonts['standard']
         )
         self.progress_percent.pack(side=tk.RIGHT, padx=(10, 0))
+    
+    def setup_console_panel(self, parent):
+        """Setup console viewer panel"""
+        # Execution Log header + actions (above console)
+        console_header = tk.Frame(parent, bg=self.colors['white'],
+                                  highlightthickness=0,
+                                  bd=0)
+        console_header.pack(fill=tk.X, padx=8, pady=(8, 0))
+
+        tk.Label(console_header, text="Execution Log", 
+                 font=self.fonts['bold'],
+                 bg=self.colors['white'],
+                 fg='#000000').pack(anchor=tk.W, padx=16, pady=(8, 4))
+
+        separator = tk.Frame(console_header, height=1, bg=self.colors['border_light'])
+        separator.pack(fill=tk.X, padx=16, pady=(0, 8))
+
+        toolbar = tk.Frame(console_header, bg=self.colors['white'])
+        toolbar.pack(fill=tk.X, padx=16, pady=(0, 8))
+
+        ttk.Button(toolbar, text="Clear", command=self.clear_logs,
+                   style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
+        ttk.Button(toolbar, text="Copy to Clipboard", command=self.copy_logs_to_clipboard,
+                   style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
+        ttk.Button(toolbar, text="Save Log", command=self.save_log,
+                   style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
+        ttk.Button(toolbar, text="Archive Log", command=self.archive_current_log,
+                   style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
+        ttk.Button(toolbar, text="Open in Cursor", command=self.open_console_in_cursor,
+                   style='Secondary.TButton').pack(side=tk.LEFT, padx=(0, 8))
 
         # Log viewer - CRITICAL: Black background with yellow text
         log_viewer_frame = tk.Frame(
-            execution_log_frame,
+            parent,
             bg=self.colors['dark_gray'],
             highlightthickness=0,
             bd=0,
             relief='flat'
         )
-        log_viewer_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        log_viewer_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(0, 8))
 
         self.log_text = scrolledtext.ScrolledText(
             log_viewer_frame,
@@ -2925,8 +2959,19 @@ Provide a clear, concise explanation suitable for users who want to understand w
         if chosen_candidate:
             progress_percent = chosen_candidate["percent"]
             progress_desc = chosen_candidate["description"]
-        
-        # Pattern 6: Look for current step name in log (e.g., "Running step: X")
+
+        stats_summary = None
+        stats_match = re.search(
+            r'\[STATS\]\s*Success:\s*(\d+)\s*\|\s*Zero-records:\s*(\d+)\s*\|\s*Detail rows:\s*(\d+)',
+            log_content
+        )
+        if stats_match:
+            success = stats_match.group(1)
+            zero = stats_match.group(2)
+            rows = stats_match.group(3)
+            stats_summary = f"Success {success} | Zero {zero} | Rows {rows}"
+
+        # Pattern 7: Look for current step name in log (e.g., "Running step: X")
         if not progress_desc:
             step_name_match = re.search(r'(?:Running|Executing|Step)\s*:?\s*([^\n]+)', log_content, re.IGNORECASE)
             if step_name_match:
@@ -2963,6 +3008,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 progress_desc = f"Running {scraper_name}..."
             else:
                 progress_desc = f"Ready: {scraper_name}"
+
+        if stats_summary:
+            progress_desc = f"{progress_desc} | {stats_summary}"
         
         # Store progress state for this scraper
         final_percent = progress_percent if progress_percent is not None else 0

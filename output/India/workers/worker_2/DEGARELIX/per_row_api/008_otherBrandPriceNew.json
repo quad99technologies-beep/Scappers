@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "DEGATIDE",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "12500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12500.00"
+  },
+  {
+    "brandName": "DEGALIX",
+    "packSize": "1",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "12857.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12857.14"
+  },
+  {
+    "brandName": "DEGAPRIDE",
+    "packSize": "1",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "13125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13125.00"
+  },
+  {
+    "brandName": "FIRMAGON",
+    "packSize": "1",
+    "company": "FERRING PHARMACEUTICALS",
+    "brandMrp": "15467.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15467.81"
+  },
+  {
+    "brandName": "DEGRINTA",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "18175.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18175.78"
+  }
+]

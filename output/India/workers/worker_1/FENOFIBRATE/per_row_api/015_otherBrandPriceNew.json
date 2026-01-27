@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "TGCARDIS",
+    "packSize": "10",
+    "company": "CKRIS LABORATORIES PVT LTD",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "FINOBRATE",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "126.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.62"
+  },
+  {
+    "brandName": "FENOMUST",
+    "packSize": "10",
+    "company": "GENIEMED PVT LTD",
+    "brandMrp": "173.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.30"
+  },
+  {
+    "brandName": "STANLIP",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "208.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.81"
+  },
+  {
+    "brandName": "FENOLIP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "266.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.67"
+  }
+]

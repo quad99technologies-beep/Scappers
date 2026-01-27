@@ -1,0 +1,538 @@
+[
+  {
+    "brandName": "LULICONAZ",
+    "packSize": "15",
+    "company": "HELIOS PHARMACEUTICALS",
+    "brandMrp": "59.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.94"
+  },
+  {
+    "brandName": "LSYS",
+    "packSize": "60",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "271.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.53"
+  },
+  {
+    "brandName": "LULIFRESH",
+    "packSize": "25",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.80"
+  },
+  {
+    "brandName": "LURISTA",
+    "packSize": "30",
+    "company": "PRISM LIFESCIENCE",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "LOGIFIN CL",
+    "packSize": "50",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "258.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.16"
+  },
+  {
+    "brandName": "LLCOL",
+    "packSize": "30",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "162.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.41"
+  },
+  {
+    "brandName": "LULIPORUS",
+    "packSize": "30",
+    "company": "ENCORE HEALTHCARE PVT LTD",
+    "brandMrp": "167.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.59"
+  },
+  {
+    "brandName": "LULIBET",
+    "packSize": "50",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "327.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.54"
+  },
+  {
+    "brandName": "LSYS",
+    "packSize": "30",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "206.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.88"
+  },
+  {
+    "brandName": "LULINEXT",
+    "packSize": "20",
+    "company": "ETHINEXT PHARMA PVT.LTD",
+    "brandMrp": "139.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.98"
+  },
+  {
+    "brandName": "LULINAZ",
+    "packSize": "30",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "229.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.66"
+  },
+  {
+    "brandName": "LULICAN",
+    "packSize": "30",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "233.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.78"
+  },
+  {
+    "brandName": "LOFATIN",
+    "packSize": "50",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "395.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.91"
+  },
+  {
+    "brandName": "LULIDERM",
+    "packSize": "30",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "240.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.03"
+  },
+  {
+    "brandName": "LULIGEE",
+    "packSize": "30",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "256.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.56"
+  },
+  {
+    "brandName": "GLOMYCAN",
+    "packSize": "30",
+    "company": "TRICOS DERMATOLOGICS PVT LTD",
+    "brandMrp": "260.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.67"
+  },
+  {
+    "brandName": "LULISKIN(ENTOD)",
+    "packSize": "30",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "262.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.75"
+  },
+  {
+    "brandName": "LULICARE (LEEFORD)",
+    "packSize": "25",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "222.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.89"
+  },
+  {
+    "brandName": "2AZOLE",
+    "packSize": "30",
+    "company": "PREMIER NUTRACEUTICALS PVT LTD",
+    "brandMrp": "267.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.92"
+  },
+  {
+    "brandName": "LULIBOR",
+    "packSize": "30",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "271.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.06"
+  },
+  {
+    "brandName": "LURAY",
+    "packSize": "30",
+    "company": "PRISM LIFESCIENCE",
+    "brandMrp": "276.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.22"
+  },
+  {
+    "brandName": "LULIACT",
+    "packSize": "15",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "140.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.33"
+  },
+  {
+    "brandName": "LULIFORD",
+    "packSize": "15",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "140.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.33"
+  },
+  {
+    "brandName": "LULIMAC",
+    "packSize": "30",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "288.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.63"
+  },
+  {
+    "brandName": "LULIZA",
+    "packSize": "20",
+    "company": "ANHOX HEALTHCARE PVT LTD",
+    "brandMrp": "194.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.70"
+  },
+  {
+    "brandName": "LULINOL",
+    "packSize": "30",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "295.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.83"
+  },
+  {
+    "brandName": "LUCRUSH",
+    "packSize": "30",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.00"
+  },
+  {
+    "brandName": "LULIPORUS",
+    "packSize": "10",
+    "company": "ENCORE HEALTHCARE PVT LTD",
+    "brandMrp": "100.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.00"
+  },
+  {
+    "brandName": "LT-MAC XL",
+    "packSize": "30",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "313.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.45"
+  },
+  {
+    "brandName": "LULIMAC",
+    "packSize": "30",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "313.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.45"
+  },
+  {
+    "brandName": "LULIBA",
+    "packSize": "15",
+    "company": "MYPHER PHARMACEUTICALS LLP.LTD",
+    "brandMrp": "164.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.94"
+  },
+  {
+    "brandName": "TINIBIT L",
+    "packSize": "30",
+    "company": "LA PRISTINE BIOCEUTICALS PVT LTD",
+    "brandMrp": "333.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.10"
+  },
+  {
+    "brandName": "FUNZI L",
+    "packSize": "30",
+    "company": "CORONA",
+    "brandMrp": "339.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.32"
+  },
+  {
+    "brandName": "LOGIFIN",
+    "packSize": "15",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "170.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.33"
+  },
+  {
+    "brandName": "LULY",
+    "packSize": "30",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "363.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.13"
+  },
+  {
+    "brandName": "LZHH",
+    "packSize": "30",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "364.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.16"
+  },
+  {
+    "brandName": "LUCOZ",
+    "packSize": "30",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "370.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.33"
+  },
+  {
+    "brandName": "LULIRAB (ABARIS)",
+    "packSize": "15",
+    "company": "ABARIS HEALTHCARE",
+    "brandMrp": "185.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.38"
+  },
+  {
+    "brandName": "LULILOK",
+    "packSize": "15",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "187.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.48"
+  },
+  {
+    "brandName": "LUCAN",
+    "packSize": "15",
+    "company": "LEO LIFE SCIENCE PVT LTD",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "LULIZ",
+    "packSize": "30",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "381.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.71"
+  },
+  {
+    "brandName": "LUTRIBEN",
+    "packSize": "15",
+    "company": "JENBURKT PHARMACEUTICALS LTD",
+    "brandMrp": "195.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.03"
+  },
+  {
+    "brandName": "LULIZOL",
+    "packSize": "20",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "267.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.36"
+  },
+  {
+    "brandName": "LUDURA",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "411.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.73"
+  },
+  {
+    "brandName": "LUCOZ",
+    "packSize": "15",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "208.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.87"
+  },
+  {
+    "brandName": "LUNABET",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "214.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.30"
+  },
+  {
+    "brandName": "LULIPEX",
+    "packSize": "15",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "218.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.59"
+  },
+  {
+    "brandName": "LILITUF",
+    "packSize": "30",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "442.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.73"
+  },
+  {
+    "brandName": "LULYERA",
+    "packSize": "15",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "224.01",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.93"
+  },
+  {
+    "brandName": "LULILOK",
+    "packSize": "30",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "453.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.11"
+  },
+  {
+    "brandName": "LFINE",
+    "packSize": "15",
+    "company": "OMNI LIFE SCIENCES PVT LTD",
+    "brandMrp": "229.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.31"
+  },
+  {
+    "brandName": "LUCRUSH",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "234.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.62"
+  },
+  {
+    "brandName": "LUDEMOLD",
+    "packSize": "15",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "247.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.50"
+  },
+  {
+    "brandName": "LULIBRUT",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "248.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.56"
+  },
+  {
+    "brandName": "LT-MAC",
+    "packSize": "15",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "257.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.19"
+  },
+  {
+    "brandName": "LULIMAC",
+    "packSize": "15",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "257.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.19"
+  },
+  {
+    "brandName": "LULIHALT",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "271.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.07"
+  },
+  {
+    "brandName": "LULIRX",
+    "packSize": "20",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "386.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.30"
+  },
+  {
+    "brandName": "LULIZONE",
+    "packSize": "20",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "399.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.95"
+  },
+  {
+    "brandName": "ZYLULI",
+    "packSize": "20",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "407.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.35"
+  },
+  {
+    "brandName": "LULIFIN",
+    "packSize": "20",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "422.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.13"
+  },
+  {
+    "brandName": "LUPIZOL",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "214.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.44"
+  },
+  {
+    "brandName": "LZ-CAN",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "219.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.90"
+  },
+  {
+    "brandName": "LULIFIN",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "233.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.34"
+  },
+  {
+    "brandName": "LTINEA",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "241.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.10"
+  },
+  {
+    "brandName": "LULICAN",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "249.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.90"
+  },
+  {
+    "brandName": "LULIGEE",
+    "packSize": "10",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "256.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.67"
+  }
+]

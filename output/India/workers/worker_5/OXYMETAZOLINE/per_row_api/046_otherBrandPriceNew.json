@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "NAZODEN",
+    "packSize": "10",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "50.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.04"
+  },
+  {
+    "brandName": "VILCO",
+    "packSize": "10",
+    "company": "VILCO LABORATORIES PVT. LTD",
+    "brandMrp": "73.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.34"
+  },
+  {
+    "brandName": "OXYNOZCALM",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "SINAREST PD",
+    "packSize": "10",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "131.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.20"
+  }
+]

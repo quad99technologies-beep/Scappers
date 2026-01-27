@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "ATRET",
+    "packSize": "30",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "184.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.15"
+  },
+  {
+    "brandName": "TRONIN",
+    "packSize": "20",
+    "company": "TALENT INDIA",
+    "brandMrp": "129.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.45"
+  },
+  {
+    "brandName": "TOPITRET",
+    "packSize": "20",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "TRETIN",
+    "packSize": "30",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "TREBOR",
+    "packSize": "20",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "154.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.73"
+  }
+]

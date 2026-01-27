@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "QUTINA",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "55.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.53"
+  },
+  {
+    "brandName": "QUTIMAX",
+    "packSize": "10",
+    "company": "AGM BIOTEC",
+    "brandMrp": "57.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.70"
+  },
+  {
+    "brandName": "ADEQUET",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "61.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.10"
+  },
+  {
+    "brandName": "QTA",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "63.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.31"
+  },
+  {
+    "brandName": "QUTIWEL",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "64.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.42"
+  },
+  {
+    "brandName": "QUATISURE",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "94.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.40"
+  }
+]

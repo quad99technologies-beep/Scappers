@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "UNISOX",
+    "packSize": "10",
+    "company": "UNICURE INDIA PVT LTD",
+    "brandMrp": "30.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.01"
+  },
+  {
+    "brandName": "ISOX (SURGE BIOTECH)",
+    "packSize": "10",
+    "company": "SURGE BIOTECH PVT LTD",
+    "brandMrp": "37.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.75"
+  },
+  {
+    "brandName": "UNISOX",
+    "packSize": "10",
+    "company": "UNICURE INDIA PVT LTD",
+    "brandMrp": "99.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.94"
+  },
+  {
+    "brandName": "UTOPAR",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "99.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.99"
+  },
+  {
+    "brandName": "UTGARD",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "154.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.43"
+  },
+  {
+    "brandName": "RITOPAR UR",
+    "packSize": "10",
+    "company": "MERCURY HEALTH CARE PVT LTD",
+    "brandMrp": "183.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.38"
+  },
+  {
+    "brandName": "UTODIN",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "204.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.44"
+  },
+  {
+    "brandName": "RITOLAN",
+    "packSize": "10",
+    "company": "JUGGAT PHARMA",
+    "brandMrp": "269.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.95"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "GLYCERINE I.P",
+    "packSize": "100",
+    "company": "AGRAWAL PHARMACEUTICALS",
+    "brandMrp": "32.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.33"
+  },
+  {
+    "brandName": "GLYCERINE I.P",
+    "packSize": "50",
+    "company": "AGRAWAL PHARMACEUTICALS",
+    "brandMrp": "24.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.49"
+  },
+  {
+    "brandName": "BLUSHWAY",
+    "packSize": "100",
+    "company": "SMARTWAY WELLNESS PVT. LTD.",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.10"
+  },
+  {
+    "brandName": "GLYSEB",
+    "packSize": "250",
+    "company": "MARK INDIA",
+    "brandMrp": "325.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.30"
+  },
+  {
+    "brandName": "BLUSHWAY",
+    "packSize": "10",
+    "company": "SMARTWAY WELLNESS PVT. LTD.",
+    "brandMrp": "14.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.48"
+  }
+]

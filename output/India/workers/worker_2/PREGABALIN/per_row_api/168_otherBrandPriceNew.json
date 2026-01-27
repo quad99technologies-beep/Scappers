@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "FINENERVE",
+    "packSize": "30",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "192.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.40"
+  },
+  {
+    "brandName": "GRANTIN D",
+    "packSize": "30",
+    "company": "ANTHEM BIOPHARMA PVT LTD",
+    "brandMrp": "215.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.19"
+  },
+  {
+    "brandName": "SONAXA",
+    "packSize": "30",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "MAHAGABA",
+    "packSize": "30",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "398.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.28"
+  },
+  {
+    "brandName": "MOVICAM",
+    "packSize": "30",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "398.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.28"
+  },
+  {
+    "brandName": "PREGABA",
+    "packSize": "30",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "398.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.28"
+  },
+  {
+    "brandName": "PREGABID",
+    "packSize": "30",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "398.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.28"
+  },
+  {
+    "brandName": "PREGALIN",
+    "packSize": "30",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "398.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.28"
+  },
+  {
+    "brandName": "REPERI",
+    "packSize": "30",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "398.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.28"
+  }
+]

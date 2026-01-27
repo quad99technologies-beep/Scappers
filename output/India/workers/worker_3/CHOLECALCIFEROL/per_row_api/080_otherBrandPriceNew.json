@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "BLUVIT-D3",
+    "packSize": "1",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "9.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.37"
+  },
+  {
+    "brandName": "CALDISON D3",
+    "packSize": "1",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "15.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.16"
+  },
+  {
+    "brandName": "CALOTEC D3",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "28.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.30"
+  },
+  {
+    "brandName": "CHOLICAL",
+    "packSize": "1",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "31.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.00"
+  },
+  {
+    "brandName": "BC FERROL",
+    "packSize": "1",
+    "company": "BIO WARRIORS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "31.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.19"
+  },
+  {
+    "brandName": "D GAIN",
+    "packSize": "12",
+    "company": "MEDSOL INDIA OVERSEAS PVT. LTD.",
+    "brandMrp": "382.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.86"
+  },
+  {
+    "brandName": "ELCAD",
+    "packSize": "1",
+    "company": "GUJARAT TERCE LABORATORIES LTD",
+    "brandMrp": "34.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.50"
+  },
+  {
+    "brandName": "OSTA D3",
+    "packSize": "1",
+    "company": "RAVENBHEL PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "35.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.44"
+  },
+  {
+    "brandName": "MAC D3",
+    "packSize": "1",
+    "company": "MACMILLON PHARMACEUTICALS",
+    "brandMrp": "35.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.65"
+  },
+  {
+    "brandName": "KALZIN",
+    "packSize": "1",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "36.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.28"
+  },
+  {
+    "brandName": "CALSHINE 60K",
+    "packSize": "1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "36.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.29"
+  },
+  {
+    "brandName": "CALBONE D3",
+    "packSize": "1",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "36.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.30"
+  },
+  {
+    "brandName": "CALCITAS",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "36.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.30"
+  }
+]

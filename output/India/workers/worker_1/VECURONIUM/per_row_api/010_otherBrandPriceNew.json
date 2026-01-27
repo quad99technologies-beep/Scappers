@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "NEOVEC",
+    "packSize": "10",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "124.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.49"
+  },
+  {
+    "brandName": "SAMVEC",
+    "packSize": "10",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "125.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.51"
+  },
+  {
+    "brandName": "GERVEC",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "186.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.63"
+  },
+  {
+    "brandName": "ZYVEC",
+    "packSize": "10",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "199.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.90"
+  },
+  {
+    "brandName": "KABIVEC",
+    "packSize": "10",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "261.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.19"
+  },
+  {
+    "brandName": "TROYVEC",
+    "packSize": "5",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "194.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.82"
+  }
+]

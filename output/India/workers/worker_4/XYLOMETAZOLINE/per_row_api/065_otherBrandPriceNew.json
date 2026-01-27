@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "NASOMIST P",
+    "packSize": "10",
+    "company": "ENDOCARD",
+    "brandMrp": "32.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.20"
+  },
+  {
+    "brandName": "NOSYLIN",
+    "packSize": "10",
+    "company": "UNIVERSAL LIFE SCIENCE",
+    "brandMrp": "43.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.40"
+  },
+  {
+    "brandName": "VISIMET P",
+    "packSize": "10",
+    "company": "UNISERVE HEALTH CARE PVT.LTD",
+    "brandMrp": "44.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.47"
+  }
+]

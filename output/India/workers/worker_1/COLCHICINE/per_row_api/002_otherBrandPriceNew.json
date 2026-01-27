@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "GOUTNIL",
+    "packSize": "30",
+    "company": "INGA LABORATORIES PVT. LTD.",
+    "brandMrp": "17.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.59"
+  },
+  {
+    "brandName": "COLCHIHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "22.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.25"
+  },
+  {
+    "brandName": "GETON (AJANTA)",
+    "packSize": "20",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "67.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.35"
+  },
+  {
+    "brandName": "ZYCOLCHIN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "34.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.48"
+  },
+  {
+    "brandName": "GOUTNIL",
+    "packSize": "10",
+    "company": "INGA LABORATORIES PVT. LTD.",
+    "brandMrp": "34.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.49"
+  }
+]

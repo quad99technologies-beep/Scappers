@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521014610@251923@101121721@1846@101068@201840",
+    "skuName": "DARZALEX 100 MG INJECTION 5 ML",
+    "composition": "DARATUMUMAB INJECTION 100 MG",
+    "packSize": "5 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "JANSSEN",
+    "scheduleFlag": "0",
+    "mrp": "16025.89",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3205.18"
+  },
+  {
+    "hiddenId": "1521067537@251924@101121721@3625@101068@201840",
+    "skuName": "DARZALEX 400 MG INJECTION 20 ML",
+    "composition": "DARATUMUMAB INJECTION 400 MG",
+    "packSize": "20 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "JANSSEN",
+    "scheduleFlag": "0",
+    "mrp": "64018.75",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3200.94"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "VITREX",
+    "packSize": "10",
+    "company": "AVANCER LAB",
+    "brandMrp": "72.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.20"
+  },
+  {
+    "brandName": "VITILEX",
+    "packSize": "10",
+    "company": "GLOWDERMA",
+    "brandMrp": "119.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.91"
+  },
+  {
+    "brandName": "ELSEAL",
+    "packSize": "4",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "73.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.28"
+  },
+  {
+    "brandName": "LEVOTAB (EAST WEST)",
+    "packSize": "4",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "136.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.03"
+  },
+  {
+    "brandName": "VERMISOL",
+    "packSize": "1",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "34.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.45"
+  },
+  {
+    "brandName": "DICARIS (ADULT-J&J)",
+    "packSize": "1",
+    "company": "JANSSEN",
+    "brandMrp": "46.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.00"
+  },
+  {
+    "brandName": "DICARIS (ADULT-J&J)",
+    "packSize": "3",
+    "company": "JANSSEN",
+    "brandMrp": "138.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.00"
+  }
+]

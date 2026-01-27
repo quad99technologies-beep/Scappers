@@ -1,0 +1,1439 @@
+
+var table  = "";
+var selcChkValue = "";
+
+
+$.extend( $.fn.dataTable.defaults, {
+    responsive: true
+} ); 
+ 
+
+$(document).ready(function() {
+	//alert("a");
+	  $.fn.dataTable.ext.oSort['custom-sort-asc'] = function(a, b) {
+	    var x = a.replace(/[^a-zA-Z]/g, '');
+	    var y = b.replace(/[^a-zA-Z]/g, '');
+
+	    if (x === y) {
+	      var numX = parseInt(a.match(/\d+/));
+	      var numY = parseInt(b.match(/\d+/));
+	      return numX - numY;
+	    }
+
+	    return x.localeCompare(y);
+	  };
+
+	  $.fn.dataTable.ext.oSort['custom-sort-desc'] = function(a, b) {
+	    var x = a.replace(/[^a-zA-Z]/g, '');
+	    var y = b.replace(/[^a-zA-Z]/g, '');
+
+	    if (x === y) {
+	      var numX = parseInt(a.match(/\d+/));
+	      var numY = parseInt(b.match(/\d+/));
+	      return numY - numX;
+	    }
+
+	    return y.localeCompare(x);
+	  };
+
+	  
+	});
+
+
+
+ $(document).ready(function(){	
+	//$("#searchBrand,#searchFormulation,#strengthId,#dosageId").change(function(){
+
+		//alert("b");
+   $("#gobtn").click(function(){
+
+		var caseFlag=document.forms[0].caseFlag;
+
+		 for(var i=0; i < caseFlag.length; i++){
+			 if(caseFlag[i].checked){
+				 caseFlag = caseFlag[i].value;
+				 break;
+			}
+		 }
+
+		 var strength = document.getElementById("strengthId").options[document.getElementById("strengthId").selectedIndex].text;
+         var brandId="";
+         var formulationId="";
+		 
+	if(caseFlag=="1"){
+		
+		var searchBrand = document.getElementById("searchBrand").value;
+		var searchFormulation = document.getElementById("searchFormulation").value;
+
+		if((searchBrand==""||searchBrand==null) && (searchFormulation==""||searchFormulation==null)){
+              alert("Please Select Either Brand or Formulation");
+              return false;
+			}
+		
+		if((searchBrand!="" && searchBrand!=null) && (searchFormulation!="" && searchFormulation!=null)){
+            alert("Please Select Either Brand or Formulation");
+            document.getElementById("searchBrand").value = "";
+            document.getElementById("searchFormulation").value = "";
+            return false;
+			}
+		
+		
+		
+		if(searchBrand==""||searchBrand==null){
+			formulationId = document.getElementById("formulationId").value;
+			
+			 url = "/NPPA/rest/formulationDataTableNew?formulationId="+formulationId+"&strengthId="+$("#strengthId").val()+"&dosageId="+$("#dosageId").val();		
+			    ajaxFunction(url,"7");
+			}
+		
+		if(searchFormulation==""||searchFormulation==null){
+			brandId = document.getElementById("brandId").value;
+			
+			url = "/NPPA/rest/brandDataTableNew?brandId="+brandId+"&strengthId="+$("#strengthId").val()+"&dosageId="+$("#dosageId").val();		
+		       ajaxFunction(url,"1");
+		  }
+	    
+   }
+	else
+	{
+
+		schFormulationId = document.getElementById("schFormulationId").value;   
+		
+        url = "/NPPA/rest/schFormDataTableNew?schFormulationId="+schFormulationId+"&strengthId="+$("#strengthId").val()+"&dosageId="+$("#dosageId").val();	
+	    ajaxFunction(url,"2");
+
+       }   
+      });
+    }); 		 
+
+$(document).ready(function(){
+
+	$.ajax({
+		type : "GET",
+		url : "/NPPA/rest/strengthCombo1",
+		// data: {groupCode: $(this).val()},
+		async : true,
+		dataType : "text",
+		success : function(data) {
+			//alert(data);
+			var obj = JSON.parse(data);
+			var optionstring = "";
+
+			var select = document.getElementById('strengthId');
+
+			for (var i = 0; i < obj.length; i++) {
+				var opt = document.createElement('option');
+				
+				if(obj[i].strength=="undefined"){
+					opt.value = "1";
+					opt.innerHTML = "NA";
+				}
+				else{
+					opt.value = obj[i].strengthId;
+					opt.innerHTML = obj[i].strength;
+				}
+				select.appendChild(opt);
+			}
+			 $('select#strengthId').chosen();
+		}
+	});
+
+	$.ajax({
+		type : "GET",
+		url : "/NPPA/rest/dosageCombo1",
+		// data: {groupCode: $(this).val()},
+		async : true,
+		dataType : "text",
+		success : function(data) {
+			//alert(data);
+			var obj = JSON.parse(data);
+			var optionstring = "";
+
+			var select = document.getElementById('dosageId');
+
+			for (var i = 0; i < obj.length; i++) {
+				var opt = document.createElement('option');
+				opt.value = obj[i].dosageId;
+				opt.innerHTML = obj[i].dosageName;
+				select.appendChild(opt);
+			}
+			 $('select#dosageId').chosen();
+		}
+	});
+
+});
+    
+$(function() {	
+	 loadAutocompleteItems();
+	 displaySelectedBrand("brandId");
+	 loadAutocompleteItems1();
+	 displaySelectedBrand("formulationId");
+	 loadAutocompleteItems2();
+	 displaySelectedBrand("schFormulationId");
+}); 
+
+function loadAutocompleteItems()
+{
+	$('#searchBrand').val("");
+    displaySelectedBrand("brandId");
+
+    var itemList = [];
+	$('#brandId option').each(function() {
+	    itemList.push({ "value" :this.textContent , "data" : this.value });
+	});
+
+	$('#searchBrand').autocomplete({
+	   lookup: itemList,
+	   minChars:3,
+	   onSelect: function (suggestion) {        
+	     getBrandNameSelected(suggestion.data, "brandId");
+	     filterStrength("1",$("#brandId").val());
+	   }	    
+	 });
+	
+	 $('#searchBrand').click(function(){	 
+	 	$(this).val("");
+	 });	
+}
+
+
+function loadAutocompleteItems1()
+{
+	$('#searchFormulation').val("");
+	displaySelectedBrand("formulationId");
+
+    var itemList = [];
+	$('#formulationId option').each(function() {
+	    itemList.push({ "value" :this.textContent , "data" : this.value });
+	});
+
+	$('#searchFormulation').autocomplete({
+	   lookup: itemList,
+	   minChars:3,
+	   onSelect: function (suggestion) {        
+		   getBrandNameSelected(suggestion.data, "formulationId");
+		   filterStrength("2",$("#formulationId").val());
+	     //getBatchNo();	     
+	   }	    
+	 });
+	
+	 $('#searchFormulation').click(function(){	 
+	 	$(this).val("");
+	 });	
+}
+
+function loadAutocompleteItems2()
+{
+	$('#searchSchFormulation').val("");
+	displaySelectedBrand("schFormulationId");
+
+    var itemList = [];
+	$('#schFormulationId option').each(function() {
+	    itemList.push({ "value" :this.textContent , "data" : this.value });
+	});
+
+	$('#searchSchFormulation').autocomplete({
+	   lookup: itemList,
+	   minChars:3,
+	   onSelect: function (suggestion) {        
+		   getBrandNameSelected(suggestion.data, "schFormulationId");
+		   filterStrength("3",$("#schFormulationId").val());
+	       //filterStrength();	     
+	   }	    
+	 });
+	
+	 $('#searchSchFormulation').click(function(){	 
+	 	$(this).val("");
+	 });	
+}
+
+function filterStrength(mode, formulationId){
+	
+	$("#medicineId").val(formulationId);
+	$("#modeVal").val(mode);
+    url = "/NPPA/rest/filterStrengthCmb?mode="+mode+"&formulationId="+formulationId;			
+	 ajaxFunction(url,"8");
+}
+
+function getBrandScheduleCmb(){
+
+	var caseFlag=document.forms[0].caseFlag;
+
+	 for(var i=0; i < caseFlag.length; i++){
+		 if(caseFlag[i].checked){
+			 caseFlag = caseFlag[i].value;
+			 break;
+		}
+	 }
+    
+	 var pharmaDiv = document.getElementById("pharmaDiv").innerHTML;
+ if(caseFlag=="1"){
+	 
+   if(pharmaDiv.trim()!=""||pharmaDiv.trim()!=null){
+	   document.getElementById("pharmaDiv").innerHTML = "";
+   }
+	
+   
+	$.ajax({
+		type : "GET",
+		url : "/NPPA/rest/brandComboNew",
+		// data: {groupCode: $(this).val()},
+		async : true,
+		dataType : "text",
+		success : function(data) {
+
+			
+			var obj = JSON.parse(data);
+//			alert("obj2"+ obj2);
+			var optionstring = "";
+
+//			var select = document.getElementById('brandId');
+			
+			var Hlp =  "<select id='brandId' name='brandId' class='form-control'>"
+					  +"<option value='0'>Select Brand</option>";
+			
+			for (var i = 0; i < obj.length; i++) 
+			{   
+				
+				Hlp += "<option value='" + obj[i].brandId + "' >"
+			    + obj[i].brandName + "</option>";
+
+			}
+		
+			Hlp += "</select>";
+			document.getElementById('brandId').innerHTML=Hlp;
+			loadAutocompleteItems();
+		}
+	});
+
+	
+	$.ajax({
+		type : "GET",
+		url : "/NPPA/rest/formulationListNew",
+		async : true,
+		dataType : "text",
+		success : function(data) {
+// 			alert(data);
+			var obj = JSON.parse(data);
+// 			alert(obj);
+			var optionstring = "";
+
+//			var select = document.getElementById('showFormulationDiv');
+			//var opt = document.getElementById('showFormulationDiv');
+			var Hlp =  "<select id='formulationId' name='formulationId' class='form-control'>"
+					   +"<option value='0'>Select Formulation</option>";
+			
+			for (var i = 0; i < obj.length; i++) {
+			Hlp += "<option value='" + obj[i].formulationId + "' >"
+			    + obj[i].formulationName + "</option>";
+
+	
+						
+			}
+			Hlp += "</select>";
+			document.getElementById('showFormulationDiv').innerHTML=Hlp;
+			loadAutocompleteItems1();
+                
+		}
+	});
+	
+	 document.getElementById("brandFormDiv").style.display = "block";
+	 document.getElementById("schFormDiv").style.display = "none";
+	
+	 $("#strengthId").val("0").trigger("chosen:updated");
+	 $("#dosageId").val("0").trigger("chosen:updated");
+
+ }
+ else{
+	 
+	 if(pharmaDiv.trim()!=""||pharmaDiv.trim()!=null){
+		   document.getElementById("pharmaDiv").innerHTML = "";
+	   }
+	 
+	 
+	 $.ajax({
+			type : "GET",
+			url : "/NPPA/rest/scheduledFormulationComboNew",
+			// data: {groupCode: $(this).val()},
+			async : true,
+			dataType : "text",
+			success : function(data) {
+				var obj = JSON.parse(data);
+				var optionstring = "";
+
+				var Hlp =  "<select id='schFormulationId' name='schFormulationId' class='form-control'>"
+					       +"<option value='0'>Select Scheduled Formulation</option>";
+				
+				for (var i = 0; i < obj.length; i++) {
+				Hlp += "<option value='" + obj[i].schFormulationId + "' >"
+				    + obj[i].schFormulationName + "</option>";
+			
+				}
+				Hlp += "</select>";
+				document.getElementById('showSchFormulationDiv').innerHTML=Hlp;
+				loadAutocompleteItems2();
+				}
+		});
+
+	 document.getElementById("brandFormDiv").style.display = "none";
+	 document.getElementById("schFormDiv").style.display = "block";
+	 
+	 $("#strengthId").val("0").trigger("chosen:updated");
+	 $("#dosageId").val("0").trigger("chosen:updated");
+
+   }
+}
+
+ function getAutoList(){
+	 
+	 $.ajax({
+			type : "GET",
+			url : "/NPPA/rest/scheduledFormulationComboNew",
+			// data: {groupCode: $(this).val()},
+			async : true,
+			dataType : "text",
+			success : function(data) {
+				var obj = JSON.parse(data);
+				var optionstring = "";
+
+				var Hlp =  "<select id='schFormulationId' name='schFormulationId' class='form-control'>";
+				
+				for (var i = 0; i < obj.length; i++) {
+				Hlp += "<option value='" + obj[i].schFormulationId + "' >"
+				    + obj[i].schFormulationName + "</option>";
+			
+				}
+				Hlp += "</select>";
+				document.getElementById('showSchFormulationDiv').innerHTML=Hlp;
+				loadAutocompleteItems2();
+				}
+		});
+	 
+} 
+ 
+ 
+ function getOtherBrandPrice(i){
+	 $("#showMrp").val("0");
+	 $("#showMrpPerUnit").val("0");
+		 
+	 var hiddenId=document.getElementById("hiddenId"+i).value;
+//	 alert("popupDiv")
+	 
+	 document.getElementById("hiddenIdNew").value = hiddenId;
+	 
+	 url = "/NPPA/rest/skuMrpNew?hiddenId="+hiddenId;			
+	 ajaxFunction(url,"3");
+ 
+ } 
+	 function getMedicineMrp(i){
+		 var hiddenId=document.getElementById("hiddenId"+i).value;
+		 
+		 url = "/NPPA/rest/medDtlsNew?hiddenId="+hiddenId;			
+		 ajaxFunction(url,"4");
+		 
+ }
+	 
+	 function getCeilingPriceDtls(i){
+		 var hiddenId=document.getElementById("hiddenId"+i).value;
+		 
+         url = "/NPPA/rest/ceilingPriceDtlsNew?hiddenId="+hiddenId;			
+		 ajaxFunction(url,"5");
+
+ }
+
+	 function calcMrp(){
+		 
+		 var hiddenVal = document.getElementById("hiddenVal").value;
+		 //alert(hiddenVal);
+		 var numUnit = parseFloat(document.getElementById("numUnit").value);
+		 
+		 res = hiddenVal.split("$");
+		 var ceilingPrice = parseFloat(res[0]);	 
+		 var tax = parseFloat(res[1]);
+		 
+		 //alert(ceilingPrice);
+		 //alert(tax);
+		
+		 
+		 var preMrp = ceilingPrice * numUnit;
+		 //alert(preMrp);
+		 
+		 var finalMrp = preMrp  + preMrp*tax/100;
+		 //alert(finalMrp);
+		 
+		 document.getElementById("mrpChange").innerHTML = finalMrp.toFixed(2);
+	 }
+	 
+	 
+	 
+	 function getAjaxResponse(res, mode)
+	 {     
+	        if(mode=="1"){
+                var k=0;
+				
+				var Hlp="";
+				
+//					    alert(data);
+				      
+						var obj = JSON.parse(res);
+						
+						var optionstring = "";
+                    
+						var opt = document.getElementById('pharmaDiv');
+						var brandId = document.getElementById("brandId").value;
+						
+						searchBrand = document.getElementById("searchBrand").value;
+//						alert("brandId>>>"+ brandId);
+						if(searchBrand!=null && searchBrand!= "")
+					{
+							 Hlp = "<div class='card bg-light shadow-lg bg-white rounded' style='margin:20px;'>"
+							        +"<div class='card-body'>";
+							 
+							 if(obj.length>0)
+							 {
+								 Hlp += "<table id='myDatatable1' class='display cell-border' width='100%'>"
+									+"<thead>"
+									+"<tr>"
+									+"<th colspan='1'></th>"
+									+"<th colspan='1'>S.No.</th>"
+									+"<th colspan='1'>Medicine Name</th>"
+									+"<th colspan='1'>Status</th>"
+									+"<th colspan='1'>Ceiling Price (Excluding Taxes)(&#8377)</th>"
+									+"<th colspan='1'>Unit</th>"
+									+"<th colspan='1'>M.R.P. (&#8377)/Unit</th>"
+									+"</tr>"
+									+"</thead>"
+									+"<tbody>";
+							 
+							
+							  if(obj!=null) 
+							  {
+								for (var i = 0; i < obj.length; i++) {
+
+									// System.out.println(mdModelMstBean.get(i).getHiddenId());
+									
+									j = i + 1;
+									 Hlp += "<tr>"
+							
+									+ "<input type='hidden' name='hiddenId'  id='hiddenId"+i+"' value='"+obj[i].hiddenId+"'/>"
+									
+									+"<td></td>"
+									+"<td>" + j + "</td>"
+									+"<td ><a href='' data-toggle='modal' data-target='#exampleModal' onclick='getOtherBrandPrice("+ i + ")'>" + obj[i].skuName + "</a></td>"
+									+"<td>" + obj[i].scheduleStatus + "</td>";
+
+									if (obj[i].scheduleFlag==0) {
+										 Hlp +="<td>Not Applicable</td>"
+										+"<td>" + obj[i].dosageForm + "</td>";
+									}
+									
+									else if (obj[i].scheduleFlag > 0 && obj[i].ceilingPrice==-1) {
+										 Hlp +="<td>Not Applicable</td>"
+										+"<td>" + obj[i].dosageForm + "</td>";
+									}
+
+									else {
+										 Hlp += "<td data-order="+ obj[i].ceilingPrice+" ><a href='' data-toggle='modal' data-target='#ceilingPriceModal' onclick='getCeilingPriceDtls("+ i + ")'>" + obj[i].ceilingPrice+ "</a></td>"
+										+"<td><a  data-toggle='modal' data-target='' >"+ obj[i].dosageForm + "</a></td>";
+
+									}
+
+									Hlp += "<td data-order="+ obj[i].mrp +"><a href='' data-toggle='modal' data-target='#mrpModal' onclick='getMedicineMrp("+ i + ")'>" + obj[i].mrp + "/"+ obj[i].packSize + "</a></td>"
+
+									
+									+"</tr>";
+									k++;
+								}
+							}
+
+							  Hlp +="</tbody>"
+							+"</table>";
+
+				} 
+			           else
+			            {
+				            Hlp += "<table id='myDatatable1' class='display cell-border' width='100%'>"
+							+"<thead>"
+							+"<tr>"
+							+"<th colspan='1'></th>"
+							+"<th colspan='1'>S.No.</th>"
+							+"<th colspan='1'>Medicine Name</th>"
+							+"<th colspan='1'>Ceiling Price (Excluding Taxes)(&#8377)</th>"
+							+"<th colspan='1'>Unit</th>"
+							+"<th colspan='1'>M.R.P. (&#8377)/Unit</th>"
+							+"</tr>"
+							+"</thead>"
+							+"<tbody>"
+
+							+"<tr>"
+							+"<td colspan='6' style='text-align:center'>No Record Found</td>"
+							+"</tr>"
+
+							+"</tbody>"
+							+"</table>";
+						}
+						
+						Hlp += "</div>"
+						+"</div>";
+				}
+						
+				    
+               //alert("Final>>>"+Hlp );
+			   opt.innerHTML=Hlp;
+		
+			
+			 table = $('#myDatatable1').DataTable(
+					   {	 						   
+						   //"jQueryUI" : true,  		
+						   "pagingType" : "full_numbers",		
+						   "lengthMenu": [[5, 25, 50, -1], [5, 25, 50, "All"]],
+					   
+						   "colReorder": true,
+						   dom: 'lBfrtip',
+					   //dom: 'Bfrtip',
+						   buttons: [
+					            //'excel', 'print'
+							   {
+					                extend:    'excelHtml5',
+					                text:      '<i class="fa fa-file-excel"></i>',
+					                titleAttr: 'Excel'
+					            },
+					        	
+					        	{
+					                extend:    'print',
+					                text:      '<i class="fa fa-print"></i>',
+					                titleAttr: 'Print'
+					            }
+					        ],
+					        
+					        /*initComplete: function() {
+					        	  
+					        	   $('.buttons-excel').html('<i class="fa fa-file-excel" />')
+					        	   $('.buttons-print').html('<i class="fa fa-print" />')
+					        	  },*/
+					        	  
+					    responsive: 
+					    {
+					      details: 
+					      {
+					        type: 'column',
+					        target: 0
+					      }
+					    },
+					    columnDefs: 
+					     [
+					      {
+					        targets: 0,
+					        className: 'control'
+					      }		    
+					    ],
+					    order: [1, 'asc']
+					  });					    
+				 	}
+	        
+	        
+	        if(mode=="2"){
+	        	var Hlp="";
+				
+					var obj = JSON.parse(res);
+					
+					var optionstring = "";
+
+//					var select = document.getElementById('pharmaDiv');
+
+					    
+						var opt = document.getElementById('pharmaDiv');
+					
+
+//						opt.value = obj[i].schFormulationId;
+						
+						 Hlp = "<div class='card bg-light shadow-lg bg-white rounded' style='margin:20px;'>"
+						        +"<div class='card-body'>";
+						 
+						 if(obj.length>0)
+						 {
+							 Hlp += "<table id='myDatatable' class='display cell-border' width='100%'>"	
+							+"<thead>"
+							+"<tr>"
+							+"<th colspan='1'></th>"
+							+"<th colspan='1'>S.No.</th>"
+							
+							+"<th colspan='1'>Formulation</th>"
+							+"<th colspan='1'>Dosage Form & Strength</th>"
+							+"<th colspan='1'>Ceiling Price (Excluding Taxes) (&#8377)(Unit)</th>"
+							+"<th colspan='1'>SO Number</th>"
+							+"<th colspan='1'>SO Date</th>"
+							+"</tr>"
+							+"</thead>"
+							+"<tbody>";
+						
+					
+						if(obj!=null) {
+							for (var i=0;i< obj.length;i++){
+								
+								j = i + 1;
+								Hlp += "<tr>"
+								 +"<input id='hiddenId"+i+"' name='hiddenId' type='hidden' value="+obj[i].hiddenId+" />"						
+								 +"<td></td>" 
+								 +"<td>" + j + "</td>" 
+								 +"<td>"+obj[i].formulationName+"</td>"
+								 +"<td  >"+obj[i].dosageStrength+"</td>"
+							     +"<td data-order="+obj[i].ceilingPriceUnit+"><div class='badge badge-info'><font size=3>"+obj[i].ceilingPriceUnit+"</font></div></td>"									
+                              +"<td data-order="+obj[i].soNo+">"+obj[i].soNo+"</td>"
+								 +"<td>"+obj[i].soDate+"</td>"
+									 
+								 +"</tr>";
+							}
+						}
+						Hlp += "</tbody>"
+							+"</table>";
+
+						}
+					   else 
+					   {
+						   Hlp += "<table id='myDatatable' class='display' width='100%'>"	
+						    +"<thead>"
+							+"<tr>"
+							+"<th colspan='1'></th>"		
+							+"<th colspan='1'>Formulation Composition</th>"
+							+"<th colspan='1'>Dosage Form & Strength</th>"
+							+"<th colspan='1'>Ceiling Price (Excluding Taxes) (&#8377)(Unit)</th>"
+							+"<th colspan='1'>SO Number</th>"
+							+"<th colspan='1'>SO Date</th>"
+							+"</tr>"
+							+"</thead>"
+							+"<tbody>"
+							
+							+"<tr>"
+				      		+"<td colspan='6' style='text-align:center'>No Record Found</td>"
+				      		+"</tr>"
+				      		
+				      		+"</tbody>"
+							+"</table>";
+					   }
+						 Hlp += "</div>"
+						   +"</div>";
+//						select.appendChild(opt);  
+//					       alert("Final>>>"+Hlp );
+						   opt.innerHTML=Hlp;
+					    
+						   
+						   table = $('#myDatatable').DataTable(
+								   {	 						   
+						//			   "jQueryUI" : true,  		
+									   "pagingType" : "full_numbers",		
+									   "lengthMenu": [[5, 25, 50, -1], [5, 25, 50, "All"]],
+								   
+								   "colReorder": true,
+								    dom: 'lBfrtip',
+								   //dom: 'Bfrtip',
+							        buttons: [
+							            //'excel', 'print'
+							        	{
+							                extend:    'excelHtml5',
+							                text:      '<i class="fa fa-file-excel"></i>',
+							                titleAttr: 'Excel'
+							            },
+							        	
+							        	{
+							                extend:    'print',
+							                text:      '<i class="fa fa-print"></i>',
+							                titleAttr: 'Print'
+							            }
+							        ],
+							        
+							        /*initComplete: function() {
+							        	  
+							        	   $('.buttons-excel').html('<i class="fa fa-file-excel" />')
+							        	   $('.buttons-print').html('<i class="fa fa-print" />')
+							        	  },*/
+								   
+								    responsive: 
+								    {
+								      details: 
+								      {
+								        type: 'column',
+								        target: 0
+								      }
+								    },
+								 
+								    	
+								    columnDefs: 
+									     [
+									      {
+									        targets: 0,
+									        className: 'control'
+									      },
+									      
+									      {
+									            targets: 3, // The Price column
+									            type: 'custom-sort',
+									            className: 'contrdddol'
+									          }
+									    ],
+								    order: [1, 'asc']
+								  });	
+						   
+						   
+				 	   }
+	        
+	        if(mode=="3"){
+	        
+				var j = 0;
+				var Hlp="";
+ 
+				
+						var obj1 = JSON.parse(res);
+						var optionstring = "";
+                 
+						var opt = document.getElementById('popupDiv');
+						Hlp="<div id='' style='float:left;overflow:hidden;max-height:300px;width:100%;'>"
+								+ "<div id='wrapper' style='width:100%;'>"// height:400px;
+						 
+
+						+"<table id='testTable' style='width:100%;'>"
+
+						+"<tr>"
+						+"<td width='20%' style='text-align:right;'><font size='2' color='green'><b>Formulation / Brand:</b></font></td>"
+						+"<td width='20%' style='text-align:left;'><font size='2' color='blue'><b>"
+								+ obj1[0].composition + " / "
+								+ obj1[0].brandName + "</b></font></td>"
+
+						+"<td width='20%' style='text-align:right;'><font size='2' color='green'><b>Company Name:</b></font></td>"
+						+"<td width='20%' style='text-align:left;'><font size='2' color='blue'><b>"
+								+ obj1[0].company + "</b></font></td>"
+						+"<td width='10%' style='text-align:right;'><font size='2' color='green'><b>M.R.P. (&#8377):</b></font></td>"
+						+"<td  data-order="+ obj1[0].mrp +" width='10%' style='text-align:left;'><font size='2' color='blue'><b>"
+								+ obj1[0].mrp + "/" + obj1[0].packSize
+								+ "</b></font></td>"
+						+"</tr>"
+						
+						+"<tr>"
+						+"<td width='20%' style='text-align:right;'><font size='2' color='green'><b>M.R.P./Unit (&#8377):</b></font></td>"
+						+"<td  data-order="+ obj1[0].mrpPerUnit +"width='20%' style='text-align:left;'><font size='2' color='blue'><b>"
+								+ obj1[0].mrpPerUnit + "</b></font></td>"
+
+						+"<td width='20%' style='text-align:right;'><font size='2' color='green'><b>M.R.P. as on Date:</b></font></td>"
+						+"<td width='40%' style='text-align:left;' colspan='3'><font size='2' color='blue'><b>"
+								+ obj1[0].yearMonth + "</b></font></td>"
+						+"</tr>"
+						
+						+"</table>"
+						+"</div>"
+						+"</div>";
+						
+						document.getElementById("substituteHlp").value = Hlp;
+						
+						var hiddenIdNew = document.getElementById("hiddenIdNew").value;
+						
+						url = "/NPPA/rest/otherBrandPriceNew?hiddenId="+hiddenIdNew;			
+						ajaxFunction(url,"6");
+	
+	        }
+	        
+	        if(mode=="4"){
+	        	var j = 0;
+				var Hlp="";
+
+						var obj = JSON.parse(res);
+//						 alert("obj"+ obj);
+						
+						var optionstring = "";
+                 
+						var opt = document.getElementById('medPopUpDiv');
+						Hlp="<div class='card bg-light shadow-lg bg-white rounded' style='border:1px solid black;'>"
+						+"<div class='card-body'>"
+
+
+
+						+"<table id='medDtlsTable' style='width:100%;'>"
+						+"<div>"
+
+						+"<div id='pharmaSaiDaamDiv1' style='float:left;overflow:auto;max-height:250px;width:100%;'>"
+								+ "<div id='wrapper' style='width:100%;'>";
+
+						+"<tr>"
+						if (obj[0].scheduleFlag==1) {
+							Hlp+="<td width='100%' colspan='2' style='text-align:center;'><font size='4'><b>( Market Price)</b></font></td>"
+						} else {
+							Hlp+="<td width='100%' colspan='2' style='text-align:center;'><font size='4'><b>(This Medicine is not under Price Control by NPPA)</b></font></td>";
+						}
+						Hlp+="</tr>";
+
+						
+
+						if (obj.length > 0) {
+							Hlp+="<tr>"
+							+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>Brand:</b></font></td>"
+							+"<td width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b>"
+									+ obj[0].brandName + "</b></font></td>"
+							+"</tr>"
+
+							+"<tr>"
+							+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>Company:</b></font></td>"
+							+"<td width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b>"
+									+ obj[0].company + "</b></font></td>"
+							+"</tr>"
+
+							+"<tr>"
+							+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>Composition:</b></font></td>"
+							+"<td width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b>"
+									+ obj[0].composition + "</b></font></td>"
+							+"</tr>"
+
+							+"<tr>"
+							+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>Dosage Form:</b></font></td>"
+							+"<td width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b>"
+									+ obj[0].dosageForm + "</b></font></td>"
+							+"</tr>"
+
+							+"<tr>"
+							+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>Pack Size:</b></font></td>"
+							+"<td width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b>"
+									+ obj[0].packSize + "</b></font></td>"
+							+"</tr>"
+
+						    +"<tr>"
+							+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>M.R.P. (&#8377):</b></font></td>"
+							+"<td  data-order="+ obj[0].mrp +"width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b>"
+									+ obj[0].mrp + "</b></font></td>"
+							+"</tr>"
+							
+						    +"<tr>"
+							+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>M.R.P. as on Date:</b></font></td>"
+							+"<td width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b>"
+							+ obj[0].yearMonth + "</b></font></td>"
+							+"</tr>"
+							
+							+"<tr>"
+							+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>M.R.P./Unit (&#8377):</b></font></td>"
+							+"<td  data-order="+ obj[0].mrpPerUnit +" width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b>"
+							+ obj[0].mrpPerUnit + "</b></font></td>"
+							+"</tr>";
+							
+							
+				}
+						else
+						{
+							Hlp+="<tr>"
+							+"<td width='100%' colspan='2' style='text-align:center;'><font size='3' color='#4682B4'><b>No Record Found</b></font></td>"
+							+"</tr>";
+						}
+
+						Hlp+= "</div>"
+						+"</div>"
+
+						+"</table>"
+
+						+"</div>"
+						//+"<div class='col-sm-12'>"
+						//+"<div class='col-md-12 ' style='width:95%;margin:10px;'>"
+						+"<ul>"	
+						+"<li><b><font color='red'><u>Disclaimer:-</u>The information available in this web application is based on available data and is indicative</font></b></li>"
+						+"</ul>"
+						//+"</div>"
+						//+"</div>"
+						
+						
+						+"</div>";
+						
+//						 alert("Final>>>"+Hlp );
+						   opt.innerHTML=Hlp;
+	        }
+	        
+	        if(mode=="5"){
+	        	var j = 0;
+				var Hlp="";
+				
+					   
+				      
+						var obj = JSON.parse(res);
+//						 alert("obj"+ obj);
+						
+						var optionstring = "";
+                 
+						var opt = document.getElementById('ceilingPricePopUpDiv');
+						var hiddenVal = obj[0].ceilingPrice + "$"
+						+ obj[0].tax;
+
+
+
+						 Hlp= "<div class='card bg-light shadow-lg bg-white rounded' style='border:1px solid black;'>"
+				+"<div class='card-body'>"
+
+				+"<table id='ceilingPriceDtlsTable' style='width:100%;'>"
+
+				+"<div id='pharmaSaiDaamDiv2' style='float:left;overflow:auto;max-height:350px;width:100%;'>"
+						+ "<div id='wrapper' style='width:100%;'>"
+
+				+"<tr>"
+
+				+"<input id='hiddenVal' name='hiddenVal' type='hidden' value='" + hiddenVal + "' />"
+
+				+"<td width='100%' colspan='2' style='text-align:center;'><font size='4'><b>(Price Fixed as per DPCO 2013)</b></font></td>"
+
+				+"</tr>";
+
+				
+
+				if (obj.length > 0) {
+
+					 Hlp+="<tr>"
+					+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>No. of Units:</b></font></td>"
+					+"<td width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b><input type='text' class='form-control' "
+									+ "name='numUnit' id='numUnit' placeholder='Enter No. of Units' onchange='calcMrp()' "
+									+ "onkeypress='return validateData(event,5);' maxlength=3></b></font></td>"
+					+"</tr>"
+
+					+"<tr>"
+					+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>Composition:</b></font></td>"
+					+"<td width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b>"
+							+ obj[0].composition + "</b></font></td>"
+					+"</tr>"
+
+					+"<tr>"
+					+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>Ceiling Price (&#8377):</b></font></td>"
+					+"<td width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b>"
+							+ obj[0].ceilingPrice + "</b></font></td>"
+					+"</tr>"
+
+					+"<tr>"
+					+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>Dosage Form:</b></font></td>"
+					+"<td width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b>"
+							+ obj[0].dosageForm + "</b></font></td>"
+					+"</tr>"
+
+					+"<tr>"
+					+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>Pack Size:</b></font></td>"
+					+"<td width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b>"
+							+ obj[0].packSize + "</b></font></td>"
+					+"</tr>"
+
+					+"<tr>"
+					+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>Tax (%):</b></font></td>"
+					+"<td width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b>"
+							+ obj[0].tax + "</b></font></td>"
+					+"</tr>"
+
+					+"<tr>"
+					+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>M.R.P. (&#8377):</b></font></td>"
+					+"<td width='50%' style='text-align:left;padding-left:20px;'><font size='3' color='red'><b><div id='mrpChange'>--</div></b></font></td>"
+					+"</tr>"
+
+					+"<tr>"
+					+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>S.O. No.:</b></font></td>"
+					+"<td width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b>"
+							+ obj[0].soNo + "</b></font></td>"
+					+"</tr>"
+
+					+"<tr>"
+					+"<td width='50%' style='text-align:right;padding-right:20px;'><font size='3' color='#4682B4'><b>S.O. Date:</b></font></td>"
+					+"<td width='50%' style='text-align:left;padding-left:20px;'><font size='3'><b>"
+							+ obj[0].soDate + "</b></font></td>"
+					+"</tr>";
+			} 
+				else 
+				{
+					 Hlp+="<tr>"
+					+"<td width='100%' colspan='2' style='text-align:center;'><font size='3' color='#4682B4'><b>No Record Found</b></font></td>"
+					+"</tr>";
+				}
+				Hlp+="</div>"
+				+"</div>"
+				+"</table>"
+				  
+
+				+"</div>"
+				
+				+"<ul>"	
+				+"<li><b><font color='red'><u>Disclaimer:-</u>The information available in this web application is based on available data and is indicative</font></b></li>"
+				+"</ul>"
+				
+				+"</div>";
+				
+//			    alert("Final>>>"+Hlp );
+				opt.innerHTML=Hlp;
+	        }
+	        
+	        
+	        if(mode=="6"){
+	        	
+	        	var j = 0;
+				var Hlp="";
+ 
+				var obj = JSON.parse(res);
+
+				var optionstring = "";
+         
+				var opt = document.getElementById('popupDiv');
+				
+				
+				//+"<div align='left'><font size='3'><b><u>Other Brand Medicine M.R.P</b></u></font>"
+				
+				Hlp="<div align='left'><font size='3'><b><u>Substitutes:</b></u></font>"
+
+				+"<div id='nonSchDiv' style='float:left;overflow:auto;max-height:250px;width:100%;'>"
+				+"<div id='wrapper'>";
+
+				if (obj.length > 0) {
+					Hlp+="<table id='nonSchTable' class='table table-striped table-bordered '>"
+					+"<thead class='head1' id='head1'>"
+					+"<tr style='background:#8080FF;color:#FFF;'>"
+					+"<th style='text-align: center;' colspan='1' width='5%'>S.No.</th>"
+					+"<th style='text-align: left;' colspan='1' width='25%'>Brand Name</th>"
+					+"<th style='text-align: center;' colspan='1' width='15%'>Pack Size</th>"
+					+"<th style='text-align: center;' colspan='1' width='15%'>M.R.P. (&#8377)</th>" //<span id='mrpChangeFont'><i class='fas fa-angle-down'></i></span></th>"
+					+"<th style='text-align: center;' colspan='1' width='15%' onclick='sortTable(4)'>M.R.P./Unit (&#8377) <span id='mrpPerUnitChangeFont'><i class='fas fa-angle-down'></i></span></th>"
+					+"<th style='text-align: left;' colspan='1' width='25%'>Company Name</th>"
+					+"</tr>"
+					+"</thead>";
+					
+
+					if (obj != null) {
+						for (var i = 0; i < obj.length; i++) {
+
+							
+							 j = i + 1;
+							 Hlp+="<tbody>"
+								 +"<tr>"
+//							+"<input id='pKey" + i + "' name='pKey' type='hidden' value="
+//									+ obj[i].pKey + " />"
+//									alert("pkey>>>"+obj[i].pKey);
+							+"<td style='text-align: center;' colspan='1' width='5%'>" + j + "</td>"
+							+"<td style='text-align: left;' colspan='1' width='25%'>"
+									+ obj[i].brandName + "</td>"
+//									alert("brandName>>>"+obj[i].brandName);
+							+"<td style='text-align: center;' colspan='1' width='15%'>"
+									+ obj[i].packSize + "</td>"
+//									alert("packSize>>>"+obj[i].packSize);
+							+"<td style='text-align: center;' colspan='1' width='15%'>"
+									+ obj[i].brandMrp + "</td>"
+							+"<td  data-order="+ obj[i].mrpPerUnit +"style='text-align: center;' colspan='1' width='15%'>"
+									+ obj[i].mrpPerUnit + "</td>"
+//									alert("brandMrp>>>"+obj[i].brandMrp);
+							+"<td style='text-align: left;' colspan='1' width='25%'>"
+									+ obj[i].company + "</td>"
+//									alert("company>>>"+obj[i].company);
+
+							+"</tr>";
+						}
+					}
+					Hlp+="</tbody>"
+					+"</table>";
+
+				} 
+				else
+				{
+					Hlp+="<table id='nonSchTable' class='table table-striped table-bordered '>"
+					+"<thead class='head1' id='head1'>"
+					+"<tr style='background:#4682B4;color:#fff;'>"
+					+"<th style='text-align: center;' colspan='1' width='10%'>S.No.</th>"
+					+"<th style='text-align: center;' colspan='1' width='25%'>Brand Name</th>"
+					+"<th style='text-align: center;' colspan='1' width='15%'>Pack Size</th>"
+					+"<th style='text-align: center;' colspan='1' width='15%'>M.R.P. (&#8377)</th>"
+					+"<th style='text-align: center;' colspan='1' width='15%' onclick='sortTable(4)'>M.R.P./Unit (&#8377)</th>"
+					+"<th style='text-align: center;' colspan='1' width='25%'>Company Name</th>"
+					+"</tr>"
+					+"</thead>"
+					+"<tbody>"
+
+					+"<tr class='light'>"
+					+"<td colspan='5' style='text-align:center'>No Record Found</td>"
+					+"</tr>"
+
+					+"</tbody>"
+					//+"</div>"
+					+"</table>";
+
+				}
+				
+					
+				Hlp+="</div>"
+
+				+"</div>"				
+				+"</div>"
+				
+				+"<ul>"	
+				+"<li><b><font color='red'><u>Disclaimer:-</u>The information available in this web application is based on available data and is indicative</font></b></li>"
+				+"</ul>"
+				
+					
+				//+"</div>"
+				//+"</div>"
+				//+"</div>";
+//				 alert("Final>>>"+Hlp );
+				
+				var substituteHlp=document.getElementById("substituteHlp").value;
+				opt.innerHTML=substituteHlp+Hlp;
+						
+						
+	        }
+	        
+	        
+	        if(mode=="7"){
+                var k=0;
+				
+				var Hlp="";
+				
+//					    alert(data);
+				      
+						var obj = JSON.parse(res);
+						
+						var optionstring = "";
+                    
+						var opt = document.getElementById('pharmaDiv');
+						var formulationId = document.getElementById("formulationId").value;
+						
+						searchFormulation = document.getElementById("searchFormulation").value;
+//						alert("brandId>>>"+ brandId);
+						if(searchFormulation!=null && searchFormulation!= "")
+					{
+
+							Hlp ="<div class='card bg-light shadow-lg bg-white rounded' style='margin:20px;'>"
+							+"<div class='card-body'>";
+
+							if (obj.length > 0) {
+								Hlp +="<table id='myDatatable2' class='display cell-border' width='100%'>"
+								+"<thead>"
+								+"<tr>"
+								+"<th colspan='1'></th>"
+								+"<th colspan='1'>S.No.</th>"
+								+"<th colspan='1'>Medicine Name</th>"
+								+"<th colspan='1'>Status</th>"
+								+"<th colspan='1'>Ceiling Price (&#8377)</th>"
+								+"<th colspan='1'>Unit</th>"
+								+"<th colspan='1'>M.R.P (&#8377)/Unit</th>"
+								+"</tr>"
+								+"</thead>"
+								+"<tbody>";
+
+								if (obj.length != null) {
+									for ( i = 0; i < obj.length; i++)
+									{
+
+										// System.out.println(mdModelMstBean.get(i).getHiddenId());
+										j = i + 1;
+										Hlp += "<tr>"
+//										alert("HiddenId>>>"+ obj[i].hiddenId);
+										+"<input id='hiddenId" + i + "' name='hiddenId' type='hidden' value='"+ obj[i].hiddenId + "' />"
+										+"<td></td>"
+										+"<td>" + j + "</td>"
+										
+										+"<td><a href='' data-toggle='modal' data-target='#exampleModal' onclick='getOtherBrandPrice("+ i + ")'>" + obj[i].skuName + "</a></td>"
+										+"<td>" + obj[i].scheduleStatus + "</td>";
+										
+
+										if (obj[i].scheduleFlag==0) 
+										{
+											Hlp +="<td data-order="+0+ ">Not Applicable	</td>"
+											+"<td data-order="+ obj[i].ceilingPrice +">" + obj[i].dosageForm + "</td>";
+										}
+										
+										else if (obj[i].scheduleFlag>0 && obj[i].ceilingPrice==-1) {
+											 Hlp +="<td data-order="+0+">Not Applicable	</td>"
+											+"<td data-order="+ obj[i].ceilingPrice +">" + obj[i].dosageForm + "</td>";
+										}
+
+										else 
+										{
+											Hlp +="<td  data-order="+ obj[i].ceilingPrice +"><a href='' data-toggle='modal' data-target='#ceilingPriceModal' onclick='getCeilingPriceDtls("+ i + ")'>" + obj[i].ceilingPrice+ "</a></td>"
+												+"<td><a  data-toggle='modal' data-target=''>"+ obj[i].dosageForm + "</a></td>";	
+										}
+										
+										//Hlp += "<td>" + obj[i].mrp + "/"+ obj[i].packSize + "</td>"										
+										Hlp += "<td  data-order="+ obj[i].mrp +"><a href='' data-toggle='modal' data-target='#mrpModal' onclick='getMedicineMrp("+ i + ")'>" + obj[i].mrp + "/"+ obj[i].packSize + "</a></td>"
+
+										+"</tr>";
+									}
+								}
+
+								Hlp += "</tbody>"
+								+"</table>";
+
+							} 
+							else 
+							{
+								Hlp += "<table id='myDatatable2' class='display cell-border' width='100%'>"
+								+ "<thead>"
+								+"<tr>"
+								+"<th colspan='1'></th>"
+								+"<th colspan='1'>S.No.</th>"
+								+"<th colspan='1'>Medicine Name</th>"
+								+"<th colspan='1'>Ceiling Price (&#8377)</th>"
+								+"<th colspan='1'>Unit</th>"
+								+"<th colspan='1'>M.R.P. (&#8377)/Unit</th>"
+								+"</tr>"
+								+"</thead>"
+								+"<tbody>"
+
+								+"<tr>"
+								+"<td colspan='6' style='text-align:center'>No Record Found</td>"
+								+"</tr>"
+
+								+"</tbody>"
+								+"</table>";
+							}
+							Hlp += "</div>"
+							+"</div>";
+						}	
+
+
+//						       alert("Final>>>"+Hlp );
+							   opt.innerHTML=Hlp;
+		
+		
+	
+			
+			 table = $('#myDatatable2').DataTable(
+					   {	 						   
+						   //"jQueryUI" : true,  		
+						   "pagingType" : "full_numbers",		
+						   "lengthMenu": [[5, 25, 50, -1], [5, 25, 50, "All"]],
+					   
+						   "colReorder": true,
+						   dom: 'lBfrtip',
+					   //dom: 'Bfrtip',
+						   buttons: [
+					            //'excel', 'print'
+							   {
+					                extend:    'excelHtml5',
+					                text:      '<i class="fa fa-file-excel"></i>',
+					                titleAttr: 'Excel'
+					            },
+					        	
+					        	{
+					                extend:    'print',
+					                text:      '<i class="fa fa-print"></i>',
+					                titleAttr: 'Print'
+					            }
+					        ],
+					        
+					        /*initComplete: function() {
+					        	  
+					        	   $('.buttons-excel').html('<i class="fa fa-file-excel" />')
+					        	   $('.buttons-print').html('<i class="fa fa-print" />')
+					        	  },*/
+					        	  
+					    responsive: 
+					    {
+					      details: 
+					      {
+					        type: 'column',
+					        target: 0
+					      }
+					    },
+					    columnDefs: 
+					     [
+					      {
+					        targets: 0,
+					        className: 'control'
+					      }		    
+					    ],
+					    order: [1, 'asc']
+					  });					    
+				 	}
+	        
+		          if(mode=="8"){
+		        	  
+		        	var obj = JSON.parse(res);
+		  			var optionstring = "<option value='0'>All</option>";
+
+		  			for (var i = 0; i < obj.length; i++) {
+		  				if(obj[i].strength=="undefined")
+		  					optionstring += "<option value='1'>NA</option>";
+		  				else
+		  				   optionstring += "<option value='"+obj[i].strengthId+"'>"+obj[i].strength+"</option>";
+		  			}
+		  			
+		  			$("select#strengthId").html(optionstring);
+				    $("#strengthId").val(optionstring).trigger("chosen:updated");
+				    $("#strengthId").val("0").trigger("chosen:updated");
+		  			 
+		  		     url = "/NPPA/rest/filterDosageCmb?mode="+$("#modeVal").val()+"&formulationId="+$("#medicineId").val();			
+		  			 ajaxFunction(url,"9");
+		          }
+		          
+		          if(mode=="9"){
+		        	  
+		        	var obj = JSON.parse(res);
+		  			var optionstring = "<option value='0'>All</option>";
+
+		  			for (var i = 0; i < obj.length; i++) {
+		  				optionstring += "<option value='"+obj[i].dosageId+"'>"+obj[i].dosageName+"</option>";
+		  			}
+		  			
+		  			$("select#dosageId").html(optionstring);
+				    $("#dosageId").val(optionstring).trigger("chosen:updated");
+				    $("#dosageId").val("0").trigger("chosen:updated");
+		          }
+	      
+	    } 
+	 
+	 
+	 function sortTable(n) {
+		  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+		  
+		  if(n==3){		
+			  if($("#showMrp").val()=="0"){
+				  $("#mrpChangeFont").html("<i class='fas fa-angle-up'></i>");
+				  $("#showMrp").val("1");
+			  }			  
+			  else{
+				  $("#mrpChangeFont").html("<i class='fas fa-angle-down'></i>");
+				  $("#showMrp").val("0");
+			  }		  
+		  }
+		  
+		  if(n==4){			  
+			  if($("#showMrpPerUnit").val()=="0"){
+				  $("#mrpPerUnitChangeFont").html("<i class='fas fa-angle-up'></i>");
+				  $("#showMrpPerUnit").val("1");
+			  }			  
+			  else{
+				  $("#mrpPerUnitChangeFont").html("<i class='fas fa-angle-down'></i>");
+				  $("#showMrpPerUnit").val("0");
+			  }		  
+		  }
+		  
+		  table = document.getElementById("nonSchTable");
+		  switching = true;
+
+		  dir = "asc";
+
+		  while (switching) {
+
+		    switching = false;
+		    rows = table.rows;
+
+		    for (i = 1; i < (rows.length - 1); i++) {
+		      shouldSwitch = false;
+
+		      x = rows[i].getElementsByTagName("TD")[n];
+		      y = rows[i + 1].getElementsByTagName("TD")[n];
+
+		      if (dir == "asc") {
+		        if (parseFloat(x.innerHTML) > parseFloat(y.innerHTML)) {
+		          shouldSwitch = true;
+		          break;
+		        }
+		      } else if (dir == "desc") {
+		        if (parseFloat(x.innerHTML) < parseFloat(y.innerHTML)) {
+		          shouldSwitch = true;
+		          break;
+		        }
+		      }
+		    }
+		    if (shouldSwitch) {
+		      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		      switching = true;
+		      switchcount ++;
+		    } else {
+		      if (switchcount == 0 && dir == "asc") {
+		        dir = "desc";
+		        switching = true;
+		      }
+		    }
+		  }
+		}
+	 
+	

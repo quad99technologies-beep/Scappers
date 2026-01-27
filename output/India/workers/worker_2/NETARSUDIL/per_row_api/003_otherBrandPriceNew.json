@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "NETAPRIDE",
+    "packSize": "3",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "348.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "116.07"
+  },
+  {
+    "brandName": "NETALO",
+    "packSize": "3",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "625.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "208.44"
+  },
+  {
+    "brandName": "RAIKI",
+    "packSize": "1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "556.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "556.88"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ECEF-OD",
+    "packSize": "6",
+    "company": "LUPIN LTD",
+    "brandMrp": "117.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.51"
+  },
+  {
+    "brandName": "SPORIDEX AF",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "463.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.31"
+  },
+  {
+    "brandName": "CEFF",
+    "packSize": "6",
+    "company": "LUPIN LTD",
+    "brandMrp": "320.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.38"
+  }
+]

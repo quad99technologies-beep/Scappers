@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "SALICURE",
+    "packSize": "60",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "199.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.32"
+  },
+  {
+    "brandName": "FASH",
+    "packSize": "100",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "438.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.39"
+  },
+  {
+    "brandName": "K ACNE",
+    "packSize": "60",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "283.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.72"
+  },
+  {
+    "brandName": "MINOZ S",
+    "packSize": "50",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "260.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.20"
+  },
+  {
+    "brandName": "RIDACNE SA",
+    "packSize": "100",
+    "company": "PALSONS DERMA PVT. LTD",
+    "brandMrp": "549.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.49"
+  },
+  {
+    "brandName": "SASLIC",
+    "packSize": "100",
+    "company": "CIPLA LTD.",
+    "brandMrp": "550.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "SASLIC GLO",
+    "packSize": "60",
+    "company": "CIPLA LTD.",
+    "brandMrp": "440.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.33"
+  },
+  {
+    "brandName": "SALIAC",
+    "packSize": "60",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "494.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.24"
+  }
+]

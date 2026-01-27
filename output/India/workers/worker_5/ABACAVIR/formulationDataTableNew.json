@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521006297@74117@101110236@3426@101006@201680",
+    "skuName": "ABAMUNE 300 MG TABLET 30",
+    "composition": "ABACAVIR TABLET 300 MG",
+    "packSize": "30 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "49.44",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "1",
+    "mrp": "1384.50",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.15"
+  },
+  {
+    "hiddenId": "1521140630@123@101227921@3426@101006@201680",
+    "skuName": "ABAVIR 300 MG TABLET 60",
+    "composition": "ABACAVIR TABLET 300 MG",
+    "packSize": "60 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "49.44",
+    "company": "HETERO HEALTHCARE LTD",
+    "scheduleFlag": "1",
+    "mrp": "6693.75",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "111.56"
+  },
+  {
+    "hiddenId": "1521005922@98099@101109913@3426@101006@201680",
+    "skuName": "A BEC 300 MG TABLET 30",
+    "composition": "ABACAVIR TABLET 300 MG",
+    "packSize": "30 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "49.44",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "scheduleFlag": "1",
+    "mrp": "1557.20",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.91"
+  }
+]

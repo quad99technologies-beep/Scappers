@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "TOLSAMA",
+    "packSize": "4",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "736.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "184.15"
+  },
+  {
+    "brandName": "TVAPTAN",
+    "packSize": "4",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "959.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "239.81"
+  },
+  {
+    "brandName": "TOLVARISE",
+    "packSize": "4",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "998.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "249.56"
+  },
+  {
+    "brandName": "NATRISE",
+    "packSize": "4",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "1031.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "257.81"
+  },
+  {
+    "brandName": "TOLVAT",
+    "packSize": "4",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "1107.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "276.89"
+  },
+  {
+    "brandName": "TOLVASCA",
+    "packSize": "4",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "1150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "287.50"
+  },
+  {
+    "brandName": "RESODIM",
+    "packSize": "4",
+    "company": "LUPIN LTD",
+    "brandMrp": "1253.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "313.41"
+  }
+]

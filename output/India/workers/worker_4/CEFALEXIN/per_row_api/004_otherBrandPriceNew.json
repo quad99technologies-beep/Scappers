@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "CEFF",
+    "packSize": "4",
+    "company": "LUPIN LTD",
+    "brandMrp": "46.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.68"
+  },
+  {
+    "brandName": "CEPHARIL",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "142.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.20"
+  },
+  {
+    "brandName": "DROXIPIC",
+    "packSize": "10",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "163.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.33"
+  },
+  {
+    "brandName": "NUFEX",
+    "packSize": "10",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "225.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.54"
+  },
+  {
+    "brandName": "CEFTER",
+    "packSize": "10",
+    "company": "GUJARAT TERCE LABORATORIES LTD",
+    "brandMrp": "384.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.45"
+  },
+  {
+    "brandName": "SEPHEN",
+    "packSize": "4",
+    "company": "REKVINA PHARMACEUTICALS",
+    "brandMrp": "155.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.75"
+  },
+  {
+    "brandName": "BACTEX",
+    "packSize": "10",
+    "company": "QUALITY PHARMA PVT.LTD",
+    "brandMrp": "549.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "54.94"
+  }
+]

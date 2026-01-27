@@ -1,0 +1,178 @@
+[
+  {
+    "brandName": "ZMOL",
+    "packSize": "60",
+    "company": "ZEN LABS INDIA",
+    "brandMrp": "20.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.33"
+  },
+  {
+    "brandName": "AMOL",
+    "packSize": "60",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "21.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.36"
+  },
+  {
+    "brandName": "AZPYR",
+    "packSize": "60",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "21.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.36"
+  },
+  {
+    "brandName": "ALGINA",
+    "packSize": "60",
+    "company": "GENO PHARMACEUTICALS LTD",
+    "brandMrp": "22.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.37"
+  },
+  {
+    "brandName": "DOLIPRANE",
+    "packSize": "60",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "22.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.37"
+  },
+  {
+    "brandName": "PYRIGESIC",
+    "packSize": "60",
+    "company": "EAST INDIA PHARMACEUTICAL WORKS LTD.",
+    "brandMrp": "22.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.38"
+  },
+  {
+    "brandName": "BABYGESIC",
+    "packSize": "60",
+    "company": "MEYER ORGANICS PVT. LTD",
+    "brandMrp": "23.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.40"
+  },
+  {
+    "brandName": "FEBREX",
+    "packSize": "60",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "23.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.40"
+  },
+  {
+    "brandName": "FNIL",
+    "packSize": "60",
+    "company": "MEDITIA LABS PVT.LTD",
+    "brandMrp": "23.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.40"
+  },
+  {
+    "brandName": "MACFAST",
+    "packSize": "60",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "23.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.40"
+  },
+  {
+    "brandName": "MEDIMOL",
+    "packSize": "60",
+    "company": "SYNCHEM LAB",
+    "brandMrp": "23.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.40"
+  },
+  {
+    "brandName": "PARACIP",
+    "packSize": "60",
+    "company": "CIPLA LTD.",
+    "brandMrp": "23.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.40"
+  },
+  {
+    "brandName": "LEEMOL",
+    "packSize": "60",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "25.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.42"
+  },
+  {
+    "brandName": "PARASUIT",
+    "packSize": "60",
+    "company": "BURNET PHARMACEUTICALS P. LTD",
+    "brandMrp": "35.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.58"
+  },
+  {
+    "brandName": "METACIN",
+    "packSize": "60",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "39.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.65"
+  },
+  {
+    "brandName": "SUMO L",
+    "packSize": "60",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "38.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.65"
+  },
+  {
+    "brandName": "JAGCIN",
+    "packSize": "60",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "40.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.67"
+  },
+  {
+    "brandName": "CETAFEN",
+    "packSize": "60",
+    "company": "BENNET PHARMACEUTICALS LIMITED",
+    "brandMrp": "41.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.70"
+  },
+  {
+    "brandName": "MEPROCIN",
+    "packSize": "60",
+    "company": "EMPIAI PHARMACEUTICALS PVT LTD",
+    "brandMrp": "42.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.71"
+  },
+  {
+    "brandName": "PARACIN(STP)",
+    "packSize": "60",
+    "company": "STADMED PVT. LTD",
+    "brandMrp": "42.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.71"
+  },
+  {
+    "brandName": "PFC",
+    "packSize": "60",
+    "company": "ALDE MEDI IMPEX",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.08"
+  },
+  {
+    "brandName": "FIBROMET",
+    "packSize": "60",
+    "company": "COLINZ LABORATORIES LTD",
+    "brandMrp": "70.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.18"
+  }
+]

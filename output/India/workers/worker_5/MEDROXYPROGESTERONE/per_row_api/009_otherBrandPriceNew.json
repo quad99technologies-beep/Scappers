@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "MEDRIGEST",
+    "packSize": "10",
+    "company": "VHB LIFE SCIENCES LIMITED",
+    "brandMrp": "51.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.17"
+  },
+  {
+    "brandName": "ORGAMED",
+    "packSize": "10",
+    "company": "MSD PHARMACEUTICALS PRIVATE LTD.",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "MEDROGEST",
+    "packSize": "10",
+    "company": "MANEESH PHARMACEUTICALS LTD",
+    "brandMrp": "65.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.55"
+  },
+  {
+    "brandName": "MEPRATE",
+    "packSize": "10",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "brandMrp": "66.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.66"
+  },
+  {
+    "brandName": "DEVIRY",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "66.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.67"
+  },
+  {
+    "brandName": "MEDOLIN",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "66.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.67"
+  },
+  {
+    "brandName": "MEDRONORM",
+    "packSize": "10",
+    "company": "OBSURGE BIOTECH LTD",
+    "brandMrp": "66.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.67"
+  },
+  {
+    "brandName": "MODUS",
+    "packSize": "10",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "66.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.68"
+  },
+  {
+    "brandName": "MAXOGEST",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "69.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.99"
+  },
+  {
+    "brandName": "MEGEST",
+    "packSize": "10",
+    "company": "SANZYME LTD",
+    "brandMrp": "69.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.99"
+  },
+  {
+    "brandName": "MEGESTONE",
+    "packSize": "10",
+    "company": "REKVINA PHARMACEUTICALS",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "DUB",
+    "packSize": "10",
+    "company": "OBSURGE BIOTECH LTD",
+    "brandMrp": "238.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.86"
+  }
+]

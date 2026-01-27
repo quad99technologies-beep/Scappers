@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "MUCYST",
+    "packSize": "5",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "49.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.80"
+  },
+  {
+    "brandName": "NACYRES",
+    "packSize": "5",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "113.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.69"
+  },
+  {
+    "brandName": "MUCOMIX",
+    "packSize": "1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "25.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.23"
+  }
+]

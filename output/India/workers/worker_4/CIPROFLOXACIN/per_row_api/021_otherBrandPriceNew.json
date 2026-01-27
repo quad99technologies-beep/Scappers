@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "ADIFLOX",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "9.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.96"
+  },
+  {
+    "brandName": "CFC (PHARMTAK)",
+    "packSize": "5",
+    "company": "PHARMTAK",
+    "brandMrp": "8.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.61"
+  },
+  {
+    "brandName": "CINFAX",
+    "packSize": "5",
+    "company": "OPTHO REMEDIES PVT.LTD",
+    "brandMrp": "8.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.71"
+  },
+  {
+    "brandName": "CIPRO CENT",
+    "packSize": "5",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "8.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.71"
+  },
+  {
+    "brandName": "CIPRODAC",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "24.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.45"
+  },
+  {
+    "brandName": "NUGEN",
+    "packSize": "5",
+    "company": "SYNTHO PHARMACEUTICALS (P) LTD.",
+    "brandMrp": "16.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.29"
+  }
+]

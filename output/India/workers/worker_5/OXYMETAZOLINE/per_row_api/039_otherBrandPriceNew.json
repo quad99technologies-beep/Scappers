@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "MOONCOLD",
+    "packSize": "10",
+    "company": "MOONSTAR LIFECARE PVT.LTD",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "NOSTRIHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "OD LM OXY",
+    "packSize": "10",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "102.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.22"
+  },
+  {
+    "brandName": "OTRIVIN",
+    "packSize": "10",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "120.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.08"
+  },
+  {
+    "brandName": "NOSTRIOL",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "127.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.75"
+  }
+]

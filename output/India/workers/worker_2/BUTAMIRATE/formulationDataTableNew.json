@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521090524@336884@101189233@3936@101126@208114",
+    "skuName": "BUTADRYL 7.5 MG SYRUP 100 ML",
+    "composition": "BUTAMIRATE SYRUP 7.5 MG",
+    "packSize": "100 ML SYRUP",
+    "dosageForm": "SYRUP",
+    "ceilingPrice": "-1",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "scheduleFlag": "0",
+    "mrp": "153.75",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.54"
+  },
+  {
+    "hiddenId": "1521136237@9999997208@101226719@-1@101126@208114",
+    "skuName": "KOFAREST BT SYRUP 100 ML",
+    "composition": "BUTAMIRATE SYRUP ",
+    "packSize": "100 ML SYRUP",
+    "dosageForm": "SYRUP",
+    "ceilingPrice": "-1",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "159.70",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.60"
+  }
+]

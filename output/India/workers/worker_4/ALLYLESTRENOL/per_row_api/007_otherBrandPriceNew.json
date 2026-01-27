@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "PROLIN A",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "127.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.75"
+  },
+  {
+    "brandName": "NIDANOL",
+    "packSize": "10",
+    "company": "UNICURE REMEDIES PVT. LTD",
+    "brandMrp": "143.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.35"
+  },
+  {
+    "brandName": "ASTANOL",
+    "packSize": "10",
+    "company": "REKVINA PHARMACEUTICALS",
+    "brandMrp": "147.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.72"
+  },
+  {
+    "brandName": "GYNONYS",
+    "packSize": "10",
+    "company": "JB CHEMICALS",
+    "brandMrp": "163.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.35"
+  },
+  {
+    "brandName": "FULTERM",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "175.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.50"
+  },
+  {
+    "brandName": "MAINTANE",
+    "packSize": "15",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "305.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.39"
+  },
+  {
+    "brandName": "ANIN",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "204.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.45"
+  },
+  {
+    "brandName": "MAINTANE",
+    "packSize": "10",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "217.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.75"
+  },
+  {
+    "brandName": "GESTIN",
+    "packSize": "10",
+    "company": "WALTER BUSHNELL",
+    "brandMrp": "279.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.90"
+  }
+]

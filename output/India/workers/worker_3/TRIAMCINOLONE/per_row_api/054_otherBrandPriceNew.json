@@ -1,0 +1,186 @@
+[
+  {
+    "brandName": "AUROCORT",
+    "packSize": "1",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "1.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.25"
+  },
+  {
+    "brandName": "KENATROY",
+    "packSize": "1",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "37.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.50"
+  },
+  {
+    "brandName": "ACORT",
+    "packSize": "2",
+    "company": "GUJARAT TERCE LABORATORIES LTD",
+    "brandMrp": "117.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.50"
+  },
+  {
+    "brandName": "RAPICORT",
+    "packSize": "1",
+    "company": "OLCARE LTD",
+    "brandMrp": "61.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "61.66"
+  },
+  {
+    "brandName": "TRICINOL",
+    "packSize": "1",
+    "company": "TRIPADA BIOTEC PVT LTD",
+    "brandMrp": "85.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "85.00"
+  },
+  {
+    "brandName": "CORTEYE",
+    "packSize": "1",
+    "company": "EYE KARE KILITCH.LTD",
+    "brandMrp": "94.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "94.29"
+  },
+  {
+    "brandName": "DEPOCILONE",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "96.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "96.80"
+  },
+  {
+    "brandName": "KENAPIL",
+    "packSize": "1",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "99.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "99.82"
+  },
+  {
+    "brandName": "TILONE",
+    "packSize": "1",
+    "company": "DERMAKARE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "105.00"
+  },
+  {
+    "brandName": "STANCORT",
+    "packSize": "1",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "111.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "111.00"
+  },
+  {
+    "brandName": "EXCORT",
+    "packSize": "1",
+    "company": "OMNI LIFE SCIENCES PVT LTD",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "117.19"
+  },
+  {
+    "brandName": "COMCORT",
+    "packSize": "1",
+    "company": "COMED CHEMICALS PVT LTD",
+    "brandMrp": "118.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "118.59"
+  },
+  {
+    "brandName": "SUPERCORT",
+    "packSize": "1",
+    "company": "PASTEUR LABORATORIES PVT. LTD.",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "120.00"
+  },
+  {
+    "brandName": "TMSEAS",
+    "packSize": "1",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "131.25"
+  },
+  {
+    "brandName": "VIRACORT",
+    "packSize": "1",
+    "company": "VIRCHOW BIOTECH PRIVATE LIMITED",
+    "brandMrp": "141.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "141.56"
+  },
+  {
+    "brandName": "AMCISTER",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "143.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "143.91"
+  },
+  {
+    "brandName": "INJICORT",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "162.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "162.19"
+  },
+  {
+    "brandName": "TRIROID",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "162.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "162.19"
+  },
+  {
+    "brandName": "D CORT",
+    "packSize": "1",
+    "company": "DWD PHARMACEUTICALS LTD",
+    "brandMrp": "167.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "167.81"
+  },
+  {
+    "brandName": "BONACORT",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "169.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "169.40"
+  },
+  {
+    "brandName": "ARISTOCORT T",
+    "packSize": "1",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "178.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "178.59"
+  },
+  {
+    "brandName": "TRICORT",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "186.56"
+  },
+  {
+    "brandName": "KENACORT",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "212.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "212.06"
+  }
+]

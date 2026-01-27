@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "QUEZO",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "363.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.33"
+  },
+  {
+    "brandName": "QUTIPIN",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "368.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.84"
+  },
+  {
+    "brandName": "QUEL",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "383.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.30"
+  },
+  {
+    "brandName": "Q MIND",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "395.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.51"
+  }
+]

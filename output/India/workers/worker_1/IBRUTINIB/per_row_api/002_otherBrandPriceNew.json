@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "IBTIB",
+    "packSize": "30",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "4672.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "155.75"
+  },
+  {
+    "brandName": "IBRONZA",
+    "packSize": "30",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "8322.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "277.40"
+  },
+  {
+    "brandName": "NITIB",
+    "packSize": "30",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "10003.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "333.44"
+  },
+  {
+    "brandName": "IMBRUVICA",
+    "packSize": "90",
+    "company": "JANSSEN",
+    "brandMrp": "328000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3644.44"
+  }
+]

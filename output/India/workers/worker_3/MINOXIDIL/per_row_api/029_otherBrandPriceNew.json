@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "DENSITA OM",
+    "packSize": "10",
+    "company": "REGALIZ MEDICARE LTD",
+    "brandMrp": "124.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.47"
+  },
+  {
+    "brandName": "ANASURE",
+    "packSize": "15",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "210.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "KERA M",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "SCINO",
+    "packSize": "10",
+    "company": "ENCORE HEALTHCARE PVT LTD",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "CURLZMIN",
+    "packSize": "10",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "141.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.10"
+  },
+  {
+    "brandName": "XTRA DENSER",
+    "packSize": "30",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "468.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.63"
+  },
+  {
+    "brandName": "LONITAB",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "187.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.70"
+  },
+  {
+    "brandName": "MINLENTH",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "MINOBOOST",
+    "packSize": "10",
+    "company": "GLOWDERMA",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "MINOKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "BRINTOP",
+    "packSize": "10",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "200.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.06"
+  },
+  {
+    "brandName": "MINOSTRONG",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "249.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.90"
+  },
+  {
+    "brandName": "MINTOP",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "421.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.19"
+  }
+]

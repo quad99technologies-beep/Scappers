@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "SAVLON",
+    "packSize": "45",
+    "company": "JOHNSON & JOHNSON",
+    "brandMrp": "10.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.22"
+  },
+  {
+    "brandName": "SAVLON",
+    "packSize": "125",
+    "company": "JOHNSON & JOHNSON",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.32"
+  },
+  {
+    "brandName": "SKINSECT L&G",
+    "packSize": "100",
+    "company": "MENARINI INDIA",
+    "brandMrp": "97.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.98"
+  },
+  {
+    "brandName": "GLICERINA",
+    "packSize": "100",
+    "company": "DERMO CARE LABORATORIES",
+    "brandMrp": "105.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.06"
+  },
+  {
+    "brandName": "GLYFRESH",
+    "packSize": "75",
+    "company": "REMEMBER INDIA MEDICOS",
+    "brandMrp": "82.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.09"
+  },
+  {
+    "brandName": "MYRA",
+    "packSize": "100",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "122.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.23"
+  },
+  {
+    "brandName": "GLOVERA",
+    "packSize": "75",
+    "company": "AVANCER LAB",
+    "brandMrp": "103.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.37"
+  },
+  {
+    "brandName": "SAVLON",
+    "packSize": "75",
+    "company": "JOHNSON & JOHNSON",
+    "brandMrp": "111.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.48"
+  }
+]

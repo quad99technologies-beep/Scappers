@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "TOPGAIN",
+    "packSize": "60",
+    "company": "CIPLA LTD.",
+    "brandMrp": "211.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.52"
+  },
+  {
+    "brandName": "BRINTOP",
+    "packSize": "60",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.17"
+  },
+  {
+    "brandName": "MINOTRESS",
+    "packSize": "60",
+    "company": "PRISM LIFESCIENCE",
+    "brandMrp": "312.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.20"
+  },
+  {
+    "brandName": "HAIR JOY M",
+    "packSize": "60",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "367.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.13"
+  },
+  {
+    "brandName": "MINTOP",
+    "packSize": "120",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "771.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.43"
+  },
+  {
+    "brandName": "IMXIA",
+    "packSize": "60",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "389.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.48"
+  },
+  {
+    "brandName": "BRINTOP",
+    "packSize": "120",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "883.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.36"
+  },
+  {
+    "brandName": "MINTOP",
+    "packSize": "60",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "459.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.66"
+  },
+  {
+    "brandName": "BRINTOP",
+    "packSize": "60",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "655.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.92"
+  },
+  {
+    "brandName": "XFOLIA NX",
+    "packSize": "60",
+    "company": "GENO PHARMACEUTICALS LTD",
+    "brandMrp": "834.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.91"
+  }
+]

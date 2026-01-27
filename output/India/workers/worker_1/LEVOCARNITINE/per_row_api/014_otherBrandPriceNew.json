@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "RP CARN",
+    "packSize": "5",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "133.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.78"
+  },
+  {
+    "brandName": "VOCARTINE",
+    "packSize": "5",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "138.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.71"
+  },
+  {
+    "brandName": "CARNISURE",
+    "packSize": "5",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "246.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.35"
+  },
+  {
+    "brandName": "REE",
+    "packSize": "5",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "266.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.30"
+  },
+  {
+    "brandName": "NUCARNIT",
+    "packSize": "5",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "292.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.58"
+  }
+]

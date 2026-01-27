@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "MOMEFIRST",
+    "packSize": "10",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "292.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.25"
+  },
+  {
+    "brandName": "MOMEFIT",
+    "packSize": "10",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "321.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.11"
+  },
+  {
+    "brandName": "MOMENTA",
+    "packSize": "10",
+    "company": "NULIFE PHARMACEUTICALS",
+    "brandMrp": "543.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "54.38"
+  }
+]

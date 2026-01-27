@@ -1,0 +1,386 @@
+[
+  {
+    "brandName": "ANDOL",
+    "packSize": "1",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "6.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.95"
+  },
+  {
+    "brandName": "DECA",
+    "packSize": "1",
+    "company": "CONCEPT BIOSCIENCES PVT LTD",
+    "brandMrp": "16.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.25"
+  },
+  {
+    "brandName": "INTABOLIN",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "18.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "DECAMORE BOLIN",
+    "packSize": "1",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "20.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.00"
+  },
+  {
+    "brandName": "NANDROLIN",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "21.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.52"
+  },
+  {
+    "brandName": "DETADURA",
+    "packSize": "1",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "22.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.50"
+  },
+  {
+    "brandName": "BEVODEC",
+    "packSize": "2",
+    "company": "M.D.C. PHARMACEUTICALS (P) LTD.",
+    "brandMrp": "121.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "60.58"
+  },
+  {
+    "brandName": "NEUROPHEN",
+    "packSize": "1",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "90.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "90.25"
+  },
+  {
+    "brandName": "VOLTA",
+    "packSize": "1",
+    "company": "M.D.C. PHARMACEUTICALS (P) LTD.",
+    "brandMrp": "97.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "97.37"
+  },
+  {
+    "brandName": "VELBOL",
+    "packSize": "1",
+    "company": "OLCARE LTD",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "105.00"
+  },
+  {
+    "brandName": "NUDEK",
+    "packSize": "1",
+    "company": "RECKITT BENCKISER",
+    "brandMrp": "109.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "109.38"
+  },
+  {
+    "brandName": "CENPOWER",
+    "packSize": "1",
+    "company": "INDIAN DRUG & PHARMACEUTICALS LTD (IDPL)",
+    "brandMrp": "118.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "118.00"
+  },
+  {
+    "brandName": "NEUROFOL",
+    "packSize": "1",
+    "company": "TYCOON PHARMACEUTICALS PVT LTD",
+    "brandMrp": "133.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "133.13"
+  },
+  {
+    "brandName": "DECAMID",
+    "packSize": "1",
+    "company": "MIDAS CARE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "133.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "133.31"
+  },
+  {
+    "brandName": "INSTADEC",
+    "packSize": "1",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "135.00"
+  },
+  {
+    "brandName": "NANDEC",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "135.00"
+  },
+  {
+    "brandName": "ZEBOL",
+    "packSize": "1",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "139.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "139.00"
+  },
+  {
+    "brandName": "DECSUN",
+    "packSize": "1",
+    "company": "ST. MORRISON",
+    "brandMrp": "139.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "139.90"
+  },
+  {
+    "brandName": "WINLIN DEC",
+    "packSize": "1",
+    "company": "TORQUE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "140.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "140.00"
+  },
+  {
+    "brandName": "ANDECA",
+    "packSize": "1",
+    "company": "WINSOME LAB LTD",
+    "brandMrp": "145.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "145.00"
+  },
+  {
+    "brandName": "EFFILIN",
+    "packSize": "1",
+    "company": "ALDE MEDI IMPEX",
+    "brandMrp": "149.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "149.53"
+  },
+  {
+    "brandName": "GENIDEC",
+    "packSize": "1",
+    "company": "STADCHEM OF INDIA",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "154.69"
+  },
+  {
+    "brandName": "ND GOLD",
+    "packSize": "1",
+    "company": "GOLD LINE",
+    "brandMrp": "159.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "159.38"
+  },
+  {
+    "brandName": "ZANETA",
+    "packSize": "1",
+    "company": "MCASTRO PHARMA",
+    "brandMrp": "159.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "159.38"
+  },
+  {
+    "brandName": "OCTODEC",
+    "packSize": "1",
+    "company": "SYMBIOTIC DRUGS",
+    "brandMrp": "164.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "164.06"
+  },
+  {
+    "brandName": "RAPTIC",
+    "packSize": "1",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "182.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "182.81"
+  },
+  {
+    "brandName": "LEODEC",
+    "packSize": "1",
+    "company": "OCTANE BIOTECH",
+    "brandMrp": "190.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "190.31"
+  },
+  {
+    "brandName": "ZESTABOLIN",
+    "packSize": "1",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "198.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "198.40"
+  },
+  {
+    "brandName": "PROTABOL",
+    "packSize": "1",
+    "company": "MACMILLON PHARMACEUTICALS",
+    "brandMrp": "208.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "208.40"
+  },
+  {
+    "brandName": "ALKEMS NANDROLONE",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "215.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "215.00"
+  },
+  {
+    "brandName": "DECANEURABOL",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "220.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "220.30"
+  },
+  {
+    "brandName": "DECA RANBISOLONE",
+    "packSize": "1",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "245.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "245.75"
+  },
+  {
+    "brandName": "DDKEM",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "250.00"
+  },
+  {
+    "brandName": "NADROSOL",
+    "packSize": "1",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "253.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "253.92"
+  },
+  {
+    "brandName": "DECANANDROBOL",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "260.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "260.00"
+  },
+  {
+    "brandName": "DECABOLIN (NICHOLAS)",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "260.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "260.73"
+  },
+  {
+    "brandName": "REVIDEC",
+    "packSize": "1",
+    "company": "RAVENBHEL PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "271.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "271.35"
+  },
+  {
+    "brandName": "PROTOMARK",
+    "packSize": "1",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "290.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "290.00"
+  },
+  {
+    "brandName": "NDJECT",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "311.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "311.25"
+  },
+  {
+    "brandName": "PROTADEC",
+    "packSize": "1",
+    "company": "MACMILLON PHARMACEUTICALS",
+    "brandMrp": "329.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "329.06"
+  },
+  {
+    "brandName": "BIODEBOL",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "355.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "355.78"
+  },
+  {
+    "brandName": "DECANEUROPHEN",
+    "packSize": "1",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "371.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "371.25"
+  },
+  {
+    "brandName": "DECA DURABOLIN(INTAS)",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "410.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "410.00"
+  },
+  {
+    "brandName": "METADEC",
+    "packSize": "1",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "410.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "410.85"
+  },
+  {
+    "brandName": "DECA INSTABOLIN",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "418.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "418.59"
+  },
+  {
+    "brandName": "DECA-INTABOLIN",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "418.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "418.59"
+  },
+  {
+    "brandName": "NADOMAC",
+    "packSize": "1",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "438.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "438.28"
+  },
+  {
+    "brandName": "DECA DURABOLIN",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "508.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "508.13"
+  }
+]

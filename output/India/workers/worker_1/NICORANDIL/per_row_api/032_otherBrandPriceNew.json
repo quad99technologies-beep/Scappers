@@ -1,0 +1,178 @@
+[
+  {
+    "brandName": "NIKODUCE",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "1.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.13"
+  },
+  {
+    "brandName": "NUCORIL",
+    "packSize": "20",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "130.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.52"
+  },
+  {
+    "brandName": "K ION",
+    "packSize": "10",
+    "company": "NOUVEAU MEDICAMENT PVT LTD",
+    "brandMrp": "87.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.70"
+  },
+  {
+    "brandName": "NICOMED",
+    "packSize": "20",
+    "company": "ALDE MEDI IMPEX",
+    "brandMrp": "206.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "KORAN",
+    "packSize": "10",
+    "company": "THREE DOTS LIFESCIENCE",
+    "brandMrp": "106.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.63"
+  },
+  {
+    "brandName": "NICOLIFE",
+    "packSize": "10",
+    "company": "TRIPADA LIFECARE PVT.LTD",
+    "brandMrp": "115.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.52"
+  },
+  {
+    "brandName": "FORDIL",
+    "packSize": "20",
+    "company": "4 CARE LIFESCIENCE PVT LTD",
+    "brandMrp": "238.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.91"
+  },
+  {
+    "brandName": "NIKOLIFE",
+    "packSize": "30",
+    "company": "ORRIS PHARMACEUTICALS",
+    "brandMrp": "365.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.17"
+  },
+  {
+    "brandName": "EL-NICO",
+    "packSize": "20",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "266.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.30"
+  },
+  {
+    "brandName": "NICODAY",
+    "packSize": "20",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "310.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.54"
+  },
+  {
+    "brandName": "NIKOS",
+    "packSize": "30",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "659.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.99"
+  },
+  {
+    "brandName": "ALCORAN",
+    "packSize": "10",
+    "company": "ALVIO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "266.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.63"
+  },
+  {
+    "brandName": "K COR",
+    "packSize": "20",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "559.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.00"
+  },
+  {
+    "brandName": "NIKOS",
+    "packSize": "30",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "842.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.09"
+  },
+  {
+    "brandName": "KORANDIL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "304.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.47"
+  },
+  {
+    "brandName": "NUCORIL",
+    "packSize": "20",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "648.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.44"
+  },
+  {
+    "brandName": "ZYNICOR",
+    "packSize": "20",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "654.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.71"
+  },
+  {
+    "brandName": "NICODUCE",
+    "packSize": "20",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "685.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.26"
+  },
+  {
+    "brandName": "NIKORAN",
+    "packSize": "20",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "694.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.72"
+  },
+  {
+    "brandName": "K COR",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "371.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.13"
+  },
+  {
+    "brandName": "NIKORAN",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "392.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.25"
+  },
+  {
+    "brandName": "NICODUCE",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "394.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.47"
+  }
+]

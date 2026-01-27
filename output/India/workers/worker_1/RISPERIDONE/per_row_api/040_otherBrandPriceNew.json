@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "GENREST",
+    "packSize": "60",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.83"
+  },
+  {
+    "brandName": "RISP",
+    "packSize": "60",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "138.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.31"
+  },
+  {
+    "brandName": "RISNIA",
+    "packSize": "60",
+    "company": "CIPLA LTD.",
+    "brandMrp": "141.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.36"
+  }
+]

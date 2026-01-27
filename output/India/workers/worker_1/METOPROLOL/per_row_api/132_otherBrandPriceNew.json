@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "METOPOLE",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "42.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.20"
+  },
+  {
+    "brandName": "REVELOL XL",
+    "packSize": "15",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "98.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.54"
+  },
+  {
+    "brandName": "STARPRESS-XL",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "65.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.57"
+  }
+]

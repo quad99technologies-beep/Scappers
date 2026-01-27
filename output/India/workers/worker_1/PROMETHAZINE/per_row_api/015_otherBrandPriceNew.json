@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PHENA",
+    "packSize": "2",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "3.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.77"
+  },
+  {
+    "brandName": "EMIGAN",
+    "packSize": "2",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "6.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.45"
+  },
+  {
+    "brandName": "PHENA",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "42.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.29"
+  }
+]

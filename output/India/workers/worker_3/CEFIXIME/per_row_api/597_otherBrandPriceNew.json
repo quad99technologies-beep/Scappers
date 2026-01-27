@@ -1,0 +1,122 @@
+[
+  {
+    "brandName": "TRUXIME",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "16.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.66"
+  },
+  {
+    "brandName": "CEFKIM",
+    "packSize": "10",
+    "company": "KIM LAB",
+    "brandMrp": "29.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.99"
+  },
+  {
+    "brandName": "HIFEN",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "45.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.59"
+  },
+  {
+    "brandName": "ACEF",
+    "packSize": "10",
+    "company": "FRANKLIN LABORATORIES (INDIA) PVT. LTD.",
+    "brandMrp": "46.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.60"
+  },
+  {
+    "brandName": "AIRCEF",
+    "packSize": "10",
+    "company": "ICARUS HEALTHCARE PRIMUS",
+    "brandMrp": "46.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.68"
+  },
+  {
+    "brandName": "ZOFIX",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "49.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.94"
+  },
+  {
+    "brandName": "EXTACEF",
+    "packSize": "10",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "51.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.10"
+  },
+  {
+    "brandName": "CEFI",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "51.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.12"
+  },
+  {
+    "brandName": "CEFOLAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "56.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.67"
+  },
+  {
+    "brandName": "TOPCEF",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "60.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.07"
+  },
+  {
+    "brandName": "ZIFI",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "61.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.11"
+  },
+  {
+    "brandName": "MILIXIM",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "65.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "ODICEF O",
+    "packSize": "10",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "66.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.61"
+  },
+  {
+    "brandName": "OMNIX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "66.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.63"
+  },
+  {
+    "brandName": "TAXIM O",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "77.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.73"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "OTOX",
+    "packSize": "30",
+    "company": "FRANKLIN LABORATORIES (INDIA) PVT. LTD.",
+    "brandMrp": "13.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.45"
+  },
+  {
+    "brandName": "NOVOFRAN",
+    "packSize": "60",
+    "company": "SEAGULL LABS(I) LTD",
+    "brandMrp": "106.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.78"
+  },
+  {
+    "brandName": "OBACT (BIO VITAMINS)",
+    "packSize": "5",
+    "company": "BIO VITAMINS",
+    "brandMrp": "46.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  }
+]

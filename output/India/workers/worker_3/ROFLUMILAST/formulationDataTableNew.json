@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521020766@207393@101129762@3749@101006@202539",
+    "skuName": "EXALBIC 500 MCG TABLET 10",
+    "composition": "ROFLUMILAST TABLET 500 MCG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ALEMBIC LTD",
+    "scheduleFlag": "0",
+    "mrp": "150.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "hiddenId": "1521070858@205983@101171535@3749@101006@202539",
+    "skuName": "ROFADAY 500 MCG TABLET 10",
+    "composition": "ROFLUMILAST TABLET 500 MCG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "LUPIN LTD",
+    "scheduleFlag": "0",
+    "mrp": "243.10",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.31"
+  },
+  {
+    "hiddenId": "1521070876@205551@101171553@3749@101006@202539",
+    "skuName": "ROFUM 500 MCG TABLET 10",
+    "composition": "ROFLUMILAST TABLET 500 MCG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "MSN LABORATORIES LTD",
+    "scheduleFlag": "0",
+    "mrp": "154.69",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  }
+]

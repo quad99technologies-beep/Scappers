@@ -1,0 +1,72 @@
+[
+  {
+    "hiddenId": "1521040170@247956@101116632@3916@101148@205571",
+    "skuName": "CIPRIT 70 % LIQUID 100 ML",
+    "composition": "ISOPROPYL ALCOHOL LIQUID 70 %",
+    "packSize": "100 ML LIQUID",
+    "dosageForm": "LIQUID",
+    "ceilingPrice": "-1",
+    "company": "AGRAWAL PHARMACEUTICALS",
+    "scheduleFlag": "0",
+    "mrp": "56.25",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.56"
+  },
+  {
+    "hiddenId": "1521040223@266684@101116632@3916@101148@205571",
+    "skuName": "CIPRIT 70 % LIQUID 400 ML",
+    "composition": "ISOPROPYL ALCOHOL LIQUID 70 %",
+    "packSize": "400 ML LIQUID",
+    "dosageForm": "LIQUID",
+    "ceilingPrice": "-1",
+    "company": "AGRAWAL PHARMACEUTICALS",
+    "scheduleFlag": "0",
+    "mrp": "1400.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.50"
+  },
+  {
+    "hiddenId": "1521134644@289937@101194733@-1@101180@205571",
+    "skuName": "DR.SPIRIT SPIRIT 100 ML",
+    "composition": "ISOPROPYL ALCOHOL SPIRIT ",
+    "packSize": "100 ML SPIRIT",
+    "dosageForm": "SPIRIT",
+    "ceilingPrice": "-1",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "21.25",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.21"
+  },
+  {
+    "hiddenId": "1521102200@288699@101194733@-1@101126@205571",
+    "skuName": "DR.SPIRIT SYRUP 400 ML",
+    "composition": "ISOPROPYL ALCOHOL SYRUP ",
+    "packSize": "400 ML SYRUP",
+    "dosageForm": "SYRUP",
+    "ceilingPrice": "-1",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "80.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.20"
+  },
+  {
+    "hiddenId": "1521019986@57256@101126073@-1@101017@205571",
+    "skuName": "EARDRI EAR DROPS 10 ML",
+    "composition": "ISOPROPYL ALCOHOL EAR DROPS ",
+    "packSize": "10 ML EAR DROPS",
+    "dosageForm": "EAR DROPS",
+    "ceilingPrice": "-1",
+    "company": "NULIFE PHARMACEUTICALS",
+    "scheduleFlag": "0",
+    "mrp": "207.19",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.72"
+  }
+]

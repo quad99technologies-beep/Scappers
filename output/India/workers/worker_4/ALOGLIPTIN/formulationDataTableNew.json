@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521006043@302037@101110030@2403@101006@200009",
+    "skuName": "ALOJA 12.5 MG TABLET 10",
+    "composition": "ALOGLIPTIN TABLET 12.5 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "INDOCO REMEDIES LTD",
+    "scheduleFlag": "0",
+    "mrp": "109.69",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "hiddenId": "1521006068@302038@101110030@3312@101006@200009",
+    "skuName": "ALOJA 25 MG TABLET 10",
+    "composition": "ALOGLIPTIN TABLET 25 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "INDOCO REMEDIES LTD",
+    "scheduleFlag": "0",
+    "mrp": "154.13",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.41"
+  }
+]

@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "D.D.LAM",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "23.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.31"
+  },
+  {
+    "brandName": "COPAX",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "29.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.91"
+  },
+  {
+    "brandName": "PIZOLAM",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "31.01",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.10"
+  },
+  {
+    "brandName": "PLAXID",
+    "packSize": "10",
+    "company": "MANEESH PHARMACEUTICALS LTD",
+    "brandMrp": "38.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.81"
+  },
+  {
+    "brandName": "ZOLIPAX",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "46.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.69"
+  },
+  {
+    "brandName": "RESTYL",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "65.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "ZOLAX-SR",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "68.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.80"
+  },
+  {
+    "brandName": "TRIKA",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "70.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.09"
+  },
+  {
+    "brandName": "NOTENCE",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "78.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.80"
+  },
+  {
+    "brandName": "ALPRAX",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "142.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.49"
+  },
+  {
+    "brandName": "ZALLPAM",
+    "packSize": "10",
+    "company": "MENARINI INDIA",
+    "brandMrp": "124.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.47"
+  }
+]

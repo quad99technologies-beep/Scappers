@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "EMIN",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "19.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.93"
+  },
+  {
+    "brandName": "REGAN (A.N.PHARMACIA)",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "26.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.70"
+  },
+  {
+    "brandName": "MEXIPHEN MD",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "28.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  },
+  {
+    "brandName": "PROGENE",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "34.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.40"
+  },
+  {
+    "brandName": "NORGIC",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "34.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.44"
+  },
+  {
+    "brandName": "PROMETH",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "36.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.67"
+  },
+  {
+    "brandName": "VOMIBREK",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "46.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.65"
+  },
+  {
+    "brandName": "PHENERGAN",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "57.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.72"
+  }
+]

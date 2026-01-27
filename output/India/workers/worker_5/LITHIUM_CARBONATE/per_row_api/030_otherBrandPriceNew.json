@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "LITHEX",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "15.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.57"
+  },
+  {
+    "brandName": "T LITH",
+    "packSize": "10",
+    "company": "TRIPADA BIOTEC PVT LTD",
+    "brandMrp": "16.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.65"
+  },
+  {
+    "brandName": "INTALITH",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "17.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.71"
+  },
+  {
+    "brandName": "MONOLITH",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "18.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.80"
+  },
+  {
+    "brandName": "LITHOCENT",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "18.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.81"
+  },
+  {
+    "brandName": "TRICAB",
+    "packSize": "10",
+    "company": "TRIKO PHARMACEUTICALS",
+    "brandMrp": "18.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.81"
+  },
+  {
+    "brandName": "LICAB",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "26.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.60"
+  },
+  {
+    "brandName": "LITHOSUN",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "26.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.61"
+  },
+  {
+    "brandName": "LITCA",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "27.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "T LITH CR",
+    "packSize": "10",
+    "company": "TRIPADA BIOTEC PVT LTD",
+    "brandMrp": "65.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  }
+]

@@ -1,0 +1,210 @@
+[
+  {
+    "brandName": "SEZIN",
+    "packSize": "10",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "18.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.81"
+  },
+  {
+    "brandName": "VERTO-C",
+    "packSize": "10",
+    "company": "BIOMAX BIOTECHNICS",
+    "brandMrp": "19.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.90"
+  },
+  {
+    "brandName": "SYZERON",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "19.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.94"
+  },
+  {
+    "brandName": "DIZZIGO",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "22.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.20"
+  },
+  {
+    "brandName": "STEDICIN",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "23.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.40"
+  },
+  {
+    "brandName": "CINAVER",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "25.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.56"
+  },
+  {
+    "brandName": "SINARZINE",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "26.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.62"
+  },
+  {
+    "brandName": "DIZIGO",
+    "packSize": "10",
+    "company": "MEDISUN PHARMA",
+    "brandMrp": "31.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.19"
+  },
+  {
+    "brandName": "KVERT",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "32.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.28"
+  },
+  {
+    "brandName": "STUGIPEN",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "34.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.45"
+  },
+  {
+    "brandName": "SIGCINAR",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "39.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.92"
+  },
+  {
+    "brandName": "VERTIZINE",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "39.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.94"
+  },
+  {
+    "brandName": "CINTIGO",
+    "packSize": "10",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "49.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.92"
+  },
+  {
+    "brandName": "VERTIGON",
+    "packSize": "10",
+    "company": "GENO PHARMACEUTICALS LTD",
+    "brandMrp": "49.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.95"
+  },
+  {
+    "brandName": "SUFI",
+    "packSize": "10",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "50.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "CIMENZA C",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "53.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.38"
+  },
+  {
+    "brandName": "CERVATON",
+    "packSize": "10",
+    "company": "INGA LABORATORIES PVT. LTD.",
+    "brandMrp": "54.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "CINWOX",
+    "packSize": "25",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "151.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.05"
+  },
+  {
+    "brandName": "VERTIGON",
+    "packSize": "20",
+    "company": "GENO PHARMACEUTICALS LTD",
+    "brandMrp": "122.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.12"
+  },
+  {
+    "brandName": "VESTABLE",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "63.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.34"
+  },
+  {
+    "brandName": "SPININ C",
+    "packSize": "10",
+    "company": "NULIFE PHARMACEUTICALS",
+    "brandMrp": "81.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.16"
+  },
+  {
+    "brandName": "CINIRONE",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "89.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.94"
+  },
+  {
+    "brandName": "DIZIRON",
+    "packSize": "20",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "185.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "STUGERON",
+    "packSize": "25",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "269.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.76"
+  },
+  {
+    "brandName": "VERTIRON",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "109.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.95"
+  },
+  {
+    "brandName": "VERTINIL",
+    "packSize": "10",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  }
+]

@@ -1,0 +1,154 @@
+[
+  {
+    "brandName": "CALAMINOL",
+    "packSize": "50",
+    "company": "PASTEUR LABORATORIES PVT. LTD.",
+    "brandMrp": "23.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.48"
+  },
+  {
+    "brandName": "CALLY KOOL",
+    "packSize": "60",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "35.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.60"
+  },
+  {
+    "brandName": "CALSMOOTH S",
+    "packSize": "65",
+    "company": "LUPIN LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.87"
+  },
+  {
+    "brandName": "AQUAMINOL",
+    "packSize": "100",
+    "company": "PASTEUR LABORATORIES PVT. LTD.",
+    "brandMrp": "97.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.97"
+  },
+  {
+    "brandName": "VERACAL",
+    "packSize": "100",
+    "company": "DERMO CARE LABORATORIES",
+    "brandMrp": "103.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.03"
+  },
+  {
+    "brandName": "CALSMOOTH",
+    "packSize": "100",
+    "company": "LUPIN LTD",
+    "brandMrp": "105.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.06"
+  },
+  {
+    "brandName": "ALOMINOL",
+    "packSize": "100",
+    "company": "PASTEUR LABORATORIES PVT. LTD.",
+    "brandMrp": "110.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.11"
+  },
+  {
+    "brandName": "PEERLINE",
+    "packSize": "100",
+    "company": "PARKER ROBINSON PVT. LTD",
+    "brandMrp": "115.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.15"
+  },
+  {
+    "brandName": "CALOEMINE",
+    "packSize": "100",
+    "company": "PARKER ROBINSON PVT. LTD",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.25"
+  },
+  {
+    "brandName": "CALAWIN",
+    "packSize": "60",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "89.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.48"
+  },
+  {
+    "brandName": "FRESO CALAMINE",
+    "packSize": "50",
+    "company": "OMEGA REMEDIES PVT LTD",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.80"
+  },
+  {
+    "brandName": "CALADEW",
+    "packSize": "75",
+    "company": "ETHICARE REMEDIES",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  },
+  {
+    "brandName": "CALA CALM CALAMINE",
+    "packSize": "70",
+    "company": "SOLDERMA PHARMACEUTICALS PVT. LTD",
+    "brandMrp": "143.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.04"
+  },
+  {
+    "brandName": "LACTO CALAMINE HYDRATION",
+    "packSize": "120",
+    "company": "PIRAMAL HEALTHCARE LIMITED",
+    "brandMrp": "260.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.17"
+  },
+  {
+    "brandName": "LACTO CALAMINE HYDRATION",
+    "packSize": "60",
+    "company": "PIRAMAL HEALTHCARE LIMITED",
+    "brandMrp": "165.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.75"
+  },
+  {
+    "brandName": "CALMINOX ANTI ITCH",
+    "packSize": "100",
+    "company": "PERCOS INDIA PVT. LTD.",
+    "brandMrp": "465.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.65"
+  },
+  {
+    "brandName": "RITCH",
+    "packSize": "75",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "435.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.80"
+  },
+  {
+    "brandName": "RITCH",
+    "packSize": "30",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "175.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.83"
+  },
+  {
+    "brandName": "CALADRYL",
+    "packSize": "1",
+    "company": "JOHNSON & JOHNSON",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "75.00"
+  }
+]

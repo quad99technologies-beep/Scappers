@@ -1,0 +1,426 @@
+[
+  {
+    "brandName": "MELTOLAN",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "35.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.39"
+  },
+  {
+    "brandName": "ZEPOL (OLC)",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "26.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.60"
+  },
+  {
+    "brandName": "OLPINE",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "27.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.78"
+  },
+  {
+    "brandName": "OZACE",
+    "packSize": "10",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "29.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.92"
+  },
+  {
+    "brandName": "OTZUP",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "31.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.11"
+  },
+  {
+    "brandName": "OLIXIN",
+    "packSize": "10",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "32.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.20"
+  },
+  {
+    "brandName": "OLASRIN",
+    "packSize": "10",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "32.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.21"
+  },
+  {
+    "brandName": "OPIN",
+    "packSize": "10",
+    "company": "TRITON HEALTH CARE PVT LTD",
+    "brandMrp": "32.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.26"
+  },
+  {
+    "brandName": "OLAPAD",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "32.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.27"
+  },
+  {
+    "brandName": "CONSERN",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "33.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.31"
+  },
+  {
+    "brandName": "NZIPO",
+    "packSize": "10",
+    "company": "SEPTALYST LIFESCIENCES PVT LTD",
+    "brandMrp": "33.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.39"
+  },
+  {
+    "brandName": "OLITABS",
+    "packSize": "10",
+    "company": "K.C LABORATORIES",
+    "brandMrp": "34.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.40"
+  },
+  {
+    "brandName": "SUPRAL",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "34.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.44"
+  },
+  {
+    "brandName": "OLAPED",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "34.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.48"
+  },
+  {
+    "brandName": "SCHIZOL (GENTECH)",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "34.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.48"
+  },
+  {
+    "brandName": "OLARC",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "35.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.52"
+  },
+  {
+    "brandName": "OZATEX",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "35.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.52"
+  },
+  {
+    "brandName": "OLTHA",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "35.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.59"
+  },
+  {
+    "brandName": "OLNEE",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "36.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.65"
+  },
+  {
+    "brandName": "OLANZAPIK",
+    "packSize": "10",
+    "company": "AARPIK REMEDIES PVT.LTD.",
+    "brandMrp": "37.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.75"
+  },
+  {
+    "brandName": "OLZIC",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "40.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.03"
+  },
+  {
+    "brandName": "OLAN",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "42.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.21"
+  },
+  {
+    "brandName": "OLA",
+    "packSize": "10",
+    "company": "ZEUS PHARMA",
+    "brandMrp": "43.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.31"
+  },
+  {
+    "brandName": "OLINSTAB",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "43.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.39"
+  },
+  {
+    "brandName": "OLPIN",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "44.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.44"
+  },
+  {
+    "brandName": "CNPINEX",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "44.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "SIZOMELT",
+    "packSize": "10",
+    "company": "WANDER MEDICARE PVT.LTD",
+    "brandMrp": "45.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.58"
+  },
+  {
+    "brandName": "OLAPAX",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "45.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.59"
+  },
+  {
+    "brandName": "KOLA",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "46.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.66"
+  },
+  {
+    "brandName": "MELTONZ",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "46.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.66"
+  },
+  {
+    "brandName": "OLINE",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "46.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.69"
+  },
+  {
+    "brandName": "OLAY",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "47.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.78"
+  },
+  {
+    "brandName": "OLASET",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "48.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.88"
+  },
+  {
+    "brandName": "PSYOLAZ",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "50.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "ELANZA",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "50.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.04"
+  },
+  {
+    "brandName": "OLACE",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "50.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.05"
+  },
+  {
+    "brandName": "OLINE",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "52.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.20"
+  },
+  {
+    "brandName": "OLET (ALTEUS)",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "81.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.43"
+  },
+  {
+    "brandName": "OLZIC MT",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "54.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.44"
+  },
+  {
+    "brandName": "OLANEX",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "54.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "OLAPIL",
+    "packSize": "10",
+    "company": "KLOSTER PHARMACEUTICALS",
+    "brandMrp": "55.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.52"
+  },
+  {
+    "brandName": "LEZAPIN",
+    "packSize": "10",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "55.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.53"
+  },
+  {
+    "brandName": "OLAFORD",
+    "packSize": "10",
+    "company": "OXFORD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "55.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.57"
+  },
+  {
+    "brandName": "OLAPIN",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "56.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.66"
+  },
+  {
+    "brandName": "OLIMELT",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "56.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.67"
+  },
+  {
+    "brandName": "OLIRAMP",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "56.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.67"
+  },
+  {
+    "brandName": "OLISUR",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "56.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.67"
+  },
+  {
+    "brandName": "OLIZA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "56.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.67"
+  },
+  {
+    "brandName": "OLEANZ RT (RAPI TAB)",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "57.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.77"
+  },
+  {
+    "brandName": "KOLZEP MM",
+    "packSize": "10",
+    "company": "TRIKO PHARMACEUTICALS",
+    "brandMrp": "58.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.81"
+  },
+  {
+    "brandName": "OLEANZ",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "MELTOLAN",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "64.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.42"
+  },
+  {
+    "brandName": "OLAPAX",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "69.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.91"
+  }
+]

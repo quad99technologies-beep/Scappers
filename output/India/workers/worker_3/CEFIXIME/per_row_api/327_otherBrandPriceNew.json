@@ -1,0 +1,370 @@
+[
+  {
+    "brandName": "CEFYDOC O",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "46.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.63"
+  },
+  {
+    "brandName": "CEFOXIME",
+    "packSize": "10",
+    "company": "BIOLOGICAL E LTD",
+    "brandMrp": "50.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "ZAKTER",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "50.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "CEFY O",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "81.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.13"
+  },
+  {
+    "brandName": "TRIOCEF",
+    "packSize": "10",
+    "company": "NAVIL LABORATORIES",
+    "brandMrp": "86.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.65"
+  },
+  {
+    "brandName": "CEFO (MEDLEY)",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "89.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.90"
+  },
+  {
+    "brandName": "EXTACEF",
+    "packSize": "10",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "CEFISMART",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "97.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.80"
+  },
+  {
+    "brandName": "MORBICEF",
+    "packSize": "10",
+    "company": "INTRA LABS",
+    "brandMrp": "100.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.02"
+  },
+  {
+    "brandName": "PREXIME",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "101.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.12"
+  },
+  {
+    "brandName": "CEFECT",
+    "packSize": "10",
+    "company": "CADELL HEALTH CARE PVT.LTD",
+    "brandMrp": "101.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "GOFIX",
+    "packSize": "10",
+    "company": "EYSYS PHARMACEUTICAL PVT LTD",
+    "brandMrp": "102.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.22"
+  },
+  {
+    "brandName": "GENOFIX",
+    "packSize": "10",
+    "company": "GENO PHARMACEUTICALS LTD",
+    "brandMrp": "102.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.24"
+  },
+  {
+    "brandName": "SIPRAX",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "102.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.27"
+  },
+  {
+    "brandName": "OLCEFONE",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "103.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.34"
+  },
+  {
+    "brandName": "BRUTACEF",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "103.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.36"
+  },
+  {
+    "brandName": "CEFITAXE",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "104.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.40"
+  },
+  {
+    "brandName": "CEFITREAT",
+    "packSize": "10",
+    "company": "SMARTWAY WELLNESS PVT. LTD.",
+    "brandMrp": "104.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.40"
+  },
+  {
+    "brandName": "HIFEN",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "104.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.41"
+  },
+  {
+    "brandName": "CEFIWOK",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "104.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.43"
+  },
+  {
+    "brandName": "CEFI",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "104.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.44"
+  },
+  {
+    "brandName": "CQUENCE",
+    "packSize": "10",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "104.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.44"
+  },
+  {
+    "brandName": "FIXMAN",
+    "packSize": "10",
+    "company": "MANEESH PHARMACEUTICALS LTD",
+    "brandMrp": "104.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.44"
+  },
+  {
+    "brandName": "SI-FIXIM",
+    "packSize": "10",
+    "company": "MANEESH PHARMACEUTICALS LTD",
+    "brandMrp": "104.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.44"
+  },
+  {
+    "brandName": "ULTIFIX",
+    "packSize": "10",
+    "company": "EMBIOTIC LAB",
+    "brandMrp": "104.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.44"
+  },
+  {
+    "brandName": "CEFITRUE",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "104.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.45"
+  },
+  {
+    "brandName": "CEFKIM",
+    "packSize": "10",
+    "company": "KIM LAB",
+    "brandMrp": "104.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.45"
+  },
+  {
+    "brandName": "C TAX-O",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "104.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.45"
+  },
+  {
+    "brandName": "HITCEF",
+    "packSize": "10",
+    "company": "UNISERVE HEALTH CARE PVT.LTD",
+    "brandMrp": "104.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.45"
+  },
+  {
+    "brandName": "OMNIX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "104.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.45"
+  },
+  {
+    "brandName": "ZIPRAX(CIP)",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "104.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.45"
+  },
+  {
+    "brandName": "AFDIXIM",
+    "packSize": "10",
+    "company": "ANGLO-FRENCH DRUGS & INDUSTRIES LTD.",
+    "brandMrp": "106.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.63"
+  },
+  {
+    "brandName": "FEXINEX",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "108.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.87"
+  },
+  {
+    "brandName": "CEF P",
+    "packSize": "10",
+    "company": "PATSON LABORATORIES PVT. LTD.",
+    "brandMrp": "109.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.90"
+  },
+  {
+    "brandName": "CEFIWAL",
+    "packSize": "10",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "109.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.94"
+  },
+  {
+    "brandName": "ELDOXIME",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "109.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.94"
+  },
+  {
+    "brandName": "E-CEF",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "109.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.95"
+  },
+  {
+    "brandName": "TANFIX",
+    "packSize": "10",
+    "company": "ST. MORRISON",
+    "brandMrp": "109.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "brandName": "ESFIX",
+    "packSize": "10",
+    "company": "ESMATRIX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "112.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.24"
+  },
+  {
+    "brandName": "MYTXIM (AKUMENTIS)",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "116.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "CIFIBAC",
+    "packSize": "10",
+    "company": "MCASTRO PHARMA",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.72"
+  },
+  {
+    "brandName": "CEFIUS",
+    "packSize": "10",
+    "company": "ALTIUS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.66"
+  },
+  {
+    "brandName": "STARFIX (INVISION)",
+    "packSize": "10",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "AQCEF",
+    "packSize": "10",
+    "company": "ACME PHARMACEUTICALS",
+    "brandMrp": "162.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.20"
+  },
+  {
+    "brandName": "ELICEF",
+    "packSize": "10",
+    "company": "GRAF LABORATORIES PVT LTD",
+    "brandMrp": "185.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.50"
+  },
+  {
+    "brandName": "CEFICLAV",
+    "packSize": "6",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "203.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.91"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521019504@320440@101125967@3755@101006@203081",
+    "skuName": "DYNULTA 500 MG TABLET 6",
+    "composition": "SUCROFERRIC OXYHYDROXIDE TABLET 500 MG",
+    "packSize": "6 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "317.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.83"
+  },
+  {
+    "hiddenId": "1521098166@349906@101227165@-1@101006@203081",
+    "skuName": "SUCROBIND TABLET 6",
+    "composition": "SUCROFERRIC OXYHYDROXIDE TABLET ",
+    "packSize": "6 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "345.93",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "57.66"
+  }
+]

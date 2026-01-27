@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "LASMIDIT",
+    "packSize": "4",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "183.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.94"
+  },
+  {
+    "brandName": "LAMIXA",
+    "packSize": "4",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.88"
+  },
+  {
+    "brandName": "LASMIG",
+    "packSize": "4",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.88"
+  },
+  {
+    "brandName": "LASMINEXT",
+    "packSize": "4",
+    "company": "LUPIN LTD",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.88"
+  },
+  {
+    "brandName": "MIGDITAN",
+    "packSize": "4",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.00"
+  },
+  {
+    "brandName": "LASMIRAY",
+    "packSize": "4",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "206.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.51"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521157680@702469@101247120@2642@101006@208258",
+    "skuName": "TUKAVO 150 MG TABLET 60",
+    "composition": "TUCATINIB TABLET 150 MG",
+    "packSize": "60 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ZYDUS - BIOLOGICS",
+    "scheduleFlag": "0",
+    "mrp": "42291.56",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "704.86"
+  },
+  {
+    "hiddenId": "1521159330@702608@101247120@3791@101006@208258",
+    "skuName": "TUKAVO 50 MG TABLET 10",
+    "composition": "TUCATINIB TABLET 50 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ZYDUS - BIOLOGICS",
+    "scheduleFlag": "0",
+    "mrp": "20138.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2013.80"
+  }
+]

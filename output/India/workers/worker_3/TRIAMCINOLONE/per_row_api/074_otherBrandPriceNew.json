@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "PRETICORT",
+    "packSize": "15",
+    "company": "PRETIUM PHARMACEUTICALS",
+    "brandMrp": "51.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.43"
+  },
+  {
+    "brandName": "PRETICORT",
+    "packSize": "20",
+    "company": "PRETIUM PHARMACEUTICALS",
+    "brandMrp": "74.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.70"
+  },
+  {
+    "brandName": "TRIAMADERM",
+    "packSize": "10",
+    "company": "NULIFE PHARMACEUTICALS",
+    "brandMrp": "82.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.21"
+  },
+  {
+    "brandName": "TRIAMADERM",
+    "packSize": "15",
+    "company": "NULIFE PHARMACEUTICALS",
+    "brandMrp": "233.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.56"
+  }
+]

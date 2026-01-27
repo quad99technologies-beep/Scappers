@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "TOFADOZ",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "437.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.75"
+  },
+  {
+    "brandName": "TOFADOZ",
+    "packSize": "15",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "669.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.64"
+  },
+  {
+    "brandName": "TCITIB",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "467.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.78"
+  },
+  {
+    "brandName": "JAKAUTO",
+    "packSize": "20",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "1133.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.67"
+  },
+  {
+    "brandName": "JAKAUTO",
+    "packSize": "10",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "1133.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "113.33"
+  }
+]

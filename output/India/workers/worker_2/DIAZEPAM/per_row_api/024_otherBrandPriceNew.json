@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "DIPAX",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "8.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.81"
+  },
+  {
+    "brandName": "PEACIN",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "14.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.45"
+  },
+  {
+    "brandName": "CALMPOSE",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "15.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.56"
+  },
+  {
+    "brandName": "DEKOPAM",
+    "packSize": "10",
+    "company": "TRIKO PHARMACEUTICALS",
+    "brandMrp": "15.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.59"
+  },
+  {
+    "brandName": "PAXUM",
+    "packSize": "10",
+    "company": "EAST INDIA PHARMACEUTICAL WORKS LTD.",
+    "brandMrp": "16.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.60"
+  },
+  {
+    "brandName": "DIACALM",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "16.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.69"
+  },
+  {
+    "brandName": "SHIPAM",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "16.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.70"
+  },
+  {
+    "brandName": "DIAZECO",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "17.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.73"
+  },
+  {
+    "brandName": "VALIUM",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "17.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.74"
+  },
+  {
+    "brandName": "CALMZEP",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "18.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.86"
+  }
+]

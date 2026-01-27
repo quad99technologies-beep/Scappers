@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "PULMOCEF",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.50"
+  },
+  {
+    "brandName": "ORATIL",
+    "packSize": "5",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "109.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.86"
+  },
+  {
+    "brandName": "SPECTRAXIME",
+    "packSize": "2",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "86.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.45"
+  },
+  {
+    "brandName": "RESTUM",
+    "packSize": "1",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "51.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.92"
+  },
+  {
+    "brandName": "CEFTALIN",
+    "packSize": "1",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "72.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "72.23"
+  },
+  {
+    "brandName": "OCEF",
+    "packSize": "1",
+    "company": "GUJARAT TERCE LABORATORIES LTD",
+    "brandMrp": "83.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "83.00"
+  },
+  {
+    "brandName": "SUPACEF",
+    "packSize": "1",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "95.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "95.58"
+  },
+  {
+    "brandName": "ZOCEF",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "104.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "104.05"
+  },
+  {
+    "brandName": "FORCEF",
+    "packSize": "1",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "109.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "109.68"
+  },
+  {
+    "brandName": "CETIL",
+    "packSize": "5",
+    "company": "LUPIN LTD",
+    "brandMrp": "566.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "113.32"
+  },
+  {
+    "brandName": "ALTACEF",
+    "packSize": "1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "127.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "127.50"
+  }
+]

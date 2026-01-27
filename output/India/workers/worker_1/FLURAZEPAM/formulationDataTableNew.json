@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521157768@17186@101244272@2744@101038@208041",
+    "skuName": "FLURACAP 15 MG CAPSULE 10",
+    "composition": "FLURAZEPAM CAPSULE 15 MG",
+    "packSize": "10 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "scheduleFlag": "0",
+    "mrp": "35.96",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.60"
+  },
+  {
+    "hiddenId": "1521123904@67631@101235624@2107@101006@208041",
+    "skuName": "NINDRAL 10 MG TABLET 10",
+    "composition": "FLURAZEPAM TABLET 10 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "18.80",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  }
+]

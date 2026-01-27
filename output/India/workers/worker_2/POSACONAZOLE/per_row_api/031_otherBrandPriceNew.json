@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "PICASA",
+    "packSize": "16",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "6199.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "364.65"
+  },
+  {
+    "brandName": "CANDIPOZ",
+    "packSize": "16",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "7500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "441.18"
+  },
+  {
+    "brandName": "POSAONE",
+    "packSize": "16",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "7589.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "446.43"
+  },
+  {
+    "brandName": "ZYPOSA",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "5500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5500.00"
+  },
+  {
+    "brandName": "POSANAT",
+    "packSize": "1",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "7125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7125.00"
+  },
+  {
+    "brandName": "POSATRAL",
+    "packSize": "1",
+    "company": "VIATRIS",
+    "brandMrp": "7425.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7425.00"
+  }
+]

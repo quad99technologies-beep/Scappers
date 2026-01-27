@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "KAMIPOX",
+    "packSize": "10",
+    "company": "K.C LABORATORIES",
+    "brandMrp": "38.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.88"
+  },
+  {
+    "brandName": "AXEPINE",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "78.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.88"
+  },
+  {
+    "brandName": "AMOLIFE",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "93.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.32"
+  },
+  {
+    "brandName": "OXAMINE",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "112.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.20"
+  },
+  {
+    "brandName": "DEPILOX",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "165.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.50"
+  }
+]

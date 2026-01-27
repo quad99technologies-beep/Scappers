@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "CITAFINE",
+    "packSize": "35",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "12384.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "353.84"
+  },
+  {
+    "brandName": "GEMCHEM",
+    "packSize": "35",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "2452.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2452.00"
+  },
+  {
+    "brandName": "GEMIBINE",
+    "packSize": "35",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "5750.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5750.50"
+  },
+  {
+    "brandName": "GEMTAZ",
+    "packSize": "140",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "7542.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7542.19"
+  },
+  {
+    "brandName": "GEMITA",
+    "packSize": "35",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "7801.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7801.00"
+  }
+]

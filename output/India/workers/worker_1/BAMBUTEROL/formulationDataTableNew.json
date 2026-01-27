@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521102064@118522@101194660@3049@101006@202501",
+    "skuName": "ASTHAFREE 20 MG TABLET 10",
+    "composition": "BAMBUTEROL TABLET 20 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "scheduleFlag": "0",
+    "mrp": "89.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.90"
+  },
+  {
+    "hiddenId": "1521005101@212087@101103055@2107@101006@202501",
+    "skuName": "BAMBET 10 MG TABLET 10",
+    "composition": "BAMBUTEROL TABLET 10 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "EAST WEST PHARMA",
+    "scheduleFlag": "0",
+    "mrp": "44.20",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.42"
+  },
+  {
+    "hiddenId": "1521005116@74246@101125584@2107@101006@202501",
+    "skuName": "BAMBUDIL 10 MG TABLET 10",
+    "composition": "BAMBUTEROL TABLET 10 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "42.86",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.29"
+  }
+]

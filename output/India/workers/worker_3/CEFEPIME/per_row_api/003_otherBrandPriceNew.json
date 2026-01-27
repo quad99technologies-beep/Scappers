@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "NOVAPIME",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "149.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "KEFPIME",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "189.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.98"
+  },
+  {
+    "brandName": "MICROPIME",
+    "packSize": "5",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "110.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.04"
+  },
+  {
+    "brandName": "MAXICEF",
+    "packSize": "2",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "112.50"
+  }
+]

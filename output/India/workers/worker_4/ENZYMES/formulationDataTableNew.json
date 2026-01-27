@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521143148@206801@101229120@-1@101126@208009",
+    "skuName": "BEXZYME PLUS SYRUP 200 ML",
+    "composition": "ENZYMES SYRUP ",
+    "packSize": "200 ML SYRUP",
+    "dosageForm": "SYRUP",
+    "ceilingPrice": "-1",
+    "company": "ZEN LABS INDIA",
+    "scheduleFlag": "0",
+    "mrp": "28.75",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.14"
+  },
+  {
+    "hiddenId": "1521147483@279834@101231954@3558@101068@208009",
+    "skuName": "FABRAZYME 35 MG INJECTION 7 ML",
+    "composition": "ENZYMES INJECTION 35 MG",
+    "packSize": "7 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "SANOFI INDIA  LTD.",
+    "scheduleFlag": "0",
+    "mrp": "344444.37",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49206.34"
+  },
+  {
+    "hiddenId": "1521152698@341056@101234351@-1@101126@208009",
+    "skuName": "LUPZYME SYRUP 200 ML",
+    "composition": "ENZYMES SYRUP ",
+    "packSize": "200 ML SYRUP",
+    "dosageForm": "SYRUP",
+    "ceilingPrice": "-1",
+    "company": "CONCEPT BIOSCIENCES PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "230.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.15"
+  }
+]

@@ -1,0 +1,634 @@
+[
+  {
+    "brandName": "MMCOD",
+    "packSize": "30",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "ECOMOM",
+    "packSize": "30",
+    "company": "ALBATROSS HEALTH CARE PVT LTD",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.13"
+  },
+  {
+    "brandName": "MOMSON (LEBEN)",
+    "packSize": "15",
+    "company": "LEBEN LABORATORIES PVT.LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.75"
+  },
+  {
+    "brandName": "ECOMOM",
+    "packSize": "15",
+    "company": "ALBATROSS HEALTH CARE PVT LTD",
+    "brandMrp": "65.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.38"
+  },
+  {
+    "brandName": "DERMIAT",
+    "packSize": "30",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "134.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.47"
+  },
+  {
+    "brandName": "MONOSONE",
+    "packSize": "30",
+    "company": "MONICHEM HEALTHCARE PVT LTD",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.69"
+  },
+  {
+    "brandName": "AVEMOM",
+    "packSize": "30",
+    "company": "AVANCER LAB",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "ETHIMOM (ETHI)",
+    "packSize": "30",
+    "company": "ETHINEXT PHARMA PVT.LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "MOMWIN",
+    "packSize": "30",
+    "company": "HBC DERMIZA HEALTHCARE PVT.LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.16"
+  },
+  {
+    "brandName": "VIMET",
+    "packSize": "30",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "179.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.97"
+  },
+  {
+    "brandName": "ETAZE",
+    "packSize": "15",
+    "company": "MOHRISH PHARMACEUTICALS",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "METNIL",
+    "packSize": "10",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "61.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.15"
+  },
+  {
+    "brandName": "DERMIAT",
+    "packSize": "10",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "61.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "MSONE",
+    "packSize": "15",
+    "company": "OMNI LIFE SCIENCES PVT LTD",
+    "brandMrp": "95.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.33"
+  },
+  {
+    "brandName": "DERMET",
+    "packSize": "10",
+    "company": "DERMO CARE LABORATORIES",
+    "brandMrp": "64.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.40"
+  },
+  {
+    "brandName": "ELOSONE",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.50"
+  },
+  {
+    "brandName": "MOMENTOX",
+    "packSize": "30",
+    "company": "ANHOX HEALTHCARE PVT LTD",
+    "brandMrp": "196.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "MOMTENT",
+    "packSize": "30",
+    "company": "LA PRISTINE BIOCEUTICALS PVT LTD",
+    "brandMrp": "196.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "VIMET",
+    "packSize": "15",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "104.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.93"
+  },
+  {
+    "brandName": "MFSONE",
+    "packSize": "30",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "215.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.19"
+  },
+  {
+    "brandName": "MOMWIN",
+    "packSize": "15",
+    "company": "HBC DERMIZA HEALTHCARE PVT.LTD",
+    "brandMrp": "110.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.37"
+  },
+  {
+    "brandName": "MSONE",
+    "packSize": "30",
+    "company": "OMNI LIFE SCIENCES PVT LTD",
+    "brandMrp": "223.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.44"
+  },
+  {
+    "brandName": "MOMENTOX",
+    "packSize": "10",
+    "company": "ANHOX HEALTHCARE PVT LTD",
+    "brandMrp": "76.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.62"
+  },
+  {
+    "brandName": "MOSONITY",
+    "packSize": "20",
+    "company": "KEPLER HEALTH CARE",
+    "brandMrp": "156.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.81"
+  },
+  {
+    "brandName": "MOMESONE",
+    "packSize": "25",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "196.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.88"
+  },
+  {
+    "brandName": "MOMESUN",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "78.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.88"
+  },
+  {
+    "brandName": "FUMON",
+    "packSize": "20",
+    "company": "REGALIZ MEDICARE LTD",
+    "brandMrp": "159.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.95"
+  },
+  {
+    "brandName": "MOMESONE XL",
+    "packSize": "40",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "318.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.97"
+  },
+  {
+    "brandName": "AVEMOM",
+    "packSize": "15",
+    "company": "AVANCER LAB",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "EZIMET",
+    "packSize": "30",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "248.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.27"
+  },
+  {
+    "brandName": "MONOSONE",
+    "packSize": "10",
+    "company": "MONICHEM HEALTHCARE PVT LTD",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "BELMOZ",
+    "packSize": "30",
+    "company": "BELLISSA PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "254.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.47"
+  },
+  {
+    "brandName": "CAMBIZEN",
+    "packSize": "10",
+    "company": "ANHOX HEALTHCARE PVT LTD",
+    "brandMrp": "85.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.53"
+  },
+  {
+    "brandName": "MTS",
+    "packSize": "20",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "172.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.63"
+  },
+  {
+    "brandName": "MONE",
+    "packSize": "30",
+    "company": "GLOWDERMA",
+    "brandMrp": "270.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.03"
+  },
+  {
+    "brandName": "MOSOFT",
+    "packSize": "20",
+    "company": "RELY ON PHARMACEUTICALS",
+    "brandMrp": "190.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.52"
+  },
+  {
+    "brandName": "MOMATE XL",
+    "packSize": "40",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "405.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.14"
+  },
+  {
+    "brandName": "METASONE",
+    "packSize": "15",
+    "company": "TALENT INDIA",
+    "brandMrp": "159.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.63"
+  },
+  {
+    "brandName": "MOVA",
+    "packSize": "15",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "160.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.67"
+  },
+  {
+    "brandName": "DERMITOP",
+    "packSize": "20",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "215.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.78"
+  },
+  {
+    "brandName": "EMCORT (MEDMANOR)",
+    "packSize": "10",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "111.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.18"
+  },
+  {
+    "brandName": "MAGICORT",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "115.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.52"
+  },
+  {
+    "brandName": "EZOMA",
+    "packSize": "5",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "58.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.60"
+  },
+  {
+    "brandName": "FEMCORT",
+    "packSize": "10",
+    "company": "DABUR INDIA LTD.",
+    "brandMrp": "116.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.60"
+  },
+  {
+    "brandName": "MOMTOP",
+    "packSize": "15",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "174.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.65"
+  },
+  {
+    "brandName": "MOMIVATE",
+    "packSize": "15",
+    "company": "SOLDERMA PHARMACEUTICALS PVT. LTD",
+    "brandMrp": "175.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.69"
+  },
+  {
+    "brandName": "ULTRASONE",
+    "packSize": "10",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.72"
+  },
+  {
+    "brandName": "MOMOZ",
+    "packSize": "30",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "357.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.92"
+  },
+  {
+    "brandName": "MOSOVIRA",
+    "packSize": "30",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "359.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.97"
+  },
+  {
+    "brandName": "EZIMET",
+    "packSize": "20",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "248.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.40"
+  },
+  {
+    "brandName": "HH SONE",
+    "packSize": "30",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "373.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.44"
+  },
+  {
+    "brandName": "EZIMET",
+    "packSize": "10",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "131.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.10"
+  },
+  {
+    "brandName": "MMS",
+    "packSize": "30",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "405.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.51"
+  },
+  {
+    "brandName": "BELMOZ",
+    "packSize": "10",
+    "company": "BELLISSA PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "139.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.97"
+  },
+  {
+    "brandName": "MOMTAS",
+    "packSize": "20",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "290.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.52"
+  },
+  {
+    "brandName": "ECZMATE",
+    "packSize": "15",
+    "company": "SALVE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "224.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.93"
+  },
+  {
+    "brandName": "ETHIMOM",
+    "packSize": "10",
+    "company": "SHAUNON REMEDIES",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "METACORT",
+    "packSize": "10",
+    "company": "SHREYA LIFE SCIENCES PVT. LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "MOSONE",
+    "packSize": "5",
+    "company": "OLCARE LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "MTAZ",
+    "packSize": "15",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "228.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.20"
+  },
+  {
+    "brandName": "MOMATE",
+    "packSize": "20",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "304.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.23"
+  },
+  {
+    "brandName": "FURAMO",
+    "packSize": "15",
+    "company": "RONYD HEALTH CARE PVT LTD",
+    "brandMrp": "233.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.56"
+  },
+  {
+    "brandName": "MOTIMESH",
+    "packSize": "15",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "246.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.43"
+  },
+  {
+    "brandName": "METARUB",
+    "packSize": "5",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "85.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.00"
+  },
+  {
+    "brandName": "MOMTAS",
+    "packSize": "10",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "170.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.01"
+  },
+  {
+    "brandName": "METACORTIL",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "170.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.02"
+  },
+  {
+    "brandName": "METASONE",
+    "packSize": "5",
+    "company": "TALENT INDIA",
+    "brandMrp": "88.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.74"
+  },
+  {
+    "brandName": "TOPCORT",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "301.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.09"
+  },
+  {
+    "brandName": "HH SONE",
+    "packSize": "10",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "210.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.09"
+  },
+  {
+    "brandName": "MTS F",
+    "packSize": "10",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "214.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.47"
+  },
+  {
+    "brandName": "MMS",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "224.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.46"
+  },
+  {
+    "brandName": "MOMOZ",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "224.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.46"
+  },
+  {
+    "brandName": "MOTIMESH",
+    "packSize": "5",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "112.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.54"
+  },
+  {
+    "brandName": "MOMATE",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "234.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.48"
+  },
+  {
+    "brandName": "MOMSTAR",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "248.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.84"
+  },
+  {
+    "brandName": "VIMET",
+    "packSize": "5",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "137.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.50"
+  },
+  {
+    "brandName": "ELOCON",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.00"
+  },
+  {
+    "brandName": "MOMENTA",
+    "packSize": "10",
+    "company": "NULIFE PHARMACEUTICALS",
+    "brandMrp": "318.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.88"
+  },
+  {
+    "brandName": "MOMATE",
+    "packSize": "5",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "177.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.40"
+  }
+]

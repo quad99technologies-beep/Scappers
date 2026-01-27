@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "DOMIPEN",
+    "packSize": "30",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.00"
+  },
+  {
+    "brandName": "DOMPIL",
+    "packSize": "30",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "32.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.07"
+  },
+  {
+    "brandName": "DOMPERON",
+    "packSize": "30",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "39.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.30"
+  },
+  {
+    "brandName": "DOM",
+    "packSize": "30",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "39.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.32"
+  },
+  {
+    "brandName": "DOMI",
+    "packSize": "30",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "39.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.32"
+  },
+  {
+    "brandName": "DOMSTAL",
+    "packSize": "30",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "39.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.32"
+  },
+  {
+    "brandName": "DOMSTOP",
+    "packSize": "30",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "41.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.39"
+  }
+]

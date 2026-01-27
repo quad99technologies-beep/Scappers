@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "NOZECLEAR",
+    "packSize": "20",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "47.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.39"
+  },
+  {
+    "brandName": "KIDY",
+    "packSize": "20",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "69.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.47"
+  },
+  {
+    "brandName": "NAM COLD NS",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "59.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.98"
+  }
+]

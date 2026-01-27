@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521039627@98694@101116539@2107@101068@201772",
+    "skuName": "CLADRIM 10 MG INJECTION 1",
+    "composition": "CLADRIBINE INJECTION 10 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "12362.81",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12362.81"
+  },
+  {
+    "hiddenId": "1521001660@215536@101101173@3215@101068@201772",
+    "skuName": "FUVESTROL 250 MG INJECTION 1",
+    "composition": "CLADRIBINE INJECTION 250 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "22000.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22000.00"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521148196@288766@101228891@-1@101028@201035",
+    "skuName": "AZOSPORE CREAM 50 GM",
+    "composition": "BIFONAZOLE CREAM ",
+    "packSize": "50 GM CREAM",
+    "dosageForm": "CREAM",
+    "ceilingPrice": "-1",
+    "company": "CURIOUS BIOTECH",
+    "scheduleFlag": "0",
+    "mrp": "180.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.60"
+  },
+  {
+    "hiddenId": "1521050889@315738@101226863@1553@101028@201035",
+    "skuName": "MYCOSPOR 1 % CREAM 30 GM",
+    "composition": "BIFONAZOLE CREAM 1 %",
+    "packSize": "30 GM CREAM",
+    "dosageForm": "CREAM",
+    "ceilingPrice": "-1",
+    "company": "BAYER PHARMACEUTICALS PVT. LTD.",
+    "scheduleFlag": "0",
+    "mrp": "286.87",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.56"
+  }
+]

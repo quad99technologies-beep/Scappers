@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ZENTOB",
+    "packSize": "5",
+    "company": "NRI VISION CARE",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.00"
+  },
+  {
+    "brandName": "KINDERCIN",
+    "packSize": "5",
+    "company": "OPTHO REMEDIES PVT.LTD",
+    "brandMrp": "81.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.20"
+  },
+  {
+    "brandName": "SAPTOP",
+    "packSize": "3",
+    "company": "SAPIENT",
+    "brandMrp": "64.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.33"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521048329@226938@101151419@2864@101006@202189",
+    "skuName": "MIGRANIL EC 1 MG TABLET 10",
+    "composition": "ERGOTAMINE TABLET 1 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "INGA LABORATORIES PVT. LTD.",
+    "scheduleFlag": "0",
+    "mrp": "84.75",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.48"
+  },
+  {
+    "hiddenId": "1521048331@232785@101151421@2864@101006@202189",
+    "skuName": "MIGRAPAC 1 MG TABLET 10",
+    "composition": "ERGOTAMINE TABLET 1 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "KIVI LABS LTD",
+    "scheduleFlag": "0",
+    "mrp": "92.81",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "hiddenId": "1521054632@65007@101157581@2864@101006@202189",
+    "skuName": "NT GRAIN 1 MG TABLET 10",
+    "composition": "ERGOTAMINE TABLET 1 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "40.50",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.05"
+  }
+]

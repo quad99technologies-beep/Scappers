@@ -1,0 +1,418 @@
+[
+  {
+    "brandName": "HAIRLINE 5",
+    "packSize": "60",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "309.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "brandName": "HAIRFLY",
+    "packSize": "60",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "325.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.42"
+  },
+  {
+    "brandName": "ACTIHAIR 5",
+    "packSize": "60",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "445.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.42"
+  },
+  {
+    "brandName": "MINOSILK",
+    "packSize": "60",
+    "company": "ETHINEXT PHARMA PVT.LTD",
+    "brandMrp": "449.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.48"
+  },
+  {
+    "brandName": "FULTRESS",
+    "packSize": "60",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "495.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.25"
+  },
+  {
+    "brandName": "MINKOS",
+    "packSize": "60",
+    "company": "NEMUS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "499.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.32"
+  },
+  {
+    "brandName": "WONHAIR",
+    "packSize": "60",
+    "company": "WONDER THERAPUTICS PVT.LTD",
+    "brandMrp": "506.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "PYLODIL",
+    "packSize": "60",
+    "company": "SOLDERMA PHARMACEUTICALS PVT. LTD",
+    "brandMrp": "540.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "MINSCALP",
+    "packSize": "60",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "545.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.09"
+  },
+  {
+    "brandName": "MILOXIR PRO",
+    "packSize": "90",
+    "company": "KEPLER HEALTH CARE",
+    "brandMrp": "850.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.44"
+  },
+  {
+    "brandName": "TRIRISE M",
+    "packSize": "60",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "570.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.51"
+  },
+  {
+    "brandName": "MINOLUP",
+    "packSize": "60",
+    "company": "LUPIN LTD",
+    "brandMrp": "573.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.56"
+  },
+  {
+    "brandName": "REGROW",
+    "packSize": "60",
+    "company": "WEST COAST PHARMA WORKS",
+    "brandMrp": "575.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.58"
+  },
+  {
+    "brandName": "GREWIT",
+    "packSize": "60",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "590.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.84"
+  },
+  {
+    "brandName": "MINFIN",
+    "packSize": "60",
+    "company": "HBC DERMIZA HEALTHCARE PVT.LTD",
+    "brandMrp": "600.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.00"
+  },
+  {
+    "brandName": "MINOVERA",
+    "packSize": "60",
+    "company": "ERA PHARMACEUTICALS PVT LTD",
+    "brandMrp": "603.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.06"
+  },
+  {
+    "brandName": "ROOTZ-M",
+    "packSize": "60",
+    "company": "CIPLA LTD.",
+    "brandMrp": "607.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "BRINTOP",
+    "packSize": "100",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "1018.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.18"
+  },
+  {
+    "brandName": "SCINO TOPICAL",
+    "packSize": "60",
+    "company": "ENCORE HEALTHCARE PVT LTD",
+    "brandMrp": "612.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.20"
+  },
+  {
+    "brandName": "CAPILLUS M",
+    "packSize": "60",
+    "company": "BIOS LAB PVT.LTD",
+    "brandMrp": "675.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "ANDROANAGEN",
+    "packSize": "100",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "1184.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "KERA M",
+    "packSize": "60",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "711.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.86"
+  },
+  {
+    "brandName": "MINCIDENZ",
+    "packSize": "60",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "720.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "MINOPEP",
+    "packSize": "90",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "1106.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.29"
+  },
+  {
+    "brandName": "MORR",
+    "packSize": "60",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "749.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.48"
+  },
+  {
+    "brandName": "MAXIHAIR",
+    "packSize": "60",
+    "company": "ANHOX HEALTHCARE PVT LTD",
+    "brandMrp": "750.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "COVERIT",
+    "packSize": "60",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "760.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.67"
+  },
+  {
+    "brandName": "IMXIA YUTH",
+    "packSize": "60",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "778.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.97"
+  },
+  {
+    "brandName": "INBILT",
+    "packSize": "60",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "778.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.97"
+  },
+  {
+    "brandName": "MINOSTRONG",
+    "packSize": "60",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "796.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.28"
+  },
+  {
+    "brandName": "MX-F",
+    "packSize": "60",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "820.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.67"
+  },
+  {
+    "brandName": "NEW MINOKEM",
+    "packSize": "60",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "843.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "MINOBOOST",
+    "packSize": "60",
+    "company": "GLOWDERMA",
+    "brandMrp": "857.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.30"
+  },
+  {
+    "brandName": "CHEKFALL",
+    "packSize": "60",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "862.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.37"
+  },
+  {
+    "brandName": "BLACK CROWN",
+    "packSize": "60",
+    "company": "RONYD HEALTH CARE PVT LTD",
+    "brandMrp": "867.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.45"
+  },
+  {
+    "brandName": "ANASURE",
+    "packSize": "60",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "876.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.61"
+  },
+  {
+    "brandName": "STRANDZ",
+    "packSize": "60",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "876.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.61"
+  },
+  {
+    "brandName": "INBILT",
+    "packSize": "50",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "740.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.80"
+  },
+  {
+    "brandName": "MINFIN NX",
+    "packSize": "60",
+    "company": "HBC DERMIZA HEALTHCARE PVT.LTD",
+    "brandMrp": "890.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.84"
+  },
+  {
+    "brandName": "TUGAIN EVA",
+    "packSize": "60",
+    "company": "CIPLA LTD.",
+    "brandMrp": "923.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.38"
+  },
+  {
+    "brandName": "MX-5 TOPICAL",
+    "packSize": "60",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "932.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.55"
+  },
+  {
+    "brandName": "TUGAIN",
+    "packSize": "60",
+    "company": "CIPLA LTD.",
+    "brandMrp": "961.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.03"
+  },
+  {
+    "brandName": "NOVEGROW NEO",
+    "packSize": "60",
+    "company": "LUPIN LTD",
+    "brandMrp": "990.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.50"
+  },
+  {
+    "brandName": "MINICHEK",
+    "packSize": "60",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "993.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.55"
+  },
+  {
+    "brandName": "XTRADENSER MX",
+    "packSize": "60",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "1000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.67"
+  },
+  {
+    "brandName": "MINTOP YUVA",
+    "packSize": "60",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "1011.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.85"
+  },
+  {
+    "brandName": "REGAINE",
+    "packSize": "60",
+    "company": "JANSSEN",
+    "brandMrp": "1078.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.97"
+  },
+  {
+    "brandName": "MINTOP",
+    "packSize": "60",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "1094.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.24"
+  },
+  {
+    "brandName": "MINTOP",
+    "packSize": "60",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "1146.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.11"
+  },
+  {
+    "brandName": "MINOQILIB",
+    "packSize": "60",
+    "company": "GALDERMA INDIA PVT. LTD",
+    "brandMrp": "1164.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.41"
+  },
+  {
+    "brandName": "MINTOP EVA",
+    "packSize": "60",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "1228.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.47"
+  },
+  {
+    "brandName": "KERA XL M",
+    "packSize": "60",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "1275.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.25"
+  }
+]

@@ -1,0 +1,738 @@
+[
+  {
+    "brandName": "SITASON",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "32.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.28"
+  },
+  {
+    "brandName": "ACSITA",
+    "packSize": "10",
+    "company": "ACMEDIX PHARMA LLP",
+    "brandMrp": "39.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.90"
+  },
+  {
+    "brandName": "SITARLUP",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "KYGLIP",
+    "packSize": "15",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.69"
+  },
+  {
+    "brandName": "SITGLYPT",
+    "packSize": "15",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "81.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.44"
+  },
+  {
+    "brandName": "SITDC",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "60.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.09"
+  },
+  {
+    "brandName": "SITAMARC",
+    "packSize": "10",
+    "company": "RANMARC LABS",
+    "brandMrp": "65.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "SITAWOK",
+    "packSize": "15",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "98.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.59"
+  },
+  {
+    "brandName": "SITARON",
+    "packSize": "10",
+    "company": "WALRON HEALTHCARE PVT.LTD",
+    "brandMrp": "69.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.94"
+  },
+  {
+    "brandName": "SITANIZA",
+    "packSize": "10",
+    "company": "UNIZA HEALTHCARE LLP",
+    "brandMrp": "79.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.90"
+  },
+  {
+    "brandName": "SITASTAR",
+    "packSize": "7",
+    "company": "EKARD LIFE SCIENCES PVT.LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.04"
+  },
+  {
+    "brandName": "SITANORM",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "125.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.37"
+  },
+  {
+    "brandName": "SITADUS",
+    "packSize": "10",
+    "company": "LIVIDUS PHARMA PVT LTD",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "SITALENT",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "SITARITE",
+    "packSize": "15",
+    "company": "ESWAR THERAPEUTICS PVT.LTD",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "SHILIPTIN",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "84.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.48"
+  },
+  {
+    "brandName": "ISTAVEL",
+    "packSize": "7",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "59.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.50"
+  },
+  {
+    "brandName": "SITALSA",
+    "packSize": "10",
+    "company": "ANAX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "86.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.63"
+  },
+  {
+    "brandName": "MACSITA",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "86.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.66"
+  },
+  {
+    "brandName": "STIG",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "130.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.72"
+  },
+  {
+    "brandName": "ZENSITA",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "87.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.76"
+  },
+  {
+    "brandName": "SITABEST",
+    "packSize": "15",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "131.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.77"
+  },
+  {
+    "brandName": "SITASAR",
+    "packSize": "10",
+    "company": "WONSET HEALTH CARE PRIVATE LIMITED",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.91"
+  },
+  {
+    "brandName": "SITAMAX",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "89.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.95"
+  },
+  {
+    "brandName": "SITABITE",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "89.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.96"
+  },
+  {
+    "brandName": "SITEOS",
+    "packSize": "10",
+    "company": "NIRVANA HEALTH CARE",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "QSITA",
+    "packSize": "10",
+    "company": "HBC LIFESCIENCES PVT LTD",
+    "brandMrp": "90.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.08"
+  },
+  {
+    "brandName": "SITAPRIDE",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "136.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.12"
+  },
+  {
+    "brandName": "JANKEY",
+    "packSize": "15",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "138.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.24"
+  },
+  {
+    "brandName": "SITENALI",
+    "packSize": "15",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "138.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.24"
+  },
+  {
+    "brandName": "SITAGLO",
+    "packSize": "15",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "139.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "SITALONG",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "139.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "SITAPAZ",
+    "packSize": "10",
+    "company": "AKESISS PHARMA (P) LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "CTASORIN",
+    "packSize": "10",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "93.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.30"
+  },
+  {
+    "brandName": "SITAGIX",
+    "packSize": "10",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "93.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.30"
+  },
+  {
+    "brandName": "SITABET",
+    "packSize": "7",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "65.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.33"
+  },
+  {
+    "brandName": "SITALIVE",
+    "packSize": "10",
+    "company": "ALLYSIA LIFESCIENCES PVT.LTD",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  },
+  {
+    "brandName": "CORSITA",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "94.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.47"
+  },
+  {
+    "brandName": "ALSITA",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "95.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.52"
+  },
+  {
+    "brandName": "SITACLASS",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "95.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.53"
+  },
+  {
+    "brandName": "SITA OD",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "95.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.53"
+  },
+  {
+    "brandName": "SITARED",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "95.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.56"
+  },
+  {
+    "brandName": "VOXYTA",
+    "packSize": "15",
+    "company": "AAGAM LIFE SCIENCES PVT.LTD",
+    "brandMrp": "143.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.56"
+  },
+  {
+    "brandName": "GLIPTAGREAT SITA",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "143.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.59"
+  },
+  {
+    "brandName": "SITABLESS",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "143.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.59"
+  },
+  {
+    "brandName": "SITADAY",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "143.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.59"
+  },
+  {
+    "brandName": "SUITGLIP",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "96.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.63"
+  },
+  {
+    "brandName": "TERGRA",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "98.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.82"
+  },
+  {
+    "brandName": "SITALEMBIC",
+    "packSize": "15",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "148.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.89"
+  },
+  {
+    "brandName": "ELISITA",
+    "packSize": "10",
+    "company": "ELICAD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.90"
+  },
+  {
+    "brandName": "SITASPEC",
+    "packSize": "7",
+    "company": "SPECTRA THERAPEUTICS PVT. LTD.",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.04"
+  },
+  {
+    "brandName": "SITACIP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "100.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.10"
+  },
+  {
+    "brandName": "SITA (MSN)",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "101.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.18"
+  },
+  {
+    "brandName": "IGNALIS",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "101.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.20"
+  },
+  {
+    "brandName": "SITARA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "101.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.20"
+  },
+  {
+    "brandName": "SITOZA",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "102.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.21"
+  },
+  {
+    "brandName": "JUAMET",
+    "packSize": "15",
+    "company": "VASUCHEM LIFESCIENCES PVT LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "SIDIA",
+    "packSize": "10",
+    "company": "APRICA HEALTHCARE PVT LTD",
+    "brandMrp": "103.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "ISTAVEL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.50"
+  },
+  {
+    "brandName": "JOGSITA",
+    "packSize": "10",
+    "company": "MEDOPHARM",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.50"
+  },
+  {
+    "brandName": "SUGARAY",
+    "packSize": "15",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "160.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.67"
+  },
+  {
+    "brandName": "SITA CAD",
+    "packSize": "10",
+    "company": "SHRRISHTI HEALTHCARE",
+    "brandMrp": "107.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.78"
+  },
+  {
+    "brandName": "SITABETIC",
+    "packSize": "15",
+    "company": "ARKAS PHARMA PRIVATE LIMITED",
+    "brandMrp": "164.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "brandName": "SITAHENZ",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "109.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "brandName": "SITACOSE",
+    "packSize": "10",
+    "company": "JB CHEMICALS",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "SITASAFE",
+    "packSize": "10",
+    "company": "MEDICURE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "112.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.20"
+  },
+  {
+    "brandName": "SIGLYN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "112.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.23"
+  },
+  {
+    "brandName": "SITAGLYN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "112.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.23"
+  },
+  {
+    "brandName": "DARTSITA",
+    "packSize": "10",
+    "company": "ADDII BIOTECH PVT.LTD",
+    "brandMrp": "112.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.24"
+  },
+  {
+    "brandName": "GLIPCRIN",
+    "packSize": "15",
+    "company": "PRIMUS REMEDIES PVT LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "SITOHA",
+    "packSize": "10",
+    "company": "ORRIS PHARMACEUTICALS",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "GLURA",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "113.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.33"
+  },
+  {
+    "brandName": "SITAZIT",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "118.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.81"
+  },
+  {
+    "brandName": "SITADOC",
+    "packSize": "15",
+    "company": "ELBRIT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "178.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.88"
+  },
+  {
+    "brandName": "SITATUF",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "119.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.90"
+  },
+  {
+    "brandName": "ISTAGLAD",
+    "packSize": "10",
+    "company": "GENIEMED PVT LTD",
+    "brandMrp": "120.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.09"
+  },
+  {
+    "brandName": "SITANAT",
+    "packSize": "10",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "120.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.09"
+  },
+  {
+    "brandName": "SITAGLIP",
+    "packSize": "10",
+    "company": "ANTHEM BIOPHARMA PVT LTD",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "SITADYL",
+    "packSize": "10",
+    "company": "ELINOR PHARMA",
+    "brandMrp": "127.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.75"
+  },
+  {
+    "brandName": "SITAXA",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "193.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.87"
+  },
+  {
+    "brandName": "STALIX",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "193.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.87"
+  },
+  {
+    "brandName": "TRYZITA",
+    "packSize": "10",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "129.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.99"
+  },
+  {
+    "brandName": "SITARED",
+    "packSize": "7",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "93.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.29"
+  },
+  {
+    "brandName": "SITANEU",
+    "packSize": "15",
+    "company": "NEUCURE LIFESCIENCES PVT.LTD",
+    "brandMrp": "199.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.30"
+  },
+  {
+    "brandName": "SITAPIL",
+    "packSize": "10",
+    "company": "CADELL HEALTH CARE PVT.LTD",
+    "brandMrp": "138.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.80"
+  },
+  {
+    "brandName": "6F1C",
+    "packSize": "15",
+    "company": "SINSAN PHARMACEUTICALS",
+    "brandMrp": "210.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.00"
+  },
+  {
+    "brandName": "ZYSITA",
+    "packSize": "7",
+    "company": "THREE DOTS LIFESCIENCE",
+    "brandMrp": "98.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "EMSITA",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "158.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.84"
+  },
+  {
+    "brandName": "SIAGLIDE",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "247.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.47"
+  },
+  {
+    "brandName": "GLIPTASAN",
+    "packSize": "7",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "126.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.00"
+  },
+  {
+    "brandName": "FIDGLIPS",
+    "packSize": "7",
+    "company": "FIDELITY LIFESCIENCE",
+    "brandMrp": "145.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.76"
+  },
+  {
+    "brandName": "JANUVIA",
+    "packSize": "7",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "271.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.84"
+  }
+]

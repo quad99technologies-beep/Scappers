@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "WOMIWAL",
+    "packSize": "2",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "4.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.03"
+  },
+  {
+    "brandName": "VOMISHUNT",
+    "packSize": "2",
+    "company": "CIPLA LTD.",
+    "brandMrp": "4.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.06"
+  },
+  {
+    "brandName": "ONDEGRAM",
+    "packSize": "10",
+    "company": "NEXA WELLNESS PVT.LTD",
+    "brandMrp": "39.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.94"
+  },
+  {
+    "brandName": "MENTISET",
+    "packSize": "4",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "23.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.81"
+  },
+  {
+    "brandName": "VOMITUS",
+    "packSize": "2",
+    "company": "APTUS PHARMA PVT.LTD",
+    "brandMrp": "12.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.24"
+  },
+  {
+    "brandName": "ONDANAUS",
+    "packSize": "2",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "12.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.26"
+  },
+  {
+    "brandName": "ONDEGRAM",
+    "packSize": "2",
+    "company": "NEXA WELLNESS PVT.LTD",
+    "brandMrp": "12.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.26"
+  },
+  {
+    "brandName": "MENTISET",
+    "packSize": "2",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "12.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.36"
+  },
+  {
+    "brandName": "ONDEM",
+    "packSize": "2",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "12.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.37"
+  },
+  {
+    "brandName": "ONICURE",
+    "packSize": "4",
+    "company": "LORANCE PHARMA LTD",
+    "brandMrp": "41.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.48"
+  },
+  {
+    "brandName": "VOMSET(ZEE)",
+    "packSize": "2",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "25.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "OCTHER",
+    "packSize": "2",
+    "company": "OCTANE BIOTECH",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.50"
+  }
+]

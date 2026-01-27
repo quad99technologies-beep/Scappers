@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "DESIFER",
+    "packSize": "6",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "506.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "84.38"
+  },
+  {
+    "brandName": "ASUNRA",
+    "packSize": "10",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "852.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "85.20"
+  },
+  {
+    "brandName": "ASUNRA",
+    "packSize": "6",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "611.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "101.98"
+  }
+]

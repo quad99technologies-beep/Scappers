@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521067966@243334@101129744@3650@101006@201838",
+    "skuName": "TAGRISSO 40 MG TABLET 10",
+    "composition": "OSIMERTINIB TABLET 40 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ASTRAZENECA PHARMA INDIA LTD",
+    "scheduleFlag": "0",
+    "mrp": "180706.67",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18070.67"
+  },
+  {
+    "hiddenId": "1521075633@241536@101129744@3955@101006@201838",
+    "skuName": "TAGRISSO 80 MG TABLET 10",
+    "composition": "OSIMERTINIB TABLET 80 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ASTRAZENECA PHARMA INDIA LTD",
+    "scheduleFlag": "0",
+    "mrp": "138830.83",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13883.08"
+  }
+]

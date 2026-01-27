@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "SUSTANON",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "249.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "249.30"
+  },
+  {
+    "brandName": "MENOLON",
+    "packSize": "1",
+    "company": "MACMILLON PHARMACEUTICALS",
+    "brandMrp": "275.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "275.05"
+  },
+  {
+    "brandName": "TESTOVIRON",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "285.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "285.86"
+  }
+]

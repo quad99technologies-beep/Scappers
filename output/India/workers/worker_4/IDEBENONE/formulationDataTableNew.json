@@ -1,0 +1,72 @@
+[
+  {
+    "hiddenId": "1521001512@201699@101101994@3683@101006@200128",
+    "skuName": "BENOVAT 45 MG TABLET 10",
+    "composition": "IDEBENONE TABLET 45 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "MOVA PHARMACEUTICALS PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "150.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "hiddenId": "1521036140@87231@101139338@3683@101006@200128",
+    "skuName": "IDEBEN 45 MG TABLET 10",
+    "composition": "IDEBENONE TABLET 45 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "EXELTIS",
+    "scheduleFlag": "0",
+    "mrp": "193.15",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.32"
+  },
+  {
+    "hiddenId": "1521022782@228641@101139339@3683@101006@200128",
+    "skuName": "IDEBEST 45 MG TABLET 10",
+    "composition": "IDEBENONE TABLET 45 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "LINUX LABORATORIES",
+    "scheduleFlag": "0",
+    "mrp": "229.05",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.91"
+  },
+  {
+    "hiddenId": "1521146765@267371@101234942@3683@101006@200128",
+    "skuName": "MITOSTIM 45 MG TABLET 10",
+    "composition": "IDEBENONE TABLET 45 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "WALTON HEALTH CARE PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "150.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "hiddenId": "1521054294@152988@101157243@3683@101006@200128",
+    "skuName": "NORWAYZ 45 MG TABLET 10",
+    "composition": "IDEBENONE TABLET 45 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "334.45",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.45"
+  }
+]

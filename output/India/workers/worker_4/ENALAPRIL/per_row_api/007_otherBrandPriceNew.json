@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "TENAM",
+    "packSize": "10",
+    "company": "CAPLET INDIA PRIVATE LIMITED",
+    "brandMrp": "27.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.80"
+  },
+  {
+    "brandName": "ELPRIL",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "42.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.25"
+  },
+  {
+    "brandName": "ABENALP",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "50.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.01"
+  },
+  {
+    "brandName": "ENAL (EAST WEST)",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "52.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.23"
+  },
+  {
+    "brandName": "ENVAS",
+    "packSize": "15",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "DILVAS",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "78.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.83"
+  },
+  {
+    "brandName": "ENAM",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "136.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.08"
+  },
+  {
+    "brandName": "ENAPRIL",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "93.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.33"
+  }
+]

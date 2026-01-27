@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "MINOCYN",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "222.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.23"
+  },
+  {
+    "brandName": "MINOLOX",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "285.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.59"
+  },
+  {
+    "brandName": "DIVAINE",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "286.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.69"
+  },
+  {
+    "brandName": "MINOZ",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "292.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.25"
+  },
+  {
+    "brandName": "MINO",
+    "packSize": "10",
+    "company": "SKYMAX LABORATORIES LTD.",
+    "brandMrp": "315.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.50"
+  },
+  {
+    "brandName": "VICYN",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "412.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "41.25"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521006174@218274@101110120@3955@101006@202540",
+    "skuName": "ALATRO 80 MG TABLET 10",
+    "composition": "SERATRODAST TABLET 80 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "LUPIN LTD",
+    "scheduleFlag": "0",
+    "mrp": "279.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.90"
+  },
+  {
+    "hiddenId": "1521000188@205483@101100184@3955@101006@202540",
+    "skuName": "SERADAIR 80 MG TABLET 10",
+    "composition": "SERATRODAST TABLET 80 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "FOURRTS INDIA LABORATORIES PVT. LTD",
+    "scheduleFlag": "0",
+    "mrp": "234.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.40"
+  },
+  {
+    "hiddenId": "1521072542@192611@101173167@3955@101006@202540",
+    "skuName": "SERETRA 80 MG TABLET 10",
+    "composition": "SERATRODAST TABLET 80 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "scheduleFlag": "0",
+    "mrp": "324.85",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.49"
+  }
+]

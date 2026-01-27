@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ROLE",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "55.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.59"
+  },
+  {
+    "brandName": "ROPARIL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "56.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.62"
+  },
+  {
+    "brandName": "ROPARK",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  }
+]

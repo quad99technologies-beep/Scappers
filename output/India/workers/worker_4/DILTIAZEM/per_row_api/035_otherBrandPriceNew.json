@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "DELTA",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "33.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.30"
+  },
+  {
+    "brandName": "ISDIL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "38.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.83"
+  },
+  {
+    "brandName": "DILTANOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "42.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.25"
+  },
+  {
+    "brandName": "ELDIZEM",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "47.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.75"
+  },
+  {
+    "brandName": "DZ",
+    "packSize": "10",
+    "company": "SUNIJ PHARMA PVT LTD",
+    "brandMrp": "51.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "brandName": "ANGIZEM",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "53.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.35"
+  },
+  {
+    "brandName": "ISKI",
+    "packSize": "10",
+    "company": "STADMED PVT. LTD",
+    "brandMrp": "53.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.35"
+  },
+  {
+    "brandName": "CHANNEL",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "54.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.45"
+  },
+  {
+    "brandName": "DILCONTIN",
+    "packSize": "10",
+    "company": "MODI MUNDI PHARMA PVT LTD",
+    "brandMrp": "58.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.82"
+  }
+]

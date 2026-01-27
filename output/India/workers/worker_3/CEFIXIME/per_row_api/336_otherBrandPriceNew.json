@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "CEFTILOX",
+    "packSize": "30",
+    "company": "INTRA LIFE PVT.LTD",
+    "brandMrp": "39.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.32"
+  },
+  {
+    "brandName": "TAXIM O",
+    "packSize": "60",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "273.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.56"
+  },
+  {
+    "brandName": "TAXIM O",
+    "packSize": "30",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "139.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.66"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "DESOADD",
+    "packSize": "30",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "164.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.47"
+  },
+  {
+    "brandName": "DESOMILD",
+    "packSize": "30",
+    "company": "DABUR INDIA LTD.",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "DESOSOFT",
+    "packSize": "30",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "DOSETIL",
+    "packSize": "30",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "208.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.96"
+  },
+  {
+    "brandName": "DESOWEN AF",
+    "packSize": "50",
+    "company": "GALDERMA INDIA PVT. LTD",
+    "brandMrp": "461.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.22"
+  },
+  {
+    "brandName": "DESOWEN",
+    "packSize": "30",
+    "company": "GALDERMA INDIA PVT. LTD",
+    "brandMrp": "290.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.68"
+  }
+]

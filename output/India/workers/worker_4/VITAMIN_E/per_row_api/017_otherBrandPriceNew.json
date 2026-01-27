@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "VITAMIN E(CADILA)",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "14.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.43"
+  },
+  {
+    "brandName": "EVITOP",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "20.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  },
+  {
+    "brandName": "ERUN",
+    "packSize": "10",
+    "company": "LIFECOM PHARMACEUTICALS",
+    "brandMrp": "30.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.03"
+  },
+  {
+    "brandName": "EVIMOON",
+    "packSize": "10",
+    "company": "MOONSTAR LIFECARE PVT.LTD",
+    "brandMrp": "44.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "EEE",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "76.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.69"
+  },
+  {
+    "brandName": "AQUA E",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "79.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.94"
+  },
+  {
+    "brandName": "ENU",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "89.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.95"
+  }
+]

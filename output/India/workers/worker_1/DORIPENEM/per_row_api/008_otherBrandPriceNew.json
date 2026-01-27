@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "DORIKEM",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "1500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1500.00"
+  },
+  {
+    "brandName": "DORIFIC",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "1658.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1658.83"
+  },
+  {
+    "brandName": "MYDOR",
+    "packSize": "1",
+    "company": "VIATRIS",
+    "brandMrp": "1999.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1999.00"
+  },
+  {
+    "brandName": "D PEN",
+    "packSize": "1",
+    "company": "INNOVA LIFESCIENCE",
+    "brandMrp": "2714.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2714.28"
+  },
+  {
+    "brandName": "SUPERNEM",
+    "packSize": "1",
+    "company": "GLAND PHARMA LIMITED",
+    "brandMrp": "3300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3300.00"
+  },
+  {
+    "brandName": "DORIPIK",
+    "packSize": "1",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "3999.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3999.00"
+  },
+  {
+    "brandName": "DORIKEM",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "4080.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4080.00"
+  },
+  {
+    "brandName": "DORIFIC PLUS",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "4140.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4140.17"
+  },
+  {
+    "brandName": "DORIGLEN",
+    "packSize": "1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "5981.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5981.25"
+  },
+  {
+    "brandName": "ICUPEN",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "6002.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6002.02"
+  }
+]

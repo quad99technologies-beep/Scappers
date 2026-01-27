@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "LEEZOLE",
+    "packSize": "6",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "JAZOLE",
+    "packSize": "10",
+    "company": "JARUN PHARMACEUTICALS",
+    "brandMrp": "261.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.10"
+  }
+]

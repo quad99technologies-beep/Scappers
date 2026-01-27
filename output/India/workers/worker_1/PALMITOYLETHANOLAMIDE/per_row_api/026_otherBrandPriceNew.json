@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "PALMI",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "195.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.56"
+  },
+  {
+    "brandName": "FIBROSET",
+    "packSize": "10",
+    "company": "SUNDYOTA NUMANDIS PHARMA PVT LTD",
+    "brandMrp": "306.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.70"
+  },
+  {
+    "brandName": "FOLACTIB DPN",
+    "packSize": "10",
+    "company": "KEPLER HEALTH CARE",
+    "brandMrp": "309.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.94"
+  },
+  {
+    "brandName": "AGPTOY",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "310.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.00"
+  },
+  {
+    "brandName": "PALMIDA",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "337.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.71"
+  },
+  {
+    "brandName": "PROAXEN",
+    "packSize": "10",
+    "company": "PULSE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "341.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.17"
+  },
+  {
+    "brandName": "PALMIHER",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "430.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.00"
+  },
+  {
+    "brandName": "PALMIRESP",
+    "packSize": "15",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "787.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.50"
+  }
+]

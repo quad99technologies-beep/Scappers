@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "FCZOLE",
+    "packSize": "1",
+    "company": "AUSTRO LAB",
+    "brandMrp": "7.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.38"
+  },
+  {
+    "brandName": "LOGICAN",
+    "packSize": "1",
+    "company": "WIN-MEDICARE PVT. LTD.",
+    "brandMrp": "11.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.50"
+  },
+  {
+    "brandName": "ALFLUCOZ",
+    "packSize": "1",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "12.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.05"
+  },
+  {
+    "brandName": "FUNGIZOLE (GRAF)",
+    "packSize": "1",
+    "company": "GRAF LABORATORIES PVT LTD",
+    "brandMrp": "12.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.40"
+  },
+  {
+    "brandName": "FUMYCIN",
+    "packSize": "1",
+    "company": "PFIZER LTD",
+    "brandMrp": "15.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "FLUMIK (DERM)",
+    "packSize": "3",
+    "company": "DERMAREX HEALTH CARE INDIA PVT.LTD",
+    "brandMrp": "57.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.00"
+  },
+  {
+    "brandName": "ULTICAN",
+    "packSize": "1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "20.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.27"
+  },
+  {
+    "brandName": "CONFLU",
+    "packSize": "1",
+    "company": "EAST INDIA PHARMACEUTICAL WORKS LTD.",
+    "brandMrp": "20.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.53"
+  },
+  {
+    "brandName": "FLUZIDE",
+    "packSize": "1",
+    "company": "CONCEPT PHARMACEUTICALS LTD",
+    "brandMrp": "27.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.30"
+  },
+  {
+    "brandName": "NUCONAZOLE",
+    "packSize": "7",
+    "company": "EMBIOTIC LAB",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.14"
+  },
+  {
+    "brandName": "FLUKONAZOLE",
+    "packSize": "1",
+    "company": "TORQUE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "37.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.40"
+  },
+  {
+    "brandName": "FORCAN",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "54.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "54.02"
+  }
+]

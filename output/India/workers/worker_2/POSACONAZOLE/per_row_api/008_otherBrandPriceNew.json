@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "ZYPOSA",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "2619.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "261.90"
+  },
+  {
+    "brandName": "POSATRAL",
+    "packSize": "10",
+    "company": "VIATRIS",
+    "brandMrp": "3712.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "371.25"
+  },
+  {
+    "brandName": "POSAHIT",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "4185.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "418.53"
+  },
+  {
+    "brandName": "CANDIPOZ GR",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "4811.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "481.13"
+  },
+  {
+    "brandName": "POSAFUNG GR",
+    "packSize": "10",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "5356.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "535.63"
+  },
+  {
+    "brandName": "POSAONE",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "5357.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "535.72"
+  },
+  {
+    "brandName": "PICASA GR",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "5661.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "566.16"
+  },
+  {
+    "brandName": "POSAFORCE",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "6000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "600.00"
+  },
+  {
+    "brandName": "POSANAT",
+    "packSize": "10",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "6249.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "624.94"
+  },
+  {
+    "brandName": "POSANAT",
+    "packSize": "6",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "4000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "666.67"
+  },
+  {
+    "brandName": "POSOXIL GR",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "7000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "700.00"
+  },
+  {
+    "brandName": "BDPOSA",
+    "packSize": "10",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "7478.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "747.86"
+  },
+  {
+    "brandName": "POSACAD GR",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "8430.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "843.00"
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "AZ 3",
+    "packSize": "15",
+    "company": "ALBERT DAVID",
+    "brandMrp": "47.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.17"
+  },
+  {
+    "brandName": "AZIWOK XL",
+    "packSize": "30",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "108.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.63"
+  },
+  {
+    "brandName": "AZITHRAL XL",
+    "packSize": "30",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "109.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.64"
+  },
+  {
+    "brandName": "AZITHRAL XL",
+    "packSize": "60",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "218.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.64"
+  }
+]

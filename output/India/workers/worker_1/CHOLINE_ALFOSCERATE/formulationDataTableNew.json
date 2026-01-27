@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521135109@9999999168@101190675@1846@101038@204964",
+    "skuName": "FORTISIL OSA 100 MG CAPSULE 30",
+    "composition": "CHOLINE ALFOSCERATE CAPSULE 100 MG",
+    "packSize": "30 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "ADROIT BIOMED LTD",
+    "scheduleFlag": "0",
+    "mrp": "1943.35",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "64.78"
+  },
+  {
+    "hiddenId": "1521094913@343552@101190675@-1@101038@204964",
+    "skuName": "FORTISIL OSA CAPSULE 10",
+    "composition": "CHOLINE ALFOSCERATE CAPSULE ",
+    "packSize": "10 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "ADROIT BIOMED LTD",
+    "scheduleFlag": "0",
+    "mrp": "774.15",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "77.42"
+  }
+]

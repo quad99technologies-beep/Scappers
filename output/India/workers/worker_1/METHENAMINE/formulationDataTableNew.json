@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521159582@704793@101246389@2860@101006@208368",
+    "skuName": "HIPPUCIP 1 GM TABLET 10",
+    "composition": "METHENAMINE TABLET 1 GM",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "281.25",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.13"
+  },
+  {
+    "hiddenId": "1521158871@703355@101244933@1642@101006@208368",
+    "skuName": "HUENA 1000 MG TABLET 10",
+    "composition": "METHENAMINE TABLET 1000 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "281.25",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.13"
+  }
+]

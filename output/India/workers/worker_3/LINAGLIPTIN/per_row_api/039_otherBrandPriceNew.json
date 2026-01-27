@@ -1,0 +1,306 @@
+[
+  {
+    "brandName": "LGLIP",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "25.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.53"
+  },
+  {
+    "brandName": "LINAPERK",
+    "packSize": "10",
+    "company": "SPECTRA THERAPEUTICS PVT. LTD.",
+    "brandMrp": "59.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.91"
+  },
+  {
+    "brandName": "LINAONE",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "65.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "LINAPAZ",
+    "packSize": "10",
+    "company": "AKESISS PHARMA (P) LTD",
+    "brandMrp": "74.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.41"
+  },
+  {
+    "brandName": "JUSLINA",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "76.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.66"
+  },
+  {
+    "brandName": "DYNAGLIPT L",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "85.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.51"
+  },
+  {
+    "brandName": "LINAVERGE",
+    "packSize": "15",
+    "company": "CONVERGE BIOTECH PVT.LTD",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "LINACIP",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "139.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "LINALENT",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "LINTAB",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "139.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "GLYPANTA",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  },
+  {
+    "brandName": "LINAUR",
+    "packSize": "10",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "94.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.45"
+  },
+  {
+    "brandName": "LINAGET",
+    "packSize": "10",
+    "company": "DIOS LIFESCIENCES PRIVATE LIMITED",
+    "brandMrp": "96.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.69"
+  },
+  {
+    "brandName": "LINATIN",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "101.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "LINABITE",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "102.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.21"
+  },
+  {
+    "brandName": "LINADEL",
+    "packSize": "10",
+    "company": "ERGOS LIFE SCIENCES",
+    "brandMrp": "102.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.21"
+  },
+  {
+    "brandName": "DIABLIN",
+    "packSize": "15",
+    "company": "PRIMUS REMEDIES PVT LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "LINAPIL",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "106.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.69"
+  },
+  {
+    "brandName": "LINASHINE",
+    "packSize": "10",
+    "company": "ERINYLE PHARMA",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "LINASORIN",
+    "packSize": "10",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "113.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.30"
+  },
+  {
+    "brandName": "XATILIN",
+    "packSize": "10",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "113.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.30"
+  },
+  {
+    "brandName": "LINAMIT",
+    "packSize": "10",
+    "company": "MITOCH PHARMA PVT LTD",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.72"
+  },
+  {
+    "brandName": "LIRALIN",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.72"
+  },
+  {
+    "brandName": "EMLINZ",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "119.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.90"
+  },
+  {
+    "brandName": "LINAPRIDE",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "120.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.09"
+  },
+  {
+    "brandName": "LINAMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "133.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.30"
+  },
+  {
+    "brandName": "LINAXA",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "133.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.40"
+  },
+  {
+    "brandName": "LINERO",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "134.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.45"
+  },
+  {
+    "brandName": "LINANAT",
+    "packSize": "10",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "LINARAY",
+    "packSize": "15",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "210.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "AUROLENA",
+    "packSize": "10",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "149.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.91"
+  },
+  {
+    "brandName": "LINGRETIN",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "LINARES",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "154.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.45"
+  },
+  {
+    "brandName": "LINA DKD",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "173.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.34"
+  },
+  {
+    "brandName": "LINAHENZ",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "173.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.34"
+  },
+  {
+    "brandName": "LINANEXT",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "180.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.01"
+  },
+  {
+    "brandName": "ONDERO",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "270.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.03"
+  },
+  {
+    "brandName": "ONDERO",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "180.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.03"
+  }
+]

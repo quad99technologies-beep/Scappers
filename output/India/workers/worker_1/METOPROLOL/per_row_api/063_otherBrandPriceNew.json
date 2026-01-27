@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "METPIL",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.69"
+  },
+  {
+    "brandName": "CADMET",
+    "packSize": "10",
+    "company": "LIVIDUS PHARMA PVT LTD",
+    "brandMrp": "71.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.17"
+  },
+  {
+    "brandName": "BETARISE",
+    "packSize": "10",
+    "company": "ESWAR THERAPEUTICS PVT.LTD",
+    "brandMrp": "101.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "METWON",
+    "packSize": "10",
+    "company": "WONSET HEALTH CARE PRIVATE LIMITED",
+    "brandMrp": "103.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.30"
+  },
+  {
+    "brandName": "PROLOMET XL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "160.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.01"
+  }
+]

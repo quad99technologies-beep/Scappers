@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "ERLONAT",
+    "packSize": "30",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "4348.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "144.95"
+  },
+  {
+    "brandName": "ERLOCIP",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "5586.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "186.22"
+  },
+  {
+    "brandName": "ZYCEVA",
+    "packSize": "30",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "9281.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "309.38"
+  },
+  {
+    "brandName": "ERLEVA",
+    "packSize": "30",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "18767.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "625.58"
+  }
+]

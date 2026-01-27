@@ -1,0 +1,1448 @@
+/*
+File Name 		: util.js
+*/
+
+/*
+List of functions in this file
+
+ 1>	Showlayer(id,mode)
+ 2> roundValue(original_number, decimals) 
+ 3> manipulateValue(value1,value2,mode)
+ 4> trimAll(strValue)
+ 5> openPopUp(url,width,height,top_pos,left_pos,mode)
+ 6>	selectAll(chkName,mode)
+ 7> shiftToright(left_list_name,right_list_name,left_list_remove)
+ 8> shiftToleft(left_list_name,right_list_name,left_list_insert)
+ 9> shiftAllToRight(left_list_name,right_list_name,left_list_remove)
+ 10> shiftAllToLeft(left_list_name,right_list_name,left_list_insert)
+ 11> selectListRecords(list_name)
+ 12> searchInListBox(list_name,value)		 						
+*/
+
+
+/*
+	This function displays/hides the layer's contents. 
+	It accepts
+		id --> layer ID
+		mode --> 1  >> Display
+				 0	>> Hide
+*/	
+function Showlayer(id,mode)
+{
+	var objValue = document.getElementById(id);
+	
+	if(objValue != null)
+	{
+		if(mode == 1)	//display
+			layerObj.style.display = "BLOCK";
+		else	
+			layerObj.style.display = "NONE";
+	}
+} //end Showlayer()
+
+/*
+	This function is used to round a value upto given decimal point
+	e.g. 10.235 (2 decimal point) --> 10.24
+	It returns rounded value
+*/
+function roundValue(original_number, decimals) 
+{
+	var flag = 0;
+	
+	if (original_number < 0) flag = 1;
+	
+    var result1 = Math.abs(original_number) * Math.pow(10, decimals);
+    var result2 = Math.round(result1);
+    var result3 = result2 / Math.pow(10, decimals);
+	
+	if (flag == 1) result3 = manipulateValue(0,result3,1);
+	
+    return pad_with_zeros(result3, decimals);
+}
+
+/*
+	This function is used to add/substract two values. It is required b'coz JS gives 
+	wrong result while adding/substracting two decimal value
+	e.g. 8.245-4 = 4.2449999999999992 (something returned by JS)
+		 = 4.245 [Returned by this function]
+	
+	It accepts
+		value1/value2 --> values
+		mode --> 0 --> Addition
+				 1 --> Substraction
+	It returns manipulated value			 
+*/
+function manipulateValue(value1,value2,mode)
+{
+	var index1,index2;
+	var strVal1="",strVal2="";
+	var strLen1 = 0,strLen2 = 0;
+	var value = 0;
+	
+	strVal1 = value1.toString();
+	strVal2 = value2.toString();
+	
+	index1 = strVal1.indexOf(".");
+	
+	index2 = strVal2.indexOf(".");
+	
+	if(index1 > -1 || index2 > -1)
+	{
+		if(index1 > -1)
+			strLen1 = (strVal1.substr(index1 + 1)).length; 
+		   
+		if(index2 > -1)
+			strLen2 = (strVal2.substr(index2 + 1)).length;
+		   
+		if(strLen2 > strLen1)
+			strLen1 = strLen2;
+		
+		if(mode == 0)
+		   	value = ((value1 * Math.pow(10,strLen1)) + (value2 * Math.pow(10,strLen1)))/Math.pow(10,strLen1); 
+		else
+			value = ((value1 * Math.pow(10,strLen1)) - (value2 * Math.pow(10,strLen1)))/Math.pow(10,strLen1);			
+	}
+	else
+	{
+		if(mode == 0)
+			value = value1+value2;
+		else	
+			value = value1-value2;
+	}
+	
+	return value;
+}
+
+/* 
+	Function For Removing spaces in string
+	e.g. ajay kumar gupta
+	return value = ajaykumargupta
+*/
+function trimAll(strValue)
+{
+	var j;
+	var retStr = "";
+	var len = strValue.length;
+	
+	for(j = 0;j < len;j++)
+	{
+		if(strValue.charAt(j) != " ") retStr += strValue.charAt(j);
+	}	
+	
+	return retStr;		
+}
+
+/**
+	Popup functionality
+	
+	This function is used to open pop up window
+	
+	<<Constrints >> In a page, only one popup window can be active at a time. If user tries to open another
+	popup window then this function will close the previous popup then open the new popup
+	
+	<<How to use the popup functionality >>
+	
+	Step 1>> Define the following global variables in parent form
+			
+			var child = null;
+			var popIndex = 0;
+			var gblCntrlObj = null;
+
+	Step 2>> write the following code in body tag in parent form
+			
+			onFocus="checkPopUp();" onUnload="closePopUp();"
+	
+	Step 3>>Write the following code to open popup where you want 
+			
+			openPopUp(url,width,height,index,cntrlObj) -- Argument description defined below
+	
+	Step 4>>In Popup window, write the following code in body tag
+	
+			onUnload="window.opener.closeChild();"
+	
+	Step 5 >>In Popup window, if you have given the close functionality then call the following function on close event
+			
+			window.opener.closePopUp();	
+	
+			
+	<<Argument>>
+	
+	url >> path
+	width >> width of the popup page
+	height >> height of the popup page
+	index >> unique value, this is mandatory. 
+			It will be useful if same popup is displayed on different - different event
+	
+	cntrlObj >> Not Mandatory (don't need to pass anything), it would be useful if popup window is opened 
+				using checkbox and you want that as popup window is closed then this checkbox should be unchecked.		 
+*/
+function openPopUp(url,width,height,index,cntrlObj)
+{
+	var width = width;
+    var height = height;
+    var left = parseInt((screen.availWidth/2) - (width/2));
+    var top = parseInt((screen.availHeight/2) - (height/2));
+    var flag = 0;
+	if(child!=null && !child.closed) {
+		if(popIndex == index) {
+			flag = 1;
+			child.focus();
+		}
+		else {
+			closeChild();
+		}	
+	}
+	
+	if(flag == 0) {
+		popIndex = index;
+		gblCntrlObj = cntrlObj;	
+		var windowFeatures = "width=" + width + ",height=" + height + ",status,scrollbars=yes,left=" + left + ",top=" + top + "screenX=" + left + ",screenY=" + top;
+		child = window.open(createFHashAjaxQuery(url), "subWind", windowFeatures);
+		child.focus();
+	}
+}//end openPopUp()
+
+/**
+	This function is used to set focus on pop up window
+*/
+function checkPopUp()
+{
+	if(child!=null && !child.closed)
+		child.focus();
+}
+
+/**
+	This function is used to close popup window
+*/
+function closePopUp()
+{
+	if(child!=null && !child.closed)
+	{
+		if (gblCntrlObj != null && typeof(gblCntrlObj) != "undefined") 
+		{
+			if ((gblCntrlObj.type).toUpperCase() == "CHECKBOX") 
+			{
+				gblCntrlObj.checked = false;
+				gblCntrlObj = null;
+			}
+			
+		}
+		//
+		child.close();
+		child = null;
+		popIndex = 0;	
+	}
+}
+//popup functionality finish
+
+/* 
+	This function is used to selecting/deselecting all those checkbox that have similar name
+	It accepts
+		CheckBox Name --> Name of check box 
+		mode --> 1  --> has to select
+				 0  --> has to deselect
+	
+	It returns no of checkbox that have been selected/unselected			 
+*/
+function selectAll(chkName,mode)
+{
+	var obj;
+	var len = 0,i = 0;
+	
+	obj = document.getElementsByName(chkName);
+	if(obj.length > 0)
+	{
+		for(i=0;i<obj.length;i++)
+		{
+			if(obj[i].type=="checkbox")
+			{
+				if(mode == 1)	//select
+				{
+					if(!obj[i].checked) 
+					{
+						obj[i].checked = true;
+						len++;
+					}
+				}
+				else			//un-select
+				{
+					if(obj[i].checked) 
+					{
+						obj[i].checked = false;
+						len++;
+					}
+				}
+			}
+		}
+	}
+	
+	return len;	
+}//end selectAll()
+				
+/*
+	This function is used to move/copy the selected record(s) from the left list box to right list box.
+	It accepts the following parameters
+		left_list_name		--> Name of Left List Box
+		right_list_name		--> Name of Right List Box
+		left_list_remove	--> Whether moved record(s) has to be deleted from the left list box. It having
+								1 --> Remove the moved records from the left list box
+								0 --> don't remove	 
+	
+	It return no of records moved/copied.	
+*/	
+function shiftToRight(left_list_name,right_list_name,left_list_remove)
+{
+	var index=0;
+	var count=0, i = 0;
+	var lobj,robj;
+	
+	//getting object
+	lobj = document.getElementsByName(left_list_name);
+	robj = document.getElementsByName(right_list_name);
+	
+	if(lobj.length > 0)		//left list box exist
+	{
+		for(i=0;i<lobj[0].length;i++)
+		{
+			if(lobj[0].options[i].selected)
+			{
+				robj[0].length++;
+				robj[0].options[robj[0].length-1].text=lobj[0].options[i].text;
+				robj[0].options[robj[0].length-1].title=lobj[0].options[i].title;
+				robj[0].options[robj[0].length-1].value=lobj[0].options[i].value;
+				count++;
+				
+				lobj[0].options[i].selected = false;
+				
+			}
+			else
+			{
+				if(left_list_remove == 1)		//whether remove the data from the left list box
+				{
+					lobj[0].options[index].text = lobj[0].options[i].text;
+					lobj[0].options[index].title = lobj[0].options[i].title;
+					lobj[0].options[index++].value = lobj[0].options[i].value;
+				}			
+			}
+		}
+		
+		//decrement 
+		if(left_list_remove == 1)
+		{
+			for(i=0;i<count;i++)
+				lobj[0].length--;
+		}
+	}
+	
+	return count;
+} //end shiftToright() function	
+
+/*
+	This function is used to move the selected record(s) from the right list box to left list box.
+	It accepts the following parameters
+		left_list_name		--> Name of Left List Box
+		right_list_name		--> Name of Right List Box
+		left_list_insert	--> Whether selected record(s) in right list box has to be inserted 
+								into the left list box. It having
+								1 --> Insert the selected records into left list box
+								0 --> don't insert	 
+	
+	It return no of records moved.
+	Note >> 1. This function does not move those records whose id is zero
+			2. This function in every case removes the records from the right list box
+*/	
+function shiftToLeft(left_list_name,right_list_name,left_list_insert)
+{
+	var index=0;
+	var count=0, i = 0;
+	var lobj,robj;
+	
+	//getting object
+	lobj = document.getElementsByName(left_list_name);
+	robj = document.getElementsByName(right_list_name);
+	
+	if(robj.length > 0)		//right list box exists
+	{
+		for(i=0;i<robj[0].length;i++)
+		{
+			if(robj[0].options[i].selected && robj[0].options[i].value!=0) 
+			{
+				if(left_list_insert == 1)		//whether inserted into left list box
+				{
+					lobj[0].length++;
+					lobj[0].options[lobj[0].length-1].text = robj[0].options[i].text;
+					lobj[0].options[lobj[0].length-1].title = robj[0].options[i].title;
+					lobj[0].options[lobj[0].length-1].value = robj[0].options[i].value;
+				}
+				count++;
+				
+				robj[0].options[i].selected = false;
+				
+			}
+			else
+			{
+				robj[0].options[index].text = 	robj[0].options[i].text;
+				robj[0].options[index].title = 	robj[0].options[i].title;
+				robj[0].options[index++].value	= robj[0].options[i].value;
+			}
+		}		
+	
+		for(i=0;i<count;i++)
+			robj[0].length--;
+	}
+	
+	return count;
+}	//end shiftToleft() function
+
+/*
+	This function is used to move/copy all record(s) from the left list box to right list box.
+	It accepts the following parameters
+		left_list_name		--> Name of Left List Box
+		right_list_name		--> Name of Right List Box
+		left_list_remove	--> Whether moved record(s) has to be deleted from the left list box. It having
+								1 --> Remove the moved records from the left list box
+								0 --> don't remove	 
+	
+	It return no of records moved/copied.	
+*/
+function shiftAllToRight(left_list_name,right_list_name,left_list_remove)
+{
+	var count = 0, i = 0;
+	var lobj,robj;
+	
+	//getting object
+	lobj = document.getElementsByName(left_list_name);
+	robj = document.getElementsByName(right_list_name);
+	
+	if(lobj.length > 0)		//left list box exists
+	{
+		for(i=0;i<lobj[0].length;i++)
+		{
+			robj[0].length++;
+			robj[0].options[robj[0].length-1].text = lobj[0].options[i].text;
+			robj[0].options[robj[0].length-1].title = lobj[0].options[i].title;
+			robj[0].options[robj[0].length-1].value = lobj[0].options[i].value;
+			count++;
+		}
+		
+		//remove the records from the left list box
+		if(left_list_remove == 1) lobj[0].length = 0;
+	}
+	
+	return count;
+} //end shiftAllToRight() function	
+
+
+/*
+	This function is used to move all record(s) from the right list box to left list box.
+	It accepts the following parameters
+		left_list_name		--> Name of Left List Box
+		right_list_name		--> Name of Right List Box
+		left_list_insert	--> Whether record(s) in right list box has to be inserted 
+								into the left list box. It having
+								1 --> Insert the records into left list box
+								0 --> don't insert	 
+	
+	It return no of records moved.
+	Note >> 1. This function does not move those records whose id is zero
+			2. This function in every case removes the records from the right list box
+*/
+function shiftAllToLeft(left_list_name,right_list_name,left_list_insert)
+{
+	var index = 0;
+	var lobj,robj;
+	var count = 0, i = 0;
+	
+	//getting object
+	lobj = document.getElementsByName(left_list_name);
+	robj = document.getElementsByName(right_list_name);
+	
+	if(robj.length > 0)	//right list box exists
+	{
+		for(i=0;i<robj[0].length;i++)
+		{
+			if(robj[0].options[i].value != 0) 
+			{
+				if(left_list_insert == 1)		//whether inserted into left list box
+				{
+					lobj[0].length++;
+					lobj[0].options[lobj[0].length-1].text = robj[0].options[i].text;
+					lobj[0].options[lobj[0].length-1].title = robj[0].options[i].title;
+					lobj[0].options[lobj[0].length-1].value = robj[0].options[i].value;
+				}
+				count++;
+			}
+			else
+			{
+				robj[0].options[index].text = 	robj[0].options[i].text;
+				robj[0].options[index].title = 	robj[0].options[i].title;
+				robj[0].options[index++].value	= robj[0].options[i].value;
+			}
+		}		
+	
+		for(i=0;i<count;i++)
+			robj[0].length--;
+	}
+	
+	return count;
+} //end shiftAllToLeft() function
+
+/*
+	This function is used to select the records in list box. It is required b'coz un-selected
+	records are not being set into java beans.
+	It accepts the following parameter
+	
+	It returns no of records that has been selected
+	Note >> This function will not select those records whose ID is zero
+	* 
+	
+*/	
+function selectListRecords(list_name)
+{
+	var count = 0,i = 0;
+	var lobj;
+	
+	//getting object
+	lobj = document.getElementsByName(list_name);
+	
+	if(lobj.length > 0)		//list box exists
+	{
+		for(i=0;i<lobj[0].length;i++)
+		{
+			if(lobj[0].options[i].value != 0)
+			{
+				lobj[0].options[i].selected = true;
+				count++;
+			}
+		}
+	}
+	return count;
+} //end selectListRecords()
+
+
+
+/*
+	This function is used to unselect the records in list box. 
+	It accepts the following parameter
+	
+	* list_name - Name of the List Box
+	It returns no of records that has been selected
+	Note >> This function will not select those records whose ID is zero
+	* 
+	
+*/	
+function unSelectListRecords(list_name)
+{
+	var count = 0,i = 0;
+	var lobj;
+	
+	//getting object
+	lobj = document.getElementsByName(list_name);
+	
+	if(lobj.length > 0)		//list box exists
+	{
+		for(i=0;i<lobj[0].length;i++)
+		{
+			if(lobj[0].options[i].value != 0)
+			{
+				lobj[0].options[i].selected = false;
+				count++;
+			}
+		}
+	}
+	return count;
+} //end selectListRecords()
+
+
+
+/*
+	This function is used to search value in the list box.
+	It accepts the following parameters
+		list_name	--> Name of the list box
+		value		--> value that is to be searched
+	
+	it selects the matched record and returns true/false	
+*/	
+function searchInListBox(list_name,value)
+{
+	flag=0;
+	var lobj;
+	var i = 0;
+	var retValue = false;
+		
+	if( value != "")
+	{ 
+		//getting object
+		lobj = document.getElementsByName(list_name);
+		if(lobj.length > 0)		//list box exists
+		{
+			for(i=0;i<lobj[0].length;i++)
+			{
+				listValue = (lobj[0].options[i].text).toUpperCase();
+				//if (listValue.indexOf((value.toString()).toUpperCase()) == 0)	//matched
+				if (listValue.indexOf((value.toString()).toUpperCase()) > -1)
+				{
+					lobj[0].selectedIndex = i;
+					retValue = true;
+					break;
+				}
+			}
+		}
+	}
+		
+	return retValue;
+} //end searchInListBox() function
+
+
+/*
+	This is internal function called from roundValue() function
+*/
+function pad_with_zeros(rounded_value, decimal_places) {
+
+    // Convert the number to a string
+    var value_string = rounded_value.toString()
+    
+    // Locate the decimal point
+    var decimal_location = value_string.indexOf(".")
+
+    // Is there a decimal point?
+    if (decimal_location == -1) {
+        
+        // If no, then all decimal places will be padded with 0s
+        decimal_part_length = 0
+        
+        // If decimal_places is greater than zero, tack on a decimal point
+        value_string += decimal_places > 0 ? "." : ""
+    }
+    else {
+
+        // If yes, then only the extra decimal places will be padded with 0s
+        decimal_part_length = value_string.length - decimal_location - 1
+    }
+    
+    // Calculate the number of decimal places that need to be padded with 0s
+    var pad_total = decimal_places - decimal_part_length
+    
+    if (pad_total > 0) {
+        
+        // Pad the string with 0s
+        for (var counter = 1; counter <= pad_total; counter++) 
+            value_string += "0"
+    }
+	
+    return value_string
+}
+
+/************************************ AJAX FUNCTION ***************************************/
+/* */
+/******************************************************************************************/
+/*
+* objXmlHttp - global variable.
+* userFunction - global variable.
+*/
+
+var objXmlHttp = null;
+var userMode = "";
+
+/**
+* ajaxFunction is the global function to retrieve data using ajax.
+* param 1. myurl - url to be given by the user.
+* param 2. mode - there will be hardcoded function i.e. getAjaxResponse(res,mode). This function will be defined by 
+the developer. Mode specifies unique value provided by user at the time of calling ajaxfunction().
+* This function will recieve the final response(to be defined at user end).
+*/
+
+function ajaxFunction(myurl,mode)
+{
+	$('#loading').show();
+	if(document.getElementById("normalMsg") != undefined)
+		adt_create_loading_msg();//loading_msg
+	
+	userMode = mode;
+	
+	// security feature added on 28/07/2017
+	myurl = createFHashAjaxQuery(myurl);
+	
+	// checking browser 
+	if (navigator.userAgent.indexOf("Opera")>=0){
+		alert("This example doesn't work in Opera"); 
+		return; 
+	}
+	if (navigator.userAgent.indexOf("MSIE")>=0) { 
+		var strName="Msxml2.XMLHTTP"
+		if (navigator.appVersion.indexOf("MSIE 5.5")>=0){
+			strName="Microsoft.XMLHTTP"
+		} 
+		try { 
+			objXmlHttp=new ActiveXObject(strName)
+			objXmlHttp.onreadystatechange=sendReq
+		} 
+		catch(e){ 
+			alert("Error. Scripting for ActiveX might be disabled");
+			return; 
+		} 
+	}
+	else {
+		if (navigator.userAgent.indexOf("Mozilla")>=0){
+			objXmlHttp=new XMLHttpRequest();
+			  objXmlHttp.onload=sendReq
+			  objXmlHttp.onerror=sendReq
+		}
+	}
+
+	objXmlHttp.open("GET",myurl,true)
+	objXmlHttp.send(null)
+} 
+
+/***loading please wait  Added by:Deepak***/
+function adt_create_loading_msg(){
+	//alert("b");
+	var qh=80;var qw=300;var dh=0;var dw=0;
+	if(window.innerHeight){dh=window.innerHeight;
+		dw=window.innerWidth;
+	}else {
+		dh=document.documentElement.clientHeight;
+		dw=document.documentElement.clientWidth;
+	}
+	var tpos=parseInt((dh-qh)/2); 
+	var lpos=parseInt((dw-qw)/2);
+	var wt='<div id="qmvi_loading_div" style="top:'+tpos+'px;left:'+lpos+'px;height:'+qh+'px;width:'+qw+'px;position:absolute;text-align:center;font-family:Arial;text-decoration:none;font-weight:normal;font-size:13px;color:#00224A;background-color:#ffffff;border-width:1px;border-color:#828EA2;border-style:solid;">';
+	wt+='<div style="padding:20px;"><img src="/HIS/hisglobal/images/loading.gif" width=16 height=16><br><br><font size="2" weight="bold">Fetching Details.Please Wait!</font></div>';
+	wt+='</div>';
+	
+	document.getElementById("normalMsg").innerHTML="";
+	//document.getElementById("normalMsg").innerHTML=wt;	
+	document.getElementById("normalMsg").style.display="none";
+	//console.log(wt);
+	//alert('d');
+}
+/***end***/
+
+//internal function called from ajaxFunction() function
+function sendReq()
+{
+    //for(var i=0;i<=500000;i=i+1);
+    if (objXmlHttp.readyState==4 || objXmlHttp.readyState==200) {
+		var res = objXmlHttp.responseText; 
+		
+		//if(res.contains("ERROR ID :"))
+		$('#loading').hide();
+		if(res.indexOf("ERROR ID :") > -1)
+		{
+			document.getElementsByTagName("body")[0].innerHTML = res;
+			
+		}
+		else
+		{
+			
+			 eval("getAjaxResponse" + '(res' + "," + userMode + ")"); // evel is a keyword - it calls the function passed in it as argument.
+			 if(document.getElementById("normalMsg") != undefined){
+				 document.getElementById("normalMsg").style.display="none";//hiding normal msg
+				 document.getElementById("normalMsg").innerHTML="";//clearing normal msg
+			 }
+		     try{
+		     	autoTabIndexing();
+		     }catch(_Err){
+		     	//alert("Application Error[TabIndex not Included] Please Contact System Administrator");
+		    		$('#loading').hide();
+		     }
+		     //alert(eventElementObj.name);
+		     try{
+		     	eventElementObj.focus();
+		     }catch(_Err){
+		    		$('#loading').hide();
+	         }
+			
+		}
+		$('#loading').hide();
+		
+		
+	}
+}
+
+
+
+
+/**
+* ajaxFunction is the global function to retrieve data using ajax.
+* param 1. myurl - url to be given by the user.
+* param 2. mode - there will be hardcoded function i.e. getAjaxResponse(res,mode). This function will be defined by
+* param 3. resFunctionName -  function name in which user need ajax Response
+the developer. Mode specifies unique value provided by user at the time of calling ajaxfunction().
+* This function will recieve the final response(to be defined at user end).
+*/
+
+var gblResFunctionName = "";
+
+function ajaxFunction2(myurl,mode,resFunctionName)
+{
+	$('#loading').show();
+	if(document.getElementById("normalMsg") != undefined){
+		adt_create_loading_msg();
+	}
+	//adt_create_loading_msg();//loading_msg
+		
+	
+	// security feature added on 28/07/2017
+	myurl = createFHashAjaxQuery(myurl);
+	
+	userMode = mode;
+	gblResFunctionName = resFunctionName;
+	// checking browser 
+	if (navigator.userAgent.indexOf("Opera")>=0){
+		alert("This example doesn't work in Opera"); 
+		return; 
+	}
+
+	if (navigator.userAgent.indexOf("MSIE")>=0) { 
+		var strName="Msxml2.XMLHTTP"
+		
+		if (navigator.appVersion.indexOf("MSIE 5.5")>=0){
+			strName="Microsoft.XMLHTTP"
+		} 
+
+		try { 
+			objXmlHttp=new ActiveXObject(strName)
+			objXmlHttp.onreadystatechange=sendReqUsingMethodName
+		} 
+		catch(e){ 
+			alert("Error. Scripting for ActiveX might be disabled");
+			return; 
+		} 
+	}
+	else {
+		if (navigator.userAgent.indexOf("Mozilla")>=0){
+			objXmlHttp=new XMLHttpRequest();
+			objXmlHttp.onload=sendReqUsingMethodName
+			objXmlHttp.onerror=sendReqUsingMethodName
+		}
+	}
+
+	objXmlHttp.open("GET",myurl,true)
+	objXmlHttp.send(null)
+} 
+
+//internal function called from ajaxFunction() function
+function sendReqUsingMethodName(){
+	
+	//function adt_create_loading_msg(){var qh=80;var qw=300;var dh=0;var dw=0;if(window.innerHeight){dh=window.innerHeight;dw=window.innerWidth;}else {dh=document.documentElement.clientHeight;dw=document.documentElement.clientWidth;}var tpos=parseInt((dh-qh)/2);var lpos=parseInt((dw-qw)/2);var wt='<div id="qmvi_loading_div" style="top:'+tpos+'px;left:'+lpos+'px;height:'+qh+'px;width:'+qw+'px;position:absolute;text-align:center;font-family:Arial;text-decoration:none;font-weight:normal;font-size:13px;color:#00224A;background-color:#ffffff;border-width:1px;border-color:#828EA2;border-style:solid;">';wt+='<div style="padding:20px;"><img src="/AHIMS/hisglobal/images/loading.gif" width=16 height=16><br><br><font size="2" weight="bold">Fetching Details.Please Wait!</font></div>';wt+='</div>';document.getElementById("normalMsg").innerHTML=wt;}
+	if(document.getElementById("normalMsg") != undefined){
+		//alert("a");
+		document.getElementById("normalMsg").style.display="none";//hiding normal msg
+		document.getElementById("normalMsg").innerHTML="";//clearing normal msg
+	}
+	if (objXmlHttp.readyState==4 || objXmlHttp.readyState==200) {
+		var res = objXmlHttp.responseText; 
+		$('#loading').hide();
+		eval(gblResFunctionName + '(res' + ", '" + userMode + "')"); // evel is a keyword - it calls the function passed in it as argument.
+		
+	 try{
+	     	autoTabIndexing();
+	     }catch(_Err){
+	     	//alert("Application Error[TabIndex not Included] Please Contact System Administrator");
+	    		$('#loading').hide();
+	     } 
+		 try{
+	     	eventElementObj.focus();
+	     }catch(_Err){
+	    		$('#loading').hide();
+	     }
+	 	$('#loading').hide();
+	} 
+}
+
+
+/**
+	This function will disable/enable the anchor tag based on disable parameter.
+	if its value is true then it will disable otherwise it will enable
+	url --> in case of enable, url is required
+	
+	Note >> In anchor tag href field is required for this function 
+*/
+function disableAnchor(disable,url){
+
+	var obj = document.getElementById("id1");
+
+  if(disable){
+    var href = obj.getAttribute("href");
+    obj.removeAttribute('href');
+    obj.style.color="red";
+  }
+  else{
+    obj.setAttribute('href', url);
+    obj.style.color="blue";
+  }
+  
+}
+
+/**
+ * This function checks the Duplication present in the Multi row Components.
+ * 
+ * compName 	- Multirow Component Value.
+ * userMessage  - User Message when Multirow Component Contains Duplicate Value
+ *                 
+ */
+function checkMultirow(compName, userMessage){
+	
+		var val = document.getElementsByName(compName);
+		var len = val.length - 1;
+
+		if(userMessage == '') userMessage = "Data Already Entered in MultiRow";
+		
+
+		if(len != 1){
+
+			for(i=0; i<len; i++){
+
+				for(j=i+1; j<len; j++){
+
+					if(val[i].value == val[j].value){
+			
+							//alert(userMessage);
+		
+							val[j].focus();
+
+						return false;
+					}
+
+				}
+
+			}
+
+		}
+
+
+		return true;
+
+	}
+
+
+ 
+
+	/**
+	 * This function checks the Duplication present in the Multi row Components.
+	 * 
+ 	 * dataName 	 - Hidden Component Values.
+ 	 * multiCompName - Multirow Component Value.
+ 	 * userMessage   - User Message when Multirow Component Contains Hidden Component Value  
+	 */
+	function checkDataExists(dataName, multiCompName,userMessage){
+		
+		if(userMessage == '') userMessage = "Data Already Exists";
+
+			var dataVal = document.getElementsByName(dataName);
+			var dataLen = dataVal.length;
+
+		if(dataLen != 0){
+
+			var multVal = document.getElementsByName(multiCompName);
+			var multLen = multVal.length - 1;
+
+			for(i=0; i<dataLen; i++){
+
+				for(j=0; j<multLen; j++){
+
+					if(dataVal[i].value == multVal[j].value){
+
+							//alert(userMessage);
+							multVal[j].focus();
+
+							return false;
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * This function checks the Duplication present in the Multi row Components.
+	 * 
+ 	 * dataName 	 - Hidden Component Values.
+ 	 * multiCompName - Multirow Component Value.
+ 	 * userMessage   - User Message when Multirow Component Contains Hidden Component Value  
+	 */
+	function checkDataExists1(dataName, multiCompName,userMessage){
+		
+		if(userMessage == '') userMessage = "Data Already Exists";
+
+			var dataVal = document.getElementsByName(dataName);
+			var dataLen = dataVal.length;
+
+		if(dataLen != 0){
+
+			var multVal = document.getElementsByName(multiCompName);
+			var multLen = multVal.length - 1;
+
+			for(i=0; i<dataLen; i++){
+
+				for(j=0; j<multLen; j++){
+
+					if(dataVal[i].value == multVal[j].value){
+
+							//alert(userMessage);
+							multVal[j].focus();
+
+							return false;
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+	
+function generatePdf(dataDivId, anchorName, anchorTdId) 
+{	//alert("jsgdgjh");
+	var tableLen = document.getElementsByName("recordIndexTable").length;
+	var printImg = {};
+	var anchorText;
+	if(tableLen > 0)
+	{
+		for(var i=0; i< tableLen; i++)
+		{
+			document.getElementById("recordIndexTable"+i+"").innerHTML = "";			
+		}
+	}
+	
+	for(var i=0; i < 9 ; i++)
+	{
+		if(document.getElementById("printImg"+i+""))
+		{
+			if(document.getElementById("printImg"+i+"").innerHTML !="")
+			{
+				printImg[i] = document.getElementById("printImg"+i+"").innerHTML;
+				document.getElementById("printImg"+i+"").innerHTML = "";
+			}			
+							
+		}
+	}
+		
+	
+	var dataDivObj="";
+	
+	if(document.getElementById(dataDivId) !=null)
+	{		
+		dataDivObj = document.getElementById(dataDivId);			
+	}
+	else
+	{		
+		alert("No data to convert in pdf format!");					 
+	}	
+	
+	if (dataDivObj.innerHTML != "") {
+		var flag = false;
+		var len;
+		var arrAnchorTd = [];
+		if(document.getElementsByName(anchorName))
+		{
+			flag = true;
+			len = document.getElementsByName(anchorName).length;						
+			for(var i=0; i<len; i++)
+			{				
+				if(document.getElementById(anchorTdId+i))
+				{
+					anchorText = document.getElementById(anchorName+i).text;					
+					if(anchorName == 'strPONo')
+					{						
+						if(document.getElementById(anchorName+i).text.lastIndexOf("(")> 0)
+						{
+							anchorText = document.getElementById(anchorName+i).text.split("(").join(" (");	
+						}						
+					}
+										
+					arrAnchorTd.push(document.getElementById(anchorTdId+i).innerHTML);
+					document.getElementById(anchorTdId+i).innerHTML = "<font face='Verdana, Arial, Helvetica, sans-serif' size='2'>"+anchorText+"</font>";	
+				}
+				
+									
+			}			
+		}
+		
+		document.forms[0].strHtmlCode.value = innerXHTML(dataDivObj);		
+		document.forms[0].hmode.value = "generatePdf";
+		document.forms[0].submit();
+		
+		for(var i=0; i < 9 ; i++)
+		{
+			if(document.getElementById("printImg"+i+""))
+			{
+				if(document.getElementById("printImg"+i+"").innerHTML =="")
+				{
+					document.getElementById("printImg"+i+"").innerHTML = printImg[i];	
+				}			
+								
+			}
+		}
+				
+		if(flag == true)
+		{			
+			for(var i=0; i<len; i++)
+			{
+				if(document.getElementById(anchorTdId+i))
+				{
+					document.getElementById(anchorTdId+i).innerHTML = arrAnchorTd[i];	
+				}								
+			}
+		}
+		document.forms[0].strHtmlCode.value = "";			
+
+	} else {		
+		alert("No data to convert in pdf format!");
+	}
+}
+
+function generateXLS(e,dataDivId)
+{	
+    var printImg = {};
+	
+	for(var i=0; i < 9 ; i++)
+	{
+		if(document.getElementById("printImg"+i+""))
+		{
+			if(document.getElementById("printImg"+i+"").innerHTML !="")
+			{
+				printImg[i] = document.getElementById("printImg"+i+"").innerHTML;
+				document.getElementById("printImg"+i+"").innerHTML = "";
+			}			
+							
+		}
+	}
+	
+    window.open('data:application/vnd.ms-excel,' + encodeURIComponent($("#"+dataDivId+"").html()));
+	e.preventDefault();
+	
+	for(var i=0; i < 9 ; i++)
+	{
+		if(document.getElementById("printImg"+i+""))
+		{
+			if(document.getElementById("printImg"+i+"").innerHTML =="")
+			{
+				document.getElementById("printImg"+i+"").innerHTML = printImg[i];	
+			}			
+							
+		}
+	}
+       
+}
+
+
+/*this function is used to restrict no. of items in the right box
+ * NOTE: Ids of the left and right box must be defined and 
+ * 		 attribute "id" and "name" must be same
+ * leftItemName- name of left box 
+ * rightItemName - name of right box
+ * removeInsert -  whether to remove or insert( look at shiftToRight() function for more detail)
+ * limitQty - no. of items you want in right box
+*/
+function shiftToRightLimit(leftItemName, rightItemName, removeInsert, limitQty)
+{    
+    var lenRight = parseInt(document.getElementsByName(rightItemName)[0].length);
+    var lenLeft = $("#"+leftItemName+" :selected").length;  
+    var totalItem = lenRight + lenLeft;
+    
+    if(totalItem > limitQty )
+    {
+        alert("More than "+limitQty+" items are not allowed in Right Box \n " +
+                "Left Selected Item  Count: "+lenLeft+" \n Right Item Count: "+lenRight+"");
+        return false;        
+    }
+    else
+    {
+        shiftToRight(leftItemName,rightItemName,removeInsert);        
+    }            
+}
+
+
+/**
+ * Method to make Voucher Scrollabe 
+ * @param voucherDivId the div id of content div e.g. toPopup div on jsp.
+ * @param headerTableId the table id of Header table.
+ * @param contentDivId the div id of content div of table   
+ * @param heightToSubtract the height to subract from window height   
+ */
+var winHeight =0;
+function scrollableVoucher(voucherDivId, headerTableId, contentDivId, heightToSubtract) {
+	
+	$("#"+voucherDivId+"").show();
+	if(heightToSubtract)
+	{		
+		winHeight	=	window.innerHeight;
+	}
+	else
+	{
+		heightToSubtract=0;
+		winHeight	=	(15/100)*window.innerHeight;
+	}
+	
+	$("#"+contentDivId+"").css({"height":""});
+	var contentDivHeight = $("#"+contentDivId+"").height();
+	var divHeight = winHeight-heightToSubtract;
+	$("#"+voucherDivId+"").hide();
+	
+	if(contentDivHeight > divHeight ) {	
+		$("#"+headerTableId+"").css({"table-layout":"fixed"});
+		$("#"+headerTableId+" th:last").css({"padding":"0 14px 0 3px"});
+		$("#"+contentDivId+"").css({"height":divHeight});
+		$("#"+contentDivId+"").css({"width":"95%", "margin-left":"2.5%","overflow": "auto"});
+		$("#"+contentDivId+" table").removeClass("TABLEWIDTH");
+		$("#"+contentDivId+" table").addClass("NEWTABLEWIDTH");	
+	}else{
+		$("#"+headerTableId+"").css({"table-layout":"","padding":"0"});
+		$("#"+headerTableId+" th:last").css({"padding":"0"});
+		$("#"+contentDivId+"").css({"width":"100%", "margin-left":"0%"});
+		$("#"+contentDivId+" table").removeClass("NEWTABLEWIDTH");
+		$("#"+contentDivId+" div table").addClass("TABLEWIDTH");	
+	}		
+}
+
+/**
+ * Method to print Scrollabe Voucher
+ * @param printContentDivId the div id of content div inside toPopup div on jsp.
+ * @param mainTableId the id of Main Table inculding header table and content table
+ * @param headerTableId the table id of Header table.
+ * @param contentDivId the div id of content div  
+ */
+
+function printScrollabeVoucher(printContentDivId, mainTableId ,headerTableId,contentDivId) 
+{	
+	var mainTableHTML = document.getElementById(mainTableId).innerHTML;	
+		
+	newwin = window.open('', 'printwin',
+			'left=100,top=100,width=700,height=700,scrollbars=yes');
+	newwin.document.write('<HTML><HEAD>');
+	newwin.document.write((document.getElementsByTagName("head")[0]).innerHTML);
+	newwin.document.write('<style type="text/css"> .hidecontrol { display: none; } div.closePopup {display: none;}</style>\n');
+	newwin.document.write('<style type="text/css">	thead {		display: table-header-group;	}	</style>\n');
+	newwin.document.write('<script>\n');
+	newwin.document.write('function chkstate(){ \n');
+	newwin.document.write('window.close();\n');
+	newwin.document.write('}\n');
+	newwin.document.write('function print_win(){\n');
+	newwin.document.write('window.print();\n');
+	newwin.document.write('chkstate();\n');
+	newwin.document.write('}\n');
+
+	newwin.document.write('<\/script>\n');
+	newwin.document.write('</HEAD>\n');
+	newwin.document.write('<BODY onload="print_win()">\n');
+	
+	$("#"+headerTableId+"").hide();
+	$("#"+contentDivId+" table tr:first").css({"display":"table-row"});	
+	$("#"+contentDivId+"").css({"height":""});	
+	
+	newwin.document.write(document.getElementById(printContentDivId).innerHTML);		
+	newwin.document.write('</BODY>\n');
+	newwin.document.write('</HTML>\n');
+	newwin.document.close();	 
+	
+	document.getElementById(mainTableId).innerHTML=mainTableHTML;
+
+}
+
+/**
+ * Method to generate pdf of Scrollabe Voucher
+ * @param dataDivId the div id of content div inside toPopup div on jsp.
+ * @param mainTableId the id of Main Table inculding header table and content table
+ * @param headerTableId the table id of Header table.
+ * @param contentDivId the div id of content div  
+ */
+function generatePdfScrollVoucher(dataDivId, mainTableId, headerTableId, contentDivId) {
+	var mainTableHTML = $("#"+mainTableId+"").html(); 
+	
+	var printImg = document.getElementById("printImg").innerHTML;
+	document.getElementById("printImg").innerHTML = "";
+	var dataDivObj = "";
+
+	if (document.getElementById(dataDivId) != null) {
+		dataDivObj = document.getElementById(dataDivId);
+	} else {
+		alert("No data to convert in pdf format!");
+	}
+	 
+	if (dataDivObj.innerHTML != "") {
+		
+		$("#"+headerTableId+"").hide();
+		$("#"+contentDivId+" table tr:first").css({"display":"table-row"});	
+	    $("#"+contentDivId+"").css({"height":""});
+	    
+		document.forms[0].strHtmlCode.value = innerXHTML(dataDivObj);
+		document.forms[0].hmode.value = "generatePdf";
+		 
+		document.forms[0].submit();
+		document.getElementById("printImg").innerHTML = printImg;
+		document.forms[0].strHtmlCode.value = "";
+
+	} else {
+		alert("No data to convert in pdf format!");
+	}
+		
+	$("#"+mainTableId+"").html(mainTableHTML);
+}
+
+
+function generatePdfScroll(dataDivId, mainTableId, headerTableId, contentDivId) {
+	var mainTableHTML = $("#"+mainTableId+"").html(); 
+	
+	var printImg = document.getElementById("printImg").innerHTML;
+	document.getElementById("printImg").innerHTML = "";
+	var dataDivObj = "";
+
+	if (document.getElementById(dataDivId) != null) {
+		dataDivObj = document.getElementById(dataDivId);
+	} else {
+		alert("No data to convert in pdf format!");
+	}
+	 
+	if (dataDivObj.innerHTML != "") {
+		
+		$("#"+headerTableId+"").hide();
+		$("#"+contentDivId+" table tr:first").css({"display":"table-row"});	
+	    $("#"+contentDivId+"").css({"height":""});
+	    
+		document.forms[0].strHtmlCode.value = innerXHTML(dataDivObj);
+		document.forms[0].hmode.value = "generatePdf";
+		 
+		document.forms[0].submit();
+		document.getElementById("printImg").innerHTML = printImg;
+		document.forms[0].strHtmlCode.value = "";
+
+	} else {
+		alert("No data to convert in pdf format!");
+	}
+		
+	$("#"+mainTableId+"").html(mainTableHTML);
+}
+
+function initDatepicker(selector)
+{
+	$(selector).datepicker({
+		dateFormat: 'dd-M-yy',
+		  changeMonth: true,
+		  changeYear: true	  
+	   }).datepicker("setDate", new Date());
+}
+
+function initTinyMCE(div)
+{
+	tinymce.init({
+		selector: div + ' textarea',
+		plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
+		//plugins : "table",
+		paste_data_images: false,
+		forced_root_block : false,
+		force_br_newlines : true,
+		force_p_newlines : false
+		
+	});
+}
+
+function getTinyMCEContent()
+{
+	return tinyMCE.activeEditor.getContent({format : 'html'});
+}
+
+function datePicker(selector){
+	
+	$(selector).datepicker({
+		dateFormat: 'dd-M-yy',
+		  changeMonth: true,
+		  changeYear: true	  
+	});
+
+}
+
+function autoCloseAlert()
+{
+	/*$("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+      	$("#success-alert").slideUp(500);
+    });*/
+    setTimeout(function() {
+        $("#success-alert").alert('close');
+    }, 2000);
+}
+
+function downloadFunc(index)
+{
+	encURLForNotParams(document.getElementById("downloadURL").value + index);
+}
+
+/* 
+ * Checking the Value is 'NOT A NUMERIC' or 'EMPTY'
+ * return 0 if any of the above condition is true. 
+ * return value if both condtion false.  
+*/
+function isNan(val)
+{
+	if(val == "") val = 0;
+	if(isNaN(parseInt(val))) val = 0;
+	return val;
+}
+
+function autoCloseAlert()
+{
+    setTimeout(function() {
+        $("#alert-msg").hide();
+    }, 8000);
+}
+
+function formatAmtIntoIndia(amount)
+{
+	return Number(amount).toLocaleString('en-IN');
+}
+
+function getMultiSelectOptionText(obj_id, separator)
+{
+	return $('#' + obj_id + ' option:selected').toArray().map(item => item.text).join(separator);
+}
+
+function htmlToPdfConverter1(element, fileName){
+	var body = document.body;
+	var html = document.documentElement;
+	var height = Math.max(body.scrollHeight, body.offsetHeight,
+                     html.clientHeight, html.scrollHeight, html.offsetHeight);
+	var heightCM = height / 35.35;
+	var opt = {
+		      margin:        1,
+		      filename:     fileName,
+		      image:        { type: 'jpeg', quality: 0.98 },
+		      //html2canvas:  { scale: 2 },
+		      //jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' },
+		      html2canvas: { dpi: 192, letterRendering: true },
+		        jsPDF: {
+		            orientation: 'portrait',
+		            unit: 'cm',
+		            format: [heightCM, 60]
+		          }
+		    };
+    // Choose the element that our invoice is rendered in.
+    html2pdf().set(opt).from(element).save();
+}
+
+function htmlToPdfConverter(element){
+	var element = document.getElementById(element);
+	var opt = {
+	  margin:       1,
+	  filename:     'myfile.pdf',
+	  image:        { type: 'jpeg', quality: 0.98 },
+	  html2canvas:  { scale: 2 },
+	  jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+	};
+	
+	// New Promise-based usage:
+	html2pdf().set(opt).from(element).save();
+	
+	// Old monolithic-style usage:
+	html2pdf(element, opt);
+}
+
+function encryptAES(text) {
+    var encrypted = CryptoJS.AES.encrypt(text,substitute).toString();
+    return encrypted;    
+}
+
+
+
+
+

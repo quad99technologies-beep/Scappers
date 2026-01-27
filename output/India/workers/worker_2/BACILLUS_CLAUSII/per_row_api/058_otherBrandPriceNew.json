@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "GITZER",
+    "packSize": "5",
+    "company": "SEAGULL PHARMA",
+    "brandMrp": "30.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "GUTSPERT",
+    "packSize": "5",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "37.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.59"
+  },
+  {
+    "brandName": "PANFLORA",
+    "packSize": "5",
+    "company": "KONTEST CHEMICALS LTD.",
+    "brandMrp": "38.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.67"
+  },
+  {
+    "brandName": "ENBIFOL BC",
+    "packSize": "5",
+    "company": "NAVIL LABORATORIES",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "ENTEROGERMINA",
+    "packSize": "5",
+    "company": "SANOFI INDIA  LTD.",
+    "brandMrp": "74.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.92"
+  }
+]

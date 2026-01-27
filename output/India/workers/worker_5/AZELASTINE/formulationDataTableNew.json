@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521003697@85262@101245716@1190@101090@206901",
+    "skuName": "ARZEP 0.14 MG NASAL SPRAY 10 ML",
+    "composition": "AZELASTINE NASAL SPRAY 0.14 MG",
+    "packSize": "10 ML NASAL SPRAY",
+    "dosageForm": "NASAL SPRAY",
+    "ceilingPrice": "-1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "scheduleFlag": "0",
+    "mrp": "589.30",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.93"
+  },
+  {
+    "hiddenId": "1521057807@108036@101227729@1095@101103@206901",
+    "skuName": "OPTIHIST AZ 0.05 % EYE DROPS 5 ML",
+    "composition": "AZELASTINE EYE DROPS 0.05 %",
+    "packSize": "5 ML EYE DROPS",
+    "dosageForm": "EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "111.56",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.31"
+  },
+  {
+    "hiddenId": "1521057805@108637@101160739@1095@101103@206901",
+    "skuName": "OPTIHIST AZ (ENTOD) 0.05 % EYE DROPS 5 ML",
+    "composition": "AZELASTINE EYE DROPS 0.05 %",
+    "packSize": "5 ML EYE DROPS",
+    "dosageForm": "EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "111.56",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.31"
+  }
+]

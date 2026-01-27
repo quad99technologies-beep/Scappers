@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521154680@9999995414@101241987@-1@101060@201432",
+    "skuName": "MAMMITEL PNC INFUSION 5 GM",
+    "composition": "CLOXACILLIN INFUSION ",
+    "packSize": "5 GM INFUSION",
+    "dosageForm": "INFUSION",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "101.25",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.25"
+  },
+  {
+    "hiddenId": "1521157692@344122@101244359@-1@101126@201432",
+    "skuName": "NEXICLOX DS SYRUP 100 ML",
+    "composition": "CLOXACILLIN SYRUP ",
+    "packSize": "100 ML SYRUP",
+    "dosageForm": "SYRUP",
+    "ceilingPrice": "-1",
+    "company": "NOVO MEDI SCIENCES PVT.LTD.",
+    "scheduleFlag": "0",
+    "mrp": "159.83",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.60"
+  }
+]

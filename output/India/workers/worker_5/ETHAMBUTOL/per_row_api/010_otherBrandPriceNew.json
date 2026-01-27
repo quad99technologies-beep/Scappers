@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "THEMIBUTOL",
+    "packSize": "10",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "73.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.33"
+  },
+  {
+    "brandName": "ECOX",
+    "packSize": "6",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "90.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.13"
+  },
+  {
+    "brandName": "COMBUTOL",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "175.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.51"
+  }
+]

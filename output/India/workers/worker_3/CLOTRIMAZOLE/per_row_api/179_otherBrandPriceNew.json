@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "SIOTRIM",
+    "packSize": "15",
+    "company": "ALBERT DAVID",
+    "brandMrp": "12.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.81"
+  },
+  {
+    "brandName": "FUNGI-X",
+    "packSize": "15",
+    "company": "AQUA LAB",
+    "brandMrp": "23.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.58"
+  },
+  {
+    "brandName": "CANBEN",
+    "packSize": "15",
+    "company": "LEBEN LABORATORIES PVT.LTD",
+    "brandMrp": "41.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.75"
+  },
+  {
+    "brandName": "NOKOUT",
+    "packSize": "25",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "68.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.76"
+  },
+  {
+    "brandName": "CANDIJOY",
+    "packSize": "50",
+    "company": "IZNG PHARMACEUTICALS",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "CANDIHEAL",
+    "packSize": "30",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "91.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.04"
+  },
+  {
+    "brandName": "REXIZOLE",
+    "packSize": "20",
+    "company": "DERMAREX HEALTH CARE INDIA PVT.LTD",
+    "brandMrp": "96.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.80"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "TRAVISIGHT PF",
+    "packSize": "5",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "467.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "93.56"
+  },
+  {
+    "brandName": "TRAVASENZ",
+    "packSize": "3",
+    "company": "SENSES PHARMACEUTICALS LTD",
+    "brandMrp": "345.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "115.00"
+  },
+  {
+    "brandName": "TRAVSTAR PF",
+    "packSize": "5",
+    "company": "NEOMEDIX HEALTHCARE INDIA PVT.LTD",
+    "brandMrp": "698.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "139.69"
+  }
+]

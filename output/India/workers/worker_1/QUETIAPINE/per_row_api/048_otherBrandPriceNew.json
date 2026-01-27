@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "QUITAL",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "107.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.70"
+  },
+  {
+    "brandName": "QUTINA",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "111.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.16"
+  },
+  {
+    "brandName": "QTRIPRIL",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "113.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.35"
+  },
+  {
+    "brandName": "QUTAFORD",
+    "packSize": "10",
+    "company": "OXFORD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "152.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.20"
+  },
+  {
+    "brandName": "QTA",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "165.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.50"
+  },
+  {
+    "brandName": "ADEQUET",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "165.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.55"
+  },
+  {
+    "brandName": "QUTOTAME",
+    "packSize": "10",
+    "company": "TRIKO PHARMACEUTICALS",
+    "brandMrp": "180.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.00"
+  },
+  {
+    "brandName": "QUPIN",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "182.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.28"
+  },
+  {
+    "brandName": "QUTIWEL",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "184.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.46"
+  },
+  {
+    "brandName": "QTRIPIL",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "197.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.79"
+  },
+  {
+    "brandName": "QUPEX",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "209.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.93"
+  },
+  {
+    "brandName": "AQUITI",
+    "packSize": "10",
+    "company": "AURUM LIFE SCIENCE PVT. LTD.",
+    "brandMrp": "228.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.88"
+  }
+]

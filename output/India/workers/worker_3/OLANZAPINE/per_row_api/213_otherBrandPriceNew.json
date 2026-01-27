@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "OZMAT",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "22.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.23"
+  },
+  {
+    "brandName": "ZYOPIN",
+    "packSize": "10",
+    "company": "UNISTAR BIOTECH LIMITED",
+    "brandMrp": "22.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.24"
+  },
+  {
+    "brandName": "OLAPIN (CRP)",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "27.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.74"
+  },
+  {
+    "brandName": "OLAGRESS",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "34.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.47"
+  },
+  {
+    "brandName": "OLANMAT",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "36.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.66"
+  },
+  {
+    "brandName": "SOLANAV",
+    "packSize": "10",
+    "company": "SANIX FORMULATIONS PVT LTD",
+    "brandMrp": "46.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.60"
+  }
+]

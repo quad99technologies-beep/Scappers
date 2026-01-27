@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521016082@84214@101123102@2107@101006@200273",
+    "skuName": "DEXPURE 10 MG TABLET 10",
+    "composition": "DEXRABEPRAZOLE TABLET 10 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "103.30",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.33"
+  },
+  {
+    "hiddenId": "1521015309@241291@101122381@3049@101006@200273",
+    "skuName": "DIRAB 20 MG TABLET 10",
+    "composition": "DEXRABEPRAZOLE TABLET 20 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "HETERO HEALTHCARE LTD",
+    "scheduleFlag": "0",
+    "mrp": "35.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.50"
+  },
+  {
+    "hiddenId": "1521021719@157734@101127361@2107@101006@200273",
+    "skuName": "EMRAB 10 MG TABLET 10",
+    "composition": "DEXRABEPRAZOLE TABLET 10 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "52.80",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.28"
+  },
+  {
+    "hiddenId": "1521069601@175553@101170208@2107@101006@200273",
+    "skuName": "REPEPSA 10 MG TABLET 10",
+    "composition": "DEXRABEPRAZOLE TABLET 10 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "scheduleFlag": "0",
+    "mrp": "82.50",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.25"
+  }
+]

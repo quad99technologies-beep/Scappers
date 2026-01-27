@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "DOX (DD PHARMA)",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "32.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.26"
+  },
+  {
+    "brandName": "DOXIN",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "37.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.70"
+  },
+  {
+    "brandName": "SPECTRA",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "77.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.77"
+  },
+  {
+    "brandName": "GALDOPIN",
+    "packSize": "10",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "79.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.97"
+  }
+]

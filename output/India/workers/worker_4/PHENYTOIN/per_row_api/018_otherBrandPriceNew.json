@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "NEUTOIN",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "8.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.88"
+  },
+  {
+    "brandName": "EPTOIN",
+    "packSize": "150",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "133.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.89"
+  },
+  {
+    "brandName": "M TOIN",
+    "packSize": "10",
+    "company": "MEDOPHARM",
+    "brandMrp": "8.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.89"
+  }
+]

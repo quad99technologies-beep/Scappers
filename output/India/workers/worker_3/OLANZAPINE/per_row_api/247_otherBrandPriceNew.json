@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "OZMAT",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "53.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.36"
+  },
+  {
+    "brandName": "OLANMAT",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "79.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.97"
+  },
+  {
+    "brandName": "OLAGRESS",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "80.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.06"
+  },
+  {
+    "brandName": "OLAY",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.91"
+  },
+  {
+    "brandName": "SOLANAV",
+    "packSize": "10",
+    "company": "SANIX FORMULATIONS PVT LTD",
+    "brandMrp": "92.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.24"
+  },
+  {
+    "brandName": "OLAPIN (CRP)",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "97.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.70"
+  },
+  {
+    "brandName": "OZAPIN MD",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "112.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.26"
+  }
+]

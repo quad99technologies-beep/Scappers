@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521154642@9999995751@101241926@3755@101068@207779",
+    "skuName": "DALBA 500 MG INJECTION 1",
+    "composition": "DALBAVANCIN INJECTION 500 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "35000.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35000.00"
+  },
+  {
+    "hiddenId": "1521104162@354463@101196155@3755@101068@207779",
+    "skuName": "DALBAPOS 500 MG INJECTION 1 VIAL",
+    "composition": "DALBAVANCIN INJECTION 500 MG",
+    "packSize": "1 VIAL INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "40900.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40900.00"
+  },
+  {
+    "hiddenId": "1521133756@354929@101224334@3755@101068@207779",
+    "skuName": "DALBAVAN 500 MG INJECTION 1",
+    "composition": "DALBAVANCIN INJECTION 500 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "scheduleFlag": "0",
+    "mrp": "29464.28",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29464.28"
+  }
+]

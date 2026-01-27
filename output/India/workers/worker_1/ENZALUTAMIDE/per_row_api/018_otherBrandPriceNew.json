@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "ENZYL",
+    "packSize": "7",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "6037.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "862.50"
+  },
+  {
+    "brandName": "GLENZA",
+    "packSize": "7",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "6672.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "953.24"
+  },
+  {
+    "brandName": "ENZANDRO",
+    "packSize": "7",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "6902.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "986.00"
+  },
+  {
+    "brandName": "XTIDE",
+    "packSize": "7",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "8214.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1173.47"
+  }
+]

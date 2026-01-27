@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "SILDEN",
+    "packSize": "100",
+    "company": "ALARSIN PHARMACEUTICALS",
+    "brandMrp": "140.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.40"
+  },
+  {
+    "brandName": "VAGIL DS",
+    "packSize": "10",
+    "company": "NOVELTY HEALTHSHINE PVT.LTD",
+    "brandMrp": "201.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.16"
+  },
+  {
+    "brandName": "SILNAPRO",
+    "packSize": "10",
+    "company": "VIOLETTE REMEDIES PVT.LTD",
+    "brandMrp": "203.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.31"
+  },
+  {
+    "brandName": "PENEGRA",
+    "packSize": "4",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "158.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.70"
+  },
+  {
+    "brandName": "SKYSHOT PLUS",
+    "packSize": "4",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "220.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "55.00"
+  }
+]

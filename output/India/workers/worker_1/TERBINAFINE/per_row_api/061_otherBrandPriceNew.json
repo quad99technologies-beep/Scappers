@@ -1,0 +1,186 @@
+[
+  {
+    "brandName": "TERBIMAX",
+    "packSize": "10",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "129.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.99"
+  },
+  {
+    "brandName": "TRANBLESS",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "159.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.90"
+  },
+  {
+    "brandName": "TERBEST",
+    "packSize": "7",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "141.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.16"
+  },
+  {
+    "brandName": "TERBIFACE",
+    "packSize": "7",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.43"
+  },
+  {
+    "brandName": "LAMITERB",
+    "packSize": "7",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "170.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.29"
+  },
+  {
+    "brandName": "TERVUE",
+    "packSize": "10",
+    "company": "DERMO CARE LABORATORIES",
+    "brandMrp": "243.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.38"
+  },
+  {
+    "brandName": "LAMIFIN",
+    "packSize": "7",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "173.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.78"
+  },
+  {
+    "brandName": "FINTRIX",
+    "packSize": "7",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "176.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.17"
+  },
+  {
+    "brandName": "TERBIERA",
+    "packSize": "10",
+    "company": "GRACIOUS PHARMACEUTICALS",
+    "brandMrp": "253.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.31"
+  },
+  {
+    "brandName": "TERBITOTAL",
+    "packSize": "7",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "177.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.41"
+  },
+  {
+    "brandName": "TEMIZA",
+    "packSize": "7",
+    "company": "HBC DERMIZA HEALTHCARE PVT.LTD",
+    "brandMrp": "186.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.57"
+  },
+  {
+    "brandName": "TEBINA",
+    "packSize": "7",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.65"
+  },
+  {
+    "brandName": "TERBINEXT",
+    "packSize": "7",
+    "company": "ETHINEXT PHARMA PVT.LTD",
+    "brandMrp": "188.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.86"
+  },
+  {
+    "brandName": "GENEEFIN",
+    "packSize": "10",
+    "company": "GENEES PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "285.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.59"
+  },
+  {
+    "brandName": "TERBINAFORCE",
+    "packSize": "7",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "204.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.20"
+  },
+  {
+    "brandName": "TRFY",
+    "packSize": "7",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "207.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.57"
+  },
+  {
+    "brandName": "TERBINATOR",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "296.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.67"
+  },
+  {
+    "brandName": "TERBOCET",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "309.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.94"
+  },
+  {
+    "brandName": "IFIN",
+    "packSize": "7",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "219.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.34"
+  },
+  {
+    "brandName": "TEXIFEN",
+    "packSize": "7",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.14"
+  },
+  {
+    "brandName": "TEXIFORD",
+    "packSize": "7",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.14"
+  },
+  {
+    "brandName": "TERBIRIDE",
+    "packSize": "7",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "226.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.41"
+  },
+  {
+    "brandName": "TERBIERA",
+    "packSize": "7",
+    "company": "GRACIOUS PHARMACEUTICALS",
+    "brandMrp": "270.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.57"
+  }
+]

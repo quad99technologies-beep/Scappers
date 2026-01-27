@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "BIZLO",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "170.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.09"
+  },
+  {
+    "brandName": "BACK",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "202.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.25"
+  },
+  {
+    "brandName": "BACLOFINE",
+    "packSize": "10",
+    "company": "STERIS HEALTHCARE",
+    "brandMrp": "227.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.76"
+  },
+  {
+    "brandName": "ZACLOFEN",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "253.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.30"
+  },
+  {
+    "brandName": "BACLOHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "313.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.30"
+  },
+  {
+    "brandName": "BACLOTAB",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "484.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.33"
+  },
+  {
+    "brandName": "LIOFEN",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "405.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.50"
+  },
+  {
+    "brandName": "BACLOF",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "434.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.40"
+  },
+  {
+    "brandName": "LIORESAL",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "453.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.30"
+  }
+]

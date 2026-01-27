@@ -1,0 +1,122 @@
+[
+  {
+    "brandName": "EPIRUBICIN",
+    "packSize": "25",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "2190.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "87.62"
+  },
+  {
+    "brandName": "FARMORUBICIN",
+    "packSize": "25",
+    "company": "PFIZER LTD",
+    "brandMrp": "3813.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "152.55"
+  },
+  {
+    "brandName": "FARMORUBICIN",
+    "packSize": "25",
+    "company": "PFIZER LTD",
+    "brandMrp": "4339.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "173.56"
+  },
+  {
+    "brandName": "EPINEON",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "932.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "932.00"
+  },
+  {
+    "brandName": "EPITHRA",
+    "packSize": "1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "1060.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1060.00"
+  },
+  {
+    "brandName": "ALRUBICIN",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "1300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1300.00"
+  },
+  {
+    "brandName": "EPIXTRA",
+    "packSize": "1",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "1375.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1375.00"
+  },
+  {
+    "brandName": "ZYRUBIN",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "1375.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1375.00"
+  },
+  {
+    "brandName": "EPICHLOR",
+    "packSize": "1",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "1666.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1666.66"
+  },
+  {
+    "brandName": "ERUBIN",
+    "packSize": "1",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "1904.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1904.76"
+  },
+  {
+    "brandName": "EPITAZ",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "2087.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2087.25"
+  },
+  {
+    "brandName": "RUBILON",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "2100.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2100.00"
+  },
+  {
+    "brandName": "EPIRUBITEC",
+    "packSize": "1",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "2440.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2440.50"
+  },
+  {
+    "brandName": "EPIDOX",
+    "packSize": "1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "3071.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3071.43"
+  },
+  {
+    "brandName": "CADRUBIN",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "3300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3300.00"
+  }
+]

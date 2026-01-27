@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "JOYPRIDE",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "248.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.82"
+  },
+  {
+    "brandName": "SKIZOTUS",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "277.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.78"
+  },
+  {
+    "brandName": "SULPRA",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "281.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.12"
+  },
+  {
+    "brandName": "SULPIDON",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "311.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.20"
+  },
+  {
+    "brandName": "SALMIRIDE",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "330.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.00"
+  },
+  {
+    "brandName": "SKIZOTUS",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "353.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.32"
+  },
+  {
+    "brandName": "AMIDE",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "384.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.44"
+  },
+  {
+    "brandName": "SULPIDON",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "396.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.69"
+  },
+  {
+    "brandName": "AMALT",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "611.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.76"
+  },
+  {
+    "brandName": "SULPITAC",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "426.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.66"
+  },
+  {
+    "brandName": "SOLTUS",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "437.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.76"
+  },
+  {
+    "brandName": "SOLTUS",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "456.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.68"
+  },
+  {
+    "brandName": "AMAZEO",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "484.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.42"
+  }
+]

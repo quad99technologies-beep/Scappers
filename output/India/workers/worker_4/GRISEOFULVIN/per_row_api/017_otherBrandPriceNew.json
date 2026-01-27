@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "GRISOHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "67.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.75"
+  },
+  {
+    "brandName": "DERMOVENT",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.50"
+  },
+  {
+    "brandName": "ULVIN",
+    "packSize": "10",
+    "company": "SEAGULL PHARMA",
+    "brandMrp": "135.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.59"
+  },
+  {
+    "brandName": "GRISOJET",
+    "packSize": "10",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "138.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.85"
+  },
+  {
+    "brandName": "ZOVINIC",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "139.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.97"
+  },
+  {
+    "brandName": "GRISURE",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "145.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.52"
+  },
+  {
+    "brandName": "ZORBAX",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "ECOVIN",
+    "packSize": "10",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "171.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.10"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "CADIPAN",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "196.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.60"
+  },
+  {
+    "brandName": "ENZIGEST",
+    "packSize": "10",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.00"
+  },
+  {
+    "brandName": "LIPCERNA",
+    "packSize": "10",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.00"
+  },
+  {
+    "brandName": "PANCREHENZ",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "520.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.06"
+  },
+  {
+    "brandName": "ENZAR HS",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "789.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "78.92"
+  },
+  {
+    "brandName": "CREON",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "1236.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "123.62"
+  }
+]

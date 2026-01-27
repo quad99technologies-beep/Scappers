@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521073773@78887@101174354@1846@101038@200331",
+    "skuName": "SPASMOPRIV 100 MG CAPSULE 10",
+    "composition": "FENOVERINE CAPSULE 100 MG",
+    "packSize": "10 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "MICRO LABS LTD",
+    "scheduleFlag": "0",
+    "mrp": "161.20",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.12"
+  },
+  {
+    "hiddenId": "1521073776@161369@101174354@2974@101038@200331",
+    "skuName": "SPASMOPRIV 200 MG CAPSULE 10",
+    "composition": "FENOVERINE CAPSULE 200 MG",
+    "packSize": "10 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "MICRO LABS LTD",
+    "scheduleFlag": "0",
+    "mrp": "307.50",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.75"
+  }
+]

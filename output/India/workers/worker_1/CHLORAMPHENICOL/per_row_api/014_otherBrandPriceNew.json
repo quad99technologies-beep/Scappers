@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "BIOMYCETIN",
+    "packSize": "5",
+    "company": "JUGGAT PHARMA",
+    "brandMrp": "54.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "brandName": "OTOLIN",
+    "packSize": "5",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "68.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.70"
+  },
+  {
+    "brandName": "OTEK AC NEO",
+    "packSize": "5",
+    "company": "FDC LTD.",
+    "brandMrp": "74.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.97"
+  }
+]

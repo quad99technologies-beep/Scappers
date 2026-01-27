@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "TRUCLAR",
+    "packSize": "30",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "82.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.75"
+  },
+  {
+    "brandName": "CLARIT (DR. REDDYS)",
+    "packSize": "30",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "123.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.13"
+  },
+  {
+    "brandName": "CLARISTAR",
+    "packSize": "30",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "KLARIM",
+    "packSize": "30",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "144.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.83"
+  },
+  {
+    "brandName": "SYNCLAR",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "146.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.88"
+  },
+  {
+    "brandName": "CLARIGARD",
+    "packSize": "30",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "147.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.92"
+  },
+  {
+    "brandName": "CLARIWIN",
+    "packSize": "30",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "148.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.95"
+  },
+  {
+    "brandName": "CLARIE D",
+    "packSize": "30",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "148.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.97"
+  },
+  {
+    "brandName": "CLOFF",
+    "packSize": "30",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "148.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.97"
+  }
+]

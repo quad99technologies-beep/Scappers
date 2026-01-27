@@ -1,0 +1,130 @@
+[
+  {
+    "brandName": "CYPRODOL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "9.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.99"
+  },
+  {
+    "brandName": "ABITOL",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "15.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.51"
+  },
+  {
+    "brandName": "APPLACTIN",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "15.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.58"
+  },
+  {
+    "brandName": "ADD APP",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "16.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.64"
+  },
+  {
+    "brandName": "BIOPRON",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "16.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.65"
+  },
+  {
+    "brandName": "APP-UP",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "17.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.73"
+  },
+  {
+    "brandName": "CYPROFRESH",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "18.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.80"
+  },
+  {
+    "brandName": "CYPROVITA",
+    "packSize": "10",
+    "company": "SMARTWAY WELLNESS PVT. LTD.",
+    "brandMrp": "18.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  },
+  {
+    "brandName": "CYPTAN",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "22.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.25"
+  },
+  {
+    "brandName": "HEPTIDIN",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "28.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  },
+  {
+    "brandName": "PACTYON",
+    "packSize": "10",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "34.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.40"
+  },
+  {
+    "brandName": "PERITOL",
+    "packSize": "10",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "35.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.57"
+  },
+  {
+    "brandName": "CIPLACTIN",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "61.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.08"
+  },
+  {
+    "brandName": "PRACTIN",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "66.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.41"
+  },
+  {
+    "brandName": "PRACTIN",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "44.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.41"
+  },
+  {
+    "brandName": "CYPON",
+    "packSize": "10",
+    "company": "GENO PHARMACEUTICALS LTD",
+    "brandMrp": "44.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.43"
+  }
+]

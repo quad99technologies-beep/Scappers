@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "STARFLU (STRIDES)",
+    "packSize": "10",
+    "company": "STRIDES SHASUN LIMITED",
+    "brandMrp": "475.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "47.50"
+  },
+  {
+    "brandName": "NATFLU",
+    "packSize": "10",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "515.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.56"
+  },
+  {
+    "brandName": "OLSIVIR",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "535.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.50"
+  },
+  {
+    "brandName": "OLTAVIR",
+    "packSize": "10",
+    "company": "JB CHEMICALS",
+    "brandMrp": "594.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "59.50"
+  },
+  {
+    "brandName": "FLUCOVER",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "600.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "60.01"
+  },
+  {
+    "brandName": "ANTIFLU",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "906.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "90.68"
+  }
+]

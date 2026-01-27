@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "EVION",
+    "packSize": "20",
+    "company": "PROCTER & GAMBLE HEALTH LTD",
+    "brandMrp": "47.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.38"
+  },
+  {
+    "brandName": "EVION",
+    "packSize": "10",
+    "company": "PROCTER & GAMBLE HEALTH LTD",
+    "brandMrp": "23.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.38"
+  },
+  {
+    "brandName": "EVION W",
+    "packSize": "10",
+    "company": "PROCTER & GAMBLE HEALTH LTD",
+    "brandMrp": "36.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.61"
+  },
+  {
+    "brandName": "NATVIE",
+    "packSize": "15",
+    "company": "FRANCO INDIAN PHARMACEUTICALS PVT LTD",
+    "brandMrp": "191.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.75"
+  },
+  {
+    "brandName": "TOCOFIL",
+    "packSize": "15",
+    "company": "FOURRTS INDIA LABORATORIES PVT. LTD",
+    "brandMrp": "444.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.60"
+  },
+  {
+    "brandName": "COETRIE",
+    "packSize": "10",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "369.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.93"
+  },
+  {
+    "brandName": "TOCOFIL",
+    "packSize": "10",
+    "company": "FOURRTS INDIA LABORATORIES PVT. LTD",
+    "brandMrp": "444.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.41"
+  }
+]

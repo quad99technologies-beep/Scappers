@@ -1,0 +1,130 @@
+[
+  {
+    "brandName": "ZENPORATE",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "28.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.84"
+  },
+  {
+    "brandName": "TORVATE",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "28.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.88"
+  },
+  {
+    "brandName": "VALPARIN",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "34.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.46"
+  },
+  {
+    "brandName": "VALPACT",
+    "packSize": "10",
+    "company": "TRION PHARMA",
+    "brandMrp": "35.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.56"
+  },
+  {
+    "brandName": "VALCNX",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "36.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.60"
+  },
+  {
+    "brandName": "ENCORATE",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "38.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.82"
+  },
+  {
+    "brandName": "EPIVAL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "38.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.82"
+  },
+  {
+    "brandName": "VALPARIN",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "57.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.82"
+  },
+  {
+    "brandName": "VIKORATE",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "38.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.82"
+  },
+  {
+    "brandName": "EPILEX",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "57.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.83"
+  },
+  {
+    "brandName": "KRONOSTAR",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "43.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.36"
+  },
+  {
+    "brandName": "SOLPRATE",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "43.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.36"
+  },
+  {
+    "brandName": "AMVALOR CHRONO",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "43.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.38"
+  },
+  {
+    "brandName": "VEANA",
+    "packSize": "10",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "47.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.75"
+  },
+  {
+    "brandName": "CHRONO",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "59.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.91"
+  },
+  {
+    "brandName": "SEIZRATE",
+    "packSize": "10",
+    "company": "SANIX FORMULATIONS PVT LTD",
+    "brandMrp": "64.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.44"
+  }
+]

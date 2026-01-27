@@ -1,0 +1,218 @@
+[
+  {
+    "brandName": "SILOTAG",
+    "packSize": "10",
+    "company": "INNOVATIVE PHARMACEUTICALS",
+    "brandMrp": "0.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.01"
+  },
+  {
+    "brandName": "SILORIGHT",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "98.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.88"
+  },
+  {
+    "brandName": "SILODOZEN",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "137.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.75"
+  },
+  {
+    "brandName": "SILOSTRIDE",
+    "packSize": "10",
+    "company": "RONYD HEALTH CARE PVT LTD",
+    "brandMrp": "178.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "SILOXIO",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "PROSTAGARD",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "220.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.03"
+  },
+  {
+    "brandName": "SILOTRA",
+    "packSize": "10",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "227.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.77"
+  },
+  {
+    "brandName": "SILDOEASE",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "229.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.97"
+  },
+  {
+    "brandName": "ADDIRA",
+    "packSize": "15",
+    "company": "ADDII BIOTECH PVT.LTD",
+    "brandMrp": "355.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.71"
+  },
+  {
+    "brandName": "ALPHACEPT",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "241.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.18"
+  },
+  {
+    "brandName": "SILOTRIF",
+    "packSize": "15",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "396.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.44"
+  },
+  {
+    "brandName": "SILOWELL",
+    "packSize": "10",
+    "company": "WALRON HEALTHCARE PVT.LTD",
+    "brandMrp": "271.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.19"
+  },
+  {
+    "brandName": "SILDOSIN",
+    "packSize": "10",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "287.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.77"
+  },
+  {
+    "brandName": "DOSIN",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "292.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.28"
+  },
+  {
+    "brandName": "SILODART",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "299.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.91"
+  },
+  {
+    "brandName": "SILODONOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "299.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.91"
+  },
+  {
+    "brandName": "AVOPROST",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "303.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.37"
+  },
+  {
+    "brandName": "SILOSMART",
+    "packSize": "10",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "322.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.25"
+  },
+  {
+    "brandName": "RAPILIF",
+    "packSize": "15",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "492.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.81"
+  },
+  {
+    "brandName": "SILOSWIFT",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "328.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.81"
+  },
+  {
+    "brandName": "SILOTIME",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "330.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.00"
+  },
+  {
+    "brandName": "DOSIN",
+    "packSize": "15",
+    "company": "CORONA",
+    "brandMrp": "498.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.21"
+  },
+  {
+    "brandName": "SILOCAP",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "333.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.38"
+  },
+  {
+    "brandName": "GERIPOD",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "354.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.50"
+  },
+  {
+    "brandName": "ALPHACEPT",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "546.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.41"
+  },
+  {
+    "brandName": "SILOSURE",
+    "packSize": "10",
+    "company": "TYCOON PHARMACEUTICALS PVT LTD",
+    "brandMrp": "454.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.47"
+  },
+  {
+    "brandName": "SILDOO",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "503.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.33"
+  }
+]

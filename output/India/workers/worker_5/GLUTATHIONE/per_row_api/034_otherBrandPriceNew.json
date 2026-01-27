@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "DEPIGLOW",
+    "packSize": "10",
+    "company": "GRACE DERMA HEALTHCARE PVT.LTD",
+    "brandMrp": "187.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.70"
+  },
+  {
+    "brandName": "GLUTALOG",
+    "packSize": "10",
+    "company": "ECON HEALTHCARE PVT LTD",
+    "brandMrp": "200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.00"
+  },
+  {
+    "brandName": "CUBIT (RENE)",
+    "packSize": "10",
+    "company": "RENE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "487.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.73"
+  },
+  {
+    "brandName": "GLUTADERM C",
+    "packSize": "15",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "1063.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "70.89"
+  },
+  {
+    "brandName": "GLUTIFORD",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "711.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "71.18"
+  },
+  {
+    "brandName": "DEPIGLOW ULTRA",
+    "packSize": "10",
+    "company": "GRACE DERMA HEALTHCARE PVT.LTD",
+    "brandMrp": "1041.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "104.11"
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "DVION PEARL",
+    "packSize": "10",
+    "company": "PROCTER & GAMBLE HEALTH LTD",
+    "brandMrp": "48.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.80"
+  },
+  {
+    "brandName": "BON DK",
+    "packSize": "10",
+    "company": "INTEGRACE HEALTH",
+    "brandMrp": "48.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.81"
+  },
+  {
+    "brandName": "GEN D3",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "49.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.99"
+  },
+  {
+    "brandName": "CALCIQUICK D3",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "50.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.05"
+  },
+  {
+    "brandName": "MAX D3",
+    "packSize": "10",
+    "company": "MOLEKULE (IND)PVT LTD",
+    "brandMrp": "51.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.11"
+  },
+  {
+    "brandName": "DVION PEARL",
+    "packSize": "30",
+    "company": "PROCTER & GAMBLE HEALTH LTD",
+    "brandMrp": "155.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.20"
+  },
+  {
+    "brandName": "UPRISE D3 1K",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "78.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.23"
+  },
+  {
+    "brandName": "UPRISE D3",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "54.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.47"
+  }
+]

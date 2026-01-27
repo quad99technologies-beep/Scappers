@@ -1,0 +1,72 @@
+[
+  {
+    "hiddenId": "1521003837@1173@101101826@3755@101068@202956",
+    "skuName": "ALDOPAM 500 MG INJECTION 20 ML",
+    "composition": "PRALIDOXIME INJECTION 500 MG",
+    "packSize": "20 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "97.42",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.87"
+  },
+  {
+    "hiddenId": "1521141668@109839@101229730@3755@101068@202956",
+    "skuName": "CBC PAM (CHANDRA) 500 MG INJECTION 20 ML",
+    "composition": "PRALIDOXIME INJECTION 500 MG",
+    "packSize": "20 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "CHANDRA BHAGAT PHARMA PVT. LTD.",
+    "scheduleFlag": "0",
+    "mrp": "195.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.75"
+  },
+  {
+    "hiddenId": "1521141949@128647@101230262@1642@101068@202956",
+    "skuName": "CLOPAM 1000 MG INJECTION 20 ML",
+    "composition": "PRALIDOXIME INJECTION 1000 MG",
+    "packSize": "20 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "CHANDRA BHAGAT PHARMA PVT. LTD.",
+    "scheduleFlag": "0",
+    "mrp": "320.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.00"
+  },
+  {
+    "hiddenId": "1521052112@181981@101155062@1642@101068@202956",
+    "skuName": "NEOPAM 1000 MG INJECTION 2 ML",
+    "composition": "PRALIDOXIME INJECTION 1000 MG",
+    "packSize": "2 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "531.05",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "265.53"
+  },
+  {
+    "hiddenId": "1521052114@67976@101155062@3755@101068@202956",
+    "skuName": "NEOPAM 500 MG INJECTION 20 ML",
+    "composition": "PRALIDOXIME INJECTION 500 MG",
+    "packSize": "20 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "191.06",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.55"
+  }
+]

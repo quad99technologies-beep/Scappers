@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "TAFNAT",
+    "packSize": "30",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "1371.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.72"
+  },
+  {
+    "brandName": "TENVIR AF",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "1397.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.57"
+  },
+  {
+    "brandName": "TENFOPLUS",
+    "packSize": "30",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "1488.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.60"
+  },
+  {
+    "brandName": "TAFERO",
+    "packSize": "30",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "1566.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.20"
+  },
+  {
+    "brandName": "TENOHEP AF",
+    "packSize": "30",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "1566.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.20"
+  },
+  {
+    "brandName": "DURATAF",
+    "packSize": "30",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "1566.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.21"
+  },
+  {
+    "brandName": "TENTIDE AF",
+    "packSize": "30",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "1566.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.21"
+  }
+]

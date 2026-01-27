@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "SAHELI",
+    "packSize": "8",
+    "company": "HLL LIFE CARE LTD",
+    "brandMrp": "25.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.13"
+  },
+  {
+    "brandName": "SAHELI PLUS",
+    "packSize": "10",
+    "company": "HLL LIFE CARE LTD",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "ORMALIN",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "NOVEX",
+    "packSize": "10",
+    "company": "HLL LIFE CARE LTD",
+    "brandMrp": "126.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.66"
+  }
+]

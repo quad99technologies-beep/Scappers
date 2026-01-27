@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "COMEDOLYTIC",
+    "packSize": "20",
+    "company": "DABUR INDIA LTD.",
+    "brandMrp": "103.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "brandName": "ATRET",
+    "packSize": "30",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "173.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.79"
+  },
+  {
+    "brandName": "TRETIN",
+    "packSize": "30",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "192.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.41"
+  },
+  {
+    "brandName": "TOPITRET",
+    "packSize": "20",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "131.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.55"
+  },
+  {
+    "brandName": "KATINOL",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "66.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.65"
+  },
+  {
+    "brandName": "RETIACT",
+    "packSize": "20",
+    "company": "DABUR INDIA LTD.",
+    "brandMrp": "164.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.20"
+  },
+  {
+    "brandName": "FLAWLIZO",
+    "packSize": "20",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "178.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.91"
+  },
+  {
+    "brandName": "TRETIHEAL",
+    "packSize": "20",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "216.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.83"
+  },
+  {
+    "brandName": "REVIZE MICRO",
+    "packSize": "20",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "260.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.04"
+  }
+]

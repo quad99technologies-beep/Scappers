@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LIVOSIL B",
+    "packSize": "10",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "53.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.37"
+  },
+  {
+    "brandName": "LIMARIN",
+    "packSize": "10",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "brandMrp": "84.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.47"
+  },
+  {
+    "brandName": "HIGADO L",
+    "packSize": "10",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "215.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.56"
+  }
+]

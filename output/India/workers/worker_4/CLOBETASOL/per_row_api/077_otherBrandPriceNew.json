@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "BARIDERM",
+    "packSize": "20",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "63.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.19"
+  },
+  {
+    "brandName": "BARIDERM Z",
+    "packSize": "15",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "52.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.50"
+  },
+  {
+    "brandName": "DIPLOMAX PLUS",
+    "packSize": "30",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "112.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.73"
+  },
+  {
+    "brandName": "COSVATE",
+    "packSize": "15",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.00"
+  },
+  {
+    "brandName": "TOPINATE",
+    "packSize": "15",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "71.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.75"
+  },
+  {
+    "brandName": "LOZIVATE",
+    "packSize": "30",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "147.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.90"
+  },
+  {
+    "brandName": "NEOSOL",
+    "packSize": "30",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "147.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.91"
+  },
+  {
+    "brandName": "TOPBEC C",
+    "packSize": "30",
+    "company": "EUMEDICA PHARMACEUTICALS",
+    "brandMrp": "172.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.75"
+  },
+  {
+    "brandName": "TENOVATE",
+    "packSize": "15",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "112.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.51"
+  },
+  {
+    "brandName": "CLONATE",
+    "packSize": "20",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.33"
+  },
+  {
+    "brandName": "CLOBSOL",
+    "packSize": "15",
+    "company": "RONYD HEALTH CARE PVT LTD",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.44"
+  },
+  {
+    "brandName": "DPNOL",
+    "packSize": "5",
+    "company": "SYNOVIA LIFE SCIENCES",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.31"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PARKITIDIN",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "244.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.47"
+  },
+  {
+    "brandName": "AMANTREL",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "247.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.75"
+  },
+  {
+    "brandName": "AMANTEX",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "271.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.19"
+  }
+]

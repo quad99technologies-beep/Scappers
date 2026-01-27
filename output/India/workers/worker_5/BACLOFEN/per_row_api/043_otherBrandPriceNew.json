@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "BACK",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "54.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.49"
+  },
+  {
+    "brandName": "BACFEN",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "67.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.75"
+  },
+  {
+    "brandName": "LIOFEN",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "67.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.79"
+  }
+]

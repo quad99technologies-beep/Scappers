@@ -1,0 +1,290 @@
+[
+  {
+    "brandName": "DUTAXEL",
+    "packSize": "16",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "631.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.16"
+  },
+  {
+    "brandName": "TAXELEON",
+    "packSize": "16",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "801.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "47.15"
+  },
+  {
+    "brandName": "TORTAXEL",
+    "packSize": "16",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "1375.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "80.88"
+  },
+  {
+    "brandName": "ONCOTAXEL",
+    "packSize": "17",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "1509.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "88.76"
+  },
+  {
+    "brandName": "TAXONAB",
+    "packSize": "100",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "10127.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "101.28"
+  },
+  {
+    "brandName": "ZPAC",
+    "packSize": "16",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "2267.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "133.39"
+  },
+  {
+    "brandName": "BD TAXEL",
+    "packSize": "16",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "3214.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "189.07"
+  },
+  {
+    "brandName": "PACLITAX",
+    "packSize": "16",
+    "company": "CIPLA LTD.",
+    "brandMrp": "3424.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "201.42"
+  },
+  {
+    "brandName": "CELTAX",
+    "packSize": "16",
+    "company": "CELON LABS",
+    "brandMrp": "3631.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "213.59"
+  },
+  {
+    "brandName": "ALTAXEL NOVA",
+    "packSize": "16",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "3770.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "221.81"
+  },
+  {
+    "brandName": "GROS",
+    "packSize": "16",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "3835.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "225.63"
+  },
+  {
+    "brandName": "CYTAX",
+    "packSize": "16",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "3836.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "225.68"
+  },
+  {
+    "brandName": "PACLITERO",
+    "packSize": "16",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "3842.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "226.04"
+  },
+  {
+    "brandName": "MITOTAX",
+    "packSize": "16",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "3843.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "226.07"
+  },
+  {
+    "brandName": "PETAXEL",
+    "packSize": "16",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "3843.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "226.08"
+  },
+  {
+    "brandName": "INTAXEL",
+    "packSize": "17",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "3855.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "226.80"
+  },
+  {
+    "brandName": "PACLISTAR",
+    "packSize": "16",
+    "company": "LUPIN LTD",
+    "brandMrp": "4022.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "236.60"
+  },
+  {
+    "brandName": "PACLICAD",
+    "packSize": "16",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "4029.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "237.03"
+  },
+  {
+    "brandName": "PACLICAD N",
+    "packSize": "50",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "12169.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "243.39"
+  },
+  {
+    "brandName": "PACLITEC",
+    "packSize": "16",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "4166.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "245.10"
+  },
+  {
+    "brandName": "BETAXEL",
+    "packSize": "16",
+    "company": "BIOLOGICAL E LTD",
+    "brandMrp": "5625.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "330.88"
+  },
+  {
+    "brandName": "NANOXEL",
+    "packSize": "5",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "10857.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2171.44"
+  },
+  {
+    "brandName": "PACLICAD N",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "4816.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4816.88"
+  },
+  {
+    "brandName": "NAB CELTAX",
+    "packSize": "20",
+    "company": "CELON LABS",
+    "brandMrp": "5295.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5295.00"
+  },
+  {
+    "brandName": "NAB ALTAXEL",
+    "packSize": "20",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "5559.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5559.38"
+  },
+  {
+    "brandName": "NABPAC",
+    "packSize": "20",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "5596.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5596.00"
+  },
+  {
+    "brandName": "CYTAX NAB",
+    "packSize": "20",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "6589.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6589.69"
+  },
+  {
+    "brandName": "PACLIMIN",
+    "packSize": "20",
+    "company": "AUREATE HEALTHCARE PVT.LTD",
+    "brandMrp": "7050.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7050.00"
+  },
+  {
+    "brandName": "PACLIALL",
+    "packSize": "20",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "7914.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7914.86"
+  },
+  {
+    "brandName": "NAB MITOTAX",
+    "packSize": "20",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "8506.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8506.40"
+  },
+  {
+    "brandName": "NANOPACLI",
+    "packSize": "20",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "8971.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8971.43"
+  },
+  {
+    "brandName": "NAB TORTAXEL",
+    "packSize": "20",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "9694.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9694.00"
+  },
+  {
+    "brandName": "BIOBRAXANE",
+    "packSize": "1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "9800.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9800.00"
+  },
+  {
+    "brandName": "NABCURE",
+    "packSize": "20",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "11270.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11270.55"
+  },
+  {
+    "brandName": "BEVETEX",
+    "packSize": "0",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "11718.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11718.75"
+  },
+  {
+    "brandName": "GENEXOL PM",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "17128.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17128.55"
+  }
+]

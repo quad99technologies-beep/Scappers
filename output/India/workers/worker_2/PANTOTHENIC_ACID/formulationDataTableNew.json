@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521033331@225611@101115498@2974@101006@205282",
+    "skuName": "CIARA B5 200 MG TABLET 10",
+    "composition": "PANTOTHENIC ACID TABLET 200 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "scheduleFlag": "0",
+    "mrp": "81.11",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.11"
+  },
+  {
+    "hiddenId": "1521088817@105786@101226475@-1@101126@205282",
+    "skuName": "ELCOPLEX SYRUP 100 ML",
+    "composition": "PANTOTHENIC ACID SYRUP ",
+    "packSize": "100 ML SYRUP",
+    "dosageForm": "SYRUP",
+    "ceilingPrice": "-1",
+    "company": "ELDER PROJECTS LIMITED",
+    "scheduleFlag": "0",
+    "mrp": "85.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.85"
+  },
+  {
+    "hiddenId": "1521039058@210023@101142237@2974@101006@205282",
+    "skuName": "KERABLAK 200 MG TABLET 10",
+    "composition": "PANTOTHENIC ACID TABLET 200 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "scheduleFlag": "0",
+    "mrp": "198.19",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.82"
+  },
+  {
+    "hiddenId": "1521098937@351328@101142237@-1@101148@205282",
+    "skuName": "KERABLAK SERUM LIQUID 30 ML",
+    "composition": "PANTOTHENIC ACID LIQUID ",
+    "packSize": "30 ML LIQUID",
+    "dosageForm": "LIQUID",
+    "ceilingPrice": "-1",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "scheduleFlag": "0",
+    "mrp": "837.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.90"
+  }
+]

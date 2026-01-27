@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ANAFORTAN",
+    "packSize": "20",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "121.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.06"
+  },
+  {
+    "brandName": "AVAPAR",
+    "packSize": "2",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "18.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.20"
+  },
+  {
+    "brandName": "ANAFORTAN",
+    "packSize": "2",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "37.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.68"
+  }
+]

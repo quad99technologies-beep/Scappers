@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "TOPERIZONE",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "153.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.30"
+  },
+  {
+    "brandName": "TPSAN",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "331.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.10"
+  },
+  {
+    "brandName": "TOLMEX",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "356.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.63"
+  },
+  {
+    "brandName": "TOLPETAB",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "482.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.28"
+  },
+  {
+    "brandName": "MYOTOP",
+    "packSize": "6",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "305.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.85"
+  },
+  {
+    "brandName": "TOLKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "510.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.09"
+  },
+  {
+    "brandName": "TOLPERITAS",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "536.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.63"
+  },
+  {
+    "brandName": "TOLPERITAS(THEMIS)",
+    "packSize": "10",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "536.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.63"
+  },
+  {
+    "brandName": "TOLIFAST SR",
+    "packSize": "6",
+    "company": "LUPIN LTD",
+    "brandMrp": "336.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.16"
+  },
+  {
+    "brandName": "SYNAPTOL",
+    "packSize": "3",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "391.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "130.63"
+  }
+]

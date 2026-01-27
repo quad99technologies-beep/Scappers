@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "OPEC (SHRINIVAS)",
+    "packSize": "10",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "35.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.56"
+  },
+  {
+    "brandName": "OFLOBE",
+    "packSize": "5",
+    "company": "SAPIENT",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "OSHIELD",
+    "packSize": "5",
+    "company": "BERRY & HERBS PHARMA PVT.LTD",
+    "brandMrp": "83.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.69"
+  }
+]

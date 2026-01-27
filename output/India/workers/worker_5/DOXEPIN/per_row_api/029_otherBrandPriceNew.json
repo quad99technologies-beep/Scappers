@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "XEPRICH",
+    "packSize": "10",
+    "company": "SEAGULL PHARMA",
+    "brandMrp": "31.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.13"
+  },
+  {
+    "brandName": "SIDOPIN",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "53.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.32"
+  },
+  {
+    "brandName": "DOXIN",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "83.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.34"
+  },
+  {
+    "brandName": "GALDOPIN",
+    "packSize": "10",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "104.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.41"
+  },
+  {
+    "brandName": "SPECTRA",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "139.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.92"
+  }
+]

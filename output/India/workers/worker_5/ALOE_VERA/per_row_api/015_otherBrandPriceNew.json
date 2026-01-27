@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PROMINENT",
+    "packSize": "75",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.07"
+  },
+  {
+    "brandName": "MEGLOW",
+    "packSize": "125",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.20"
+  },
+  {
+    "brandName": "NOVIGLO",
+    "packSize": "100",
+    "company": "LUPIN LTD",
+    "brandMrp": "580.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.80"
+  }
+]

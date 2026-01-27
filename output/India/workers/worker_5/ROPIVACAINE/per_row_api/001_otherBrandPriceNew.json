@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ROPICAINE",
+    "packSize": "30",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "62.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.08"
+  },
+  {
+    "brandName": "ROPIFAST",
+    "packSize": "20",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "71.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.57"
+  },
+  {
+    "brandName": "ROPIZUVA",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "130.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "130.02"
+  }
+]

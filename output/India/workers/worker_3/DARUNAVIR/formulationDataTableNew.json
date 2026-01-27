@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521014498@241209@101121596@3870@101006@201665",
+    "skuName": "DANAVIR 600 MG TABLET 60",
+    "composition": "DARUNAVIR TABLET 600 MG",
+    "packSize": "60 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "157.13",
+    "company": "HETERO HEALTHCARE LTD",
+    "scheduleFlag": "1",
+    "mrp": "9750.00",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "162.50"
+  },
+  {
+    "hiddenId": "1521067536@196133@101121717@3870@101006@201665",
+    "skuName": "DARUVIR 600 MG TABLET 60",
+    "composition": "DARUNAVIR TABLET 600 MG",
+    "packSize": "60 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "157.13",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "1",
+    "mrp": "9226.97",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "153.78"
+  },
+  {
+    "hiddenId": "1521014614@238365@101121717@3951@101006@201665",
+    "skuName": "DARUVIR 800 MG TABLET 30",
+    "composition": "DARUNAVIR TABLET 800 MG",
+    "packSize": "30 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "13000.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "433.33"
+  }
+]

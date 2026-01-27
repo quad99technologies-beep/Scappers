@@ -1,0 +1,290 @@
+[
+  {
+    "brandName": "CLARISTAR",
+    "packSize": "10",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "114.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.40"
+  },
+  {
+    "brandName": "CLARINOVA",
+    "packSize": "6",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "97.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.32"
+  },
+  {
+    "brandName": "CLARIT (DR. REDDYS)",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "166.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.69"
+  },
+  {
+    "brandName": "CUTIMAC",
+    "packSize": "10",
+    "company": "GRACE DERMA HEALTHCARE PVT.LTD",
+    "brandMrp": "180.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.10"
+  },
+  {
+    "brandName": "CLATM",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "189.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.97"
+  },
+  {
+    "brandName": "CLARINOVA",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "197.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.78"
+  },
+  {
+    "brandName": "HETCLARI",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "199.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.90"
+  },
+  {
+    "brandName": "CLARIGARD",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "199.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.91"
+  },
+  {
+    "brandName": "MACLAR",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "199.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.92"
+  },
+  {
+    "brandName": "CLARID",
+    "packSize": "10",
+    "company": "ALLENGE INDIA LTD",
+    "brandMrp": "210.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.00"
+  },
+  {
+    "brandName": "CLYARA",
+    "packSize": "10",
+    "company": "JUPITER BIOLABS PVT.LTD",
+    "brandMrp": "219.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.90"
+  },
+  {
+    "brandName": "C CIN",
+    "packSize": "10",
+    "company": "INTEL PHARMACEUTICALS",
+    "brandMrp": "234.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.43"
+  },
+  {
+    "brandName": "CLARIAN",
+    "packSize": "10",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "235.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.50"
+  },
+  {
+    "brandName": "CTMYCINE",
+    "packSize": "4",
+    "company": "RND LABORATORIES PVT. LTD.",
+    "brandMrp": "94.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.56"
+  },
+  {
+    "brandName": "CRIXAN",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "236.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.66"
+  },
+  {
+    "brandName": "CLARIOL",
+    "packSize": "4",
+    "company": "OLCARE LTD",
+    "brandMrp": "95.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.75"
+  },
+  {
+    "brandName": "BIOCLAR",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "246.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.70"
+  },
+  {
+    "brandName": "ZOCLAR",
+    "packSize": "4",
+    "company": "CIPLA LTD.",
+    "brandMrp": "99.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.77"
+  },
+  {
+    "brandName": "BCLAMI",
+    "packSize": "10",
+    "company": "BIOS LAB PVT.LTD",
+    "brandMrp": "248.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.81"
+  },
+  {
+    "brandName": "CLARINZA",
+    "packSize": "10",
+    "company": "MYPHER PHARMACEUTICALS LLP.LTD",
+    "brandMrp": "250.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.03"
+  },
+  {
+    "brandName": "CLARIFACE",
+    "packSize": "4",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "100.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.04"
+  },
+  {
+    "brandName": "CLARIMIN",
+    "packSize": "4",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "100.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.08"
+  },
+  {
+    "brandName": "TRUCLAR",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "251.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.10"
+  },
+  {
+    "brandName": "CLARBACT",
+    "packSize": "4",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "101.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.26"
+  },
+  {
+    "brandName": "ALICLAIR",
+    "packSize": "4",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "102.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.50"
+  },
+  {
+    "brandName": "CLARITHRAL",
+    "packSize": "10",
+    "company": "INNOVATIVE PHARMACEUTICALS",
+    "brandMrp": "255.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.54"
+  },
+  {
+    "brandName": "CLARIBID",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "257.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.70"
+  },
+  {
+    "brandName": "CLARICIN",
+    "packSize": "10",
+    "company": "WAVES BIOTECH PVT. LTD.",
+    "brandMrp": "256.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.70"
+  },
+  {
+    "brandName": "CLARIE",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "257.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.70"
+  },
+  {
+    "brandName": "CLARIWIN",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "257.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.70"
+  },
+  {
+    "brandName": "CLOFF",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "257.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.70"
+  },
+  {
+    "brandName": "KLARIM",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "257.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.70"
+  },
+  {
+    "brandName": "CLARIBID",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "257.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.78"
+  },
+  {
+    "brandName": "CLARIHUGE",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "269.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.90"
+  },
+  {
+    "brandName": "ACEM",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "270.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.00"
+  },
+  {
+    "brandName": "MACROCLAR",
+    "packSize": "6",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "180.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.04"
+  }
+]

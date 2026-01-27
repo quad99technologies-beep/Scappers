@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "CELEMIN HEPA",
+    "packSize": "500",
+    "company": "CLARIS LIFESCIENCES LIMITED",
+    "brandMrp": "1126.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.25"
+  },
+  {
+    "brandName": "LAMINO",
+    "packSize": "500",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "1203.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.41"
+  },
+  {
+    "brandName": "LAMINO",
+    "packSize": "200",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "784.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.92"
+  }
+]

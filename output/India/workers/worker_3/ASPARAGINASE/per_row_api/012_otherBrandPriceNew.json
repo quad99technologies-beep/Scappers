@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ASGINASE",
+    "packSize": "5",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "507.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "101.41"
+  },
+  {
+    "brandName": "CELGINASE",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "975.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "975.00"
+  },
+  {
+    "brandName": "BIONASE",
+    "packSize": "1",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "1090.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1090.60"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "CERTICAN",
+    "packSize": "10",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "330.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.01"
+  },
+  {
+    "brandName": "EVERRITE",
+    "packSize": "10",
+    "company": "CELERA PHARMA",
+    "brandMrp": "767.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "76.73"
+  },
+  {
+    "brandName": "EVERCON",
+    "packSize": "10",
+    "company": "CONCORD BIOTECH LTD",
+    "brandMrp": "823.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "82.30"
+  },
+  {
+    "brandName": "ADVACAN",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "1095.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "109.50"
+  },
+  {
+    "brandName": "EVEROMUS",
+    "packSize": "10",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "1327.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "132.75"
+  },
+  {
+    "brandName": "LANOLIMUS",
+    "packSize": "10",
+    "company": "VIATRIS",
+    "brandMrp": "1452.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "145.20"
+  },
+  {
+    "brandName": "EVERGRAF",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "1570.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "157.10"
+  }
+]

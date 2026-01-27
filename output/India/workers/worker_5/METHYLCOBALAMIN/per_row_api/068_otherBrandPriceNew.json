@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ALOGIC",
+    "packSize": "10",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "198.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.80"
+  },
+  {
+    "brandName": "INTACOB PLUS",
+    "packSize": "10",
+    "company": "INTAG REMEDIES",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.50"
+  },
+  {
+    "brandName": "COSTRUM",
+    "packSize": "10",
+    "company": "CANVARZYS HEALTHCARE PVT.LTD",
+    "brandMrp": "243.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.38"
+  }
+]

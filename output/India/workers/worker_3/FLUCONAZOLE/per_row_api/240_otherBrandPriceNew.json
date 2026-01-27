@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "CONFLU",
+    "packSize": "5",
+    "company": "EAST INDIA PHARMACEUTICAL WORKS LTD.",
+    "brandMrp": "42.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.57"
+  },
+  {
+    "brandName": "FLUCOCID",
+    "packSize": "5",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "59.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.81"
+  },
+  {
+    "brandName": "OTOFLU",
+    "packSize": "5",
+    "company": "SUNWAYS (INDIA) PVT LTD",
+    "brandMrp": "69.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.97"
+  },
+  {
+    "brandName": "BELL FLUCONAZOLE",
+    "packSize": "5",
+    "company": "BELL PHARMA PVT. LTD",
+    "brandMrp": "133.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.74"
+  },
+  {
+    "brandName": "NUFLUCON",
+    "packSize": "5",
+    "company": "NULIFE PHARMACEUTICALS",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.00"
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "SILIV",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "56.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.62"
+  },
+  {
+    "brandName": "SILYWIN",
+    "packSize": "10",
+    "company": "INTRA LABS",
+    "brandMrp": "64.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.48"
+  },
+  {
+    "brandName": "SILMALIV",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "64.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.49"
+  },
+  {
+    "brandName": "SILYLIV",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "133.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.31"
+  },
+  {
+    "brandName": "LIVERUBIN",
+    "packSize": "10",
+    "company": "ALCHEM PHYTOCEUTICALS LTD.",
+    "brandMrp": "194.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.41"
+  },
+  {
+    "brandName": "SILYBON",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "203.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.34"
+  },
+  {
+    "brandName": "LIVOPILL B",
+    "packSize": "10",
+    "company": "EXELTIS",
+    "brandMrp": "207.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.77"
+  },
+  {
+    "brandName": "LIVERUBIN PLUS",
+    "packSize": "10",
+    "company": "ALCHEM PHYTOCEUTICALS LTD.",
+    "brandMrp": "252.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.27"
+  },
+  {
+    "brandName": "S MERI",
+    "packSize": "10",
+    "company": "TAURUS LABORATORIES PVT LTD",
+    "brandMrp": "707.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "70.75"
+  }
+]

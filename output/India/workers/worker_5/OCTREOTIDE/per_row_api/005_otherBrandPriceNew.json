@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "VSTAT",
+    "packSize": "1",
+    "company": "CHANDRA BHAGAT PHARMA PVT. LTD.",
+    "brandMrp": "144.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "144.38"
+  },
+  {
+    "brandName": "OCTOTIDE",
+    "packSize": "1",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "876.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "876.88"
+  },
+  {
+    "brandName": "OKERON",
+    "packSize": "1",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "966.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "966.70"
+  }
+]

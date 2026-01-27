@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "NITRA MET",
+    "packSize": "20",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "8.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.41"
+  },
+  {
+    "brandName": "METNIZID DG",
+    "packSize": "20",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "24.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.20"
+  },
+  {
+    "brandName": "METROHEX",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "44.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.42"
+  }
+]

@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "BESTOFLOX",
+    "packSize": "10",
+    "company": "BESTOCHEM FORMULATIONS (I) LTD",
+    "brandMrp": "0.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.00"
+  },
+  {
+    "brandName": "OFLODEX",
+    "packSize": "10",
+    "company": "PARENTERAL DRUGS (INDIA) LTD.",
+    "brandMrp": "20.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.08"
+  },
+  {
+    "brandName": "EUFOX",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "21.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.19"
+  },
+  {
+    "brandName": "OFBID",
+    "packSize": "10",
+    "company": "AARPIK REMEDIES PVT.LTD.",
+    "brandMrp": "29.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.95"
+  },
+  {
+    "brandName": "SHILOF",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "31.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.12"
+  },
+  {
+    "brandName": "VITOR",
+    "packSize": "10",
+    "company": "MCASTRO PHARMA",
+    "brandMrp": "43.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.31"
+  },
+  {
+    "brandName": "SUNFLOX",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "45.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.58"
+  },
+  {
+    "brandName": "OFAL",
+    "packSize": "10",
+    "company": "HI TEC PHARMACEUTICALS PVT LTD",
+    "brandMrp": "46.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.64"
+  },
+  {
+    "brandName": "OXA(RAI)",
+    "packSize": "10",
+    "company": "RAVIAN PHARMACEUTICALS PVT LTD",
+    "brandMrp": "53.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.34"
+  },
+  {
+    "brandName": "OFLOMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "62.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.28"
+  },
+  {
+    "brandName": "ZANOCIN",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "66.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.66"
+  }
+]

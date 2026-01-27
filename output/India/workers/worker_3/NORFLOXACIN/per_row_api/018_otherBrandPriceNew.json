@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "N FLOX",
+    "packSize": "250",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "12.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.05"
+  },
+  {
+    "brandName": "INOR",
+    "packSize": "10",
+    "company": "NOEL PHARMACEUTICALS",
+    "brandMrp": "20.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.06"
+  },
+  {
+    "brandName": "N FLOX",
+    "packSize": "10",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "21.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.14"
+  },
+  {
+    "brandName": "ENFLOX",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "29.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.98"
+  },
+  {
+    "brandName": "FLOX (LARK)",
+    "packSize": "10",
+    "company": "LARK LABORATORIES LTD",
+    "brandMrp": "31.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.12"
+  },
+  {
+    "brandName": "NORFLOXACIN (CADILA)",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "49.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.90"
+  },
+  {
+    "brandName": "NOXITEF",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "49.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.92"
+  },
+  {
+    "brandName": "NORFLOKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "78.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.88"
+  },
+  {
+    "brandName": "NFLOX B",
+    "packSize": "10",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "87.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.77"
+  },
+  {
+    "brandName": "NORFLOX LB",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "88.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.85"
+  },
+  {
+    "brandName": "NORFLOXACIN",
+    "packSize": "10",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "540.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "54.00"
+  }
+]

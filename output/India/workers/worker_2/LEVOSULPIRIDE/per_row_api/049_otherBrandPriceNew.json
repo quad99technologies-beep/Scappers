@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LEVORIDE",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "LEVOSUL",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "213.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.32"
+  },
+  {
+    "brandName": "LEVIPRIDE",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "251.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.13"
+  }
+]

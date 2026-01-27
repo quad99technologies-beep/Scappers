@@ -1,0 +1,122 @@
+[
+  {
+    "brandName": "PILOGRO",
+    "packSize": "60",
+    "company": "MSD PHARMACEUTICALS PRIVATE LTD.",
+    "brandMrp": "208.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.47"
+  },
+  {
+    "brandName": "PYLODIL",
+    "packSize": "60",
+    "company": "SOLDERMA PHARMACEUTICALS PVT. LTD",
+    "brandMrp": "240.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.00"
+  },
+  {
+    "brandName": "MINSCALP",
+    "packSize": "60",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "315.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.25"
+  },
+  {
+    "brandName": "REGROW",
+    "packSize": "60",
+    "company": "WEST COAST PHARMA WORKS",
+    "brandMrp": "340.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.67"
+  },
+  {
+    "brandName": "MORR",
+    "packSize": "60",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "356.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.94"
+  },
+  {
+    "brandName": "COVERIT",
+    "packSize": "60",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "375.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.27"
+  },
+  {
+    "brandName": "MINICHEK",
+    "packSize": "60",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "380.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.33"
+  },
+  {
+    "brandName": "MX-2",
+    "packSize": "60",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "407.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.80"
+  },
+  {
+    "brandName": "MINTOP",
+    "packSize": "60",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "413.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.89"
+  },
+  {
+    "brandName": "ANASURE",
+    "packSize": "60",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "418.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.97"
+  },
+  {
+    "brandName": "TUGAIN",
+    "packSize": "60",
+    "company": "CIPLA LTD.",
+    "brandMrp": "438.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.31"
+  },
+  {
+    "brandName": "MINTOP",
+    "packSize": "60",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "459.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.66"
+  },
+  {
+    "brandName": "REGAINE",
+    "packSize": "60",
+    "company": "JANSSEN",
+    "brandMrp": "478.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.97"
+  },
+  {
+    "brandName": "MINOXIN",
+    "packSize": "60",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "592.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.87"
+  },
+  {
+    "brandName": "MINOPEP EVA",
+    "packSize": "90",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "928.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  }
+]

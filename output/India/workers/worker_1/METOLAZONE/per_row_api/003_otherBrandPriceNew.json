@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "METALONIX",
+    "packSize": "10",
+    "company": "STERIS HEALTHCARE",
+    "brandMrp": "192.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.29"
+  },
+  {
+    "brandName": "ZYTANIX",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "294.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.43"
+  },
+  {
+    "brandName": "ZYTANIX",
+    "packSize": "15",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "550.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.71"
+  }
+]

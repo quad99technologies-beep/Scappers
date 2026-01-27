@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "SIMLUP",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "42.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.21"
+  },
+  {
+    "brandName": "SIMVOFIX",
+    "packSize": "10",
+    "company": "BAL PHARMA",
+    "brandMrp": "116.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.65"
+  },
+  {
+    "brandName": "SIMVOTIN",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "317.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.78"
+  }
+]

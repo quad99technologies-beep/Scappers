@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "INDOWEL",
+    "packSize": "30",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "33.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.10"
+  },
+  {
+    "brandName": "STOP EM",
+    "packSize": "30",
+    "company": "WINSOME LAB LTD",
+    "brandMrp": "39.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "ALDON",
+    "packSize": "30",
+    "company": "ALDE MEDI IMPEX",
+    "brandMrp": "40.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.34"
+  }
+]

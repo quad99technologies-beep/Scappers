@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ISOFT HS",
+    "packSize": "10",
+    "company": "SENTISS PHARMA PVT.LTD",
+    "brandMrp": "406.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.69"
+  },
+  {
+    "brandName": "SOFTVISC ULTRA",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "468.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.88"
+  },
+  {
+    "brandName": "HYLOSOFT HPF",
+    "packSize": "10",
+    "company": "NEOMEDIX HEALTHCARE INDIA PVT.LTD",
+    "brandMrp": "698.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "69.84"
+  }
+]

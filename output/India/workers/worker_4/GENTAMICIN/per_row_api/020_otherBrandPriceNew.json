@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LEEGENTA",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "8.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.88"
+  },
+  {
+    "brandName": "GRACIN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "13.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.33"
+  },
+  {
+    "brandName": "GENTALAB",
+    "packSize": "10",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "50.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.06"
+  }
+]

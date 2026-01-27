@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "VERIXIME",
+    "packSize": "30",
+    "company": "KARNATAKA ANTIBIOTICS & PHARMACEUTICALS LTD(KAPL)",
+    "brandMrp": "46.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.54"
+  },
+  {
+    "brandName": "SECEF",
+    "packSize": "30",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "75.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.53"
+  },
+  {
+    "brandName": "AELXIM",
+    "packSize": "30",
+    "company": "ALLERGAN INDIA LTD",
+    "brandMrp": "90.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.01"
+  }
+]

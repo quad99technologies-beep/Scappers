@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "TORVASTAT",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "8.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.85"
+  },
+  {
+    "brandName": "FLAVEHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "TIMZID",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "TRIMEZEN",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "TIMZID",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "157.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.51"
+  },
+  {
+    "brandName": "CARVIDON",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "169.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.90"
+  },
+  {
+    "brandName": "CYTOGARD",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "178.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "FLAVEDON",
+    "packSize": "10",
+    "company": "SERDIA PHARMACEUTICALS (INDIA) PVT. LTD.",
+    "brandMrp": "179.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.97"
+  },
+  {
+    "brandName": "CARVIDON",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "285.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.00"
+  },
+  {
+    "brandName": "TRIVEDON",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "213.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.34"
+  }
+]

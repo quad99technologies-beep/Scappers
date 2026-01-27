@@ -1,0 +1,330 @@
+[
+  {
+    "brandName": "RECALMIN D3",
+    "packSize": "30",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "51.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.72"
+  },
+  {
+    "brandName": "SEGA D3",
+    "packSize": "30",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "52.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.76"
+  },
+  {
+    "brandName": "CALBONE D3",
+    "packSize": "30",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "59.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.99"
+  },
+  {
+    "brandName": "CALOCAL D3",
+    "packSize": "30",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "63.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.10"
+  },
+  {
+    "brandName": "BON D(GLE)",
+    "packSize": "30",
+    "company": "INTEGRACE HEALTH",
+    "brandMrp": "64.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.16"
+  },
+  {
+    "brandName": "MEGA D3",
+    "packSize": "30",
+    "company": "NEXTGEN HEALTH CARE PVT.LTD",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.17"
+  },
+  {
+    "brandName": "MINOIL",
+    "packSize": "30",
+    "company": "NEMUS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "65.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.19"
+  },
+  {
+    "brandName": "OH-D3",
+    "packSize": "15",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "34.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.30"
+  },
+  {
+    "brandName": "OH-D3",
+    "packSize": "30",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "72.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.41"
+  },
+  {
+    "brandName": "DLYTE",
+    "packSize": "30",
+    "company": "ANTHUS PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "73.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.45"
+  },
+  {
+    "brandName": "GALROL",
+    "packSize": "30",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "73.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.45"
+  },
+  {
+    "brandName": "CALCINA D3",
+    "packSize": "30",
+    "company": "CHETHANA PHARMACEUTICALS",
+    "brandMrp": "74.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.48"
+  },
+  {
+    "brandName": "D WELL",
+    "packSize": "30",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "77.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.58"
+  },
+  {
+    "brandName": "CALCIJOINT D3",
+    "packSize": "15",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "41.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.73"
+  },
+  {
+    "brandName": "DHUP",
+    "packSize": "30",
+    "company": "ALBERT DAVID",
+    "brandMrp": "82.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.74"
+  },
+  {
+    "brandName": "VITOMIN D3",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "82.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.74"
+  },
+  {
+    "brandName": "MICRO-D3",
+    "packSize": "30",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "83.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.78"
+  },
+  {
+    "brandName": "AL D3 (ALDE)",
+    "packSize": "30",
+    "company": "ALDE MEDI IMPEX",
+    "brandMrp": "83.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "COM D3",
+    "packSize": "30",
+    "company": "COMED CHEMICALS PVT LTD",
+    "brandMrp": "83.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "D3 BABY",
+    "packSize": "30",
+    "company": "EAST INDIA PHARMACEUTICAL WORKS LTD.",
+    "brandMrp": "83.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "D3 HD",
+    "packSize": "30",
+    "company": "CORONA",
+    "brandMrp": "83.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "D3 MUST",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "41.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "DSOL",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "83.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "DWEET 3",
+    "packSize": "30",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "83.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "JUSDEE",
+    "packSize": "30",
+    "company": "STEDMAN PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "83.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "KALZIN",
+    "packSize": "30",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "83.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "MACBRITE D3",
+    "packSize": "15",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "41.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "OBVIT D3",
+    "packSize": "30",
+    "company": "BIOLOGICAL E LTD",
+    "brandMrp": "83.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "STAD D3",
+    "packSize": "15",
+    "company": "STADMED PVT. LTD",
+    "brandMrp": "41.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "TALIA D3",
+    "packSize": "30",
+    "company": "WANBURY LTD",
+    "brandMrp": "83.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "ULTRA D3",
+    "packSize": "15",
+    "company": "MEYER ORGANICS PVT. LTD",
+    "brandMrp": "41.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "WELLBABY",
+    "packSize": "15",
+    "company": "MEYER ORGANICS PVT. LTD",
+    "brandMrp": "41.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.79"
+  },
+  {
+    "brandName": "STAMINA D3",
+    "packSize": "30",
+    "company": "ICARUS HEALTHCARE PRIMUS",
+    "brandMrp": "88.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.94"
+  },
+  {
+    "brandName": "LYSATONE D3",
+    "packSize": "15",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "OH-D3 PLUS",
+    "packSize": "30",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "146.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.87"
+  },
+  {
+    "brandName": "DSOL",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "78.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.26"
+  },
+  {
+    "brandName": "UPRISE D3",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "110.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.37"
+  },
+  {
+    "brandName": "ULTRA D3",
+    "packSize": "15",
+    "company": "MEYER ORGANICS PVT. LTD",
+    "brandMrp": "117.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.80"
+  },
+  {
+    "brandName": "DEPURA",
+    "packSize": "15",
+    "company": "SANOFI INDIA  LTD.",
+    "brandMrp": "190.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.68"
+  },
+  {
+    "brandName": "DEKSEL NANO KIDS",
+    "packSize": "15",
+    "company": "PULSE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "196.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.13"
+  },
+  {
+    "brandName": "ARACHITOL",
+    "packSize": "15",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "199.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.29"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "SOFTVISC ULTRA",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "468.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.88"
+  },
+  {
+    "brandName": "HALOEYE ULTRA",
+    "packSize": "10",
+    "company": "EYE KARE KILITCH.LTD",
+    "brandMrp": "577.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "57.75"
+  },
+  {
+    "brandName": "HYLOSOFT HPF",
+    "packSize": "10",
+    "company": "NEOMEDIX HEALTHCARE INDIA PVT.LTD",
+    "brandMrp": "698.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "69.84"
+  }
+]

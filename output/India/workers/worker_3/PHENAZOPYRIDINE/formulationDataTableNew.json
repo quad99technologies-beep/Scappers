@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521064963@103198@101196495@2974@101006@203963",
+    "skuName": "PYRIDIUM 200 MG TABLET 10",
+    "composition": "PHENAZOPYRIDINE TABLET 200 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "MENARINI INDIA",
+    "scheduleFlag": "0",
+    "mrp": "151.95",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.20"
+  },
+  {
+    "hiddenId": "1521064961@73466@101167534@1846@101006@203963",
+    "skuName": "PYRIDIUM (PFIZER) 100 MG TABLET 10",
+    "composition": "PHENAZOPYRIDINE TABLET 100 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "PFIZER LTD",
+    "scheduleFlag": "0",
+    "mrp": "151.95",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.20"
+  }
+]

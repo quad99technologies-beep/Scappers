@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "EPSOD",
+    "packSize": "60",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "50.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.85"
+  },
+  {
+    "brandName": "NEUTOIN",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "8.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.88"
+  },
+  {
+    "brandName": "EPTOIN",
+    "packSize": "150",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "133.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.89"
+  }
+]

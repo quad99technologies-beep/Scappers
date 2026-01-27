@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521004601@195009@101101722@1846@101006@205863",
+    "skuName": "BACSTOL 100 MG TABLET 10",
+    "composition": "TRIMETHOPRIM TABLET 100 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "scheduleFlag": "0",
+    "mrp": "120.05",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.01"
+  },
+  {
+    "hiddenId": "1521004594@209627@101101722@2974@101006@205863",
+    "skuName": "BACSTOL 200 MG TABLET 10",
+    "composition": "TRIMETHOPRIM TABLET 200 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "scheduleFlag": "0",
+    "mrp": "173.25",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.33"
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "NUVALCY",
+    "packSize": "10",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "VALAMAC",
+    "packSize": "3",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.19"
+  },
+  {
+    "brandName": "VALCLOVIR",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "453.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.30"
+  },
+  {
+    "brandName": "VALCET",
+    "packSize": "3",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "147.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.16"
+  },
+  {
+    "brandName": "HERPIVAL",
+    "packSize": "3",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "164.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "54.69"
+  },
+  {
+    "brandName": "VALANEXT",
+    "packSize": "3",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "166.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "55.34"
+  },
+  {
+    "brandName": "ZIMIVIR",
+    "packSize": "3",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "170.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.83"
+  },
+  {
+    "brandName": "VALAVIR",
+    "packSize": "3",
+    "company": "CIPLA LTD.",
+    "brandMrp": "176.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.67"
+  },
+  {
+    "brandName": "VALTOVAL",
+    "packSize": "3",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "199.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "66.56"
+  },
+  {
+    "brandName": "VALCIVIR",
+    "packSize": "3",
+    "company": "CIPLA LTD.",
+    "brandMrp": "230.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "76.86"
+  }
+]

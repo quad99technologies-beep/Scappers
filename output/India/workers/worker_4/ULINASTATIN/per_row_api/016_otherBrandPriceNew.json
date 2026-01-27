@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "U BET",
+    "packSize": "5",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "2000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "400.00"
+  },
+  {
+    "brandName": "ULITRYP",
+    "packSize": "4",
+    "company": "BHARAT SERUMS & VACCINES LTD",
+    "brandMrp": "2247.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "561.75"
+  },
+  {
+    "brandName": "EULIP",
+    "packSize": "5",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "3200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "640.00"
+  },
+  {
+    "brandName": "U BET",
+    "packSize": "5",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "3566.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "713.24"
+  },
+  {
+    "brandName": "ULINAFIC",
+    "packSize": "5",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "3795.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "759.10"
+  },
+  {
+    "brandName": "GENSTATIN",
+    "packSize": "4",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "4311.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1077.89"
+  },
+  {
+    "brandName": "ULINAFIT",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "1332.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1332.37"
+  },
+  {
+    "brandName": "ULIFAST",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "1477.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1477.00"
+  },
+  {
+    "brandName": "ULINAFORCE",
+    "packSize": "1",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "2145.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2145.00"
+  },
+  {
+    "brandName": "MIRATRYP",
+    "packSize": "1",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "3290.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3290.00"
+  },
+  {
+    "brandName": "ULINICEL",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "3300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3300.00"
+  },
+  {
+    "brandName": "UPXIGA",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "4209.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4209.15"
+  }
+]

@@ -1,0 +1,130 @@
+[
+  {
+    "brandName": "TRIPLEX",
+    "packSize": "10",
+    "company": "AARPIK REMEDIES PVT.LTD.",
+    "brandMrp": "28.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  },
+  {
+    "brandName": "AMYPRES",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "31.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.15"
+  },
+  {
+    "brandName": "LATILIN",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "42.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.27"
+  },
+  {
+    "brandName": "AMITRIP",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "44.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.42"
+  },
+  {
+    "brandName": "AMITONE",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "50.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.05"
+  },
+  {
+    "brandName": "SHINE",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "51.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.17"
+  },
+  {
+    "brandName": "TYPLIN",
+    "packSize": "10",
+    "company": "STERKEM",
+    "brandMrp": "54.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.44"
+  },
+  {
+    "brandName": "AMICON",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "55.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.58"
+  },
+  {
+    "brandName": "AMITRIL",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "57.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.70"
+  },
+  {
+    "brandName": "AMITRYN",
+    "packSize": "10",
+    "company": "K.C LABORATORIES",
+    "brandMrp": "57.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.70"
+  },
+  {
+    "brandName": "RELIDEP",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "57.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.72"
+  },
+  {
+    "brandName": "VIVAX",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "57.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.72"
+  },
+  {
+    "brandName": "ELIWEL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "58.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.81"
+  },
+  {
+    "brandName": "TRYPTOMER",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "58.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.81"
+  },
+  {
+    "brandName": "TRIPLENT",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "58.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.82"
+  },
+  {
+    "brandName": "TRIPTAZ",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "59.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.94"
+  }
+]

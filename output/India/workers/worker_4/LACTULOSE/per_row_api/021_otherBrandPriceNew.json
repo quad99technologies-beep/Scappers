@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "HEPTULAC",
+    "packSize": "100",
+    "company": "CIPLA LTD.",
+    "brandMrp": "99.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.00"
+  },
+  {
+    "brandName": "HEPTULAC",
+    "packSize": "200",
+    "company": "CIPLA LTD.",
+    "brandMrp": "206.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.03"
+  },
+  {
+    "brandName": "EVICT XF",
+    "packSize": "180",
+    "company": "ALBERT DAVID",
+    "brandMrp": "368.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.05"
+  },
+  {
+    "brandName": "EVICT XF",
+    "packSize": "90",
+    "company": "ALBERT DAVID",
+    "brandMrp": "209.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.33"
+  }
+]

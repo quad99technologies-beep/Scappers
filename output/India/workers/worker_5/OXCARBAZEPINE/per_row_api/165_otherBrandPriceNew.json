@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "OXRING",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "296.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.63"
+  },
+  {
+    "brandName": "SELZIC",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "389.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.96"
+  },
+  {
+    "brandName": "OLEPTAL",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "500.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.06"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "CLOPITAB",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "139.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.99"
+  },
+  {
+    "brandName": "CLAVIX",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "160.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.10"
+  },
+  {
+    "brandName": "CLOPILET",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "175.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.54"
+  },
+  {
+    "brandName": "DEPLATT",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "206.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.62"
+  },
+  {
+    "brandName": "CLOPI",
+    "packSize": "4",
+    "company": "LUPIN LTD",
+    "brandMrp": "111.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.79"
+  },
+  {
+    "brandName": "CLOPITAB",
+    "packSize": "4",
+    "company": "LUPIN LTD",
+    "brandMrp": "119.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.75"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "3-KAT",
+    "packSize": "10",
+    "company": "SHRRISHTI HEALTHCARE",
+    "brandMrp": "118.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.83"
+  },
+  {
+    "brandName": "FLAVIROZ OD",
+    "packSize": "10",
+    "company": "ESWAR THERAPEUTICS PVT.LTD",
+    "brandMrp": "173.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.34"
+  },
+  {
+    "brandName": "TRIMACONTIN",
+    "packSize": "10",
+    "company": "MODI MUNDI PHARMA PVT LTD",
+    "brandMrp": "303.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.33"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "MINOZ",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "267.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.72"
+  },
+  {
+    "brandName": "MINYM",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "281.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.13"
+  },
+  {
+    "brandName": "MINONIL",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "290.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.06"
+  }
+]

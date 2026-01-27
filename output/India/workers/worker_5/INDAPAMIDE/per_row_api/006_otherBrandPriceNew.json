@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "DIURIX",
+    "packSize": "10",
+    "company": "BAL PHARMA",
+    "brandMrp": "50.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.06"
+  },
+  {
+    "brandName": "NATRILIX",
+    "packSize": "10",
+    "company": "SERDIA PHARMACEUTICALS (INDIA) PVT. LTD.",
+    "brandMrp": "104.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.45"
+  },
+  {
+    "brandName": "INDIPIL",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "LORVAS",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "139.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.00"
+  }
+]

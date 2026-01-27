@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "TERBIMAX",
+    "packSize": "15",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "98.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "LAMIFIN",
+    "packSize": "20",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "152.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.60"
+  },
+  {
+    "brandName": "AFTER",
+    "packSize": "15",
+    "company": "PALSONS DERMA PVT. LTD",
+    "brandMrp": "157.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.49"
+  }
+]

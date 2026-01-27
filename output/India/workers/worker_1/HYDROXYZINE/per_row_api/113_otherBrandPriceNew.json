@@ -1,0 +1,130 @@
+[
+  {
+    "brandName": "HYDIL",
+    "packSize": "100",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.45"
+  },
+  {
+    "brandName": "HISTASAFE",
+    "packSize": "100",
+    "company": "MYPHER PHARMACEUTICALS LLP.LTD",
+    "brandMrp": "52.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.53"
+  },
+  {
+    "brandName": "AROTEX",
+    "packSize": "100",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.55"
+  },
+  {
+    "brandName": "AXARIA",
+    "packSize": "100",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.75"
+  },
+  {
+    "brandName": "VISTARAX",
+    "packSize": "100",
+    "company": "PRISM LIFESCIENCE",
+    "brandMrp": "77.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.77"
+  },
+  {
+    "brandName": "ATAZIS",
+    "packSize": "100",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "79.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.79"
+  },
+  {
+    "brandName": "AVERZINE",
+    "packSize": "100",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.80"
+  },
+  {
+    "brandName": "HIZET",
+    "packSize": "100",
+    "company": "TALENT INDIA",
+    "brandMrp": "79.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.80"
+  },
+  {
+    "brandName": "VISTARAX",
+    "packSize": "50",
+    "company": "PRISM LIFESCIENCE",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.80"
+  },
+  {
+    "brandName": "HYNORAX",
+    "packSize": "100",
+    "company": "BENNET PHARMACEUTICALS LIMITED",
+    "brandMrp": "81.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.82"
+  },
+  {
+    "brandName": "HYDROX (MONICHEM)",
+    "packSize": "100",
+    "company": "MONICHEM HEALTHCARE PVT LTD",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.84"
+  },
+  {
+    "brandName": "PRUTRAX",
+    "packSize": "100",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.84"
+  },
+  {
+    "brandName": "HICOPE",
+    "packSize": "100",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "89.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.89"
+  },
+  {
+    "brandName": "HYRAX",
+    "packSize": "100",
+    "company": "PALSONS DERMA PVT. LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.93"
+  },
+  {
+    "brandName": "PRU",
+    "packSize": "100",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "108.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.08"
+  },
+  {
+    "brandName": "HISTAOVER",
+    "packSize": "100",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "122.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.23"
+  }
+]

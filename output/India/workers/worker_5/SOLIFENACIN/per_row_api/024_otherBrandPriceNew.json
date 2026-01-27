@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "SOLIFENAC",
+    "packSize": "10",
+    "company": "STERIS HEALTHCARE",
+    "brandMrp": "215.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.50"
+  },
+  {
+    "brandName": "SOLINOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "287.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.70"
+  },
+  {
+    "brandName": "SOLBEG",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "340.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.02"
+  },
+  {
+    "brandName": "VESILIFE",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "349.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.91"
+  },
+  {
+    "brandName": "SOLIFIRST",
+    "packSize": "10",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "440.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.00"
+  },
+  {
+    "brandName": "SOLIDIF",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "502.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.23"
+  },
+  {
+    "brandName": "SOLIKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "539.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.91"
+  },
+  {
+    "brandName": "SOLICEPT",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "905.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "60.35"
+  },
+  {
+    "brandName": "SOLIACT",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "944.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.96"
+  },
+  {
+    "brandName": "BISPEC",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "964.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "64.30"
+  }
+]

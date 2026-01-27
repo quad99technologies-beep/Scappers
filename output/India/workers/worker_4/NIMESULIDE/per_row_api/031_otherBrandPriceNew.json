@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "NIMUBEN",
+    "packSize": "10",
+    "company": "LEBEN LABORATORIES PVT.LTD",
+    "brandMrp": "20.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  },
+  {
+    "brandName": "NEOPAR MD",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "28.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  },
+  {
+    "brandName": "NIMGET",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "46.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.65"
+  },
+  {
+    "brandName": "NOBEL",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "54.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.44"
+  },
+  {
+    "brandName": "NICIP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "62.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.24"
+  },
+  {
+    "brandName": "NISE MDT",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "99.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.98"
+  }
+]

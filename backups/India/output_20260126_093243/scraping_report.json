@@ -1,0 +1,22 @@
+{
+  "scraper": "India NPPA Pharma Sahi Daam",
+  "generated_at": "2026-01-25T16:31:44.984706",
+  "duration_seconds": 40.54,
+  "duration_formatted": "0h 0m 40s",
+  "summary": {
+    "total_formulations_input": 1,
+    "formulations_terminal": 1,
+    "formulations_success": 0,
+    "formulations_zero_records": 1,
+    "formulations_failed": 0,
+    "formulations_remaining": 0,
+    "total_medicines_processed": 0,
+    "total_substitute_rows": 0,
+    "errors": 0
+  },
+  "output_files": {
+    "details_csvs": 1,
+    "total_detail_rows": 6
+  },
+  "output_directory": "D:\\quad99\\Scappers\\output\\India"
+}

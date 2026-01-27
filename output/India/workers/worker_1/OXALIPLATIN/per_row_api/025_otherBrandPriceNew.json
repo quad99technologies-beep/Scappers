@@ -1,0 +1,154 @@
+[
+  {
+    "brandName": "OXYREA (NEO)",
+    "packSize": "25",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "1022.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.90"
+  },
+  {
+    "brandName": "OXALTOR",
+    "packSize": "25",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "1369.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "54.76"
+  },
+  {
+    "brandName": "OXALTERO",
+    "packSize": "25",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "2345.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "93.80"
+  },
+  {
+    "brandName": "OXITOZ",
+    "packSize": "25",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "2345.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "93.83"
+  },
+  {
+    "brandName": "OXA(EMC)",
+    "packSize": "25",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "2386.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "95.46"
+  },
+  {
+    "brandName": "KINAPLAT",
+    "packSize": "25",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "2501.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "100.08"
+  },
+  {
+    "brandName": "CELDACH",
+    "packSize": "10",
+    "company": "CELON LABS",
+    "brandMrp": "1062.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "106.25"
+  },
+  {
+    "brandName": "NEOXAL",
+    "packSize": "25",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "2666.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "106.67"
+  },
+  {
+    "brandName": "OXITAN",
+    "packSize": "25",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "2735.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "109.42"
+  },
+  {
+    "brandName": "OXALIPTIN",
+    "packSize": "25",
+    "company": "INNOVA LIFESCIENCE",
+    "brandMrp": "2800.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "112.00"
+  },
+  {
+    "brandName": "XALIPAT",
+    "packSize": "25",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "3029.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "121.16"
+  },
+  {
+    "brandName": "OXOPLAN",
+    "packSize": "10",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "1322.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "132.21"
+  },
+  {
+    "brandName": "OXALIPLATIN FOR",
+    "packSize": "20",
+    "company": "CIPLA LTD.",
+    "brandMrp": "2692.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "134.62"
+  },
+  {
+    "brandName": "OXPLA",
+    "packSize": "10",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "1784.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "178.41"
+  },
+  {
+    "brandName": "DACOTIN",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "2091.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "209.19"
+  },
+  {
+    "brandName": "MEGAPLAT",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "2091.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "209.19"
+  },
+  {
+    "brandName": "DACOTIN RTU",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "2345.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "234.54"
+  },
+  {
+    "brandName": "OXIPLAT",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "2345.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "234.55"
+  },
+  {
+    "brandName": "SOXPLAT (MYLAN)",
+    "packSize": "10",
+    "company": "VIATRIS",
+    "brandMrp": "2579.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "257.90"
+  }
+]

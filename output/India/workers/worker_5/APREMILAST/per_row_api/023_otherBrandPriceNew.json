@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "APLEX (AJANTA)",
+    "packSize": "13",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "195.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "APRETAS",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.88"
+  },
+  {
+    "brandName": "APREMIST",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "206.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.63"
+  },
+  {
+    "brandName": "ARTHLAST",
+    "packSize": "10",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.00"
+  },
+  {
+    "brandName": "MPRILA",
+    "packSize": "10",
+    "company": "VIATRIS",
+    "brandMrp": "255.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.59"
+  },
+  {
+    "brandName": "APRENEXT",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "289.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.97"
+  },
+  {
+    "brandName": "RIASIS",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "302.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.25"
+  },
+  {
+    "brandName": "APXENTA",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "305.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.56"
+  },
+  {
+    "brandName": "ALIZAP",
+    "packSize": "10",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "311.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.17"
+  },
+  {
+    "brandName": "APREZO",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "333.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.38"
+  },
+  {
+    "brandName": "APRAIZE",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "334.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.50"
+  }
+]

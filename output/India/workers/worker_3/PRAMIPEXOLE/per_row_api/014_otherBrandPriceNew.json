@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "MOVEXOL",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "52.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.20"
+  },
+  {
+    "brandName": "PRAMIXOLE (STERIS)",
+    "packSize": "10",
+    "company": "STERIS HEALTHCARE",
+    "brandMrp": "58.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.80"
+  },
+  {
+    "brandName": "PRTXOL",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "75.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.59"
+  },
+  {
+    "brandName": "EXOLEM",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "77.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.77"
+  },
+  {
+    "brandName": "PRAMI",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "78.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.87"
+  },
+  {
+    "brandName": "PEXOPRAM",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "PRAMIRISE",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "101.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.18"
+  },
+  {
+    "brandName": "PRAMIPEX",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "106.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.64"
+  },
+  {
+    "brandName": "PRAMISET",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "109.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "brandName": "PRAMIROL",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "124.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.47"
+  },
+  {
+    "brandName": "MIRATOR",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "131.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.13"
+  },
+  {
+    "brandName": "PREXOL",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "161.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.19"
+  }
+]

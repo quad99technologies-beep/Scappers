@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "BLUSHWAY",
+    "packSize": "100",
+    "company": "SMARTWAY WELLNESS PVT. LTD.",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.10"
+  },
+  {
+    "brandName": "GLYSEB",
+    "packSize": "250",
+    "company": "MARK INDIA",
+    "brandMrp": "325.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.30"
+  },
+  {
+    "brandName": "BLUSHWAY",
+    "packSize": "10",
+    "company": "SMARTWAY WELLNESS PVT. LTD.",
+    "brandMrp": "14.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.48"
+  },
+  {
+    "brandName": "MEGLOW GLYCERIN",
+    "packSize": "100",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "245.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.45"
+  }
+]

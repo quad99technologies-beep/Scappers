@@ -1,0 +1,186 @@
+[
+  {
+    "brandName": "DITIN",
+    "packSize": "10",
+    "company": "CONCEPT BIOSCIENCES PVT LTD",
+    "brandMrp": "13.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.38"
+  },
+  {
+    "brandName": "INORINE",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "29.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.99"
+  },
+  {
+    "brandName": "DROTAPIL",
+    "packSize": "10",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "DOTRACID",
+    "packSize": "10",
+    "company": "INTRA LABS",
+    "brandMrp": "41.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.19"
+  },
+  {
+    "brandName": "DROZIVER",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "44.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.45"
+  },
+  {
+    "brandName": "OZOSPAS",
+    "packSize": "10",
+    "company": "OZONE PHARMACEUTICALS",
+    "brandMrp": "48.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.88"
+  },
+  {
+    "brandName": "DIN",
+    "packSize": "10",
+    "company": "MAPRA LABORATORIES PVT. LTD",
+    "brandMrp": "51.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.20"
+  },
+  {
+    "brandName": "COLICURE (MARC)",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "ANTISPASMIN",
+    "packSize": "10",
+    "company": "STADMED PVT. LTD",
+    "brandMrp": "62.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.20"
+  },
+  {
+    "brandName": "DROTAS",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "63.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.30"
+  },
+  {
+    "brandName": "MAROR DS",
+    "packSize": "10",
+    "company": "RAVIAN PHARMACEUTICALS PVT LTD",
+    "brandMrp": "63.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.38"
+  },
+  {
+    "brandName": "DROMIS",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "82.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.20"
+  },
+  {
+    "brandName": "DROTIKIND",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "90.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.04"
+  },
+  {
+    "brandName": "DROT",
+    "packSize": "10",
+    "company": "MAPRA LABORATORIES PVT. LTD",
+    "brandMrp": "91.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.10"
+  },
+  {
+    "brandName": "DIN DS",
+    "packSize": "10",
+    "company": "MAPRA LABORATORIES PVT. LTD",
+    "brandMrp": "93.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.34"
+  },
+  {
+    "brandName": "ANTISPASMIN",
+    "packSize": "10",
+    "company": "STADMED PVT. LTD",
+    "brandMrp": "96.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.66"
+  },
+  {
+    "brandName": "DOVERIN",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "109.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.92"
+  },
+  {
+    "brandName": "DECOLIC",
+    "packSize": "10",
+    "company": "KONTEST CHEMICALS LTD.",
+    "brandMrp": "109.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "brandName": "DROVOTAS",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "111.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.13"
+  },
+  {
+    "brandName": "MS SPA",
+    "packSize": "10",
+    "company": "ASTRUM HEALTHCARE PVT. LTD.",
+    "brandMrp": "126.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.60"
+  },
+  {
+    "brandName": "SPADROT",
+    "packSize": "10",
+    "company": "DEYS MEDICAL",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.66"
+  },
+  {
+    "brandName": "DROTACHEK",
+    "packSize": "15",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "230.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.37"
+  },
+  {
+    "brandName": "DROTIN",
+    "packSize": "15",
+    "company": "WALTER BUSHNELL",
+    "brandMrp": "254.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.96"
+  }
+]

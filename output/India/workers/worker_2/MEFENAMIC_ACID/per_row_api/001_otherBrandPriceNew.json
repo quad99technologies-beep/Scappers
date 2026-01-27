@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "IBUCLIN P",
+    "packSize": "60",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "32.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.55"
+  },
+  {
+    "brandName": "MEFANORM",
+    "packSize": "60",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "brandMrp": "33.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.57"
+  },
+  {
+    "brandName": "MEFTAL P",
+    "packSize": "100",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "58.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.58"
+  },
+  {
+    "brandName": "MEFTAL P",
+    "packSize": "60",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "34.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.58"
+  },
+  {
+    "brandName": "MEFENTOD",
+    "packSize": "60",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "35.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.59"
+  },
+  {
+    "brandName": "MEFAST",
+    "packSize": "60",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "35.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.60"
+  },
+  {
+    "brandName": "MEFKIND P",
+    "packSize": "60",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "35.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.60"
+  },
+  {
+    "brandName": "RXMEF",
+    "packSize": "60",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "35.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.60"
+  },
+  {
+    "brandName": "MEFNIWEL",
+    "packSize": "60",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "37.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.63"
+  }
+]

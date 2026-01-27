@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "ESIVAC",
+    "packSize": "200",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "216.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.08"
+  },
+  {
+    "brandName": "DUPHALAC",
+    "packSize": "300",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "393.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "IOPROST",
+    "packSize": "2",
+    "company": "FDC LTD.",
+    "brandMrp": "207.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "69.21"
+  },
+  {
+    "brandName": "ELDIPROST",
+    "packSize": "2",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "227.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "75.83"
+  },
+  {
+    "brandName": "XALATAN",
+    "packSize": "2",
+    "company": "VIATRIS",
+    "brandMrp": "596.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "198.84"
+  }
+]

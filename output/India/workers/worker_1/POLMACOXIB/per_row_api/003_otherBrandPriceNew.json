@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "POLFALIX",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "111.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.16"
+  },
+  {
+    "brandName": "POLMAKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "112.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.20"
+  },
+  {
+    "brandName": "POLVOLT",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "148.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.81"
+  },
+  {
+    "brandName": "VEIL",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "PAINVON",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "PALOCAP",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "157.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.75"
+  },
+  {
+    "brandName": "POLMAZ",
+    "packSize": "10",
+    "company": "ENERGIZE PHARMACEUTICALS P.LTD",
+    "brandMrp": "157.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.75"
+  },
+  {
+    "brandName": "POLMAXIB",
+    "packSize": "10",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "169.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.90"
+  },
+  {
+    "brandName": "HISAKA",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "169.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.00"
+  },
+  {
+    "brandName": "POGES",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "178.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "POLIEXAR",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "181.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.15"
+  }
+]

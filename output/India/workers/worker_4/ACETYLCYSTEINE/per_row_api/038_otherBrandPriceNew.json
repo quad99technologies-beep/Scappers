@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "ATYCY",
+    "packSize": "5",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "110.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.13"
+  },
+  {
+    "brandName": "MUCOSYS",
+    "packSize": "5",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "110.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.13"
+  },
+  {
+    "brandName": "MUCOTROY",
+    "packSize": "5",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "126.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.22"
+  },
+  {
+    "brandName": "MUCOMIX",
+    "packSize": "5",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "126.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.24"
+  },
+  {
+    "brandName": "MUCYST",
+    "packSize": "5",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "126.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.24"
+  },
+  {
+    "brandName": "NACEL",
+    "packSize": "5",
+    "company": "CELON LABS",
+    "brandMrp": "132.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.40"
+  }
+]

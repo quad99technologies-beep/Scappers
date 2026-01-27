@@ -1,0 +1,226 @@
+[
+  {
+    "brandName": "OXAQUEST",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "82.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.20"
+  },
+  {
+    "brandName": "EPOCARB",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "93.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.31"
+  },
+  {
+    "brandName": "ZEPOX (CONSERN)",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "95.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "LOVAX",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "193.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.89"
+  },
+  {
+    "brandName": "OXAEV",
+    "packSize": "10",
+    "company": "EVEREN HEALTHCARE PVT.LTD",
+    "brandMrp": "149.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.91"
+  },
+  {
+    "brandName": "EOPTAL",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "171.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.17"
+  },
+  {
+    "brandName": "EPIGOLD",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "176.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.67"
+  },
+  {
+    "brandName": "OXELTRA",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "181.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.12"
+  },
+  {
+    "brandName": "SELZIC",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "188.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.85"
+  },
+  {
+    "brandName": "OXACENT",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "191.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.10"
+  },
+  {
+    "brandName": "XBAREN",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "192.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.22"
+  },
+  {
+    "brandName": "OXAHET",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "193.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.35"
+  },
+  {
+    "brandName": "CARBANERVE",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "194.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.48"
+  },
+  {
+    "brandName": "OXCARB",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "209.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.91"
+  },
+  {
+    "brandName": "EPNOX",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "210.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.09"
+  },
+  {
+    "brandName": "OXALEPSY",
+    "packSize": "10",
+    "company": "TRIKO PHARMACEUTICALS",
+    "brandMrp": "217.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.75"
+  },
+  {
+    "brandName": "OXELTRA",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "219.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.92"
+  },
+  {
+    "brandName": "OXALEPSY",
+    "packSize": "10",
+    "company": "TRIKO PHARMACEUTICALS",
+    "brandMrp": "220.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.03"
+  },
+  {
+    "brandName": "OXETOL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "220.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.03"
+  },
+  {
+    "brandName": "OXSAL",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "220.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.03"
+  },
+  {
+    "brandName": "OXRING",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "242.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.28"
+  },
+  {
+    "brandName": "OLEPTAL",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "246.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.67"
+  },
+  {
+    "brandName": "ZENOXA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "253.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.36"
+  },
+  {
+    "brandName": "ZENOXA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "257.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.71"
+  },
+  {
+    "brandName": "OLEPTAL",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "270.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.04"
+  },
+  {
+    "brandName": "AUXMET",
+    "packSize": "10",
+    "company": "AURUM LIFE SCIENCE PVT. LTD.",
+    "brandMrp": "271.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.19"
+  },
+  {
+    "brandName": "TRIOPTAL",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "295.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.50"
+  },
+  {
+    "brandName": "VINLEP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "298.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.89"
+  }
+]

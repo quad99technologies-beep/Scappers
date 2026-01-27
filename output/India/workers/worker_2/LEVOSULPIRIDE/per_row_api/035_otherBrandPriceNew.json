@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LEVORIDE",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "NEXIPRIDE",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "190.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.00"
+  },
+  {
+    "brandName": "LEVIPRIDE",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "251.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.13"
+  }
+]

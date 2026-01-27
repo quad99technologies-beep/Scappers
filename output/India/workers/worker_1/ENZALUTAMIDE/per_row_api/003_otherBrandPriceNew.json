@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ENZYL",
+    "packSize": "14",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "6037.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "431.25"
+  },
+  {
+    "brandName": "GLENZA",
+    "packSize": "14",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "6093.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "435.27"
+  },
+  {
+    "brandName": "ENZAMIDE",
+    "packSize": "14",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "10781.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "770.09"
+  }
+]

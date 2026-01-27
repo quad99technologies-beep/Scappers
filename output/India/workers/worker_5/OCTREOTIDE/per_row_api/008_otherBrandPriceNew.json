@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "OCTRIDE",
+    "packSize": "1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "23937.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23937.00"
+  },
+  {
+    "brandName": "SOMALINX",
+    "packSize": "1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "36000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36000.00"
+  },
+  {
+    "brandName": "SANDOSTATIN LAR",
+    "packSize": "1",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "45120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45120.00"
+  }
+]

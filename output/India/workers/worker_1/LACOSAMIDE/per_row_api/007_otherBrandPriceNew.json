@@ -1,0 +1,178 @@
+[
+  {
+    "brandName": "LACOSURE",
+    "packSize": "10",
+    "company": "STRIDES SHASUN LIMITED",
+    "brandMrp": "63.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.37"
+  },
+  {
+    "brandName": "COSLO",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "65.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.59"
+  },
+  {
+    "brandName": "LACORON",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "72.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.21"
+  },
+  {
+    "brandName": "LACONEXT",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "72.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.23"
+  },
+  {
+    "brandName": "SEIZAMIDE",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "74.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.45"
+  },
+  {
+    "brandName": "LACOSID",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "LICOTAR",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "LACOPSY",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "78.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.86"
+  },
+  {
+    "brandName": "LACOVE",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "81.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.13"
+  },
+  {
+    "brandName": "VERSOLAC",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "86.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.61"
+  },
+  {
+    "brandName": "LACOXA",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "86.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.64"
+  },
+  {
+    "brandName": "LACOPTAL",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.91"
+  },
+  {
+    "brandName": "GLADLAC",
+    "packSize": "10",
+    "company": "GLADSTONE PHARMA INDIA PVT.LTD",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "LACOTIDE",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "93.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.33"
+  },
+  {
+    "brandName": "LACORATE",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "98.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.80"
+  },
+  {
+    "brandName": "LACONEXT",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "148.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.91"
+  },
+  {
+    "brandName": "LACOSET",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "101.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "SEIZLAC",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.50"
+  },
+  {
+    "brandName": "SIZLAC",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.50"
+  },
+  {
+    "brandName": "LACOSAM",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "164.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.99"
+  },
+  {
+    "brandName": "LACOTAB",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "137.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.80"
+  },
+  {
+    "brandName": "SEIZGARD",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "179.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.93"
+  }
+]

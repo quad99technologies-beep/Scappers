@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "LOTUS",
+    "packSize": "30",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "61.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.05"
+  },
+  {
+    "brandName": "LANSOZ",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "43.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.34"
+  },
+  {
+    "brandName": "LP",
+    "packSize": "10",
+    "company": "WAVES BIOTECH PVT. LTD.",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "LONIDO",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "84.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.43"
+  },
+  {
+    "brandName": "LANZOL",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "102.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.21"
+  },
+  {
+    "brandName": "LAN",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "144.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.44"
+  },
+  {
+    "brandName": "LANSPRO",
+    "packSize": "15",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "353.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.56"
+  }
+]

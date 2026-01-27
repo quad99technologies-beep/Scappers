@@ -1,0 +1,114 @@
+[
+  {
+    "brandName": "HALDOL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "43.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.37"
+  },
+  {
+    "brandName": "HALOP",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "44.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.47"
+  },
+  {
+    "brandName": "QUTZAL",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "44.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.49"
+  },
+  {
+    "brandName": "TRIKONACE",
+    "packSize": "10",
+    "company": "TRIKO PHARMACEUTICALS",
+    "brandMrp": "45.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.52"
+  },
+  {
+    "brandName": "SERENACE",
+    "packSize": "10",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "48.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.82"
+  },
+  {
+    "brandName": "ANDOL",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "50.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.01"
+  },
+  {
+    "brandName": "BENZYDOL P",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "50.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.01"
+  },
+  {
+    "brandName": "NEDOL",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "50.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.01"
+  },
+  {
+    "brandName": "KIVIDOL",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "50.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.09"
+  },
+  {
+    "brandName": "SERENACE",
+    "packSize": "20",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "101.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.09"
+  },
+  {
+    "brandName": "AGIDOL",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "51.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.10"
+  },
+  {
+    "brandName": "HALOBID",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "50.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.10"
+  },
+  {
+    "brandName": "RELINASE",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "51.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.10"
+  },
+  {
+    "brandName": "TALENDOL",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "51.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.11"
+  }
+]

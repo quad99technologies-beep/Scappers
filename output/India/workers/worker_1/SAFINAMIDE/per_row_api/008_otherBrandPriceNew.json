@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "SAFION",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "160.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.08"
+  },
+  {
+    "brandName": "SAFIMAO",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "170.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.06"
+  },
+  {
+    "brandName": "XAFINACT",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "170.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.06"
+  }
+]

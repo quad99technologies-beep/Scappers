@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521010706@195358@101111190@3719@101101@201626",
+    "skuName": "ACNEDAP 5 % GEL 15 GM",
+    "composition": "DAPSONE GEL 5 %",
+    "packSize": "15 GM GEL",
+    "dosageForm": "GEL",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "530.03",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.34"
+  },
+  {
+    "hiddenId": "1521001026@207772@101101033@3719@101101@201626",
+    "skuName": "ACNEWAR 5 % GEL 15 GM",
+    "composition": "DAPSONE GEL 5 %",
+    "packSize": "15 GM GEL",
+    "dosageForm": "GEL",
+    "ceilingPrice": "-1",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "scheduleFlag": "0",
+    "mrp": "270.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.00"
+  },
+  {
+    "hiddenId": "1521014562@11671@101121662@1846@101006@201626",
+    "skuName": "DAPSONE 100 MG TABLET 1000",
+    "composition": "DAPSONE TABLET 100 MG",
+    "packSize": "1000 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "0.42",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "scheduleFlag": "1",
+    "mrp": "437.99",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.44"
+  }
+]

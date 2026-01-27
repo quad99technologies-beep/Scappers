@@ -1,0 +1,114 @@
+[
+  {
+    "brandName": "STEDICIN",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "36.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.66"
+  },
+  {
+    "brandName": "STUZINE",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "37.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.79"
+  },
+  {
+    "brandName": "CINZINE",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "38.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.85"
+  },
+  {
+    "brandName": "GOVERT (TAS MED)",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "52.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.24"
+  },
+  {
+    "brandName": "CINAVER",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "53.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.35"
+  },
+  {
+    "brandName": "SIGCINAR",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "71.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.13"
+  },
+  {
+    "brandName": "DIZIGO",
+    "packSize": "10",
+    "company": "MEDISUN PHARMA",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "KVERT PLUS",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "75.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.58"
+  },
+  {
+    "brandName": "VERTIZINE",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "CINTIGO",
+    "packSize": "10",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "91.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.14"
+  },
+  {
+    "brandName": "DIZIRON",
+    "packSize": "20",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "185.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "KVERT",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "96.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.69"
+  },
+  {
+    "brandName": "VERTIGON",
+    "packSize": "10",
+    "company": "GENO PHARMACEUTICALS LTD",
+    "brandMrp": "109.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.92"
+  },
+  {
+    "brandName": "STUGERON",
+    "packSize": "20",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "578.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.92"
+  }
+]

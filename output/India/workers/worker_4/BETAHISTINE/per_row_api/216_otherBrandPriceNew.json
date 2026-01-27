@@ -1,0 +1,642 @@
+[
+  {
+    "brandName": "ACTIVERT",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "7.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.75"
+  },
+  {
+    "brandName": "VERTISTOP",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "22.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.20"
+  },
+  {
+    "brandName": "HIXTIN",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "32.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.26"
+  },
+  {
+    "brandName": "CVERT",
+    "packSize": "10",
+    "company": "CHETHANA PHARMACEUTICALS",
+    "brandMrp": "33.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.39"
+  },
+  {
+    "brandName": "EMVERT",
+    "packSize": "10",
+    "company": "MEDICO LABS",
+    "brandMrp": "34.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.40"
+  },
+  {
+    "brandName": "NO DIZZ",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "35.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.50"
+  },
+  {
+    "brandName": "IVAHIST",
+    "packSize": "10",
+    "company": "IVA HEALTHCARE PVT.LTD",
+    "brandMrp": "36.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.66"
+  },
+  {
+    "brandName": "VERTIVERT",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "37.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.73"
+  },
+  {
+    "brandName": "KPVERT",
+    "packSize": "10",
+    "company": "ST. MORRISON",
+    "brandMrp": "38.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.81"
+  },
+  {
+    "brandName": "EUGID",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "39.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.90"
+  },
+  {
+    "brandName": "VERTOL",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "39.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.90"
+  },
+  {
+    "brandName": "BHIST",
+    "packSize": "10",
+    "company": "TYCOON PHARMACEUTICALS PVT LTD",
+    "brandMrp": "39.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.94"
+  },
+  {
+    "brandName": "VERTIFYL",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.00"
+  },
+  {
+    "brandName": "VERTICARE",
+    "packSize": "10",
+    "company": "STADCHEM OF INDIA",
+    "brandMrp": "41.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.13"
+  },
+  {
+    "brandName": "VERTIFORD",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "41.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.13"
+  },
+  {
+    "brandName": "LUMIHIST",
+    "packSize": "10",
+    "company": "SPECTRA THERAPEUTICS PVT. LTD.",
+    "brandMrp": "43.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.30"
+  },
+  {
+    "brandName": "DIVERT",
+    "packSize": "10",
+    "company": "MERIDIAN MEDICARE LTD.",
+    "brandMrp": "43.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.36"
+  },
+  {
+    "brandName": "MENI",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "44.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.49"
+  },
+  {
+    "brandName": "GIDIHIST",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "45.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.55"
+  },
+  {
+    "brandName": "B SURE",
+    "packSize": "10",
+    "company": "SURGE BIOTECH PVT LTD",
+    "brandMrp": "45.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.59"
+  },
+  {
+    "brandName": "VERTITREAT",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "46.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.60"
+  },
+  {
+    "brandName": "VERTIOFF",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "46.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.65"
+  },
+  {
+    "brandName": "VBETA",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "46.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.66"
+  },
+  {
+    "brandName": "BETLEODS",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "48.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.90"
+  },
+  {
+    "brandName": "MACVERT",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "48.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.90"
+  },
+  {
+    "brandName": "HISTAVERT",
+    "packSize": "15",
+    "company": "PULSE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "76.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.09"
+  },
+  {
+    "brandName": "MVERT",
+    "packSize": "10",
+    "company": "M.D.C. PHARMACEUTICALS (P) LTD.",
+    "brandMrp": "51.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.10"
+  },
+  {
+    "brandName": "EQUIVERT",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "54.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.44"
+  },
+  {
+    "brandName": "TORHISGO",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "54.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.45"
+  },
+  {
+    "brandName": "BETASPIN",
+    "packSize": "10",
+    "company": "OPSISCARE LIFESCIENCSE PVT LTD",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "VERTIHIST",
+    "packSize": "10",
+    "company": "SOLIS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "BERZIN",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "VERTIPLUS",
+    "packSize": "10",
+    "company": "SUNBERRY LIFESCIENCES PVT.LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "VERGONE",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "57.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.71"
+  },
+  {
+    "brandName": "EGEPTIN",
+    "packSize": "10",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "58.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.81"
+  },
+  {
+    "brandName": "VESBAL",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "59.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.95"
+  },
+  {
+    "brandName": "GB VERT",
+    "packSize": "10",
+    "company": "THEIA HEALTH CARE PVT.LTD",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "NEUVERT",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "60.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.01"
+  },
+  {
+    "brandName": "VERTISRIN",
+    "packSize": "10",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "60.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.09"
+  },
+  {
+    "brandName": "VERTIPRESS",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "61.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.12"
+  },
+  {
+    "brandName": "AVERT",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "61.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "BETPURE",
+    "packSize": "10",
+    "company": "ARRIENT HEALTHCARE PVT.LTD.",
+    "brandMrp": "61.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "INVERT",
+    "packSize": "10",
+    "company": "ANTHUS PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "63.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.38"
+  },
+  {
+    "brandName": "ELDATINE",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.50"
+  },
+  {
+    "brandName": "VERTICHECK",
+    "packSize": "10",
+    "company": "MACKENZIE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "65.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.52"
+  },
+  {
+    "brandName": "BETAHART",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "65.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "DIZYHOLD",
+    "packSize": "10",
+    "company": "EDOC LIFE SCIENCES",
+    "brandMrp": "65.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "BETAHIST",
+    "packSize": "10",
+    "company": "GENO PHARMACEUTICALS LTD",
+    "brandMrp": "65.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.59"
+  },
+  {
+    "brandName": "AVER",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "66.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.68"
+  },
+  {
+    "brandName": "BETACENT",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "69.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.96"
+  },
+  {
+    "brandName": "VICOTEN",
+    "packSize": "10",
+    "company": "LYCEUM LIFE SCIENCE PVT.LTD",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.03"
+  },
+  {
+    "brandName": "VERTIMINE",
+    "packSize": "10",
+    "company": "SURGE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "71.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.14"
+  },
+  {
+    "brandName": "BETAGOLD",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "72.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.22"
+  },
+  {
+    "brandName": "BETAVERT",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "72.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.22"
+  },
+  {
+    "brandName": "VTIAGO",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "74.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.41"
+  },
+  {
+    "brandName": "VERTIREST",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "74.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.44"
+  },
+  {
+    "brandName": "GOSPIN",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "74.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.49"
+  },
+  {
+    "brandName": "BETAFORD",
+    "packSize": "10",
+    "company": "OXFORD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "VERNIL (ICARUS)",
+    "packSize": "10",
+    "company": "ICARUS HEALTHCARE PRIMUS",
+    "brandMrp": "78.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.88"
+  },
+  {
+    "brandName": "BIOHISTIN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "79.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.91"
+  },
+  {
+    "brandName": "BETAHANS",
+    "packSize": "15",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "VERNATE",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "81.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.15"
+  },
+  {
+    "brandName": "VERBET",
+    "packSize": "10",
+    "company": "ALBERT DAVID",
+    "brandMrp": "81.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.17"
+  },
+  {
+    "brandName": "BVERT",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "82.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.25"
+  },
+  {
+    "brandName": "TOPVERT",
+    "packSize": "15",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "124.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.29"
+  },
+  {
+    "brandName": "CINABET",
+    "packSize": "15",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.33"
+  },
+  {
+    "brandName": "VERTIVA",
+    "packSize": "10",
+    "company": "IVA HEALTHCARE PVT.LTD",
+    "brandMrp": "84.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.40"
+  },
+  {
+    "brandName": "SPININ BETA",
+    "packSize": "15",
+    "company": "NULIFE PHARMACEUTICALS",
+    "brandMrp": "130.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.69"
+  },
+  {
+    "brandName": "DIZIBEAT",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "SOVERT",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "92.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.29"
+  },
+  {
+    "brandName": "BETAVERT",
+    "packSize": "15",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "141.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.44"
+  },
+  {
+    "brandName": "GIDILESS BETA",
+    "packSize": "10",
+    "company": "GOLD LINE",
+    "brandMrp": "94.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.47"
+  },
+  {
+    "brandName": "VERTIGONIL",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "94.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.48"
+  },
+  {
+    "brandName": "VECTRA (MARSHA)",
+    "packSize": "10",
+    "company": "MARSHA PHARMA",
+    "brandMrp": "98.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.84"
+  },
+  {
+    "brandName": "B STILL",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "99.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.96"
+  },
+  {
+    "brandName": "BETAZOX",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "114.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.46"
+  },
+  {
+    "brandName": "BETVERTIN",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.00"
+  },
+  {
+    "brandName": "VERTIN",
+    "packSize": "15",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "200.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.35"
+  },
+  {
+    "brandName": "ZEVERT",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "166.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.69"
+  },
+  {
+    "brandName": "ZEVERT MD",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "166.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.69"
+  }
+]

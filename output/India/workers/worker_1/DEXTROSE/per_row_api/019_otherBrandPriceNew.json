@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "10 D",
+    "packSize": "500",
+    "company": "CLARIS LIFESCIENCES LIMITED",
+    "brandMrp": "30.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.06"
+  },
+  {
+    "brandName": "DEXTROSE (AL-PLASTIC)",
+    "packSize": "500",
+    "company": "ALBERT DAVID",
+    "brandMrp": "36.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.07"
+  },
+  {
+    "brandName": "DEXTROSE (PDIL)",
+    "packSize": "500",
+    "company": "PARENTERAL DRUGS (INDIA) LTD.",
+    "brandMrp": "36.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.07"
+  },
+  {
+    "brandName": "DEXTROSE (NIRLIFE)",
+    "packSize": "500",
+    "company": "NIRLIFE HEALTHCARE",
+    "brandMrp": "90.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.18"
+  },
+  {
+    "brandName": "25 D",
+    "packSize": "100",
+    "company": "CLARIS LIFESCIENCES LIMITED",
+    "brandMrp": "18.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.19"
+  },
+  {
+    "brandName": "FRUCTODEX",
+    "packSize": "500",
+    "company": "RAPTAKOS BRETT & CO. LTD.",
+    "brandMrp": "195.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.39"
+  }
+]

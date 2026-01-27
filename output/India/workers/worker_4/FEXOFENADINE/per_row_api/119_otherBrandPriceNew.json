@@ -1,0 +1,530 @@
+[
+  {
+    "brandName": "FEXOQUIT",
+    "packSize": "60",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "114.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.90"
+  },
+  {
+    "brandName": "FEXODER",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "31.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.10"
+  },
+  {
+    "brandName": "FEXOLUP",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "31.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.13"
+  },
+  {
+    "brandName": "ALERICAD",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "31.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.15"
+  },
+  {
+    "brandName": "ODIFEX",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "32.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.25"
+  },
+  {
+    "brandName": "ALGROT",
+    "packSize": "10",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "38.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.84"
+  },
+  {
+    "brandName": "AIR",
+    "packSize": "10",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "56.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.62"
+  },
+  {
+    "brandName": "FEXOLEB",
+    "packSize": "10",
+    "company": "LEBEN LABORATORIES PVT.LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "ALLERGEGRA",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "ETHIFEX",
+    "packSize": "10",
+    "company": "ETHICARE REMEDIES",
+    "brandMrp": "67.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.71"
+  },
+  {
+    "brandName": "CNF PLUS",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "68.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.88"
+  },
+  {
+    "brandName": "LCFEX",
+    "packSize": "10",
+    "company": "RAPROSS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "69.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.94"
+  },
+  {
+    "brandName": "IBREX (CAD)",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "HISTAGRA",
+    "packSize": "10",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "73.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.32"
+  },
+  {
+    "brandName": "ALLERHIN D PLUS",
+    "packSize": "10",
+    "company": "EMBIOTIC LAB",
+    "brandMrp": "75.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.56"
+  },
+  {
+    "brandName": "FX 24",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "75.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.59"
+  },
+  {
+    "brandName": "FEXOPRIDE",
+    "packSize": "10",
+    "company": "INNOVATIVE PHARMACEUTICALS",
+    "brandMrp": "81.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.16"
+  },
+  {
+    "brandName": "FEXOCREST",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "92.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.20"
+  },
+  {
+    "brandName": "DELPODINE",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "95.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "HISTA (OBSURGE)",
+    "packSize": "10",
+    "company": "OBSURGE BIOTECH LTD",
+    "brandMrp": "95.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "ELIGRA",
+    "packSize": "10",
+    "company": "DWD PHARMACEUTICALS LTD",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.90"
+  },
+  {
+    "brandName": "ETOFEX",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "101.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.12"
+  },
+  {
+    "brandName": "FEXODAT",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "101.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.12"
+  },
+  {
+    "brandName": "FEXOKEE",
+    "packSize": "10",
+    "company": "KEE PHARMA",
+    "brandMrp": "102.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.22"
+  },
+  {
+    "brandName": "FEXODINE (CIPLA)",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.50"
+  },
+  {
+    "brandName": "FEXINOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "105.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.59"
+  },
+  {
+    "brandName": "FEXOTOR",
+    "packSize": "10",
+    "company": "TORQUE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "108.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.80"
+  },
+  {
+    "brandName": "PHILFREE",
+    "packSize": "10",
+    "company": "STARTOS HEALTH CARE PVT.LTD",
+    "brandMrp": "108.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.89"
+  },
+  {
+    "brandName": "FEXONIL",
+    "packSize": "10",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "109.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.90"
+  },
+  {
+    "brandName": "FEXOWAY",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "FEXOFEN",
+    "packSize": "6",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "67.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.24"
+  },
+  {
+    "brandName": "FEGRA",
+    "packSize": "10",
+    "company": "COMED CHEMICALS PVT LTD",
+    "brandMrp": "112.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.29"
+  },
+  {
+    "brandName": "FEXOPEN",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "118.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.85"
+  },
+  {
+    "brandName": "FEXOCET",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "119.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.95"
+  },
+  {
+    "brandName": "HISTAKIND",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "119.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.98"
+  },
+  {
+    "brandName": "ALLERFAST",
+    "packSize": "10",
+    "company": "NRI VISION CARE",
+    "brandMrp": "120.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.09"
+  },
+  {
+    "brandName": "FEXERT",
+    "packSize": "10",
+    "company": "LA PRISTINE BIOCEUTICALS PVT LTD",
+    "brandMrp": "120.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.09"
+  },
+  {
+    "brandName": "HHFEXO",
+    "packSize": "10",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "120.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.09"
+  },
+  {
+    "brandName": "HISTALIFE",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "122.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.28"
+  },
+  {
+    "brandName": "HISTAFREE",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "123.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.35"
+  },
+  {
+    "brandName": "SINAREST FX",
+    "packSize": "10",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "123.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.36"
+  },
+  {
+    "brandName": "FEXOMIK",
+    "packSize": "10",
+    "company": "DERMAREX HEALTH CARE INDIA PVT.LTD",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.00"
+  },
+  {
+    "brandName": "FENIXA",
+    "packSize": "10",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "131.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.10"
+  },
+  {
+    "brandName": "KLM FX",
+    "packSize": "10",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "FEXOLIFE",
+    "packSize": "10",
+    "company": "DR. JOHNS LABORATORIES PVT LTD",
+    "brandMrp": "141.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.18"
+  },
+  {
+    "brandName": "FIBAFEX",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "146.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.67"
+  },
+  {
+    "brandName": "ABOLISH FX",
+    "packSize": "10",
+    "company": "SAPIENT",
+    "brandMrp": "147.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.70"
+  },
+  {
+    "brandName": "FEXIGRA",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "151.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.19"
+  },
+  {
+    "brandName": "LURACISE",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "151.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.19"
+  },
+  {
+    "brandName": "FEXIDINE",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "151.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.20"
+  },
+  {
+    "brandName": "HISTAKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "ASTEGRA",
+    "packSize": "10",
+    "company": "AUSTRO LAB",
+    "brandMrp": "163.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.30"
+  },
+  {
+    "brandName": "FEX (M.D.C)",
+    "packSize": "10",
+    "company": "M.D.C. PHARMACEUTICALS (P) LTD.",
+    "brandMrp": "163.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.35"
+  },
+  {
+    "brandName": "ALGREAT",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "169.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.97"
+  },
+  {
+    "brandName": "FINIDE",
+    "packSize": "10",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "175.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.50"
+  },
+  {
+    "brandName": "FEXOPEN",
+    "packSize": "6",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "108.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.00"
+  },
+  {
+    "brandName": "VIAFEXINE",
+    "packSize": "10",
+    "company": "VIATRIS",
+    "brandMrp": "180.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.00"
+  },
+  {
+    "brandName": "FEXOVA",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "184.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.44"
+  },
+  {
+    "brandName": "FEXAIR",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "187.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.72"
+  },
+  {
+    "brandName": "CETZINE FX",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "ALTIVA",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "208.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.81"
+  },
+  {
+    "brandName": "FEXOCAD",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "212.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.28"
+  },
+  {
+    "brandName": "FEXOLUP",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "225.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.57"
+  },
+  {
+    "brandName": "FEXY",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "225.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.57"
+  },
+  {
+    "brandName": "ALRGEE",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "226.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.60"
+  },
+  {
+    "brandName": "ALLEGRA",
+    "packSize": "10",
+    "company": "SANOFI INDIA  LTD.",
+    "brandMrp": "272.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.30"
+  }
+]

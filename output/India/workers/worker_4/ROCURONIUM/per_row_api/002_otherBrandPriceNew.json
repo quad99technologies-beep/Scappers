@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "ROCSUR",
+    "packSize": "5",
+    "company": "GLAND PHARMA LIMITED",
+    "brandMrp": "200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.00"
+  },
+  {
+    "brandName": "ROCURONIUM",
+    "packSize": "5",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "312.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.50"
+  },
+  {
+    "brandName": "ESMERON",
+    "packSize": "5",
+    "company": "MSD PHARMACEUTICALS PRIVATE LTD.",
+    "brandMrp": "450.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "90.00"
+  },
+  {
+    "brandName": "ROCUNIUM",
+    "packSize": "5",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "1010.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "202.00"
+  }
+]

@@ -1,0 +1,258 @@
+[
+  {
+    "brandName": "PARACIN PAEDIATRIC",
+    "packSize": "15",
+    "company": "STADMED PVT. LTD",
+    "brandMrp": "10.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.70"
+  },
+  {
+    "brandName": "ADMOL (KEP)",
+    "packSize": "15",
+    "company": "KEPLER HEALTH CARE",
+    "brandMrp": "13.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.90"
+  },
+  {
+    "brandName": "PACIMOL",
+    "packSize": "30",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "33.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.13"
+  },
+  {
+    "brandName": "PYRACRON",
+    "packSize": "15",
+    "company": "ACRON PHARMACEUTICALS",
+    "brandMrp": "19.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.28"
+  },
+  {
+    "brandName": "BABYGESIC",
+    "packSize": "15",
+    "company": "MEYER ORGANICS PVT. LTD",
+    "brandMrp": "23.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.57"
+  },
+  {
+    "brandName": "PARASAFE",
+    "packSize": "15",
+    "company": "STRASSENBURG PHARMACEUTICALS.LTD",
+    "brandMrp": "24.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.62"
+  },
+  {
+    "brandName": "ARISTOMOL",
+    "packSize": "15",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "25.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.70"
+  },
+  {
+    "brandName": "AMINOL",
+    "packSize": "15",
+    "company": "GROUP PHARMACEUTICALS LTD.",
+    "brandMrp": "26.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.77"
+  },
+  {
+    "brandName": "LEEMOL",
+    "packSize": "15",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "27.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.80"
+  },
+  {
+    "brandName": "PYRICOOL",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "27.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.81"
+  },
+  {
+    "brandName": "P",
+    "packSize": "15",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "28.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  },
+  {
+    "brandName": "PA",
+    "packSize": "15",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "28.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "PARAWEL",
+    "packSize": "15",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  },
+  {
+    "brandName": "DOLO",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "30.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.06"
+  },
+  {
+    "brandName": "DOLOPAR",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "30.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.06"
+  },
+  {
+    "brandName": "FNIL",
+    "packSize": "15",
+    "company": "MEDITIA LABS PVT.LTD",
+    "brandMrp": "30.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.06"
+  },
+  {
+    "brandName": "PARABOOST",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "30.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.06"
+  },
+  {
+    "brandName": "ADMOL (KEP)",
+    "packSize": "30",
+    "company": "KEPLER HEALTH CARE",
+    "brandMrp": "62.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.07"
+  },
+  {
+    "brandName": "CALPOL",
+    "packSize": "15",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "30.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.07"
+  },
+  {
+    "brandName": "FEVAGO",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "31.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.07"
+  },
+  {
+    "brandName": "MEDOMOL",
+    "packSize": "15",
+    "company": "MEDOPHARM",
+    "brandMrp": "31.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.13"
+  },
+  {
+    "brandName": "FEBRINIL",
+    "packSize": "30",
+    "company": "MANEESH PHARMACEUTICALS LTD",
+    "brandMrp": "66.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.20"
+  },
+  {
+    "brandName": "CENTAMOL",
+    "packSize": "15",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "34.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.27"
+  },
+  {
+    "brandName": "CEPAL",
+    "packSize": "15",
+    "company": "CAPLET INDIA PRIVATE LIMITED",
+    "brandMrp": "34.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.27"
+  },
+  {
+    "brandName": "GALMOL",
+    "packSize": "15",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "34.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.27"
+  },
+  {
+    "brandName": "PACIMOL",
+    "packSize": "15",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "33.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.27"
+  },
+  {
+    "brandName": "PARAMET",
+    "packSize": "15",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "33.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.27"
+  },
+  {
+    "brandName": "T98",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "33.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.27"
+  },
+  {
+    "brandName": "SUPPOL",
+    "packSize": "15",
+    "company": "MERIDIAN ENTERPRISES PVT LTD",
+    "brandMrp": "35.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.38"
+  },
+  {
+    "brandName": "SOLIDOSE",
+    "packSize": "15",
+    "company": "NOEL PHARMACEUTICALS",
+    "brandMrp": "36.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.40"
+  },
+  {
+    "brandName": "SUMO L",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "37.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.47"
+  },
+  {
+    "brandName": "NICETAMOL",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "39.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.66"
+  }
+]

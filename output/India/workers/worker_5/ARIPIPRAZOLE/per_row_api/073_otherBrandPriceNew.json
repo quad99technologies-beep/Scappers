@@ -1,0 +1,202 @@
+[
+  {
+    "brandName": "APZ",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "48.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.88"
+  },
+  {
+    "brandName": "ARZOL",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "84.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.40"
+  },
+  {
+    "brandName": "ARZOT",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "84.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.40"
+  },
+  {
+    "brandName": "ASPRITO MT",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "87.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.75"
+  },
+  {
+    "brandName": "RIPRAMAT",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "107.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.71"
+  },
+  {
+    "brandName": "ARIFIVE",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "117.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.79"
+  },
+  {
+    "brandName": "ARIPIREN",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "118.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.80"
+  },
+  {
+    "brandName": "ARIDENT",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "137.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.78"
+  },
+  {
+    "brandName": "APIZ",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "139.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.92"
+  },
+  {
+    "brandName": "ARIZE",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "140.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.00"
+  },
+  {
+    "brandName": "AXEPINE MD",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "151.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.19"
+  },
+  {
+    "brandName": "RIZOTAL",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "159.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "ARIFINE MT",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "173.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.34"
+  },
+  {
+    "brandName": "ARIDAY",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "173.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.39"
+  },
+  {
+    "brandName": "ARIFINE",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "181.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.19"
+  },
+  {
+    "brandName": "ARPICURE",
+    "packSize": "10",
+    "company": "AGM BIOTEC",
+    "brandMrp": "182.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.26"
+  },
+  {
+    "brandName": "ARINIX",
+    "packSize": "10",
+    "company": "SANIX FORMULATIONS PVT LTD",
+    "brandMrp": "185.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.54"
+  },
+  {
+    "brandName": "ARIFRIL",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "191.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.13"
+  },
+  {
+    "brandName": "ARIPICON",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "195.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.50"
+  },
+  {
+    "brandName": "NULET",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "325.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.70"
+  },
+  {
+    "brandName": "ARPIT",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "235.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.52"
+  },
+  {
+    "brandName": "ARIP MT",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "353.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.55"
+  },
+  {
+    "brandName": "ARPIZOL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "237.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.72"
+  },
+  {
+    "brandName": "ASPRITO",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "252.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.22"
+  },
+  {
+    "brandName": "ARZU",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "303.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.36"
+  }
+]

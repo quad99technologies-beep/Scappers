@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "BOSENTAN",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "1068.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "106.85"
+  },
+  {
+    "brandName": "BOSENTAS",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "1175.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "117.54"
+  },
+  {
+    "brandName": "LUPIBOSE",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "1677.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "167.74"
+  }
+]

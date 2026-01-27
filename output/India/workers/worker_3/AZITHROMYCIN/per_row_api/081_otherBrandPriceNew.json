@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "AZIMAX",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "62.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.07"
+  },
+  {
+    "brandName": "AZIMAX",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "47.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.15"
+  },
+  {
+    "brandName": "ZITHROX XL",
+    "packSize": "30",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "95.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.19"
+  }
+]

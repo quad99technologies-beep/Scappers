@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "SYLONEX (INTAS)",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "63.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.37"
+  },
+  {
+    "brandName": "DULODEP",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "DAXTIN",
+    "packSize": "10",
+    "company": "AGM BIOTEC",
+    "brandMrp": "108.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.80"
+  },
+  {
+    "brandName": "LOXET",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "118.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.86"
+  },
+  {
+    "brandName": "DUXEL",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.00"
+  },
+  {
+    "brandName": "DXT",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "COMBAC",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "173.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.30"
+  },
+  {
+    "brandName": "DUGO",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.00"
+  },
+  {
+    "brandName": "DUPAX",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "304.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.31"
+  },
+  {
+    "brandName": "DUVANTA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "246.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.66"
+  },
+  {
+    "brandName": "SYMBAL",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "251.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.19"
+  }
+]

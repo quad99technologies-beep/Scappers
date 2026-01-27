@@ -1,0 +1,138 @@
+[
+  {
+    "brandName": "VORIHOPE",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "12.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "VORITEK",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "4925.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "164.18"
+  },
+  {
+    "brandName": "VORITROL",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "3066.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "306.65"
+  },
+  {
+    "brandName": "VORIFUCEL",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "1250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1250.00"
+  },
+  {
+    "brandName": "VORTERO",
+    "packSize": "1",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "1250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1250.00"
+  },
+  {
+    "brandName": "VORIZOL",
+    "packSize": "2",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "2531.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1265.63"
+  },
+  {
+    "brandName": "VORIFIC",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "1338.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1338.38"
+  },
+  {
+    "brandName": "VORITROP",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "2237.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2237.20"
+  },
+  {
+    "brandName": "VORINEON",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "2590.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2590.08"
+  },
+  {
+    "brandName": "VORAZE",
+    "packSize": "1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "2595.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2595.25"
+  },
+  {
+    "brandName": "VORIFIT",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "2700.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2700.00"
+  },
+  {
+    "brandName": "VONAZ",
+    "packSize": "1",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "2858.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2858.00"
+  },
+  {
+    "brandName": "VORIZ",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "3200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3200.00"
+  },
+  {
+    "brandName": "VFEND",
+    "packSize": "2",
+    "company": "PFIZER LTD",
+    "brandMrp": "6823.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3411.65"
+  },
+  {
+    "brandName": "VORIER",
+    "packSize": "1",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "3418.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3418.10"
+  },
+  {
+    "brandName": "GUFIVOR",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "3499.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3499.00"
+  },
+  {
+    "brandName": "VORIB",
+    "packSize": "1",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "3520.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3520.00"
+  }
+]

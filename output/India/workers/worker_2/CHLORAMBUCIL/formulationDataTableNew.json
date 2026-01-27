@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521024381@164693@101114304@3378@101006@201756",
+    "skuName": "CELKERAN 2 MG TABLET 30",
+    "composition": "CHLORAMBUCIL TABLET 2 MG",
+    "packSize": "30 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "31.70",
+    "company": "CELON LABS",
+    "scheduleFlag": "1",
+    "mrp": "1190.47",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.68"
+  },
+  {
+    "hiddenId": "1521024427@164694@101114304@3854@101006@201756",
+    "skuName": "CELKERAN 5 MG TABLET 30",
+    "composition": "CHLORAMBUCIL TABLET 5 MG",
+    "packSize": "30 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "78.55",
+    "company": "CELON LABS",
+    "scheduleFlag": "1",
+    "mrp": "2474.25",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "82.48"
+  },
+  {
+    "hiddenId": "1521013376@88528@101117417@3378@101006@201756",
+    "skuName": "CLOKERAN 2 MG TABLET 30",
+    "composition": "CHLORAMBUCIL TABLET 2 MG",
+    "packSize": "30 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "31.70",
+    "company": "NATCO PHARMA LTD",
+    "scheduleFlag": "1",
+    "mrp": "960.00",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.00"
+  }
+]

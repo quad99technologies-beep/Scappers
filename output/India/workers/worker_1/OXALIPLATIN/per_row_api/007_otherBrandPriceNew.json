@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "OXALTOR",
+    "packSize": "50",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "4310.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "86.20"
+  },
+  {
+    "brandName": "OXITAN",
+    "packSize": "50",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "4722.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "94.46"
+  },
+  {
+    "brandName": "OXALIPLATIN FOR",
+    "packSize": "50",
+    "company": "CIPLA LTD.",
+    "brandMrp": "5100.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "102.00"
+  },
+  {
+    "brandName": "OXA(EMC)",
+    "packSize": "50",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "5319.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "106.39"
+  },
+  {
+    "brandName": "OXITAN",
+    "packSize": "20",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "4651.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "232.59"
+  }
+]

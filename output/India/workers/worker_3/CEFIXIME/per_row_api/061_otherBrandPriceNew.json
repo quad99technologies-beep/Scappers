@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "CEFIMOON",
+    "packSize": "30",
+    "company": "MOONSTAR LIFECARE PVT.LTD",
+    "brandMrp": "25.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.83"
+  },
+  {
+    "brandName": "IVAFIX",
+    "packSize": "30",
+    "company": "IVA HEALTHCARE PVT.LTD",
+    "brandMrp": "42.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.41"
+  },
+  {
+    "brandName": "TAXFAX",
+    "packSize": "30",
+    "company": "ACINTA PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "52.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.74"
+  },
+  {
+    "brandName": "CEFKIL OF",
+    "packSize": "30",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "114.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.80"
+  }
+]

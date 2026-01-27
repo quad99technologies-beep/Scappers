@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "SEPTAFER",
+    "packSize": "20",
+    "company": "SEPTALYST LIFESCIENCES PVT LTD",
+    "brandMrp": "290.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.50"
+  },
+  {
+    "brandName": "FERIVENT",
+    "packSize": "5",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "75.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.13"
+  },
+  {
+    "brandName": "RBFIX",
+    "packSize": "5",
+    "company": "BIOKINDLE LIFESCIENCES PVT. LTD",
+    "brandMrp": "222.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.46"
+  },
+  {
+    "brandName": "SEPTAFER",
+    "packSize": "5",
+    "company": "SEPTALYST LIFESCIENCES PVT LTD",
+    "brandMrp": "268.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.76"
+  }
+]

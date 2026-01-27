@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "PRAMODEP",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "94.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.47"
+  },
+  {
+    "brandName": "OPIRAX",
+    "packSize": "10",
+    "company": "ANTHUS PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "97.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.70"
+  },
+  {
+    "brandName": "OPIPRIME",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "99.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.98"
+  },
+  {
+    "brandName": "OPIPROL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "101.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "OPIPREX",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "106.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.65"
+  }
+]

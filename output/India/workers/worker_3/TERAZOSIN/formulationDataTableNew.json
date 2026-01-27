@@ -1,0 +1,72 @@
+[
+  {
+    "hiddenId": "1521092574@73597@101138929@2864@101006@200753",
+    "skuName": "HYTRIN 1 MG TABLET 10",
+    "composition": "TERAZOSIN TABLET 1 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ABBOTT INDIA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "275.03",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.50"
+  },
+  {
+    "hiddenId": "1521092575@73598@101138929@3378@101006@200753",
+    "skuName": "HYTRIN 2 MG TABLET 10",
+    "composition": "TERAZOSIN TABLET 2 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ABBOTT INDIA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "407.55",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.76"
+  },
+  {
+    "hiddenId": "1521091992@73599@101138929@3854@101006@200753",
+    "skuName": "HYTRIN 5 MG TABLET 10",
+    "composition": "TERAZOSIN TABLET 5 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ABBOTT INDIA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "540.02",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "54.00"
+  },
+  {
+    "hiddenId": "1521089906@65210@101188626@2864@101006@200753",
+    "skuName": "TERAPRESS 1 MG TABLET 7",
+    "composition": "TERAZOSIN TABLET 1 MG",
+    "packSize": "7 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "110.63",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.80"
+  },
+  {
+    "hiddenId": "1521089907@65211@101188626@3378@101006@200753",
+    "skuName": "TERAPRESS 2 MG TABLET 7",
+    "composition": "TERAZOSIN TABLET 2 MG",
+    "packSize": "7 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "154.69",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.10"
+  }
+]

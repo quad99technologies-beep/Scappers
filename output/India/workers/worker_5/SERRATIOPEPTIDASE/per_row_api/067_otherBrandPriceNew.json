@@ -1,0 +1,122 @@
+[
+  {
+    "brandName": "SERETOCHEM",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "7.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.73"
+  },
+  {
+    "brandName": "ADIL",
+    "packSize": "10",
+    "company": "SHANKUS ACME PHARMA PVT.LTD.",
+    "brandMrp": "23.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.34"
+  },
+  {
+    "brandName": "SERATAB",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "27.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.75"
+  },
+  {
+    "brandName": "BIDANZEN",
+    "packSize": "10",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "49.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.95"
+  },
+  {
+    "brandName": "LYTIC",
+    "packSize": "10",
+    "company": "WENS PHARMA PVT LTD",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "SERAZE",
+    "packSize": "10",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "ESPIDASE",
+    "packSize": "10",
+    "company": "MEGHA HEALTHCARE",
+    "brandMrp": "61.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.17"
+  },
+  {
+    "brandName": "LYTIX",
+    "packSize": "10",
+    "company": "VANCE & HEALTH PHARMACEUTICALS LTD",
+    "brandMrp": "74.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.43"
+  },
+  {
+    "brandName": "LYSER",
+    "packSize": "10",
+    "company": "COMED CHEMICALS PVT LTD",
+    "brandMrp": "79.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.94"
+  },
+  {
+    "brandName": "ALON",
+    "packSize": "10",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "DRANZEN",
+    "packSize": "10",
+    "company": "DRAKT PHRMA PVT LTD",
+    "brandMrp": "89.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.94"
+  },
+  {
+    "brandName": "FLANZEN",
+    "packSize": "10",
+    "company": "MANEESH PHARMACEUTICALS LTD",
+    "brandMrp": "98.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.81"
+  },
+  {
+    "brandName": "DEBRIDE",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "126.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.60"
+  },
+  {
+    "brandName": "ENZOMAX",
+    "packSize": "10",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "135.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.59"
+  },
+  {
+    "brandName": "EMANZEN",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "160.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.04"
+  }
+]

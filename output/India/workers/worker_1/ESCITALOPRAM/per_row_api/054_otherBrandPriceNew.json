@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "S CITAPAD",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "95.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "STALOPAM",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "124.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.43"
+  },
+  {
+    "brandName": "NEWCITA",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "130.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.01"
+  },
+  {
+    "brandName": "FELIZ S",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "136.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.65"
+  },
+  {
+    "brandName": "TALOPREX",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "146.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.63"
+  },
+  {
+    "brandName": "REXIPRA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "147.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.77"
+  },
+  {
+    "brandName": "CILAPAM",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "224.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.95"
+  },
+  {
+    "brandName": "NEXITO",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "ESCIPRA",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "166.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.68"
+  }
+]

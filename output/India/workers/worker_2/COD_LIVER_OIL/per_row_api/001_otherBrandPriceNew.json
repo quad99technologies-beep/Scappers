@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LUPINS COD LIVER",
+    "packSize": "100",
+    "company": "LUPIN LTD",
+    "brandMrp": "13.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.14"
+  },
+  {
+    "brandName": "SEVENSEAS (MERCK)",
+    "packSize": "500",
+    "company": "PROCTER & GAMBLE HEALTH LTD",
+    "brandMrp": "1519.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.04"
+  },
+  {
+    "brandName": "SEVENSEAS (MERCK)",
+    "packSize": "100",
+    "company": "PROCTER & GAMBLE HEALTH LTD",
+    "brandMrp": "398.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.98"
+  }
+]

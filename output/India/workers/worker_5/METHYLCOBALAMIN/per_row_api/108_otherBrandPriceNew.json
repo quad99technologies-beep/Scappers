@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "COBALVIT",
+    "packSize": "1",
+    "company": "INTRA LABS",
+    "brandMrp": "32.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.11"
+  },
+  {
+    "brandName": "FULL 24",
+    "packSize": "1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "47.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "47.20"
+  },
+  {
+    "brandName": "MEDINEURON",
+    "packSize": "1",
+    "company": "MMC PHARMACEUTICALS LTD",
+    "brandMrp": "53.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.00"
+  },
+  {
+    "brandName": "NERVISUN",
+    "packSize": "1",
+    "company": "GERRYSUN PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.00"
+  },
+  {
+    "brandName": "REXITE",
+    "packSize": "1",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "94.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "94.65"
+  },
+  {
+    "brandName": "RENERVE",
+    "packSize": "1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "118.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "118.97"
+  }
+]

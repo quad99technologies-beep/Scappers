@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "ARZOL",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "35.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.50"
+  },
+  {
+    "brandName": "ARIFINE",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "52.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.25"
+  },
+  {
+    "brandName": "ARIFINE MT",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "55.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.53"
+  },
+  {
+    "brandName": "NULET",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "92.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.18"
+  }
+]

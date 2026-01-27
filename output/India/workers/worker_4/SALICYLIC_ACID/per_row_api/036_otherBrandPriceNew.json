@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "SALYTROINT",
+    "packSize": "100",
+    "company": "MENARINI INDIA",
+    "brandMrp": "86.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.87"
+  },
+  {
+    "brandName": "THIOTAR",
+    "packSize": "20",
+    "company": "PASTEUR LABORATORIES PVT. LTD.",
+    "brandMrp": "22.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.14"
+  },
+  {
+    "brandName": "SALILAC SF6",
+    "packSize": "30",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "62.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.09"
+  },
+  {
+    "brandName": "SALILAC SF12",
+    "packSize": "20",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  },
+  {
+    "brandName": "SALILAC SF24",
+    "packSize": "30",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "93.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.13"
+  },
+  {
+    "brandName": "THIOTAR",
+    "packSize": "15",
+    "company": "PASTEUR LABORATORIES PVT. LTD.",
+    "brandMrp": "46.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.13"
+  },
+  {
+    "brandName": "DADURIN",
+    "packSize": "15",
+    "company": "BAIDYNATH",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.67"
+  },
+  {
+    "brandName": "PSORAFLAKE",
+    "packSize": "30",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "195.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.50"
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "CICO",
+    "packSize": "30",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "220.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.33"
+  },
+  {
+    "brandName": "CANDIDOX",
+    "packSize": "30",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "288.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.63"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "VITCOBIN",
+    "packSize": "200",
+    "company": "FDC LTD.",
+    "brandMrp": "133.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.67"
+  },
+  {
+    "brandName": "NERVIJEN",
+    "packSize": "200",
+    "company": "JENBURKT PHARMACEUTICALS LTD",
+    "brandMrp": "191.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.96"
+  },
+  {
+    "brandName": "ACTORICH",
+    "packSize": "200",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "198.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.99"
+  },
+  {
+    "brandName": "MICOB (NUTRI)",
+    "packSize": "150",
+    "company": "NUTRI GOLD PVT.LTD",
+    "brandMrp": "488.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.25"
+  },
+  {
+    "brandName": "MICOB (NUTRI)",
+    "packSize": "75",
+    "company": "NUTRI GOLD PVT.LTD",
+    "brandMrp": "244.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.25"
+  }
+]

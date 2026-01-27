@@ -1,0 +1,322 @@
+[
+  {
+    "brandName": "CITICOL (ELD)",
+    "packSize": "2",
+    "company": "ELDER LABS LTD",
+    "brandMrp": "6.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.10"
+  },
+  {
+    "brandName": "CITILIN",
+    "packSize": "4",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "195.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.75"
+  },
+  {
+    "brandName": "NEUCITI",
+    "packSize": "4",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "203.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.88"
+  },
+  {
+    "brandName": "MEGACHOLIN RF",
+    "packSize": "4",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "204.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.09"
+  },
+  {
+    "brandName": "COGNOLIN",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "265.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.12"
+  },
+  {
+    "brandName": "STROLIN",
+    "packSize": "2",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "108.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "54.00"
+  },
+  {
+    "brandName": "CLINAXON",
+    "packSize": "4",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "225.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.43"
+  },
+  {
+    "brandName": "CBCOLIN",
+    "packSize": "4",
+    "company": "ANAX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "234.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.60"
+  },
+  {
+    "brandName": "NEUCHOLINE",
+    "packSize": "4",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "240.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "60.21"
+  },
+  {
+    "brandName": "CITINOVA",
+    "packSize": "4",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "249.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.34"
+  },
+  {
+    "brandName": "CITIALFA",
+    "packSize": "2",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.00"
+  },
+  {
+    "brandName": "STROZINA",
+    "packSize": "4",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "265.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "66.43"
+  },
+  {
+    "brandName": "CBCOLIN",
+    "packSize": "2",
+    "company": "ANAX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "134.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "67.03"
+  },
+  {
+    "brandName": "STROZINA",
+    "packSize": "2",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "134.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "67.25"
+  },
+  {
+    "brandName": "NEUCITI",
+    "packSize": "2",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "135.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "67.97"
+  },
+  {
+    "brandName": "CHOLINECAD",
+    "packSize": "2",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "138.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "69.28"
+  },
+  {
+    "brandName": "CITISTAR",
+    "packSize": "4",
+    "company": "LUPIN LTD",
+    "brandMrp": "279.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "69.80"
+  },
+  {
+    "brandName": "NUROCOL",
+    "packSize": "4",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "288.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "72.19"
+  },
+  {
+    "brandName": "CITIMAC",
+    "packSize": "4",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "289.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "72.32"
+  },
+  {
+    "brandName": "STROCOZ",
+    "packSize": "4",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "290.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "72.55"
+  },
+  {
+    "brandName": "COLIHENZ",
+    "packSize": "4",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "295.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "73.83"
+  },
+  {
+    "brandName": "COGNOLIN",
+    "packSize": "2",
+    "company": "CIPLA LTD.",
+    "brandMrp": "148.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "74.24"
+  },
+  {
+    "brandName": "CITINOVA",
+    "packSize": "2",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "149.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "74.82"
+  },
+  {
+    "brandName": "PREXARON",
+    "packSize": "4",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "302.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "75.70"
+  },
+  {
+    "brandName": "STORAX",
+    "packSize": "4",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "302.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "75.70"
+  },
+  {
+    "brandName": "CITIMAC",
+    "packSize": "2",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "159.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "79.66"
+  },
+  {
+    "brandName": "STROCIT",
+    "packSize": "4",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "318.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "79.69"
+  },
+  {
+    "brandName": "CLINAXON",
+    "packSize": "2",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "160.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "80.08"
+  },
+  {
+    "brandName": "PREXARON",
+    "packSize": "2",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "84.38"
+  },
+  {
+    "brandName": "STORAX",
+    "packSize": "2",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "84.38"
+  },
+  {
+    "brandName": "COLIHENZ",
+    "packSize": "2",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "173.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "86.72"
+  },
+  {
+    "brandName": "STROCOZ",
+    "packSize": "2",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "183.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "91.68"
+  },
+  {
+    "brandName": "NUROCOL",
+    "packSize": "2",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "185.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "92.80"
+  },
+  {
+    "brandName": "STROCIT",
+    "packSize": "2",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "93.28"
+  },
+  {
+    "brandName": "NETICOL",
+    "packSize": "2",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "196.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "98.34"
+  },
+  {
+    "brandName": "CITISTAR",
+    "packSize": "2",
+    "company": "LUPIN LTD",
+    "brandMrp": "210.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "105.13"
+  },
+  {
+    "brandName": "MEGACHOLIN",
+    "packSize": "4",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "1021.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "255.47"
+  },
+  {
+    "brandName": "MEGACHOLIN",
+    "packSize": "2",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "617.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "308.90"
+  },
+  {
+    "brandName": "MEGACHOLIN RF",
+    "packSize": "2",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "617.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "308.90"
+  },
+  {
+    "brandName": "NETICOL",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "352.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "352.45"
+  }
+]

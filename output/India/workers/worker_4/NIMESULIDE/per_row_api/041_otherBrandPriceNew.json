@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "NIMULID (PANACEA)",
+    "packSize": "10",
+    "company": "PANACEA BIOTEC LTD",
+    "brandMrp": "38.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.85"
+  },
+  {
+    "brandName": "OFLAPOON",
+    "packSize": "10",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "55.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.52"
+  },
+  {
+    "brandName": "NOBEL",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "56.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.66"
+  },
+  {
+    "brandName": "PRONIM",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "63.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.33"
+  },
+  {
+    "brandName": "NICIP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "64.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.47"
+  },
+  {
+    "brandName": "NAM",
+    "packSize": "15",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "102.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.81"
+  },
+  {
+    "brandName": "NIPP",
+    "packSize": "10",
+    "company": "ST. MORRISON",
+    "brandMrp": "199.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.96"
+  }
+]

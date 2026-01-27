@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "CYCLOPEN D (OPTH)",
+    "packSize": "5",
+    "company": "OPTHO REMEDIES PVT.LTD",
+    "brandMrp": "31.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.25"
+  },
+  {
+    "brandName": "DILATE",
+    "packSize": "5",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.00"
+  },
+  {
+    "brandName": "CYCLONIX",
+    "packSize": "5",
+    "company": "PHOENIX LIFESCIENCES",
+    "brandMrp": "66.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.20"
+  },
+  {
+    "brandName": "CYCLOTAK",
+    "packSize": "5",
+    "company": "PHARMTAK",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "CYCLOFEZ",
+    "packSize": "5",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "71.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.25"
+  },
+  {
+    "brandName": "OPEN (OPTHO)",
+    "packSize": "5",
+    "company": "OPTHO REMEDIES PVT.LTD",
+    "brandMrp": "76.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.38"
+  },
+  {
+    "brandName": "CYCLOGYL",
+    "packSize": "5",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "82.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.50"
+  },
+  {
+    "brandName": "PENTOL",
+    "packSize": "3",
+    "company": "EXELTIS",
+    "brandMrp": "52.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.53"
+  },
+  {
+    "brandName": "CYCLOMID",
+    "packSize": "5",
+    "company": "JAWA LABORATORIES",
+    "brandMrp": "186.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.36"
+  },
+  {
+    "brandName": "MYDRATE",
+    "packSize": "5",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "190.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.00"
+  }
+]

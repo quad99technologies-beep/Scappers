@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "PRAMIRISE",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "143.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.30"
+  },
+  {
+    "brandName": "PREXOL",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "161.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.19"
+  },
+  {
+    "brandName": "PEXOPRAM",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "177.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.72"
+  },
+  {
+    "brandName": "PRAMIPEX",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "242.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.23"
+  },
+  {
+    "brandName": "PRAMIROL",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "310.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.03"
+  }
+]

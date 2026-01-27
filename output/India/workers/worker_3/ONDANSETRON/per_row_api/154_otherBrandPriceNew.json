@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "ONDISET O",
+    "packSize": "30",
+    "company": "ZEN LABS INDIA",
+    "brandMrp": "18.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.63"
+  },
+  {
+    "brandName": "VOMIKIND",
+    "packSize": "30",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "24.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.83"
+  },
+  {
+    "brandName": "VOMIDOT O",
+    "packSize": "30",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "28.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.93"
+  },
+  {
+    "brandName": "VOMIRID",
+    "packSize": "30",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "31.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.06"
+  },
+  {
+    "brandName": "VOMIFORD",
+    "packSize": "30",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "39.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "VOMISHIELD",
+    "packSize": "30",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "39.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "ZYSET",
+    "packSize": "30",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "39.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "ONDIRON",
+    "packSize": "30",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "40.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.34"
+  },
+  {
+    "brandName": "ZOFTARON",
+    "packSize": "30",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "42.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.40"
+  },
+  {
+    "brandName": "AUDON",
+    "packSize": "30",
+    "company": "AURZ PHARMACEUTICALS PVT LTD",
+    "brandMrp": "42.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.41"
+  }
+]

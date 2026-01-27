@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "UB FAIR",
+    "packSize": "60",
+    "company": "TORQUE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "96.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.60"
+  },
+  {
+    "brandName": "SALIDERM CL",
+    "packSize": "60",
+    "company": "DERMO CARE LABORATORIES",
+    "brandMrp": "121.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.02"
+  },
+  {
+    "brandName": "SALIFACE",
+    "packSize": "60",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "387.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.47"
+  },
+  {
+    "brandName": "SLC",
+    "packSize": "50",
+    "company": "NEMUS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "421.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  }
+]

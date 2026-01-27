@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521016486@194307@101123475@3622@101006@200064",
+    "skuName": "DICHROME 400 MCG TABLET 10",
+    "composition": "CHROMIUM TABLET 400 MCG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "PREMIER NUTRACEUTICALS PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "118.80",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.88"
+  },
+  {
+    "hiddenId": "1521023709@226966@101143809@3622@101006@200064",
+    "skuName": "ZUCROM 400 MCG TABLET 10",
+    "composition": "CHROMIUM TABLET 400 MCG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "scheduleFlag": "0",
+    "mrp": "120.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  }
+]

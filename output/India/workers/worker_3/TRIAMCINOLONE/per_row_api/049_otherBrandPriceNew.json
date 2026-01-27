@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "TRIAMADERM",
+    "packSize": "10",
+    "company": "NULIFE PHARMACEUTICALS",
+    "brandMrp": "82.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.21"
+  },
+  {
+    "brandName": "TURBOCORT",
+    "packSize": "15",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "138.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.25"
+  },
+  {
+    "brandName": "TRIAMADERM",
+    "packSize": "15",
+    "company": "NULIFE PHARMACEUTICALS",
+    "brandMrp": "233.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.56"
+  }
+]

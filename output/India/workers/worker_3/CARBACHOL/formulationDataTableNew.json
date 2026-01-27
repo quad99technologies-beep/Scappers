@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521158677@9910832695@101244503@1018@101063@203142",
+    "skuName": "CARBATOD 0.01 % SOLUTION 10 ML",
+    "composition": "CARBACHOL SOLUTION 0.01 %",
+    "packSize": "10 ML SOLUTION",
+    "dosageForm": "SOLUTION",
+    "ceilingPrice": "-1",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "43.50",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.35"
+  },
+  {
+    "hiddenId": "1521093845@95943@101190090@1018@101068@203142",
+    "skuName": "MIO CHOL 0.01 % INJECTION 1 ML",
+    "composition": "CARBACHOL INJECTION 0.01 %",
+    "packSize": "1 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "APPSAMY OCULAR DEVICES",
+    "scheduleFlag": "0",
+    "mrp": "34.03",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.03"
+  }
+]

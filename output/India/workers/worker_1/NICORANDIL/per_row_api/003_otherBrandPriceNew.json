@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "NIKORAN",
+    "packSize": "20",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "480.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.00"
+  },
+  {
+    "brandName": "NICOSTAR",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "402.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "402.45"
+  },
+  {
+    "brandName": "NICODUCE",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "447.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "447.91"
+  }
+]

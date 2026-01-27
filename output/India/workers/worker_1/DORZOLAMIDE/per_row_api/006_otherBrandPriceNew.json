@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "DORSUN",
+    "packSize": "5",
+    "company": "SUNWAYS (INDIA) PVT LTD",
+    "brandMrp": "208.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "41.63"
+  },
+  {
+    "brandName": "DORZOX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "497.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.70"
+  },
+  {
+    "brandName": "ENDOR",
+    "packSize": "5",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "375.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "75.00"
+  },
+  {
+    "brandName": "MONOSOPT",
+    "packSize": "5",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "450.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "90.00"
+  },
+  {
+    "brandName": "DORZOX",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "497.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "99.41"
+  },
+  {
+    "brandName": "DORTAS",
+    "packSize": "5",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "507.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "101.58"
+  },
+  {
+    "brandName": "DORZOX",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "546.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "109.35"
+  }
+]

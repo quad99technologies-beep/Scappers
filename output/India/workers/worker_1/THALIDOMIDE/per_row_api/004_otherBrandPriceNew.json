@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "ONCOTHAL",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "518.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.88"
+  },
+  {
+    "brandName": "THYCAD",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "596.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "59.69"
+  },
+  {
+    "brandName": "THALODA",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "619.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "61.95"
+  },
+  {
+    "brandName": "THALITERO",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "650.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.09"
+  },
+  {
+    "brandName": "THALIX",
+    "packSize": "10",
+    "company": "DABUR INDIA LTD.",
+    "brandMrp": "651.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.11"
+  },
+  {
+    "brandName": "THALIDE",
+    "packSize": "10",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "777.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "77.78"
+  }
+]

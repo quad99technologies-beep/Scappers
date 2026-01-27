@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "SALBUTAMOL(CIP)",
+    "packSize": "100",
+    "company": "CIPLA LTD.",
+    "brandMrp": "15.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.15"
+  },
+  {
+    "brandName": "USAL",
+    "packSize": "100",
+    "company": "SEAGULL PHARMA",
+    "brandMrp": "15.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.16"
+  },
+  {
+    "brandName": "VENTORLIN",
+    "packSize": "100",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "15.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.16"
+  },
+  {
+    "brandName": "VENTIREX",
+    "packSize": "100",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "18.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.19"
+  },
+  {
+    "brandName": "GRACOF PLUS",
+    "packSize": "100",
+    "company": "GRAF LABORATORIES PVT LTD",
+    "brandMrp": "79.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.79"
+  }
+]

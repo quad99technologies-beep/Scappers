@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "TOFADOZ",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "437.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.75"
+  },
+  {
+    "brandName": "TOFADOZ",
+    "packSize": "15",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "669.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.64"
+  },
+  {
+    "brandName": "JAKAUTO",
+    "packSize": "20",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "1133.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.67"
+  },
+  {
+    "brandName": "FACITINIB",
+    "packSize": "10",
+    "company": "TRICOS DERMATOLOGICS PVT LTD",
+    "brandMrp": "1099.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "109.90"
+  },
+  {
+    "brandName": "JAKAUTO",
+    "packSize": "10",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "1133.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "113.33"
+  }
+]

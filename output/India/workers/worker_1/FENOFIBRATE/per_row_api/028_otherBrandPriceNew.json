@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "FIBROLIP",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "122.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.29"
+  },
+  {
+    "brandName": "FENOBATE",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "148.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.86"
+  },
+  {
+    "brandName": "FENOCOR",
+    "packSize": "10",
+    "company": "EXELTIS",
+    "brandMrp": "212.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.25"
+  },
+  {
+    "brandName": "LIPICARD",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "275.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.60"
+  }
+]

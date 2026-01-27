@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "ESYFLOW",
+    "packSize": "100",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "129.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "EVICT",
+    "packSize": "250",
+    "company": "ALBERT DAVID",
+    "brandMrp": "322.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "GUTMOVE",
+    "packSize": "200",
+    "company": "ELANCER PHARMACEUTICALS",
+    "brandMrp": "258.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "LACTOFIGHT",
+    "packSize": "100",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "129.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "LACTOFIGHT",
+    "packSize": "200",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "258.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "DUPOLEX",
+    "packSize": "200",
+    "company": "BENNET PHARMACEUTICALS LIMITED",
+    "brandMrp": "262.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "LATOSE",
+    "packSize": "200",
+    "company": "AURUM LIFE SCIENCE PVT. LTD.",
+    "brandMrp": "262.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  }
+]

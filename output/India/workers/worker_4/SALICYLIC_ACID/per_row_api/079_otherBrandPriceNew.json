@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "SALIDERM CL",
+    "packSize": "60",
+    "company": "DERMO CARE LABORATORIES",
+    "brandMrp": "121.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.02"
+  },
+  {
+    "brandName": "KLM KLIN",
+    "packSize": "150",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "399.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.66"
+  },
+  {
+    "brandName": "KLM KLIN",
+    "packSize": "100",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "320.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.20"
+  },
+  {
+    "brandName": "KLM KLIN",
+    "packSize": "50",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "185.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.70"
+  },
+  {
+    "brandName": "SALIFACE",
+    "packSize": "60",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "387.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.47"
+  },
+  {
+    "brandName": "SLC",
+    "packSize": "50",
+    "company": "NEMUS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "421.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  }
+]

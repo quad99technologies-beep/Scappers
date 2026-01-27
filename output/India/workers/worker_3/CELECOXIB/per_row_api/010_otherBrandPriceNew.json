@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "CELIB",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "66.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.66"
+  },
+  {
+    "brandName": "CELEHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "133.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.30"
+  },
+  {
+    "brandName": "COBIX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "145.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.52"
+  },
+  {
+    "brandName": "CELEBREX",
+    "packSize": "10",
+    "company": "VIATRIS",
+    "brandMrp": "192.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.21"
+  },
+  {
+    "brandName": "ZYCEL",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "316.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.62"
+  }
+]

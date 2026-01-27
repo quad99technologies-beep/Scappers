@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "PREDONE",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "4.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.42"
+  },
+  {
+    "brandName": "EMSOLONE",
+    "packSize": "20",
+    "company": "MEDOPHARM",
+    "brandMrp": "14.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.71"
+  },
+  {
+    "brandName": "ACTICORT",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "7.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.72"
+  },
+  {
+    "brandName": "OMNACORTIL",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "7.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.72"
+  },
+  {
+    "brandName": "PREDNIHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "7.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.72"
+  },
+  {
+    "brandName": "VENTOCORTIL",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "7.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.72"
+  },
+  {
+    "brandName": "DELSONE",
+    "packSize": "10",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "7.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.77"
+  },
+  {
+    "brandName": "PREDNISOLONE (WYETH)",
+    "packSize": "10",
+    "company": "PFIZER LTD",
+    "brandMrp": "16.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.60"
+  },
+  {
+    "brandName": "PREDNISOLONE (ORISON)",
+    "packSize": "100",
+    "company": "ORISON PHARMACEUTICALS",
+    "brandMrp": "300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "NUCORT",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "107.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.75"
+  }
+]

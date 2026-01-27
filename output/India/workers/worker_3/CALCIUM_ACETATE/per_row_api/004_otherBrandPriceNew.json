@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "HYPOPHOS",
+    "packSize": "10",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "18.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.81"
+  },
+  {
+    "brandName": "PHOSTAT",
+    "packSize": "10",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "39.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.97"
+  },
+  {
+    "brandName": "ZEROFOS",
+    "packSize": "10",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "43.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.33"
+  },
+  {
+    "brandName": "CALCIBIND",
+    "packSize": "10",
+    "company": "REPENS HEALTHCARE INDIA PVT.LTD",
+    "brandMrp": "48.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.87"
+  }
+]

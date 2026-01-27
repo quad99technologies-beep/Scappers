@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LARAP",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "106.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.65"
+  },
+  {
+    "brandName": "MOZEP",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "128.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.89"
+  },
+  {
+    "brandName": "R ZEP",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "216.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.66"
+  }
+]

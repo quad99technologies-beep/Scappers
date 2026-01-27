@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "CANDID",
+    "packSize": "100",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "97.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.98"
+  },
+  {
+    "brandName": "CANDID",
+    "packSize": "250",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.00"
+  },
+  {
+    "brandName": "CLOSPORT",
+    "packSize": "75",
+    "company": "MOONSTAR LIFECARE PVT.LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.00"
+  },
+  {
+    "brandName": "CLOMAD",
+    "packSize": "75",
+    "company": "AUSTRO LAB",
+    "brandMrp": "93.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.25"
+  },
+  {
+    "brandName": "TUFTINA CT",
+    "packSize": "100",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "149.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.49"
+  }
+]

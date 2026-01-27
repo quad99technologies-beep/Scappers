@@ -1,0 +1,162 @@
+[
+  {
+    "brandName": "PRUCAPLA",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "215.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.53"
+  },
+  {
+    "brandName": "PRUGONIST",
+    "packSize": "10",
+    "company": "VIATRIS",
+    "brandMrp": "215.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.55"
+  },
+  {
+    "brandName": "CALOPRIDE",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "229.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.90"
+  },
+  {
+    "brandName": "FITGUT",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "229.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.90"
+  },
+  {
+    "brandName": "PRUMOTION",
+    "packSize": "10",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.00"
+  },
+  {
+    "brandName": "PRULINK",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "257.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.78"
+  },
+  {
+    "brandName": "DUPHAPRO",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "269.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.94"
+  },
+  {
+    "brandName": "PRUDAC",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "273.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.39"
+  },
+  {
+    "brandName": "PRULAREN",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "281.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.13"
+  },
+  {
+    "brandName": "EVAQUIK",
+    "packSize": "10",
+    "company": "ERGOS LIFE SCIENCES",
+    "brandMrp": "285.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.57"
+  },
+  {
+    "brandName": "MOTILITY",
+    "packSize": "10",
+    "company": "SAF FERMION LTD",
+    "brandMrp": "300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.00"
+  },
+  {
+    "brandName": "NOCONSTI",
+    "packSize": "10",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "303.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.32"
+  },
+  {
+    "brandName": "C2WIN",
+    "packSize": "10",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "306.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.65"
+  },
+  {
+    "brandName": "PRULITOP",
+    "packSize": "10",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "334.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.46"
+  },
+  {
+    "brandName": "PRUEASE",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "369.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.94"
+  },
+  {
+    "brandName": "CONSTICALO",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "374.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.41"
+  },
+  {
+    "brandName": "PRESMOVAC",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "374.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.41"
+  },
+  {
+    "brandName": "PRUWEL",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "377.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.73"
+  },
+  {
+    "brandName": "PRUVICT",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "394.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.47"
+  },
+  {
+    "brandName": "PRUSENT",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "398.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.83"
+  }
+]

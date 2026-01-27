@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "CISTEEN",
+    "packSize": "20",
+    "company": "VHB LIFE SCIENCES LIMITED",
+    "brandMrp": "85.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.25"
+  },
+  {
+    "brandName": "CYTOPLATIN",
+    "packSize": "20",
+    "company": "CIPLA LTD.",
+    "brandMrp": "100.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.01"
+  },
+  {
+    "brandName": "CISPLAT",
+    "packSize": "10",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "PLATINEX",
+    "packSize": "10",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "71.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.15"
+  },
+  {
+    "brandName": "CIZCAN",
+    "packSize": "10",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "74.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.43"
+  },
+  {
+    "brandName": "CISTERO",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "75.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.55"
+  },
+  {
+    "brandName": "CELPLAT",
+    "packSize": "10",
+    "company": "CELON LABS",
+    "brandMrp": "75.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.57"
+  }
+]

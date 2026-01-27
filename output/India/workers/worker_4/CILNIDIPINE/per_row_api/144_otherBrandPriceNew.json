@@ -1,0 +1,482 @@
+[
+  {
+    "brandName": "CILEDGE",
+    "packSize": "30",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  },
+  {
+    "brandName": "CIPINE",
+    "packSize": "10",
+    "company": "SUNIJ PHARMA PVT LTD",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "C UDP",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "48.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.86"
+  },
+  {
+    "brandName": "CCBEST",
+    "packSize": "10",
+    "company": "KEPLER HEALTH CARE",
+    "brandMrp": "51.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.16"
+  },
+  {
+    "brandName": "CILAPRESS",
+    "packSize": "10",
+    "company": "LIVIDUS PHARMA PVT LTD",
+    "brandMrp": "66.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.65"
+  },
+  {
+    "brandName": "CILFID",
+    "packSize": "10",
+    "company": "FIDELITY LIFESCIENCE",
+    "brandMrp": "79.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.92"
+  },
+  {
+    "brandName": "CILAGARD",
+    "packSize": "10",
+    "company": "RHINE BIOGENICS PVT LTD",
+    "brandMrp": "82.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.20"
+  },
+  {
+    "brandName": "CILOGARD",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "82.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.20"
+  },
+  {
+    "brandName": "CYNIDIP",
+    "packSize": "10",
+    "company": "RENE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "CILIX",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "140.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.36"
+  },
+  {
+    "brandName": "BLOC C",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  },
+  {
+    "brandName": "CILOZAR",
+    "packSize": "10",
+    "company": "SPECTRA THERAPEUTICS PVT. LTD.",
+    "brandMrp": "97.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.75"
+  },
+  {
+    "brandName": "CETABLOC",
+    "packSize": "10",
+    "company": "ATOS LIFESCIENCES PVT.LTD",
+    "brandMrp": "98.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.84"
+  },
+  {
+    "brandName": "IBCIL",
+    "packSize": "10",
+    "company": "INDIABULLS PHARMACEUTICALS LTD",
+    "brandMrp": "100.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.05"
+  },
+  {
+    "brandName": "CCAD",
+    "packSize": "10",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "100.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.08"
+  },
+  {
+    "brandName": "CILNITAB",
+    "packSize": "15",
+    "company": "ELBRIT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "HEARTCIL",
+    "packSize": "10",
+    "company": "TRIPADA LIFECARE PVT.LTD",
+    "brandMrp": "106.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.63"
+  },
+  {
+    "brandName": "CLINIX",
+    "packSize": "10",
+    "company": "SEPTALYST LIFESCIENCES PVT LTD",
+    "brandMrp": "106.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.67"
+  },
+  {
+    "brandName": "CILOVIN",
+    "packSize": "10",
+    "company": "EYSYS PHARMACEUTICAL PVT LTD",
+    "brandMrp": "112.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.23"
+  },
+  {
+    "brandName": "RETCIL",
+    "packSize": "10",
+    "company": "RETRA LIFE SCIENCE PVT LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "CILNIDIPINE",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "114.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.41"
+  },
+  {
+    "brandName": "NULONG",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "115.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.50"
+  },
+  {
+    "brandName": "CILNIPINE",
+    "packSize": "15",
+    "company": "JUBILANT GENERICS LIMITED",
+    "brandMrp": "176.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.77"
+  },
+  {
+    "brandName": "CILIDUS",
+    "packSize": "10",
+    "company": "FIDUS HEALTHCARE",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.66"
+  },
+  {
+    "brandName": "CILIDIN",
+    "packSize": "15",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "196.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.11"
+  },
+  {
+    "brandName": "CILAHEART",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "132.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.30"
+  },
+  {
+    "brandName": "LNDIP",
+    "packSize": "10",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.50"
+  },
+  {
+    "brandName": "CILORY",
+    "packSize": "10",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "135.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.59"
+  },
+  {
+    "brandName": "LN STOP",
+    "packSize": "10",
+    "company": "THYONE HEALTH CARE",
+    "brandMrp": "136.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.69"
+  },
+  {
+    "brandName": "CLINDINOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "137.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.70"
+  },
+  {
+    "brandName": "LNBLOC",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "138.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.80"
+  },
+  {
+    "brandName": "CILARISE",
+    "packSize": "10",
+    "company": "ESWAR THERAPEUTICS PVT.LTD",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "CILNIPRO",
+    "packSize": "15",
+    "company": "GODDRES PHARMACEUTICALS LTD",
+    "brandMrp": "210.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "CILNICAB",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "144.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.42"
+  },
+  {
+    "brandName": "CLINAZ",
+    "packSize": "10",
+    "company": "SAFFRON FORMULATIONS",
+    "brandMrp": "147.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.73"
+  },
+  {
+    "brandName": "CABLOK",
+    "packSize": "10",
+    "company": "ARRIENT HEALTHCARE PVT.LTD.",
+    "brandMrp": "149.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.91"
+  },
+  {
+    "brandName": "CILAHEART",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "226.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.08"
+  },
+  {
+    "brandName": "NULONG",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "228.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.25"
+  },
+  {
+    "brandName": "CINALOC",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "153.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.33"
+  },
+  {
+    "brandName": "NEXOVAS",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "156.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.60"
+  },
+  {
+    "brandName": "CILNIX",
+    "packSize": "10",
+    "company": "SEPTALYST LIFESCIENCES PVT LTD",
+    "brandMrp": "159.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "CILDIPIN",
+    "packSize": "10",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "160.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.06"
+  },
+  {
+    "brandName": "TORCILIN",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "164.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.41"
+  },
+  {
+    "brandName": "CILNAZ",
+    "packSize": "10",
+    "company": "SAFFRON FORMULATIONS",
+    "brandMrp": "165.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.50"
+  },
+  {
+    "brandName": "TWINBLOK",
+    "packSize": "10",
+    "company": "APRICA HEALTHCARE PVT LTD",
+    "brandMrp": "170.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.03"
+  },
+  {
+    "brandName": "CILDIP",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "173.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.34"
+  },
+  {
+    "brandName": "CILNIPINE",
+    "packSize": "10",
+    "company": "JUBILANT GENERICS LIMITED",
+    "brandMrp": "176.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.65"
+  },
+  {
+    "brandName": "CILACAR",
+    "packSize": "10",
+    "company": "JB CHEMICALS",
+    "brandMrp": "177.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.80"
+  },
+  {
+    "brandName": "LYCEDEPIN",
+    "packSize": "10",
+    "company": "LYCEUM LIFE SCIENCE PVT.LTD",
+    "brandMrp": "178.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.86"
+  },
+  {
+    "brandName": "CETANIL",
+    "packSize": "15",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "270.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.00"
+  },
+  {
+    "brandName": "CILNY",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "181.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.14"
+  },
+  {
+    "brandName": "RANCIL",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "182.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.28"
+  },
+  {
+    "brandName": "CILNIKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "185.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.56"
+  },
+  {
+    "brandName": "LNBLOC",
+    "packSize": "15",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "279.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.63"
+  },
+  {
+    "brandName": "NEXOVAS",
+    "packSize": "15",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "293.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.54"
+  },
+  {
+    "brandName": "CILIDIN",
+    "packSize": "10",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "196.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.67"
+  },
+  {
+    "brandName": "DILNIP",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "324.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.60"
+  },
+  {
+    "brandName": "TWINCAL",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "216.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.64"
+  },
+  {
+    "brandName": "CILACAR",
+    "packSize": "15",
+    "company": "JB CHEMICALS",
+    "brandMrp": "332.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.18"
+  },
+  {
+    "brandName": "DILNIP",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "345.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.57"
+  }
+]

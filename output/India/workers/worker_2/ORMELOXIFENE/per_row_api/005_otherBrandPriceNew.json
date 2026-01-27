@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ORMALIN",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "160.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.07"
+  },
+  {
+    "brandName": "NOVEX DS",
+    "packSize": "15",
+    "company": "HLL LIFE CARE LTD",
+    "brandMrp": "286.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.07"
+  },
+  {
+    "brandName": "SEVISTA",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "486.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.42"
+  }
+]

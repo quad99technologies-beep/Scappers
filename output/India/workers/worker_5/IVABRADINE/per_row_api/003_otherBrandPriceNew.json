@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "IVABLES",
+    "packSize": "10",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "175.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.50"
+  },
+  {
+    "brandName": "IVAPRIDE",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "210.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.00"
+  },
+  {
+    "brandName": "CORABRAD",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "219.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.94"
+  },
+  {
+    "brandName": "IVAZINE",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "232.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.25"
+  },
+  {
+    "brandName": "IVAPACE",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "247.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.70"
+  },
+  {
+    "brandName": "CORALAN",
+    "packSize": "14",
+    "company": "SERDIA PHARMACEUTICALS (INDIA) PVT. LTD.",
+    "brandMrp": "360.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.78"
+  },
+  {
+    "brandName": "IVAMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "280.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.00"
+  },
+  {
+    "brandName": "IVABID",
+    "packSize": "14",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "522.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.30"
+  },
+  {
+    "brandName": "IVABRAD",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "572.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.15"
+  }
+]

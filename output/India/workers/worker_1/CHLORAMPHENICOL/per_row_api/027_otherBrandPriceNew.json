@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "OPTICHLOR",
+    "packSize": "10",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "51.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.20"
+  },
+  {
+    "brandName": "RENICOL",
+    "packSize": "5",
+    "company": "EXELTIS",
+    "brandMrp": "40.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.01"
+  },
+  {
+    "brandName": "RENICOL",
+    "packSize": "10",
+    "company": "EXELTIS",
+    "brandMrp": "90.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "CHLOROCOL",
+    "packSize": "10",
+    "company": "JAWA LABORATORIES",
+    "brandMrp": "114.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.49"
+  },
+  {
+    "brandName": "CETACOL",
+    "packSize": "5",
+    "company": "RAYMED PHARMACEUTICALS PVT. LTD",
+    "brandMrp": "74.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.85"
+  }
+]

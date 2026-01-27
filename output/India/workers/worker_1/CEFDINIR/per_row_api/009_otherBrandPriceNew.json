@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "KEFNIR",
+    "packSize": "30",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "73.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.44"
+  },
+  {
+    "brandName": "CEFRINE",
+    "packSize": "30",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "125.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.19"
+  },
+  {
+    "brandName": "ADCEF",
+    "packSize": "30",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "228.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.62"
+  }
+]

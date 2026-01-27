@@ -1,0 +1,562 @@
+[
+  {
+    "brandName": "CLOPILANT",
+    "packSize": "10",
+    "company": "AARUX PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "0.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.01"
+  },
+  {
+    "brandName": "ACLIZAC",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "13.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.35"
+  },
+  {
+    "brandName": "CLOPINOX",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "16.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.69"
+  },
+  {
+    "brandName": "CLOPINAM",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "28.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  },
+  {
+    "brandName": "CLOPIKIND",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "31.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.14"
+  },
+  {
+    "brandName": "CIDOGREL",
+    "packSize": "10",
+    "company": "KARNATAKA ANTIBIOTICS & PHARMACEUTICALS LTD(KAPL)",
+    "brandMrp": "36.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.66"
+  },
+  {
+    "brandName": "ACLOTIL",
+    "packSize": "10",
+    "company": "BAL PHARMA",
+    "brandMrp": "37.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.80"
+  },
+  {
+    "brandName": "ANTIPLAR",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "39.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.00"
+  },
+  {
+    "brandName": "CLOTSAFE",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "41.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.11"
+  },
+  {
+    "brandName": "ANTIPLATT",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "42.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.25"
+  },
+  {
+    "brandName": "CLOFLOW",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "45.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.60"
+  },
+  {
+    "brandName": "CPG",
+    "packSize": "10",
+    "company": "SUNIJ PHARMA PVT LTD",
+    "brandMrp": "47.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.79"
+  },
+  {
+    "brandName": "GRELET",
+    "packSize": "10",
+    "company": "INTRA LABS",
+    "brandMrp": "50.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "PLAVIC",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "51.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.14"
+  },
+  {
+    "brandName": "CLOPITEC",
+    "packSize": "10",
+    "company": "ELLORA PHARMA PVT.LTD",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "CARPIGREL",
+    "packSize": "10",
+    "company": "SHRRISHTI HEALTHCARE",
+    "brandMrp": "57.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.71"
+  },
+  {
+    "brandName": "PREVA",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "87.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.82"
+  },
+  {
+    "brandName": "CLODREL",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "88.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.89"
+  },
+  {
+    "brandName": "CLOPIRISE",
+    "packSize": "10",
+    "company": "SPECTRA THERAPEUTICS PVT. LTD.",
+    "brandMrp": "59.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.95"
+  },
+  {
+    "brandName": "IT",
+    "packSize": "10",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "CLOPCARE",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "61.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "CLOPIRAD",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "61.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "CARPIGREL",
+    "packSize": "14",
+    "company": "SHRRISHTI HEALTHCARE",
+    "brandMrp": "87.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.23"
+  },
+  {
+    "brandName": "CLOBERRY",
+    "packSize": "10",
+    "company": "HEALTH BERRY LIFESCIENCES",
+    "brandMrp": "62.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.24"
+  },
+  {
+    "brandName": "SYNPLATT",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "62.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.25"
+  },
+  {
+    "brandName": "CLOPIKLOT",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "63.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.37"
+  },
+  {
+    "brandName": "CLOPIDER",
+    "packSize": "10",
+    "company": "ELDER LABS LTD",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.50"
+  },
+  {
+    "brandName": "SUPERCLOP",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "65.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.59"
+  },
+  {
+    "brandName": "CLEARCLOT",
+    "packSize": "10",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "66.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.60"
+  },
+  {
+    "brandName": "PLAGERINE",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "66.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.65"
+  },
+  {
+    "brandName": "CLOPIGOLD",
+    "packSize": "15",
+    "company": "STERIS HEALTHCARE",
+    "brandMrp": "99.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.66"
+  },
+  {
+    "brandName": "CLOPIVAS",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "100.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.71"
+  },
+  {
+    "brandName": "CLOYD",
+    "packSize": "10",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "67.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.77"
+  },
+  {
+    "brandName": "TRUGREL",
+    "packSize": "10",
+    "company": "ORRIS PHARMACEUTICALS",
+    "brandMrp": "67.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.80"
+  },
+  {
+    "brandName": "DEPLATT",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "102.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.86"
+  },
+  {
+    "brandName": "MEDIGREL",
+    "packSize": "10",
+    "company": "MEDICHEM PHARMCEUTICALS LTD",
+    "brandMrp": "69.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.90"
+  },
+  {
+    "brandName": "CLOPIZEST",
+    "packSize": "10",
+    "company": "INNOVATIVE PHARMACEUTICALS",
+    "brandMrp": "69.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.92"
+  },
+  {
+    "brandName": "CLOPIHENZ",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "69.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.94"
+  },
+  {
+    "brandName": "CLOPINOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "69.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.96"
+  },
+  {
+    "brandName": "PLAGRIL",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "69.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.96"
+  },
+  {
+    "brandName": "ABCLOPID",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "104.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.98"
+  },
+  {
+    "brandName": "ADGRIL",
+    "packSize": "10",
+    "company": "ARETAEUS PHARMACEUTICALS",
+    "brandMrp": "69.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.99"
+  },
+  {
+    "brandName": "CARDIGREL",
+    "packSize": "15",
+    "company": "HBC LIFESCIENCES PVT LTD",
+    "brandMrp": "104.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.99"
+  },
+  {
+    "brandName": "CLOPICARD",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "104.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.99"
+  },
+  {
+    "brandName": "CLOPIZEN (ELDER PROJECTS)",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "69.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.99"
+  },
+  {
+    "brandName": "PLAVIX",
+    "packSize": "14",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "97.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.99"
+  },
+  {
+    "brandName": "CLOPITON",
+    "packSize": "10",
+    "company": "RANMARC LABS",
+    "brandMrp": "70.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.03"
+  },
+  {
+    "brandName": "CLOPIDRILL",
+    "packSize": "15",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "106.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.07"
+  },
+  {
+    "brandName": "CLOBEST",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "70.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.08"
+  },
+  {
+    "brandName": "HYCLOP",
+    "packSize": "10",
+    "company": "HYGEN HEALTHCARE PRIVATE LTD",
+    "brandMrp": "70.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.09"
+  },
+  {
+    "brandName": "CLOPITAB",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "106.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.10"
+  },
+  {
+    "brandName": "CLOYD",
+    "packSize": "15",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "106.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.10"
+  },
+  {
+    "brandName": "ANZIOLET",
+    "packSize": "15",
+    "company": "ERGOS LIFE SCIENCES",
+    "brandMrp": "106.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.11"
+  },
+  {
+    "brandName": "CERUVIN",
+    "packSize": "15",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "106.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.11"
+  },
+  {
+    "brandName": "CLOFRE",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "71.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.11"
+  },
+  {
+    "brandName": "PLAGERINE",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "106.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.11"
+  },
+  {
+    "brandName": "CLAVIX",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "106.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.12"
+  },
+  {
+    "brandName": "DELGREL",
+    "packSize": "10",
+    "company": "GOLD LINE",
+    "brandMrp": "71.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.12"
+  },
+  {
+    "brandName": "CLOPIDOGREL",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "73.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.30"
+  },
+  {
+    "brandName": "CLOPIDOGREL(INTAS)",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "73.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.30"
+  },
+  {
+    "brandName": "PLAGRIL GOLD",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "74.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.45"
+  },
+  {
+    "brandName": "C GREL",
+    "packSize": "10",
+    "company": "TRITON HEALTH CARE PVT LTD",
+    "brandMrp": "75.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.59"
+  },
+  {
+    "brandName": "STANCLOP",
+    "packSize": "10",
+    "company": "ELINOR PHARMA",
+    "brandMrp": "75.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.59"
+  },
+  {
+    "brandName": "STROMIX",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "77.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.74"
+  },
+  {
+    "brandName": "NOKLOT (BAYER ZYDUS)",
+    "packSize": "10",
+    "company": "BAYER PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "77.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.78"
+  },
+  {
+    "brandName": "CVNORM",
+    "packSize": "10",
+    "company": "MODI MUNDI PHARMA PVT LTD",
+    "brandMrp": "99.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.97"
+  },
+  {
+    "brandName": "CLOPIFINE",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.50"
+  },
+  {
+    "brandName": "CLOPIGARD",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "106.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.68"
+  },
+  {
+    "brandName": "CLOFIRST",
+    "packSize": "10",
+    "company": "SINSAN PHARMACEUTICALS",
+    "brandMrp": "109.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.95"
+  },
+  {
+    "brandName": "CLOPIDIL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "117.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.75"
+  }
+]

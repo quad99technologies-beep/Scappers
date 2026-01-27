@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ETORNEXT",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.50"
+  },
+  {
+    "brandName": "ETORITE",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "179.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.91"
+  },
+  {
+    "brandName": "ETOFLU",
+    "packSize": "10",
+    "company": "AUFTRITT HEALTH CARE PVT.LTD",
+    "brandMrp": "191.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.18"
+  }
+]

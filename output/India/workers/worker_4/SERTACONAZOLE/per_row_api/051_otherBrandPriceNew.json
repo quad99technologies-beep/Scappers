@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "SERTAJOY",
+    "packSize": "30",
+    "company": "IZNG PHARMACEUTICALS",
+    "brandMrp": "270.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.03"
+  },
+  {
+    "brandName": "SATASUN",
+    "packSize": "15",
+    "company": "DERMAKARE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "144.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.63"
+  },
+  {
+    "brandName": "IZ S",
+    "packSize": "30",
+    "company": "MRHM PHARMA PVT LTD",
+    "brandMrp": "325.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.84"
+  }
+]

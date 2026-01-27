@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "STULAX",
+    "packSize": "200",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.25"
+  },
+  {
+    "brandName": "PUROLAC",
+    "packSize": "100",
+    "company": "NAVIL LABORATORIES",
+    "brandMrp": "130.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.30"
+  },
+  {
+    "brandName": "STULAX",
+    "packSize": "100",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.30"
+  },
+  {
+    "brandName": "LAXDAY",
+    "packSize": "100",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "LAXDAY",
+    "packSize": "200",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "262.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "SMULAC",
+    "packSize": "100",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "SMULAC",
+    "packSize": "200",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "262.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "LAXOLUZ",
+    "packSize": "200",
+    "company": "FOURRTS INDIA LABORATORIES PVT. LTD",
+    "brandMrp": "263.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.32"
+  }
+]

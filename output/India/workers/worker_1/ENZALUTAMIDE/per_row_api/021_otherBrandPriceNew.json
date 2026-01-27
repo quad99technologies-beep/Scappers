@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "EZAPRO",
+    "packSize": "7",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "4687.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "669.64"
+  },
+  {
+    "brandName": "ENZYL",
+    "packSize": "7",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "6037.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "862.50"
+  },
+  {
+    "brandName": "ENZANDRO",
+    "packSize": "7",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "6902.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "986.00"
+  },
+  {
+    "brandName": "XTIDE",
+    "packSize": "7",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "8214.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1173.47"
+  }
+]

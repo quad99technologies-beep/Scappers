@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "NAPRA-S",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "13.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.35"
+  },
+  {
+    "brandName": "NAPROSYN",
+    "packSize": "10",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "63.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.38"
+  },
+  {
+    "brandName": "NAPROSYN",
+    "packSize": "15",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "108.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.23"
+  }
+]

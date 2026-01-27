@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "NINTENA",
+    "packSize": "60",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "3900.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.00"
+  },
+  {
+    "brandName": "NINTIB",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "2276.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "75.88"
+  },
+  {
+    "brandName": "MACDANIB",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "810.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "81.00"
+  },
+  {
+    "brandName": "PRUTIS",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "843.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "84.38"
+  },
+  {
+    "brandName": "NINTENA",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "1017.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "101.77"
+  },
+  {
+    "brandName": "NINTIB",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "1060.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "106.06"
+  },
+  {
+    "brandName": "NINDANIB",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "1108.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "110.86"
+  },
+  {
+    "brandName": "IDOFNIB",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "1177.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "117.75"
+  },
+  {
+    "brandName": "CYENDIV",
+    "packSize": "10",
+    "company": "BOEHRINGER INGELHEIM",
+    "brandMrp": "24361.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2436.11"
+  }
+]

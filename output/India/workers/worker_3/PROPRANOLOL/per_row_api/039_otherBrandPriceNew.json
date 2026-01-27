@@ -1,0 +1,210 @@
+[
+  {
+    "brandName": "PEELAR",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "17.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.78"
+  },
+  {
+    "brandName": "CARBNOL",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "21.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.10"
+  },
+  {
+    "brandName": "TENSYN(SYNOKEM)",
+    "packSize": "10",
+    "company": "SYNOKEM PHARMACEUTICALS LTD",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "BELOC",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "30.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.09"
+  },
+  {
+    "brandName": "PRONOL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "32.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.21"
+  },
+  {
+    "brandName": "MIGRALES",
+    "packSize": "10",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "33.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.31"
+  },
+  {
+    "brandName": "PONOL",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "33.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.37"
+  },
+  {
+    "brandName": "ROPNOL",
+    "packSize": "10",
+    "company": "WANDER MEDICARE PVT.LTD",
+    "brandMrp": "33.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.37"
+  },
+  {
+    "brandName": "TRILOL",
+    "packSize": "10",
+    "company": "TRITON HEALTH CARE PVT LTD",
+    "brandMrp": "34.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.41"
+  },
+  {
+    "brandName": "ARMINOL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "34.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.43"
+  },
+  {
+    "brandName": "PROLOL",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "34.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.43"
+  },
+  {
+    "brandName": "BETASET TR",
+    "packSize": "10",
+    "company": "ZEUS PHARMA",
+    "brandMrp": "34.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.44"
+  },
+  {
+    "brandName": "CIPLAR",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "51.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.44"
+  },
+  {
+    "brandName": "INDERAL",
+    "packSize": "15",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "51.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.44"
+  },
+  {
+    "brandName": "PILOL",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "34.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.44"
+  },
+  {
+    "brandName": "PROVANOL",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "34.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.44"
+  },
+  {
+    "brandName": "SIGNOLOL",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "35.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.51"
+  },
+  {
+    "brandName": "PRONATE (LINUX)",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "35.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.59"
+  },
+  {
+    "brandName": "MIGRABETA",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "35.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.60"
+  },
+  {
+    "brandName": "POPTR",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "37.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.73"
+  },
+  {
+    "brandName": "BELOC",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "42.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.27"
+  },
+  {
+    "brandName": "CARENOL",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "51.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.10"
+  },
+  {
+    "brandName": "NURO BETA",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "51.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.14"
+  },
+  {
+    "brandName": "PROP TR",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "61.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.17"
+  },
+  {
+    "brandName": "CIPLAR",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "123.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.22"
+  },
+  {
+    "brandName": "NURO BETA",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "134.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.48"
+  }
+]

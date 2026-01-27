@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ROMY",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "3736.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3736.17"
+  },
+  {
+    "brandName": "AUGPLAT",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "3843.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3843.70"
+  },
+  {
+    "brandName": "ROMPOST",
+    "packSize": "1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "4267.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4267.86"
+  }
+]

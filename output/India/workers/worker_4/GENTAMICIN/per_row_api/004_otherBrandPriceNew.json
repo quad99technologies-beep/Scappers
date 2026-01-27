@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "GENTA SWIFT",
+    "packSize": "20",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "17.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.86"
+  },
+  {
+    "brandName": "INTAGENTA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "8.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.88"
+  },
+  {
+    "brandName": "RANBIOTIC",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "16.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.61"
+  },
+  {
+    "brandName": "INTAGENTA",
+    "packSize": "20",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "33.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.65"
+  },
+  {
+    "brandName": "GENTICYN",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "17.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.75"
+  },
+  {
+    "brandName": "GMI",
+    "packSize": "2",
+    "company": "RAVIAN PHARMACEUTICALS PVT LTD",
+    "brandMrp": "4.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.46"
+  },
+  {
+    "brandName": "GENTAMYCIN (FULFORD)",
+    "packSize": "2",
+    "company": "MSD PHARMACEUTICALS PRIVATE LTD.",
+    "brandMrp": "5.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.53"
+  },
+  {
+    "brandName": "GENTAMICIN (FULFORD)",
+    "packSize": "2",
+    "company": "MSD PHARMACEUTICALS PRIVATE LTD.",
+    "brandMrp": "5.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.75"
+  },
+  {
+    "brandName": "INTAGENTA",
+    "packSize": "2",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "7.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.50"
+  },
+  {
+    "brandName": "RANBIOTIC",
+    "packSize": "2",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "7.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.75"
+  },
+  {
+    "brandName": "BIOGARACIN",
+    "packSize": "2",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "10.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.18"
+  },
+  {
+    "brandName": "GENTICYN",
+    "packSize": "2",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "10.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.18"
+  },
+  {
+    "brandName": "GENTAMICIN (CADILA)",
+    "packSize": "2",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "10.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.45"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "MACTASE",
+    "packSize": "15",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "154.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.28"
+  },
+  {
+    "brandName": "YAMOO",
+    "packSize": "15",
+    "company": "WALTER BUSHNELL",
+    "brandMrp": "182.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.15"
+  },
+  {
+    "brandName": "NEOSMILE",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "137.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.70"
+  }
+]

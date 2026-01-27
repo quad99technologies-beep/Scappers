@@ -1,0 +1,114 @@
+[
+  {
+    "brandName": "GENMOLE",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "2.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.27"
+  },
+  {
+    "brandName": "LEMOL",
+    "packSize": "10",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "4.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.49"
+  },
+  {
+    "brandName": "CETACIN",
+    "packSize": "15",
+    "company": "UNIVERSAL LIFE SCIENCE",
+    "brandMrp": "9.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.61"
+  },
+  {
+    "brandName": "TYMOL",
+    "packSize": "10",
+    "company": "MIDAS CARE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "11.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.12"
+  },
+  {
+    "brandName": "TYFY PLUS",
+    "packSize": "10",
+    "company": "VANGUARD THERAPEUTICS P. LTD",
+    "brandMrp": "16.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.67"
+  },
+  {
+    "brandName": "PARAWIN",
+    "packSize": "10",
+    "company": "CUREWIN PHARMACEUTICALS LTD",
+    "brandMrp": "18.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.85"
+  },
+  {
+    "brandName": "XT PARA SPAS",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "22.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.22"
+  },
+  {
+    "brandName": "MAIPARA",
+    "packSize": "10",
+    "company": "TORIN PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "36.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.61"
+  },
+  {
+    "brandName": "KWIK",
+    "packSize": "10",
+    "company": "OZONE PHARMACEUTICALS",
+    "brandMrp": "50.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "IFIMOL 4C",
+    "packSize": "10",
+    "company": "JB CHEMICALS",
+    "brandMrp": "58.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.80"
+  },
+  {
+    "brandName": "PARALUP",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "69.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.99"
+  },
+  {
+    "brandName": "DICLOWIN WOMAN",
+    "packSize": "10",
+    "company": "WINGS PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  },
+  {
+    "brandName": "PM (JENOVA)",
+    "packSize": "10",
+    "company": "JENOVA LABORATORIES PVT LTD",
+    "brandMrp": "175.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.50"
+  },
+  {
+    "brandName": "MAGSPEED",
+    "packSize": "10",
+    "company": "EPIONE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "233.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.34"
+  }
+]

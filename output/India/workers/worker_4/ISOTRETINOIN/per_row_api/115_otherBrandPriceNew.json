@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "ACNEZAC",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "149.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.90"
+  },
+  {
+    "brandName": "ETHITRET",
+    "packSize": "10",
+    "company": "ETHINEXT PHARMA PVT.LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.88"
+  },
+  {
+    "brandName": "ISOWELL",
+    "packSize": "10",
+    "company": "CURIOUS BIOTECH",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.88"
+  },
+  {
+    "brandName": "ACNERUS I",
+    "packSize": "10",
+    "company": "CYRUS REMEDIES PVT LTD",
+    "brandMrp": "178.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.86"
+  },
+  {
+    "brandName": "ISOGRACE",
+    "packSize": "10",
+    "company": "GRACE DERMA HEALTHCARE PVT.LTD",
+    "brandMrp": "197.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.70"
+  },
+  {
+    "brandName": "ISOTRENOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "198.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.80"
+  },
+  {
+    "brandName": "ISOPEX",
+    "packSize": "10",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "224.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.46"
+  },
+  {
+    "brandName": "ISO-CLIN",
+    "packSize": "10",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "243.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.38"
+  },
+  {
+    "brandName": "ACTAME",
+    "packSize": "10",
+    "company": "SOLDERMA PHARMACEUTICALS PVT. LTD",
+    "brandMrp": "247.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.75"
+  },
+  {
+    "brandName": "GLOTRET",
+    "packSize": "10",
+    "company": "TRICOS DERMATOLOGICS PVT LTD",
+    "brandMrp": "251.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.13"
+  },
+  {
+    "brandName": "ISOLOX",
+    "packSize": "10",
+    "company": "PERCOS INDIA PVT. LTD.",
+    "brandMrp": "255.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.50"
+  },
+  {
+    "brandName": "DJISIO",
+    "packSize": "10",
+    "company": "RONYD HEALTH CARE PVT LTD",
+    "brandMrp": "265.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.50"
+  },
+  {
+    "brandName": "REZISORT",
+    "packSize": "10",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "326.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.63"
+  }
+]

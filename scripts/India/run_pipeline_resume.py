@@ -365,6 +365,11 @@ def main():
     cp = get_checkpoint_manager(SCRAPER_NAME)
     output_dir = get_output_dir()
     worker_count = max(1, int(args.workers or 1))
+    # Platform runners sometimes inject `--workers` regardless of env config. Never exceed configured workers.
+    configured_workers = max(1, int(getenv_int("INDIA_WORKERS", worker_count) or worker_count))
+    if worker_count > configured_workers:
+        print(f"[CONFIG] Overriding CLI workers={worker_count} with INDIA_WORKERS={configured_workers}", flush=True)
+        worker_count = configured_workers
     parallel_mode = worker_count > 1
     
     # Show status and exit
@@ -437,7 +442,7 @@ def main():
     
     # Define pipeline steps with their output files
     # Note: Ceiling prices step removed - formulations are now loaded from input/India/formulations.csv
-    details_script = "02 get details.py"
+    details_script = "02_get_details.py"
     details_outputs = ["details", "scraping_report.json"]
     details_args = None
     if parallel_mode:

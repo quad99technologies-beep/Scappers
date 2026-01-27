@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "SECEF",
+    "packSize": "30",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "75.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.53"
+  },
+  {
+    "brandName": "ZIFI",
+    "packSize": "30",
+    "company": "FDC LTD.",
+    "brandMrp": "76.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.55"
+  },
+  {
+    "brandName": "AELXIM",
+    "packSize": "30",
+    "company": "ALLERGAN INDIA LTD",
+    "brandMrp": "90.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.01"
+  }
+]

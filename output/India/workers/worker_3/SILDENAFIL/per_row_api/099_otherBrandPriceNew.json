@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "BIGFUN",
+    "packSize": "4",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "34.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.53"
+  },
+  {
+    "brandName": "PULMODAY",
+    "packSize": "10",
+    "company": "APRICA HEALTHCARE PVT LTD",
+    "brandMrp": "141.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.12"
+  },
+  {
+    "brandName": "PAH(MSN)",
+    "packSize": "15",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "292.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.51"
+  },
+  {
+    "brandName": "PENEGRA PAH",
+    "packSize": "15",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.00"
+  },
+  {
+    "brandName": "ASSURANS",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "379.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.27"
+  }
+]

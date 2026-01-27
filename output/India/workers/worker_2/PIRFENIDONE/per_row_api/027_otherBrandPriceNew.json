@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "PIRFACT",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "220.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.00"
+  },
+  {
+    "brandName": "PIRFETAB",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "311.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.20"
+  }
+]

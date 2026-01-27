@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "SA 12",
+    "packSize": "25",
+    "company": "PALSONS DERMA PVT. LTD",
+    "brandMrp": "53.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.12"
+  },
+  {
+    "brandName": "SALIDERM",
+    "packSize": "60",
+    "company": "DERMO CARE LABORATORIES",
+    "brandMrp": "147.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.45"
+  },
+  {
+    "brandName": "DERSOL",
+    "packSize": "25",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "92.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.71"
+  },
+  {
+    "brandName": "SALDERM",
+    "packSize": "30",
+    "company": "OMNI LIFE SCIENCES PVT LTD",
+    "brandMrp": "183.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.13"
+  }
+]

@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "GLUTADERM",
+    "packSize": "10",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "387.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.71"
+  },
+  {
+    "brandName": "GLUTADERM PLUS",
+    "packSize": "10",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "676.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "67.63"
+  },
+  {
+    "brandName": "VITAPRIDE (SIGNITY)",
+    "packSize": "10",
+    "company": "SIGNITY PHARMACEUTICALS PVT LTD",
+    "brandMrp": "845.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "84.53"
+  },
+  {
+    "brandName": "GTHANCE",
+    "packSize": "10",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "880.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "88.09"
+  },
+  {
+    "brandName": "MAXIHEP",
+    "packSize": "10",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "969.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "96.90"
+  },
+  {
+    "brandName": "OXONEG",
+    "packSize": "15",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "1627.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "108.50"
+  },
+  {
+    "brandName": "GLUTONE",
+    "packSize": "10",
+    "company": "ADROIT BIOMED LTD",
+    "brandMrp": "1103.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "110.34"
+  },
+  {
+    "brandName": "GLUTAUP",
+    "packSize": "10",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "1106.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "110.65"
+  },
+  {
+    "brandName": "GLUTONE",
+    "packSize": "15",
+    "company": "ADROIT BIOMED LTD",
+    "brandMrp": "1752.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "116.86"
+  },
+  {
+    "brandName": "TRESCURB",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "1265.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "126.50"
+  },
+  {
+    "brandName": "MAXILIV",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "1282.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "128.20"
+  },
+  {
+    "brandName": "THIOTRES",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "1287.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "128.76"
+  },
+  {
+    "brandName": "GLUTONE",
+    "packSize": "15",
+    "company": "ADROIT BIOMED LTD",
+    "brandMrp": "2447.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "163.13"
+  }
+]

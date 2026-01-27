@@ -1,0 +1,194 @@
+[
+  {
+    "brandName": "CADICEFT O",
+    "packSize": "30",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "33.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.13"
+  },
+  {
+    "brandName": "CEFODER",
+    "packSize": "30",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.33"
+  },
+  {
+    "brandName": "MONOTAX O",
+    "packSize": "30",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "100.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.35"
+  },
+  {
+    "brandName": "OMNACEFPO",
+    "packSize": "30",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "102.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.40"
+  },
+  {
+    "brandName": "CEPODAY",
+    "packSize": "30",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "105.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.53"
+  },
+  {
+    "brandName": "KEFMED",
+    "packSize": "30",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "114.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.80"
+  },
+  {
+    "brandName": "CUPAL",
+    "packSize": "30",
+    "company": "DR. JOHNS LABORATORIES PVT LTD",
+    "brandMrp": "120.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.01"
+  },
+  {
+    "brandName": "CEFODEM",
+    "packSize": "30",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "132.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.40"
+  },
+  {
+    "brandName": "C POD",
+    "packSize": "30",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "139.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.66"
+  },
+  {
+    "brandName": "ALEXPOD",
+    "packSize": "30",
+    "company": "ELINOR PHARMA",
+    "brandMrp": "142.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.73"
+  },
+  {
+    "brandName": "PODOXIM",
+    "packSize": "30",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "144.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.82"
+  },
+  {
+    "brandName": "PODCEF",
+    "packSize": "30",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "148.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.95"
+  },
+  {
+    "brandName": "PEDICEF (OLCARE)",
+    "packSize": "30",
+    "company": "OLCARE LTD",
+    "brandMrp": "149.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.97"
+  },
+  {
+    "brandName": "PODXETIL",
+    "packSize": "30",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "154.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.13"
+  },
+  {
+    "brandName": "SPECTRATIL",
+    "packSize": "30",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "155.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.18"
+  },
+  {
+    "brandName": "GRANDCEF",
+    "packSize": "30",
+    "company": "GRANDCURE HEALTHCARE PVT. LTD.",
+    "brandMrp": "162.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.41"
+  },
+  {
+    "brandName": "FOLOUP",
+    "packSize": "30",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "173.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.78"
+  },
+  {
+    "brandName": "GUDCEF",
+    "packSize": "30",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "175.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.84"
+  },
+  {
+    "brandName": "CEFDRYL",
+    "packSize": "30",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "195.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.53"
+  },
+  {
+    "brandName": "ZEDOCEF",
+    "packSize": "30",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "195.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.53"
+  },
+  {
+    "brandName": "POLARES",
+    "packSize": "30",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "202.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.74"
+  },
+  {
+    "brandName": "BACTOGARD",
+    "packSize": "30",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "208.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.95"
+  },
+  {
+    "brandName": "DOXCEF",
+    "packSize": "30",
+    "company": "LUPIN LTD",
+    "brandMrp": "233.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.77"
+  },
+  {
+    "brandName": "PODOCEF",
+    "packSize": "30",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "259.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.64"
+  }
+]

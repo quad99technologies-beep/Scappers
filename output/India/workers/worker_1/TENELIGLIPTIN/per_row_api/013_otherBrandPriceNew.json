@@ -1,0 +1,1234 @@
+[
+  {
+    "brandName": "TENEZIDE",
+    "packSize": "10",
+    "company": "INNOVATIVE PHARMACEUTICALS",
+    "brandMrp": "0.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.01"
+  },
+  {
+    "brandName": "TENETROY",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "31.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.11"
+  },
+  {
+    "brandName": "TENLIVENT",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "31.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.19"
+  },
+  {
+    "brandName": "TENLISON",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "38.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.81"
+  },
+  {
+    "brandName": "TENEBETIC",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "43.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.38"
+  },
+  {
+    "brandName": "TENEBLU",
+    "packSize": "15",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "66.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.44"
+  },
+  {
+    "brandName": "ZORBTEN",
+    "packSize": "10",
+    "company": "GODDRES PHARMACEUTICALS LTD",
+    "brandMrp": "44.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.47"
+  },
+  {
+    "brandName": "TENEDIX",
+    "packSize": "10",
+    "company": "ACMEDIX PHARMA LLP",
+    "brandMrp": "45.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.59"
+  },
+  {
+    "brandName": "ECOGLIP T",
+    "packSize": "10",
+    "company": "OZONE PHARMACEUTICALS",
+    "brandMrp": "46.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.69"
+  },
+  {
+    "brandName": "TENEWAL",
+    "packSize": "10",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "47.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.79"
+  },
+  {
+    "brandName": "TENELIDIB",
+    "packSize": "10",
+    "company": "HELIOS PHARMACEUTICALS",
+    "brandMrp": "51.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.18"
+  },
+  {
+    "brandName": "TENLICRET",
+    "packSize": "10",
+    "company": "CONVERGE BIOTECH PVT.LTD",
+    "brandMrp": "52.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.20"
+  },
+  {
+    "brandName": "TENLIFINE",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "TELITEN",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "60.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.09"
+  },
+  {
+    "brandName": "TENETUS",
+    "packSize": "10",
+    "company": "ARETAEUS PHARMACEUTICALS",
+    "brandMrp": "65.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "TENEFIT",
+    "packSize": "15",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "101.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.80"
+  },
+  {
+    "brandName": "FONELIA",
+    "packSize": "10",
+    "company": "FONCER PHARMA PVT. LTD",
+    "brandMrp": "72.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.20"
+  },
+  {
+    "brandName": "TENAMIT",
+    "packSize": "15",
+    "company": "MITOCH PHARMA PVT LTD",
+    "brandMrp": "110.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.38"
+  },
+  {
+    "brandName": "TENESPEC",
+    "packSize": "10",
+    "company": "SPECTRA THERAPEUTICS PVT. LTD.",
+    "brandMrp": "74.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.41"
+  },
+  {
+    "brandName": "GLIPTIWAY",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "GLIPTINEXT",
+    "packSize": "10",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "81.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.13"
+  },
+  {
+    "brandName": "ADGLYTROL OT",
+    "packSize": "10",
+    "company": "MEDISUN PHARMA",
+    "brandMrp": "82.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.25"
+  },
+  {
+    "brandName": "TVAS",
+    "packSize": "10",
+    "company": "VASUCHEM LIFESCIENCES PVT LTD",
+    "brandMrp": "82.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.25"
+  },
+  {
+    "brandName": "TENDIUM",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "84.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.40"
+  },
+  {
+    "brandName": "TENLICAD",
+    "packSize": "10",
+    "company": "CADELL HEALTH CARE PVT.LTD",
+    "brandMrp": "84.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.43"
+  },
+  {
+    "brandName": "TEMUR",
+    "packSize": "15",
+    "company": "OPSISCARE LIFESCIENCSE PVT LTD",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "DYNAGLIPT",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "84.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.49"
+  },
+  {
+    "brandName": "XIATEN",
+    "packSize": "10",
+    "company": "KEPLER HEALTH CARE",
+    "brandMrp": "86.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.63"
+  },
+  {
+    "brandName": "TENCRITIN",
+    "packSize": "10",
+    "company": "SHANKUS ACME PHARMA PVT.LTD.",
+    "brandMrp": "87.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.70"
+  },
+  {
+    "brandName": "DIATIN",
+    "packSize": "10",
+    "company": "COLINZ LABORATORIES LTD",
+    "brandMrp": "87.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.72"
+  },
+  {
+    "brandName": "TGDIA",
+    "packSize": "10",
+    "company": "WALTON HEALTH CARE PVT.LTD",
+    "brandMrp": "87.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.72"
+  },
+  {
+    "brandName": "TENGINOW",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "88.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.87"
+  },
+  {
+    "brandName": "TENLIMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "88.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.87"
+  },
+  {
+    "brandName": "TACIA",
+    "packSize": "10",
+    "company": "ST. MORRISON",
+    "brandMrp": "88.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.89"
+  },
+  {
+    "brandName": "THYOGLIP",
+    "packSize": "10",
+    "company": "THYONE HEALTH CARE",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.91"
+  },
+  {
+    "brandName": "BIOTENLY",
+    "packSize": "10",
+    "company": "BIOS LAB PVT.LTD",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "TEN DC",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "TEGMA",
+    "packSize": "10",
+    "company": "WONSET HEALTH CARE PRIVATE LIMITED",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "TENEE",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "TENOHA",
+    "packSize": "10",
+    "company": "ORRIS PHARMACEUTICALS",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "WELLGLIP",
+    "packSize": "10",
+    "company": "ELIXIA LIFE SCIENCES",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "MINCRITEN",
+    "packSize": "10",
+    "company": "MCRONUS LIFESCIENCE PVT LTD",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  },
+  {
+    "brandName": "TENITIN",
+    "packSize": "10",
+    "company": "RANMARC LABS",
+    "brandMrp": "93.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.39"
+  },
+  {
+    "brandName": "TENELET",
+    "packSize": "10",
+    "company": "ELLORA PHARMA PVT.LTD",
+    "brandMrp": "98.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.80"
+  },
+  {
+    "brandName": "TENEREST",
+    "packSize": "10",
+    "company": "ALDE MEDI IMPEX",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.90"
+  },
+  {
+    "brandName": "TENGLIP",
+    "packSize": "10",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.90"
+  },
+  {
+    "brandName": "TIGLAZ",
+    "packSize": "15",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "149.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.98"
+  },
+  {
+    "brandName": "WELTEN",
+    "packSize": "10",
+    "company": "EYSYS PHARMACEUTICAL PVT LTD",
+    "brandMrp": "99.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.98"
+  },
+  {
+    "brandName": "AZNETEM",
+    "packSize": "10",
+    "company": "DAYLON HEALTHCARE PVT LTD",
+    "brandMrp": "100.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.03"
+  },
+  {
+    "brandName": "AZNETEN",
+    "packSize": "10",
+    "company": "DAYLON HEALTHCARE PVT LTD",
+    "brandMrp": "100.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.03"
+  },
+  {
+    "brandName": "ENDOGLIPT",
+    "packSize": "10",
+    "company": "ARKAS PHARMA PRIVATE LIMITED",
+    "brandMrp": "101.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "TENSORIN",
+    "packSize": "10",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "101.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "GLIPON",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "101.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.16"
+  },
+  {
+    "brandName": "MEGAGLIPTIN",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "101.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.16"
+  },
+  {
+    "brandName": "MYTENELI",
+    "packSize": "10",
+    "company": "ELICAD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "102.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.21"
+  },
+  {
+    "brandName": "ZILENTA",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "102.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.22"
+  },
+  {
+    "brandName": "TGP",
+    "packSize": "10",
+    "company": "TRIPADA LIFECARE PVT.LTD",
+    "brandMrp": "103.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.30"
+  },
+  {
+    "brandName": "TENEPURE",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "155.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.38"
+  },
+  {
+    "brandName": "TENEPACE",
+    "packSize": "10",
+    "company": "MEYER ORGANICS PVT. LTD",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.50"
+  },
+  {
+    "brandName": "TENSTAR",
+    "packSize": "10",
+    "company": "LIVIDUS PHARMA PVT LTD",
+    "brandMrp": "106.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.69"
+  },
+  {
+    "brandName": "TENEPLA",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "106.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.70"
+  },
+  {
+    "brandName": "TEGNECT",
+    "packSize": "10",
+    "company": "ARRIENT HEALTHCARE PVT.LTD.",
+    "brandMrp": "107.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.71"
+  },
+  {
+    "brandName": "TENEBEST",
+    "packSize": "10",
+    "company": "TYCOON PHARMACEUTICALS PVT LTD",
+    "brandMrp": "107.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.78"
+  },
+  {
+    "brandName": "TENELECT",
+    "packSize": "10",
+    "company": "ELINOR PHARMA",
+    "brandMrp": "107.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.78"
+  },
+  {
+    "brandName": "TENELNAT",
+    "packSize": "10",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "108.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.80"
+  },
+  {
+    "brandName": "VIDGLIT",
+    "packSize": "10",
+    "company": "DIOS LIFESCIENCES PRIVATE LIMITED",
+    "brandMrp": "108.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.84"
+  },
+  {
+    "brandName": "TENEFIL",
+    "packSize": "10",
+    "company": "FOURRTS INDIA LABORATORIES PVT. LTD",
+    "brandMrp": "108.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.88"
+  },
+  {
+    "brandName": "TENEPAN",
+    "packSize": "10",
+    "company": "PANACEA BIOTEC LTD",
+    "brandMrp": "108.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.89"
+  },
+  {
+    "brandName": "TENEFRON",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "TENETIME",
+    "packSize": "10",
+    "company": "NIRVANA HEALTH CARE",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "JOTEN",
+    "packSize": "10",
+    "company": "JARUN PHARMACEUTICALS",
+    "brandMrp": "110.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.06"
+  },
+  {
+    "brandName": "TENAMIT",
+    "packSize": "10",
+    "company": "MITOCH PHARMA PVT LTD",
+    "brandMrp": "110.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.06"
+  },
+  {
+    "brandName": "ACTIGLIPT",
+    "packSize": "10",
+    "company": "AKESISS PHARMA (P) LTD",
+    "brandMrp": "111.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.16"
+  },
+  {
+    "brandName": "DPFOR",
+    "packSize": "10",
+    "company": "AZKKA PHARMACEUTICALS PVT LTD",
+    "brandMrp": "111.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.16"
+  },
+  {
+    "brandName": "EZYGLIP",
+    "packSize": "10",
+    "company": "EDOC LIFE SCIENCES",
+    "brandMrp": "111.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.16"
+  },
+  {
+    "brandName": "TENARK",
+    "packSize": "10",
+    "company": "CADOMED PHARMACEUTICALS INDIA PVT.LTD",
+    "brandMrp": "111.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.16"
+  },
+  {
+    "brandName": "TOPGLIP",
+    "packSize": "10",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "111.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.16"
+  },
+  {
+    "brandName": "GLIPTEL",
+    "packSize": "10",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "TEGLA",
+    "packSize": "10",
+    "company": "SURGE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "TENECURE",
+    "packSize": "10",
+    "company": "THREE DOTS LIFESCIENCE",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "TENIHOP",
+    "packSize": "10",
+    "company": "ANAX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "TENLIFAST",
+    "packSize": "10",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "ELIPTIN",
+    "packSize": "15",
+    "company": "HBC LIFESCIENCES PVT LTD",
+    "brandMrp": "169.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.31"
+  },
+  {
+    "brandName": "TENLIGRESS",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "113.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.34"
+  },
+  {
+    "brandName": "TEPTIN",
+    "packSize": "10",
+    "company": "EL-DORADO BIO-TECH PVT LTD",
+    "brandMrp": "113.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.39"
+  },
+  {
+    "brandName": "TENALI",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "115.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.56"
+  },
+  {
+    "brandName": "CONTENEL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "116.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "DEBILIPTIN",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "116.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "EFIGLIN",
+    "packSize": "15",
+    "company": "MEDOPHARM",
+    "brandMrp": "174.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "GLIPIJUB",
+    "packSize": "10",
+    "company": "JUBILANT GENERICS LIMITED",
+    "brandMrp": "116.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "GLYPTEN",
+    "packSize": "10",
+    "company": "FRANCO INDIAN PHARMACEUTICALS PVT LTD",
+    "brandMrp": "116.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "GLYTRIN",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "116.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "INOGLA",
+    "packSize": "15",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "174.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "TENELIGLIP",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "116.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "TENELIVIO",
+    "packSize": "10",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "116.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "TENLIN",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "116.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "TENRITE",
+    "packSize": "10",
+    "company": "ESWAR THERAPEUTICS PVT.LTD",
+    "brandMrp": "116.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "TENUVIA",
+    "packSize": "10",
+    "company": "PRECIA PHARMA",
+    "brandMrp": "116.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "ZITA PLUS",
+    "packSize": "15",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "174.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "AFOGLIP",
+    "packSize": "30",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "349.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.64"
+  },
+  {
+    "brandName": "ETERNEX T",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "116.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.64"
+  },
+  {
+    "brandName": "GLIPIJUB",
+    "packSize": "15",
+    "company": "JUBILANT GENERICS LIMITED",
+    "brandMrp": "174.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.64"
+  },
+  {
+    "brandName": "TENEPRIDE",
+    "packSize": "30",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "349.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.64"
+  },
+  {
+    "brandName": "TENEPURE",
+    "packSize": "30",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "349.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.64"
+  },
+  {
+    "brandName": "TENEZA",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "174.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.64"
+  },
+  {
+    "brandName": "10LI",
+    "packSize": "10",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "117.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.76"
+  },
+  {
+    "brandName": "TENGLYN",
+    "packSize": "15",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "176.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.79"
+  },
+  {
+    "brandName": "GLUCOWISE",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "118.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.80"
+  },
+  {
+    "brandName": "ERIGLIP",
+    "packSize": "10",
+    "company": "ERINYLE PHARMA",
+    "brandMrp": "118.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.81"
+  },
+  {
+    "brandName": "GLIPTRA",
+    "packSize": "10",
+    "company": "RETRA LIFE SCIENCE PVT LTD",
+    "brandMrp": "118.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.81"
+  },
+  {
+    "brandName": "TENLIFIL",
+    "packSize": "10",
+    "company": "FOURRTS INDIA LABORATORIES PVT. LTD",
+    "brandMrp": "118.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.81"
+  },
+  {
+    "brandName": "TEROSTIL",
+    "packSize": "10",
+    "company": "ANTHEM BIOPHARMA PVT LTD",
+    "brandMrp": "118.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.82"
+  },
+  {
+    "brandName": "TRUGLIP",
+    "packSize": "10",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "118.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.83"
+  },
+  {
+    "brandName": "OLYMPRIX",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "177.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "PRIGLIP",
+    "packSize": "10",
+    "company": "PRIMUS REMEDIES PVT LTD",
+    "brandMrp": "118.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "TAGON",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "177.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "TELIGLIP",
+    "packSize": "10",
+    "company": "GOLD LINE",
+    "brandMrp": "118.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "TEN20",
+    "packSize": "10",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "118.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "TENDIA",
+    "packSize": "15",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "177.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "TENEBITE",
+    "packSize": "15",
+    "company": "CORONA",
+    "brandMrp": "177.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "TENEPRIDE",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "177.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "TENIVA",
+    "packSize": "20",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "236.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "TGLIP",
+    "packSize": "20",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "236.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "TIBAN",
+    "packSize": "15",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "177.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "ZITA(GLENMARK)",
+    "packSize": "15",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "177.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "ZITEN",
+    "packSize": "15",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "177.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "AFOGLIP",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "119.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.90"
+  },
+  {
+    "brandName": "TENZULIX",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "119.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.90"
+  },
+  {
+    "brandName": "TENZULIX",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "179.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.93"
+  },
+  {
+    "brandName": "REVOGLIP",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "119.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.96"
+  },
+  {
+    "brandName": "TENLITAB",
+    "packSize": "15",
+    "company": "ELBRIT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "180.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "TEGLIPT",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "182.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.16"
+  },
+  {
+    "brandName": "TEGLIPTIN",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "182.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.16"
+  },
+  {
+    "brandName": "TENEPIL",
+    "packSize": "10",
+    "company": "AAREEN HEALTHCARE",
+    "brandMrp": "122.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.27"
+  },
+  {
+    "brandName": "GLIPSOV",
+    "packSize": "15",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "186.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.40"
+  },
+  {
+    "brandName": "GLYCELIPTIN",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "124.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.40"
+  },
+  {
+    "brandName": "SINGLIP",
+    "packSize": "10",
+    "company": "SINSAN PHARMACEUTICALS",
+    "brandMrp": "124.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.40"
+  },
+  {
+    "brandName": "WINGLIP",
+    "packSize": "10",
+    "company": "WINGS PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "124.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.40"
+  },
+  {
+    "brandName": "TENELICHOICE",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "124.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.41"
+  },
+  {
+    "brandName": "JRING",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "124.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.42"
+  },
+  {
+    "brandName": "FIPTIN",
+    "packSize": "10",
+    "company": "FIDELITY LIFESCIENCE",
+    "brandMrp": "124.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.48"
+  },
+  {
+    "brandName": "TENGINOW",
+    "packSize": "15",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "196.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.10"
+  },
+  {
+    "brandName": "TENGLIPT",
+    "packSize": "10",
+    "company": "SYNOKEM PHARMACEUTICALS LTD",
+    "brandMrp": "131.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.17"
+  },
+  {
+    "brandName": "TENIPACK",
+    "packSize": "10",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "131.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.18"
+  },
+  {
+    "brandName": "TENDIA",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "132.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.20"
+  },
+  {
+    "brandName": "AFOGLIP",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "202.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.53"
+  },
+  {
+    "brandName": "SHIGLIP M",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "143.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.33"
+  },
+  {
+    "brandName": "SUPRAGLIP",
+    "packSize": "10",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "144.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.47"
+  },
+  {
+    "brandName": "LONGLIPTIN",
+    "packSize": "10",
+    "company": "REGENIX DRUGS LTD",
+    "brandMrp": "145.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.50"
+  },
+  {
+    "brandName": "ZEPTIN",
+    "packSize": "10",
+    "company": "ERGOS LIFE SCIENCES",
+    "brandMrp": "149.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.93"
+  },
+  {
+    "brandName": "TENLIP",
+    "packSize": "15",
+    "company": "SINSAN PHARMACEUTICALS",
+    "brandMrp": "224.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.97"
+  },
+  {
+    "brandName": "TENLITAB",
+    "packSize": "10",
+    "company": "ELBRIT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.88"
+  },
+  {
+    "brandName": "DARTGLIP",
+    "packSize": "10",
+    "company": "ADDII BIOTECH PVT.LTD",
+    "brandMrp": "170.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.09"
+  },
+  {
+    "brandName": "ZAPTIN",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "220.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.08"
+  }
+]

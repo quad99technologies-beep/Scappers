@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ROLE",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "55.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.59"
+  },
+  {
+    "brandName": "ROPARIL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "56.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.62"
+  },
+  {
+    "brandName": "ADROLE",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "90.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.09"
+  }
+]

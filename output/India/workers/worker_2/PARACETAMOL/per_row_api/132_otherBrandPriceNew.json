@@ -1,0 +1,146 @@
+[
+  {
+    "brandName": "ACTION OR",
+    "packSize": "10",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "26.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.65"
+  },
+  {
+    "brandName": "PARAGREAT",
+    "packSize": "6",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "20.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.40"
+  },
+  {
+    "brandName": "INSTAFLEX P",
+    "packSize": "12",
+    "company": "INNOVCARE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.75"
+  },
+  {
+    "brandName": "PYRIGESIC",
+    "packSize": "10",
+    "company": "EAST INDIA PHARMACEUTICAL WORKS LTD.",
+    "brandMrp": "40.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.03"
+  },
+  {
+    "brandName": "QUSTAIN P",
+    "packSize": "12",
+    "company": "AKSIGEN HOSPITAL CARE",
+    "brandMrp": "50.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.17"
+  },
+  {
+    "brandName": "SUMO L",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "42.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.28"
+  },
+  {
+    "brandName": "ZYPARA",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "46.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.65"
+  },
+  {
+    "brandName": "P (MEDSOL)",
+    "packSize": "10",
+    "company": "MEDSOL INDIA OVERSEAS PVT. LTD.",
+    "brandMrp": "51.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.16"
+  },
+  {
+    "brandName": "PARASAFE",
+    "packSize": "10",
+    "company": "STRASSENBURG PHARMACEUTICALS.LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "PA-12",
+    "packSize": "12",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "73.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.13"
+  },
+  {
+    "brandName": "ACTON OR",
+    "packSize": "10",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "62.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.26"
+  },
+  {
+    "brandName": "PARADAY",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "62.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.27"
+  },
+  {
+    "brandName": "GEMPARK",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "65.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.54"
+  },
+  {
+    "brandName": "GEMPAR",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "67.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.71"
+  },
+  {
+    "brandName": "NEXPAR LA",
+    "packSize": "15",
+    "company": "PULSE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "XYKAA BD",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "XT PARA",
+    "packSize": "12",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.81"
+  },
+  {
+    "brandName": "PM 1 PROGLETS",
+    "packSize": "10",
+    "company": "OBSURGE BIOTECH LTD",
+    "brandMrp": "87.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.77"
+  }
+]

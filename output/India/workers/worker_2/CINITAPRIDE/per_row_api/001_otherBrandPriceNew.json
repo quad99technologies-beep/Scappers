@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "CINPRIDE",
+    "packSize": "10",
+    "company": "IVA HEALTHCARE PVT.LTD",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "KINOCIN",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "79.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.94"
+  },
+  {
+    "brandName": "CINTAPRO",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "156.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.65"
+  },
+  {
+    "brandName": "KINPRIDE",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "171.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.13"
+  }
+]

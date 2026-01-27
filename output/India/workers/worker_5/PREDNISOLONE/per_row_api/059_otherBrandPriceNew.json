@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "PREDICORT",
+    "packSize": "10",
+    "company": "MACMILLON PHARMACEUTICALS",
+    "brandMrp": "26.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.63"
+  },
+  {
+    "brandName": "PCORT (PHARMTAK)",
+    "packSize": "10",
+    "company": "PHARMTAK",
+    "brandMrp": "33.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.38"
+  },
+  {
+    "brandName": "OMNACORTIL",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "36.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.64"
+  },
+  {
+    "brandName": "NUCORT",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "42.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.21"
+  }
+]

@@ -1,0 +1,1194 @@
+[
+  {
+    "brandName": "VILNOX",
+    "packSize": "15",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "13.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.87"
+  },
+  {
+    "brandName": "GALVENT",
+    "packSize": "15",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "43.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.93"
+  },
+  {
+    "brandName": "VILASON",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "32.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.26"
+  },
+  {
+    "brandName": "BLUGLIP",
+    "packSize": "15",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.75"
+  },
+  {
+    "brandName": "VILCHEMIE",
+    "packSize": "15",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.75"
+  },
+  {
+    "brandName": "ACVILDA",
+    "packSize": "10",
+    "company": "ACMEDIX PHARMA LLP",
+    "brandMrp": "39.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.90"
+  },
+  {
+    "brandName": "VLADIMIR",
+    "packSize": "15",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "60.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.02"
+  },
+  {
+    "brandName": "VILTAS",
+    "packSize": "15",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "66.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.42"
+  },
+  {
+    "brandName": "VILDANAT",
+    "packSize": "14",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "62.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.49"
+  },
+  {
+    "brandName": "OZOVIL",
+    "packSize": "15",
+    "company": "OZONE PHARMACEUTICALS",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.69"
+  },
+  {
+    "brandName": "GLIPTAGREAT",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "49.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.99"
+  },
+  {
+    "brandName": "VILMUR",
+    "packSize": "15",
+    "company": "OPSISCARE LIFESCIENCSE PVT LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "ZUKANORM",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "54.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.49"
+  },
+  {
+    "brandName": "VISIRIMIR",
+    "packSize": "10",
+    "company": "UNIZA HEALTHCARE LLP",
+    "brandMrp": "55.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.60"
+  },
+  {
+    "brandName": "VISIRMIR",
+    "packSize": "10",
+    "company": "UNIZA HEALTHCARE LLP",
+    "brandMrp": "55.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.60"
+  },
+  {
+    "brandName": "ZIPLOG",
+    "packSize": "15",
+    "company": "JUPITER BIOLABS PVT.LTD",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "ZUKANORM",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "84.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.66"
+  },
+  {
+    "brandName": "ELDOVIPTIN",
+    "packSize": "15",
+    "company": "EL-DORADO BIO-TECH PVT LTD",
+    "brandMrp": "87.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.84"
+  },
+  {
+    "brandName": "VILDATOP",
+    "packSize": "15",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "88.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.88"
+  },
+  {
+    "brandName": "VILU",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "58.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.88"
+  },
+  {
+    "brandName": "VILDAMIT",
+    "packSize": "15",
+    "company": "MITOCH PHARMA PVT LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "GLIPTAGREAT",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "93.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.22"
+  },
+  {
+    "brandName": "VIL G",
+    "packSize": "15",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "93.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.22"
+  },
+  {
+    "brandName": "BIOVILDA",
+    "packSize": "10",
+    "company": "BIOS LAB PVT.LTD",
+    "brandMrp": "63.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.38"
+  },
+  {
+    "brandName": "VALUGLIP",
+    "packSize": "15",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "98.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "VILDUS",
+    "packSize": "15",
+    "company": "LIVIDUS PHARMA PVT LTD",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.60"
+  },
+  {
+    "brandName": "WONGLIP",
+    "packSize": "10",
+    "company": "WONSET HEALTH CARE PRIVATE LIMITED",
+    "brandMrp": "67.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.75"
+  },
+  {
+    "brandName": "VILDAMBIC",
+    "packSize": "15",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "101.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.79"
+  },
+  {
+    "brandName": "VILCOSE",
+    "packSize": "15",
+    "company": "JB CHEMICALS",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "DIAVILD",
+    "packSize": "15",
+    "company": "PROQOL HEALTHCARE PVT.LTD",
+    "brandMrp": "105.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.03"
+  },
+  {
+    "brandName": "VILCARE",
+    "packSize": "10",
+    "company": "OCTALIFE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.03"
+  },
+  {
+    "brandName": "VILDAREST",
+    "packSize": "15",
+    "company": "ALDE MEDI IMPEX",
+    "brandMrp": "107.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.14"
+  },
+  {
+    "brandName": "VILPILL",
+    "packSize": "10",
+    "company": "ELICAD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "71.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.15"
+  },
+  {
+    "brandName": "VILMAX",
+    "packSize": "15",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "108.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.22"
+  },
+  {
+    "brandName": "VILACT",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "72.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.29"
+  },
+  {
+    "brandName": "VILDATREAT",
+    "packSize": "15",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.33"
+  },
+  {
+    "brandName": "ENCELIN",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "73.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.36"
+  },
+  {
+    "brandName": "TORGLIP",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "73.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.36"
+  },
+  {
+    "brandName": "VDPP4",
+    "packSize": "15",
+    "company": "KREGAR PHARMA PVT.LTD",
+    "brandMrp": "111.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.40"
+  },
+  {
+    "brandName": "GLUVILDA",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "112.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.47"
+  },
+  {
+    "brandName": "VINGLYN",
+    "packSize": "15",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "111.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.47"
+  },
+  {
+    "brandName": "ARKAGLIP",
+    "packSize": "15",
+    "company": "ARKAS PHARMA PRIVATE LIMITED",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "VIFLINK",
+    "packSize": "10",
+    "company": "EPIONE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "VILBEST",
+    "packSize": "15",
+    "company": "CUROSIS HEALTHCARE PVT.LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "VILDEP",
+    "packSize": "15",
+    "company": "ESWAR THERAPEUTICS PVT.LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "VILPURE",
+    "packSize": "15",
+    "company": "FIDUS HEALTHCARE",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "VIBITE",
+    "packSize": "15",
+    "company": "CORONA",
+    "brandMrp": "113.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.54"
+  },
+  {
+    "brandName": "SAHAVIL",
+    "packSize": "10",
+    "company": "REGENIX DRUGS LTD",
+    "brandMrp": "75.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.59"
+  },
+  {
+    "brandName": "VILDATIN",
+    "packSize": "10",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "76.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.60"
+  },
+  {
+    "brandName": "VILTRACK",
+    "packSize": "15",
+    "company": "JARUN PHARMACEUTICALS",
+    "brandMrp": "114.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.62"
+  },
+  {
+    "brandName": "VILMAX",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "77.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.70"
+  },
+  {
+    "brandName": "VILDATONE",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "77.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.71"
+  },
+  {
+    "brandName": "VINSORIN",
+    "packSize": "10",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "78.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.80"
+  },
+  {
+    "brandName": "GALVAMARK",
+    "packSize": "15",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "119.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.93"
+  },
+  {
+    "brandName": "REJUGLIPT",
+    "packSize": "10",
+    "company": "REJUVENATE REMEDIES PVT LTD",
+    "brandMrp": "79.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.97"
+  },
+  {
+    "brandName": "DIPPIVI",
+    "packSize": "15",
+    "company": "JUBILANT GENERICS LIMITED",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "VILATIN",
+    "packSize": "15",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "VILDABLIS",
+    "packSize": "15",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "VILZATO",
+    "packSize": "15",
+    "company": "ELBRIT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.13"
+  },
+  {
+    "brandName": "VILDALIB",
+    "packSize": "10",
+    "company": "LIBRAMED PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "81.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.16"
+  },
+  {
+    "brandName": "VILDAPHAGE",
+    "packSize": "15",
+    "company": "FRANCO INDIAN PHARMACEUTICALS PVT LTD",
+    "brandMrp": "123.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.24"
+  },
+  {
+    "brandName": "VILDANA",
+    "packSize": "10",
+    "company": "AKESISS PHARMA (P) LTD",
+    "brandMrp": "83.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.34"
+  },
+  {
+    "brandName": "VILDASOM",
+    "packSize": "15",
+    "company": "ELINOR PHARMA",
+    "brandMrp": "125.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.34"
+  },
+  {
+    "brandName": "XILDA",
+    "packSize": "15",
+    "company": "DIOS LIFESCIENCES PRIVATE LIMITED",
+    "brandMrp": "125.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.36"
+  },
+  {
+    "brandName": "VILDALIVE",
+    "packSize": "15",
+    "company": "ALLYSIA LIFESCIENCES PVT.LTD",
+    "brandMrp": "125.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.38"
+  },
+  {
+    "brandName": "VILDAWELL",
+    "packSize": "15",
+    "company": "WALRON HEALTHCARE PVT.LTD",
+    "brandMrp": "125.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.38"
+  },
+  {
+    "brandName": "INSUVIL",
+    "packSize": "10",
+    "company": "ANTHUS PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "83.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.39"
+  },
+  {
+    "brandName": "GADLIV",
+    "packSize": "15",
+    "company": "RANMARC LABS",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "VELIN",
+    "packSize": "15",
+    "company": "DR. JOHNS LABORATORIES PVT LTD",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "VIDAGLO",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "VILAPIL",
+    "packSize": "15",
+    "company": "CADELL HEALTH CARE PVT.LTD",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "VILDOV",
+    "packSize": "15",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "127.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.50"
+  },
+  {
+    "brandName": "ZOVILDA",
+    "packSize": "15",
+    "company": "RETRA LIFE SCIENCE PVT LTD",
+    "brandMrp": "128.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.57"
+  },
+  {
+    "brandName": "MINGLIP",
+    "packSize": "15",
+    "company": "MOLEKULE (IND)PVT LTD",
+    "brandMrp": "130.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.69"
+  },
+  {
+    "brandName": "GLIPTICURE",
+    "packSize": "10",
+    "company": "MEDICURE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "87.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.72"
+  },
+  {
+    "brandName": "VILDABOSS",
+    "packSize": "10",
+    "company": "ADDII BIOTECH PVT.LTD",
+    "brandMrp": "88.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.84"
+  },
+  {
+    "brandName": "ZILDAGLIP",
+    "packSize": "15",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "132.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.85"
+  },
+  {
+    "brandName": "VILDAGARD",
+    "packSize": "15",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "133.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.87"
+  },
+  {
+    "brandName": "VILDAPRIME",
+    "packSize": "15",
+    "company": "PRIMUS REMEDIES PVT LTD",
+    "brandMrp": "133.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.88"
+  },
+  {
+    "brandName": "GLUVAS (ALVIO)",
+    "packSize": "10",
+    "company": "ALVIO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.91"
+  },
+  {
+    "brandName": "VILDEE",
+    "packSize": "15",
+    "company": "TALENT INDIA",
+    "brandMrp": "133.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.91"
+  },
+  {
+    "brandName": "VILDOHA",
+    "packSize": "10",
+    "company": "ORRIS PHARMACEUTICALS",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.91"
+  },
+  {
+    "brandName": "VILDANEX SR",
+    "packSize": "15",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "133.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.93"
+  },
+  {
+    "brandName": "VILSURE",
+    "packSize": "15",
+    "company": "SINSAN PHARMACEUTICALS",
+    "brandMrp": "134.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.97"
+  },
+  {
+    "brandName": "HAPPYGLIP",
+    "packSize": "15",
+    "company": "ERINYLE PHARMA",
+    "brandMrp": "135.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.06"
+  },
+  {
+    "brandName": "WELVIDA",
+    "packSize": "10",
+    "company": "EYSYS PHARMACEUTICAL PVT LTD",
+    "brandMrp": "91.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.19"
+  },
+  {
+    "brandName": "CIPVILDIN",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "139.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "GLIPTIRRYL V",
+    "packSize": "10",
+    "company": "4 CARE LIFESCIENCE PVT LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "INCREVIL",
+    "packSize": "15",
+    "company": "SAAN LABS",
+    "brandMrp": "139.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "TAGVILDA",
+    "packSize": "10",
+    "company": "GOLD LINE",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "VILDAGLY",
+    "packSize": "15",
+    "company": "TAB Q THERAPEUTICS",
+    "brandMrp": "139.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "VILDAZEAL",
+    "packSize": "15",
+    "company": "AAREEN HEALTHCARE",
+    "brandMrp": "139.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "GLIPY",
+    "packSize": "15",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "139.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.29"
+  },
+  {
+    "brandName": "VILBUZZ",
+    "packSize": "15",
+    "company": "NIRVANA HEALTH CARE",
+    "brandMrp": "139.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.30"
+  },
+  {
+    "brandName": "PRAQVIL",
+    "packSize": "15",
+    "company": "SYDMEN LIFESCIENCES PVT.LTD",
+    "brandMrp": "139.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.31"
+  },
+  {
+    "brandName": "VIDOL",
+    "packSize": "15",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  },
+  {
+    "brandName": "VILTUS",
+    "packSize": "10",
+    "company": "ARETAEUS PHARMACEUTICALS",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  },
+  {
+    "brandName": "GLIPACURE",
+    "packSize": "15",
+    "company": "HBC LIFESCIENCES PVT LTD",
+    "brandMrp": "143.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.56"
+  },
+  {
+    "brandName": "VILDABLIS",
+    "packSize": "10",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "95.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.56"
+  },
+  {
+    "brandName": "VILDANEX",
+    "packSize": "15",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "143.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.57"
+  },
+  {
+    "brandName": "VILDARAY",
+    "packSize": "15",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "143.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.57"
+  },
+  {
+    "brandName": "VILDALET",
+    "packSize": "15",
+    "company": "ELLORA PHARMA PVT.LTD",
+    "brandMrp": "145.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.67"
+  },
+  {
+    "brandName": "VILDAMAC",
+    "packSize": "15",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "148.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.88"
+  },
+  {
+    "brandName": "VILDAPIL",
+    "packSize": "10",
+    "company": "EKARD LIFE SCIENCES PVT.LTD",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.90"
+  },
+  {
+    "brandName": "VICEMIC",
+    "packSize": "15",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "149.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.94"
+  },
+  {
+    "brandName": "VILDAHOP",
+    "packSize": "15",
+    "company": "ANAX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "149.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.94"
+  },
+  {
+    "brandName": "DEBIGLIP",
+    "packSize": "15",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.00"
+  },
+  {
+    "brandName": "VILDARAY SR",
+    "packSize": "15",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.00"
+  },
+  {
+    "brandName": "REVILDA",
+    "packSize": "15",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "150.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.03"
+  },
+  {
+    "brandName": "VILDASPEC",
+    "packSize": "10",
+    "company": "SPECTRA THERAPEUTICS PVT. LTD.",
+    "brandMrp": "102.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.22"
+  },
+  {
+    "brandName": "NUVILDA",
+    "packSize": "15",
+    "company": "ANTHEM BIOPHARMA PVT LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "VILDAPRIDE",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.50"
+  },
+  {
+    "brandName": "VIMEGA",
+    "packSize": "15",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "159.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.60"
+  },
+  {
+    "brandName": "VIDADEB",
+    "packSize": "15",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "160.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.67"
+  },
+  {
+    "brandName": "VILPOWER",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "107.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.78"
+  },
+  {
+    "brandName": "ZILDA",
+    "packSize": "15",
+    "company": "APRICA HEALTHCARE PVT LTD",
+    "brandMrp": "162.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.81"
+  },
+  {
+    "brandName": "VILDANEU",
+    "packSize": "15",
+    "company": "NEUCURE LIFESCIENCES PVT.LTD",
+    "brandMrp": "164.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.95"
+  },
+  {
+    "brandName": "VIPGLIP",
+    "packSize": "15",
+    "company": "TYCOON PHARMACEUTICALS PVT LTD",
+    "brandMrp": "165.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "INTAGLIP",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "110.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.06"
+  },
+  {
+    "brandName": "ZAVA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "110.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.06"
+  },
+  {
+    "brandName": "VILMATE",
+    "packSize": "10",
+    "company": "GENIEMED PVT LTD",
+    "brandMrp": "112.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.20"
+  },
+  {
+    "brandName": "NUGLIPTIN",
+    "packSize": "15",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "168.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.22"
+  },
+  {
+    "brandName": "VILNIP",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "168.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.22"
+  },
+  {
+    "brandName": "ZYVILDA",
+    "packSize": "10",
+    "company": "THREE DOTS LIFESCIENCE",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "VIGLIDA",
+    "packSize": "14",
+    "company": "ARRIENT HEALTHCARE PVT.LTD.",
+    "brandMrp": "158.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.32"
+  },
+  {
+    "brandName": "VILDANOL",
+    "packSize": "15",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "169.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.33"
+  },
+  {
+    "brandName": "VALDIFF",
+    "packSize": "15",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "174.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "VILDANORM",
+    "packSize": "15",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "174.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.63"
+  },
+  {
+    "brandName": "VILDALOG",
+    "packSize": "15",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "174.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.66"
+  },
+  {
+    "brandName": "VILPOWER",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "175.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.71"
+  },
+  {
+    "brandName": "VILDAPRIDE",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "176.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.75"
+  },
+  {
+    "brandName": "VILTIME",
+    "packSize": "15",
+    "company": "CADOMED PHARMACEUTICALS INDIA PVT.LTD",
+    "brandMrp": "180.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "VILCRETIN",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "122.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.28"
+  },
+  {
+    "brandName": "VIDALIP",
+    "packSize": "15",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "185.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.33"
+  },
+  {
+    "brandName": "ZOMELIS",
+    "packSize": "15",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "185.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.34"
+  },
+  {
+    "brandName": "VYSOV",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "185.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.35"
+  },
+  {
+    "brandName": "VILDADER",
+    "packSize": "15",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "185.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.38"
+  },
+  {
+    "brandName": "VILDASMART",
+    "packSize": "15",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.44"
+  },
+  {
+    "brandName": "VSMALL",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "191.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.80"
+  },
+  {
+    "brandName": "VERIFICA",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "194.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.95"
+  },
+  {
+    "brandName": "WITANTHYL",
+    "packSize": "15",
+    "company": "ARKAS PHARMA PRIVATE LIMITED",
+    "brandMrp": "197.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.16"
+  },
+  {
+    "brandName": "DPVIL",
+    "packSize": "10",
+    "company": "AZKKA PHARMACEUTICALS PVT LTD",
+    "brandMrp": "134.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.41"
+  },
+  {
+    "brandName": "VYLDA",
+    "packSize": "15",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "201.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.42"
+  },
+  {
+    "brandName": "ZYROVILD",
+    "packSize": "10",
+    "company": "AAGAM LIFE SCIENCES PVT.LTD",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.50"
+  },
+  {
+    "brandName": "ABVIDA",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "205.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.72"
+  },
+  {
+    "brandName": "VILDASAN",
+    "packSize": "10",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.88"
+  },
+  {
+    "brandName": "CRISTAVIL",
+    "packSize": "10",
+    "company": "CKRIS LABORATORIES PVT LTD",
+    "brandMrp": "180.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.00"
+  },
+  {
+    "brandName": "JALRA",
+    "packSize": "15",
+    "company": "USV PVT LTD",
+    "brandMrp": "331.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.09"
+  },
+  {
+    "brandName": "GALVUS",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "371.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.75"
+  }
+]

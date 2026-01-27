@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "FLAN",
+    "packSize": "5",
+    "company": "PHARMTAK",
+    "brandMrp": "28.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "OFLACIN",
+    "packSize": "5",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "58.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.62"
+  },
+  {
+    "brandName": "OMEFLOX",
+    "packSize": "5",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "66.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.31"
+  }
+]

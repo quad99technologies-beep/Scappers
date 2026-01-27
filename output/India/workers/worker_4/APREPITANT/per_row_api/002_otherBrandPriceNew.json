@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "APRISTAR",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "1300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "130.00"
+  },
+  {
+    "brandName": "EMVOID",
+    "packSize": "3",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "852.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "284.17"
+  },
+  {
+    "brandName": "AMITANT",
+    "packSize": "3",
+    "company": "AUREATE HEALTHCARE PVT.LTD",
+    "brandMrp": "1125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "375.00"
+  },
+  {
+    "brandName": "APRICYT",
+    "packSize": "3",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "1336.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "445.50"
+  },
+  {
+    "brandName": "APRETERO",
+    "packSize": "3",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "1340.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "446.83"
+  },
+  {
+    "brandName": "FIXPRITANT",
+    "packSize": "3",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "1450.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "483.33"
+  },
+  {
+    "brandName": "APRISTAR",
+    "packSize": "3",
+    "company": "LUPIN LTD",
+    "brandMrp": "1486.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "495.50"
+  },
+  {
+    "brandName": "APRISET KIT",
+    "packSize": "3",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "1530.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "510.00"
+  },
+  {
+    "brandName": "APRELIFE KIT",
+    "packSize": "1",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "1320.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1320.00"
+  }
+]

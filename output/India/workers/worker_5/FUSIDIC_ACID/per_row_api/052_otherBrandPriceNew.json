@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "GENTOPIC FA",
+    "packSize": "10",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "67.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.77"
+  },
+  {
+    "brandName": "FUCI",
+    "packSize": "10",
+    "company": "FRANKLIN LABORATORIES (INDIA) PVT. LTD.",
+    "brandMrp": "72.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.20"
+  },
+  {
+    "brandName": "FUSIAT",
+    "packSize": "10",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "92.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.22"
+  },
+  {
+    "brandName": "FUSIAT",
+    "packSize": "15",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "151.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "FUSIAT",
+    "packSize": "5",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "51.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.20"
+  },
+  {
+    "brandName": "FUCISKIN",
+    "packSize": "15",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "FUSID",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  }
+]

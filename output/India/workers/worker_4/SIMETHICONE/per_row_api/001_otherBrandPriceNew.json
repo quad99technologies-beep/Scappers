@@ -1,0 +1,130 @@
+[
+  {
+    "brandName": "MEDIGAS",
+    "packSize": "30",
+    "company": "RAPROSS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "66.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.21"
+  },
+  {
+    "brandName": "KIDGOOD",
+    "packSize": "30",
+    "company": "BENNET PHARMACEUTICALS LIMITED",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.34"
+  },
+  {
+    "brandName": "NEO CLOMIN",
+    "packSize": "30",
+    "company": "ABARIS HEALTHCARE",
+    "brandMrp": "80.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.68"
+  },
+  {
+    "brandName": "COLIWIN NF",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "41.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.77"
+  },
+  {
+    "brandName": "COLIGON",
+    "packSize": "15",
+    "company": "FOURRTS INDIA LABORATORIES PVT. LTD",
+    "brandMrp": "44.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.99"
+  },
+  {
+    "brandName": "NEO CLOMIN",
+    "packSize": "15",
+    "company": "ABARIS HEALTHCARE",
+    "brandMrp": "53.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.56"
+  },
+  {
+    "brandName": "MEFTAL SPAS NEO",
+    "packSize": "15",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "58.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.87"
+  },
+  {
+    "brandName": "NEXASPAS",
+    "packSize": "15",
+    "company": "NEXA WELLNESS PVT.LTD",
+    "brandMrp": "58.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.87"
+  },
+  {
+    "brandName": "SPASLIN",
+    "packSize": "15",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "59.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.96"
+  },
+  {
+    "brandName": "FLATUNA",
+    "packSize": "30",
+    "company": "MERIDIAN ENTERPRISES PVT LTD",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.00"
+  },
+  {
+    "brandName": "MAC DFS",
+    "packSize": "15",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "60.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.06"
+  },
+  {
+    "brandName": "GASTICA",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "63.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.25"
+  },
+  {
+    "brandName": "COLINOL",
+    "packSize": "15",
+    "company": "NOEL PHARMACEUTICALS",
+    "brandMrp": "64.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.30"
+  },
+  {
+    "brandName": "COLIMEX-DF PLUS",
+    "packSize": "15",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "MEDIGAS",
+    "packSize": "10",
+    "company": "RAPROSS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "58.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.86"
+  },
+  {
+    "brandName": "REVISPAS",
+    "packSize": "15",
+    "company": "RAVENBHEL PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "90.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.02"
+  }
+]

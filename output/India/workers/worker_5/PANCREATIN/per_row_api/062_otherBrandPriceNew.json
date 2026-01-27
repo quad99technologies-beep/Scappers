@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "PANSTAL PLUS",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "194.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.45"
+  },
+  {
+    "brandName": "ENZELO",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "278.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.80"
+  },
+  {
+    "brandName": "CAD PAN PE",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "286.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.69"
+  },
+  {
+    "brandName": "ENZAR",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "313.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.32"
+  },
+  {
+    "brandName": "AGNA",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "351.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.16"
+  }
+]

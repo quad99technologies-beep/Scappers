@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "MIFIACT",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "219.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.99"
+  },
+  {
+    "brandName": "FIBROCEDE",
+    "packSize": "10",
+    "company": "BLISSON MEDICA PVT.LTD",
+    "brandMrp": "306.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.66"
+  },
+  {
+    "brandName": "GOEFIBRO M",
+    "packSize": "10",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "493.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.39"
+  },
+  {
+    "brandName": "FIBROEASE",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "652.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.25"
+  }
+]

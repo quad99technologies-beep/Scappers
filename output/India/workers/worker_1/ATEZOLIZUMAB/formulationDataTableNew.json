@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521075427@313992@101176571@2261@101068@204132",
+    "skuName": "TECENTRIQ 1200 MG INJECTION 20 ML",
+    "composition": "ATEZOLIZUMAB INJECTION 1200 MG",
+    "packSize": "20 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "ROCHE",
+    "scheduleFlag": "0",
+    "mrp": "396725.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19836.25"
+  },
+  {
+    "hiddenId": "1521076109@313993@101176571@3960@101068@204132",
+    "skuName": "TECENTRIQ 840 MG INJECTION 14 ML",
+    "composition": "ATEZOLIZUMAB INJECTION 840 MG",
+    "packSize": "14 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "ROCHE",
+    "scheduleFlag": "0",
+    "mrp": "277708.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19836.29"
+  }
+]

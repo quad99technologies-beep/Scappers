@@ -1,0 +1,226 @@
+[
+  {
+    "brandName": "LUPIXIMAB",
+    "packSize": "50",
+    "company": "LUPIN LTD",
+    "brandMrp": "14011.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "280.22"
+  },
+  {
+    "brandName": "ZESTMAB",
+    "packSize": "50",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "22500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "450.00"
+  },
+  {
+    "brandName": "X MAB",
+    "packSize": "50",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "33927.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "678.55"
+  },
+  {
+    "brandName": "IKGDAR",
+    "packSize": "50",
+    "company": "CIPLA LTD.",
+    "brandMrp": "35593.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "711.88"
+  },
+  {
+    "brandName": "CYTOMAB",
+    "packSize": "50",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "35669.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "713.38"
+  },
+  {
+    "brandName": "TORITZ RA",
+    "packSize": "50",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "36328.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "726.56"
+  },
+  {
+    "brandName": "MABALL",
+    "packSize": "50",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "38313.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "766.27"
+  },
+  {
+    "brandName": "MABALL RA",
+    "packSize": "50",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "38313.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "766.27"
+  },
+  {
+    "brandName": "RITUXIREL RN",
+    "packSize": "50",
+    "company": "RELIANCE LIFE SCIENCE",
+    "brandMrp": "38541.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "770.83"
+  },
+  {
+    "brandName": "EMTUX",
+    "packSize": "50",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "39995.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "799.90"
+  },
+  {
+    "brandName": "MABTAS D",
+    "packSize": "50",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "39994.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "799.90"
+  },
+  {
+    "brandName": "RISTOVA",
+    "packSize": "50",
+    "company": "CIPLA LTD.",
+    "brandMrp": "40680.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "813.60"
+  },
+  {
+    "brandName": "ENFIERA",
+    "packSize": "50",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "40688.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "813.76"
+  },
+  {
+    "brandName": "RITUXIREL",
+    "packSize": "50",
+    "company": "RELIANCE LIFE SCIENCE",
+    "brandMrp": "40688.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "813.76"
+  },
+  {
+    "brandName": "REDITUX",
+    "packSize": "50",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "40688.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "813.77"
+  },
+  {
+    "brandName": "REDITUX RA",
+    "packSize": "50",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "40688.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "813.77"
+  },
+  {
+    "brandName": "MABTAS",
+    "packSize": "50",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "40690.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "813.82"
+  },
+  {
+    "brandName": "MABTAS N",
+    "packSize": "50",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "40690.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "813.82"
+  },
+  {
+    "brandName": "MABTAS RA",
+    "packSize": "50",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "40690.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "813.82"
+  },
+  {
+    "brandName": "MABTAS T",
+    "packSize": "50",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "40690.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "813.82"
+  },
+  {
+    "brandName": "RITUXIPCA",
+    "packSize": "50",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "40691.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "813.82"
+  },
+  {
+    "brandName": "RITUXIPAN",
+    "packSize": "50",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "40965.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "819.31"
+  },
+  {
+    "brandName": "VORTUXI",
+    "packSize": "50",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "42658.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "853.17"
+  },
+  {
+    "brandName": "RITUXEM",
+    "packSize": "50",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "42661.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "853.23"
+  },
+  {
+    "brandName": "VELTIRO",
+    "packSize": "50",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "43400.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "868.02"
+  },
+  {
+    "brandName": "RITUCAD",
+    "packSize": "50",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "43403.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "868.07"
+  },
+  {
+    "brandName": "RITCEMA",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "9625.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9625.00"
+  },
+  {
+    "brandName": "REDITUX PLUS",
+    "packSize": "1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "40688.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40688.31"
+  }
+]

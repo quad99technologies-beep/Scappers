@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "BUDENOFIL",
+    "packSize": "10",
+    "company": "FOURRTS INDIA LABORATORIES PVT. LTD",
+    "brandMrp": "408.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.88"
+  },
+  {
+    "brandName": "BUDEZ",
+    "packSize": "15",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "796.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.13"
+  },
+  {
+    "brandName": "CORTIMENT MMX",
+    "packSize": "10",
+    "company": "FERRING PHARMACEUTICALS",
+    "brandMrp": "2691.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "269.12"
+  }
+]

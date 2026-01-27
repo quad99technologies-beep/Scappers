@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PRAISCORT E",
+    "packSize": "50",
+    "company": "PRAISE PHARMA",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.63"
+  },
+  {
+    "brandName": "PRAISCORT",
+    "packSize": "20",
+    "company": "PRAISE PHARMA",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "TRIAMACORT",
+    "packSize": "5",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "52.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.53"
+  }
+]

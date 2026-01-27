@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521064403@83525@101120637@2270@101068@202738",
+    "skuName": "CUROSURF 120 MG INJECTION 1.5 ML",
+    "composition": "PORACTANT ALFA INJECTION 120 MG",
+    "packSize": "1.5 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "PAVIOUR PHARMACEUTICALS PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "10126.62",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5063.31"
+  },
+  {
+    "hiddenId": "1521014107@165583@101120637@3135@101068@202738",
+    "skuName": "CUROSURF 240 MG INJECTION 3 ML",
+    "composition": "PORACTANT ALFA INJECTION 240 MG",
+    "packSize": "3 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "PAVIOUR PHARMACEUTICALS PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "20253.24",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6751.08"
+  }
+]

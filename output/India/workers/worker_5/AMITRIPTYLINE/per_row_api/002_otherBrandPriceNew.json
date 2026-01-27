@@ -1,0 +1,322 @@
+[
+  {
+    "brandName": "TRIPTYDER",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "10.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.02"
+  },
+  {
+    "brandName": "TRYPTIPAL",
+    "packSize": "10",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "14.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.43"
+  },
+  {
+    "brandName": "TRYPLENA",
+    "packSize": "15",
+    "company": "UNISTAR BIOTECH LIMITED",
+    "brandMrp": "33.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.20"
+  },
+  {
+    "brandName": "AMILIFT",
+    "packSize": "10",
+    "company": "BION THEARAPEUTICS",
+    "brandMrp": "22.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.25"
+  },
+  {
+    "brandName": "AMEOX",
+    "packSize": "10",
+    "company": "SURGE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "22.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.27"
+  },
+  {
+    "brandName": "AMTOP (AGM BIOTEC)",
+    "packSize": "10",
+    "company": "AGM BIOTEC",
+    "brandMrp": "22.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.27"
+  },
+  {
+    "brandName": "AMITIAS",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "23.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.33"
+  },
+  {
+    "brandName": "TRYPTINOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "24.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.40"
+  },
+  {
+    "brandName": "AMYPRES",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "24.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.44"
+  },
+  {
+    "brandName": "AMITSAL",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "24.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.48"
+  },
+  {
+    "brandName": "DOTTRIP",
+    "packSize": "10",
+    "company": "THREE DOTS LIFESCIENCE",
+    "brandMrp": "25.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.50"
+  },
+  {
+    "brandName": "EMELTRIP",
+    "packSize": "10",
+    "company": "MEDICO LABS",
+    "brandMrp": "25.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.50"
+  },
+  {
+    "brandName": "AMITOP",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "25.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.52"
+  },
+  {
+    "brandName": "AMIFORD",
+    "packSize": "10",
+    "company": "OXFORD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "25.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.55"
+  },
+  {
+    "brandName": "AMICON",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "25.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.56"
+  },
+  {
+    "brandName": "TRIPTAZ",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "25.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.56"
+  },
+  {
+    "brandName": "AMZIL",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "25.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.58"
+  },
+  {
+    "brandName": "TRIKONOL",
+    "packSize": "10",
+    "company": "TRIKO PHARMACEUTICALS",
+    "brandMrp": "25.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.58"
+  },
+  {
+    "brandName": "DEPKEY",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "25.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.59"
+  },
+  {
+    "brandName": "DITRYP",
+    "packSize": "10",
+    "company": "KLOSTER PHARMACEUTICALS",
+    "brandMrp": "25.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.60"
+  },
+  {
+    "brandName": "LATILIN",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "26.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.60"
+  },
+  {
+    "brandName": "SHINE",
+    "packSize": "20",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "52.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.60"
+  },
+  {
+    "brandName": "AMITRIL",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "26.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.61"
+  },
+  {
+    "brandName": "TRIPTY",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "26.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.61"
+  },
+  {
+    "brandName": "AMITRYN",
+    "packSize": "10",
+    "company": "K.C LABORATORIES",
+    "brandMrp": "26.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.63"
+  },
+  {
+    "brandName": "TRYL",
+    "packSize": "10",
+    "company": "ANAX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "26.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.63"
+  },
+  {
+    "brandName": "AMITRIP",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "26.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.64"
+  },
+  {
+    "brandName": "AMIWEL",
+    "packSize": "10",
+    "company": "ZEUS PHARMA",
+    "brandMrp": "26.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.64"
+  },
+  {
+    "brandName": "ALINE",
+    "packSize": "10",
+    "company": "MARSHA PHARMA",
+    "brandMrp": "26.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.65"
+  },
+  {
+    "brandName": "COTRIP",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "26.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.65"
+  },
+  {
+    "brandName": "ELIWEL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "26.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.65"
+  },
+  {
+    "brandName": "ODEP",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "26.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.65"
+  },
+  {
+    "brandName": "TRYPTOMER",
+    "packSize": "30",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "79.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.65"
+  },
+  {
+    "brandName": "AMITONE",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "26.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.66"
+  },
+  {
+    "brandName": "RELIDEP",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "26.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.66"
+  },
+  {
+    "brandName": "TRIPLENT",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "26.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.66"
+  },
+  {
+    "brandName": "TRIPLITE",
+    "packSize": "10",
+    "company": "SANIX FORMULATIONS PVT LTD",
+    "brandMrp": "26.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.66"
+  },
+  {
+    "brandName": "TYPLIN",
+    "packSize": "10",
+    "company": "STERKEM",
+    "brandMrp": "26.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.66"
+  },
+  {
+    "brandName": "VIVAX",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "26.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.66"
+  },
+  {
+    "brandName": "AMITRYN",
+    "packSize": "30",
+    "company": "K.C LABORATORIES",
+    "brandMrp": "83.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.78"
+  }
+]

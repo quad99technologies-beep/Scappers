@@ -1,0 +1,202 @@
+[
+  {
+    "brandName": "URIQUEST",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "FLAVOSTAT",
+    "packSize": "10",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "118.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.88"
+  },
+  {
+    "brandName": "URIVEL",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "FLAVOTARY",
+    "packSize": "15",
+    "company": "VOTARY LABORATORIES (I) LTD.",
+    "brandMrp": "229.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.27"
+  },
+  {
+    "brandName": "URIZOX",
+    "packSize": "10",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "164.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.41"
+  },
+  {
+    "brandName": "URINET",
+    "packSize": "10",
+    "company": "BENNET PHARMACEUTICALS LIMITED",
+    "brandMrp": "172.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.22"
+  },
+  {
+    "brandName": "UROFLAMED",
+    "packSize": "10",
+    "company": "AGLOWMED PHARMACEUTICALS LTD.",
+    "brandMrp": "184.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.47"
+  },
+  {
+    "brandName": "FLAVOMARK",
+    "packSize": "10",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "185.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.56"
+  },
+  {
+    "brandName": "URILIV",
+    "packSize": "10",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "192.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.22"
+  },
+  {
+    "brandName": "RELAXURO",
+    "packSize": "10",
+    "company": "AR-EX LABORATORIES PVT . LTD",
+    "brandMrp": "209.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.91"
+  },
+  {
+    "brandName": "FLAVORIDE",
+    "packSize": "10",
+    "company": "OBSURGE BIOTECH LTD",
+    "brandMrp": "216.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.65"
+  },
+  {
+    "brandName": "URELY",
+    "packSize": "10",
+    "company": "MAPRA LABORATORIES PVT. LTD",
+    "brandMrp": "223.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.32"
+  },
+  {
+    "brandName": "UZIL",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "223.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.32"
+  },
+  {
+    "brandName": "URIKIND",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "230.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.07"
+  },
+  {
+    "brandName": "FLAXATE",
+    "packSize": "10",
+    "company": "RND LABORATORIES PVT. LTD.",
+    "brandMrp": "232.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.30"
+  },
+  {
+    "brandName": "VOXATE",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "236.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.65"
+  },
+  {
+    "brandName": "UTICEPT",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "244.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.42"
+  },
+  {
+    "brandName": "URINOL (KN)",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "250.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.03"
+  },
+  {
+    "brandName": "FLAVOCIP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "250.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.08"
+  },
+  {
+    "brandName": "FLAVOSPAS",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "283.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.39"
+  },
+  {
+    "brandName": "URIFREE",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "298.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.89"
+  },
+  {
+    "brandName": "FLAVATE",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "301.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.16"
+  },
+  {
+    "brandName": "URIPIL",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "301.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.16"
+  },
+  {
+    "brandName": "URISOL",
+    "packSize": "10",
+    "company": "STADMED PVT. LTD",
+    "brandMrp": "329.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.91"
+  },
+  {
+    "brandName": "URISPAS",
+    "packSize": "15",
+    "company": "WALTER BUSHNELL",
+    "brandMrp": "569.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.95"
+  }
+]

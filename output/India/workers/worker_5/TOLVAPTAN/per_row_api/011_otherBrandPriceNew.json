@@ -1,0 +1,114 @@
+[
+  {
+    "brandName": "TOLVAZ",
+    "packSize": "4",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "75.00"
+  },
+  {
+    "brandName": "HYPONAT-O",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "771.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "77.13"
+  },
+  {
+    "brandName": "TOLVAHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "935.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "93.50"
+  },
+  {
+    "brandName": "VAPTOLVA",
+    "packSize": "10",
+    "company": "BIOKINDLE LIFESCIENCES PVT. LTD",
+    "brandMrp": "937.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "93.75"
+  },
+  {
+    "brandName": "VAPTAN",
+    "packSize": "10",
+    "company": "STEADFAST MEDISHIELD PVT LTD",
+    "brandMrp": "1031.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "103.13"
+  },
+  {
+    "brandName": "SHIOKEM",
+    "packSize": "4",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "480.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "120.00"
+  },
+  {
+    "brandName": "NATRISE",
+    "packSize": "4",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "550.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "137.58"
+  },
+  {
+    "brandName": "TOLVARISE",
+    "packSize": "4",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "556.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "139.11"
+  },
+  {
+    "brandName": "TVAPTAN",
+    "packSize": "4",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "564.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "141.17"
+  },
+  {
+    "brandName": "TOLVAT",
+    "packSize": "4",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "577.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "144.38"
+  },
+  {
+    "brandName": "VAPTAN",
+    "packSize": "7",
+    "company": "STEADFAST MEDISHIELD PVT LTD",
+    "brandMrp": "1031.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "147.32"
+  },
+  {
+    "brandName": "TOLSAMA",
+    "packSize": "4",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "642.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "160.66"
+  },
+  {
+    "brandName": "RESODIM",
+    "packSize": "4",
+    "company": "LUPIN LTD",
+    "brandMrp": "790.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "197.65"
+  },
+  {
+    "brandName": "TOLVASCA",
+    "packSize": "4",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "846.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "211.52"
+  }
+]

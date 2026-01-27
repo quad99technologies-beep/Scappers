@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521002674@178891@101107074@2224@101068@201511",
+    "skuName": "ANCEF XP 1.125 GM INJECTION 1",
+    "composition": "CEFAZOLIN INJECTION 1.125 GM",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "201.56",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "201.56"
+  },
+  {
+    "hiddenId": "1521002675@197322@101107074@2518@101068@201511",
+    "skuName": "ANCEF XP 140.625 MG INJECTION 1",
+    "composition": "CEFAZOLIN INJECTION 140.625 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "40.31",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.31"
+  },
+  {
+    "hiddenId": "1521002676@197323@101107074@3363@101068@201511",
+    "skuName": "ANCEF XP 281.25 MG INJECTION 1",
+    "composition": "CEFAZOLIN INJECTION 281.25 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "60.94",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "60.94"
+  }
+]

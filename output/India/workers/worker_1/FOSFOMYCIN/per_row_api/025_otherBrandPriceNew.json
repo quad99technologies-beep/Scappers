@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "OSMOF",
+    "packSize": "8",
+    "company": "MEDIART LIFESCIENCES PVT.LTD",
+    "brandMrp": "421.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.74"
+  },
+  {
+    "brandName": "FOSFODAY",
+    "packSize": "8",
+    "company": "INTRA LIFE PVT.LTD",
+    "brandMrp": "446.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "55.76"
+  },
+  {
+    "brandName": "FOSFOSEAS",
+    "packSize": "8",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "459.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "57.42"
+  },
+  {
+    "brandName": "FOSIGRAN",
+    "packSize": "3",
+    "company": "CORONA",
+    "brandMrp": "510.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "170.31"
+  }
+]

@@ -1,0 +1,234 @@
+[
+  {
+    "brandName": "PYRAKEM",
+    "packSize": "100",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "8.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.08"
+  },
+  {
+    "brandName": "LUPIPARA",
+    "packSize": "100",
+    "company": "LUPIN LTD",
+    "brandMrp": "36.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.36"
+  },
+  {
+    "brandName": "TAMIN",
+    "packSize": "100",
+    "company": "CLARIS LIFESCIENCES LIMITED",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.75"
+  },
+  {
+    "brandName": "CBMOL",
+    "packSize": "100",
+    "company": "CHANDRA BHAGAT PHARMA PVT. LTD.",
+    "brandMrp": "215.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.15"
+  },
+  {
+    "brandName": "PACIMOL",
+    "packSize": "100",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "217.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.17"
+  },
+  {
+    "brandName": "DOLIPRANE",
+    "packSize": "100",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "239.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.39"
+  },
+  {
+    "brandName": "MOL",
+    "packSize": "100",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "242.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.42"
+  },
+  {
+    "brandName": "FEPANIL H",
+    "packSize": "100",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "245.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.46"
+  },
+  {
+    "brandName": "GALMOL",
+    "packSize": "100",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "245.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.46"
+  },
+  {
+    "brandName": "P STAT IV",
+    "packSize": "100",
+    "company": "BIO WARRIORS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "249.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.49"
+  },
+  {
+    "brandName": "FENACE",
+    "packSize": "100",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.50"
+  },
+  {
+    "brandName": "PROFUSE",
+    "packSize": "100",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "289.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.89"
+  },
+  {
+    "brandName": "XT PARA LIFE",
+    "packSize": "100",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "307.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.08"
+  },
+  {
+    "brandName": "PHARMADOL",
+    "packSize": "100",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "315.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.16"
+  },
+  {
+    "brandName": "FEVANEX",
+    "packSize": "100",
+    "company": "LIVIDUS PHARMA PVT LTD",
+    "brandMrp": "324.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.24"
+  },
+  {
+    "brandName": "DIASDAC",
+    "packSize": "100",
+    "company": "JUPITER BIOLABS PVT.LTD",
+    "brandMrp": "330.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.30"
+  },
+  {
+    "brandName": "LANOL",
+    "packSize": "100",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "371.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.72"
+  },
+  {
+    "brandName": "GERPYRIN",
+    "packSize": "100",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "376.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.76"
+  },
+  {
+    "brandName": "THERMOCHILL G",
+    "packSize": "100",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "405.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.05"
+  },
+  {
+    "brandName": "MOL PLUS",
+    "packSize": "100",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "413.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.14"
+  },
+  {
+    "brandName": "VOSIMOL",
+    "packSize": "100",
+    "company": "CONVERGE BIOTECH PVT.LTD",
+    "brandMrp": "429.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.29"
+  },
+  {
+    "brandName": "DECOMB IV",
+    "packSize": "100",
+    "company": "ALDE MEDI IMPEX",
+    "brandMrp": "430.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.30"
+  },
+  {
+    "brandName": "PARACIB",
+    "packSize": "100",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "450.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "PCM",
+    "packSize": "100",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "462.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.63"
+  },
+  {
+    "brandName": "VENCETAMOL",
+    "packSize": "100",
+    "company": "VENUS REMEDIES LTD",
+    "brandMrp": "464.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.64"
+  },
+  {
+    "brandName": "KABIPARA",
+    "packSize": "100",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "493.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.94"
+  },
+  {
+    "brandName": "PARAFAST",
+    "packSize": "100",
+    "company": "CIPLA LTD.",
+    "brandMrp": "510.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.10"
+  },
+  {
+    "brandName": "FEVASTIN",
+    "packSize": "100",
+    "company": "TABLETS INDIA LTD",
+    "brandMrp": "526.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.27"
+  },
+  {
+    "brandName": "MAIPARA",
+    "packSize": "1",
+    "company": "TORIN PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "433.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "433.00"
+  }
+]

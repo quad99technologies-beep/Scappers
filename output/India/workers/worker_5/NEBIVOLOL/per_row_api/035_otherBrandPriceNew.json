@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "NEBIZOK",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "156.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.63"
+  },
+  {
+    "brandName": "NEBILOC",
+    "packSize": "15",
+    "company": "ELBRIT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "299.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.93"
+  },
+  {
+    "brandName": "NODON",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "257.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.73"
+  },
+  {
+    "brandName": "NEBICARD",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "289.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.99"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "RAZOCON",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "55.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.58"
+  },
+  {
+    "brandName": "TRAZE",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "93.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.36"
+  },
+  {
+    "brandName": "TRAZARIL",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "204.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.42"
+  }
+]

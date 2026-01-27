@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "NINTEDANIB",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "2231.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "74.38"
+  },
+  {
+    "brandName": "MANTEDANIB",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "843.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "84.37"
+  },
+  {
+    "brandName": "FIBNIB",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "1106.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "110.63"
+  },
+  {
+    "brandName": "NINTABID",
+    "packSize": "10",
+    "company": "JB CHEMICALS",
+    "brandMrp": "1121.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "112.15"
+  },
+  {
+    "brandName": "NINDEV",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "1240.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "124.06"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "NIMOTIL",
+    "packSize": "10",
+    "company": "INTEL PHARMACEUTICALS",
+    "brandMrp": "29.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.90"
+  },
+  {
+    "brandName": "DOLIDE",
+    "packSize": "10",
+    "company": "EMBIOTIC LAB",
+    "brandMrp": "60.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.08"
+  },
+  {
+    "brandName": "NIMICA",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "85.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.60"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LOXAPAC",
+    "packSize": "10",
+    "company": "PFIZER LTD",
+    "brandMrp": "79.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.97"
+  },
+  {
+    "brandName": "LOXABOL",
+    "packSize": "10",
+    "company": "K.C LABORATORIES",
+    "brandMrp": "91.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.11"
+  },
+  {
+    "brandName": "LOXACON",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "233.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.34"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "TRIBEN",
+    "packSize": "30",
+    "company": "JENBURKT PHARMACEUTICALS LTD",
+    "brandMrp": "96.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.21"
+  },
+  {
+    "brandName": "MONPIC",
+    "packSize": "30",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.91"
+  },
+  {
+    "brandName": "CANDID",
+    "packSize": "30",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "124.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.16"
+  },
+  {
+    "brandName": "KANSEL MP",
+    "packSize": "25",
+    "company": "PALSONS DERMA PVT. LTD",
+    "brandMrp": "103.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.16"
+  },
+  {
+    "brandName": "STOMA CARE OT",
+    "packSize": "15",
+    "company": "SOMATICO PHARMACAL PVT. LTD",
+    "brandMrp": "88.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.91"
+  }
+]

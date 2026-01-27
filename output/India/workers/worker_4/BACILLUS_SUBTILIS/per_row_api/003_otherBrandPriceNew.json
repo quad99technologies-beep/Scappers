@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "COMBIFLORA",
+    "packSize": "30",
+    "company": "MEDOPHARM",
+    "brandMrp": "145.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.83"
+  },
+  {
+    "brandName": "ENTEROSPORE",
+    "packSize": "30",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "156.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.20"
+  },
+  {
+    "brandName": "VERISPORE",
+    "packSize": "30",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "212.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.08"
+  },
+  {
+    "brandName": "GUTPRO",
+    "packSize": "30",
+    "company": "JB CHEMICALS",
+    "brandMrp": "219.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.31"
+  },
+  {
+    "brandName": "BEXILUS C",
+    "packSize": "30",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "241.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.05"
+  }
+]

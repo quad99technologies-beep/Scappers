@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "VIAFLEC SR",
+    "packSize": "10",
+    "company": "VIATRIS",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "ABLIFE",
+    "packSize": "10",
+    "company": "ORRIS PHARMACEUTICALS",
+    "brandMrp": "139.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.92"
+  },
+  {
+    "brandName": "ACEBROPAZ SR",
+    "packSize": "10",
+    "company": "AKESISS PHARMA (P) LTD",
+    "brandMrp": "166.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.69"
+  },
+  {
+    "brandName": "ACEGROW",
+    "packSize": "10",
+    "company": "FORGEN HEALTHCARE LTD.",
+    "brandMrp": "181.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.19"
+  },
+  {
+    "brandName": "ABIWAYS SR",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "205.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.58"
+  },
+  {
+    "brandName": "CEBOCONTIN",
+    "packSize": "10",
+    "company": "MODI MUNDI PHARMA PVT LTD",
+    "brandMrp": "239.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.91"
+  },
+  {
+    "brandName": "BIGBRO",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "257.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.71"
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "FAMNOVA",
+    "packSize": "6",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "525.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "87.50"
+  },
+  {
+    "brandName": "PENVIR",
+    "packSize": "3",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "297.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "99.03"
+  },
+  {
+    "brandName": "FAMCIMAC",
+    "packSize": "3",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "322.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "107.34"
+  },
+  {
+    "brandName": "VIROVIR",
+    "packSize": "3",
+    "company": "FDC LTD.",
+    "brandMrp": "361.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "120.61"
+  }
+]

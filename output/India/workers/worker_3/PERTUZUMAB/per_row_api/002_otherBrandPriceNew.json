@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "WOMAB",
+    "packSize": "14",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "74992.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5356.61"
+  },
+  {
+    "brandName": "PERJETA",
+    "packSize": "14",
+    "company": "ROCHE",
+    "brandMrp": "275562.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19683.00"
+  },
+  {
+    "brandName": "PERTUZA",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "29000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29000.00"
+  },
+  {
+    "brandName": "PERZEA",
+    "packSize": "1",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "29990.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29990.00"
+  }
+]

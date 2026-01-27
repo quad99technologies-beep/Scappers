@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "ELTHROCIN",
+    "packSize": "10",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "43.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.38"
+  },
+  {
+    "brandName": "ENTHROCIN",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "ELTOCIN",
+    "packSize": "15",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "175.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.72"
+  },
+  {
+    "brandName": "ERYTHROMYCIN",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "121.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.18"
+  },
+  {
+    "brandName": "NEW ERYTHROCIN",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "121.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.18"
+  },
+  {
+    "brandName": "ALTHROCIN",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "135.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.58"
+  },
+  {
+    "brandName": "BIOMYCIN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "167.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.73"
+  }
+]

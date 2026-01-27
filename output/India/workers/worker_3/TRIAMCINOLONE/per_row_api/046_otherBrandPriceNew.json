@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "TRICINOL",
+    "packSize": "10",
+    "company": "TRIPADA BIOTEC PVT LTD",
+    "brandMrp": "0.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.01"
+  },
+  {
+    "brandName": "PRETICORT",
+    "packSize": "10",
+    "company": "PRETIUM PHARMACEUTICALS",
+    "brandMrp": "50.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.02"
+  },
+  {
+    "brandName": "TRICORT",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "68.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.84"
+  },
+  {
+    "brandName": "LEDERCORT",
+    "packSize": "15",
+    "company": "PFIZER LTD",
+    "brandMrp": "107.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.16"
+  },
+  {
+    "brandName": "KENACORT",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "80.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.04"
+  },
+  {
+    "brandName": "KENACORT",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "182.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.14"
+  }
+]

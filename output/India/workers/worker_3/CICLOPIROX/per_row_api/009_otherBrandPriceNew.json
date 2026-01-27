@@ -1,0 +1,122 @@
+[
+  {
+    "brandName": "CINATOP",
+    "packSize": "60",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "277.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.63"
+  },
+  {
+    "brandName": "NAILROX",
+    "packSize": "50",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "234.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.69"
+  },
+  {
+    "brandName": "CICLOROX",
+    "packSize": "30",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "143.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.78"
+  },
+  {
+    "brandName": "NAILROX",
+    "packSize": "20",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "100.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "NAILROX",
+    "packSize": "30",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "159.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.31"
+  },
+  {
+    "brandName": "CIVADERM",
+    "packSize": "50",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "343.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.86"
+  },
+  {
+    "brandName": "ZYCOZOL",
+    "packSize": "30",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "215.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.19"
+  },
+  {
+    "brandName": "CANDIDOX",
+    "packSize": "50",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "363.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.27"
+  },
+  {
+    "brandName": "TRIFAS",
+    "packSize": "30",
+    "company": "MENARINI INDIA",
+    "brandMrp": "223.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.44"
+  },
+  {
+    "brandName": "CIVADERM",
+    "packSize": "30",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "228.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.63"
+  },
+  {
+    "brandName": "CWIN",
+    "packSize": "60",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "472.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.88"
+  },
+  {
+    "brandName": "CANDIDOX",
+    "packSize": "30",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "244.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.16"
+  },
+  {
+    "brandName": "CWIN",
+    "packSize": "30",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "248.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.28"
+  },
+  {
+    "brandName": "8X",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "253.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "CICLOCAN",
+    "packSize": "20",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "215.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.78"
+  }
+]

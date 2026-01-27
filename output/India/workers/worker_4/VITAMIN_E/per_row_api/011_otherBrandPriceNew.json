@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "ELUC",
+    "packSize": "10",
+    "company": "LUCROSE PHARMA PVT LTD",
+    "brandMrp": "31.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.11"
+  },
+  {
+    "brandName": "EPORT",
+    "packSize": "10",
+    "company": "LIFECOM PHARMACEUTICALS",
+    "brandMrp": "32.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.29"
+  },
+  {
+    "brandName": "EVION",
+    "packSize": "10",
+    "company": "PROCTER & GAMBLE HEALTH LTD",
+    "brandMrp": "33.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.37"
+  },
+  {
+    "brandName": "EVION",
+    "packSize": "20",
+    "company": "PROCTER & GAMBLE HEALTH LTD",
+    "brandMrp": "89.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.48"
+  },
+  {
+    "brandName": "E WAVE",
+    "packSize": "10",
+    "company": "SMARTWAY WELLNESS PVT. LTD.",
+    "brandMrp": "50.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "EVIZONE",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "56.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.62"
+  },
+  {
+    "brandName": "VITAMIN E",
+    "packSize": "10",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "62.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.23"
+  },
+  {
+    "brandName": "EEECAD",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "EGLOW",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "79.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.99"
+  },
+  {
+    "brandName": "ERICH",
+    "packSize": "10",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "140.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.00"
+  },
+  {
+    "brandName": "ANTOXID E",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "246.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.45"
+  },
+  {
+    "brandName": "NATVIE",
+    "packSize": "15",
+    "company": "FRANCO INDIAN PHARMACEUTICALS PVT LTD",
+    "brandMrp": "336.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.44"
+  }
+]

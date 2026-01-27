@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "TOBRAZA",
+    "packSize": "30",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "1154.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.47"
+  },
+  {
+    "brandName": "T-JAKI",
+    "packSize": "30",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "1294.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.15"
+  },
+  {
+    "brandName": "TOFADOZ",
+    "packSize": "15",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "669.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.64"
+  },
+  {
+    "brandName": "NOVANIB T",
+    "packSize": "30",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "1453.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.43"
+  },
+  {
+    "brandName": "TOFATAS",
+    "packSize": "30",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "1453.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.44"
+  },
+  {
+    "brandName": "VITISOLV",
+    "packSize": "30",
+    "company": "LA PRISTINE BIOCEUTICALS PVT LTD",
+    "brandMrp": "1476.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.20"
+  },
+  {
+    "brandName": "T-JAKI",
+    "packSize": "15",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "750.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.00"
+  },
+  {
+    "brandName": "TOFATAS",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "750.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.00"
+  },
+  {
+    "brandName": "VITISOLV",
+    "packSize": "15",
+    "company": "LA PRISTINE BIOCEUTICALS PVT LTD",
+    "brandMrp": "792.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.80"
+  },
+  {
+    "brandName": "JAKAUTO",
+    "packSize": "20",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "1133.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.67"
+  }
+]

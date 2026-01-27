@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "KABANAT",
+    "packSize": "1",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "11269.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5634.71"
+  },
+  {
+    "brandName": "PROCABAZI",
+    "packSize": "1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "8000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8000.00"
+  },
+  {
+    "brandName": "ZTEXEL",
+    "packSize": "1",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "51975.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51975.00"
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "VELTAM",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "81.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.11"
+  },
+  {
+    "brandName": "TAMSUKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  }
+]

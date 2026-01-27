@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "BRINTOP",
+    "packSize": "10",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "91.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.19"
+  },
+  {
+    "brandName": "LONITAB",
+    "packSize": "30",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "281.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  },
+  {
+    "brandName": "MINOKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "107.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.78"
+  }
+]

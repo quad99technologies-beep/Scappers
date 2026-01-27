@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "RETOL",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "18.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.85"
+  },
+  {
+    "brandName": "MERIMOL",
+    "packSize": "10",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "20.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.05"
+  },
+  {
+    "brandName": "VENTOPAR",
+    "packSize": "15",
+    "company": "INTRA LIFE PVT.LTD",
+    "brandMrp": "62.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.17"
+  }
+]

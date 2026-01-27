@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "HEPASIL",
+    "packSize": "200",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "170.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.85"
+  },
+  {
+    "brandName": "LIVCO",
+    "packSize": "200",
+    "company": "VILCO LABORATORIES PVT. LTD",
+    "brandMrp": "179.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.90"
+  },
+  {
+    "brandName": "HIGADO L",
+    "packSize": "100",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  },
+  {
+    "brandName": "HIGADO L",
+    "packSize": "200",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "375.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  }
+]

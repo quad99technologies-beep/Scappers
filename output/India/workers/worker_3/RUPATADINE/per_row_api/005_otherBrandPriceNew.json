@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "RALZAL",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "50.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.01"
+  },
+  {
+    "brandName": "RUPANEX",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "114.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.43"
+  },
+  {
+    "brandName": "R 2",
+    "packSize": "10",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "204.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.41"
+  }
+]

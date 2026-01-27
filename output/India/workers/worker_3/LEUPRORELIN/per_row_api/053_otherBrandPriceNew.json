@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "LEUPROSTA",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "8877.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8877.00"
+  },
+  {
+    "brandName": "LEUGARD DEPOT",
+    "packSize": "1",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "9396.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9396.00"
+  },
+  {
+    "brandName": "LUPRIDE",
+    "packSize": "1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "9758.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9758.65"
+  },
+  {
+    "brandName": "LUPRODEX 3M",
+    "packSize": "1",
+    "company": "BHARAT SERUMS & VACCINES LTD",
+    "brandMrp": "9758.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9758.65"
+  },
+  {
+    "brandName": "LEUPO",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "9759.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9759.20"
+  },
+  {
+    "brandName": "LUPRODEX",
+    "packSize": "1",
+    "company": "BHARAT SERUMS & VACCINES LTD",
+    "brandMrp": "9929.01",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9929.01"
+  },
+  {
+    "brandName": "LUPROTAS",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "10409.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10409.81"
+  },
+  {
+    "brandName": "BDSURE",
+    "packSize": "1",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "10714.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10714.28"
+  },
+  {
+    "brandName": "LORISK",
+    "packSize": "1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "10781.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10781.25"
+  }
+]

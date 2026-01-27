@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "RANYDOM",
+    "packSize": "30",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "41.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.38"
+  },
+  {
+    "brandName": "DOMWAYS",
+    "packSize": "5",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "74.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.94"
+  },
+  {
+    "brandName": "MOTINORM",
+    "packSize": "5",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "77.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.56"
+  },
+  {
+    "brandName": "DOMSTAL BABY",
+    "packSize": "5",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "99.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.88"
+  }
+]

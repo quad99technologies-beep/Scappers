@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "RYALTRIS",
+    "packSize": "120",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "240.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  },
+  {
+    "brandName": "RINOEASE",
+    "packSize": "120",
+    "company": "ICPA HEALTH PRODUCTS LTD",
+    "brandMrp": "337.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  },
+  {
+    "brandName": "EZISPRAY",
+    "packSize": "120",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "351.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.93"
+  },
+  {
+    "brandName": "METASPRAY",
+    "packSize": "100",
+    "company": "CIPLA LTD.",
+    "brandMrp": "542.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.43"
+  },
+  {
+    "brandName": "NASONEX",
+    "packSize": "18",
+    "company": "MSD PHARMACEUTICALS PRIVATE LTD.",
+    "brandMrp": "562.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.25"
+  },
+  {
+    "brandName": "RESPIZEN",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "399.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.92"
+  }
+]

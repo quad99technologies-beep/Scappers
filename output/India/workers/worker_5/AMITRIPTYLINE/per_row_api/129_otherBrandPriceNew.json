@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "TRIPTAREL",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "21.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.17"
+  },
+  {
+    "brandName": "TRIPTAMIN",
+    "packSize": "10",
+    "company": "EL-DORADO BIO-TECH PVT LTD",
+    "brandMrp": "39.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.98"
+  },
+  {
+    "brandName": "TRIPTAMIN MC",
+    "packSize": "10",
+    "company": "EL-DORADO BIO-TECH PVT LTD",
+    "brandMrp": "108.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.88"
+  }
+]

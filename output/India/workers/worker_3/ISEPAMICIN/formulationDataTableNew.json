@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521133372@325478@101140620@2974@101068@201556",
+    "skuName": "ISEP 200 MG INJECTION 2 ML",
+    "composition": "ISEPAMICIN INJECTION 200 MG",
+    "packSize": "2 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "740.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "370.00"
+  },
+  {
+    "hiddenId": "1521037444@301450@101140620@3625@101068@201556",
+    "skuName": "ISEP 400 MG INJECTION 4 ML",
+    "composition": "ISEPAMICIN INJECTION 400 MG",
+    "packSize": "4 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "scheduleFlag": "0",
+    "mrp": "1551.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "387.75"
+  }
+]

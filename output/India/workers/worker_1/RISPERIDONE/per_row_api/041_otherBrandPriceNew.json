@@ -1,0 +1,210 @@
+[
+  {
+    "brandName": "RELIVON",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "9.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.99"
+  },
+  {
+    "brandName": "RIDON",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "12.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.27"
+  },
+  {
+    "brandName": "RISNIA",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "19.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "RISDIL",
+    "packSize": "10",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "23.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.39"
+  },
+  {
+    "brandName": "RESPIDON",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "26.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.65"
+  },
+  {
+    "brandName": "REGRACE",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "27.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.74"
+  },
+  {
+    "brandName": "RISDONE",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "27.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.80"
+  },
+  {
+    "brandName": "RESPIN",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "RISPERDAL",
+    "packSize": "30",
+    "company": "JANSSEN",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.13"
+  },
+  {
+    "brandName": "RISCON",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "31.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.14"
+  },
+  {
+    "brandName": "RISCURE",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "31.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.15"
+  },
+  {
+    "brandName": "RISWEL",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "31.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.16"
+  },
+  {
+    "brandName": "PSYORID",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "31.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.19"
+  },
+  {
+    "brandName": "DON",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "32.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.23"
+  },
+  {
+    "brandName": "PERIDON",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "32.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.23"
+  },
+  {
+    "brandName": "RESQUE",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "32.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.23"
+  },
+  {
+    "brandName": "RISDONE MT",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "32.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.23"
+  },
+  {
+    "brandName": "RISP",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "32.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.23"
+  },
+  {
+    "brandName": "RIXAP MT",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "32.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.23"
+  },
+  {
+    "brandName": "ROSPITRIL",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "32.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.23"
+  },
+  {
+    "brandName": "SIZODON",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "32.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.23"
+  },
+  {
+    "brandName": "RISPOND",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "32.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.24"
+  },
+  {
+    "brandName": "RISDEE",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "33.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.33"
+  },
+  {
+    "brandName": "RPDONE",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "33.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.38"
+  },
+  {
+    "brandName": "RISMORE",
+    "packSize": "10",
+    "company": "SANIX FORMULATIONS PVT LTD",
+    "brandMrp": "38.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.88"
+  },
+  {
+    "brandName": "REPADONE",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  }
+]

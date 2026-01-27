@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "BELTAS",
+    "packSize": "60",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.65"
+  },
+  {
+    "brandName": "BILANIX",
+    "packSize": "60",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "108.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.80"
+  },
+  {
+    "brandName": "BILANTA",
+    "packSize": "60",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "108.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.80"
+  },
+  {
+    "brandName": "BILASURE",
+    "packSize": "60",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "107.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.80"
+  },
+  {
+    "brandName": "NILHIST",
+    "packSize": "60",
+    "company": "JB CHEMICALS",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.83"
+  },
+  {
+    "brandName": "BILAFEM",
+    "packSize": "60",
+    "company": "DABUR INDIA LTD.",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  },
+  {
+    "brandName": "BILLARGIC",
+    "packSize": "60",
+    "company": "CIPLA LTD.",
+    "brandMrp": "118.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.98"
+  },
+  {
+    "brandName": "BILAZAP",
+    "packSize": "60",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  },
+  {
+    "brandName": "BILACAD",
+    "packSize": "60",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.17"
+  },
+  {
+    "brandName": "BILAFAV",
+    "packSize": "60",
+    "company": "CIPLA LTD.",
+    "brandMrp": "137.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.29"
+  }
+]

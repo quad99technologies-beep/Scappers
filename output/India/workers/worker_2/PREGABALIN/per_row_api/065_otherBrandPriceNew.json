@@ -1,0 +1,122 @@
+[
+  {
+    "brandName": "PREGANZA",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "60.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.05"
+  },
+  {
+    "brandName": "PEGTEN",
+    "packSize": "10",
+    "company": "EVEREN HEALTHCARE PVT.LTD",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "PYROPE",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "99.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.97"
+  },
+  {
+    "brandName": "PREGANIX",
+    "packSize": "10",
+    "company": "MED GENIX",
+    "brandMrp": "102.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.22"
+  },
+  {
+    "brandName": "GABAFIX",
+    "packSize": "10",
+    "company": "AAREEN HEALTHCARE",
+    "brandMrp": "112.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.23"
+  },
+  {
+    "brandName": "GB 29 SEMI",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "119.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.98"
+  },
+  {
+    "brandName": "SONAXA",
+    "packSize": "15",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "184.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.31"
+  },
+  {
+    "brandName": "PREGARICA",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "125.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.56"
+  },
+  {
+    "brandName": "NEUROKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "127.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.75"
+  },
+  {
+    "brandName": "MAXGALIN",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "130.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.03"
+  },
+  {
+    "brandName": "PREGALIN",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "134.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.41"
+  },
+  {
+    "brandName": "GB 29 SEMI",
+    "packSize": "15",
+    "company": "CORONA",
+    "brandMrp": "203.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.58"
+  },
+  {
+    "brandName": "PREGALODOS",
+    "packSize": "10",
+    "company": "ANTHEM BIOPHARMA PVT LTD",
+    "brandMrp": "143.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.32"
+  },
+  {
+    "brandName": "PREGABID",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "145.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.53"
+  },
+  {
+    "brandName": "PREGABA",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "147.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.72"
+  }
+]

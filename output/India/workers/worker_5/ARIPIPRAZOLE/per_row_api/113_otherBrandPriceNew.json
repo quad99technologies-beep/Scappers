@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "AXEPINE MD",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "ARIP MT",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "109.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.28"
+  },
+  {
+    "brandName": "ARPIZOL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "77.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.78"
+  }
+]

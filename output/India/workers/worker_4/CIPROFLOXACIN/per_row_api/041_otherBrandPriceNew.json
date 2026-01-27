@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "CEBRAN",
+    "packSize": "10",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "11.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.17"
+  },
+  {
+    "brandName": "CASTOR",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "16.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.60"
+  },
+  {
+    "brandName": "CIPCOZ",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "16.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.60"
+  },
+  {
+    "brandName": "CIPROZEN",
+    "packSize": "10",
+    "company": "EXELTIS",
+    "brandMrp": "16.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.67"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "LUPIZOTIB",
+    "packSize": "30",
+    "company": "LUPIN LTD",
+    "brandMrp": "10875.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "362.50"
+  },
+  {
+    "brandName": "CABOTIB",
+    "packSize": "30",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "13000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "433.33"
+  },
+  {
+    "brandName": "CABOZANIB",
+    "packSize": "30",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "13660.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "455.36"
+  },
+  {
+    "brandName": "CABZORED",
+    "packSize": "30",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "14000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "466.67"
+  },
+  {
+    "brandName": "CABDUAL",
+    "packSize": "30",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "14985.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "499.50"
+  },
+  {
+    "brandName": "CABOTRES",
+    "packSize": "30",
+    "company": "CIPLA LTD.",
+    "brandMrp": "16500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "550.00"
+  },
+  {
+    "brandName": "CAZANAT",
+    "packSize": "10",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "12187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1218.75"
+  }
+]

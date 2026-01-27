@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "ELMIF",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "400.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.00"
+  },
+  {
+    "brandName": "PREGNOT",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "50.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.00"
+  },
+  {
+    "brandName": "PREGNOT KIT",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "62.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62.50"
+  },
+  {
+    "brandName": "TERMIPIL",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "81.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "81.25"
+  },
+  {
+    "brandName": "MIFEPRO",
+    "packSize": "1",
+    "company": "HLL LIFE CARE LTD",
+    "brandMrp": "331.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "331.88"
+  },
+  {
+    "brandName": "MIFEGEST",
+    "packSize": "1",
+    "company": "INTEGRACE HEALTH",
+    "brandMrp": "334.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "334.30"
+  },
+  {
+    "brandName": "UNWANTED",
+    "packSize": "1",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "368.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "368.42"
+  },
+  {
+    "brandName": "ABORTAB",
+    "packSize": "1",
+    "company": "BHARAT SERUMS & VACCINES LTD",
+    "brandMrp": "374.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "374.85"
+  },
+  {
+    "brandName": "CONTRAPILL",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "455.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "455.93"
+  },
+  {
+    "brandName": "MENSOVIT",
+    "packSize": "1",
+    "company": "UNI LABS",
+    "brandMrp": "537.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "537.50"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LEDOXAN",
+    "packSize": "10",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "31.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.10"
+  },
+  {
+    "brandName": "PHOSMID",
+    "packSize": "10",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "37.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.70"
+  },
+  {
+    "brandName": "ENDOXAN",
+    "packSize": "10",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "42.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.26"
+  }
+]

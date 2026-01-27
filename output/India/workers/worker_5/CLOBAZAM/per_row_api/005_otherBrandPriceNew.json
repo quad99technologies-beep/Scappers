@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "ADOBE",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "109.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "brandName": "ORESTA",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "199.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.99"
+  },
+  {
+    "brandName": "LOBAZAM",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "299.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.91"
+  },
+  {
+    "brandName": "CLOBA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "330.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.00"
+  },
+  {
+    "brandName": "FRISIUM",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "429.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.96"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521101452@342312@101194539@1846@101068@207821",
+    "skuName": "NUCALA 100 MG INJECTION 1 ML",
+    "composition": "MEPOLIZUMAB INJECTION 100 MG",
+    "packSize": "1 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "62000.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "62000.00"
+  },
+  {
+    "hiddenId": "1521095940@327871@101191299@1846@101068@207821",
+    "skuName": "NUCALA FD 100 MG INJECTION 10 ML",
+    "composition": "MEPOLIZUMAB INJECTION 100 MG",
+    "packSize": "10 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "79852.70",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7985.27"
+  }
+]

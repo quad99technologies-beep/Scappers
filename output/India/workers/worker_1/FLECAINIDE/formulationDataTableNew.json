@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521027957@193015@101131809@1846@101006@200717",
+    "skuName": "FLECARITE 100 MG TABLET 10",
+    "composition": "FLECAINIDE TABLET 100 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "444.55",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.46"
+  },
+  {
+    "hiddenId": "1521027959@193016@101131809@3791@101006@200717",
+    "skuName": "FLECARITE 50 MG TABLET 10",
+    "composition": "FLECAINIDE TABLET 50 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "231.90",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.19"
+  },
+  {
+    "hiddenId": "1521134087@9999999570@101224512@1846@101006@200717",
+    "skuName": "NORMABEAT 100 MG TABLET 10",
+    "composition": "FLECAINIDE TABLET 100 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "scheduleFlag": "0",
+    "mrp": "342.19",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.22"
+  },
+  {
+    "hiddenId": "1521133633@9999999569@101224512@3791@101006@200717",
+    "skuName": "NORMABEAT 50 MG TABLET 10",
+    "composition": "FLECAINIDE TABLET 50 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "scheduleFlag": "0",
+    "mrp": "178.13",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "MZIDE",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "98.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.80"
+  },
+  {
+    "brandName": "PYZINA",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "112.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.24"
+  },
+  {
+    "brandName": "P ZIDE",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "112.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.24"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PROSTAL (CELON)",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "5960.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5960.77"
+  },
+  {
+    "brandName": "PROSTACEL",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "6411.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6411.50"
+  },
+  {
+    "brandName": "ALPOSTIN",
+    "packSize": "1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "6522.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6522.56"
+  }
+]

@@ -1,0 +1,130 @@
+[
+  {
+    "brandName": "MESAHENZ",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "258.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.87"
+  },
+  {
+    "brandName": "MESAZED",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "281.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.13"
+  },
+  {
+    "brandName": "MESAGON",
+    "packSize": "10",
+    "company": "ERGOS LIFE SCIENCES",
+    "brandMrp": "282.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.20"
+  },
+  {
+    "brandName": "MEZTEC",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "285.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.57"
+  },
+  {
+    "brandName": "ROWASA OD",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "309.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.94"
+  },
+  {
+    "brandName": "MOSART OD",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "323.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.34"
+  },
+  {
+    "brandName": "COLONCOP",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "492.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.81"
+  },
+  {
+    "brandName": "MESALACURE",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "329.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.97"
+  },
+  {
+    "brandName": "COSALA",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "330.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.02"
+  },
+  {
+    "brandName": "MESALO",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "332.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.22"
+  },
+  {
+    "brandName": "MESLO",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "362.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.21"
+  },
+  {
+    "brandName": "MESACOL",
+    "packSize": "15",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "571.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.13"
+  },
+  {
+    "brandName": "VERSAMES",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "397.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.70"
+  },
+  {
+    "brandName": "COOLGUT",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "450.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.03"
+  },
+  {
+    "brandName": "VEGAZ OD",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "453.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.38"
+  },
+  {
+    "brandName": "VEGAZ OD",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "771.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.46"
+  }
+]

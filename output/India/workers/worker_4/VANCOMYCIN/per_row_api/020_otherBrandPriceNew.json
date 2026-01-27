@@ -1,0 +1,146 @@
+[
+  {
+    "brandName": "VANACIN CP",
+    "packSize": "10",
+    "company": "CHANDRA BHAGAT PHARMA PVT. LTD.",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "G VANC",
+    "packSize": "10",
+    "company": "GLAND PHARMA LIMITED",
+    "brandMrp": "272.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.20"
+  },
+  {
+    "brandName": "KABIMYCIN",
+    "packSize": "10",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "272.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.27"
+  },
+  {
+    "brandName": "VANCRESIN",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "297.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.74"
+  },
+  {
+    "brandName": "VANCOTECH CP",
+    "packSize": "10",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "328.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.80"
+  },
+  {
+    "brandName": "VANSAFE-CP",
+    "packSize": "10",
+    "company": "VHB LIFE SCIENCES LIMITED",
+    "brandMrp": "332.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.20"
+  },
+  {
+    "brandName": "VANKING",
+    "packSize": "10",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "339.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.90"
+  },
+  {
+    "brandName": "VANCOGEN",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "339.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.93"
+  },
+  {
+    "brandName": "VANLID",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "339.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.93"
+  },
+  {
+    "brandName": "VANCOTROY",
+    "packSize": "5",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "339.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "67.84"
+  },
+  {
+    "brandName": "VANTOX CP",
+    "packSize": "2",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "338.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "169.40"
+  },
+  {
+    "brandName": "ESTAPH",
+    "packSize": "1",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "260.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "260.00"
+  },
+  {
+    "brandName": "LEDOVANC",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "294.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "294.00"
+  },
+  {
+    "brandName": "VENBRUTA",
+    "packSize": "1",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "297.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "297.44"
+  },
+  {
+    "brandName": "CP VAN",
+    "packSize": "1",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "299.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "299.00"
+  },
+  {
+    "brandName": "VANOGARD",
+    "packSize": "1",
+    "company": "CONCORD BIOTECH LTD",
+    "brandMrp": "333.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "333.49"
+  },
+  {
+    "brandName": "GUFIVAN",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "339.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "339.29"
+  },
+  {
+    "brandName": "VANCOGRAM",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "339.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "339.31"
+  }
+]

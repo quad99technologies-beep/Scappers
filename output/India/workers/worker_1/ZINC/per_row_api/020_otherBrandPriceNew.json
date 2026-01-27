@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ZINCLOR",
+    "packSize": "10",
+    "company": "LORANCE PHARMA LTD",
+    "brandMrp": "31.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.13"
+  },
+  {
+    "brandName": "ZINCOTIME",
+    "packSize": "15",
+    "company": "INTRA LIFE PVT.LTD",
+    "brandMrp": "83.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.54"
+  },
+  {
+    "brandName": "ZINCWELL",
+    "packSize": "10",
+    "company": "CURIOUS BIOTECH",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  }
+]

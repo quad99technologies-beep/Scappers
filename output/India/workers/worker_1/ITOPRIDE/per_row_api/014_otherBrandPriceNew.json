@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "ITOFLUX",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "49.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "ITOPEP",
+    "packSize": "10",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "58.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.88"
+  },
+  {
+    "brandName": "GEPRIDE",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "62.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.24"
+  },
+  {
+    "brandName": "MOTIZA",
+    "packSize": "10",
+    "company": "JB CHEMICALS",
+    "brandMrp": "87.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.76"
+  },
+  {
+    "brandName": "ITOMIS",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.91"
+  },
+  {
+    "brandName": "ITONOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "ITORAX",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "90.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.07"
+  },
+  {
+    "brandName": "GFAST",
+    "packSize": "10",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "106.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.69"
+  },
+  {
+    "brandName": "ITODOM",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "119.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.94"
+  },
+  {
+    "brandName": "GANATON",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "208.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.89"
+  }
+]

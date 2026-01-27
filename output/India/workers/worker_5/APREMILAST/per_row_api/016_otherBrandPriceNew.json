@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "AUPOZE",
+    "packSize": "10",
+    "company": "AURUM LIFE SCIENCE PVT. LTD.",
+    "brandMrp": "66.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.63"
+  },
+  {
+    "brandName": "APRETAS",
+    "packSize": "4",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "APRAIZE",
+    "packSize": "4",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "89.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.42"
+  },
+  {
+    "brandName": "APREZO",
+    "packSize": "4",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "106.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.72"
+  }
+]

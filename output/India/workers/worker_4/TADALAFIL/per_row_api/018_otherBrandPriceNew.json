@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "MOODWELL",
+    "packSize": "10",
+    "company": "LYCEUM LIFE SCIENCE PVT.LTD",
+    "brandMrp": "142.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.29"
+  },
+  {
+    "brandName": "TENDOVAS",
+    "packSize": "10",
+    "company": "MEDICAID LABS",
+    "brandMrp": "164.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.46"
+  },
+  {
+    "brandName": "ENDOSIL ET",
+    "packSize": "10",
+    "company": "SUREMED LIFECARE PVT LTD",
+    "brandMrp": "200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.00"
+  },
+  {
+    "brandName": "TADYOG PLUS",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.00"
+  },
+  {
+    "brandName": "MOJOBOOST",
+    "packSize": "4",
+    "company": "NUVOX HEALTHCARE PVT.LTD",
+    "brandMrp": "187.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.75"
+  }
+]

@@ -1,0 +1,178 @@
+[
+  {
+    "brandName": "CADITRIL",
+    "packSize": "30",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "12.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.40"
+  },
+  {
+    "brandName": "NITROTAB",
+    "packSize": "30",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.00"
+  },
+  {
+    "brandName": "NITRUS",
+    "packSize": "30",
+    "company": "ICARUS HEALTHCARE PRIMUS",
+    "brandMrp": "126.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.23"
+  },
+  {
+    "brandName": "NG FENCE",
+    "packSize": "30",
+    "company": "4 CARE LIFESCIENCE PVT LTD",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "NITROSPAN",
+    "packSize": "30",
+    "company": "KAISER PHARMACEUTICALS",
+    "brandMrp": "149.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.97"
+  },
+  {
+    "brandName": "VASPRIN",
+    "packSize": "30",
+    "company": "WONSET HEALTH CARE PRIVATE LIMITED",
+    "brandMrp": "170.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.68"
+  },
+  {
+    "brandName": "MY GTN",
+    "packSize": "30",
+    "company": "ELICAD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "184.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.16"
+  },
+  {
+    "brandName": "NITZO",
+    "packSize": "50",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "359.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.18"
+  },
+  {
+    "brandName": "NITROLIVE CR",
+    "packSize": "30",
+    "company": "ALLYSIA LIFESCIENCES PVT.LTD",
+    "brandMrp": "215.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.19"
+  },
+  {
+    "brandName": "GLYNIT",
+    "packSize": "30",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "NOX GTN",
+    "packSize": "30",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "227.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.59"
+  },
+  {
+    "brandName": "ALNITRO",
+    "packSize": "25",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "191.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.65"
+  },
+  {
+    "brandName": "NTGN",
+    "packSize": "30",
+    "company": "CMR LIFE SCIENCES",
+    "brandMrp": "234.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.81"
+  },
+  {
+    "brandName": "NITROBUZ",
+    "packSize": "30",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "241.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.04"
+  },
+  {
+    "brandName": "NITRO G",
+    "packSize": "30",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "245.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.19"
+  },
+  {
+    "brandName": "NITROGARD",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "87.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.75"
+  },
+  {
+    "brandName": "ANGIWELL",
+    "packSize": "30",
+    "company": "CORONA",
+    "brandMrp": "292.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.74"
+  },
+  {
+    "brandName": "LOYCONTIN",
+    "packSize": "30",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.00"
+  },
+  {
+    "brandName": "ALNITRO",
+    "packSize": "30",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "307.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.25"
+  },
+  {
+    "brandName": "NITRO (THREE DOTS)",
+    "packSize": "30",
+    "company": "THREE DOTS LIFESCIENCE",
+    "brandMrp": "365.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "NITROZEN",
+    "packSize": "10",
+    "company": "THYONE HEALTH CARE",
+    "brandMrp": "217.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.70"
+  },
+  {
+    "brandName": "NITROCERIN",
+    "packSize": "1",
+    "company": "INTRA LABS",
+    "brandMrp": "454.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "454.69"
+  }
+]

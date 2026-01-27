@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "CLOMISTAR",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "107.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.72"
+  },
+  {
+    "brandName": "CLOMIAS",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "141.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.20"
+  },
+  {
+    "brandName": "CLOMILENT",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "163.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.31"
+  },
+  {
+    "brandName": "PRUMPIN",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "168.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.88"
+  },
+  {
+    "brandName": "ARIMIP",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "175.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.57"
+  },
+  {
+    "brandName": "CLOFRANIL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "175.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.57"
+  },
+  {
+    "brandName": "CLORA",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "183.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.38"
+  }
+]

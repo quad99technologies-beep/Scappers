@@ -1,0 +1,690 @@
+[
+  {
+    "brandName": "BILASOOTH",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "32.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.25"
+  },
+  {
+    "brandName": "BLSON",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "40.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.06"
+  },
+  {
+    "brandName": "ALERTAC",
+    "packSize": "10",
+    "company": "SEAGULL PHARMA",
+    "brandMrp": "42.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.21"
+  },
+  {
+    "brandName": "BILAFRESH",
+    "packSize": "10",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "49.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.91"
+  },
+  {
+    "brandName": "B SYS",
+    "packSize": "10",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "51.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.16"
+  },
+  {
+    "brandName": "GALBILAST",
+    "packSize": "10",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "51.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.16"
+  },
+  {
+    "brandName": "BILOTRA",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "62.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.24"
+  },
+  {
+    "brandName": "DROWNIL",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "73.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.35"
+  },
+  {
+    "brandName": "BILASET",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "79.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.96"
+  },
+  {
+    "brandName": "BILACAD",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "85.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.50"
+  },
+  {
+    "brandName": "CETZINE B",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "87.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.77"
+  },
+  {
+    "brandName": "BILACALM",
+    "packSize": "10",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "93.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.35"
+  },
+  {
+    "brandName": "AKUBLISS",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "95.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.55"
+  },
+  {
+    "brandName": "HISTAPRO",
+    "packSize": "10",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "97.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.75"
+  },
+  {
+    "brandName": "COBIL",
+    "packSize": "10",
+    "company": "COMED CHEMICALS PVT LTD",
+    "brandMrp": "103.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "PRUCROS",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "154.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "PRULASTIN",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "103.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "BILABEST",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "108.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.80"
+  },
+  {
+    "brandName": "NOHIVES",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "109.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "brandName": "ACTV 24",
+    "packSize": "10",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "ATA",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "111.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.11"
+  },
+  {
+    "brandName": "BLASWILL",
+    "packSize": "10",
+    "company": "WILSHIRE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "BILERT",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.72"
+  },
+  {
+    "brandName": "UNILASTINE",
+    "packSize": "10",
+    "company": "UNIZA HEALTHCARE LLP",
+    "brandMrp": "118.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.80"
+  },
+  {
+    "brandName": "ALLERBLIS",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "118.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.86"
+  },
+  {
+    "brandName": "ANTEGY",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "119.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.90"
+  },
+  {
+    "brandName": "BILKWIK",
+    "packSize": "10",
+    "company": "APPLE LIFESCIENCE",
+    "brandMrp": "119.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.90"
+  },
+  {
+    "brandName": "BILACREST",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "BILLACARE",
+    "packSize": "10",
+    "company": "ETHICARE REMEDIES",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "BILMEGH",
+    "packSize": "10",
+    "company": "MEGHMANI LIFESCIENCES LIMITED",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "BILOD",
+    "packSize": "10",
+    "company": "BRINTON PHARMACEUTICALS .LTD",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "BILASTERO",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "120.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.09"
+  },
+  {
+    "brandName": "BILAFORD",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "BILAMED",
+    "packSize": "10",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "122.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.28"
+  },
+  {
+    "brandName": "BILACHEK",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "123.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.35"
+  },
+  {
+    "brandName": "BILAHIST",
+    "packSize": "10",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "123.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.38"
+  },
+  {
+    "brandName": "BILATIS",
+    "packSize": "10",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "123.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.38"
+  },
+  {
+    "brandName": "BELATIN",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "124.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.47"
+  },
+  {
+    "brandName": "BILANAIR",
+    "packSize": "10",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "BILBAY",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "BIL 1",
+    "packSize": "10",
+    "company": "INDIABULLS PHARMACEUTICALS LTD",
+    "brandMrp": "126.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.65"
+  },
+  {
+    "brandName": "BILAPRIME",
+    "packSize": "10",
+    "company": "STARUS PHARMACEUTICALS",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.66"
+  },
+  {
+    "brandName": "CHEMIBIL",
+    "packSize": "10",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "128.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.84"
+  },
+  {
+    "brandName": "BILAMOVE",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "129.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.90"
+  },
+  {
+    "brandName": "BTEASE",
+    "packSize": "10",
+    "company": "JUBILANT GENERICS LIMITED",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.00"
+  },
+  {
+    "brandName": "BILAJOY",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "130.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.03"
+  },
+  {
+    "brandName": "BILMERI",
+    "packSize": "10",
+    "company": "GERRYSUN PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "130.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.03"
+  },
+  {
+    "brandName": "BILTEN",
+    "packSize": "10",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "130.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.06"
+  },
+  {
+    "brandName": "BILASTIBEL",
+    "packSize": "10",
+    "company": "BELLISSA PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.13"
+  },
+  {
+    "brandName": "NILHIST",
+    "packSize": "10",
+    "company": "JB CHEMICALS",
+    "brandMrp": "131.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.19"
+  },
+  {
+    "brandName": "COSOME AR",
+    "packSize": "10",
+    "company": "PROCTER & GAMBLE HEALTH LTD",
+    "brandMrp": "132.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.20"
+  },
+  {
+    "brandName": "BILALIFE",
+    "packSize": "10",
+    "company": "WALTER BUSHNELL",
+    "brandMrp": "132.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.30"
+  },
+  {
+    "brandName": "MAXSTINE",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "133.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.30"
+  },
+  {
+    "brandName": "BILAST",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "134.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.41"
+  },
+  {
+    "brandName": "BILASTIHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "134.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.41"
+  },
+  {
+    "brandName": "BLAXTIN",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "134.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.49"
+  },
+  {
+    "brandName": "BELASTIPIL",
+    "packSize": "10",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.50"
+  },
+  {
+    "brandName": "BILLASI",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "136.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.64"
+  },
+  {
+    "brandName": "BILANIX",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "137.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.78"
+  },
+  {
+    "brandName": "BILANTA",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "137.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.78"
+  },
+  {
+    "brandName": "BILAHENZ",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "139.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.97"
+  },
+  {
+    "brandName": "BILAZAP",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "139.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.97"
+  },
+  {
+    "brandName": "HISTABIL",
+    "packSize": "10",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "139.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.97"
+  },
+  {
+    "brandName": "UBEST",
+    "packSize": "10",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "141.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.10"
+  },
+  {
+    "brandName": "BILAA",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "141.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.16"
+  },
+  {
+    "brandName": "MASTOWELL",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "141.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.18"
+  },
+  {
+    "brandName": "BILAZO",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "142.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.25"
+  },
+  {
+    "brandName": "UBIL AR",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "143.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.30"
+  },
+  {
+    "brandName": "BILAMBIC",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "146.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.61"
+  },
+  {
+    "brandName": "BILASAN",
+    "packSize": "10",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "149.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.90"
+  },
+  {
+    "brandName": "BELTAS",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "152.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.28"
+  },
+  {
+    "brandName": "BILATOP",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "153.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.30"
+  },
+  {
+    "brandName": "BULARID L",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "152.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.30"
+  },
+  {
+    "brandName": "BILLARGIC",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "153.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.31"
+  },
+  {
+    "brandName": "PRUCROS",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "154.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "BILASHINE",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "155.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.56"
+  },
+  {
+    "brandName": "BILASURE",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "155.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.56"
+  },
+  {
+    "brandName": "BILADERM",
+    "packSize": "10",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "156.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.62"
+  },
+  {
+    "brandName": "BILAXTEN",
+    "packSize": "10",
+    "company": "MENARINI INDIA",
+    "brandMrp": "166.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.69"
+  },
+  {
+    "brandName": "BILACIP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "168.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.85"
+  },
+  {
+    "brandName": "UBIL",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "178.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "BYLOZA",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "180.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.09"
+  },
+  {
+    "brandName": "BILAFAV",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "185.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.53"
+  },
+  {
+    "brandName": "BILAGRA",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "199.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.91"
+  },
+  {
+    "brandName": "BILAZEST",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "203.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.38"
+  },
+  {
+    "brandName": "BILAXTA",
+    "packSize": "10",
+    "company": "SYNOKEM PHARMACEUTICALS LTD",
+    "brandMrp": "333.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.38"
+  }
+]

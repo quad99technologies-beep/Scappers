@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "PREGAROL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "129.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.92"
+  },
+  {
+    "brandName": "PREGANERVE",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "138.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.87"
+  },
+  {
+    "brandName": "ENGABA",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "147.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.70"
+  },
+  {
+    "brandName": "PREEGA",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "167.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.78"
+  },
+  {
+    "brandName": "PREGALEX",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "222.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.22"
+  },
+  {
+    "brandName": "PBREN",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "231.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.16"
+  },
+  {
+    "brandName": "PREGALIN",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "342.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.22"
+  },
+  {
+    "brandName": "PREGEB",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "342.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.22"
+  }
+]

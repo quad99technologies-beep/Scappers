@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "ENIDAZOL",
+    "packSize": "10",
+    "company": "EAST INDIA PHARMACEUTICAL WORKS LTD.",
+    "brandMrp": "32.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.20"
+  },
+  {
+    "brandName": "TINIBA",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "85.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.56"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "POMALONG",
+    "packSize": "21",
+    "company": "CIPLA LTD.",
+    "brandMrp": "2678.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "127.55"
+  },
+  {
+    "brandName": "POMIDE",
+    "packSize": "21",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "3178.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "151.34"
+  },
+  {
+    "brandName": "POMALID",
+    "packSize": "21",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "3955.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "188.38"
+  }
+]

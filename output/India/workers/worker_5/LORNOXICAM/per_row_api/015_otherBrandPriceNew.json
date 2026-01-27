@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "LORNICAM",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "33.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.37"
+  },
+  {
+    "brandName": "LODOL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "39.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.95"
+  },
+  {
+    "brandName": "LORSAID SD",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "83.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.34"
+  },
+  {
+    "brandName": "LOROX",
+    "packSize": "10",
+    "company": "SUNDYOTA NUMANDIS PHARMA PVT LTD",
+    "brandMrp": "179.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.91"
+  }
+]

@@ -1,0 +1,114 @@
+[
+  {
+    "brandName": "DUTANOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "20.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.06"
+  },
+  {
+    "brandName": "DUTAJOY",
+    "packSize": "10",
+    "company": "KEPLER HEALTH CARE",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "BIODUTA",
+    "packSize": "10",
+    "company": "BIOS LAB PVT.LTD",
+    "brandMrp": "101.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "DUTAJOY",
+    "packSize": "15",
+    "company": "KEPLER HEALTH CARE",
+    "brandMrp": "164.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.94"
+  },
+  {
+    "brandName": "DUTACET",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "111.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.15"
+  },
+  {
+    "brandName": "DUSHIT",
+    "packSize": "10",
+    "company": "AVANCER LAB",
+    "brandMrp": "120.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.09"
+  },
+  {
+    "brandName": "DUTAONE",
+    "packSize": "10",
+    "company": "RIVAN PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "120.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.09"
+  },
+  {
+    "brandName": "DUTAMAX",
+    "packSize": "10",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "DUTAWON",
+    "packSize": "10",
+    "company": "WONDER THERAPUTICS PVT.LTD",
+    "brandMrp": "122.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.20"
+  },
+  {
+    "brandName": "ZARIDE",
+    "packSize": "10",
+    "company": "HBC DERMIZA HEALTHCARE PVT.LTD",
+    "brandMrp": "135.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.59"
+  },
+  {
+    "brandName": "DUTAHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "158.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.84"
+  },
+  {
+    "brandName": "DUMAN",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "195.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.50"
+  },
+  {
+    "brandName": "VELTRIDE",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "195.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.50"
+  },
+  {
+    "brandName": "DUTAPROST",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "200.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.05"
+  }
+]

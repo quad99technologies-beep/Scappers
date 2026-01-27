@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "ONECAN",
+    "packSize": "4",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "28.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.14"
+  },
+  {
+    "brandName": "FCWELL",
+    "packSize": "10",
+    "company": "CURIOUS BIOTECH",
+    "brandMrp": "75.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.59"
+  },
+  {
+    "brandName": "FLUCALUP",
+    "packSize": "4",
+    "company": "LUPIN LTD",
+    "brandMrp": "35.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.88"
+  },
+  {
+    "brandName": "F-CON",
+    "packSize": "4",
+    "company": "LUPIN LTD",
+    "brandMrp": "38.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "FLUCONAZ",
+    "packSize": "4",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "38.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "FLUTAS",
+    "packSize": "4",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "39.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.75"
+  },
+  {
+    "brandName": "NUFORCE",
+    "packSize": "2",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "20.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.32"
+  },
+  {
+    "brandName": "FLUCOS",
+    "packSize": "4",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "41.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.33"
+  },
+  {
+    "brandName": "FORCAN",
+    "packSize": "4",
+    "company": "CIPLA LTD.",
+    "brandMrp": "41.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.34"
+  },
+  {
+    "brandName": "FUNGID",
+    "packSize": "1",
+    "company": "BESTOCHEM FORMULATIONS (I) LTD",
+    "brandMrp": "10.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.94"
+  },
+  {
+    "brandName": "ODCAN",
+    "packSize": "4",
+    "company": "PRISM LIFESCIENCE",
+    "brandMrp": "82.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.50"
+  }
+]

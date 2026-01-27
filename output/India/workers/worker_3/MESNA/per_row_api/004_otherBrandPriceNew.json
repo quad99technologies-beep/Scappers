@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "MESNA(ZYDUS)",
+    "packSize": "2",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "33.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.50"
+  },
+  {
+    "brandName": "MESOLIT",
+    "packSize": "3",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "156.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.20"
+  },
+  {
+    "brandName": "MISTABRON",
+    "packSize": "3",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "271.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "90.57"
+  }
+]

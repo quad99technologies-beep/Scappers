@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "OESTROGEL",
+    "packSize": "80",
+    "company": "BHARAT SERUMS & VACCINES LTD",
+    "brandMrp": "648.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.10"
+  },
+  {
+    "brandName": "PROSTIUM E",
+    "packSize": "80",
+    "company": "PHARMANOVA",
+    "brandMrp": "879.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.99"
+  },
+  {
+    "brandName": "ESTOFERT TG",
+    "packSize": "80",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "1077.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.46"
+  },
+  {
+    "brandName": "EV ACTIVE",
+    "packSize": "80",
+    "company": "CORONA",
+    "brandMrp": "1096.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.70"
+  },
+  {
+    "brandName": "ESTRABET",
+    "packSize": "80",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "1205.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.07"
+  }
+]

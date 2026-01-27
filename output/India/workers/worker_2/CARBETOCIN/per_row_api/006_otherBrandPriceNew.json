@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "CARBECIN",
+    "packSize": "1",
+    "company": "BLISSON MEDICA PVT.LTD",
+    "brandMrp": "393.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "393.75"
+  },
+  {
+    "brandName": "CINOMAC",
+    "packSize": "1",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "430.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "430.00"
+  },
+  {
+    "brandName": "CTOCIN",
+    "packSize": "1",
+    "company": "MERCURY HEALTH CARE PVT LTD",
+    "brandMrp": "450.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "450.00"
+  },
+  {
+    "brandName": "SPALCIN",
+    "packSize": "1",
+    "company": "WALTER BUSHNELL",
+    "brandMrp": "454.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "454.69"
+  },
+  {
+    "brandName": "CARITEC",
+    "packSize": "1",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "467.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "467.81"
+  },
+  {
+    "brandName": "GYNAXCIN",
+    "packSize": "1",
+    "company": "PULSE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "467.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "467.81"
+  },
+  {
+    "brandName": "ECBOSURE",
+    "packSize": "1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "499.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "499.00"
+  },
+  {
+    "brandName": "GENOREL",
+    "packSize": "1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "505.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "505.31"
+  },
+  {
+    "brandName": "CABIRIC",
+    "packSize": "1",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "512.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "512.25"
+  },
+  {
+    "brandName": "CARBITEX HS",
+    "packSize": "1",
+    "company": "BHARAT SERUMS & VACCINES LTD",
+    "brandMrp": "525.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "525.93"
+  },
+  {
+    "brandName": "RTCARB",
+    "packSize": "1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "550.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "550.00"
+  },
+  {
+    "brandName": "RILIGOL",
+    "packSize": "1",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "566.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "566.05"
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "CITIFLO",
+    "packSize": "2",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "96.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.31"
+  },
+  {
+    "brandName": "UNICHOLIN",
+    "packSize": "2",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "104.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.25"
+  },
+  {
+    "brandName": "NEUROSPARK",
+    "packSize": "2",
+    "company": "VENUS REMEDIES LTD",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.50"
+  },
+  {
+    "brandName": "DALUS",
+    "packSize": "2",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "77.35"
+  },
+  {
+    "brandName": "CEETI",
+    "packSize": "2",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "158.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "79.41"
+  },
+  {
+    "brandName": "CEHAM",
+    "packSize": "2",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "173.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "86.70"
+  },
+  {
+    "brandName": "OXCITY",
+    "packSize": "2",
+    "company": "OXFORD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "180.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "90.24"
+  },
+  {
+    "brandName": "SOMAZINA",
+    "packSize": "2",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "180.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "90.35"
+  }
+]

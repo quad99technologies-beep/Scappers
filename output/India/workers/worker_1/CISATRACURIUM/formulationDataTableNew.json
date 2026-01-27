@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521092196@238728@101116262@2107@101060@206213",
+    "skuName": "CIS ATRA 10 MG INFUSION 5 ML",
+    "composition": "CISATRACURIUM INFUSION 10 MG",
+    "packSize": "5 ML INFUSION",
+    "dosageForm": "INFUSION",
+    "ceilingPrice": "-1",
+    "company": "THEMIS MEDICARE LTD.",
+    "scheduleFlag": "0",
+    "mrp": "558.38",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "111.68"
+  },
+  {
+    "hiddenId": "1521092217@238729@101116262@3049@101068@206213",
+    "skuName": "CIS ATRA 20 MG INJECTION 10 ML",
+    "composition": "CISATRACURIUM INJECTION 20 MG",
+    "packSize": "10 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "THEMIS MEDICARE LTD.",
+    "scheduleFlag": "0",
+    "mrp": "1170.81",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "117.08"
+  },
+  {
+    "hiddenId": "1521097886@347400@101192567@2107@101068@206213",
+    "skuName": "HETRIUM C 10 MG INJECTION 5 ML",
+    "composition": "CISATRACURIUM INJECTION 10 MG",
+    "packSize": "5 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "HETERO HEALTHCARE LTD",
+    "scheduleFlag": "0",
+    "mrp": "515.60",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "103.12"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "BISCOTAS",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "10.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.23"
+  },
+  {
+    "brandName": "BUSCOGAST",
+    "packSize": "1",
+    "company": "SANOFI INDIA  LTD.",
+    "brandMrp": "12.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "HYOSIL",
+    "packSize": "1",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "12.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  }
+]

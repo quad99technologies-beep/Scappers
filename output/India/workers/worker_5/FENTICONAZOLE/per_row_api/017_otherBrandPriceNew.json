@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "FENTIGUARD",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "140.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.00"
+  },
+  {
+    "brandName": "FENTOZAC",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "142.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.20"
+  },
+  {
+    "brandName": "FIVASA",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "142.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.23"
+  },
+  {
+    "brandName": "FENTICAD",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "203.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "203.25"
+  }
+]

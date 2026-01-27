@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "DEXLANZOL",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "89.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.93"
+  },
+  {
+    "brandName": "DEXOLAN",
+    "packSize": "10",
+    "company": "WATERLEY PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "145.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.53"
+  },
+  {
+    "brandName": "LANDEX",
+    "packSize": "10",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "177.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.72"
+  },
+  {
+    "brandName": "LANSOCRAT DX",
+    "packSize": "10",
+    "company": "CRATUS LIFE CARE PVT LTD",
+    "brandMrp": "12411.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1241.13"
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "OFRON",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "32.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.28"
+  },
+  {
+    "brandName": "OFLOXAMAC",
+    "packSize": "10",
+    "company": "TORQUE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "33.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.30"
+  },
+  {
+    "brandName": "OFLOKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "37.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.75"
+  },
+  {
+    "brandName": "OFAL",
+    "packSize": "10",
+    "company": "HI TEC PHARMACEUTICALS PVT LTD",
+    "brandMrp": "46.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.69"
+  }
+]

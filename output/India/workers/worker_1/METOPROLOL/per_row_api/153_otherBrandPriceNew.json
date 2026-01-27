@@ -1,0 +1,506 @@
+[
+  {
+    "brandName": "MPROL",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "17.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.77"
+  },
+  {
+    "brandName": "BELOL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "19.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "EMBETA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "20.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.06"
+  },
+  {
+    "brandName": "BLUMETA",
+    "packSize": "15",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "31.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.12"
+  },
+  {
+    "brandName": "MPL",
+    "packSize": "10",
+    "company": "SUNIJ PHARMA PVT LTD",
+    "brandMrp": "22.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.25"
+  },
+  {
+    "brandName": "METOPOT",
+    "packSize": "10",
+    "company": "AKESISS PHARMA (P) LTD",
+    "brandMrp": "23.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.32"
+  },
+  {
+    "brandName": "METORIS",
+    "packSize": "15",
+    "company": "ORRIS PHARMACEUTICALS",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.67"
+  },
+  {
+    "brandName": "METOPRIDE",
+    "packSize": "14",
+    "company": "MEDICHEM PHARMCEUTICALS LTD",
+    "brandMrp": "41.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.95"
+  },
+  {
+    "brandName": "METODIL XL",
+    "packSize": "10",
+    "company": "SHANKUS ACME PHARMA PVT.LTD.",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "METOPROLOL",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "30.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.02"
+  },
+  {
+    "brandName": "METAPRO",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "31.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.13"
+  },
+  {
+    "brandName": "EVIMETO",
+    "packSize": "10",
+    "company": "JUBILANT GENERICS LIMITED",
+    "brandMrp": "33.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.34"
+  },
+  {
+    "brandName": "SEL XL (RUSI)",
+    "packSize": "10",
+    "company": "RUSI REMEDIES P. LTD.",
+    "brandMrp": "34.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.48"
+  },
+  {
+    "brandName": "ACTIBLOK IPR",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "35.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.58"
+  },
+  {
+    "brandName": "MLET",
+    "packSize": "10",
+    "company": "CAPLET INDIA PRIVATE LIMITED",
+    "brandMrp": "37.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.75"
+  },
+  {
+    "brandName": "TAMEPRO",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "37.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.75"
+  },
+  {
+    "brandName": "MPL",
+    "packSize": "10",
+    "company": "SUNIJ PHARMA PVT LTD",
+    "brandMrp": "37.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.76"
+  },
+  {
+    "brandName": "EVIMETO",
+    "packSize": "15",
+    "company": "JUBILANT GENERICS LIMITED",
+    "brandMrp": "56.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.78"
+  },
+  {
+    "brandName": "METORATE",
+    "packSize": "10",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "37.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.78"
+  },
+  {
+    "brandName": "BETALOC",
+    "packSize": "20",
+    "company": "ASTRAZENECA PHARMA INDIA LTD",
+    "brandMrp": "76.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.81"
+  },
+  {
+    "brandName": "BETALOC",
+    "packSize": "30",
+    "company": "ASTRAZENECA PHARMA INDIA LTD",
+    "brandMrp": "114.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.81"
+  },
+  {
+    "brandName": "METWELL",
+    "packSize": "10",
+    "company": "CADOMED PHARMACEUTICALS INDIA PVT.LTD",
+    "brandMrp": "39.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.94"
+  },
+  {
+    "brandName": "PREVAMET",
+    "packSize": "10",
+    "company": "ELINOR PHARMA",
+    "brandMrp": "39.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.94"
+  },
+  {
+    "brandName": "TRUBETA",
+    "packSize": "10",
+    "company": "MEDICAID LABS",
+    "brandMrp": "39.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.94"
+  },
+  {
+    "brandName": "VELOL XL",
+    "packSize": "15",
+    "company": "HBC LIFESCIENCES PVT LTD",
+    "brandMrp": "59.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.94"
+  },
+  {
+    "brandName": "METOPIL",
+    "packSize": "10",
+    "company": "SPECTRA THERAPEUTICS PVT. LTD.",
+    "brandMrp": "39.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.96"
+  },
+  {
+    "brandName": "METACURE",
+    "packSize": "10",
+    "company": "HBC LIFESCIENCES PVT LTD",
+    "brandMrp": "39.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.99"
+  },
+  {
+    "brandName": "MB",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "40.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.01"
+  },
+  {
+    "brandName": "TRANSLOL",
+    "packSize": "10",
+    "company": "PRIMUS REMEDIES PVT LTD",
+    "brandMrp": "40.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.01"
+  },
+  {
+    "brandName": "TOLOL",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "40.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.04"
+  },
+  {
+    "brandName": "METEZ XL",
+    "packSize": "10",
+    "company": "VASUCHEM LIFESCIENCES PVT LTD",
+    "brandMrp": "41.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.13"
+  },
+  {
+    "brandName": "METOMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "41.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.13"
+  },
+  {
+    "brandName": "METORIS",
+    "packSize": "10",
+    "company": "ORRIS PHARMACEUTICALS",
+    "brandMrp": "41.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.13"
+  },
+  {
+    "brandName": "XMBETA",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "41.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.13"
+  },
+  {
+    "brandName": "YOGAPROL",
+    "packSize": "10",
+    "company": "HIGLANCE LABORATORIES PVT LTD",
+    "brandMrp": "41.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.14"
+  },
+  {
+    "brandName": "VELOL XL",
+    "packSize": "10",
+    "company": "HBC LIFESCIENCES PVT LTD",
+    "brandMrp": "42.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.20"
+  },
+  {
+    "brandName": "ZYBLOK",
+    "packSize": "10",
+    "company": "AAGAM LIFE SCIENCES PVT.LTD",
+    "brandMrp": "42.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.22"
+  },
+  {
+    "brandName": "GUDPRES",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "43.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.31"
+  },
+  {
+    "brandName": "BEST BETA",
+    "packSize": "10",
+    "company": "APRICA HEALTHCARE PVT LTD",
+    "brandMrp": "43.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.33"
+  },
+  {
+    "brandName": "PROLOTOP",
+    "packSize": "10",
+    "company": "GENIEMED PVT LTD",
+    "brandMrp": "43.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.33"
+  },
+  {
+    "brandName": "BETASTOLIC XL",
+    "packSize": "10",
+    "company": "METALIS LIFESCIENCES PVT LTD",
+    "brandMrp": "43.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.36"
+  },
+  {
+    "brandName": "BITMET",
+    "packSize": "10",
+    "company": "ELICAD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "43.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.38"
+  },
+  {
+    "brandName": "CADMET",
+    "packSize": "10",
+    "company": "LIVIDUS PHARMA PVT LTD",
+    "brandMrp": "44.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.40"
+  },
+  {
+    "brandName": "METSTOP",
+    "packSize": "10",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "44.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.40"
+  },
+  {
+    "brandName": "LOBP",
+    "packSize": "10",
+    "company": "EVEREN HEALTHCARE PVT.LTD",
+    "brandMrp": "44.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.41"
+  },
+  {
+    "brandName": "TRULOL",
+    "packSize": "10",
+    "company": "ALDE MEDI IMPEX",
+    "brandMrp": "44.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.41"
+  },
+  {
+    "brandName": "BELOL XL",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "44.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.43"
+  },
+  {
+    "brandName": "METCY",
+    "packSize": "15",
+    "company": "CMR LIFE SCIENCES",
+    "brandMrp": "66.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.46"
+  },
+  {
+    "brandName": "SUSTAMETO",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "44.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.46"
+  },
+  {
+    "brandName": "MEGALOC",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "44.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.48"
+  },
+  {
+    "brandName": "PROLOVAS",
+    "packSize": "10",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "44.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.49"
+  },
+  {
+    "brandName": "REJULOL XL",
+    "packSize": "10",
+    "company": "REJUVENATE REMEDIES PVT LTD",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "METOSIS",
+    "packSize": "14",
+    "company": "TYCOON PHARMACEUTICALS PVT LTD",
+    "brandMrp": "63.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.52"
+  },
+  {
+    "brandName": "METAPRO XL",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "68.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.53"
+  },
+  {
+    "brandName": "METOFID",
+    "packSize": "10",
+    "company": "FIDELITY LIFESCIENCE",
+    "brandMrp": "45.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.54"
+  },
+  {
+    "brandName": "METOL XL",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "45.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.54"
+  },
+  {
+    "brandName": "NUMET",
+    "packSize": "10",
+    "company": "THREE DOTS LIFESCIENCE",
+    "brandMrp": "45.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.54"
+  },
+  {
+    "brandName": "METOLAR XT",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "75.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.05"
+  },
+  {
+    "brandName": "METODER",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "57.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.72"
+  },
+  {
+    "brandName": "SEL XL",
+    "packSize": "10",
+    "company": "FONCER PHARMA PVT. LTD",
+    "brandMrp": "59.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.90"
+  },
+  {
+    "brandName": "METCY",
+    "packSize": "10",
+    "company": "CMR LIFE SCIENCES",
+    "brandMrp": "66.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.69"
+  },
+  {
+    "brandName": "AIMET XR",
+    "packSize": "10",
+    "company": "EYSYS PHARMACEUTICAL PVT LTD",
+    "brandMrp": "142.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.20"
+  },
+  {
+    "brandName": "STARCAD BETA",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "211.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.15"
+  }
+]

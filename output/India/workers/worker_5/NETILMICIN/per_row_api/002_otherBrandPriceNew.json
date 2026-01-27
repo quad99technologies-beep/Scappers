@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "NETILMAC",
+    "packSize": "3",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "481.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "160.63"
+  },
+  {
+    "brandName": "NETROMAX",
+    "packSize": "3",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "495.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "165.00"
+  },
+  {
+    "brandName": "NETMICIN",
+    "packSize": "3",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "576.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "192.19"
+  }
+]

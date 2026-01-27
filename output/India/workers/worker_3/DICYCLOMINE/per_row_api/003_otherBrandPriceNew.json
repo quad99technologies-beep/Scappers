@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "CYCLOMINOL",
+    "packSize": "10",
+    "company": "NOEL PHARMACEUTICALS",
+    "brandMrp": "7.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.70"
+  },
+  {
+    "brandName": "AXPAS",
+    "packSize": "10",
+    "company": "AURZ PHARMACEUTICALS PVT LTD",
+    "brandMrp": "33.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.30"
+  }
+]

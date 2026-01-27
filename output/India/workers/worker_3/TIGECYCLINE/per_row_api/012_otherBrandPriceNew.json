@@ -1,0 +1,282 @@
+[
+  {
+    "brandName": "TIGI",
+    "packSize": "5",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "2625.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "525.00"
+  },
+  {
+    "brandName": "TIGEZ",
+    "packSize": "5",
+    "company": "LUPIN LTD",
+    "brandMrp": "3128.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "625.71"
+  },
+  {
+    "brandName": "TIGEFIC",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "1068.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1068.75"
+  },
+  {
+    "brandName": "TIGEBAX",
+    "packSize": "5",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "5784.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1156.88"
+  },
+  {
+    "brandName": "TIGEBEST",
+    "packSize": "1",
+    "company": "GLAND PHARMA LIMITED",
+    "brandMrp": "1187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1187.50"
+  },
+  {
+    "brandName": "TIGEFIC PLUS",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "1234.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1234.41"
+  },
+  {
+    "brandName": "ZUTIG",
+    "packSize": "1",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "1242.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1242.70"
+  },
+  {
+    "brandName": "TGKEM",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "1331.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1331.25"
+  },
+  {
+    "brandName": "TYGARAY",
+    "packSize": "1",
+    "company": "VIATRIS",
+    "brandMrp": "1350.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1350.00"
+  },
+  {
+    "brandName": "TEGLIN",
+    "packSize": "1",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "2456.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2456.25"
+  },
+  {
+    "brandName": "TIGEPOINT",
+    "packSize": "1",
+    "company": "BIOKINDLE LIFESCIENCES PVT. LTD",
+    "brandMrp": "2544.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2544.63"
+  },
+  {
+    "brandName": "INNOCYCLINE",
+    "packSize": "1",
+    "company": "INNOVA LIFESCIENCE",
+    "brandMrp": "2666.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2666.66"
+  },
+  {
+    "brandName": "TIGENICHE",
+    "packSize": "1",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "3000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3000.00"
+  },
+  {
+    "brandName": "TIGEO",
+    "packSize": "1",
+    "company": "SIGNITY PHARMACEUTICALS PVT LTD",
+    "brandMrp": "3039.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3039.62"
+  },
+  {
+    "brandName": "TIGETUF",
+    "packSize": "1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "3187.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3187.10"
+  },
+  {
+    "brandName": "EGYTIG",
+    "packSize": "1",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "3288.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3288.95"
+  },
+  {
+    "brandName": "TIGAPHAR",
+    "packSize": "1",
+    "company": "ZYPHARS PHARMACEUTICS PVT. LTD",
+    "brandMrp": "3350.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3350.00"
+  },
+  {
+    "brandName": "TIGEPLUG",
+    "packSize": "1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "3733.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3733.23"
+  },
+  {
+    "brandName": "TIZIREN",
+    "packSize": "1",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "3792.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3792.00"
+  },
+  {
+    "brandName": "TG PURE",
+    "packSize": "1",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "4070.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4070.00"
+  },
+  {
+    "brandName": "TIGITRUST",
+    "packSize": "1",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "4159.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4159.00"
+  },
+  {
+    "brandName": "TIGENE",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "4180.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4180.00"
+  },
+  {
+    "brandName": "TIGESTAT",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "4337.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4337.00"
+  },
+  {
+    "brandName": "TISAM",
+    "packSize": "1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "4459.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4459.31"
+  },
+  {
+    "brandName": "TECLINE (WOCKHARDT)",
+    "packSize": "1",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "4612.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4612.00"
+  },
+  {
+    "brandName": "IBITIG",
+    "packSize": "1",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "4658.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4658.50"
+  },
+  {
+    "brandName": "TYGACIL",
+    "packSize": "1",
+    "company": "PFIZER LTD",
+    "brandMrp": "4742.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4742.29"
+  },
+  {
+    "brandName": "TIGICON",
+    "packSize": "1",
+    "company": "CONCORD BIOTECH LTD",
+    "brandMrp": "4757.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4757.81"
+  },
+  {
+    "brandName": "TGKEM KIT",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "4810.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4810.00"
+  },
+  {
+    "brandName": "TIGIPRIME",
+    "packSize": "1",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "5388.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5388.00"
+  },
+  {
+    "brandName": "TIGETOP",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "5445.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5445.00"
+  },
+  {
+    "brandName": "TIGECROSS",
+    "packSize": "1",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "5501.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5501.72"
+  },
+  {
+    "brandName": "TIGERAD",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "5924.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5924.53"
+  },
+  {
+    "brandName": "TIGIMAX",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "6076.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6076.32"
+  },
+  {
+    "brandName": "EMTIG",
+    "packSize": "1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "7707.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7707.00"
+  }
+]

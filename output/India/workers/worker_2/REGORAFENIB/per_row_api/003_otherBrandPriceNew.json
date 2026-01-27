@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "REGDUAL",
+    "packSize": "28",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "3750.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "133.93"
+  },
+  {
+    "brandName": "RESIHANCE",
+    "packSize": "28",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "42194.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1506.95"
+  },
+  {
+    "brandName": "NUBLEXA",
+    "packSize": "28",
+    "company": "BAYER PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "59294.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2117.64"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "hiddenId": "1521116479@18064@101232635@3854@101006@202266",
+    "skuName": "GENCALM 5 MG TABLET 10",
+    "composition": "TRIFLUOPERAZINE TABLET 5 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "GENTECH HEALTCARE LTD",
+    "scheduleFlag": "0",
+    "mrp": "26.87",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.69"
+  },
+  {
+    "hiddenId": "1521072721@150290@101173360@3854@101006@202266",
+    "skuName": "SHICALM 5 MG TABLET 10",
+    "composition": "TRIFLUOPERAZINE TABLET 5 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "13.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.30"
+  },
+  {
+    "hiddenId": "1521137041@35284@101238328@2107@101006@202266",
+    "skuName": "SIQUIL 10 MG TABLET 10",
+    "composition": "TRIFLUOPERAZINE TABLET 10 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "scheduleFlag": "0",
+    "mrp": "7.43",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.74"
+  },
+  {
+    "hiddenId": "1521075682@61370@101176168@3854@101006@202266",
+    "skuName": "TALECALM 5 MG TABLET 10",
+    "composition": "TRIFLUOPERAZINE TABLET 5 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "TALENT INDIA",
+    "scheduleFlag": "0",
+    "mrp": "14.72",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.47"
+  },
+  {
+    "hiddenId": "1521079204@61837@101179700@3854@101006@202266",
+    "skuName": "TRIKOZIN 5 MG TABLET 10",
+    "composition": "TRIFLUOPERAZINE TABLET 5 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "TRIKO PHARMACEUTICALS",
+    "scheduleFlag": "0",
+    "mrp": "20.63",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.06"
+  }
+]

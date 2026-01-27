@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "IVECOP",
+    "packSize": "2",
+    "company": "MENARINI INDIA",
+    "brandMrp": "19.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "MECTIN",
+    "packSize": "1",
+    "company": "MERIDIAN MEDICARE LTD.",
+    "brandMrp": "10.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.60"
+  },
+  {
+    "brandName": "SCAVID",
+    "packSize": "4",
+    "company": "PRISM LIFESCIENCE",
+    "brandMrp": "44.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "IVERMECTOL",
+    "packSize": "2",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "23.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.75"
+  }
+]

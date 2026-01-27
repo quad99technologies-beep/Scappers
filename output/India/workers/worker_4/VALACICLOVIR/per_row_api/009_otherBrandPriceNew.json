@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "NUVALCY",
+    "packSize": "10",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "241.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.19"
+  },
+  {
+    "brandName": "ZIMIVIR",
+    "packSize": "10",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "273.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.33"
+  },
+  {
+    "brandName": "VALCITERO",
+    "packSize": "3",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "185.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "61.67"
+  },
+  {
+    "brandName": "VALAMAC",
+    "packSize": "3",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "223.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "74.53"
+  },
+  {
+    "brandName": "HERPIVAL",
+    "packSize": "3",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "262.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "87.50"
+  },
+  {
+    "brandName": "VALCET",
+    "packSize": "3",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "271.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "90.36"
+  },
+  {
+    "brandName": "ZIMIVIR",
+    "packSize": "3",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "273.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "91.09"
+  },
+  {
+    "brandName": "VALANEXT",
+    "packSize": "3",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "276.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "92.18"
+  },
+  {
+    "brandName": "VALTOVAL",
+    "packSize": "3",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "319.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "106.56"
+  },
+  {
+    "brandName": "VALAVIR",
+    "packSize": "3",
+    "company": "CIPLA LTD.",
+    "brandMrp": "339.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "113.15"
+  },
+  {
+    "brandName": "VALCIVIR",
+    "packSize": "3",
+    "company": "CIPLA LTD.",
+    "brandMrp": "339.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "113.15"
+  }
+]

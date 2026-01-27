@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "THALODA",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "311.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.13"
+  },
+  {
+    "brandName": "REDEMIDE",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "327.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.72"
+  },
+  {
+    "brandName": "THALIX",
+    "packSize": "10",
+    "company": "DABUR INDIA LTD.",
+    "brandMrp": "332.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.28"
+  },
+  {
+    "brandName": "THALIDE",
+    "packSize": "10",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "518.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.86"
+  }
+]

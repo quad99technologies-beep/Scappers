@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521135710@9999997602@101191789@2974@101006@201786",
+    "skuName": "COGVIN 200 MG TABLET 10",
+    "composition": "VINPOCETINE TABLET 200 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "347.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.70"
+  },
+  {
+    "hiddenId": "1521052712@78669@101155676@3854@101006@201786",
+    "skuName": "NEUROVIN 5 MG TABLET 10",
+    "composition": "VINPOCETINE TABLET 5 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "MICRO LABS LTD",
+    "scheduleFlag": "0",
+    "mrp": "120.94",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.09"
+  },
+  {
+    "hiddenId": "1521082163@196609@101182821@2107@101006@201786",
+    "skuName": "VINPACE 10 MG TABLET 10",
+    "composition": "VINPOCETINE TABLET 10 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "AURUM LIFE SCIENCE PVT. LTD.",
+    "scheduleFlag": "0",
+    "mrp": "186.56",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.66"
+  },
+  {
+    "hiddenId": "1521082164@196607@101182821@3854@101006@201786",
+    "skuName": "VINPACE 5 MG TABLET 10",
+    "composition": "VINPOCETINE TABLET 5 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "AURUM LIFE SCIENCE PVT. LTD.",
+    "scheduleFlag": "0",
+    "mrp": "125.15",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.52"
+  }
+]

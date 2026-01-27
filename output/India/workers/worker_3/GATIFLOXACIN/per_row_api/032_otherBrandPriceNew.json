@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "BIOGAT",
+    "packSize": "5",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "32.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.48"
+  },
+  {
+    "brandName": "BROADBAND",
+    "packSize": "5",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "35.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.06"
+  },
+  {
+    "brandName": "GATE (AJANTA)",
+    "packSize": "5",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "38.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.68"
+  }
+]

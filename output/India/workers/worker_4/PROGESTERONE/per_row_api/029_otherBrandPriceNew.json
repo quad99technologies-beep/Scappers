@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "GESTHEAL",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "124.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.45"
+  },
+  {
+    "brandName": "PRESTOL PLUS",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "189.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.90"
+  },
+  {
+    "brandName": "PROVIN (GENFO)",
+    "packSize": "10",
+    "company": "GENFO BIOCEUTICALS PVT.LTD",
+    "brandMrp": "299.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.90"
+  }
+]

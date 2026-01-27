@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "NORMESIS",
+    "packSize": "100",
+    "company": "LUPIN LTD",
+    "brandMrp": "20.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.20"
+  },
+  {
+    "brandName": "OFLOFAST",
+    "packSize": "100",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "132.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.33"
+  },
+  {
+    "brandName": "OFLOMAC",
+    "packSize": "100",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "141.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.42"
+  },
+  {
+    "brandName": "QMAX",
+    "packSize": "100",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "180.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.80"
+  },
+  {
+    "brandName": "OFUXIN",
+    "packSize": "100",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "206.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.06"
+  }
+]

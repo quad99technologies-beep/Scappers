@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "HYALGAN",
+    "packSize": "2",
+    "company": "LUPIN LTD",
+    "brandMrp": "1802.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "901.30"
+  },
+  {
+    "brandName": "HYORTH",
+    "packSize": "2",
+    "company": "VIRCHOW BIOTECH PRIVATE LIMITED",
+    "brandMrp": "3200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1600.00"
+  },
+  {
+    "brandName": "HYRUAN ONE",
+    "packSize": "3",
+    "company": "CIPLA LTD.",
+    "brandMrp": "19239.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6413.00"
+  },
+  {
+    "brandName": "SYNVISC HYLAN GF",
+    "packSize": "2",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "22119.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11059.69"
+  }
+]

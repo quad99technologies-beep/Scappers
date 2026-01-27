@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "HALLENS B",
+    "packSize": "5",
+    "company": "MERIDIAN ENTERPRISES PVT LTD",
+    "brandMrp": "83.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.71"
+  },
+  {
+    "brandName": "BISCOR",
+    "packSize": "5",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "188.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.78"
+  },
+  {
+    "brandName": "GERBISA",
+    "packSize": "5",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "200.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.01"
+  }
+]

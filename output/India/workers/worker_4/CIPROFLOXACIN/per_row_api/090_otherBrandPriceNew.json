@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ZOXAN",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "16.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.64"
+  },
+  {
+    "brandName": "CIPLOX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "16.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.65"
+  },
+  {
+    "brandName": "CIPROPEN",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "16.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.67"
+  }
+]

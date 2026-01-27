@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "RAKCEN",
+    "packSize": "40",
+    "company": "REKVINA PHARMACEUTICALS",
+    "brandMrp": "128.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.21"
+  },
+  {
+    "brandName": "ERYTOP",
+    "packSize": "25",
+    "company": "USV PVT LTD",
+    "brandMrp": "159.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.37"
+  },
+  {
+    "brandName": "CLINMISKIN",
+    "packSize": "30",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "215.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.20"
+  }
+]

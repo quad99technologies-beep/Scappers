@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "GMIN",
+    "packSize": "10",
+    "company": "EMBIOTIC LAB",
+    "brandMrp": "29.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.94"
+  },
+  {
+    "brandName": "CARTILITE",
+    "packSize": "10",
+    "company": "EMPIAI PHARMACEUTICALS PVT LTD",
+    "brandMrp": "66.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.66"
+  },
+  {
+    "brandName": "JOINTACE",
+    "packSize": "15",
+    "company": "MEYER ORGANICS PVT. LTD",
+    "brandMrp": "126.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.40"
+  },
+  {
+    "brandName": "LUBRIJOINT",
+    "packSize": "60",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "586.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.78"
+  },
+  {
+    "brandName": "FLEXISURE",
+    "packSize": "10",
+    "company": "STANWELL LIFE SCIENCES PVT.LTD",
+    "brandMrp": "168.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.82"
+  },
+  {
+    "brandName": "MOTOJOINT G",
+    "packSize": "1",
+    "company": "PRIMUS REMEDIES PVT LTD",
+    "brandMrp": "392.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "392.81"
+  }
+]

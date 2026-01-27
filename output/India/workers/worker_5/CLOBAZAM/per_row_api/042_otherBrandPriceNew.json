@@ -1,0 +1,298 @@
+[
+  {
+    "brandName": "SEIZCALM",
+    "packSize": "10",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "36.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.60"
+  },
+  {
+    "brandName": "CLAUDIA",
+    "packSize": "10",
+    "company": "AGM BIOTEC",
+    "brandMrp": "44.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.40"
+  },
+  {
+    "brandName": "ADCLOBAZ",
+    "packSize": "10",
+    "company": "HEALTH N U",
+    "brandMrp": "48.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.85"
+  },
+  {
+    "brandName": "CZAM",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "48.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.88"
+  },
+  {
+    "brandName": "ZELIP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "49.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.94"
+  },
+  {
+    "brandName": "CLOGABA",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "50.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.08"
+  },
+  {
+    "brandName": "DIOZAM",
+    "packSize": "10",
+    "company": "DIOS LIFESCIENCES PRIVATE LIMITED",
+    "brandMrp": "51.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.11"
+  },
+  {
+    "brandName": "EXAZAM",
+    "packSize": "10",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "51.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "brandName": "NUCLOBA",
+    "packSize": "10",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "52.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.20"
+  },
+  {
+    "brandName": "ADINEP",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "52.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.25"
+  },
+  {
+    "brandName": "CLOBAZAP",
+    "packSize": "10",
+    "company": "MEDOPHARM",
+    "brandMrp": "53.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.38"
+  },
+  {
+    "brandName": "ZEP (TASMED)",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "EPIZAM (PSYCOREMEDIES)",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "58.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.81"
+  },
+  {
+    "brandName": "LOBACHEK",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "58.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.81"
+  },
+  {
+    "brandName": "CLOBANIL",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "58.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.87"
+  },
+  {
+    "brandName": "SOLZAM",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "59.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.91"
+  },
+  {
+    "brandName": "CLION",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "88.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.92"
+  },
+  {
+    "brandName": "KIVIZAM",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "59.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.92"
+  },
+  {
+    "brandName": "LOBACOR",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "59.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.92"
+  },
+  {
+    "brandName": "ORESTA",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "59.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.92"
+  },
+  {
+    "brandName": "CLOBEX",
+    "packSize": "10",
+    "company": "ZEUS PHARMA",
+    "brandMrp": "60.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.01"
+  },
+  {
+    "brandName": "FRISIUM",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "90.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.01"
+  },
+  {
+    "brandName": "LOZAMAT",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "60.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.01"
+  },
+  {
+    "brandName": "CLOBA MT",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "60.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.02"
+  },
+  {
+    "brandName": "GABAPUS",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "60.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.05"
+  },
+  {
+    "brandName": "SEBENZ",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "60.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.10"
+  },
+  {
+    "brandName": "C-BAZ",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "61.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.11"
+  },
+  {
+    "brandName": "CLOBAKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "61.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.11"
+  },
+  {
+    "brandName": "LOBAZAM",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "61.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.11"
+  },
+  {
+    "brandName": "ADOBE",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "61.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.12"
+  },
+  {
+    "brandName": "CLOBA",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "91.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.12"
+  },
+  {
+    "brandName": "CLOBA MT",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "91.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.12"
+  },
+  {
+    "brandName": "CLOBATOR",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "61.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.12"
+  },
+  {
+    "brandName": "CLOZAM",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "61.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.12"
+  },
+  {
+    "brandName": "FRIZAM",
+    "packSize": "15",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "91.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.12"
+  },
+  {
+    "brandName": "YOGAZAM",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "61.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.12"
+  },
+  {
+    "brandName": "CLOBOL",
+    "packSize": "10",
+    "company": "TRION PHARMA",
+    "brandMrp": "64.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.40"
+  }
+]

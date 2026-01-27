@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "NACL 6",
+    "packSize": "5",
+    "company": "OPTHO REMEDIES PVT.LTD",
+    "brandMrp": "130.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.09"
+  },
+  {
+    "brandName": "SOLINE",
+    "packSize": "3",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "191.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "63.75"
+  },
+  {
+    "brandName": "HYPERSOL 6",
+    "packSize": "3",
+    "company": "JAWA LABORATORIES",
+    "brandMrp": "321.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "107.28"
+  }
+]

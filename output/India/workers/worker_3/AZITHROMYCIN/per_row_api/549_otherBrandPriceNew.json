@@ -1,0 +1,1642 @@
+[
+  {
+    "brandName": "ALZITH",
+    "packSize": "10",
+    "company": "INTRA LABS",
+    "brandMrp": "29.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.95"
+  },
+  {
+    "brandName": "AZIROL",
+    "packSize": "10",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "29.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.99"
+  },
+  {
+    "brandName": "ONAZIT",
+    "packSize": "6",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "24.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.13"
+  },
+  {
+    "brandName": "AZILAB",
+    "packSize": "6",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "25.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.17"
+  },
+  {
+    "brandName": "AZITUS",
+    "packSize": "6",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "26.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.38"
+  },
+  {
+    "brandName": "ZATURA",
+    "packSize": "6",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "27.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.63"
+  },
+  {
+    "brandName": "ACCUZITH",
+    "packSize": "6",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "ALBITHRAL",
+    "packSize": "6",
+    "company": "ALBERT DAVID",
+    "brandMrp": "31.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.21"
+  },
+  {
+    "brandName": "AZEETOP",
+    "packSize": "6",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "33.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "EZEE",
+    "packSize": "6",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "34.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.68"
+  },
+  {
+    "brandName": "AZITHROWIN",
+    "packSize": "6",
+    "company": "WINGS PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "35.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.92"
+  },
+  {
+    "brandName": "AZIJET",
+    "packSize": "6",
+    "company": "AUSTRO LAB",
+    "brandMrp": "38.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.36"
+  },
+  {
+    "brandName": "AZIKEM (HIQUEM LAB)",
+    "packSize": "10",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "64.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.46"
+  },
+  {
+    "brandName": "AZIMORE",
+    "packSize": "10",
+    "company": "M.D.C. PHARMACEUTICALS (P) LTD.",
+    "brandMrp": "64.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.49"
+  },
+  {
+    "brandName": "AZOPIL",
+    "packSize": "6",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "41.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.88"
+  },
+  {
+    "brandName": "AZICRON",
+    "packSize": "10",
+    "company": "ACRON PHARMACEUTICALS",
+    "brandMrp": "70.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.08"
+  },
+  {
+    "brandName": "AZITHREE",
+    "packSize": "10",
+    "company": "GOLD LINE",
+    "brandMrp": "72.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.25"
+  },
+  {
+    "brandName": "AZROLID",
+    "packSize": "6",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "43.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.29"
+  },
+  {
+    "brandName": "JOCIN",
+    "packSize": "10",
+    "company": "DR. JOHNS LABORATORIES PVT LTD",
+    "brandMrp": "76.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.60"
+  },
+  {
+    "brandName": "AZNEE",
+    "packSize": "6",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "50.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.48"
+  },
+  {
+    "brandName": "AZAD",
+    "packSize": "6",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "54.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.09"
+  },
+  {
+    "brandName": "AZIFEM",
+    "packSize": "6",
+    "company": "DABUR INDIA LTD.",
+    "brandMrp": "57.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.51"
+  },
+  {
+    "brandName": "AZIMORE",
+    "packSize": "6",
+    "company": "M.D.C. PHARMACEUTICALS (P) LTD.",
+    "brandMrp": "58.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.71"
+  },
+  {
+    "brandName": "VAZIR",
+    "packSize": "6",
+    "company": "ZYPHARS PHARMACEUTICS PVT. LTD",
+    "brandMrp": "58.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.74"
+  },
+  {
+    "brandName": "OZOROX",
+    "packSize": "10",
+    "company": "OZONE PHARMACEUTICALS",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.90"
+  },
+  {
+    "brandName": "BIO AZ",
+    "packSize": "6",
+    "company": "BIOMAX BIOTECHNICS",
+    "brandMrp": "59.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.99"
+  },
+  {
+    "brandName": "AZIRITE",
+    "packSize": "6",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.00"
+  },
+  {
+    "brandName": "ROWEZY",
+    "packSize": "6",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "60.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.08"
+  },
+  {
+    "brandName": "AZIRESP",
+    "packSize": "10",
+    "company": "AN PHARMACEUTICALS PVT.LTD.",
+    "brandMrp": "101.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "AZICRAT",
+    "packSize": "6",
+    "company": "SYNCOM FORMULATIONS (I) LIMITED",
+    "brandMrp": "61.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.21"
+  },
+  {
+    "brandName": "ZITHROCIN",
+    "packSize": "6",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "61.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.21"
+  },
+  {
+    "brandName": "AZIPAR",
+    "packSize": "6",
+    "company": "MOLEKULE (IND)PVT LTD",
+    "brandMrp": "61.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.26"
+  },
+  {
+    "brandName": "EZECURE",
+    "packSize": "6",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "61.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.32"
+  },
+  {
+    "brandName": "AZECLEAN",
+    "packSize": "6",
+    "company": "GENO PHARMACEUTICALS LTD",
+    "brandMrp": "62.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.33"
+  },
+  {
+    "brandName": "ZITHROCIN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "103.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.38"
+  },
+  {
+    "brandName": "ZOFACIN",
+    "packSize": "6",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "62.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.43"
+  },
+  {
+    "brandName": "AZVIO",
+    "packSize": "10",
+    "company": "ALVIO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "104.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.45"
+  },
+  {
+    "brandName": "AZISPEC",
+    "packSize": "10",
+    "company": "SPECTRA THERAPEUTICS PVT. LTD.",
+    "brandMrp": "106.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.60"
+  },
+  {
+    "brandName": "AZAUK",
+    "packSize": "6",
+    "company": "ST. MORRISON",
+    "brandMrp": "63.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.66"
+  },
+  {
+    "brandName": "AZIDOS",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "106.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.66"
+  },
+  {
+    "brandName": "AZITHRO",
+    "packSize": "6",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "64.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.73"
+  },
+  {
+    "brandName": "ZIOX",
+    "packSize": "6",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "64.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.75"
+  },
+  {
+    "brandName": "AZIMED(MEDICO)",
+    "packSize": "6",
+    "company": "MEDICO LABS",
+    "brandMrp": "64.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.78"
+  },
+  {
+    "brandName": "MECROZIL",
+    "packSize": "6",
+    "company": "CHETHANA PHARMACEUTICALS",
+    "brandMrp": "65.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.84"
+  },
+  {
+    "brandName": "XITH",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "109.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.90"
+  },
+  {
+    "brandName": "AZIKAM",
+    "packSize": "6",
+    "company": "KAMRON LABORATORIES",
+    "brandMrp": "65.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.95"
+  },
+  {
+    "brandName": "ECOTHRAL",
+    "packSize": "10",
+    "company": "KEPLER HEALTH CARE",
+    "brandMrp": "109.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "brandName": "AZIKIM",
+    "packSize": "10",
+    "company": "KIM LAB",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "RIZAN",
+    "packSize": "6",
+    "company": "MEDICO LABS",
+    "brandMrp": "66.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "AABAZ",
+    "packSize": "10",
+    "company": "ABARIS HEALTHCARE",
+    "brandMrp": "110.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.04"
+  },
+  {
+    "brandName": "AZIBLUE",
+    "packSize": "6",
+    "company": "RONYD HEALTH CARE PVT LTD",
+    "brandMrp": "66.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.09"
+  },
+  {
+    "brandName": "AZ 3",
+    "packSize": "6",
+    "company": "ALBERT DAVID",
+    "brandMrp": "66.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.10"
+  },
+  {
+    "brandName": "UTHRAL",
+    "packSize": "6",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "66.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.10"
+  },
+  {
+    "brandName": "AZIGAL",
+    "packSize": "6",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "66.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.11"
+  },
+  {
+    "brandName": "ZITHROCARE",
+    "packSize": "6",
+    "company": "MEYER ORGANICS PVT. LTD",
+    "brandMrp": "67.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.22"
+  },
+  {
+    "brandName": "MYAZI",
+    "packSize": "6",
+    "company": "GRACIOUS PHARMACEUTICALS",
+    "brandMrp": "67.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "AZIKAA",
+    "packSize": "6",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "68.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.33"
+  },
+  {
+    "brandName": "AZSUCH",
+    "packSize": "6",
+    "company": "RESILIENT COSMECEUTICALS PRIVATE LIMITED",
+    "brandMrp": "68.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.36"
+  },
+  {
+    "brandName": "AZPIK",
+    "packSize": "6",
+    "company": "AARPIK REMEDIES PVT.LTD.",
+    "brandMrp": "68.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.46"
+  },
+  {
+    "brandName": "AZIPIC",
+    "packSize": "6",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "69.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.50"
+  },
+  {
+    "brandName": "AZDOC",
+    "packSize": "6",
+    "company": "SAFFRON FORMULATIONS",
+    "brandMrp": "69.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.56"
+  },
+  {
+    "brandName": "AZIFORD",
+    "packSize": "6",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "69.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.57"
+  },
+  {
+    "brandName": "AZILOR",
+    "packSize": "6",
+    "company": "LORANCE PHARMA LTD",
+    "brandMrp": "69.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.57"
+  },
+  {
+    "brandName": "AZIMAX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "115.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.57"
+  },
+  {
+    "brandName": "AZILET",
+    "packSize": "6",
+    "company": "CAPLET INDIA PRIVATE LIMITED",
+    "brandMrp": "69.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.64"
+  },
+  {
+    "brandName": "AZITREAT",
+    "packSize": "6",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.67"
+  },
+  {
+    "brandName": "AZIWIN",
+    "packSize": "6",
+    "company": "BAL PHARMA",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.67"
+  },
+  {
+    "brandName": "AZITRAC",
+    "packSize": "4",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "46.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.69"
+  },
+  {
+    "brandName": "AZIRUN",
+    "packSize": "6",
+    "company": "JARUN PHARMACEUTICALS",
+    "brandMrp": "70.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.75"
+  },
+  {
+    "brandName": "AZEX",
+    "packSize": "6",
+    "company": "HIGLANCE LABORATORIES PVT LTD",
+    "brandMrp": "70.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.77"
+  },
+  {
+    "brandName": "AZINEXT",
+    "packSize": "6",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "70.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.77"
+  },
+  {
+    "brandName": "AZITOUGH",
+    "packSize": "6",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "70.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.79"
+  },
+  {
+    "brandName": "AZITOP (PSYCHO)",
+    "packSize": "6",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "71.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.83"
+  },
+  {
+    "brandName": "AZITROSS",
+    "packSize": "6",
+    "company": "ALBATROSS HEALTH CARE PVT LTD",
+    "brandMrp": "71.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.83"
+  },
+  {
+    "brandName": "ZOHRI",
+    "packSize": "6",
+    "company": "MERIDIAN MEDICARE LTD.",
+    "brandMrp": "71.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.84"
+  },
+  {
+    "brandName": "ACINTAZ",
+    "packSize": "6",
+    "company": "ACINTA PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "71.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.85"
+  },
+  {
+    "brandName": "AZIMER",
+    "packSize": "6",
+    "company": "MERCURY HEALTH CARE PVT LTD",
+    "brandMrp": "71.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.85"
+  },
+  {
+    "brandName": "AZIBEST",
+    "packSize": "6",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "71.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.88"
+  },
+  {
+    "brandName": "AZIVA",
+    "packSize": "10",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "119.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.90"
+  },
+  {
+    "brandName": "ROWEZY",
+    "packSize": "10",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "119.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "AZIDEP",
+    "packSize": "6",
+    "company": "BENNET PHARMACEUTICALS LIMITED",
+    "brandMrp": "72.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.05"
+  },
+  {
+    "brandName": "AZOSIS",
+    "packSize": "10",
+    "company": "TYCOON PHARMACEUTICALS PVT LTD",
+    "brandMrp": "120.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.05"
+  },
+  {
+    "brandName": "AZINIX",
+    "packSize": "10",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "121.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.13"
+  },
+  {
+    "brandName": "LAZ",
+    "packSize": "6",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "72.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.13"
+  },
+  {
+    "brandName": "AZITRADE",
+    "packSize": "10",
+    "company": "ZOVAITALIA BIO TECH",
+    "brandMrp": "121.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.14"
+  },
+  {
+    "brandName": "ALZIVIN",
+    "packSize": "6",
+    "company": "AVANCER LAB",
+    "brandMrp": "73.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "AZIPUNCH",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "AZOMARC",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "AZOM (FINECURE)",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "ZYLID",
+    "packSize": "6",
+    "company": "SHANKUS ACME PHARMA PVT.LTD.",
+    "brandMrp": "73.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "ZYLOC",
+    "packSize": "3",
+    "company": "SYMBIOTIC DRUGS",
+    "brandMrp": "36.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "AZ 3",
+    "packSize": "10",
+    "company": "ALBERT DAVID",
+    "brandMrp": "122.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.22"
+  },
+  {
+    "brandName": "AZIBION",
+    "packSize": "6",
+    "company": "HBC PHARMACEUTICALS PVT LTD",
+    "brandMrp": "73.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.22"
+  },
+  {
+    "brandName": "AZID",
+    "packSize": "6",
+    "company": "INDI PHARMA",
+    "brandMrp": "73.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.22"
+  },
+  {
+    "brandName": "AZILEB",
+    "packSize": "6",
+    "company": "LEBEN LABORATORIES PVT.LTD",
+    "brandMrp": "73.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.22"
+  },
+  {
+    "brandName": "AZIPRL",
+    "packSize": "6",
+    "company": "PRISTINE PEARL PHARMA PVT.LTD",
+    "brandMrp": "73.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.22"
+  },
+  {
+    "brandName": "AZIPUNCH",
+    "packSize": "6",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "73.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.22"
+  },
+  {
+    "brandName": "AZIRAPID",
+    "packSize": "6",
+    "company": "REGENIX DRUGS LTD",
+    "brandMrp": "73.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.22"
+  },
+  {
+    "brandName": "AZISTATIC",
+    "packSize": "6",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "73.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.22"
+  },
+  {
+    "brandName": "LEBAZI",
+    "packSize": "10",
+    "company": "LEBEN LABORATORIES PVT.LTD",
+    "brandMrp": "122.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.22"
+  },
+  {
+    "brandName": "MYAZ",
+    "packSize": "6",
+    "company": "ANHOX HEALTHCARE PVT LTD",
+    "brandMrp": "73.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.22"
+  },
+  {
+    "brandName": "ZYCIN",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "122.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.22"
+  },
+  {
+    "brandName": "AZINTAS",
+    "packSize": "6",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "73.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.23"
+  },
+  {
+    "brandName": "AZNI",
+    "packSize": "6",
+    "company": "OMNI LIFE SCIENCES PVT LTD",
+    "brandMrp": "73.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.23"
+  },
+  {
+    "brandName": "AZRO",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "122.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.23"
+  },
+  {
+    "brandName": "MICROBACT",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "122.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.23"
+  },
+  {
+    "brandName": "PRATHAM",
+    "packSize": "6",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "73.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.23"
+  },
+  {
+    "brandName": "ZAROCIN",
+    "packSize": "6",
+    "company": "MEGHA HEALTHCARE",
+    "brandMrp": "73.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.23"
+  },
+  {
+    "brandName": "ZIKEM",
+    "packSize": "6",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "73.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.23"
+  },
+  {
+    "brandName": "ZITHROLECT",
+    "packSize": "6",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "73.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.23"
+  },
+  {
+    "brandName": "AZITER",
+    "packSize": "6",
+    "company": "GUJARAT TERCE LABORATORIES LTD",
+    "brandMrp": "73.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.25"
+  },
+  {
+    "brandName": "ZITHROCIN",
+    "packSize": "5",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "61.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.25"
+  },
+  {
+    "brandName": "ZEETHROM",
+    "packSize": "6",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "73.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.27"
+  },
+  {
+    "brandName": "LARIZA",
+    "packSize": "10",
+    "company": "INTEL PHARMACEUTICALS",
+    "brandMrp": "122.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.28"
+  },
+  {
+    "brandName": "AZELTRA",
+    "packSize": "6",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "73.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.31"
+  },
+  {
+    "brandName": "AZIPRO",
+    "packSize": "6",
+    "company": "CIPLA LTD.",
+    "brandMrp": "73.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.31"
+  },
+  {
+    "brandName": "AZICARE",
+    "packSize": "6",
+    "company": "OLCARE LTD",
+    "brandMrp": "74.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.33"
+  },
+  {
+    "brandName": "AZILAC",
+    "packSize": "6",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "74.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.38"
+  },
+  {
+    "brandName": "AZIKIND",
+    "packSize": "6",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "74.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.40"
+  },
+  {
+    "brandName": "AZITREAT",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "124.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.40"
+  },
+  {
+    "brandName": "UMAZIT",
+    "packSize": "10",
+    "company": "UMANO HEALTHCARE PVT.LIMITED",
+    "brandMrp": "124.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.40"
+  },
+  {
+    "brandName": "TRULIMAX",
+    "packSize": "6",
+    "company": "PFIZER LTD",
+    "brandMrp": "74.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.41"
+  },
+  {
+    "brandName": "AZIFORD",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "124.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.42"
+  },
+  {
+    "brandName": "A 24",
+    "packSize": "6",
+    "company": "COMED CHEMICALS PVT LTD",
+    "brandMrp": "74.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.43"
+  },
+  {
+    "brandName": "AZIBIG",
+    "packSize": "6",
+    "company": "BESTOCHEM FORMULATIONS (I) LTD",
+    "brandMrp": "74.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.43"
+  },
+  {
+    "brandName": "AZILUP",
+    "packSize": "6",
+    "company": "LUPIN LTD",
+    "brandMrp": "74.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.43"
+  },
+  {
+    "brandName": "AZIWOK",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "124.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.43"
+  },
+  {
+    "brandName": "HHAZI",
+    "packSize": "10",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "124.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.43"
+  },
+  {
+    "brandName": "VERIAZ",
+    "packSize": "6",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "74.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.43"
+  },
+  {
+    "brandName": "ZADY",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "124.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.43"
+  },
+  {
+    "brandName": "3A",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "124.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.44"
+  },
+  {
+    "brandName": "AIIM",
+    "packSize": "6",
+    "company": "MARSHA PHARMA",
+    "brandMrp": "74.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.44"
+  },
+  {
+    "brandName": "AZICLASS",
+    "packSize": "6",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "74.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.44"
+  },
+  {
+    "brandName": "AZILIDE",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "124.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.44"
+  },
+  {
+    "brandName": "AZILIN",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "124.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.44"
+  },
+  {
+    "brandName": "AZIMAX",
+    "packSize": "6",
+    "company": "CIPLA LTD.",
+    "brandMrp": "74.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.44"
+  },
+  {
+    "brandName": "NANOGRAM",
+    "packSize": "6",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "74.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.44"
+  },
+  {
+    "brandName": "ZITHROX",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "124.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.44"
+  },
+  {
+    "brandName": "AN 250",
+    "packSize": "6",
+    "company": "PATSON LABORATORIES PVT. LTD.",
+    "brandMrp": "74.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.45"
+  },
+  {
+    "brandName": "AZIFINE PLUS",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "124.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.45"
+  },
+  {
+    "brandName": "ATM",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "124.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZAM",
+    "packSize": "6",
+    "company": "MCASTRO PHARMA",
+    "brandMrp": "74.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZAX",
+    "packSize": "6",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "74.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZEE",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "124.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZEE",
+    "packSize": "6",
+    "company": "CIPLA LTD.",
+    "brandMrp": "74.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZERIN",
+    "packSize": "6",
+    "company": "ICARUS HEALTHCARE PRIMUS",
+    "brandMrp": "74.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZIBAC",
+    "packSize": "10",
+    "company": "G. D. PHARMACEUTICALS LTD.",
+    "brandMrp": "124.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZIBACT",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "124.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZIBRAND",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "124.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZICIP",
+    "packSize": "6",
+    "company": "CIPLA LTD.",
+    "brandMrp": "74.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZICYTE",
+    "packSize": "6",
+    "company": "JB CHEMICALS",
+    "brandMrp": "74.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZIDAY",
+    "packSize": "6",
+    "company": "SKYMAX LABORATORIES LTD.",
+    "brandMrp": "74.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZIFAST",
+    "packSize": "6",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "74.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZIKEM (ALKEM)",
+    "packSize": "6",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "74.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZILINE",
+    "packSize": "6",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "74.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZINKYA",
+    "packSize": "6",
+    "company": "MAPRA LABORATORIES PVT. LTD",
+    "brandMrp": "74.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZITAS",
+    "packSize": "6",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "74.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZITHRAL",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "124.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZIVENT",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "124.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AZYSAFE",
+    "packSize": "6",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "74.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "NUAZY",
+    "packSize": "10",
+    "company": "NULIFE PHARMACEUTICALS",
+    "brandMrp": "124.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "SERVAZITH",
+    "packSize": "10",
+    "company": "EMBIOTIC LAB",
+    "brandMrp": "124.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "TORTHROCIN",
+    "packSize": "6",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "74.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "ZATHRIN",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "124.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "ZITHIUM",
+    "packSize": "6",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "74.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "ZITHROKEM",
+    "packSize": "6",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "74.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "AFDIMYCIN",
+    "packSize": "6",
+    "company": "ANGLO-FRENCH DRUGS & INDUSTRIES LTD.",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "AZAL",
+    "packSize": "6",
+    "company": "STALLION LABORATORIES (P) LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "AZICRON",
+    "packSize": "6",
+    "company": "ACRON PHARMACEUTICALS",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "PULMO AZI",
+    "packSize": "10",
+    "company": "ANGLO-FRENCH DRUGS & INDUSTRIES LTD.",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "AZIZOOM",
+    "packSize": "6",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "75.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.59"
+  },
+  {
+    "brandName": "AZIHOT",
+    "packSize": "10",
+    "company": "NEXTGEN HEALTH CARE PVT.LTD",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.00"
+  },
+  {
+    "brandName": "Z 1",
+    "packSize": "6",
+    "company": "LUPIN LTD",
+    "brandMrp": "78.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.00"
+  },
+  {
+    "brandName": "AZTHRIS",
+    "packSize": "6",
+    "company": "VIATRIS",
+    "brandMrp": "78.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.03"
+  },
+  {
+    "brandName": "EZITHRO",
+    "packSize": "6",
+    "company": "ECON HEALTHCARE PVT LTD",
+    "brandMrp": "78.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.03"
+  },
+  {
+    "brandName": "GENOTHRAL",
+    "packSize": "6",
+    "company": "GENO PHARMACEUTICALS LTD",
+    "brandMrp": "78.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.03"
+  },
+  {
+    "brandName": "LAZITHRO",
+    "packSize": "10",
+    "company": "LESANTO LABORATORIES",
+    "brandMrp": "130.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.03"
+  },
+  {
+    "brandName": "AZISUR",
+    "packSize": "6",
+    "company": "SURGE BIOTECH PVT LTD",
+    "brandMrp": "78.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.04"
+  },
+  {
+    "brandName": "AZIWAKE",
+    "packSize": "6",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "78.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.04"
+  },
+  {
+    "brandName": "OPTHRAL",
+    "packSize": "10",
+    "company": "OPSISCARE LIFESCIENCSE PVT LTD",
+    "brandMrp": "130.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.04"
+  },
+  {
+    "brandName": "AZITUS",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "130.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.05"
+  },
+  {
+    "brandName": "FIDZEE",
+    "packSize": "6",
+    "company": "FIDELITY LIFESCIENCE",
+    "brandMrp": "78.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.05"
+  },
+  {
+    "brandName": "XEBAC",
+    "packSize": "6",
+    "company": "BIOS LAB PVT.LTD",
+    "brandMrp": "78.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.05"
+  },
+  {
+    "brandName": "AZOMYCIN",
+    "packSize": "6",
+    "company": "CIPLA LTD.",
+    "brandMrp": "78.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.13"
+  },
+  {
+    "brandName": "THROBIT",
+    "packSize": "10",
+    "company": "CUBIT HEALTHCARE",
+    "brandMrp": "131.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.15"
+  },
+  {
+    "brandName": "AZITEC",
+    "packSize": "6",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "79.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.17"
+  },
+  {
+    "brandName": "AZYLAJ",
+    "packSize": "6",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "79.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.17"
+  },
+  {
+    "brandName": "AZIVISTA",
+    "packSize": "6",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "79.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.27"
+  },
+  {
+    "brandName": "AZITH",
+    "packSize": "10",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "132.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.29"
+  },
+  {
+    "brandName": "AZITRAC",
+    "packSize": "10",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "147.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.75"
+  },
+  {
+    "brandName": "IGTHRO",
+    "packSize": "6",
+    "company": "IVA HEALTHCARE PVT.LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "AZITAB",
+    "packSize": "10",
+    "company": "AURZ PHARMACEUTICALS PVT LTD",
+    "brandMrp": "178.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "MYAZI PLUS",
+    "packSize": "10",
+    "company": "GRACIOUS PHARMACEUTICALS",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "NAZITH",
+    "packSize": "6",
+    "company": "NAVIL LABORATORIES",
+    "brandMrp": "115.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.19"
+  },
+  {
+    "brandName": "CEFTILOX AZ",
+    "packSize": "10",
+    "company": "INTRA LIFE PVT.LTD",
+    "brandMrp": "193.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.36"
+  },
+  {
+    "brandName": "AZINTRA",
+    "packSize": "4",
+    "company": "INTRA LABS",
+    "brandMrp": "79.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.00"
+  },
+  {
+    "brandName": "ZIRRO",
+    "packSize": "6",
+    "company": "EISEN PHARMACEUTICALS CO. PVT. LTD",
+    "brandMrp": "124.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.72"
+  },
+  {
+    "brandName": "AZITHREE",
+    "packSize": "6",
+    "company": "GOLD LINE",
+    "brandMrp": "124.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.77"
+  },
+  {
+    "brandName": "AZITOL",
+    "packSize": "6",
+    "company": "FRANKLIN LABORATORIES (INDIA) PVT. LTD.",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.83"
+  },
+  {
+    "brandName": "PRAZITH",
+    "packSize": "3",
+    "company": "PRISM LIFESCIENCE",
+    "brandMrp": "63.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.16"
+  },
+  {
+    "brandName": "AZIRIN",
+    "packSize": "6",
+    "company": "RHINE BIOGENICS PVT LTD",
+    "brandMrp": "130.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.72"
+  },
+  {
+    "brandName": "MAZITH",
+    "packSize": "6",
+    "company": "CORONA",
+    "brandMrp": "132.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.00"
+  },
+  {
+    "brandName": "AZISPAN",
+    "packSize": "6",
+    "company": "VOTARY LABORATORIES (I) LTD.",
+    "brandMrp": "132.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.08"
+  },
+  {
+    "brandName": "EZIVID",
+    "packSize": "40",
+    "company": "TAURUS LABORATORIES PVT LTD",
+    "brandMrp": "966.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.17"
+  },
+  {
+    "brandName": "AZAMCX",
+    "packSize": "10",
+    "company": "MCASTRO PHARMA",
+    "brandMrp": "262.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.25"
+  }
+]

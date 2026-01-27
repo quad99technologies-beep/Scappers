@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "EZET",
+    "packSize": "10",
+    "company": "CARSYON",
+    "brandMrp": "0.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.00"
+  },
+  {
+    "brandName": "MIBE",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "57.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.75"
+  },
+  {
+    "brandName": "EZLIP",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "79.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.92"
+  },
+  {
+    "brandName": "EZTARICA",
+    "packSize": "10",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "140.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.00"
+  },
+  {
+    "brandName": "EZENTIA",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "201.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.16"
+  },
+  {
+    "brandName": "EZEDOC",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "322.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.52"
+  },
+  {
+    "brandName": "EZEDOC",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "215.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.53"
+  }
+]

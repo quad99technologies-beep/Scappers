@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "ENTROFLORA",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "218.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.83"
+  },
+  {
+    "brandName": "ECOFLORA",
+    "packSize": "30",
+    "company": "TABLETS INDIA LTD",
+    "brandMrp": "1828.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "60.94"
+  },
+  {
+    "brandName": "ECOFLORA",
+    "packSize": "10",
+    "company": "TABLETS INDIA LTD",
+    "brandMrp": "656.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.63"
+  },
+  {
+    "brandName": "FEMBIO",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "741.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "74.12"
+  }
+]

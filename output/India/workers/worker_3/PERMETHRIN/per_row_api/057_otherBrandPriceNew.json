@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PERIN",
+    "packSize": "50",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "47.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.94"
+  },
+  {
+    "brandName": "MEDILICE",
+    "packSize": "30",
+    "company": "WINGS PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "44.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.48"
+  },
+  {
+    "brandName": "PERLICE CREME/RINSE",
+    "packSize": "120",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "192.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.60"
+  }
+]

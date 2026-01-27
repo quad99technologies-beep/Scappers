@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521006088@163870@101103201@1846@101006@201540",
+    "skuName": "B-CIN 100 MG TABLET 10",
+    "composition": "BALOFLOXACIN TABLET 100 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "LUPIN LTD",
+    "scheduleFlag": "0",
+    "mrp": "238.65",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.87"
+  },
+  {
+    "hiddenId": "1521011802@186495@101103201@2974@101006@201540",
+    "skuName": "B-CIN 200 MG TABLET 10",
+    "composition": "BALOFLOXACIN TABLET 200 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "LUPIN LTD",
+    "scheduleFlag": "0",
+    "mrp": "318.65",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.87"
+  }
+]

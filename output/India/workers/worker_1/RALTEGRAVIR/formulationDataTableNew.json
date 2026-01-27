@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521037443@175537@101140619@3625@101006@201669",
+    "skuName": "ISENTRESS 400 MG TABLET 60",
+    "composition": "RALTEGRAVIR TABLET 400 MG",
+    "packSize": "60 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "150.36",
+    "company": "MSD PHARMACEUTICALS PRIVATE LTD.",
+    "scheduleFlag": "1",
+    "mrp": "8689.00",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "144.82"
+  },
+  {
+    "hiddenId": "1521085095@199008@101185902@3625@101006@201669",
+    "skuName": "ZEPDON 400 MG TABLET 60",
+    "composition": "RALTEGRAVIR TABLET 400 MG",
+    "packSize": "60 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "150.36",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "1",
+    "mrp": "8355.00",
+    "scheduleStatus": "Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "139.25"
+  }
+]

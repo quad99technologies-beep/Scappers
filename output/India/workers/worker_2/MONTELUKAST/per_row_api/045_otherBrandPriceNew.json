@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "MONT",
+    "packSize": "10",
+    "company": "TABLETS INDIA LTD",
+    "brandMrp": "34.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.49"
+  },
+  {
+    "brandName": "LASMA",
+    "packSize": "10",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "82.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.26"
+  },
+  {
+    "brandName": "MONTEK",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "85.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.50"
+  },
+  {
+    "brandName": "MONTASMA",
+    "packSize": "10",
+    "company": "ICARUS HEALTHCARE PRIMUS",
+    "brandMrp": "87.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.72"
+  },
+  {
+    "brandName": "MONTEPRL",
+    "packSize": "10",
+    "company": "PRISTINE PEARL PHARMA PVT.LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "ROMILAST",
+    "packSize": "15",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "160.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.71"
+  },
+  {
+    "brandName": "MONTAIR",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "163.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.93"
+  },
+  {
+    "brandName": "SINGULAIR",
+    "packSize": "7",
+    "company": "MSD PHARMACEUTICALS PRIVATE LTD.",
+    "brandMrp": "100.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.32"
+  }
+]

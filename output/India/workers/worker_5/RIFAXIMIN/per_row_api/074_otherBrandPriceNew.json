@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "RCIFAX",
+    "packSize": "200",
+    "company": "LUPIN LTD",
+    "brandMrp": "395.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.98"
+  },
+  {
+    "brandName": "RIFASET",
+    "packSize": "60",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "157.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.63"
+  },
+  {
+    "brandName": "RIFAXIMAX",
+    "packSize": "60",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "194.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.25"
+  },
+  {
+    "brandName": "RCIFAX",
+    "packSize": "60",
+    "company": "LUPIN LTD",
+    "brandMrp": "236.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.94"
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "LICEMOON",
+    "packSize": "30",
+    "company": "MOONSTAR LIFECARE PVT.LTD",
+    "brandMrp": "42.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.41"
+  },
+  {
+    "brandName": "ZEROLICE",
+    "packSize": "120",
+    "company": "PALSONS DERMA PVT. LTD",
+    "brandMrp": "193.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.61"
+  },
+  {
+    "brandName": "T MITE",
+    "packSize": "30",
+    "company": "PRAISE PHARMA",
+    "brandMrp": "58.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.93"
+  },
+  {
+    "brandName": "EXCIMITE",
+    "packSize": "30",
+    "company": "EUMEDICA PHARMACEUTICALS",
+    "brandMrp": "58.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.94"
+  },
+  {
+    "brandName": "PERMIFORCE",
+    "packSize": "30",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "58.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.94"
+  },
+  {
+    "brandName": "ZEROSCAB (PARAS)",
+    "packSize": "30",
+    "company": "RECKITT BENCKISER",
+    "brandMrp": "58.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.94"
+  },
+  {
+    "brandName": "ELICE",
+    "packSize": "30",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  },
+  {
+    "brandName": "MITE",
+    "packSize": "30",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "62.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.07"
+  },
+  {
+    "brandName": "PRESCAB",
+    "packSize": "30",
+    "company": "AUSTRO LAB",
+    "brandMrp": "62.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.07"
+  }
+]

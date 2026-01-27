@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "PHOSMID",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "44.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.04"
+  },
+  {
+    "brandName": "CYCLOXAN",
+    "packSize": "1",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "78.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "78.40"
+  },
+  {
+    "brandName": "ENDOXAN",
+    "packSize": "1",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "84.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "84.00"
+  },
+  {
+    "brandName": "PHOXELON",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "93.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "93.00"
+  }
+]

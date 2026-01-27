@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ENDOGEST AQ",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "105.00"
+  },
+  {
+    "brandName": "MPREG AQ",
+    "packSize": "1",
+    "company": "CRATUS LIFE CARE PVT LTD",
+    "brandMrp": "111.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "111.56"
+  },
+  {
+    "brandName": "GUFIGEST",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "114.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "114.00"
+  }
+]

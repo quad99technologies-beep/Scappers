@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "POSAHIT",
+    "packSize": "105",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "17758.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "169.13"
+  },
+  {
+    "brandName": "PICASA",
+    "packSize": "105",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "19228.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "183.13"
+  },
+  {
+    "brandName": "ZYPOSA",
+    "packSize": "105",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "19624.01",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "186.90"
+  },
+  {
+    "brandName": "POSACAD",
+    "packSize": "105",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "20408.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "194.36"
+  },
+  {
+    "brandName": "POSOXIL",
+    "packSize": "105",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "22500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "214.29"
+  }
+]

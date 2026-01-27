@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "LEEPILL",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "76.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.63"
+  },
+  {
+    "brandName": "IDOZ",
+    "packSize": "1",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "9.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "EZEE (DKT)",
+    "packSize": "1",
+    "company": "DKT INDIA LTD",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "70.00"
+  },
+  {
+    "brandName": "MORNING",
+    "packSize": "1",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "75.00"
+  },
+  {
+    "brandName": "OPILL",
+    "packSize": "1",
+    "company": "ORISON PHARMACEUTICALS",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "75.00"
+  },
+  {
+    "brandName": "IPILL",
+    "packSize": "1",
+    "company": "PIRAMAL HEALTHCARE LIMITED",
+    "brandMrp": "76.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "76.66"
+  },
+  {
+    "brandName": "OPTION 72",
+    "packSize": "1",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "80.00"
+  },
+  {
+    "brandName": "NOWILL",
+    "packSize": "1",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "90.00"
+  },
+  {
+    "brandName": "INSTAFREE 72",
+    "packSize": "1",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "100.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "100.00"
+  },
+  {
+    "brandName": "STREEPILL",
+    "packSize": "1",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "110.00"
+  },
+  {
+    "brandName": "T PILL",
+    "packSize": "1",
+    "company": "BESTOCHEM FORMULATIONS (I) LTD",
+    "brandMrp": "559.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "559.45"
+  },
+  {
+    "brandName": "POSTPONE 72",
+    "packSize": "1",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "763.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "763.00"
+  }
+]

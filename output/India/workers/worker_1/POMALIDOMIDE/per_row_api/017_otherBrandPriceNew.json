@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "POMCAD",
+    "packSize": "21",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "7995.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "380.71"
+  },
+  {
+    "brandName": "POMAVIA",
+    "packSize": "21",
+    "company": "LUPIN LTD",
+    "brandMrp": "10000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "476.19"
+  },
+  {
+    "brandName": "POMALID",
+    "packSize": "21",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "14949.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "711.89"
+  },
+  {
+    "brandName": "POMALEX",
+    "packSize": "21",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "17857.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "850.34"
+  }
+]

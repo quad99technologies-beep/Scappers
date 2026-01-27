@@ -1,0 +1,122 @@
+[
+  {
+    "brandName": "CEFAZID",
+    "packSize": "5",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "1.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.25"
+  },
+  {
+    "brandName": "C-ZID",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "209.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.99"
+  },
+  {
+    "brandName": "FORTUM",
+    "packSize": "10",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "212.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.27"
+  },
+  {
+    "brandName": "CEFTAZ",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "234.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.50"
+  },
+  {
+    "brandName": "FORTACEF",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "242.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.24"
+  },
+  {
+    "brandName": "CEFABIT",
+    "packSize": "5",
+    "company": "CUBIT HEALTHCARE",
+    "brandMrp": "210.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.01"
+  },
+  {
+    "brandName": "CEFDIN",
+    "packSize": "5",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "234.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.80"
+  },
+  {
+    "brandName": "FORZID",
+    "packSize": "1",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "212.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "212.34"
+  },
+  {
+    "brandName": "CEFWIDE",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "240.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "240.90"
+  },
+  {
+    "brandName": "STEF",
+    "packSize": "1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "242.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "242.26"
+  },
+  {
+    "brandName": "MEGAZID",
+    "packSize": "1",
+    "company": "MAPRA LABORATORIES PVT. LTD",
+    "brandMrp": "242.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "242.51"
+  },
+  {
+    "brandName": "FOTARAN",
+    "packSize": "1",
+    "company": "VHB LIFE SCIENCES LIMITED",
+    "brandMrp": "248.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "248.00"
+  },
+  {
+    "brandName": "TROYZIDE",
+    "packSize": "1",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "254.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "254.57"
+  },
+  {
+    "brandName": "CAZIDIME",
+    "packSize": "1",
+    "company": "CACHET PHARMACEUTICALS PVT LTD",
+    "brandMrp": "260.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "260.23"
+  },
+  {
+    "brandName": "KEFTAGLAN",
+    "packSize": "1",
+    "company": "GLAND PHARMA LIMITED",
+    "brandMrp": "280.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "280.00"
+  }
+]

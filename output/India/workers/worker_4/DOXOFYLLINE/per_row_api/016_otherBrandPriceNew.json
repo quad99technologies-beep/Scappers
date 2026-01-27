@@ -1,0 +1,170 @@
+[
+  {
+    "brandName": "DOXOVENT",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "38.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.84"
+  },
+  {
+    "brandName": "DOXOFON",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "41.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.13"
+  },
+  {
+    "brandName": "DOXYMONT",
+    "packSize": "10",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "43.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.31"
+  },
+  {
+    "brandName": "DOXO",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "50.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.05"
+  },
+  {
+    "brandName": "DOXOBID",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "56.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.66"
+  },
+  {
+    "brandName": "DOXOPIL",
+    "packSize": "10",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "BESTOFYLINE",
+    "packSize": "10",
+    "company": "BESTOCHEM FORMULATIONS (I) LTD",
+    "brandMrp": "60.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.07"
+  },
+  {
+    "brandName": "SPIRODIN",
+    "packSize": "15",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "108.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.27"
+  },
+  {
+    "brandName": "KLON T",
+    "packSize": "10",
+    "company": "OLCARE LTD",
+    "brandMrp": "73.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.31"
+  },
+  {
+    "brandName": "DOXOPAC",
+    "packSize": "10",
+    "company": "PACIFIC DRUGS & CHEMICALS",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "DOXOZET",
+    "packSize": "10",
+    "company": "ICARUS HEALTHCARE PRIMUS",
+    "brandMrp": "76.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.67"
+  },
+  {
+    "brandName": "PHYLLIN",
+    "packSize": "10",
+    "company": "RND LABORATORIES PVT. LTD.",
+    "brandMrp": "76.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.69"
+  },
+  {
+    "brandName": "DOXOFEN",
+    "packSize": "10",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "82.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.25"
+  },
+  {
+    "brandName": "DOXOCIP",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "85.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.51"
+  },
+  {
+    "brandName": "DOXOFYL",
+    "packSize": "10",
+    "company": "STRIDES SHASUN LIMITED",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "DOXOFORD",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "93.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.37"
+  },
+  {
+    "brandName": "DUPHILL",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.38"
+  },
+  {
+    "brandName": "DOXASMA",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "97.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.76"
+  },
+  {
+    "brandName": "DOXOCLICK",
+    "packSize": "10",
+    "company": "TRIPADA LIFECARE PVT.LTD",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.90"
+  },
+  {
+    "brandName": "OXYPUR",
+    "packSize": "10",
+    "company": "MARS THERAPUTICS & CHEMICALS LTD.",
+    "brandMrp": "126.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.66"
+  },
+  {
+    "brandName": "OXITRES",
+    "packSize": "10",
+    "company": "STEADFAST MEDISHIELD PVT LTD",
+    "brandMrp": "190.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.00"
+  }
+]

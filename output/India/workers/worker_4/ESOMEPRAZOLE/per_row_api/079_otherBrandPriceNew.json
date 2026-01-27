@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ESOLE",
+    "packSize": "1",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "18.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.05"
+  },
+  {
+    "brandName": "ZOSA",
+    "packSize": "1",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "25.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.55"
+  },
+  {
+    "brandName": "NEXPRO JUNIOR",
+    "packSize": "1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "26.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.81"
+  }
+]

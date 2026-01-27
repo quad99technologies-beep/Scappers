@@ -1,0 +1,306 @@
+[
+  {
+    "brandName": "GABAVENT",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "17.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.75"
+  },
+  {
+    "brandName": "GABAMER",
+    "packSize": "10",
+    "company": "SPARSH REMEDIES PVT.LTD",
+    "brandMrp": "40.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.06"
+  },
+  {
+    "brandName": "MYGABA",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "41.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.20"
+  },
+  {
+    "brandName": "NERVIBRAIN",
+    "packSize": "10",
+    "company": "K.C LABORATORIES",
+    "brandMrp": "50.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.07"
+  },
+  {
+    "brandName": "GABADAY",
+    "packSize": "10",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "GABAVAL",
+    "packSize": "10",
+    "company": "WALNUT LIFE SCIENCES PVT LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "GABADEP",
+    "packSize": "10",
+    "company": "ELINOR PHARMA",
+    "brandMrp": "60.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.09"
+  },
+  {
+    "brandName": "GABATOL",
+    "packSize": "6",
+    "company": "ZEUS PHARMA",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.67"
+  },
+  {
+    "brandName": "GABAGESIC",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "70.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.10"
+  },
+  {
+    "brandName": "ENCENTIN",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "72.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.25"
+  },
+  {
+    "brandName": "GPEN",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "76.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.61"
+  },
+  {
+    "brandName": "GAPITAS",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "76.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.65"
+  },
+  {
+    "brandName": "GABAGESIC",
+    "packSize": "15",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "116.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.79"
+  },
+  {
+    "brandName": "GABABRAIN",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "79.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.90"
+  },
+  {
+    "brandName": "GABALENT",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "79.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.97"
+  },
+  {
+    "brandName": "ZYMAPTIN",
+    "packSize": "10",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "80.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.04"
+  },
+  {
+    "brandName": "GABIVER",
+    "packSize": "10",
+    "company": "PRIMUS REMEDIES PVT LTD",
+    "brandMrp": "80.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.06"
+  },
+  {
+    "brandName": "ACTIGABA",
+    "packSize": "15",
+    "company": "AAREEN HEALTHCARE",
+    "brandMrp": "122.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.15"
+  },
+  {
+    "brandName": "GABACENT",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "82.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.21"
+  },
+  {
+    "brandName": "GABASTONE",
+    "packSize": "10",
+    "company": "GLADSTONE PHARMA INDIA PVT.LTD",
+    "brandMrp": "82.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.25"
+  },
+  {
+    "brandName": "LAREGAB",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "82.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.25"
+  },
+  {
+    "brandName": "GABALIP",
+    "packSize": "10",
+    "company": "GALAXUS PHARMAECUTICALS",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "PROGABA",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "GEBION",
+    "packSize": "10",
+    "company": "TRION PHARMA",
+    "brandMrp": "85.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.50"
+  },
+  {
+    "brandName": "BAGA",
+    "packSize": "15",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "128.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.59"
+  },
+  {
+    "brandName": "GABADON",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "88.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.82"
+  },
+  {
+    "brandName": "ARIGABA",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "89.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.91"
+  },
+  {
+    "brandName": "ACEGABA",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "89.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.96"
+  },
+  {
+    "brandName": "GABATEO",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "GAPATHY",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "94.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.44"
+  },
+  {
+    "brandName": "GABTN",
+    "packSize": "10",
+    "company": "EVEREN HEALTHCARE PVT.LTD",
+    "brandMrp": "97.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.75"
+  },
+  {
+    "brandName": "GABAPIN",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "153.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.25"
+  },
+  {
+    "brandName": "GABANKIT",
+    "packSize": "10",
+    "company": "SANIX FORMULATIONS PVT LTD",
+    "brandMrp": "110.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.06"
+  },
+  {
+    "brandName": "CYGABA",
+    "packSize": "10",
+    "company": "CYRUS REMEDIES PVT LTD",
+    "brandMrp": "113.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.34"
+  },
+  {
+    "brandName": "PENTANERV",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "115.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.53"
+  },
+  {
+    "brandName": "GABAVIT",
+    "packSize": "10",
+    "company": "CANVARZYS HEALTHCARE PVT.LTD",
+    "brandMrp": "144.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.44"
+  },
+  {
+    "brandName": "GABAPAX",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "152.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.25"
+  },
+  {
+    "brandName": "GABAZEN",
+    "packSize": "15",
+    "company": "SIFCO PHARMA",
+    "brandMrp": "331.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.07"
+  }
+]

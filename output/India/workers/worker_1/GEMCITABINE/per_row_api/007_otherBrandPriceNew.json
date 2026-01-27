@@ -1,0 +1,138 @@
+[
+  {
+    "brandName": "EMCITABEN",
+    "packSize": "25",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "4999.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "199.97"
+  },
+  {
+    "brandName": "GEMITA",
+    "packSize": "26",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "5924.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "227.87"
+  },
+  {
+    "brandName": "GEMCITE",
+    "packSize": "25",
+    "company": "ELI LILLY AND COMPANY (INDIA) PVT. LTD.",
+    "brandMrp": "5970.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "238.84"
+  },
+  {
+    "brandName": "GEMTERO",
+    "packSize": "25",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "5973.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "238.95"
+  },
+  {
+    "brandName": "GEMCHEM",
+    "packSize": "25",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "1803.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1803.50"
+  },
+  {
+    "brandName": "MYGEM",
+    "packSize": "25",
+    "company": "VIATRIS",
+    "brandMrp": "2375.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2375.00"
+  },
+  {
+    "brandName": "CELZAR",
+    "packSize": "25",
+    "company": "CELON LABS",
+    "brandMrp": "3250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3250.00"
+  },
+  {
+    "brandName": "TABICAD",
+    "packSize": "25",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "3250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3250.00"
+  },
+  {
+    "brandName": "GEMBIN",
+    "packSize": "25",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "3736.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3736.69"
+  },
+  {
+    "brandName": "GEMPOWER",
+    "packSize": "25",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "5000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5000.00"
+  },
+  {
+    "brandName": "INNOGEM",
+    "packSize": "25",
+    "company": "INNOVA LIFESCIENCE",
+    "brandMrp": "5168.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5168.00"
+  },
+  {
+    "brandName": "CELGEM",
+    "packSize": "25",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "5586.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5586.17"
+  },
+  {
+    "brandName": "BIOGEM",
+    "packSize": "25",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "5852.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5852.37"
+  },
+  {
+    "brandName": "GEMITRATE",
+    "packSize": "25",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "5871.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5871.00"
+  },
+  {
+    "brandName": "GEMTAZ",
+    "packSize": "1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "5871.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5871.84"
+  },
+  {
+    "brandName": "GEMIBINE",
+    "packSize": "25",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "5872.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5872.18"
+  },
+  {
+    "brandName": "CYTOGEM",
+    "packSize": "25",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "5973.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5973.92"
+  }
+]

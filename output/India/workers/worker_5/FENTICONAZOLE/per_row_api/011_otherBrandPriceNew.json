@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "FENTOZAC",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "142.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.20"
+  },
+  {
+    "brandName": "FIVASA",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "142.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.23"
+  },
+  {
+    "brandName": "FITICOZOL",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "173.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "173.40"
+  },
+  {
+    "brandName": "FENTICAD",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "203.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "203.25"
+  }
+]

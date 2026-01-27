@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "DEXTROSE (DENIS)",
+    "packSize": "500",
+    "company": "DENIS CHEM LAB LTD",
+    "brandMrp": "21.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.04"
+  },
+  {
+    "brandName": "DEXTROSE (FRESENIUS)",
+    "packSize": "500",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "27.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.05"
+  },
+  {
+    "brandName": "DEXTROSE (DENIS)",
+    "packSize": "100",
+    "company": "DENIS CHEM LAB LTD",
+    "brandMrp": "17.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.17"
+  },
+  {
+    "brandName": "DEXTROSE (DENIS)",
+    "packSize": "250",
+    "company": "DENIS CHEM LAB LTD",
+    "brandMrp": "625.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.50"
+  }
+]

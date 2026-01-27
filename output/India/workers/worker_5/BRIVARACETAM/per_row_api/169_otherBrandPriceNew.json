@@ -1,0 +1,322 @@
+[
+  {
+    "brandName": "BRICET",
+    "packSize": "60",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "506.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "BRIVEPSY",
+    "packSize": "14",
+    "company": "CIPLA LTD.",
+    "brandMrp": "154.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.05"
+  },
+  {
+    "brandName": "BRITZILAM",
+    "packSize": "14",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "208.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.90"
+  },
+  {
+    "brandName": "BRIVATAB",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "152.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.26"
+  },
+  {
+    "brandName": "BRIVEPSY",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "154.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "BRAVTARY",
+    "packSize": "10",
+    "company": "TRION PHARMA",
+    "brandMrp": "159.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.90"
+  },
+  {
+    "brandName": "BRICET",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "162.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.23"
+  },
+  {
+    "brandName": "BRIVAPRIDE",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "164.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.40"
+  },
+  {
+    "brandName": "FROYAD",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "164.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.41"
+  },
+  {
+    "brandName": "BREMIZA",
+    "packSize": "10",
+    "company": "HBC HEALTHCARE PVT.LTD",
+    "brandMrp": "165.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.50"
+  },
+  {
+    "brandName": "BRITAM",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "165.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.58"
+  },
+  {
+    "brandName": "BRITAM",
+    "packSize": "15",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "248.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.58"
+  },
+  {
+    "brandName": "BRIVAPAX",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "167.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.73"
+  },
+  {
+    "brandName": "BRIVATOP",
+    "packSize": "14",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "234.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.74"
+  },
+  {
+    "brandName": "BRINDA",
+    "packSize": "10",
+    "company": "HEALTH N U",
+    "brandMrp": "167.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.75"
+  },
+  {
+    "brandName": "BEVICET",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "168.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.86"
+  },
+  {
+    "brandName": "BRIVALEX",
+    "packSize": "15",
+    "company": "PULSE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "254.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.94"
+  },
+  {
+    "brandName": "BRIVEE",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "173.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.34"
+  },
+  {
+    "brandName": "BRIVAZEN",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "176.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.60"
+  },
+  {
+    "brandName": "VIVOCET",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "266.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.74"
+  },
+  {
+    "brandName": "BRIVAYES",
+    "packSize": "10",
+    "company": "ANAX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "178.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "BRIVISSA",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "182.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.25"
+  },
+  {
+    "brandName": "BRIPCA",
+    "packSize": "14",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "256.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.32"
+  },
+  {
+    "brandName": "BRIVASURE",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "275.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.37"
+  },
+  {
+    "brandName": "BRIVASURE",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "183.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.38"
+  },
+  {
+    "brandName": "BRIVANEXT",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.66"
+  },
+  {
+    "brandName": "VIVOCET",
+    "packSize": "14",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "266.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.00"
+  },
+  {
+    "brandName": "BRIV",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "191.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.17"
+  },
+  {
+    "brandName": "BRIV PLUS",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "191.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.17"
+  },
+  {
+    "brandName": "BRIVALYST",
+    "packSize": "10",
+    "company": "SEPTALYST LIFESCIENCES PVT LTD",
+    "brandMrp": "196.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.65"
+  },
+  {
+    "brandName": "BRIVAZEN",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "299.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.94"
+  },
+  {
+    "brandName": "BREVIPIL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "199.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.97"
+  },
+  {
+    "brandName": "BRIVGARD",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "202.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.28"
+  },
+  {
+    "brandName": "BRITZILAM",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "305.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.37"
+  },
+  {
+    "brandName": "BRIVETOIN",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "204.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.45"
+  },
+  {
+    "brandName": "BRIVAHENZ",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "209.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.91"
+  },
+  {
+    "brandName": "BRIVAFIX",
+    "packSize": "10",
+    "company": "LYCEUM LIFE SCIENCE PVT.LTD",
+    "brandMrp": "223.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.32"
+  },
+  {
+    "brandName": "BRECITA",
+    "packSize": "10",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.00"
+  },
+  {
+    "brandName": "BRIVAJOY",
+    "packSize": "14",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "364.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.06"
+  },
+  {
+    "brandName": "BRIVIACT",
+    "packSize": "14",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "1494.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "106.71"
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "brandName": "FOSHS",
+    "packSize": "8",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "342.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.77"
+  },
+  {
+    "brandName": "MONUFOS",
+    "packSize": "8",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "360.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.00"
+  },
+  {
+    "brandName": "OMNAFOS",
+    "packSize": "8",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "394.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.34"
+  },
+  {
+    "brandName": "FOSIL",
+    "packSize": "8",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "420.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.62"
+  },
+  {
+    "brandName": "ERAFOS",
+    "packSize": "8",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "436.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "54.59"
+  },
+  {
+    "brandName": "AUXIFOS (ALNICHE)",
+    "packSize": "8",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "446.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "55.87"
+  },
+  {
+    "brandName": "MYFOS",
+    "packSize": "8",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "454.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.84"
+  },
+  {
+    "brandName": "LUPIFOS",
+    "packSize": "8",
+    "company": "LUPIN LTD",
+    "brandMrp": "473.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "59.19"
+  },
+  {
+    "brandName": "EVAFOS",
+    "packSize": "8",
+    "company": "WIN-MEDICARE PVT. LTD.",
+    "brandMrp": "518.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "64.81"
+  },
+  {
+    "brandName": "SAMFOS",
+    "packSize": "8",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "522.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.33"
+  },
+  {
+    "brandName": "FOSFOFAST",
+    "packSize": "8",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "525.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.63"
+  },
+  {
+    "brandName": "MONUROL",
+    "packSize": "8",
+    "company": "MODI MUNDI PHARMA PVT LTD",
+    "brandMrp": "570.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "71.25"
+  },
+  {
+    "brandName": "FOSFONA",
+    "packSize": "3",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "406.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "135.44"
+  },
+  {
+    "brandName": "MONUROL",
+    "packSize": "3",
+    "company": "MODI MUNDI PHARMA PVT LTD",
+    "brandMrp": "570.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "190.00"
+  },
+  {
+    "brandName": "UTIZAP",
+    "packSize": "1",
+    "company": "USV PVT LTD",
+    "brandMrp": "345.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "345.00"
+  }
+]

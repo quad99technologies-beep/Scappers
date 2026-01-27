@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "MONTOZIN",
+    "packSize": "10",
+    "company": "SHREYA LIFE SCIENCES PVT. LTD",
+    "brandMrp": "17.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.71"
+  },
+  {
+    "brandName": "PYRANIJ",
+    "packSize": "10",
+    "company": "SUNIJ PHARMA PVT LTD",
+    "brandMrp": "51.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.12"
+  },
+  {
+    "brandName": "P ZIDE",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "52.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.21"
+  },
+  {
+    "brandName": "PYZINA",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "52.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.22"
+  }
+]

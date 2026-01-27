@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "SK DOX",
+    "packSize": "10",
+    "company": "S.K.N ORGANICS",
+    "brandMrp": "15.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.51"
+  },
+  {
+    "brandName": "DOXY 24",
+    "packSize": "8",
+    "company": "VILCO LABORATORIES PVT. LTD",
+    "brandMrp": "26.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.25"
+  },
+  {
+    "brandName": "DOXY",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "69.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.95"
+  },
+  {
+    "brandName": "DOXYQUICK",
+    "packSize": "10",
+    "company": "GOLD LINE",
+    "brandMrp": "112.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.22"
+  }
+]

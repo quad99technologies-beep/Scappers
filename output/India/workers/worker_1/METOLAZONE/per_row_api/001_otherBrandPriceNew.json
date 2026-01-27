@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ZYTANIX",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "294.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.43"
+  },
+  {
+    "brandName": "METOZ",
+    "packSize": "10",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "323.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.34"
+  },
+  {
+    "brandName": "ZYTANIX",
+    "packSize": "15",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "550.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.71"
+  }
+]

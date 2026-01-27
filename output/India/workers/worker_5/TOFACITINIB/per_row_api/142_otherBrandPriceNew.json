@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "EMTOFA",
+    "packSize": "20",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "980.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.00"
+  },
+  {
+    "brandName": "TCITIB",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "499.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.90"
+  },
+  {
+    "brandName": "TFCT NIB",
+    "packSize": "15",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "750.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.00"
+  },
+  {
+    "brandName": "EMTOFA",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "703.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "70.31"
+  }
+]

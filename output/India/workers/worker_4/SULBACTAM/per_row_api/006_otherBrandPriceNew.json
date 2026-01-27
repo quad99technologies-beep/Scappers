@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "ADDBACTAM",
+    "packSize": "1",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "269.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "269.00"
+  },
+  {
+    "brandName": "KIVIZA",
+    "packSize": "1",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "333.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "333.75"
+  },
+  {
+    "brandName": "SULBAMED",
+    "packSize": "1",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "375.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "375.20"
+  },
+  {
+    "brandName": "ACINOSTOP",
+    "packSize": "1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "655.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "655.32"
+  }
+]

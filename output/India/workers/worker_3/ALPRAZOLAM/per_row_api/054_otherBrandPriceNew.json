@@ -1,0 +1,386 @@
+[
+  {
+    "brandName": "APCOLAM",
+    "packSize": "15",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "6.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.40"
+  },
+  {
+    "brandName": "ZOPAX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "8.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.80"
+  },
+  {
+    "brandName": "ZALLPAM",
+    "packSize": "10",
+    "company": "MENARINI INDIA",
+    "brandMrp": "9.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.98"
+  },
+  {
+    "brandName": "NITRIL",
+    "packSize": "10",
+    "company": "CORE HEALTHCARE",
+    "brandMrp": "11.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.10"
+  },
+  {
+    "brandName": "ZOPIC",
+    "packSize": "10",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "11.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.15"
+  },
+  {
+    "brandName": "ZENAX",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "13.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.32"
+  },
+  {
+    "brandName": "ALZOMAX",
+    "packSize": "10",
+    "company": "KAMRON LABORATORIES",
+    "brandMrp": "13.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.40"
+  },
+  {
+    "brandName": "TENZOLE",
+    "packSize": "10",
+    "company": "CUBIT HEALTHCARE",
+    "brandMrp": "20.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  },
+  {
+    "brandName": "DOTCAM",
+    "packSize": "10",
+    "company": "THREE DOTS LIFESCIENCE",
+    "brandMrp": "20.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.01"
+  },
+  {
+    "brandName": "ALPROCAM",
+    "packSize": "10",
+    "company": "M.D.C. PHARMACEUTICALS (P) LTD.",
+    "brandMrp": "20.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.02"
+  },
+  {
+    "brandName": "ALARM",
+    "packSize": "10",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "20.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.04"
+  },
+  {
+    "brandName": "ALZONEX",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "21.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.16"
+  },
+  {
+    "brandName": "LAM(TMP)",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "22.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.20"
+  },
+  {
+    "brandName": "ALRIF",
+    "packSize": "10",
+    "company": "INTRA LABS",
+    "brandMrp": "22.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.23"
+  },
+  {
+    "brandName": "TENAN",
+    "packSize": "10",
+    "company": "SHRRISHTI HEALTHCARE",
+    "brandMrp": "22.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.29"
+  },
+  {
+    "brandName": "COPAX",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "22.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.30"
+  },
+  {
+    "brandName": "ALORA",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "24.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.49"
+  },
+  {
+    "brandName": "AZOX",
+    "packSize": "10",
+    "company": "AARPIK REMEDIES PVT.LTD.",
+    "brandMrp": "25.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.55"
+  },
+  {
+    "brandName": "LAM-LA",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "26.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.60"
+  },
+  {
+    "brandName": "ADZOLAM",
+    "packSize": "10",
+    "company": "ARETAEUS PHARMACEUTICALS",
+    "brandMrp": "27.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.71"
+  },
+  {
+    "brandName": "COOLAM",
+    "packSize": "10",
+    "company": "BURNET PHARMACEUTICALS P. LTD",
+    "brandMrp": "28.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.80"
+  },
+  {
+    "brandName": "SHANTI",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "28.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  },
+  {
+    "brandName": "D.D.LAM",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "29.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.96"
+  },
+  {
+    "brandName": "ANXILAM",
+    "packSize": "10",
+    "company": "PACIFIC DRUGS & CHEMICALS",
+    "brandMrp": "29.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "AZOM (MARSHA)",
+    "packSize": "10",
+    "company": "MARSHA PHARMA",
+    "brandMrp": "30.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "TRILAM",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "ANZILUM",
+    "packSize": "15",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "47.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.14"
+  },
+  {
+    "brandName": "ALP(KIVI)",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "32.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.23"
+  },
+  {
+    "brandName": "ZOLIPAX",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "33.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.38"
+  },
+  {
+    "brandName": "ANXIT",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "52.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.50"
+  },
+  {
+    "brandName": "ZOLENT",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "35.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.51"
+  },
+  {
+    "brandName": "TEXIDEP",
+    "packSize": "10",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "35.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.53"
+  },
+  {
+    "brandName": "ZOLAX",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "35.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.54"
+  },
+  {
+    "brandName": "ZAM (EAST WEST)",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "36.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.63"
+  },
+  {
+    "brandName": "ALZOPAX",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "36.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.66"
+  },
+  {
+    "brandName": "ZECALM",
+    "packSize": "10",
+    "company": "TRIKO PHARMACEUTICALS",
+    "brandMrp": "37.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.75"
+  },
+  {
+    "brandName": "ALPROCONTIN",
+    "packSize": "10",
+    "company": "MODI MUNDI PHARMA PVT LTD",
+    "brandMrp": "39.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.90"
+  },
+  {
+    "brandName": "NOTENCE",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "39.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.93"
+  },
+  {
+    "brandName": "STRESNIL RF",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "40.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.03"
+  },
+  {
+    "brandName": "RESTYL",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "64.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.32"
+  },
+  {
+    "brandName": "ZOLAM",
+    "packSize": "10",
+    "company": "STADMED PVT. LTD",
+    "brandMrp": "46.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.63"
+  },
+  {
+    "brandName": "ALZOLAM",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "48.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.88"
+  },
+  {
+    "brandName": "TRIKA",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "75.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.05"
+  },
+  {
+    "brandName": "ZOLAX-SR",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "52.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.25"
+  },
+  {
+    "brandName": "ALPRAX",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "81.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.42"
+  },
+  {
+    "brandName": "RESTWEL",
+    "packSize": "10",
+    "company": "SUNLIFE SCIENCE PVT LTD",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "STREXIT",
+    "packSize": "10",
+    "company": "PALSONS DERMA PVT. LTD",
+    "brandMrp": "61.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.13"
+  },
+  {
+    "brandName": "ALMAX",
+    "packSize": "10",
+    "company": "ANTHUS PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "71.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.15"
+  }
+]

@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "VERTIHIST",
+    "packSize": "10",
+    "company": "SOLIS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "200.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.09"
+  },
+  {
+    "brandName": "VERTOR",
+    "packSize": "10",
+    "company": "GALAXUS PHARMAECUTICALS",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.50"
+  },
+  {
+    "brandName": "BETAGOLD",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "253.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.31"
+  },
+  {
+    "brandName": "BETLEODS",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "262.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.25"
+  },
+  {
+    "brandName": "VERTIREST",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "287.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.70"
+  },
+  {
+    "brandName": "BH",
+    "packSize": "10",
+    "company": "TRION PHARMA",
+    "brandMrp": "295.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.50"
+  },
+  {
+    "brandName": "EGEPTIN",
+    "packSize": "10",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "305.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.57"
+  },
+  {
+    "brandName": "BVERT",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "320.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.06"
+  },
+  {
+    "brandName": "BETAVERT",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "354.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.44"
+  },
+  {
+    "brandName": "VESBAL OD",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "375.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.59"
+  },
+  {
+    "brandName": "VERTIN",
+    "packSize": "7",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "370.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.98"
+  },
+  {
+    "brandName": "VERTIN",
+    "packSize": "15",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "961.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "64.10"
+  }
+]

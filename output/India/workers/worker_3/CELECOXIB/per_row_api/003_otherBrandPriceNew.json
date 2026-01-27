@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "COXIB",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "12.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.20"
+  },
+  {
+    "brandName": "CELIB",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "41.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.12"
+  },
+  {
+    "brandName": "REVIBRA",
+    "packSize": "10",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "66.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.61"
+  },
+  {
+    "brandName": "CELEBREX",
+    "packSize": "10",
+    "company": "VIATRIS",
+    "brandMrp": "131.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.12"
+  },
+  {
+    "brandName": "ZYCEL",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "182.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.28"
+  }
+]

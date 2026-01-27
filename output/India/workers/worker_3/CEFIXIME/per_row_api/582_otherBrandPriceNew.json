@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "TANFIX",
+    "packSize": "30",
+    "company": "ST. MORRISON",
+    "brandMrp": "49.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.65"
+  },
+  {
+    "brandName": "GRAMOCEF O",
+    "packSize": "30",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "52.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.74"
+  },
+  {
+    "brandName": "MILIXIM",
+    "packSize": "30",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "52.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.74"
+  },
+  {
+    "brandName": "ODICEF O",
+    "packSize": "30",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "52.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.74"
+  },
+  {
+    "brandName": "SWIFIX",
+    "packSize": "30",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.83"
+  },
+  {
+    "brandName": "AUXIME",
+    "packSize": "30",
+    "company": "AURZ PHARMACEUTICALS PVT LTD",
+    "brandMrp": "102.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.42"
+  }
+]

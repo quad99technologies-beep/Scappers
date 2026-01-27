@@ -1,0 +1,122 @@
+[
+  {
+    "brandName": "ANANDA",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "19.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.90"
+  },
+  {
+    "brandName": "DEPIVAL",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "20.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.06"
+  },
+  {
+    "brandName": "DAVENTYL",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "36.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.61"
+  },
+  {
+    "brandName": "NORTRIP",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "37.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.70"
+  },
+  {
+    "brandName": "NORTIP",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "38.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.86"
+  },
+  {
+    "brandName": "NORTIN",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "41.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.10"
+  },
+  {
+    "brandName": "HAPYON",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "41.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.17"
+  },
+  {
+    "brandName": "NORITOP",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "44.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.47"
+  },
+  {
+    "brandName": "NORIP",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "45.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.59"
+  },
+  {
+    "brandName": "PRIMOX",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "46.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.69"
+  },
+  {
+    "brandName": "SENSARIL",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "51.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.16"
+  },
+  {
+    "brandName": "SECMIN",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "NISDEP",
+    "packSize": "10",
+    "company": "UNISTAR BIOTECH LIMITED",
+    "brandMrp": "59.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.98"
+  },
+  {
+    "brandName": "SENSIVAL",
+    "packSize": "10",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "NORTIMER",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "62.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.28"
+  }
+]

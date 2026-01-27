@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "ACCUFINE",
+    "packSize": "10",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "106.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.63"
+  },
+  {
+    "brandName": "TRETIVA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "314.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.41"
+  },
+  {
+    "brandName": "ACTAME",
+    "packSize": "10",
+    "company": "SOLDERMA PHARMACEUTICALS PVT. LTD",
+    "brandMrp": "320.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.00"
+  },
+  {
+    "brandName": "ISOTROIN",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "343.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.32"
+  },
+  {
+    "brandName": "SOTRET",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "356.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.63"
+  }
+]

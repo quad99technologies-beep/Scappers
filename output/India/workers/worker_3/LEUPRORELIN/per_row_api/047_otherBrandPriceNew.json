@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "LUPRORIN",
+    "packSize": "4",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "596.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "149.12"
+  },
+  {
+    "brandName": "LUPRIDE",
+    "packSize": "4",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "618.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "154.69"
+  },
+  {
+    "brandName": "MATERNA LMD",
+    "packSize": "4",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "660.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "165.00"
+  },
+  {
+    "brandName": "LEUREN",
+    "packSize": "4",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "1050.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "262.50"
+  },
+  {
+    "brandName": "EUROLIDE",
+    "packSize": "4",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "1072.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "268.12"
+  },
+  {
+    "brandName": "LUPRODEX",
+    "packSize": "1",
+    "company": "BHARAT SERUMS & VACCINES LTD",
+    "brandMrp": "602.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "602.69"
+  }
+]

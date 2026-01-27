@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "SUGAR FREE",
+    "packSize": "360",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "190.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.53"
+  },
+  {
+    "brandName": "SUGAR FREE GOLD",
+    "packSize": "360",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "206.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.57"
+  },
+  {
+    "brandName": "SUGRANIL",
+    "packSize": "100",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "58.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.58"
+  },
+  {
+    "brandName": "SUGAR FREE",
+    "packSize": "500",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.60"
+  },
+  {
+    "brandName": "SUGAR FREE GOLD",
+    "packSize": "500",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.60"
+  },
+  {
+    "brandName": "SUGAR FREE",
+    "packSize": "330",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "206.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.63"
+  },
+  {
+    "brandName": "SUGAR FREE",
+    "packSize": "110",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.68"
+  },
+  {
+    "brandName": "SUGAR FREE GOLD",
+    "packSize": "110",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.68"
+  },
+  {
+    "brandName": "SUGAR FREE",
+    "packSize": "300",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "206.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.69"
+  },
+  {
+    "brandName": "SUGAR FREE GOLD",
+    "packSize": "300",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "206.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.69"
+  },
+  {
+    "brandName": "SUGAR FREE",
+    "packSize": "100",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.75"
+  },
+  {
+    "brandName": "SUGAR FREE GOLD",
+    "packSize": "40",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "37.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.94"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "GASTOVENT DSR",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "16.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.65"
+  },
+  {
+    "brandName": "OPROL D",
+    "packSize": "10",
+    "company": "COLINZ LABORATORIES LTD",
+    "brandMrp": "101.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "RABEMOL A",
+    "packSize": "10",
+    "company": "WILBURT REMEDIES PVT.LTD",
+    "brandMrp": "109.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.99"
+  }
+]

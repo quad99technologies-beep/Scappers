@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "KASPRO",
+    "packSize": "200",
+    "company": "KAISER PHARMACEUTICALS",
+    "brandMrp": "113.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.57"
+  },
+  {
+    "brandName": "PROTMINOL",
+    "packSize": "200",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "300.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.50"
+  }
+]

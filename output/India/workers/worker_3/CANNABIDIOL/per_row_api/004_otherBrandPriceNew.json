@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "CBD",
+    "packSize": "60",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "9328.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "155.47"
+  },
+  {
+    "brandName": "CANABIOL",
+    "packSize": "60",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "9374.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "156.23"
+  },
+  {
+    "brandName": "CLASEPI",
+    "packSize": "60",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "9900.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "165.00"
+  },
+  {
+    "brandName": "CANBICIP",
+    "packSize": "60",
+    "company": "CIPLA LTD.",
+    "brandMrp": "12656.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "210.94"
+  }
+]

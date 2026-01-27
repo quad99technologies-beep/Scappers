@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "LEVOCHEM",
+    "packSize": "100",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "21.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.21"
+  },
+  {
+    "brandName": "SUPERQUIN",
+    "packSize": "100",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "222.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.23"
+  },
+  {
+    "brandName": "LEVOFF",
+    "packSize": "5",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "87.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.42"
+  },
+  {
+    "brandName": "LEVOGLAN",
+    "packSize": "1",
+    "company": "GLAND PHARMA LIMITED",
+    "brandMrp": "184.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "184.80"
+  }
+]

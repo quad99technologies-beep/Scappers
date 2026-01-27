@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521079548@152621@101180079@3879@101049@201357",
+    "skuName": "TROFAME 60 MG CAPSULE XR 10",
+    "composition": "TROSPIUM CAPSULE XR 60 MG",
+    "packSize": "10 CAPSULE XR",
+    "dosageForm": "CAPSULE XR",
+    "ceilingPrice": "-1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "scheduleFlag": "0",
+    "mrp": "325.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.50"
+  },
+  {
+    "hiddenId": "1521079669@128943@101247117@3049@101006@201357",
+    "skuName": "TROZYD 20 MG TABLET 10",
+    "composition": "TROSPIUM TABLET 20 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "scheduleFlag": "0",
+    "mrp": "141.30",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.13"
+  }
+]

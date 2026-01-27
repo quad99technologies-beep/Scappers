@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "ANSET",
+    "packSize": "10",
+    "company": "MYPHER PHARMACEUTICALS LLP.LTD",
+    "brandMrp": "35.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.58"
+  },
+  {
+    "brandName": "ONDACE",
+    "packSize": "2",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "7.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.85"
+  },
+  {
+    "brandName": "ONTIX",
+    "packSize": "3",
+    "company": "INTEL PHARMACEUTICALS",
+    "brandMrp": "12.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.16"
+  },
+  {
+    "brandName": "ANSET",
+    "packSize": "2",
+    "company": "MYPHER PHARMACEUTICALS LLP.LTD",
+    "brandMrp": "12.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.26"
+  },
+  {
+    "brandName": "ISV",
+    "packSize": "2",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "12.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.26"
+  },
+  {
+    "brandName": "ONSOPIL",
+    "packSize": "2",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "12.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.26"
+  },
+  {
+    "brandName": "NEOMIT",
+    "packSize": "2",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "12.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.34"
+  },
+  {
+    "brandName": "EMESET",
+    "packSize": "2",
+    "company": "CIPLA LTD.",
+    "brandMrp": "12.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.36"
+  },
+  {
+    "brandName": "EMIGO",
+    "packSize": "2",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "12.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.36"
+  },
+  {
+    "brandName": "ZOFER",
+    "packSize": "2",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "12.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.36"
+  },
+  {
+    "brandName": "ONDEM",
+    "packSize": "2",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "12.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.37"
+  },
+  {
+    "brandName": "EMSETRON",
+    "packSize": "2",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "49.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.88"
+  }
+]

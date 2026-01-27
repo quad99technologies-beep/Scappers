@@ -1,0 +1,154 @@
+[
+  {
+    "brandName": "OL 12",
+    "packSize": "100",
+    "company": "OLCARE LTD",
+    "brandMrp": "295.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.95"
+  },
+  {
+    "brandName": "SUCOBA",
+    "packSize": "10",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "32.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.24"
+  },
+  {
+    "brandName": "VITCOBIN",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "38.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.88"
+  },
+  {
+    "brandName": "L BEX 12",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "49.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.95"
+  },
+  {
+    "brandName": "MECOMIN",
+    "packSize": "10",
+    "company": "M.D.C. PHARMACEUTICALS (P) LTD.",
+    "brandMrp": "56.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.60"
+  },
+  {
+    "brandName": "VITCOBIN",
+    "packSize": "15",
+    "company": "FDC LTD.",
+    "brandMrp": "88.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.87"
+  },
+  {
+    "brandName": "MECONEURON",
+    "packSize": "15",
+    "company": "PULSE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "91.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.13"
+  },
+  {
+    "brandName": "COBATUS",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "65.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "NUROKIND",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "71.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.15"
+  },
+  {
+    "brandName": "MECOFOL",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "74.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.41"
+  },
+  {
+    "brandName": "NERVOMIN",
+    "packSize": "10",
+    "company": "OXFORD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "84.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.47"
+  },
+  {
+    "brandName": "METHICO",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "84.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.49"
+  },
+  {
+    "brandName": "M.B. FORTE",
+    "packSize": "10",
+    "company": "OCTANE BIOTECH",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "METHYCOBAL",
+    "packSize": "15",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "166.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.09"
+  },
+  {
+    "brandName": "METHYNEURON",
+    "packSize": "10",
+    "company": "MERIDIAN MEDICARE LTD.",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "MECONERV",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "120.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.09"
+  },
+  {
+    "brandName": "MECOBAL",
+    "packSize": "10",
+    "company": "RAPROSS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "148.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.81"
+  },
+  {
+    "brandName": "MET B12",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "151.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.18"
+  },
+  {
+    "brandName": "MYNURON",
+    "packSize": "10",
+    "company": "AGLOWMED PHARMACEUTICALS LTD.",
+    "brandMrp": "225.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.50"
+  }
+]

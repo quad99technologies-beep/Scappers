@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "STINASE",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "37960.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3796.09"
+  },
+  {
+    "brandName": "TENEPACT",
+    "packSize": "1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "31849.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31849.64"
+  },
+  {
+    "brandName": "TELYSE",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "32901.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32901.78"
+  },
+  {
+    "brandName": "ELAXIM",
+    "packSize": "1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "38755.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38755.51"
+  },
+  {
+    "brandName": "TENECTELEX",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "39429.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39429.96"
+  }
+]

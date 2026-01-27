@@ -1,0 +1,234 @@
+[
+  {
+    "brandName": "TOLEXANT",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "1.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.13"
+  },
+  {
+    "brandName": "TPSAN",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "66.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.70"
+  },
+  {
+    "brandName": "TOLPENOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "68.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.88"
+  },
+  {
+    "brandName": "TOLREST",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "73.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.33"
+  },
+  {
+    "brandName": "TOLAX",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "95.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.50"
+  },
+  {
+    "brandName": "TOLFLEX",
+    "packSize": "10",
+    "company": "PROCTER & GAMBLE HEALTH LTD",
+    "brandMrp": "95.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.58"
+  },
+  {
+    "brandName": "MYOCOM",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "153.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.21"
+  },
+  {
+    "brandName": "VIVEO",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "106.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.60"
+  },
+  {
+    "brandName": "MUSCODOL",
+    "packSize": "10",
+    "company": "OBSURGE BIOTECH LTD",
+    "brandMrp": "106.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.65"
+  },
+  {
+    "brandName": "TEXXA",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "108.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.88"
+  },
+  {
+    "brandName": "TOLMOVE",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "110.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.06"
+  },
+  {
+    "brandName": "TOLMAX",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "111.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.16"
+  },
+  {
+    "brandName": "TOLPER",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "113.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.31"
+  },
+  {
+    "brandName": "TOLPIDOL",
+    "packSize": "10",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "119.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.91"
+  },
+  {
+    "brandName": "TOLAXANT",
+    "packSize": "10",
+    "company": "GALAXUS PHARMAECUTICALS",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "TOPNICHE",
+    "packSize": "10",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.00"
+  },
+  {
+    "brandName": "TOPERIZONE",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "133.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.37"
+  },
+  {
+    "brandName": "TOLPISAN",
+    "packSize": "10",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "139.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.97"
+  },
+  {
+    "brandName": "TOLFREE",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "142.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.24"
+  },
+  {
+    "brandName": "TOLMENTA",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "146.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.61"
+  },
+  {
+    "brandName": "TOLEVER",
+    "packSize": "10",
+    "company": "EVEREN HEALTHCARE PVT.LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "TOLPREZ",
+    "packSize": "10",
+    "company": "UNISTAR BIOTECH LIMITED",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "TOLMEX",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "157.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.75"
+  },
+  {
+    "brandName": "SYNAPTOL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "159.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "TOLPETAB",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "162.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.26"
+  },
+  {
+    "brandName": "TOLPERITAS",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "172.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.25"
+  },
+  {
+    "brandName": "MYOTOP",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "177.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.73"
+  },
+  {
+    "brandName": "TOLKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "192.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.22"
+  },
+  {
+    "brandName": "TOLIFAST",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "208.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.81"
+  }
+]

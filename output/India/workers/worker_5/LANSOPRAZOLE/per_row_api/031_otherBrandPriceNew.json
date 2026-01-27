@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "LESOZAP",
+    "packSize": "10",
+    "company": "ALDE MEDI IMPEX",
+    "brandMrp": "92.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.24"
+  },
+  {
+    "brandName": "LANSOJOY",
+    "packSize": "10",
+    "company": "FORGEN HEALTHCARE LTD.",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "LANRIEF",
+    "packSize": "10",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "119.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.91"
+  },
+  {
+    "brandName": "LANZOPRAX",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "134.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.45"
+  },
+  {
+    "brandName": "LANSOGER",
+    "packSize": "10",
+    "company": "REMEMBER INDIA MEDICOS",
+    "brandMrp": "195.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.50"
+  },
+  {
+    "brandName": "JUNIOR LANZOL",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "217.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.74"
+  }
+]

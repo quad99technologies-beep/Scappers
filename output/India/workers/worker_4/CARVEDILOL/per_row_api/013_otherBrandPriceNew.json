@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "CARVENOL",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "38.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.81"
+  },
+  {
+    "brandName": "CARVIBETA",
+    "packSize": "10",
+    "company": "SHRRISHTI HEALTHCARE",
+    "brandMrp": "88.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.84"
+  },
+  {
+    "brandName": "CARLOC",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "174.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.43"
+  },
+  {
+    "brandName": "CARCA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "210.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.00"
+  }
+]

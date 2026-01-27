@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "REGAN (A.N.PHARMACIA)",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "10.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.01"
+  },
+  {
+    "brandName": "PHENERGAN",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "21.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.16"
+  },
+  {
+    "brandName": "PROMETHAZINE",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "100.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.00"
+  }
+]

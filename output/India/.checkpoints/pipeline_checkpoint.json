@@ -1,6 +1,6 @@
 {
   "scraper": "India",
-  "last_run": "2026-01-25T16:36:14.667466",
+  "last_run": "2026-01-26T10:59:49.561311",
   "completed_steps": [
     0
   ],
@@ -8,9 +8,9 @@
     "step_0": {
       "step_number": 0,
       "step_name": "Backup and Clean",
-      "completed_at": "2026-01-25T16:36:14.667459",
+      "completed_at": "2026-01-26T10:59:49.561304",
       "output_files": [],
-      "duration_seconds": 0.09750080108642578
+      "duration_seconds": 1.510352611541748
     }
   },
   "metadata": {}

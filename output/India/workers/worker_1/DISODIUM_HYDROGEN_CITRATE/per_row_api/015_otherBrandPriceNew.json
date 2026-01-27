@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "ALKAWIN (LEEFORD)",
+    "packSize": "100",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "17.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.18"
+  },
+  {
+    "brandName": "ALKALEB",
+    "packSize": "100",
+    "company": "LEBEN LABORATORIES PVT.LTD",
+    "brandMrp": "68.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.68"
+  },
+  {
+    "brandName": "URIKIN",
+    "packSize": "100",
+    "company": "ACME PHARMACEUTICALS",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.70"
+  },
+  {
+    "brandName": "ALKAWIN",
+    "packSize": "100",
+    "company": "CUREWIN PHARMACEUTICALS LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.93"
+  },
+  {
+    "brandName": "ALKARATE",
+    "packSize": "100",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "103.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.03"
+  },
+  {
+    "brandName": "ALKAMED",
+    "packSize": "100",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "113.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.13"
+  },
+  {
+    "brandName": "ALKORINA",
+    "packSize": "100",
+    "company": "EISEN PHARMACEUTICALS CO. PVT. LTD",
+    "brandMrp": "131.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.32"
+  }
+]

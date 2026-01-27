@@ -1,0 +1,72 @@
+[
+  {
+    "hiddenId": "1521145242@243649@101230967@-1@101028@202850",
+    "skuName": "DEXADERM CREAM 15 GM",
+    "composition": "DEXPANTHENOL CREAM ",
+    "packSize": "15 GM CREAM",
+    "dosageForm": "CREAM",
+    "ceilingPrice": "-1",
+    "company": "MEDICROSS PHARMACEUTICALS",
+    "scheduleFlag": "0",
+    "mrp": "67.50",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "hiddenId": "1521138032@234728@101231979@-1@101027@202850",
+    "skuName": "F CLIN SHAMPOO 100 ML",
+    "composition": "DEXPANTHENOL SHAMPOO ",
+    "packSize": "100 ML SHAMPOO",
+    "dosageForm": "SHAMPOO",
+    "ceilingPrice": "-1",
+    "company": "ETHICARE REMEDIES",
+    "scheduleFlag": "0",
+    "mrp": "190.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.90"
+  },
+  {
+    "hiddenId": "1521094406@343033@101190354@3719@101144@202850",
+    "skuName": "LUBREX PM EYE 5 % GEL EYE DROPS 5 GM",
+    "composition": "DEXPANTHENOL GEL EYE DROPS 5 %",
+    "packSize": "5 GM GEL EYE DROPS",
+    "dosageForm": "GEL EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "MICRO LABS LTD",
+    "scheduleFlag": "0",
+    "mrp": "164.06",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.81"
+  },
+  {
+    "hiddenId": "1521092868@294996@101160544@3791@101144@202850",
+    "skuName": "OPHTHAPAN EYE 50 MG GEL EYE DROPS 5 GM",
+    "composition": "DEXPANTHENOL GEL EYE DROPS 50 MG",
+    "packSize": "5 GM GEL EYE DROPS",
+    "dosageForm": "GEL EYE DROPS",
+    "ceilingPrice": "-1",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "204.84",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.97"
+  },
+  {
+    "hiddenId": "1521069523@244537@101162837@3719@101182@202850",
+    "skuName": "PANTHEGEL 5 % GEL 7.5 GM",
+    "composition": "DEXPANTHENOL ORAL GEL 5 %",
+    "packSize": "7.5 GM ORAL GEL",
+    "dosageForm": "ORAL GEL",
+    "ceilingPrice": "-1",
+    "company": "AJANTA PHARMA LTD",
+    "scheduleFlag": "0",
+    "mrp": "191.25",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.91"
+  }
+]

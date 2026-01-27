@@ -1,0 +1,66 @@
+[
+  {
+    "brandName": "STERILE WATER (SKKL)",
+    "packSize": "1000",
+    "company": "SHREE KRISHNA KESHAV LABORATORIES LTD",
+    "brandMrp": "1.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.00"
+  },
+  {
+    "brandName": "WATER FOR (ZYDUS)",
+    "packSize": "5",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "0.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.03"
+  },
+  {
+    "brandName": "WATER FOR",
+    "packSize": "500",
+    "company": "CLARIS LIFESCIENCES LIMITED",
+    "brandMrp": "92.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.18"
+  },
+  {
+    "brandName": "STERILE WATER (SERUM)",
+    "packSize": "10",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "brandMrp": "2.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.25"
+  },
+  {
+    "brandName": "WATER FOR (ALBERT)",
+    "packSize": "10",
+    "company": "ALBERT DAVID",
+    "brandMrp": "2.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.29"
+  },
+  {
+    "brandName": "WATER FOR (PDPL)",
+    "packSize": "10",
+    "company": "PARENTERAL DRUGS (INDIA) LTD.",
+    "brandMrp": "3.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.32"
+  },
+  {
+    "brandName": "STERILE WATER (ALBERT)",
+    "packSize": "5",
+    "company": "ALBERT DAVID",
+    "brandMrp": "3.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.62"
+  },
+  {
+    "brandName": "STERILE WATER (SERUM)",
+    "packSize": "0",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "brandMrp": "2.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.98"
+  }
+]

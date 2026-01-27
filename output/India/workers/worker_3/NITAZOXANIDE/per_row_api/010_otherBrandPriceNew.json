@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "NITZIX",
+    "packSize": "10",
+    "company": "ST. MORRISON",
+    "brandMrp": "89.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.90"
+  },
+  {
+    "brandName": "NITACURE",
+    "packSize": "6",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "56.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.36"
+  },
+  {
+    "brandName": "ZOXAKIND",
+    "packSize": "6",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "NETAZOX",
+    "packSize": "6",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "115.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.22"
+  }
+]

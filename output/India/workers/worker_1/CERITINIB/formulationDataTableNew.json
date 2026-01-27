@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521053314@321527@101118615@2642@101038@206072",
+    "skuName": "NOXALK 150 MG CAPSULE 30",
+    "composition": "CERITINIB CAPSULE 150 MG",
+    "packSize": "30 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "NATCO PHARMA LTD",
+    "scheduleFlag": "0",
+    "mrp": "14285.71",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "476.19"
+  },
+  {
+    "hiddenId": "1521146855@269565@101238522@2642@101038@206072",
+    "skuName": "SPEXIB 150 MG CAPSULE 10",
+    "composition": "CERITINIB CAPSULE 150 MG",
+    "packSize": "10 CAPSULE",
+    "dosageForm": "CAPSULE",
+    "ceilingPrice": "-1",
+    "company": "NOVARTIS INDIA LTD",
+    "scheduleFlag": "0",
+    "mrp": "5662.50",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "566.25"
+  }
+]

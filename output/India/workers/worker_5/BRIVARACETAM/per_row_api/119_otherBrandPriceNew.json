@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "BRITAM",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "369.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.95"
+  },
+  {
+    "brandName": "BRITZILAM",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "406.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.65"
+  }
+]

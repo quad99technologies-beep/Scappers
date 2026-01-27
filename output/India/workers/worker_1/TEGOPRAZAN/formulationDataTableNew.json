@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521159002@703369@101244985@3791@101006@208336",
+    "skuName": "PCAB 50 MG TABLET 10",
+    "composition": "TEGOPRAZAN TABLET 50 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "scheduleFlag": "0",
+    "mrp": "234.37",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.44"
+  },
+  {
+    "hiddenId": "1521160689@705038@101248104@3791@101006@208336",
+    "skuName": "TEGCISE 50 MG TABLET 10",
+    "composition": "TEGOPRAZAN TABLET 50 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "scheduleFlag": "0",
+    "mrp": "234.37",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.44"
+  },
+  {
+    "hiddenId": "1521160792@706012@101248105@3791@101006@208336",
+    "skuName": "TEGCISE (TORRENT) 50 MG TABLET 10",
+    "composition": "TEGOPRAZAN TABLET 50 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "234.37",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.44"
+  }
+]

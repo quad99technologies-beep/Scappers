@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "AKOSTOL",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.00"
+  },
+  {
+    "brandName": "ACTAPRO",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "454.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.47"
+  },
+  {
+    "brandName": "ACOTRUST",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "480.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.02"
+  }
+]

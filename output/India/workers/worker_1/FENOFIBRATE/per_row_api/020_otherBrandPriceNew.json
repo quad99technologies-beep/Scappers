@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "TG FIT",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "19.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.92"
+  },
+  {
+    "brandName": "FENOCARD",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "160.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.00"
+  },
+  {
+    "brandName": "FINATE",
+    "packSize": "10",
+    "company": "FRANCO INDIAN PHARMACEUTICALS PVT LTD",
+    "brandMrp": "171.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.14"
+  },
+  {
+    "brandName": "TGR",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "196.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.69"
+  },
+  {
+    "brandName": "LIPICARD",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "203.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.37"
+  }
+]

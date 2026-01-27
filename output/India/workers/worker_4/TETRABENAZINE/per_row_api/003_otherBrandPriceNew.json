@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "TETBENZ",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "281.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.13"
+  },
+  {
+    "brandName": "ATREST",
+    "packSize": "10",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "393.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.30"
+  },
+  {
+    "brandName": "TICSTOP",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "436.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.64"
+  }
+]

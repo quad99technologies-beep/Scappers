@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "TENECTEREL",
+    "packSize": "1",
+    "company": "RELIANCE LIFE SCIENCE",
+    "brandMrp": "44600.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44600.00"
+  },
+  {
+    "brandName": "TELYSE",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "44900.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44900.00"
+  },
+  {
+    "brandName": "TENEPACT",
+    "packSize": "1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "47750.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "47750.62"
+  },
+  {
+    "brandName": "TNKPLASE",
+    "packSize": "1",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "50400.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50400.00"
+  },
+  {
+    "brandName": "ELAXIM",
+    "packSize": "1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "53829.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53829.92"
+  },
+  {
+    "brandName": "TENECTELEX",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "53829.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53829.92"
+  }
+]

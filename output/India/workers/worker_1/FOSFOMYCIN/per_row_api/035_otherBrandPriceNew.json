@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "FOSIDAL",
+    "packSize": "8",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "418.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "52.25"
+  },
+  {
+    "brandName": "FOSFOCIN",
+    "packSize": "8",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "429.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.67"
+  },
+  {
+    "brandName": "FOSFOE",
+    "packSize": "8",
+    "company": "KOYE PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "472.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "59.12"
+  }
+]

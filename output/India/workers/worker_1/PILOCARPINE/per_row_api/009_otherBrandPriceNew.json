@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PILO (MICRO LABS)",
+    "packSize": "5",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "37.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.49"
+  },
+  {
+    "brandName": "CARPINE",
+    "packSize": "5",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "50.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.14"
+  },
+  {
+    "brandName": "CARPINOL",
+    "packSize": "5",
+    "company": "SUNWAYS (INDIA) PVT LTD",
+    "brandMrp": "52.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.51"
+  }
+]

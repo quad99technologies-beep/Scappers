@@ -1,0 +1,2338 @@
+[
+  {
+    "brandName": "CGPAN",
+    "packSize": "10",
+    "company": "CLARIS LIFESCIENCES LIMITED",
+    "brandMrp": "0.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.01"
+  },
+  {
+    "brandName": "PANPURE",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "1.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.13"
+  },
+  {
+    "brandName": "BLOCACID",
+    "packSize": "14",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "9.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.66"
+  },
+  {
+    "brandName": "PANTAZEN",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "9.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.90"
+  },
+  {
+    "brandName": "PANTOCAF",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "9.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.94"
+  },
+  {
+    "brandName": "PANTOPRAZ",
+    "packSize": "10",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "9.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.97"
+  },
+  {
+    "brandName": "PANTOBERT",
+    "packSize": "10",
+    "company": "ALBERT DAVID",
+    "brandMrp": "10.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.07"
+  },
+  {
+    "brandName": "ZYLPAN",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "10.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.09"
+  },
+  {
+    "brandName": "PANTONID",
+    "packSize": "10",
+    "company": "SYNTHO PHARMACEUTICALS (P) LTD.",
+    "brandMrp": "13.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "COCID",
+    "packSize": "14",
+    "company": "TALENT INDIA",
+    "brandMrp": "18.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.32"
+  },
+  {
+    "brandName": "PANTOVENT",
+    "packSize": "10",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "14.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.47"
+  },
+  {
+    "brandName": "TOPP",
+    "packSize": "10",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "28.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.81"
+  },
+  {
+    "brandName": "ACIPENT",
+    "packSize": "10",
+    "company": "FRANKLIN LABORATORIES (INDIA) PVT. LTD.",
+    "brandMrp": "31.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.10"
+  },
+  {
+    "brandName": "UNIPAN",
+    "packSize": "10",
+    "company": "KONTEST CHEMICALS LTD.",
+    "brandMrp": "32.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.28"
+  },
+  {
+    "brandName": "PANUM",
+    "packSize": "10",
+    "company": "JB CHEMICALS",
+    "brandMrp": "34.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.45"
+  },
+  {
+    "brandName": "P PPI",
+    "packSize": "10",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "37.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.70"
+  },
+  {
+    "brandName": "RPAN",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "37.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.71"
+  },
+  {
+    "brandName": "PANLEB",
+    "packSize": "30",
+    "company": "LEBEN LABORATORIES PVT.LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.75"
+  },
+  {
+    "brandName": "PANSERV",
+    "packSize": "10",
+    "company": "SEAGULL LABS(I) LTD",
+    "brandMrp": "39.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.92"
+  },
+  {
+    "brandName": "PANTAPIL",
+    "packSize": "10",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "40.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.00"
+  },
+  {
+    "brandName": "P PPI",
+    "packSize": "15",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "60.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.06"
+  },
+  {
+    "brandName": "PANEZ",
+    "packSize": "10",
+    "company": "NOEL PHARMACEUTICALS",
+    "brandMrp": "42.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.25"
+  },
+  {
+    "brandName": "PENTALOC",
+    "packSize": "15",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "64.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.30"
+  },
+  {
+    "brandName": "PANTEK",
+    "packSize": "10",
+    "company": "MEDINZA BIOTECH",
+    "brandMrp": "44.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.46"
+  },
+  {
+    "brandName": "ATCID",
+    "packSize": "10",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "PANVISTA",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "45.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.53"
+  },
+  {
+    "brandName": "PAZIVA",
+    "packSize": "10",
+    "company": "IVA HEALTHCARE PVT.LTD",
+    "brandMrp": "46.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.62"
+  },
+  {
+    "brandName": "TOPRAZOL",
+    "packSize": "10",
+    "company": "KARNATAKA ANTIBIOTICS & PHARMACEUTICALS LTD(KAPL)",
+    "brandMrp": "47.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.76"
+  },
+  {
+    "brandName": "PANTOSTAT",
+    "packSize": "10",
+    "company": "CHETHANA PHARMACEUTICALS",
+    "brandMrp": "48.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.81"
+  },
+  {
+    "brandName": "VULTOPAN",
+    "packSize": "10",
+    "company": "AAGAM LIFE SCIENCES PVT.LTD",
+    "brandMrp": "48.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.82"
+  },
+  {
+    "brandName": "FORPAN",
+    "packSize": "10",
+    "company": "FORGEN HEALTHCARE LTD.",
+    "brandMrp": "48.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.88"
+  },
+  {
+    "brandName": "JEPAN",
+    "packSize": "10",
+    "company": "JENOVA LABORATORIES PVT LTD",
+    "brandMrp": "49.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.90"
+  },
+  {
+    "brandName": "PENSTAL",
+    "packSize": "10",
+    "company": "STALLION LABORATORIES (P) LTD",
+    "brandMrp": "49.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.90"
+  },
+  {
+    "brandName": "UNOPAN",
+    "packSize": "10",
+    "company": "SHANKUS ACME PHARMA PVT.LTD.",
+    "brandMrp": "49.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.95"
+  },
+  {
+    "brandName": "PANAVIL",
+    "packSize": "10",
+    "company": "NAVIL LABORATORIES",
+    "brandMrp": "49.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.97"
+  },
+  {
+    "brandName": "ABSOPAN",
+    "packSize": "10",
+    "company": "JUPITER BIOLABS PVT.LTD",
+    "brandMrp": "50.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "PANTEX (TYCOON)",
+    "packSize": "10",
+    "company": "TYCOON PHARMACEUTICALS PVT LTD",
+    "brandMrp": "50.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "PAZES",
+    "packSize": "10",
+    "company": "DEYS MEDICAL",
+    "brandMrp": "50.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "PENTAPEN",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "50.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.06"
+  },
+  {
+    "brandName": "PAVE",
+    "packSize": "10",
+    "company": "BIOMAX BIOTECHNICS",
+    "brandMrp": "51.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.11"
+  },
+  {
+    "brandName": "PENTOPEN",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "51.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.13"
+  },
+  {
+    "brandName": "PANTAVIS",
+    "packSize": "10",
+    "company": "AVIS LIFE CARE PVT LTD",
+    "brandMrp": "51.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.16"
+  },
+  {
+    "brandName": "PETALIFE",
+    "packSize": "10",
+    "company": "INTRA LIFE PVT.LTD",
+    "brandMrp": "51.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.16"
+  },
+  {
+    "brandName": "ZIPANT",
+    "packSize": "15",
+    "company": "FDC LTD.",
+    "brandMrp": "77.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.16"
+  },
+  {
+    "brandName": "ODPANT",
+    "packSize": "10",
+    "company": "RAVENBHEL PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "51.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.20"
+  },
+  {
+    "brandName": "PANTOVA",
+    "packSize": "10",
+    "company": "SEAGULL LABS(I) LTD",
+    "brandMrp": "52.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.23"
+  },
+  {
+    "brandName": "PULCER",
+    "packSize": "10",
+    "company": "TAURUS LABORATORIES PVT LTD",
+    "brandMrp": "52.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.25"
+  },
+  {
+    "brandName": "PANTAKIND",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "79.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.30"
+  },
+  {
+    "brandName": "PANOC",
+    "packSize": "10",
+    "company": "OCTANE BIOTECH",
+    "brandMrp": "53.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.31"
+  },
+  {
+    "brandName": "PANGUT",
+    "packSize": "10",
+    "company": "GENFO BIOCEUTICALS PVT.LTD",
+    "brandMrp": "53.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.35"
+  },
+  {
+    "brandName": "PANZEL",
+    "packSize": "10",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "54.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.40"
+  },
+  {
+    "brandName": "ULTOP",
+    "packSize": "10",
+    "company": "LEBEN LABORATORIES PVT.LTD",
+    "brandMrp": "54.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.44"
+  },
+  {
+    "brandName": "TOPRAZ",
+    "packSize": "10",
+    "company": "AUROBINDO PHARMACEUTICALS LTD.",
+    "brandMrp": "54.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.45"
+  },
+  {
+    "brandName": "GUTPAN",
+    "packSize": "10",
+    "company": "MERIDIAN MEDICARE LTD.",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "PANTOGARD",
+    "packSize": "10",
+    "company": "SHREYA LIFE SCIENCES PVT. LTD",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "GERDPAN",
+    "packSize": "10",
+    "company": "CRATUS LIFE CARE PVT LTD",
+    "brandMrp": "55.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.53"
+  },
+  {
+    "brandName": "VANTOP",
+    "packSize": "10",
+    "company": "VANCE & HEALTH PHARMACEUTICALS LTD",
+    "brandMrp": "55.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.53"
+  },
+  {
+    "brandName": "PANCRAZIO",
+    "packSize": "10",
+    "company": "CADOMED PHARMACEUTICALS INDIA PVT.LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "PANTOCH",
+    "packSize": "10",
+    "company": "MITOCH PHARMA PVT LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "PEZORPOL",
+    "packSize": "10",
+    "company": "DAYLON HEALTHCARE PVT LTD",
+    "brandMrp": "56.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.63"
+  },
+  {
+    "brandName": "P ZOL",
+    "packSize": "10",
+    "company": "GRAF LABORATORIES PVT LTD",
+    "brandMrp": "56.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.66"
+  },
+  {
+    "brandName": "P ZOLE",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "56.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.66"
+  },
+  {
+    "brandName": "PAT",
+    "packSize": "10",
+    "company": "PATSON LABORATORIES PVT. LTD.",
+    "brandMrp": "57.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.71"
+  },
+  {
+    "brandName": "PANTEC",
+    "packSize": "10",
+    "company": "CONCEPT PHARMACEUTICALS LTD",
+    "brandMrp": "58.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.86"
+  },
+  {
+    "brandName": "PANVEDA",
+    "packSize": "10",
+    "company": "KEPLER HEALTH CARE",
+    "brandMrp": "58.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.89"
+  },
+  {
+    "brandName": "PRAZTAC",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "58.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.89"
+  },
+  {
+    "brandName": "DPANO",
+    "packSize": "10",
+    "company": "ACINTA PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "59.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.97"
+  },
+  {
+    "brandName": "STEADPAN",
+    "packSize": "10",
+    "company": "AAREEN HEALTHCARE",
+    "brandMrp": "59.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.99"
+  },
+  {
+    "brandName": "DALGUT",
+    "packSize": "10",
+    "company": "PHOENIX LIFESCIENCES",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "PANTABIT",
+    "packSize": "10",
+    "company": "CUBIT HEALTHCARE",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "PANTAFIC",
+    "packSize": "10",
+    "company": "PACIFIC DRUGS & CHEMICALS",
+    "brandMrp": "59.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "APENTA",
+    "packSize": "10",
+    "company": "STARTOS HEALTH CARE PVT.LTD",
+    "brandMrp": "60.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.09"
+  },
+  {
+    "brandName": "ELIPANT",
+    "packSize": "10",
+    "company": "ELIXIA LIFE SCIENCES",
+    "brandMrp": "60.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.09"
+  },
+  {
+    "brandName": "PANGARD",
+    "packSize": "10",
+    "company": "STADCHEM OF INDIA",
+    "brandMrp": "60.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.09"
+  },
+  {
+    "brandName": "PZ 4",
+    "packSize": "10",
+    "company": "NATIONAL C & PHARMA",
+    "brandMrp": "60.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.09"
+  },
+  {
+    "brandName": "PANDOSTAL",
+    "packSize": "10",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "61.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "PANTABOL",
+    "packSize": "10",
+    "company": "MERIDIAN MEDICARE LTD.",
+    "brandMrp": "61.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "SAIPAN",
+    "packSize": "10",
+    "company": "ECON HEALTHCARE PVT LTD",
+    "brandMrp": "61.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "NUPENTA",
+    "packSize": "15",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "93.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.23"
+  },
+  {
+    "brandName": "PANTOSPECT",
+    "packSize": "10",
+    "company": "INDOSPECTRUM PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "62.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.26"
+  },
+  {
+    "brandName": "POP",
+    "packSize": "10",
+    "company": "WINSOME LAB LTD",
+    "brandMrp": "63.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.33"
+  },
+  {
+    "brandName": "XEPENTA",
+    "packSize": "10",
+    "company": "ST. MORRISON",
+    "brandMrp": "64.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.44"
+  },
+  {
+    "brandName": "PANTOZA",
+    "packSize": "10",
+    "company": "PRECIA PHARMA",
+    "brandMrp": "64.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.45"
+  },
+  {
+    "brandName": "PANTAR",
+    "packSize": "10",
+    "company": "ARETAEUS PHARMACEUTICALS",
+    "brandMrp": "64.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.48"
+  },
+  {
+    "brandName": "PANTOFRESH",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.50"
+  },
+  {
+    "brandName": "PANTOTAB",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.50"
+  },
+  {
+    "brandName": "PANRITE",
+    "packSize": "10",
+    "company": "DYNAMARK LIFE SCIENCE PVT LTD",
+    "brandMrp": "65.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "PCUT",
+    "packSize": "15",
+    "company": "CMR LIFE SCIENCES",
+    "brandMrp": "98.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "PENTADIX",
+    "packSize": "10",
+    "company": "UCARDIX PHARMACEUTICALS PVT LTD",
+    "brandMrp": "65.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "PIZA",
+    "packSize": "10",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "65.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "XYLOPAN",
+    "packSize": "10",
+    "company": "LIVIDUS PHARMA PVT LTD",
+    "brandMrp": "65.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "NASHPRO",
+    "packSize": "10",
+    "company": "AVINASH HEALTH PRODUCTS PVT. LTD.",
+    "brandMrp": "66.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.64"
+  },
+  {
+    "brandName": "P2I-FAST",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "66.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.67"
+  },
+  {
+    "brandName": "PIPQ",
+    "packSize": "10",
+    "company": "QUALITY PHARMA PVT.LTD",
+    "brandMrp": "66.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.67"
+  },
+  {
+    "brandName": "PANQUICK",
+    "packSize": "10",
+    "company": "STARUS PHARMACEUTICALS",
+    "brandMrp": "66.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.70"
+  },
+  {
+    "brandName": "PEZOVER",
+    "packSize": "15",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "101.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.75"
+  },
+  {
+    "brandName": "POD (SHRRI)",
+    "packSize": "10",
+    "company": "SHRRISHTI HEALTHCARE",
+    "brandMrp": "67.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.79"
+  },
+  {
+    "brandName": "PANTOHEAL",
+    "packSize": "10",
+    "company": "MASCOT HEALTH SERIES PVT LTD",
+    "brandMrp": "68.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.80"
+  },
+  {
+    "brandName": "PANTAGARD",
+    "packSize": "10",
+    "company": "M.D.C. PHARMACEUTICALS (P) LTD.",
+    "brandMrp": "68.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.84"
+  },
+  {
+    "brandName": "PANTODELL",
+    "packSize": "10",
+    "company": "CADELL HEALTH CARE PVT.LTD",
+    "brandMrp": "68.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.84"
+  },
+  {
+    "brandName": "POVAC",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "68.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.88"
+  },
+  {
+    "brandName": "MYPRAZOL",
+    "packSize": "10",
+    "company": "VIATRIS",
+    "brandMrp": "69.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.90"
+  },
+  {
+    "brandName": "UNIPANZA",
+    "packSize": "10",
+    "company": "UNIZA HEALTHCARE LLP",
+    "brandMrp": "69.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.90"
+  },
+  {
+    "brandName": "PANTIN",
+    "packSize": "15",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "104.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.93"
+  },
+  {
+    "brandName": "PANBASE",
+    "packSize": "10",
+    "company": "NARANKAA PHARMA",
+    "brandMrp": "69.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.94"
+  },
+  {
+    "brandName": "PANTAFOL",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "69.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.94"
+  },
+  {
+    "brandName": "PANTAZOL",
+    "packSize": "10",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "69.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.94"
+  },
+  {
+    "brandName": "OKIPAN",
+    "packSize": "10",
+    "company": "OKINAWA PHARMACEUTICALS PVT LTD",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "PANTOCAID",
+    "packSize": "10",
+    "company": "MEDICAID LABS",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "PANTOCOAT",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "DIPENT DM",
+    "packSize": "10",
+    "company": "DIVINE LIFECARE PVT LTD",
+    "brandMrp": "70.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.01"
+  },
+  {
+    "brandName": "PROTOPAN",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "70.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.03"
+  },
+  {
+    "brandName": "TOPSRIN",
+    "packSize": "10",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.03"
+  },
+  {
+    "brandName": "ULKUS",
+    "packSize": "10",
+    "company": "SYMBIOTIC DRUGS",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.03"
+  },
+  {
+    "brandName": "PNZ FAST",
+    "packSize": "10",
+    "company": "CACHET PHARMACEUTICALS PVT LTD",
+    "brandMrp": "70.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.05"
+  },
+  {
+    "brandName": "PENTAGON",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "71.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.10"
+  },
+  {
+    "brandName": "PANWAR",
+    "packSize": "10",
+    "company": "BIO WARRIORS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "71.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.12"
+  },
+  {
+    "brandName": "LPANTO",
+    "packSize": "10",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "71.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.13"
+  },
+  {
+    "brandName": "PANPLUS",
+    "packSize": "15",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "106.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.13"
+  },
+  {
+    "brandName": "PANPOT",
+    "packSize": "10",
+    "company": "AKESISS PHARMA (P) LTD",
+    "brandMrp": "71.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.13"
+  },
+  {
+    "brandName": "SYNTAC",
+    "packSize": "10",
+    "company": "SYNOKEM PHARMACEUTICALS LTD",
+    "brandMrp": "71.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.14"
+  },
+  {
+    "brandName": "OD-PEP",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "107.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.15"
+  },
+  {
+    "brandName": "PANOZ",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "71.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.15"
+  },
+  {
+    "brandName": "ARROPAN",
+    "packSize": "10",
+    "company": "ARDENT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "72.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.20"
+  },
+  {
+    "brandName": "GLANPAN",
+    "packSize": "10",
+    "company": "GLAND PHARMA LIMITED",
+    "brandMrp": "72.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.20"
+  },
+  {
+    "brandName": "PANTAKAN",
+    "packSize": "10",
+    "company": "KANAD LABS",
+    "brandMrp": "72.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.22"
+  },
+  {
+    "brandName": "PENZOTAS",
+    "packSize": "15",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "109.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.30"
+  },
+  {
+    "brandName": "PAZERO",
+    "packSize": "10",
+    "company": "UNISTAR BIOTECH LIMITED",
+    "brandMrp": "73.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.37"
+  },
+  {
+    "brandName": "PANDACE",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "73.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.38"
+  },
+  {
+    "brandName": "PANSPED",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "73.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.38"
+  },
+  {
+    "brandName": "FUPAN",
+    "packSize": "10",
+    "company": "FUSION HEALTHCARE PVT LTD",
+    "brandMrp": "74.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.41"
+  },
+  {
+    "brandName": "HYPANTO",
+    "packSize": "10",
+    "company": "HYMAX HEALTHCARE PRIVATE LIMITED",
+    "brandMrp": "74.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.41"
+  },
+  {
+    "brandName": "POJI",
+    "packSize": "10",
+    "company": "IVA HEALTHCARE PVT.LTD",
+    "brandMrp": "74.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.41"
+  },
+  {
+    "brandName": "TRUMPAN",
+    "packSize": "10",
+    "company": "CAREXIA HEALTHCARE",
+    "brandMrp": "74.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.41"
+  },
+  {
+    "brandName": "XENOPAN",
+    "packSize": "10",
+    "company": "XENA CORONUS HEALTH CARE PVT.LTD",
+    "brandMrp": "74.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.41"
+  },
+  {
+    "brandName": "PANTOLITE",
+    "packSize": "10",
+    "company": "INNOVATIVE PHARMACEUTICALS",
+    "brandMrp": "74.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.45"
+  },
+  {
+    "brandName": "ACICROS",
+    "packSize": "10",
+    "company": "SUNBERRY LIFESCIENCES PVT.LTD",
+    "brandMrp": "74.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.46"
+  },
+  {
+    "brandName": "PERFEKT",
+    "packSize": "10",
+    "company": "OZONE PHARMACEUTICALS",
+    "brandMrp": "74.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.49"
+  },
+  {
+    "brandName": "ACIBAN",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "COCID",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "NULCER",
+    "packSize": "10",
+    "company": "COXSWAIN HEALTHCARE",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "PANTOSEAL",
+    "packSize": "10",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "PENTAFORD",
+    "packSize": "10",
+    "company": "OXFORD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "PP SET",
+    "packSize": "10",
+    "company": "GRACIOUS PHARMACEUTICALS",
+    "brandMrp": "74.99",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "PANTARIL",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "75.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.53"
+  },
+  {
+    "brandName": "PANON",
+    "packSize": "10",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "75.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.55"
+  },
+  {
+    "brandName": "SAFEPRAZ",
+    "packSize": "10",
+    "company": "SAFFRON FORMULATIONS",
+    "brandMrp": "75.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.55"
+  },
+  {
+    "brandName": "GERIPAN",
+    "packSize": "10",
+    "company": "GERRYSUN PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "76.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.60"
+  },
+  {
+    "brandName": "ZESOFA",
+    "packSize": "10",
+    "company": "ANAX LIFE SCIENCES PVT.LTD",
+    "brandMrp": "77.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.70"
+  },
+  {
+    "brandName": "PENTOSIS",
+    "packSize": "10",
+    "company": "CUROSIS HEALTHCARE PVT.LTD",
+    "brandMrp": "77.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.71"
+  },
+  {
+    "brandName": "ULPAN",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "77.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.73"
+  },
+  {
+    "brandName": "ZIPANT",
+    "packSize": "10",
+    "company": "FDC LTD.",
+    "brandMrp": "77.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.73"
+  },
+  {
+    "brandName": "PPFINE",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "78.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.80"
+  },
+  {
+    "brandName": "CONTROSEC",
+    "packSize": "10",
+    "company": "EMBIOTIC LAB",
+    "brandMrp": "78.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.85"
+  },
+  {
+    "brandName": "PENTA",
+    "packSize": "10",
+    "company": "INTRA LABS",
+    "brandMrp": "79.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.90"
+  },
+  {
+    "brandName": "PHILPAN",
+    "packSize": "10",
+    "company": "STARTOS HEALTH CARE PVT.LTD",
+    "brandMrp": "79.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.90"
+  },
+  {
+    "brandName": "POLE",
+    "packSize": "10",
+    "company": "TRITON HEALTH CARE PVT LTD",
+    "brandMrp": "79.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.90"
+  },
+  {
+    "brandName": "WALAPAN",
+    "packSize": "10",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "79.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.92"
+  },
+  {
+    "brandName": "PANGRO",
+    "packSize": "10",
+    "company": "AGGROWIN PHARMA",
+    "brandMrp": "79.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.97"
+  },
+  {
+    "brandName": "POLYCROL",
+    "packSize": "10",
+    "company": "PIRAMAL HEALTHCARE LIMITED",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "NEWPAN",
+    "packSize": "10",
+    "company": "FERRING PHARMACEUTICALS",
+    "brandMrp": "80.48",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.05"
+  },
+  {
+    "brandName": "PANTREAT",
+    "packSize": "15",
+    "company": "EMTREAT PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "120.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.05"
+  },
+  {
+    "brandName": "PANZEC",
+    "packSize": "10",
+    "company": "HBC LIFESCIENCES PVT LTD",
+    "brandMrp": "81.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.13"
+  },
+  {
+    "brandName": "PANGAL",
+    "packSize": "10",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "81.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.20"
+  },
+  {
+    "brandName": "PENTALINK",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "82.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.22"
+  },
+  {
+    "brandName": "ANLEO",
+    "packSize": "10",
+    "company": "AN PHARMACEUTICALS PVT.LTD.",
+    "brandMrp": "82.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.25"
+  },
+  {
+    "brandName": "PANFIRST",
+    "packSize": "10",
+    "company": "SINSAN PHARMACEUTICALS",
+    "brandMrp": "83.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.30"
+  },
+  {
+    "brandName": "PANBRIT",
+    "packSize": "10",
+    "company": "ELBRIT LIFE SCIENCES PVT.LTD",
+    "brandMrp": "83.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.34"
+  },
+  {
+    "brandName": "TRIPEPSA",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "83.92",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.39"
+  },
+  {
+    "brandName": "ALDEPRAZ",
+    "packSize": "10",
+    "company": "ALDE MEDI IMPEX",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "ELESEC",
+    "packSize": "10",
+    "company": "CANVARZYS HEALTHCARE PVT.LTD",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "PANARON",
+    "packSize": "10",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "PANTOFIT",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "REJU P",
+    "packSize": "10",
+    "company": "REJUVENATE REMEDIES PVT LTD",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "ZERPAN",
+    "packSize": "15",
+    "company": "NUTRAGENIX HEALTHCARE PVT.LTD",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "ZURPAN",
+    "packSize": "10",
+    "company": "OPSISCARE LIFESCIENCSE PVT LTD",
+    "brandMrp": "84.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "ARLOC",
+    "packSize": "10",
+    "company": "DR. JOHNS LABORATORIES PVT LTD",
+    "brandMrp": "85.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.51"
+  },
+  {
+    "brandName": "PANTOPIK",
+    "packSize": "10",
+    "company": "AARPIK REMEDIES PVT.LTD.",
+    "brandMrp": "85.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.53"
+  },
+  {
+    "brandName": "POLINZER",
+    "packSize": "10",
+    "company": "KLOSTER PHARMACEUTICALS",
+    "brandMrp": "85.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.56"
+  },
+  {
+    "brandName": "EIREF",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "86.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.62"
+  },
+  {
+    "brandName": "INHIPRAZ",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "86.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.62"
+  },
+  {
+    "brandName": "PANIDO",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "86.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.63"
+  },
+  {
+    "brandName": "DUOPEP",
+    "packSize": "10",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "87.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.70"
+  },
+  {
+    "brandName": "CNPRAZ",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "87.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.72"
+  },
+  {
+    "brandName": "EC PAN",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "87.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.72"
+  },
+  {
+    "brandName": "PEPCARE",
+    "packSize": "10",
+    "company": "FINECURE PHARMACEUTICALS",
+    "brandMrp": "88.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.80"
+  },
+  {
+    "brandName": "FRITOPAN",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "88.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.81"
+  },
+  {
+    "brandName": "P PAN",
+    "packSize": "10",
+    "company": "PRIMUS REMEDIES PVT LTD",
+    "brandMrp": "88.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.86"
+  },
+  {
+    "brandName": "ASSUAG",
+    "packSize": "10",
+    "company": "UMANO HEALTHCARE PVT.LIMITED",
+    "brandMrp": "89.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.90"
+  },
+  {
+    "brandName": "PANTOMED",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "89.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.90"
+  },
+  {
+    "brandName": "PRAZOQOL",
+    "packSize": "10",
+    "company": "PROQOL HEALTHCARE PVT.LTD",
+    "brandMrp": "89.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.92"
+  },
+  {
+    "brandName": "GASTROPAN",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "89.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.94"
+  },
+  {
+    "brandName": "PPBEST",
+    "packSize": "10",
+    "company": "KEPLER HEALTH CARE",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "PANTOZE",
+    "packSize": "10",
+    "company": "SOLVATE LABORATORIES PVT LTD",
+    "brandMrp": "90.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.01"
+  },
+  {
+    "brandName": "PANFIRST",
+    "packSize": "15",
+    "company": "SINSAN PHARMACEUTICALS",
+    "brandMrp": "138.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.25"
+  },
+  {
+    "brandName": "PANSTONE",
+    "packSize": "10",
+    "company": "GLADSTONE PHARMA INDIA PVT.LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "PEPSICA",
+    "packSize": "10",
+    "company": "WILBURT REMEDIES PVT.LTD",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "GOPAN",
+    "packSize": "10",
+    "company": "GOLD LINE",
+    "brandMrp": "93.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.32"
+  },
+  {
+    "brandName": "PANTOFIX",
+    "packSize": "10",
+    "company": "BAL PHARMA",
+    "brandMrp": "93.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.33"
+  },
+  {
+    "brandName": "PANTOGLEN",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "93.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.35"
+  },
+  {
+    "brandName": "PEZOVERON",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "93.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.37"
+  },
+  {
+    "brandName": "PANSIO",
+    "packSize": "15",
+    "company": "AURZ PHARMACEUTICALS PVT LTD",
+    "brandMrp": "141.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.42"
+  },
+  {
+    "brandName": "PANTODICE",
+    "packSize": "15",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "141.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.44"
+  },
+  {
+    "brandName": "ERACID",
+    "packSize": "10",
+    "company": "MANEESH PHARMACEUTICALS LTD",
+    "brandMrp": "95.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.58"
+  },
+  {
+    "brandName": "PANTOCAR",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "96.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.60"
+  },
+  {
+    "brandName": "ACDOF",
+    "packSize": "15",
+    "company": "CACHET PHARMACEUTICALS PVT LTD",
+    "brandMrp": "145.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.67"
+  },
+  {
+    "brandName": "DIGENE-TOTAL",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "97.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.72"
+  },
+  {
+    "brandName": "PANDRIVE(MERIDIAN)",
+    "packSize": "10",
+    "company": "MERIDIAN MEDICARE LTD.",
+    "brandMrp": "98.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.80"
+  },
+  {
+    "brandName": "PANTACET",
+    "packSize": "15",
+    "company": "MEDREXCARE PHARMA PVT.LTD",
+    "brandMrp": "147.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.80"
+  },
+  {
+    "brandName": "PANTOLAB",
+    "packSize": "10",
+    "company": "AUSTRO LAB",
+    "brandMrp": "97.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.80"
+  },
+  {
+    "brandName": "ULPAN",
+    "packSize": "15",
+    "company": "CORONA",
+    "brandMrp": "147.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.83"
+  },
+  {
+    "brandName": "NUPENTA",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "99.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.98"
+  },
+  {
+    "brandName": "ZANPAN GR",
+    "packSize": "15",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "151.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.07"
+  },
+  {
+    "brandName": "PANCICARE",
+    "packSize": "10",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "101.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "PANTOSIG",
+    "packSize": "10",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "101.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "RADIPAN",
+    "packSize": "10",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "101.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.13"
+  },
+  {
+    "brandName": "PANORYL",
+    "packSize": "10",
+    "company": "GENIEMED PVT LTD",
+    "brandMrp": "102.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.20"
+  },
+  {
+    "brandName": "PANTOPAL",
+    "packSize": "10",
+    "company": "ANTHUS PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "102.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.26"
+  },
+  {
+    "brandName": "LEPORIS",
+    "packSize": "10",
+    "company": "GALAXUS PHARMAECUTICALS",
+    "brandMrp": "103.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "PROPANZ",
+    "packSize": "10",
+    "company": "ICARUS HEALTHCARE PRIMUS",
+    "brandMrp": "103.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "MAXPAN",
+    "packSize": "15",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "155.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.33"
+  },
+  {
+    "brandName": "ODPANT DM",
+    "packSize": "10",
+    "company": "RAVENBHEL PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "103.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.38"
+  },
+  {
+    "brandName": "PEPTILCER",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "104.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.47"
+  },
+  {
+    "brandName": "INTAPAN",
+    "packSize": "10",
+    "company": "INTAG REMEDIES",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.50"
+  },
+  {
+    "brandName": "PANCERT",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.50"
+  },
+  {
+    "brandName": "PANTOVEL",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "105.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.55"
+  },
+  {
+    "brandName": "DOCTOR PAN",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "159.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.60"
+  },
+  {
+    "brandName": "PANTOP",
+    "packSize": "15",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "159.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.62"
+  },
+  {
+    "brandName": "MENTIPAN",
+    "packSize": "15",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "159.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.63"
+  },
+  {
+    "brandName": "PPTROY",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "106.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.64"
+  },
+  {
+    "brandName": "PANTOTAB",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "161.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.75"
+  },
+  {
+    "brandName": "P (SALUD)",
+    "packSize": "10",
+    "company": "SALUD CARE (I) PVT LTD",
+    "brandMrp": "107.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.78"
+  },
+  {
+    "brandName": "PANTOCLAS",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "108.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.80"
+  },
+  {
+    "brandName": "PANTORAB",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "108.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.80"
+  },
+  {
+    "brandName": "PANTAPOINT",
+    "packSize": "15",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "163.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.87"
+  },
+  {
+    "brandName": "PANTOLUP",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "109.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.90"
+  },
+  {
+    "brandName": "ALENTRA",
+    "packSize": "10",
+    "company": "AURUM LIFE SCIENCE PVT. LTD.",
+    "brandMrp": "109.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.92"
+  },
+  {
+    "brandName": "APNICID",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "109.22",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.92"
+  },
+  {
+    "brandName": "FORPAN",
+    "packSize": "15",
+    "company": "FORGEN HEALTHCARE LTD.",
+    "brandMrp": "163.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.93"
+  },
+  {
+    "brandName": "PANTOFIRST",
+    "packSize": "10",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "109.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "brandName": "PROTONIL",
+    "packSize": "10",
+    "company": "ZEUS PHARMA",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "REPAN",
+    "packSize": "10",
+    "company": "REGENIX DRUGS LTD",
+    "brandMrp": "110.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.00"
+  },
+  {
+    "brandName": "PANTADIF",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "110.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.03"
+  },
+  {
+    "brandName": "PP CREST",
+    "packSize": "10",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "111.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.10"
+  },
+  {
+    "brandName": "PANLEB",
+    "packSize": "10",
+    "company": "LEBEN LABORATORIES PVT.LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "SPANITY",
+    "packSize": "10",
+    "company": "SIGNITY PHARMACEUTICALS PVT LTD",
+    "brandMrp": "112.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.25"
+  },
+  {
+    "brandName": "WAYOPAN",
+    "packSize": "10",
+    "company": "WAYONEXT PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "113.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.30"
+  },
+  {
+    "brandName": "PANTAL",
+    "packSize": "10",
+    "company": "CAPLET INDIA PRIVATE LIMITED",
+    "brandMrp": "113.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.39"
+  },
+  {
+    "brandName": "PANSA",
+    "packSize": "15",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "172.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.47"
+  },
+  {
+    "brandName": "PANOPAZ",
+    "packSize": "10",
+    "company": "AGLOWMED PHARMACEUTICALS LTD.",
+    "brandMrp": "115.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.55"
+  },
+  {
+    "brandName": "OROPRAZ",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "116.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.67"
+  },
+  {
+    "brandName": "PANTIUM",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "116.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.67"
+  },
+  {
+    "brandName": "PAN",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "175.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.69"
+  },
+  {
+    "brandName": "PANTOCAR",
+    "packSize": "15",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "176.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.75"
+  },
+  {
+    "brandName": "LUPIPAN",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "119.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.99"
+  },
+  {
+    "brandName": "PAZOM (ELDER PROJECTS)",
+    "packSize": "10",
+    "company": "ELDER PROJECTS LIMITED",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "PANBLOC",
+    "packSize": "15",
+    "company": "TABLETS INDIA LTD",
+    "brandMrp": "180.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.06"
+  },
+  {
+    "brandName": "KIOPAN",
+    "packSize": "10",
+    "company": "KIOSENCE HEALTH CARE PVT.LTD",
+    "brandMrp": "121.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.10"
+  },
+  {
+    "brandName": "PRAT",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "181.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.12"
+  },
+  {
+    "brandName": "BLOCACID",
+    "packSize": "15",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "182.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.15"
+  },
+  {
+    "brandName": "PROTOCHEK",
+    "packSize": "15",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "182.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.15"
+  },
+  {
+    "brandName": "PROTOCHEK",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "121.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.15"
+  },
+  {
+    "brandName": "MOPANT",
+    "packSize": "10",
+    "company": "MOVA PHARMACEUTICALS PVT LTD",
+    "brandMrp": "121.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.18"
+  },
+  {
+    "brandName": "PANSA",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "122.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.24"
+  },
+  {
+    "brandName": "PENTATE",
+    "packSize": "10",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "PNZ",
+    "packSize": "14",
+    "company": "CACHET PHARMACEUTICALS PVT LTD",
+    "brandMrp": "177.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.68"
+  },
+  {
+    "brandName": "PANTOTAS",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "127.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.75"
+  },
+  {
+    "brandName": "PANTOKA",
+    "packSize": "10",
+    "company": "AZKKA PHARMACEUTICALS PVT LTD",
+    "brandMrp": "128.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.84"
+  },
+  {
+    "brandName": "PANTOPRYM",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "129.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.95"
+  },
+  {
+    "brandName": "PANTOCID",
+    "packSize": "15",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "195.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.06"
+  },
+  {
+    "brandName": "ZOVANTA",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "197.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.19"
+  },
+  {
+    "brandName": "UZEPAN",
+    "packSize": "10",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "132.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.22"
+  },
+  {
+    "brandName": "PANTOCISE",
+    "packSize": "10",
+    "company": "BLISSON MEDIPLUS PVT.LTD",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.50"
+  },
+  {
+    "brandName": "PANTOLUP",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "203.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.59"
+  },
+  {
+    "brandName": "PEPRELLA",
+    "packSize": "10",
+    "company": "ASTRELLA PHARMACEUTICAL PVT. LTD.",
+    "brandMrp": "139.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.97"
+  },
+  {
+    "brandName": "PALIO",
+    "packSize": "10",
+    "company": "DWD PHARMACEUTICALS LTD",
+    "brandMrp": "141.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.16"
+  },
+  {
+    "brandName": "PANTASUR",
+    "packSize": "10",
+    "company": "SALAS PHARMA PVT.LTD",
+    "brandMrp": "146.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.64"
+  },
+  {
+    "brandName": "DYCIZOL",
+    "packSize": "10",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "147.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.75"
+  },
+  {
+    "brandName": "PANTOSEC",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "148.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.80"
+  },
+  {
+    "brandName": "PROTERA",
+    "packSize": "15",
+    "company": "LUPIN LTD",
+    "brandMrp": "223.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.90"
+  },
+  {
+    "brandName": "GUTFIT",
+    "packSize": "10",
+    "company": "INDIAN DRUG & PHARMACEUTICALS LTD (IDPL)",
+    "brandMrp": "149.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.95"
+  },
+  {
+    "brandName": "PANTAFORD",
+    "packSize": "10",
+    "company": "OXFORD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "154.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "NICOPENTA",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "156.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.67"
+  },
+  {
+    "brandName": "PANSEC",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "235.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.73"
+  },
+  {
+    "brandName": "PANTODAC",
+    "packSize": "15",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "236.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.74"
+  },
+  {
+    "brandName": "P2I",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "164.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.43"
+  },
+  {
+    "brandName": "PENTAB",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "168.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.81"
+  },
+  {
+    "brandName": "PANTOCARD",
+    "packSize": "10",
+    "company": "ENDOCARD",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "ZOVANTA",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "197.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.78"
+  },
+  {
+    "brandName": "PIKER",
+    "packSize": "10",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "198.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.88"
+  },
+  {
+    "brandName": "PANSALVE",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "227.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.76"
+  },
+  {
+    "brandName": "PENTACID",
+    "packSize": "2",
+    "company": "STADCHEM OF INDIA",
+    "brandMrp": "740.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "370.00"
+  }
+]

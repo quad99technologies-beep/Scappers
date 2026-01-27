@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "CHEMOFLURA",
+    "packSize": "5",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "11.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.28"
+  },
+  {
+    "brandName": "FLURACIL",
+    "packSize": "5",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "12.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.40"
+  },
+  {
+    "brandName": "5 FLUCEL",
+    "packSize": "5",
+    "company": "CELON LABS",
+    "brandMrp": "15.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.03"
+  }
+]

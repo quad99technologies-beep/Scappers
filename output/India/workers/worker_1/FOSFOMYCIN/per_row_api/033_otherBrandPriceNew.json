@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "FOEPHOS",
+    "packSize": "8",
+    "company": "BIOKINDLE LIFESCIENCES PVT. LTD",
+    "brandMrp": "370.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.29"
+  },
+  {
+    "brandName": "ICUFOS O",
+    "packSize": "8",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "429.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.66"
+  },
+  {
+    "brandName": "FOSUTI",
+    "packSize": "8",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "464.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.01"
+  },
+  {
+    "brandName": "BESTOFOS",
+    "packSize": "8",
+    "company": "BIOLOGICAL E LTD",
+    "brandMrp": "529.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "66.15"
+  }
+]

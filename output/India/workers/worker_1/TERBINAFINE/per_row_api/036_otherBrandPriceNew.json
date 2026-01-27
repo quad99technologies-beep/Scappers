@@ -1,0 +1,586 @@
+[
+  {
+    "brandName": "DEXODERM",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "43.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.31"
+  },
+  {
+    "brandName": "TERBON",
+    "packSize": "7",
+    "company": "CACHET PHARMACEUTICALS PVT LTD",
+    "brandMrp": "38.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.54"
+  },
+  {
+    "brandName": "TERBIMAX",
+    "packSize": "10",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "98.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.84"
+  },
+  {
+    "brandName": "TINAPAX",
+    "packSize": "7",
+    "company": "ALBATROSS HEALTH CARE PVT LTD",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.43"
+  },
+  {
+    "brandName": "TERBISON",
+    "packSize": "7",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "82.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.73"
+  },
+  {
+    "brandName": "TERFAZE",
+    "packSize": "7",
+    "company": "MEGHA HEALTHCARE",
+    "brandMrp": "93.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.36"
+  },
+  {
+    "brandName": "TERBIMIK",
+    "packSize": "7",
+    "company": "KIM LAB",
+    "brandMrp": "95.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.66"
+  },
+  {
+    "brandName": "TERBEST",
+    "packSize": "7",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "98.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "TERBIMAX",
+    "packSize": "7",
+    "company": "GALCARE PHARMACEUTICALS P. LTD",
+    "brandMrp": "98.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "TERBICLAIR (GLEN)",
+    "packSize": "7",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "102.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.60"
+  },
+  {
+    "brandName": "TERBINEXT",
+    "packSize": "7",
+    "company": "ETHINEXT PHARMA PVT.LTD",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "LAMITERB",
+    "packSize": "7",
+    "company": "MED MANOR ORGANICS PVT LTD.",
+    "brandMrp": "106.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.14"
+  },
+  {
+    "brandName": "ATEF",
+    "packSize": "7",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "106.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.17"
+  },
+  {
+    "brandName": "TERBITOTAL",
+    "packSize": "7",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "108.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.47"
+  },
+  {
+    "brandName": "FUNTER",
+    "packSize": "10",
+    "company": "WINSOME LAB LTD",
+    "brandMrp": "159.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.90"
+  },
+  {
+    "brandName": "TEBISURE",
+    "packSize": "7",
+    "company": "ADROIT BIOMED LTD",
+    "brandMrp": "111.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "VANFINE",
+    "packSize": "7",
+    "company": "AVANCER LAB",
+    "brandMrp": "111.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.94"
+  },
+  {
+    "brandName": "TERBIFACE",
+    "packSize": "7",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "113.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.21"
+  },
+  {
+    "brandName": "TERBIBEST",
+    "packSize": "10",
+    "company": "DERMAKARE PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "164.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.41"
+  },
+  {
+    "brandName": "TINAZEN",
+    "packSize": "7",
+    "company": "ANHOX HEALTHCARE PVT LTD",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.74"
+  },
+  {
+    "brandName": "DEXODERM",
+    "packSize": "7",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "118.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.97"
+  },
+  {
+    "brandName": "TEMIZA",
+    "packSize": "7",
+    "company": "HBC DERMIZA HEALTHCARE PVT.LTD",
+    "brandMrp": "119.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.00"
+  },
+  {
+    "brandName": "TERBIT",
+    "packSize": "7",
+    "company": "SUNWAYS (INDIA) PVT LTD",
+    "brandMrp": "119.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.00"
+  },
+  {
+    "brandName": "TERBOTAC",
+    "packSize": "10",
+    "company": "SYNOKEM PHARMACEUTICALS LTD",
+    "brandMrp": "170.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.00"
+  },
+  {
+    "brandName": "LAMIFIN",
+    "packSize": "7",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.14"
+  },
+  {
+    "brandName": "FLUTY-TF",
+    "packSize": "10",
+    "company": "COXSWAIN HEALTHCARE",
+    "brandMrp": "176.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.62"
+  },
+  {
+    "brandName": "TERBINAFORCE",
+    "packSize": "7",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "124.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.81"
+  },
+  {
+    "brandName": "MYCOSEAL",
+    "packSize": "10",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "179.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.95"
+  },
+  {
+    "brandName": "MONITER",
+    "packSize": "7",
+    "company": "MONICHEM HEALTHCARE PVT LTD",
+    "brandMrp": "126.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.00"
+  },
+  {
+    "brandName": "TEBIF",
+    "packSize": "7",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "128.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.35"
+  },
+  {
+    "brandName": "FUNGOTEK",
+    "packSize": "7",
+    "company": "FDC LTD.",
+    "brandMrp": "128.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.42"
+  },
+  {
+    "brandName": "TERBEX",
+    "packSize": "7",
+    "company": "SYNOKEM PHARMACEUTICALS LTD",
+    "brandMrp": "129.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.43"
+  },
+  {
+    "brandName": "TERRAFIK",
+    "packSize": "7",
+    "company": "EUMEDICA PHARMACEUTICALS",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "IFIN",
+    "packSize": "7",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "131.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.82"
+  },
+  {
+    "brandName": "FINTRIX",
+    "packSize": "7",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "132.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.87"
+  },
+  {
+    "brandName": "TYZA",
+    "packSize": "7",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "132.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.92"
+  },
+  {
+    "brandName": "TERFAST",
+    "packSize": "7",
+    "company": "RAPROSS PHARMACEUTICALS PVT LTD",
+    "brandMrp": "134.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.21"
+  },
+  {
+    "brandName": "TERBOL (OLCARE)",
+    "packSize": "7",
+    "company": "OLCARE LTD",
+    "brandMrp": "136.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.55"
+  },
+  {
+    "brandName": "TEBINA",
+    "packSize": "7",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "139.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.96"
+  },
+  {
+    "brandName": "TERBIPRO",
+    "packSize": "7",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "140.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.00"
+  },
+  {
+    "brandName": "TERBIERA",
+    "packSize": "7",
+    "company": "GRACIOUS PHARMACEUTICALS",
+    "brandMrp": "140.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.09"
+  },
+  {
+    "brandName": "TERBICIP",
+    "packSize": "7",
+    "company": "CIPLA LTD.",
+    "brandMrp": "143.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.43"
+  },
+  {
+    "brandName": "FINLIN",
+    "packSize": "7",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "145.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.79"
+  },
+  {
+    "brandName": "ZYGTER",
+    "packSize": "7",
+    "company": "ENCORE HEALTHCARE PVT LTD",
+    "brandMrp": "146.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.89"
+  },
+  {
+    "brandName": "NIOFINE",
+    "packSize": "7",
+    "company": "KLM LABORATORIES PVT.LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.43"
+  },
+  {
+    "brandName": "TEXIFEN",
+    "packSize": "7",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.43"
+  },
+  {
+    "brandName": "ZOTERB",
+    "packSize": "7",
+    "company": "PRISM LIFESCIENCE",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.43"
+  },
+  {
+    "brandName": "TERBICAD",
+    "packSize": "7",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "152.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.80"
+  },
+  {
+    "brandName": "PHYTE",
+    "packSize": "7",
+    "company": "MENARINI INDIA",
+    "brandMrp": "160.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.96"
+  },
+  {
+    "brandName": "TERBIFAST",
+    "packSize": "7",
+    "company": "INTRA LABS",
+    "brandMrp": "161.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.10"
+  },
+  {
+    "brandName": "TERBINATOR",
+    "packSize": "7",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "163.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.30"
+  },
+  {
+    "brandName": "AFTER",
+    "packSize": "7",
+    "company": "PALSONS DERMA PVT. LTD",
+    "brandMrp": "165.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.60"
+  },
+  {
+    "brandName": "KEPTAFINE",
+    "packSize": "7",
+    "company": "KEPLER HEALTH CARE",
+    "brandMrp": "166.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.82"
+  },
+  {
+    "brandName": "TURFINE",
+    "packSize": "7",
+    "company": "OMNI LIFE SCIENCES PVT LTD",
+    "brandMrp": "166.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.84"
+  },
+  {
+    "brandName": "TERBIRIDE",
+    "packSize": "7",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "167.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.97"
+  },
+  {
+    "brandName": "XTER",
+    "packSize": "10",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.00"
+  },
+  {
+    "brandName": "FUNZI",
+    "packSize": "10",
+    "company": "CORONA",
+    "brandMrp": "258.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.81"
+  },
+  {
+    "brandName": "TERBOCET",
+    "packSize": "7",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "183.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.22"
+  },
+  {
+    "brandName": "TERBIKEM",
+    "packSize": "15",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "397.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.50"
+  },
+  {
+    "brandName": "FUNGITERB",
+    "packSize": "7",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "190.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.14"
+  },
+  {
+    "brandName": "TYZA",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "281.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.15"
+  },
+  {
+    "brandName": "TERBIGEN",
+    "packSize": "7",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.57"
+  },
+  {
+    "brandName": "TINAZEN",
+    "packSize": "4",
+    "company": "ANHOX HEALTHCARE PVT LTD",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.30"
+  },
+  {
+    "brandName": "TERBINAC (ZYDUS)",
+    "packSize": "7",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "205.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.39"
+  },
+  {
+    "brandName": "GENEEFIN",
+    "packSize": "7",
+    "company": "GENEES PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "206.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.46"
+  },
+  {
+    "brandName": "TERGOSIL",
+    "packSize": "10",
+    "company": "GLOWDERMA",
+    "brandMrp": "303.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.38"
+  },
+  {
+    "brandName": "ERBINOX",
+    "packSize": "7",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "217.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.10"
+  },
+  {
+    "brandName": "TRFY",
+    "packSize": "7",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "220.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.47"
+  },
+  {
+    "brandName": "TERBICIP",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "486.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.44"
+  },
+  {
+    "brandName": "TERBINADOC",
+    "packSize": "7",
+    "company": "MOREPEN LABORATORIES LIMITED",
+    "brandMrp": "230.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.86"
+  },
+  {
+    "brandName": "TERADERM",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "344.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.49"
+  },
+  {
+    "brandName": "SEBIFIN",
+    "packSize": "15",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "529.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.31"
+  },
+  {
+    "brandName": "ZIMIG",
+    "packSize": "7",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "386.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "55.16"
+  }
+]

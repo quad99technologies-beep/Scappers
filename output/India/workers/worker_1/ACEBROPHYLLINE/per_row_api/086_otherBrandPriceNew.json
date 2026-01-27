@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "DUOFYLIN",
+    "packSize": "100",
+    "company": "HIGLANCE LABORATORIES PVT LTD",
+    "brandMrp": "67.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.67"
+  },
+  {
+    "brandName": "AMBRODIL XP",
+    "packSize": "100",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "132.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.32"
+  },
+  {
+    "brandName": "PHYLLIN AC",
+    "packSize": "100",
+    "company": "RND LABORATORIES PVT. LTD.",
+    "brandMrp": "140.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.40"
+  },
+  {
+    "brandName": "ACIBRO",
+    "packSize": "100",
+    "company": "SYNOKEM PHARMACEUTICALS LTD",
+    "brandMrp": "141.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.42"
+  },
+  {
+    "brandName": "MACPHYLLINE",
+    "packSize": "100",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "158.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.59"
+  }
+]

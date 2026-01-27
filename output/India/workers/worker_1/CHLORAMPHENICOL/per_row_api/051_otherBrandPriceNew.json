@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "FENCOL",
+    "packSize": "60",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "17.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.29"
+  },
+  {
+    "brandName": "VITCHOL",
+    "packSize": "60",
+    "company": "FRANKLIN LABORATORIES (INDIA) PVT. LTD.",
+    "brandMrp": "17.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.29"
+  },
+  {
+    "brandName": "PHENICOL",
+    "packSize": "60",
+    "company": "TORQUE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "19.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.33"
+  },
+  {
+    "brandName": "CHLORAMPHENICOL (PFIZER)",
+    "packSize": "60",
+    "company": "PFIZER LTD",
+    "brandMrp": "63.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.06"
+  },
+  {
+    "brandName": "LARMYCETIN",
+    "packSize": "60",
+    "company": "LARK LABORATORIES LTD",
+    "brandMrp": "137.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.30"
+  }
+]

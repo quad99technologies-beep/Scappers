@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "CYTANEON",
+    "packSize": "5",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "215.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.00"
+  },
+  {
+    "brandName": "BIOBIN",
+    "packSize": "5",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "321.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "64.20"
+  },
+  {
+    "brandName": "CYTALON",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "485.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "485.71"
+  },
+  {
+    "brandName": "CYTRAZ",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "560.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "560.00"
+  }
+]

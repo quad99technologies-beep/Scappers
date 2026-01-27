@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "DERMIAT",
+    "packSize": "30",
+    "company": "ATOPIC LABORATORIES",
+    "brandMrp": "139.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.66"
+  },
+  {
+    "brandName": "DERMET",
+    "packSize": "30",
+    "company": "DERMO CARE LABORATORIES",
+    "brandMrp": "144.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.80"
+  },
+  {
+    "brandName": "ETHIMOM (ETHI)",
+    "packSize": "30",
+    "company": "ETHINEXT PHARMA PVT.LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "MONOSONE",
+    "packSize": "15",
+    "company": "MONICHEM HEALTHCARE PVT LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "MSONE",
+    "packSize": "30",
+    "company": "OMNI LIFE SCIENCES PVT LTD",
+    "brandMrp": "196.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.56"
+  },
+  {
+    "brandName": "ETAZE",
+    "packSize": "30",
+    "company": "MOHRISH PHARMACEUTICALS",
+    "brandMrp": "237.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.91"
+  },
+  {
+    "brandName": "EZIMET",
+    "packSize": "20",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "188.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.40"
+  },
+  {
+    "brandName": "EMCORT",
+    "packSize": "15",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "179.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.99"
+  },
+  {
+    "brandName": "MOMATE",
+    "packSize": "30",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "448.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.95"
+  },
+  {
+    "brandName": "HH SONE",
+    "packSize": "10",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "229.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.97"
+  },
+  {
+    "brandName": "ELOCON",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "303.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.38"
+  },
+  {
+    "brandName": "ELOCON",
+    "packSize": "5",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "161.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.20"
+  }
+]

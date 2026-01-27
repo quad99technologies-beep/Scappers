@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "AMANTAD",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "234.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.44"
+  },
+  {
+    "brandName": "PARKITIDIN",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "244.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.47"
+  },
+  {
+    "brandName": "AMANTEX",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "271.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.19"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "ONCOTAR",
+    "packSize": "10",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "767.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "76.71"
+  },
+  {
+    "brandName": "CYTARINE",
+    "packSize": "10",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "947.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "94.70"
+  },
+  {
+    "brandName": "BIOBIN",
+    "packSize": "10",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "977.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "97.70"
+  },
+  {
+    "brandName": "ARASID",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "1054.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "105.47"
+  },
+  {
+    "brandName": "CYTOSAR",
+    "packSize": "10",
+    "company": "PFIZER LTD",
+    "brandMrp": "1207.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "120.74"
+  },
+  {
+    "brandName": "CYTARABINE",
+    "packSize": "10",
+    "company": "PFIZER LTD",
+    "brandMrp": "1634.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "163.41"
+  },
+  {
+    "brandName": "CYTALON",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "1200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1200.00"
+  }
+]

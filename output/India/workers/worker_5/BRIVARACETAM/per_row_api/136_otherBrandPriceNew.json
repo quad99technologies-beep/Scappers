@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "BRIVATAB",
+    "packSize": "100",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "350.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.50"
+  },
+  {
+    "brandName": "BRIVETOIN",
+    "packSize": "100",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "350.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.50"
+  },
+  {
+    "brandName": "BRIVAJOY",
+    "packSize": "100",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "407.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.07"
+  },
+  {
+    "brandName": "BRIVAZEN",
+    "packSize": "100",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "429.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.29"
+  },
+  {
+    "brandName": "BRIVISSA",
+    "packSize": "100",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "433.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.33"
+  },
+  {
+    "brandName": "BRIVAZEN",
+    "packSize": "200",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "944.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.72"
+  },
+  {
+    "brandName": "BRIVASURE",
+    "packSize": "100",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "492.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.92"
+  },
+  {
+    "brandName": "BREVIPIL",
+    "packSize": "200",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "1029.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.15"
+  },
+  {
+    "brandName": "BRIPCA",
+    "packSize": "100",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "539.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.39"
+  }
+]

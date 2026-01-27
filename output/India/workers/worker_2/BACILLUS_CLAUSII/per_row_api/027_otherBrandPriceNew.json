@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "GUTKURE",
+    "packSize": "10",
+    "company": "CANVARZYS HEALTHCARE PVT.LTD",
+    "brandMrp": "162.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.24"
+  },
+  {
+    "brandName": "INBALANSE",
+    "packSize": "10",
+    "company": "ALBERT DAVID",
+    "brandMrp": "204.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.44"
+  },
+  {
+    "brandName": "ENZISPOR",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "461.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "46.12"
+  }
+]

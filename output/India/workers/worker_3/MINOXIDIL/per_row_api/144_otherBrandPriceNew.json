@@ -1,0 +1,122 @@
+[
+  {
+    "brandName": "ANASURE",
+    "packSize": "60",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "1.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.02"
+  },
+  {
+    "brandName": "HAIRTOP",
+    "packSize": "60",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "679.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.33"
+  },
+  {
+    "brandName": "MINSCALP",
+    "packSize": "60",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "749.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.48"
+  },
+  {
+    "brandName": "GREWIT",
+    "packSize": "60",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "773.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.89"
+  },
+  {
+    "brandName": "MINOSILK",
+    "packSize": "60",
+    "company": "ETHINEXT PHARMA PVT.LTD",
+    "brandMrp": "795.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.27"
+  },
+  {
+    "brandName": "MINFIN",
+    "packSize": "60",
+    "company": "HBC DERMIZA HEALTHCARE PVT.LTD",
+    "brandMrp": "890.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.83"
+  },
+  {
+    "brandName": "MNX",
+    "packSize": "60",
+    "company": "SALVE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "923.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.38"
+  },
+  {
+    "brandName": "COVERIT",
+    "packSize": "60",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "975.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.25"
+  },
+  {
+    "brandName": "STRANDZ",
+    "packSize": "60",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "1020.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.02"
+  },
+  {
+    "brandName": "KERA M",
+    "packSize": "60",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "1051.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.53"
+  },
+  {
+    "brandName": "TUGAIN",
+    "packSize": "60",
+    "company": "CIPLA LTD.",
+    "brandMrp": "1077.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.96"
+  },
+  {
+    "brandName": "CHEKFALL",
+    "packSize": "60",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "1081.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.03"
+  },
+  {
+    "brandName": "MX-10",
+    "packSize": "60",
+    "company": "MANEESH PHARMACEUTICALS LTD",
+    "brandMrp": "1120.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.67"
+  },
+  {
+    "brandName": "TUGAIN",
+    "packSize": "60",
+    "company": "CIPLA LTD.",
+    "brandMrp": "1316.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.95"
+  },
+  {
+    "brandName": "MINTOP",
+    "packSize": "60",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "1347.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.46"
+  }
+]

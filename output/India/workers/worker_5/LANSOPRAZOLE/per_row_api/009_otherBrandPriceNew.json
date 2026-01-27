@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "PROZER",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "27.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.77"
+  },
+  {
+    "brandName": "LASOKID",
+    "packSize": "10",
+    "company": "GUJARAT TERCE LABORATORIES LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "LANSWIFT",
+    "packSize": "15",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "125.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.38"
+  },
+  {
+    "brandName": "LANSOJOY",
+    "packSize": "10",
+    "company": "FORGEN HEALTHCARE LTD.",
+    "brandMrp": "84.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.49"
+  },
+  {
+    "brandName": "LANZORICH",
+    "packSize": "10",
+    "company": "RAVENBHEL PHARMACEUTICALS PVT LTD.",
+    "brandMrp": "90.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.03"
+  },
+  {
+    "brandName": "LANZOPRAX",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "94.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.41"
+  },
+  {
+    "brandName": "LANFIL",
+    "packSize": "15",
+    "company": "FOURRTS INDIA LABORATORIES PVT. LTD",
+    "brandMrp": "147.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.81"
+  },
+  {
+    "brandName": "LANRIEF",
+    "packSize": "10",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "102.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.20"
+  },
+  {
+    "brandName": "COOLET JR",
+    "packSize": "10",
+    "company": "HEALTHON LIFE SCIENCES PVT.LTD",
+    "brandMrp": "121.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.10"
+  },
+  {
+    "brandName": "JUNIOR LANZOL",
+    "packSize": "15",
+    "company": "CIPLA LTD.",
+    "brandMrp": "184.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.30"
+  },
+  {
+    "brandName": "LANSPRO",
+    "packSize": "15",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "200.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.38"
+  }
+]

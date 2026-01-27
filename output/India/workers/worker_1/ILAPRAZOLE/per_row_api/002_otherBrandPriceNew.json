@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "ILADAY",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "106.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.60"
+  },
+  {
+    "brandName": "ADIZA",
+    "packSize": "10",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "139.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.91"
+  },
+  {
+    "brandName": "ILADIF",
+    "packSize": "10",
+    "company": "OVERSEAS HEALTHCARE PVT LTD.",
+    "brandMrp": "158.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.86"
+  },
+  {
+    "brandName": "ILAPRO",
+    "packSize": "10",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "161.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.10"
+  },
+  {
+    "brandName": "ILADAC",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "175.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.59"
+  },
+  {
+    "brandName": "LUPILA",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "191.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.12"
+  }
+]

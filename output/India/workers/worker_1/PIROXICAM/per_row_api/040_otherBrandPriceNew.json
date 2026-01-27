@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ZEEPAIN",
+    "packSize": "10",
+    "company": "LARK LABORATORIES LTD",
+    "brandMrp": "59.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.91"
+  },
+  {
+    "brandName": "PIROX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "68.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.86"
+  },
+  {
+    "brandName": "RANSET",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.03"
+  }
+]

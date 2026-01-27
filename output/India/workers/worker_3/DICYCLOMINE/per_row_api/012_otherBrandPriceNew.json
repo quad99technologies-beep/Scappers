@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "CYCLOPAM",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "22.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.21"
+  },
+  {
+    "brandName": "CYCLOPAM",
+    "packSize": "30",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "67.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.25"
+  },
+  {
+    "brandName": "NT-SPAS",
+    "packSize": "2",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "5.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.86"
+  },
+  {
+    "brandName": "MEFTAL SPAS",
+    "packSize": "2",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "6.76",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.38"
+  },
+  {
+    "brandName": "CYCLOPAM",
+    "packSize": "2",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "7.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.55"
+  },
+  {
+    "brandName": "SPASMO PROXYVON",
+    "packSize": "2",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "29.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.82"
+  }
+]

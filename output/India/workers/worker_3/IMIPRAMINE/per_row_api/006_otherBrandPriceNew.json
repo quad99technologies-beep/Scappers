@@ -1,0 +1,138 @@
+[
+  {
+    "brandName": "DEPRID",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "8.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.83"
+  },
+  {
+    "brandName": "SHIMIN",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "8.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.85"
+  },
+  {
+    "brandName": "DEPIK",
+    "packSize": "10",
+    "company": "AARPIK REMEDIES PVT.LTD.",
+    "brandMrp": "8.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.89"
+  },
+  {
+    "brandName": "TRIMINE",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "9.07",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.91"
+  },
+  {
+    "brandName": "DEPRID (SIGMUND)",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "9.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.92"
+  },
+  {
+    "brandName": "IMPRESS(ANP)",
+    "packSize": "10",
+    "company": "A.N.PHARMACIA",
+    "brandMrp": "9.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.94"
+  },
+  {
+    "brandName": "ANTIPRES",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "10.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.00"
+  },
+  {
+    "brandName": "ELDEP",
+    "packSize": "10",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "12.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.20"
+  },
+  {
+    "brandName": "DIMIP",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "12.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.22"
+  },
+  {
+    "brandName": "KIDEP",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "12.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.22"
+  },
+  {
+    "brandName": "DIAMIN",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "12.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.24"
+  },
+  {
+    "brandName": "TALENDEP",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "12.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "DEPRANIL",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "13.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "DEPSOL",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "15.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.55"
+  },
+  {
+    "brandName": "ANTIDEP",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "17.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.79"
+  },
+  {
+    "brandName": "DEPSONIL",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "17.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.79"
+  },
+  {
+    "brandName": "NILDEP",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "26.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.60"
+  }
+]

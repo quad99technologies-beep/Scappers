@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "HALIDOL",
+    "packSize": "10",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "1.96",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.20"
+  },
+  {
+    "brandName": "LARENASE",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "8.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.80"
+  },
+  {
+    "brandName": "TALENDOL",
+    "packSize": "10",
+    "company": "TALENT INDIA",
+    "brandMrp": "9.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.97"
+  },
+  {
+    "brandName": "HELINASE",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "12.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.20"
+  },
+  {
+    "brandName": "QUTZAL",
+    "packSize": "10",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "13.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.34"
+  },
+  {
+    "brandName": "HALOP",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "14.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.47"
+  },
+  {
+    "brandName": "HALOBID",
+    "packSize": "10",
+    "company": "CRESCENT FORMULATIONS PVT. LTD.",
+    "brandMrp": "17.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.73"
+  },
+  {
+    "brandName": "TRIKONACE",
+    "packSize": "10",
+    "company": "TRIKO PHARMACEUTICALS",
+    "brandMrp": "18.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.83"
+  },
+  {
+    "brandName": "RELINASE",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "19.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.96"
+  },
+  {
+    "brandName": "SERENACE",
+    "packSize": "10",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "20.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  },
+  {
+    "brandName": "SERENACE",
+    "packSize": "20",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "43.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.16"
+  }
+]

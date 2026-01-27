@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "FLAMCOR",
+    "packSize": "30",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "62.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.08"
+  },
+  {
+    "brandName": "QCORT",
+    "packSize": "30",
+    "company": "MEDITIA LABS PVT.LTD",
+    "brandMrp": "78.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.63"
+  },
+  {
+    "brandName": "ZEFCORT",
+    "packSize": "30",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "79.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.66"
+  },
+  {
+    "brandName": "DEZACOR",
+    "packSize": "30",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "87.23",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.91"
+  },
+  {
+    "brandName": "DEFLAWAL",
+    "packSize": "30",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "89.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.97"
+  },
+  {
+    "brandName": "CORTIMAX",
+    "packSize": "60",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "197.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.29"
+  }
+]

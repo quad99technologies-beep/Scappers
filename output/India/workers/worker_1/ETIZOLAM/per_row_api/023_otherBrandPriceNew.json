@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "KETIZOL AM",
+    "packSize": "10",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "43.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.31"
+  },
+  {
+    "brandName": "ZOLTIAS",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "60.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.08"
+  },
+  {
+    "brandName": "SOLOPOSE",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "61.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.18"
+  },
+  {
+    "brandName": "ETILAX",
+    "packSize": "10",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "65.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.58"
+  },
+  {
+    "brandName": "ETIMARK",
+    "packSize": "10",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "67.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.70"
+  }
+]

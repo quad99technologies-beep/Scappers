@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "NORMAL SALINE (CLARIS LIFE)",
+    "packSize": "1000",
+    "company": "CLARIS LIFESCIENCES LIMITED",
+    "brandMrp": "38.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.04"
+  },
+  {
+    "brandName": "NORMAL SALINE (CLARIS LIFE)",
+    "packSize": "500",
+    "company": "CLARIS LIFESCIENCES LIMITED",
+    "brandMrp": "22.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.05"
+  },
+  {
+    "brandName": "NORMAL SALINE (ALBERT)",
+    "packSize": "500",
+    "company": "ALBERT DAVID",
+    "brandMrp": "37.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.07"
+  },
+  {
+    "brandName": "NS (ALBERT)",
+    "packSize": "500",
+    "company": "ALBERT DAVID",
+    "brandMrp": "37.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.07"
+  },
+  {
+    "brandName": "N S (PLASTIC)",
+    "packSize": "500",
+    "company": "ALBERT DAVID",
+    "brandMrp": "37.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.07"
+  },
+  {
+    "brandName": "NORMAL SALINE (CLARIS LIFE)",
+    "packSize": "100",
+    "company": "CLARIS LIFESCIENCES LIMITED",
+    "brandMrp": "9.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.09"
+  },
+  {
+    "brandName": "DNS (CLARIS)",
+    "packSize": "250",
+    "company": "CLARIS LIFESCIENCES LIMITED",
+    "brandMrp": "30.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.12"
+  },
+  {
+    "brandName": "NS (DEN)",
+    "packSize": "250",
+    "company": "DENIS CHEM LAB LTD",
+    "brandMrp": "29.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.12"
+  },
+  {
+    "brandName": "N.S (VENUS )",
+    "packSize": "100",
+    "company": "VENUS REMEDIES LTD",
+    "brandMrp": "17.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.17"
+  },
+  {
+    "brandName": "NS (DEN)",
+    "packSize": "100",
+    "company": "DENIS CHEM LAB LTD",
+    "brandMrp": "20.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.21"
+  },
+  {
+    "brandName": "SODIUM CHLORIDE (BAXTER)",
+    "packSize": "100",
+    "company": "BAXTER INDIA PVT.LTD",
+    "brandMrp": "20.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.21"
+  }
+]

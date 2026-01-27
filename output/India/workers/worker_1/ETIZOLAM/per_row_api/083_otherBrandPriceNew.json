@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "ETIMARK",
+    "packSize": "10",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "37.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.70"
+  },
+  {
+    "brandName": "SOLOPOSE",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "37.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.77"
+  },
+  {
+    "brandName": "ETILAAM",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "38.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.82"
+  },
+  {
+    "brandName": "ZOLTIAS",
+    "packSize": "10",
+    "company": "MATIAS HEALTHCARE PVT.LTD",
+    "brandMrp": "45.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.54"
+  },
+  {
+    "brandName": "ETILAX",
+    "packSize": "10",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "47.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.71"
+  }
+]

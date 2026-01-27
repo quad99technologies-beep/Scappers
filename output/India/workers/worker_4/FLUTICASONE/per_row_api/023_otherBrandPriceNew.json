@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "FLUSKIN",
+    "packSize": "20",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "153.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.68"
+  },
+  {
+    "brandName": "ACTISONE",
+    "packSize": "20",
+    "company": "EUMEDICA PHARMACEUTICALS",
+    "brandMrp": "186.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.33"
+  },
+  {
+    "brandName": "LUTIDERM",
+    "packSize": "30",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "283.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.43"
+  },
+  {
+    "brandName": "FLUTIN (LINCOLN)",
+    "packSize": "10",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "99.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.98"
+  },
+  {
+    "brandName": "FLUTISONE (MRHM)",
+    "packSize": "30",
+    "company": "MRHM PHARMA PVT LTD",
+    "brandMrp": "309.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.31"
+  },
+  {
+    "brandName": "FLUTISONE (MRHM)",
+    "packSize": "20",
+    "company": "MRHM PHARMA PVT LTD",
+    "brandMrp": "262.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.13"
+  },
+  {
+    "brandName": "STERODART",
+    "packSize": "10",
+    "company": "RIVAN PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "135.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.50"
+  },
+  {
+    "brandName": "FLUTIVATE E",
+    "packSize": "30",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "414.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.82"
+  },
+  {
+    "brandName": "LUTIDERM",
+    "packSize": "10",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "145.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.50"
+  },
+  {
+    "brandName": "FLUTICON (PSY)",
+    "packSize": "10",
+    "company": "PSYCORMEDIES",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "FLUTIVATE",
+    "packSize": "10",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "177.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.75"
+  },
+  {
+    "brandName": "FLUTIVATE",
+    "packSize": "20",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "370.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.52"
+  },
+  {
+    "brandName": "FLUTIN (SUNWAYS)",
+    "packSize": "5",
+    "company": "SUNWAYS (INDIA) PVT LTD",
+    "brandMrp": "99.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.95"
+  }
+]

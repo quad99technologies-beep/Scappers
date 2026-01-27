@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "MULTIGATES FORTE",
+    "packSize": "10",
+    "company": "GATES PVT LTD",
+    "brandMrp": "13.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.35"
+  },
+  {
+    "brandName": "FOLIOST",
+    "packSize": "45",
+    "company": "AUSTRO LAB",
+    "brandMrp": "72.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.61"
+  },
+  {
+    "brandName": "FOLIRIDE",
+    "packSize": "30",
+    "company": "UNIVENTIS MEDICARE LIMITED",
+    "brandMrp": "48.51",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.62"
+  },
+  {
+    "brandName": "FOLISCORE",
+    "packSize": "30",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "48.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.62"
+  },
+  {
+    "brandName": "ZYFOLY",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "16.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.69"
+  },
+  {
+    "brandName": "TFH15",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "38.36",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.84"
+  },
+  {
+    "brandName": "FOLCARE",
+    "packSize": "10",
+    "company": "TRIPADA LIFECARE PVT.LTD",
+    "brandMrp": "42.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.20"
+  },
+  {
+    "brandName": "FOL B (EAST WEST PHARMA)",
+    "packSize": "10",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "63.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.35"
+  },
+  {
+    "brandName": "METHYL C",
+    "packSize": "10",
+    "company": "DRAKT PHRMA PVT LTD",
+    "brandMrp": "81.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.15"
+  },
+  {
+    "brandName": "AGIFOL PLUS",
+    "packSize": "10",
+    "company": "INDSWIFT LABORATORIES LTD.",
+    "brandMrp": "86.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.65"
+  },
+  {
+    "brandName": "FOLIZONE D",
+    "packSize": "10",
+    "company": "AMRUTANJAN LTD",
+    "brandMrp": "149.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.91"
+  },
+  {
+    "brandName": "FOLINCYR",
+    "packSize": "10",
+    "company": "EL-DORADO BIO-TECH PVT LTD",
+    "brandMrp": "149.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.95"
+  }
+]

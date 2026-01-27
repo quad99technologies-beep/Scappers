@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "CHLORO",
+    "packSize": "5",
+    "company": "PFIZER LTD",
+    "brandMrp": "30.82",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.16"
+  },
+  {
+    "brandName": "BIOMYCETIN",
+    "packSize": "5",
+    "company": "JUGGAT PHARMA",
+    "brandMrp": "54.83",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.97"
+  },
+  {
+    "brandName": "OTEK AC NEO",
+    "packSize": "5",
+    "company": "FDC LTD.",
+    "brandMrp": "74.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.97"
+  }
+]

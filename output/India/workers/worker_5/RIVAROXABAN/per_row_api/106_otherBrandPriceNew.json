@@ -1,0 +1,250 @@
+[
+  {
+    "brandName": "CAMERIV",
+    "packSize": "14",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "49.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.52"
+  },
+  {
+    "brandName": "RIVABAN",
+    "packSize": "14",
+    "company": "LUPIN LTD",
+    "brandMrp": "62.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.44"
+  },
+  {
+    "brandName": "IFAXA",
+    "packSize": "15",
+    "company": "LLOYD HEALTHCARE PVT.LTD",
+    "brandMrp": "66.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.46"
+  },
+  {
+    "brandName": "RIVOXAMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.50"
+  },
+  {
+    "brandName": "RICOSPRIN",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "46.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.69"
+  },
+  {
+    "brandName": "RIVAXON",
+    "packSize": "14",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.00"
+  },
+  {
+    "brandName": "RPIGAT",
+    "packSize": "10",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "51.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.16"
+  },
+  {
+    "brandName": "RIVATANE",
+    "packSize": "10",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "55.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.50"
+  },
+  {
+    "brandName": "RIVABAN",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "62.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.22"
+  },
+  {
+    "brandName": "RIVARED",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "62.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.23"
+  },
+  {
+    "brandName": "RICOSPRIN",
+    "packSize": "15",
+    "company": "USV PVT LTD",
+    "brandMrp": "93.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.24"
+  },
+  {
+    "brandName": "XAROCAD",
+    "packSize": "14",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "98.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "RIVOLAS",
+    "packSize": "10",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "71.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.13"
+  },
+  {
+    "brandName": "UNCLOT",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "XAVIAN",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.50"
+  },
+  {
+    "brandName": "XAREX",
+    "packSize": "15",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "115.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.70"
+  },
+  {
+    "brandName": "RIVATOP",
+    "packSize": "14",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "112.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "NOAX",
+    "packSize": "15",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "126.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.44"
+  },
+  {
+    "brandName": "RIVALTO",
+    "packSize": "14",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.93"
+  },
+  {
+    "brandName": "REBLESS",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "100.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.00"
+  },
+  {
+    "brandName": "FLOVAS",
+    "packSize": "14",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "174.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.46"
+  },
+  {
+    "brandName": "RIVAZEST",
+    "packSize": "14",
+    "company": "CIPLA LTD.",
+    "brandMrp": "187.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.39"
+  },
+  {
+    "brandName": "RIVAXA",
+    "packSize": "15",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "205.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.72"
+  },
+  {
+    "brandName": "ROVOR",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "143.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.30"
+  },
+  {
+    "brandName": "RIVAXA",
+    "packSize": "14",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "205.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.70"
+  },
+  {
+    "brandName": "EMBOXAN",
+    "packSize": "10",
+    "company": "PULSE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "152.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.28"
+  },
+  {
+    "brandName": "RIVAFLO",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "177.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.72"
+  },
+  {
+    "brandName": "THRON",
+    "packSize": "10",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "177.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.72"
+  },
+  {
+    "brandName": "EXAFIB",
+    "packSize": "14",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "369.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "26.38"
+  },
+  {
+    "brandName": "IXAROLA",
+    "packSize": "14",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "476.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.02"
+  },
+  {
+    "brandName": "XARELTO",
+    "packSize": "14",
+    "company": "BAYER PHARMACEUTICALS PVT. LTD.",
+    "brandMrp": "505.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.07"
+  }
+]

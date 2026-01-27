@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "PHOSTAT",
+    "packSize": "10",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "39.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.97"
+  },
+  {
+    "brandName": "ZEROFOS",
+    "packSize": "10",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "43.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.33"
+  },
+  {
+    "brandName": "LANUM",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "45.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.59"
+  },
+  {
+    "brandName": "CALCIBIND",
+    "packSize": "10",
+    "company": "REPENS HEALTHCARE INDIA PVT.LTD",
+    "brandMrp": "48.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.87"
+  },
+  {
+    "brandName": "LANUM",
+    "packSize": "15",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "75.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.03"
+  }
+]

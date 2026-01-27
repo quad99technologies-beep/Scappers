@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "RAZOCON",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "55.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.58"
+  },
+  {
+    "brandName": "TRAZE",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "93.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.36"
+  },
+  {
+    "brandName": "TRAZONIL",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "118.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.81"
+  },
+  {
+    "brandName": "TRAZONIL",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "194.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.98"
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "BENOVAT",
+    "packSize": "10",
+    "company": "MOVA PHARMACEUTICALS PVT LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "MITOSTIM",
+    "packSize": "10",
+    "company": "WALTON HEALTH CARE PVT.LTD",
+    "brandMrp": "150.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.00"
+  },
+  {
+    "brandName": "IDEBEN",
+    "packSize": "10",
+    "company": "EXELTIS",
+    "brandMrp": "193.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.32"
+  },
+  {
+    "brandName": "IDEBEST",
+    "packSize": "10",
+    "company": "LINUX LABORATORIES",
+    "brandMrp": "229.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.91"
+  }
+]

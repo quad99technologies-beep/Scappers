@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "THREPTIN",
+    "packSize": "1000",
+    "company": "RAPTAKOS BRETT & CO. LTD.",
+    "brandMrp": "1617.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.62"
+  },
+  {
+    "brandName": "THREPTIN",
+    "packSize": "275",
+    "company": "RAPTAKOS BRETT & CO. LTD.",
+    "brandMrp": "453.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.65"
+  },
+  {
+    "brandName": "THREPTIN LITE",
+    "packSize": "275",
+    "company": "RAPTAKOS BRETT & CO. LTD.",
+    "brandMrp": "478.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.74"
+  },
+  {
+    "brandName": "THREPTIN",
+    "packSize": "250",
+    "company": "RAPTAKOS BRETT & CO. LTD.",
+    "brandMrp": "444.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.78"
+  },
+  {
+    "brandName": "PROHANCE D",
+    "packSize": "250",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "467.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.87"
+  },
+  {
+    "brandName": "THREPTIN LITE",
+    "packSize": "50",
+    "company": "RAPTAKOS BRETT & CO. LTD.",
+    "brandMrp": "98.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.97"
+  },
+  {
+    "brandName": "KETOGRACE",
+    "packSize": "250",
+    "company": "BIOKINDLE LIFESCIENCES PVT. LTD",
+    "brandMrp": "499.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.00"
+  },
+  {
+    "brandName": "NUBICS SF",
+    "packSize": "250",
+    "company": "JUBILANT GENERICS LIMITED",
+    "brandMrp": "526.77",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.11"
+  },
+  {
+    "brandName": "NUTRIRIGHT MOM",
+    "packSize": "200",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "530.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.65"
+  }
+]

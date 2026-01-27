@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "FERTILIX",
+    "packSize": "10",
+    "company": "INNOVCARE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "790.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "79.03"
+  },
+  {
+    "brandName": "ULTRA Q",
+    "packSize": "15",
+    "company": "MEYER ORGANICS PVT. LTD",
+    "brandMrp": "1500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "100.00"
+  },
+  {
+    "brandName": "COQ",
+    "packSize": "10",
+    "company": "UNIVERSAL NUTRISCIENCE PVT LTD",
+    "brandMrp": "1304.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "130.40"
+  },
+  {
+    "brandName": "COQ",
+    "packSize": "15",
+    "company": "UNIVERSAL NUTRISCIENCE PVT LTD",
+    "brandMrp": "1997.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "133.13"
+  }
+]

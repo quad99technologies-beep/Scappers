@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "ALLERCROM",
+    "packSize": "5",
+    "company": "FDC LTD.",
+    "brandMrp": "42.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.46"
+  },
+  {
+    "brandName": "CROMOL (CIP)",
+    "packSize": "5",
+    "company": "CIPLA LTD.",
+    "brandMrp": "46.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.20"
+  }
+]

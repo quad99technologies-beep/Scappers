@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "TERADERM",
+    "packSize": "100",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "237.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.37"
+  },
+  {
+    "brandName": "TEXIFEN",
+    "packSize": "30",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "99.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.30"
+  },
+  {
+    "brandName": "TERBINAFORCE",
+    "packSize": "30",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "123.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.12"
+  }
+]

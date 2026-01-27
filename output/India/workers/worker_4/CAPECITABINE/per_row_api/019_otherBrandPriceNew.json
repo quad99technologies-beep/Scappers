@@ -1,0 +1,210 @@
+[
+  {
+    "brandName": "RELICITABLETINE",
+    "packSize": "1",
+    "company": "RELIANCE LIFE SCIENCE",
+    "brandMrp": "1.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.25"
+  },
+  {
+    "brandName": "CAPECITABINE",
+    "packSize": "120",
+    "company": "CIPLA LTD.",
+    "brandMrp": "1153.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.62"
+  },
+  {
+    "brandName": "BDOCIN",
+    "packSize": "10",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "562.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.25"
+  },
+  {
+    "brandName": "CAPEGARD",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "839.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "83.94"
+  },
+  {
+    "brandName": "DISTAMINE",
+    "packSize": "10",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "975.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "97.55"
+  },
+  {
+    "brandName": "CAPNAT",
+    "packSize": "10",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "1044.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "104.44"
+  },
+  {
+    "brandName": "CAPIIBINE",
+    "packSize": "30",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "3166.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "105.56"
+  },
+  {
+    "brandName": "CAPIIBINE",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "1073.89",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "107.39"
+  },
+  {
+    "brandName": "CAPETA NOVA",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "1125.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "112.59"
+  },
+  {
+    "brandName": "CAPOSTAT",
+    "packSize": "10",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "1125.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "112.59"
+  },
+  {
+    "brandName": "CAXETA",
+    "packSize": "4",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "450.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "112.59"
+  },
+  {
+    "brandName": "PRO 5",
+    "packSize": "10",
+    "company": "VIATRIS",
+    "brandMrp": "1173.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "117.30"
+  },
+  {
+    "brandName": "CAPITAB",
+    "packSize": "10",
+    "company": "AUREATE HEALTHCARE PVT.LTD",
+    "brandMrp": "1175.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "117.50"
+  },
+  {
+    "brandName": "CACIT",
+    "packSize": "10",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "1183.41",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "118.34"
+  },
+  {
+    "brandName": "CAPEZAM",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "1184.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "118.47"
+  },
+  {
+    "brandName": "CAPETERO",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "1203.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "120.36"
+  },
+  {
+    "brandName": "CAPEHOPE",
+    "packSize": "10",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "1204.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "120.40"
+  },
+  {
+    "brandName": "CAPCEL",
+    "packSize": "10",
+    "company": "CELON LABS",
+    "brandMrp": "1231.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "123.10"
+  },
+  {
+    "brandName": "XECAP",
+    "packSize": "10",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "1253.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "125.32"
+  },
+  {
+    "brandName": "XELODA",
+    "packSize": "10",
+    "company": "ROCHE",
+    "brandMrp": "1262.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "126.21"
+  },
+  {
+    "brandName": "ZOCITAB",
+    "packSize": "10",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "1262.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "126.21"
+  },
+  {
+    "brandName": "CAPECAD",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "1262.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "126.24"
+  },
+  {
+    "brandName": "CAPECITE",
+    "packSize": "8",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "1009.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "126.24"
+  },
+  {
+    "brandName": "CAPXCEL",
+    "packSize": "10",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "1536.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "153.60"
+  },
+  {
+    "brandName": "CAPODA",
+    "packSize": "10",
+    "company": "ZEE LABORATORIES",
+    "brandMrp": "1599.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "159.90"
+  },
+  {
+    "brandName": "CITABIN",
+    "packSize": "10",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "1695.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "169.50"
+  }
+]

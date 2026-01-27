@@ -1,0 +1,146 @@
+[
+  {
+    "brandName": "CISCURE",
+    "packSize": "10",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "86.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.60"
+  },
+  {
+    "brandName": "SETOVA",
+    "packSize": "5",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "1050.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "210.00"
+  },
+  {
+    "brandName": "CETROTIDE (MERCK)",
+    "packSize": "7",
+    "company": "MERCK SPECIALITIES PVT.LTD",
+    "brandMrp": "2272.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "324.57"
+  },
+  {
+    "brandName": "CETNINE",
+    "packSize": "1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "1026.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1026.78"
+  },
+  {
+    "brandName": "CISCURE",
+    "packSize": "2",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "2108.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1054.15"
+  },
+  {
+    "brandName": "XCYTRIN",
+    "packSize": "1",
+    "company": "VHB LIFE SCIENCES LIMITED",
+    "brandMrp": "1386.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1386.00"
+  },
+  {
+    "brandName": "CETNOSURGE",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "1500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1500.00"
+  },
+  {
+    "brandName": "SANROX",
+    "packSize": "1",
+    "company": "SANZYME LTD",
+    "brandMrp": "1507.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1507.66"
+  },
+  {
+    "brandName": "CETROLAN",
+    "packSize": "1",
+    "company": "VIATRIS",
+    "brandMrp": "1517.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1517.86"
+  },
+  {
+    "brandName": "SETROSIL",
+    "packSize": "1",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "brandMrp": "1545.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1545.00"
+  },
+  {
+    "brandName": "CETROLIX",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "1630.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1630.31"
+  },
+  {
+    "brandName": "ASPORELIX",
+    "packSize": "1",
+    "company": "BHARAT SERUMS & VACCINES LTD",
+    "brandMrp": "1648.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1648.25"
+  },
+  {
+    "brandName": "CETROCARE",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "1708.78",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1708.78"
+  },
+  {
+    "brandName": "EURELIX",
+    "packSize": "1",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "1824.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1824.72"
+  },
+  {
+    "brandName": "ANTAGRELIX",
+    "packSize": "1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "1873.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1873.13"
+  },
+  {
+    "brandName": "OVUCET",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "2109.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2109.63"
+  },
+  {
+    "brandName": "CETROTIDE (SERUM)",
+    "packSize": "1",
+    "company": "SERUM INSTITUTE OF INDIA LTD",
+    "brandMrp": "2184.61",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2184.61"
+  },
+  {
+    "brandName": "CETROPRO",
+    "packSize": "0",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "2200.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2200.00"
+  }
+]

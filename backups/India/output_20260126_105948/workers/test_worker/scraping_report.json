@@ -1,0 +1,15 @@
+{
+  "scraper": "India",
+  "worker": "main",
+  "timestamp": "2026-01-26T10:57:15",
+  "duration_seconds": 136.28,
+  "formulations_input": 1,
+  "formulations_success": 1,
+  "formulations_zero": 0,
+  "formulations_failed": 0,
+  "stats": {
+    "total_medicines": 52,
+    "total_substitutes": 300,
+    "errors": 0
+  }
+}

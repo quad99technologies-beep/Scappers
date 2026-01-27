@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "TACHYRA",
+    "packSize": "3",
+    "company": "CIPLA LTD.",
+    "brandMrp": "63.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.11"
+  },
+  {
+    "brandName": "CORDARONE",
+    "packSize": "3",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "66.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.18"
+  },
+  {
+    "brandName": "AMIODON",
+    "packSize": "3",
+    "company": "VHB LIFE SCIENCES LIMITED",
+    "brandMrp": "67.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.56"
+  },
+  {
+    "brandName": "DURON",
+    "packSize": "3",
+    "company": "SAMARTH LIFE SCIENCES PVT LTD",
+    "brandMrp": "67.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.56"
+  }
+]

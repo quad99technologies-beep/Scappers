@@ -1,0 +1,162 @@
+[
+  {
+    "brandName": "REBOZEN",
+    "packSize": "10",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "80.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.00"
+  },
+  {
+    "brandName": "RAB",
+    "packSize": "10",
+    "company": "KHANDELWAL LABORATORIES LTD",
+    "brandMrp": "91.74",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.17"
+  },
+  {
+    "brandName": "RABEMAC",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "105.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.55"
+  },
+  {
+    "brandName": "RABIFAST",
+    "packSize": "10",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "145.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.51"
+  },
+  {
+    "brandName": "RABLET",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "163.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.33"
+  },
+  {
+    "brandName": "RABELOC",
+    "packSize": "5",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "110.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.03"
+  },
+  {
+    "brandName": "VELOZ",
+    "packSize": "5",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "144.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.94"
+  },
+  {
+    "brandName": "RAPEED",
+    "packSize": "5",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "237.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "47.43"
+  },
+  {
+    "brandName": "REKOOL",
+    "packSize": "2",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "112.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.07"
+  },
+  {
+    "brandName": "RABIMOR",
+    "packSize": "1",
+    "company": "ST. MORRISON",
+    "brandMrp": "58.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.80"
+  },
+  {
+    "brandName": "ARORAB",
+    "packSize": "1",
+    "company": "AAREEN HEALTHCARE",
+    "brandMrp": "71.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "71.56"
+  },
+  {
+    "brandName": "RABSIG",
+    "packSize": "1",
+    "company": "SIGNOVA PHARMA (P) LTD",
+    "brandMrp": "91.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "91.88"
+  },
+  {
+    "brandName": "CBRAB",
+    "packSize": "1",
+    "company": "CHANDRA BHAGAT PHARMA PVT. LTD.",
+    "brandMrp": "114.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "114.29"
+  },
+  {
+    "brandName": "RABIET",
+    "packSize": "1",
+    "company": "JB CHEMICALS",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "125.00"
+  },
+  {
+    "brandName": "DAZOL",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "134.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "134.50"
+  },
+  {
+    "brandName": "RABICIP",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "142.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "142.94"
+  },
+  {
+    "brandName": "HAPPI",
+    "packSize": "1",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "167.17",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "167.17"
+  },
+  {
+    "brandName": "PEPTARD",
+    "packSize": "1",
+    "company": "INDCHEMIE HEALTH SPECIALITIES PVT. LTD.",
+    "brandMrp": "208.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "208.13"
+  },
+  {
+    "brandName": "AKURAB",
+    "packSize": "1",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "223.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "223.21"
+  },
+  {
+    "brandName": "REBEZ",
+    "packSize": "1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "387.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "387.15"
+  }
+]

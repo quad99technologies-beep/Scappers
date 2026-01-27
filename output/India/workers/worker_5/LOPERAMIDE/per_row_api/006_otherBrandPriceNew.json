@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "LOPERAMIDE",
+    "packSize": "10",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "11.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.19"
+  },
+  {
+    "brandName": "LOPERAMIDE (CADILA PHARMA)",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "11.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.19"
+  },
+  {
+    "brandName": "LUPIDIUM",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "13.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.38"
+  },
+  {
+    "brandName": "DIARLOP",
+    "packSize": "10",
+    "company": "JAGSONPAL PHARMACEUTICALS LTD",
+    "brandMrp": "17.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.72"
+  },
+  {
+    "brandName": "LOOPRA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "19.01",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.90"
+  },
+  {
+    "brandName": "LOPIDUS",
+    "packSize": "10",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "21.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.13"
+  },
+  {
+    "brandName": "ROKO",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "24.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.43"
+  },
+  {
+    "brandName": "LOPMIDE",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "30.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.00"
+  },
+  {
+    "brandName": "IMODIUM",
+    "packSize": "4",
+    "company": "JANSSEN",
+    "brandMrp": "16.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.00"
+  },
+  {
+    "brandName": "LOPRAPIL",
+    "packSize": "10",
+    "company": "PSYCHOTROPICS INDIA LTD",
+    "brandMrp": "44.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.46"
+  }
+]

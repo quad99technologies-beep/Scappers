@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "FOLISPOR SB",
+    "packSize": "1",
+    "company": "DEPSONS PHARMA",
+    "brandMrp": "33.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.81"
+  },
+  {
+    "brandName": "PRIFOLAC",
+    "packSize": "1",
+    "company": "MATTEO HEALTHCARE PVT.LTD",
+    "brandMrp": "35.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.00"
+  },
+  {
+    "brandName": "SACRUM",
+    "packSize": "1",
+    "company": "ZERICO LIFESCIENCES PVT.LTD",
+    "brandMrp": "40.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.04"
+  },
+  {
+    "brandName": "ESONORM",
+    "packSize": "1",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "68.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "68.97"
+  }
+]

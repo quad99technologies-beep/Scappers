@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "LB 1",
+    "packSize": "10",
+    "company": "PHARMASYNTH FORMULATIONS (P) LTD",
+    "brandMrp": "12.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.25"
+  },
+  {
+    "brandName": "LACTOFAB",
+    "packSize": "20",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "75.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.75"
+  },
+  {
+    "brandName": "SPORLAC DS",
+    "packSize": "25",
+    "company": "JB CHEMICALS",
+    "brandMrp": "224.16",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.97"
+  },
+  {
+    "brandName": "SPORLAC DS",
+    "packSize": "20",
+    "company": "JB CHEMICALS",
+    "brandMrp": "217.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.87"
+  }
+]

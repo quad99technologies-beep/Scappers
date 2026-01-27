@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "LOWSTEROL",
+    "packSize": "10",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "SIMLO",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "62.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.20"
+  },
+  {
+    "brandName": "ZOSTA",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "62.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.23"
+  }
+]

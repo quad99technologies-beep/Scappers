@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "BDPOMA",
+    "packSize": "21",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "12.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.60"
+  },
+  {
+    "brandName": "POMIDE",
+    "packSize": "21",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "3178.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "151.34"
+  },
+  {
+    "brandName": "POMALID",
+    "packSize": "21",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "3955.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "188.38"
+  }
+]

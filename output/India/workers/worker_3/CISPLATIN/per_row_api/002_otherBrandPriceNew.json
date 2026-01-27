@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "STRITIN",
+    "packSize": "50",
+    "company": "VIATRIS",
+    "brandMrp": "319.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.38"
+  },
+  {
+    "brandName": "CIZCAN",
+    "packSize": "50",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "371.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.43"
+  },
+  {
+    "brandName": "CISTERO",
+    "packSize": "50",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "377.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.56"
+  }
+]

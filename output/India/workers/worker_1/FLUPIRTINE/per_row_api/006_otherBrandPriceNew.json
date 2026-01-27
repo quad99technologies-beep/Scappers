@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "RETENSE",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "79.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.98"
+  },
+  {
+    "brandName": "EXPIRTIN",
+    "packSize": "10",
+    "company": "ARISTO PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "86.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.61"
+  },
+  {
+    "brandName": "FLIT",
+    "packSize": "10",
+    "company": "SIGMUND PROMEDICA",
+    "brandMrp": "87.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.72"
+  },
+  {
+    "brandName": "SNEPDOL",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "89.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.90"
+  },
+  {
+    "brandName": "PRUF",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "92.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.20"
+  },
+  {
+    "brandName": "FLUPIRIN",
+    "packSize": "10",
+    "company": "SOLIS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "121.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.10"
+  },
+  {
+    "brandName": "EXOTIN",
+    "packSize": "10",
+    "company": "GALAXUS PHARMAECUTICALS",
+    "brandMrp": "121.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.19"
+  },
+  {
+    "brandName": "VIOTENSE",
+    "packSize": "10",
+    "company": "GENTECH HEALTCARE LTD",
+    "brandMrp": "122.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.20"
+  },
+  {
+    "brandName": "FLUPIRZA",
+    "packSize": "10",
+    "company": "ICON LIFESCIENCES",
+    "brandMrp": "131.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.13"
+  },
+  {
+    "brandName": "VASFREE",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "135.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.59"
+  },
+  {
+    "brandName": "KATADOL",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "138.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.81"
+  },
+  {
+    "brandName": "LUPIRTIN",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "164.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.43"
+  }
+]

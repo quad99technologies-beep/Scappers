@@ -1,0 +1,138 @@
+[
+  {
+    "brandName": "LACTOLOOK",
+    "packSize": "200",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "127.04",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.64"
+  },
+  {
+    "brandName": "LIVOLAX",
+    "packSize": "200",
+    "company": "GALPHA LABORATORIES LTD",
+    "brandMrp": "137.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.69"
+  },
+  {
+    "brandName": "LACTULOOZ (STE)",
+    "packSize": "200",
+    "company": "STERIS HEALTHCARE",
+    "brandMrp": "155.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.78"
+  },
+  {
+    "brandName": "ZENLAC",
+    "packSize": "100",
+    "company": "ZEN LABS INDIA",
+    "brandMrp": "88.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.88"
+  },
+  {
+    "brandName": "LACTULOOZ (STE)",
+    "packSize": "100",
+    "company": "STERIS HEALTHCARE",
+    "brandMrp": "90.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.90"
+  },
+  {
+    "brandName": "MOVOLUK",
+    "packSize": "100",
+    "company": "MASCOT HEALTH SERIES PVT LTD",
+    "brandMrp": "96.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.96"
+  },
+  {
+    "brandName": "TRIOLAX",
+    "packSize": "200",
+    "company": "TRIPADA LIFECARE PVT.LTD",
+    "brandMrp": "195.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.98"
+  },
+  {
+    "brandName": "LACTOHEAL",
+    "packSize": "150",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "173.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.15"
+  },
+  {
+    "brandName": "DARIX",
+    "packSize": "200",
+    "company": "ST. MORRISON",
+    "brandMrp": "234.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.17"
+  },
+  {
+    "brandName": "LACTOLOOK",
+    "packSize": "100",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "129.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "VIALAC",
+    "packSize": "150",
+    "company": "EYSYS PHARMACEUTICAL PVT LTD",
+    "brandMrp": "193.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.29"
+  },
+  {
+    "brandName": "BIOLAC (UNITED)",
+    "packSize": "200",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "262.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "RELYZ",
+    "packSize": "200",
+    "company": "RESERCA HEALTH CARE PVT.LTD",
+    "brandMrp": "262.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.31"
+  },
+  {
+    "brandName": "CUROLAX",
+    "packSize": "200",
+    "company": "CUROSIS HEALTHCARE PVT.LTD",
+    "brandMrp": "268.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.34"
+  },
+  {
+    "brandName": "DUPHALAC RAPID",
+    "packSize": "275",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "381.15",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.39"
+  },
+  {
+    "brandName": "DARIX",
+    "packSize": "100",
+    "company": "ST. MORRISON",
+    "brandMrp": "149.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.50"
+  },
+  {
+    "brandName": "GUTHUSK",
+    "packSize": "160",
+    "company": "ZERICO LIFESCIENCES PVT.LTD",
+    "brandMrp": "371.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.32"
+  }
+]

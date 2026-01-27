@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "TRELAHENZ",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "567.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "56.72"
+  },
+  {
+    "brandName": "ONETRELA",
+    "packSize": "4",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "393.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "98.44"
+  },
+  {
+    "brandName": "TRELAVEL",
+    "packSize": "4",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "393.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "98.44"
+  }
+]

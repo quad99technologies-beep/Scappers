@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521004457@76813@101108647@3049@101060@200587",
+    "skuName": "ACTILYSE 20 MG INFUSION 20 ML",
+    "composition": "ALTEPLASE INFUSION 20 MG",
+    "packSize": "20 ML INFUSION",
+    "dosageForm": "INFUSION",
+    "ceilingPrice": "-1",
+    "company": "BOEHRINGER INGELHEIM",
+    "scheduleFlag": "0",
+    "mrp": "23906.25",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1195.31"
+  },
+  {
+    "hiddenId": "1521004459@108970@101108647@3791@101068@200587",
+    "skuName": "ACTILYSE 50 MG INJECTION 50 ML",
+    "composition": "ALTEPLASE INJECTION 50 MG",
+    "packSize": "50 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "BOEHRINGER INGELHEIM",
+    "scheduleFlag": "0",
+    "mrp": "49921.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "998.42"
+  }
+]

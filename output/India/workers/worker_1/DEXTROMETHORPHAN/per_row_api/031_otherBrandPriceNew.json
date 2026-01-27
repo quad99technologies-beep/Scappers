@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "COFSILS DRY COUGH",
+    "packSize": "100",
+    "company": "CIPLA LTD.",
+    "brandMrp": "97.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.98"
+  },
+  {
+    "brandName": "NAM COLD DX",
+    "packSize": "100",
+    "company": "LINCOLN PHARMACEUTICALS LTD",
+    "brandMrp": "138.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.38"
+  },
+  {
+    "brandName": "BENADRYL DR",
+    "packSize": "50",
+    "company": "JOHNSON & JOHNSON",
+    "brandMrp": "84.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.68"
+  }
+]

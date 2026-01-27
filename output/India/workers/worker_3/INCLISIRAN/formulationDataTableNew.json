@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521136929@9999996115@101227463@14085@101068@208189",
+    "skuName": "CRENZLO 284 MG INJECTION 1.5 ML",
+    "composition": "INCLISIRAN INJECTION 284 MG",
+    "packSize": "1.5 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "101514.28",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50757.14"
+  },
+  {
+    "hiddenId": "1521134262@9999998772@101224966@14085@101068@208189",
+    "skuName": "SYBRAVA LISY 284 MG INJECTION 1.5 ML",
+    "composition": "INCLISIRAN INJECTION 284 MG",
+    "packSize": "1.5 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "NOVARTIS INDIA LTD",
+    "scheduleFlag": "0",
+    "mrp": "111600.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "55800.00"
+  },
+  {
+    "hiddenId": "1521136880@9999996536@101227835@14085@101004@208189",
+    "skuName": "TILPAZAN 284 MG PREFILLED SYRINGE 1.5 ML",
+    "composition": "INCLISIRAN PREFILLED SYRINGE 284 MG",
+    "packSize": "1.5 ML PREFILLED SYRINGE",
+    "dosageForm": "PREFILLED SYRINGE",
+    "ceilingPrice": "-1",
+    "company": "LUPIN LTD",
+    "scheduleFlag": "0",
+    "mrp": "101473.20",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50736.60"
+  }
+]

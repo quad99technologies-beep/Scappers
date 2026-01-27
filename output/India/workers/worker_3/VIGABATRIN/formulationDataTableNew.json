@@ -1,0 +1,30 @@
+[
+  {
+    "hiddenId": "1521090469@336919@101189182@3755@101018@206356",
+    "skuName": "VIBY 500 MG SACHET 1",
+    "composition": "VIGABATRIN SACHET 500 MG",
+    "packSize": "1 SACHET",
+    "dosageForm": "SACHET",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "74.06",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "74.06"
+  },
+  {
+    "hiddenId": "1521095763@345916@101191120@3755@101018@206356",
+    "skuName": "VIGANEXT 500 MG SACHET 1",
+    "composition": "VIGABATRIN SACHET 500 MG",
+    "packSize": "1 SACHET",
+    "dosageForm": "SACHET",
+    "ceilingPrice": "-1",
+    "company": "MSN LABORATORIES LTD",
+    "scheduleFlag": "0",
+    "mrp": "74.63",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "74.63"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "RAZOCON",
+    "packSize": "10",
+    "company": "CONSERN PHARMA (P) LTD",
+    "brandMrp": "24.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.40"
+  },
+  {
+    "brandName": "TRAZE",
+    "packSize": "10",
+    "company": "LA PHARMACEUTICALS",
+    "brandMrp": "35.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.57"
+  },
+  {
+    "brandName": "TRAZA",
+    "packSize": "10",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "45.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.57"
+  },
+  {
+    "brandName": "TRIDON",
+    "packSize": "10",
+    "company": "TRIPADA HEALTHCARE PVT LTD",
+    "brandMrp": "49.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.90"
+  },
+  {
+    "brandName": "TRAZARIL",
+    "packSize": "10",
+    "company": "RELIANCE FORMULATION PVT LTD",
+    "brandMrp": "61.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.19"
+  },
+  {
+    "brandName": "TRIPAX",
+    "packSize": "10",
+    "company": "ALTEUS BIOGENICS PVT.LTD.",
+    "brandMrp": "68.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.83"
+  }
+]

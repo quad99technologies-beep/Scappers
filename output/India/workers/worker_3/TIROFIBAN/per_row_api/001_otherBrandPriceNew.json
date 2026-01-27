@@ -1,0 +1,50 @@
+[
+  {
+    "brandName": "TIROFUSE",
+    "packSize": "100",
+    "company": "LUPIN LTD",
+    "brandMrp": "4790.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "47.91"
+  },
+  {
+    "brandName": "TIROBAN",
+    "packSize": "100",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "6358.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "63.58"
+  },
+  {
+    "brandName": "TEROFIB",
+    "packSize": "100",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "6380.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "63.80"
+  },
+  {
+    "brandName": "GP2BAN",
+    "packSize": "100",
+    "company": "GLAND PHARMA LIMITED",
+    "brandMrp": "6520.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.20"
+  },
+  {
+    "brandName": "FIBROBAN",
+    "packSize": "100",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "7889.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "78.89"
+  },
+  {
+    "brandName": "AGGRIBLOC",
+    "packSize": "100",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "9516.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "95.16"
+  }
+]

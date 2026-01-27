@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "EKOL",
+    "packSize": "10",
+    "company": "ST. MORRISON",
+    "brandMrp": "79.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.99"
+  },
+  {
+    "brandName": "FUSTAT",
+    "packSize": "10",
+    "company": "RELY ON PHARMACEUTICALS",
+    "brandMrp": "105.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.50"
+  }
+]

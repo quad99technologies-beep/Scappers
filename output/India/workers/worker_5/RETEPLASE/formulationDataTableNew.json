@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521048750@164960@101151828@2852@101016@200585",
+    "skuName": "MIREL 18 MG KIT 1",
+    "composition": "RETEPLASE KIT 18 MG",
+    "packSize": "1 KIT",
+    "dosageForm": "KIT",
+    "ceilingPrice": "-1",
+    "company": "RELIANCE LIFE SCIENCE",
+    "scheduleFlag": "0",
+    "mrp": "21931.25",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21931.25"
+  },
+  {
+    "hiddenId": "1521069837@220296@101170458@2852@101068@200585",
+    "skuName": "RETEFAST KIT 18 MG INJECTION 10 ML",
+    "composition": "RETEPLASE INJECTION 18 MG",
+    "packSize": "10 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "CIPLA LTD.",
+    "scheduleFlag": "0",
+    "mrp": "35651.78",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3565.18"
+  },
+  {
+    "hiddenId": "1521075685@201402@101170459@2852@101068@200585",
+    "skuName": "RETEFUSE 18 MG INJECTION 1",
+    "composition": "RETEPLASE INJECTION 18 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "LUPIN LTD",
+    "scheduleFlag": "0",
+    "mrp": "43417.60",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43417.60"
+  },
+  {
+    "hiddenId": "1521092993@184737@101170467@2852@101068@200585",
+    "skuName": "RETELEX KIT 18 MG INJECTION 2",
+    "composition": "RETEPLASE INJECTION 18 MG",
+    "packSize": "2 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "scheduleFlag": "0",
+    "mrp": "44838.92",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22419.46"
+  }
+]

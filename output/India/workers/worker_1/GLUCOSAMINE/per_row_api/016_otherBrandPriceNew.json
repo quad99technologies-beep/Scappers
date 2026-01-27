@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "WAKFREE OD",
+    "packSize": "10",
+    "company": "AKESISS PHARMA (P) LTD",
+    "brandMrp": "119.53",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.95"
+  },
+  {
+    "brandName": "MAX-GM OD",
+    "packSize": "30",
+    "company": "JUPITER PHARMACEUTICALS",
+    "brandMrp": "514.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.13"
+  },
+  {
+    "brandName": "KONDRO OD",
+    "packSize": "10",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "186.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.66"
+  },
+  {
+    "brandName": "LUBRIJOINT",
+    "packSize": "30",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "562.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "CARTIGEN",
+    "packSize": "15",
+    "company": "PHARMED LTD",
+    "brandMrp": "318.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.25"
+  }
+]

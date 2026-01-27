@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "GFLOTAS",
+    "packSize": "5",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "45.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "QUGAT",
+    "packSize": "5",
+    "company": "SYNTHO PHARMACEUTICALS (P) LTD.",
+    "brandMrp": "93.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.75"
+  },
+  {
+    "brandName": "ZYMAR",
+    "packSize": "5",
+    "company": "ALLERGAN INDIA LTD",
+    "brandMrp": "105.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.10"
+  },
+  {
+    "brandName": "V GAT",
+    "packSize": "5",
+    "company": "VARROC LIFESCIENCES",
+    "brandMrp": "115.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.00"
+  },
+  {
+    "brandName": "GATE (AJANTA)",
+    "packSize": "5",
+    "company": "AJANTA PHARMA LTD",
+    "brandMrp": "117.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.53"
+  }
+]

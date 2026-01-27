@@ -1,0 +1,58 @@
+[
+  {
+    "hiddenId": "1521017259@243152@101112764@3879@101068@201793",
+    "skuName": "CARFILNAT 60 MG INJECTION 1",
+    "composition": "CARFILZOMIB INJECTION 60 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "NATCO PHARMA LTD",
+    "scheduleFlag": "0",
+    "mrp": "9365.63",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9365.63"
+  },
+  {
+    "hiddenId": "1521096218@346740@101191566@3879@101068@201793",
+    "skuName": "CARFIZOME 60 MG INJECTION 1",
+    "composition": "CARFILZOMIB INJECTION 60 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "11332.27",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11332.27"
+  },
+  {
+    "hiddenId": "1521153876@9999999937@101143246@3460@101068@201793",
+    "skuName": "KYPROLIS 30 MG INJECTION 1",
+    "composition": "CARFILZOMIB INJECTION 30 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "scheduleFlag": "0",
+    "mrp": "22184.06",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22184.06"
+  },
+  {
+    "hiddenId": "1521040021@244964@101143246@3879@101068@201793",
+    "skuName": "KYPROLIS 60 MG INJECTION 1",
+    "composition": "CARFILZOMIB INJECTION 60 MG",
+    "packSize": "1 INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "scheduleFlag": "0",
+    "mrp": "44367.19",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44367.19"
+  }
+]

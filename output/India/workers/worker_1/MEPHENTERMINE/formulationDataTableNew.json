@@ -1,0 +1,72 @@
+[
+  {
+    "hiddenId": "1521047029@288927@101150123@3460@101068@200729",
+    "skuName": "MEPHENTERMINE SULPHATE IP 30 MG INJECTION 10 ML",
+    "composition": "MEPHENTERMINE INJECTION 30 MG",
+    "packSize": "10 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "304.01",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.40"
+  },
+  {
+    "hiddenId": "1521102888@349633@101195107@3460@101068@200729",
+    "skuName": "MEPHNOR 30 MG INJECTION 10 ML",
+    "composition": "MEPHENTERMINE INJECTION 30 MG",
+    "packSize": "10 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "CELON LABS",
+    "scheduleFlag": "0",
+    "mrp": "318.00",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "31.80"
+  },
+  {
+    "hiddenId": "1521089967@171935@101188772@2744@101068@200729",
+    "skuName": "TERMIN 15 MG INJECTION 1 ML",
+    "composition": "MEPHENTERMINE INJECTION 15 MG",
+    "packSize": "1 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "NEON LABORATORIES LTD",
+    "scheduleFlag": "0",
+    "mrp": "22.86",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.86"
+  },
+  {
+    "hiddenId": "1521090024@37299@101188772@3460@101068@200729",
+    "skuName": "TERMIN 30 MG INJECTION 10 ML",
+    "composition": "MEPHENTERMINE INJECTION 30 MG",
+    "packSize": "10 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "NEON LABORATORIES LTD",
+    "scheduleFlag": "0",
+    "mrp": "390.40",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.04"
+  },
+  {
+    "hiddenId": "1521147925@9999997460@101239271@3460@101068@200729",
+    "skuName": "THEMICAR 30 MG INJECTION 10 ML",
+    "composition": "MEPHENTERMINE INJECTION 30 MG",
+    "packSize": "10 ML INJECTION",
+    "dosageForm": "INJECTION",
+    "ceilingPrice": "-1",
+    "company": "THEMIS MEDICARE LTD.",
+    "scheduleFlag": "0",
+    "mrp": "331.24",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.12"
+  }
+]

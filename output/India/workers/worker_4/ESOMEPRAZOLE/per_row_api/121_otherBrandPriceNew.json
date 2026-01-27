@@ -1,0 +1,114 @@
+[
+  {
+    "brandName": "ESOPRZ",
+    "packSize": "10",
+    "company": "ZYPHARS PHARMACEUTICS PVT. LTD",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "ESOSWAG",
+    "packSize": "10",
+    "company": "SIGNITY PHARMACEUTICALS PVT LTD",
+    "brandMrp": "170.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.00"
+  },
+  {
+    "brandName": "ESOL",
+    "packSize": "10",
+    "company": "AKUMENTIS HEALTHCARE LTD",
+    "brandMrp": "212.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.22"
+  },
+  {
+    "brandName": "RACIPER",
+    "packSize": "5",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "106.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.38"
+  },
+  {
+    "brandName": "ESOFIC",
+    "packSize": "1",
+    "company": "GUFIC BIOSCIENCE LTD",
+    "brandMrp": "96.42",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "96.42"
+  },
+  {
+    "brandName": "NEXLIFE",
+    "packSize": "1",
+    "company": "TRIPADA LIFECARE PVT.LTD",
+    "brandMrp": "98.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "98.21"
+  },
+  {
+    "brandName": "YESOM",
+    "packSize": "1",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "98.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "98.21"
+  },
+  {
+    "brandName": "ESILOC",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "111.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "111.09"
+  },
+  {
+    "brandName": "JUPICID",
+    "packSize": "1",
+    "company": "JUPITER BIOLABS PVT.LTD",
+    "brandMrp": "111.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "111.56"
+  },
+  {
+    "brandName": "ESCEROL",
+    "packSize": "1",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "158.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "158.40"
+  },
+  {
+    "brandName": "NEXPRO",
+    "packSize": "1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "159.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "159.35"
+  },
+  {
+    "brandName": "ESOZ",
+    "packSize": "1",
+    "company": "INTEGRACE HEALTH",
+    "brandMrp": "176.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "176.25"
+  },
+  {
+    "brandName": "ESOMAC",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "185.39",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "185.39"
+  },
+  {
+    "brandName": "YEES",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "190.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "190.30"
+  }
+]

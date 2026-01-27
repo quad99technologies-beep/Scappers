@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "AFANAT",
+    "packSize": "28",
+    "company": "NATCO PHARMA LTD",
+    "brandMrp": "5278.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "188.50"
+  },
+  {
+    "brandName": "AFZETA",
+    "packSize": "30",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "5910.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "197.00"
+  },
+  {
+    "brandName": "AFATIN",
+    "packSize": "28",
+    "company": "BDR PHARMACEUTICALS INTERNATIONALS PVT. LTD",
+    "brandMrp": "5625.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "200.89"
+  },
+  {
+    "brandName": "AFZANNA",
+    "packSize": "28",
+    "company": "CELON LABS",
+    "brandMrp": "7470.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "266.79"
+  },
+  {
+    "brandName": "XOVOLTIB",
+    "packSize": "7",
+    "company": "BOEHRINGER INGELHEIM",
+    "brandMrp": "13825.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1975.08"
+  }
+]

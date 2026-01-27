@@ -1,0 +1,72 @@
+[
+  {
+    "hiddenId": "1521063636@319319@101170028@1846@101006@200007",
+    "skuName": "REMO 100 MG TABLET 15",
+    "composition": "REMOGLIFLOZIN TABLET 100 MG",
+    "packSize": "15 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "220.31",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.69"
+  },
+  {
+    "hiddenId": "1521067857@318922@101195929@1846@101006@200007",
+    "skuName": "REMO-ZEN 100 MG TABLET 15",
+    "composition": "REMOGLIFLOZIN TABLET 100 MG",
+    "packSize": "15 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "220.31",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.69"
+  },
+  {
+    "hiddenId": "1521076556@313956@101170100@1846@101006@200007",
+    "skuName": "RENIVA 100 MG TABLET 10",
+    "composition": "REMOGLIFLOZIN TABLET 100 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "scheduleFlag": "0",
+    "mrp": "141.09",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.11"
+  },
+  {
+    "hiddenId": "1521055748@305088@101241651@1846@101006@200007",
+    "skuName": "SGLTR 100 MG TABLET 10",
+    "composition": "REMOGLIFLOZIN TABLET 100 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "157.66",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.77"
+  },
+  {
+    "hiddenId": "1521040120@293630@101143342@1846@101006@200007",
+    "skuName": "ZUCATOR 100 MG TABLET 10",
+    "composition": "REMOGLIFLOZIN TABLET 100 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "156.55",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.66"
+  }
+]

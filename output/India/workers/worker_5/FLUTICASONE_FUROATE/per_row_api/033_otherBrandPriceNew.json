@@ -1,0 +1,82 @@
+[
+  {
+    "brandName": "FLOMIST F",
+    "packSize": "240",
+    "company": "CIPLA LTD.",
+    "brandMrp": "735.93",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.07"
+  },
+  {
+    "brandName": "FURAMIST",
+    "packSize": "240",
+    "company": "CIPLA LTD.",
+    "brandMrp": "735.94",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.07"
+  },
+  {
+    "brandName": "FLUTITROY",
+    "packSize": "120",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "459.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.83"
+  },
+  {
+    "brandName": "FLUTITROY",
+    "packSize": "12",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "459.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.28"
+  },
+  {
+    "brandName": "AIR FZ",
+    "packSize": "6",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "271.85",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.31"
+  },
+  {
+    "brandName": "FURAMIST",
+    "packSize": "7",
+    "company": "CIPLA LTD.",
+    "brandMrp": "384.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.05"
+  },
+  {
+    "brandName": "XYZAL OF",
+    "packSize": "7",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "399.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "57.00"
+  },
+  {
+    "brandName": "AREZY",
+    "packSize": "6",
+    "company": "HEGDE & HEGDE",
+    "brandMrp": "360.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "60.08"
+  },
+  {
+    "brandName": "PEXOFLUT",
+    "packSize": "6",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "360.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "60.09"
+  },
+  {
+    "brandName": "SOLSPRE F",
+    "packSize": "6",
+    "company": "ABBOTT INDIA LTD.",
+    "brandMrp": "467.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "77.97"
+  }
+]

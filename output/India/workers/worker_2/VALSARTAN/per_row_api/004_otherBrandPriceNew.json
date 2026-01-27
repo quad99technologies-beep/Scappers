@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "VALENT",
+    "packSize": "30",
+    "company": "LUPIN LTD",
+    "brandMrp": "223.02",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.43"
+  },
+  {
+    "brandName": "VALEMBIC",
+    "packSize": "10",
+    "company": "ALEMBIC LTD",
+    "brandMrp": "127.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.73"
+  },
+  {
+    "brandName": "VALTAN",
+    "packSize": "10",
+    "company": "KNOLL HEALTHCARE PVT.LTD",
+    "brandMrp": "194.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.40"
+  },
+  {
+    "brandName": "DIOVAN",
+    "packSize": "14",
+    "company": "NOVARTIS INDIA LTD",
+    "brandMrp": "330.45",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "23.60"
+  },
+  {
+    "brandName": "VALZAAR",
+    "packSize": "15",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "371.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.76"
+  }
+]

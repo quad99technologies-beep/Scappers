@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "DROT",
+    "packSize": "10",
+    "company": "MAPRA LABORATORIES PVT. LTD",
+    "brandMrp": "25.97",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.60"
+  },
+  {
+    "brandName": "DROTAVIN",
+    "packSize": "10",
+    "company": "SYNOKEM PHARMACEUTICALS LTD",
+    "brandMrp": "37.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3.78"
+  },
+  {
+    "brandName": "DOVERIN",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "52.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.25"
+  },
+  {
+    "brandName": "SPAN",
+    "packSize": "10",
+    "company": "S.S HEALTH CARE",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.50"
+  },
+  {
+    "brandName": "DIN",
+    "packSize": "10",
+    "company": "MAPRA LABORATORIES PVT. LTD",
+    "brandMrp": "66.98",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.70"
+  },
+  {
+    "brandName": "DROTITEC",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "79.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.97"
+  },
+  {
+    "brandName": "DROTACHEK",
+    "packSize": "15",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "127.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.47"
+  },
+  {
+    "brandName": "SUPADROT",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.67"
+  },
+  {
+    "brandName": "DROTIN",
+    "packSize": "15",
+    "company": "WALTER BUSHNELL",
+    "brandMrp": "144.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.62"
+  }
+]

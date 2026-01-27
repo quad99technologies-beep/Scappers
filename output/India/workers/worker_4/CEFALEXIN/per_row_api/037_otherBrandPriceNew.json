@@ -1,0 +1,98 @@
+[
+  {
+    "brandName": "SPOR",
+    "packSize": "20",
+    "company": "BAL PHARMA",
+    "brandMrp": "120.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "SPOROLIN",
+    "packSize": "10",
+    "company": "FRANKLIN LABORATORIES (INDIA) PVT. LTD.",
+    "brandMrp": "60.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.00"
+  },
+  {
+    "brandName": "CEPHAXIN",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "64.55",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.46"
+  },
+  {
+    "brandName": "CEFTER",
+    "packSize": "10",
+    "company": "GUJARAT TERCE LABORATORIES LTD",
+    "brandMrp": "66.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.60"
+  },
+  {
+    "brandName": "ORIPHEX",
+    "packSize": "10",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "66.73",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.67"
+  },
+  {
+    "brandName": "CEPHADEX",
+    "packSize": "10",
+    "company": "CIPLA LTD.",
+    "brandMrp": "89.21",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.92"
+  },
+  {
+    "brandName": "ROFEX",
+    "packSize": "10",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "107.49",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.75"
+  },
+  {
+    "brandName": "SPORIDEX",
+    "packSize": "10",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "117.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.72"
+  },
+  {
+    "brandName": "PHEXIN",
+    "packSize": "10",
+    "company": "GLAXOSMITHKLINE PHARMACEUTICALS LTD.",
+    "brandMrp": "121.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.15"
+  },
+  {
+    "brandName": "CEFF",
+    "packSize": "10",
+    "company": "LUPIN LTD",
+    "brandMrp": "125.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "CEFALADEX",
+    "packSize": "10",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "130.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.00"
+  },
+  {
+    "brandName": "LX",
+    "packSize": "10",
+    "company": "APEX LABORATORIES LTD.",
+    "brandMrp": "148.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.80"
+  }
+]

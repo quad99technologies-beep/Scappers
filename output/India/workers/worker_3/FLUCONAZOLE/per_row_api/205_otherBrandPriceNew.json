@@ -1,0 +1,274 @@
+[
+  {
+    "brandName": "FLORET",
+    "packSize": "10",
+    "company": "PASTEUR LABORATORIES PVT. LTD.",
+    "brandMrp": "17.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.70"
+  },
+  {
+    "brandName": "FLUTICAN",
+    "packSize": "2",
+    "company": "MONICHEM HEALTHCARE PVT LTD",
+    "brandMrp": "18.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.16"
+  },
+  {
+    "brandName": "FLULITE",
+    "packSize": "1",
+    "company": "MOONSTAR LIFECARE PVT.LTD",
+    "brandMrp": "11.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.30"
+  },
+  {
+    "brandName": "FLUCALUP",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "11.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.60"
+  },
+  {
+    "brandName": "NIXICAN",
+    "packSize": "1",
+    "company": "CANIXA LIFE SCIENCES PVT",
+    "brandMrp": "12.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.00"
+  },
+  {
+    "brandName": "FOLE",
+    "packSize": "1",
+    "company": "UNISON PHARMACEUTICALS",
+    "brandMrp": "14.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.06"
+  },
+  {
+    "brandName": "AF",
+    "packSize": "1",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "15.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.44"
+  },
+  {
+    "brandName": "FLUCONAZ",
+    "packSize": "4",
+    "company": "HEALING PHARMA INDIA PVT.LTD",
+    "brandMrp": "65.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "16.45"
+  },
+  {
+    "brandName": "FLUCOS",
+    "packSize": "2",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "34.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.45"
+  },
+  {
+    "brandName": "CANEX",
+    "packSize": "1",
+    "company": "VANCE & HEALTH PHARMACEUTICALS LTD",
+    "brandMrp": "18.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.00"
+  },
+  {
+    "brandName": "FAZE",
+    "packSize": "1",
+    "company": "MEGHA HEALTHCARE",
+    "brandMrp": "18.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.32"
+  },
+  {
+    "brandName": "FLULESS",
+    "packSize": "1",
+    "company": "SMARTWAY WELLNESS PVT. LTD.",
+    "brandMrp": "18.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.32"
+  },
+  {
+    "brandName": "FUNGICIP",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "18.32",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.32"
+  },
+  {
+    "brandName": "ZOCON",
+    "packSize": "2",
+    "company": "FDC LTD.",
+    "brandMrp": "36.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.32"
+  },
+  {
+    "brandName": "FLUCOWIN (AGGROWIN)",
+    "packSize": "1",
+    "company": "AGGROWIN PHARMA",
+    "brandMrp": "18.33",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.33"
+  },
+  {
+    "brandName": "FLUFRESH",
+    "packSize": "1",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "18.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.50"
+  },
+  {
+    "brandName": "FLUTY",
+    "packSize": "1",
+    "company": "COXSWAIN HEALTHCARE",
+    "brandMrp": "18.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.56"
+  },
+  {
+    "brandName": "FUNGISET",
+    "packSize": "1",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "18.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.57"
+  },
+  {
+    "brandName": "FLUMET (LEEFORD)",
+    "packSize": "1",
+    "company": "LEEFORD HEALTHCARE",
+    "brandMrp": "18.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.58"
+  },
+  {
+    "brandName": "NUFORCE",
+    "packSize": "2",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "37.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.63"
+  },
+  {
+    "brandName": "FCN",
+    "packSize": "2",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "37.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.64"
+  },
+  {
+    "brandName": "FLUCOS",
+    "packSize": "6",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "111.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.64"
+  },
+  {
+    "brandName": "NTFUNG",
+    "packSize": "1",
+    "company": "KIVI LABS LTD",
+    "brandMrp": "18.64",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.64"
+  },
+  {
+    "brandName": "ONECAN",
+    "packSize": "4",
+    "company": "WALLACE PHARMACEUTICALS LTD.",
+    "brandMrp": "74.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.64"
+  },
+  {
+    "brandName": "ZOCON",
+    "packSize": "4",
+    "company": "FDC LTD.",
+    "brandMrp": "74.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.65"
+  },
+  {
+    "brandName": "ZEROCAN",
+    "packSize": "1",
+    "company": "ORGANIC LABORATORIES",
+    "brandMrp": "18.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18.90"
+  },
+  {
+    "brandName": "FLUCREST",
+    "packSize": "4",
+    "company": "SMART LABORATORIES PVT LTD",
+    "brandMrp": "78.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.50"
+  },
+  {
+    "brandName": "ZOCOMAC",
+    "packSize": "2",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "39.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.54"
+  },
+  {
+    "brandName": "FCZOLE",
+    "packSize": "1",
+    "company": "AUSTRO LAB",
+    "brandMrp": "19.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.87"
+  },
+  {
+    "brandName": "INTAWIN",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "201.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.11"
+  },
+  {
+    "brandName": "FUSYS",
+    "packSize": "2",
+    "company": "ZYDUS HEALTHCARE LTD.",
+    "brandMrp": "41.35",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.68"
+  },
+  {
+    "brandName": "FLUCOS",
+    "packSize": "4",
+    "company": "OAKNET HEALTHCARE",
+    "brandMrp": "111.84",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.96"
+  },
+  {
+    "brandName": "FLUMYC",
+    "packSize": "10",
+    "company": "IPCA LABORATORIES PVT LTD.",
+    "brandMrp": "360.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "36.00"
+  },
+  {
+    "brandName": "FUNGIFORCE",
+    "packSize": "1",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "37.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.18"
+  }
+]

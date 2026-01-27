@@ -1,0 +1,44 @@
+[
+  {
+    "hiddenId": "1521133992@9999999907@101224456@1456@101006@203780",
+    "skuName": "LOBETRON 0.5 MG TABLET 10",
+    "composition": "LOBEGLITAZONE TABLET 0.5 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "scheduleFlag": "0",
+    "mrp": "92.70",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.27"
+  },
+  {
+    "hiddenId": "1521097444@349016@101192316@1456@101006@203780",
+    "skuName": "LOBG 0.5 MG TABLET 10",
+    "composition": "LOBEGLITAZONE TABLET 0.5 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "scheduleFlag": "0",
+    "mrp": "107.81",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "10.78"
+  },
+  {
+    "hiddenId": "1521101240@352275@101226793@1456@101006@203780",
+    "skuName": "LOBULA 0.5 MG TABLET 10",
+    "composition": "LOBEGLITAZONE TABLET 0.5 MG",
+    "packSize": "10 TABLET",
+    "dosageForm": "TABLET",
+    "ceilingPrice": "-1",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "scheduleFlag": "0",
+    "mrp": "110.62",
+    "scheduleStatus": "Non-Scheduled",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.06"
+  }
+]

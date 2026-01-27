@@ -1,0 +1,18 @@
+[
+  {
+    "brandName": "ALRUBICIN",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "2314.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2314.00"
+  },
+  {
+    "brandName": "EPITAZ",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "3487.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3487.00"
+  }
+]

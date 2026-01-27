@@ -1,0 +1,90 @@
+[
+  {
+    "brandName": "APRISET",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "2430.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "243.00"
+  },
+  {
+    "brandName": "FOSUP (BIOLOGICALS)",
+    "packSize": "1",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "825.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "825.00"
+  },
+  {
+    "brandName": "FOSA",
+    "packSize": "1",
+    "company": "VIATRIS",
+    "brandMrp": "1250.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1250.00"
+  },
+  {
+    "brandName": "FOSAPREPIT",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "1430.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1430.00"
+  },
+  {
+    "brandName": "FOSAPP",
+    "packSize": "1",
+    "company": "CELON LABS",
+    "brandMrp": "1730.87",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1730.87"
+  },
+  {
+    "brandName": "FOSARAN",
+    "packSize": "1",
+    "company": "RANBAXY LABORATORIES LTD",
+    "brandMrp": "2299.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2299.00"
+  },
+  {
+    "brandName": "APRECAP",
+    "packSize": "1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "2337.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2337.19"
+  },
+  {
+    "brandName": "AMITANT",
+    "packSize": "1",
+    "company": "AUREATE HEALTHCARE PVT.LTD",
+    "brandMrp": "2350.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2350.00"
+  },
+  {
+    "brandName": "APRITANT",
+    "packSize": "1",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "2410.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2410.72"
+  },
+  {
+    "brandName": "FOSAPORT",
+    "packSize": "1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "2850.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2850.00"
+  },
+  {
+    "brandName": "FOSAPRETERO",
+    "packSize": "1",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "3212.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "3212.50"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "RESEBRON",
+    "packSize": "10",
+    "company": "INVISION MEDI SCIENCES",
+    "brandMrp": "70.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.00"
+  },
+  {
+    "brandName": "ACEDAY",
+    "packSize": "10",
+    "company": "INTRA LIFE PVT.LTD",
+    "brandMrp": "92.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.26"
+  },
+  {
+    "brandName": "PULMARK",
+    "packSize": "10",
+    "company": "ARKAS PHARMA PRIVATE LIMITED",
+    "brandMrp": "92.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.28"
+  },
+  {
+    "brandName": "AFASMA",
+    "packSize": "10",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "112.12",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11.21"
+  },
+  {
+    "brandName": "ACEBROPAC",
+    "packSize": "10",
+    "company": "PACIFIC DRUGS & CHEMICALS",
+    "brandMrp": "131.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.12"
+  }
+]

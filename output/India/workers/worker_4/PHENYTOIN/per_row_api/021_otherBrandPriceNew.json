@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "PHENYKEM",
+    "packSize": "10",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "52.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.28"
+  },
+  {
+    "brandName": "CELETOIN",
+    "packSize": "30",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "172.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.75"
+  },
+  {
+    "brandName": "EPILAN",
+    "packSize": "30",
+    "company": "LUPIN LTD",
+    "brandMrp": "172.59",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "5.75"
+  }
+]

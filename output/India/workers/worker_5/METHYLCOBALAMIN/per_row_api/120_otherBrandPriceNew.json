@@ -1,0 +1,322 @@
+[
+  {
+    "brandName": "VITCOBIN",
+    "packSize": "1",
+    "company": "FDC LTD.",
+    "brandMrp": "9.47",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.47"
+  },
+  {
+    "brandName": "TRINERGIC",
+    "packSize": "1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "12.27",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.27"
+  },
+  {
+    "brandName": "NEUROTOP M",
+    "packSize": "1",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "12.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.50"
+  },
+  {
+    "brandName": "TRINERVE",
+    "packSize": "2",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "38.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.25"
+  },
+  {
+    "brandName": "COSTRUM",
+    "packSize": "2",
+    "company": "CANVARZYS HEALTHCARE PVT.LTD",
+    "brandMrp": "39.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19.69"
+  },
+  {
+    "brandName": "MECOVON",
+    "packSize": "1",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "20.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.00"
+  },
+  {
+    "brandName": "RESNER",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "20.28",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.28"
+  },
+  {
+    "brandName": "NEURATAB M",
+    "packSize": "1",
+    "company": "WAVES BIOTECH PVT. LTD.",
+    "brandMrp": "20.46",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.46"
+  },
+  {
+    "brandName": "ME 12",
+    "packSize": "1",
+    "company": "SYSTOPIC LABORATORIES LTD-MEM",
+    "brandMrp": "22.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22.50"
+  },
+  {
+    "brandName": "NUROKIND",
+    "packSize": "1",
+    "company": "MANKIND PHARMACEUTICALS LTD.",
+    "brandMrp": "24.91",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "24.91"
+  },
+  {
+    "brandName": "METHICO",
+    "packSize": "2",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "50.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.04"
+  },
+  {
+    "brandName": "MEGO",
+    "packSize": "1",
+    "company": "BLUE CROSS LABORATORIES LTD",
+    "brandMrp": "25.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "25.31"
+  },
+  {
+    "brandName": "MECONEURON",
+    "packSize": "1",
+    "company": "PULSE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "30.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "30.66"
+  },
+  {
+    "brandName": "MECODILA",
+    "packSize": "1",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "33.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.00"
+  },
+  {
+    "brandName": "FORMYLIN",
+    "packSize": "2",
+    "company": "4 CARE LIFESCIENCE PVT LTD",
+    "brandMrp": "68.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "34.00"
+  },
+  {
+    "brandName": "METHYNEURON",
+    "packSize": "1",
+    "company": "MERIDIAN MEDICARE LTD.",
+    "brandMrp": "35.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "35.00"
+  },
+  {
+    "brandName": "MECONERV",
+    "packSize": "1",
+    "company": "MICRO LABS LTD",
+    "brandMrp": "37.90",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "37.90"
+  },
+  {
+    "brandName": "METHICO",
+    "packSize": "1",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "39.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "39.50"
+  },
+  {
+    "brandName": "HOSIT",
+    "packSize": "1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "40.95",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.95"
+  },
+  {
+    "brandName": "NERVZ B12",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "43.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.50"
+  },
+  {
+    "brandName": "SAMION",
+    "packSize": "1",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "45.29",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.29"
+  },
+  {
+    "brandName": "ZEBICOM",
+    "packSize": "1",
+    "company": "MEDLEY PHARMACEUTICALS",
+    "brandMrp": "54.86",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "54.86"
+  },
+  {
+    "brandName": "COBAFORTE",
+    "packSize": "1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "55.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "55.20"
+  },
+  {
+    "brandName": "DYRICH",
+    "packSize": "1",
+    "company": "DYCINE PHARMACEUTICALS",
+    "brandMrp": "58.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.00"
+  },
+  {
+    "brandName": "NERVO",
+    "packSize": "1",
+    "company": "D.D PHARMACEUTICALS",
+    "brandMrp": "59.18",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "59.18"
+  },
+  {
+    "brandName": "ELVITEX",
+    "packSize": "1",
+    "company": "EL-DORADO BIO-TECH PVT LTD",
+    "brandMrp": "65.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "65.00"
+  },
+  {
+    "brandName": "REJUNEX",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "69.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "69.38"
+  },
+  {
+    "brandName": "B 29 AQ",
+    "packSize": "1",
+    "company": "CORONA",
+    "brandMrp": "69.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "69.52"
+  },
+  {
+    "brandName": "MEGANERV",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "70.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "70.31"
+  },
+  {
+    "brandName": "REJUNEX",
+    "packSize": "2",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "140.63",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "70.32"
+  },
+  {
+    "brandName": "NURODAY",
+    "packSize": "1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "85.08",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "85.08"
+  },
+  {
+    "brandName": "REJUNURON",
+    "packSize": "1",
+    "company": "FOURRTS INDIA LABORATORIES PVT. LTD",
+    "brandMrp": "98.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "98.44"
+  },
+  {
+    "brandName": "KEENURON FORTE",
+    "packSize": "1",
+    "company": "KEE PHARMA",
+    "brandMrp": "107.81",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "107.81"
+  },
+  {
+    "brandName": "HAPPYNERVE",
+    "packSize": "1",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "109.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "109.24"
+  },
+  {
+    "brandName": "RE SHEATH",
+    "packSize": "1",
+    "company": "VASU ORGANICS PVT.LTD",
+    "brandMrp": "109.24",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "109.24"
+  },
+  {
+    "brandName": "NURITE",
+    "packSize": "1",
+    "company": "HEALTH N U",
+    "brandMrp": "111.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "111.09"
+  },
+  {
+    "brandName": "NERVOMIN",
+    "packSize": "1",
+    "company": "OXFORD PHARMACEUTICALS PVT LTD",
+    "brandMrp": "129.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "129.37"
+  },
+  {
+    "brandName": "MEAXON",
+    "packSize": "1",
+    "company": "BION THEARAPEUTICS",
+    "brandMrp": "134.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "134.06"
+  },
+  {
+    "brandName": "NERVUP",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "134.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "134.44"
+  },
+  {
+    "brandName": "METHYCOBAL",
+    "packSize": "1",
+    "company": "WOCKHARDT LTD",
+    "brandMrp": "147.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "147.75"
+  }
+]

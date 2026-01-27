@@ -1,0 +1,130 @@
+[
+  {
+    "brandName": "ONTRAMAB",
+    "packSize": "7",
+    "company": "CELON LABS",
+    "brandMrp": "10800.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1542.86"
+  },
+  {
+    "brandName": "HERMAB",
+    "packSize": "10",
+    "company": "RPG LIFE SCIENCES LTD.",
+    "brandMrp": "17411.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1741.10"
+  },
+  {
+    "brandName": "ELEFTHA",
+    "packSize": "1",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "6491.72",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6491.72"
+  },
+  {
+    "brandName": "TRUMAB",
+    "packSize": "1",
+    "company": "GLENMARK PHARMACEUTICALS LTD.",
+    "brandMrp": "7939.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7939.00"
+  },
+  {
+    "brandName": "VIVITRA",
+    "packSize": "1",
+    "company": "ZYDUS - BIOLOGICS",
+    "brandMrp": "9370.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9370.31"
+  },
+  {
+    "brandName": "PRIUNTA",
+    "packSize": "1",
+    "company": "ABBOTT HEALTHCARE PVT. LTD",
+    "brandMrp": "11785.71",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "11785.71"
+  },
+  {
+    "brandName": "TRASTUREL",
+    "packSize": "1",
+    "company": "RELIANCE LIFE SCIENCE",
+    "brandMrp": "15000.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15000.00"
+  },
+  {
+    "brandName": "HERCLON",
+    "packSize": "1",
+    "company": "CIPLA LTD.",
+    "brandMrp": "17851.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17851.88"
+  },
+  {
+    "brandName": "HERVYCTA",
+    "packSize": "1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "18900.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "18900.00"
+  },
+  {
+    "brandName": "HERTRAZ",
+    "packSize": "1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "19500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19500.00"
+  },
+  {
+    "brandName": "HERVYCTA PLUS",
+    "packSize": "1",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "19952.67",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "19952.67"
+  },
+  {
+    "brandName": "NEUZUMAB",
+    "packSize": "1",
+    "company": "LUPIN LTD",
+    "brandMrp": "20608.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20608.00"
+  },
+  {
+    "brandName": "HERHOPE",
+    "packSize": "1",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "22447.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22447.00"
+  },
+  {
+    "brandName": "HERSIMA",
+    "packSize": "1",
+    "company": "ALKEM LABORATORIES LTD.",
+    "brandMrp": "22500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22500.00"
+  },
+  {
+    "brandName": "TRAZUMAB",
+    "packSize": "1",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "22986.56",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "22986.56"
+  },
+  {
+    "brandName": "CANMAB",
+    "packSize": "1",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "28446.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28446.00"
+  }
+]

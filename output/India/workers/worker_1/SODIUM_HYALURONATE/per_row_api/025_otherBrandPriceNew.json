@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ISOFT HS",
+    "packSize": "10",
+    "company": "SENTISS PHARMA PVT.LTD",
+    "brandMrp": "406.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "40.69"
+  },
+  {
+    "brandName": "HALOEYE ULTRA",
+    "packSize": "10",
+    "company": "EYE KARE KILITCH.LTD",
+    "brandMrp": "577.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "57.75"
+  },
+  {
+    "brandName": "HYLOSOFT HPF",
+    "packSize": "10",
+    "company": "NEOMEDIX HEALTHCARE INDIA PVT.LTD",
+    "brandMrp": "698.44",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "69.84"
+  }
+]

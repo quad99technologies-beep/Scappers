@@ -1,0 +1,34 @@
+[
+  {
+    "brandName": "THIOMID E",
+    "packSize": "6",
+    "company": "UNITED BIOTECH (P) LTD",
+    "brandMrp": "78.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "13.08"
+  },
+  {
+    "brandName": "ETHIDE",
+    "packSize": "12",
+    "company": "LUPIN LTD",
+    "brandMrp": "186.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.55"
+  },
+  {
+    "brandName": "ETHOMID",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "155.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.55"
+  },
+  {
+    "brandName": "ETHIDE",
+    "packSize": "6",
+    "company": "LUPIN LTD",
+    "brandMrp": "105.43",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "17.57"
+  }
+]

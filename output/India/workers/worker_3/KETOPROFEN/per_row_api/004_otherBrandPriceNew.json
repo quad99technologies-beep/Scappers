@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "K-PLAST",
+    "packSize": "7",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "196.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.11"
+  },
+  {
+    "brandName": "KETOPLAST PLUS",
+    "packSize": "7",
+    "company": "ZUVENTUS HEALTHCARE LTD",
+    "brandMrp": "431.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "61.66"
+  },
+  {
+    "brandName": "INFEN PLASTER",
+    "packSize": "3",
+    "company": "EMCURE PHARMACEUTICALS LTD",
+    "brandMrp": "212.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "70.83"
+  }
+]

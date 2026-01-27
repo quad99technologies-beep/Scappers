@@ -1,0 +1,106 @@
+[
+  {
+    "brandName": "FRESOFOL",
+    "packSize": "20",
+    "company": "FRESENIUS KABI INDIA PVT LTD",
+    "brandMrp": "136.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.83"
+  },
+  {
+    "brandName": "TROYPOFOL",
+    "packSize": "50",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "341.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.83"
+  },
+  {
+    "brandName": "TROYPOFOL-MCT",
+    "packSize": "20",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "136.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.83"
+  },
+  {
+    "brandName": "NEOROF",
+    "packSize": "10",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "69.10",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.91"
+  },
+  {
+    "brandName": "NEOROF",
+    "packSize": "20",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "138.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.94"
+  },
+  {
+    "brandName": "TROYPOFOL",
+    "packSize": "10",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "69.38",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.94"
+  },
+  {
+    "brandName": "TROYPOFOL",
+    "packSize": "20",
+    "company": "TROIKAA PHARMACEUTICALS LTD",
+    "brandMrp": "138.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.94"
+  },
+  {
+    "brandName": "ZYFOL",
+    "packSize": "20",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "138.80",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.94"
+  },
+  {
+    "brandName": "ZYFOL",
+    "packSize": "10",
+    "company": "THEMIS MEDICARE LTD.",
+    "brandMrp": "69.40",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.94"
+  },
+  {
+    "brandName": "PROFOL",
+    "packSize": "10",
+    "company": "CLARIS LIFESCIENCES LIMITED",
+    "brandMrp": "72.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.25"
+  },
+  {
+    "brandName": "PROPOFOL",
+    "packSize": "20",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "151.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.55"
+  },
+  {
+    "brandName": "PROPOFOL",
+    "packSize": "10",
+    "company": "NEON LABORATORIES LTD",
+    "brandMrp": "79.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.90"
+  },
+  {
+    "brandName": "PROFOL",
+    "packSize": "20",
+    "company": "CLARIS LIFESCIENCES LIMITED",
+    "brandMrp": "162.14",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.11"
+  }
+]

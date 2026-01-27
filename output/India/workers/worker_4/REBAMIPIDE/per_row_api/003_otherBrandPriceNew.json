@@ -1,0 +1,42 @@
+[
+  {
+    "brandName": "RABAGEN",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "90.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "9.00"
+  },
+  {
+    "brandName": "REBAGEN",
+    "packSize": "15",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "212.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "14.16"
+  },
+  {
+    "brandName": "REBAGEN",
+    "packSize": "10",
+    "company": "MACLEODS PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "151.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.10"
+  },
+  {
+    "brandName": "REPOSIT",
+    "packSize": "10",
+    "company": "ERIS LIFESCIENCES LTD",
+    "brandMrp": "154.54",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "15.45"
+  },
+  {
+    "brandName": "REBAHEAL",
+    "packSize": "15",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "323.20",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.55"
+  }
+]

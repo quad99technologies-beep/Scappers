@@ -1,0 +1,74 @@
+[
+  {
+    "brandName": "WORMIN A",
+    "packSize": "30",
+    "company": "CADILA PHARMACEUTICALS LTD",
+    "brandMrp": "13.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.43"
+  },
+  {
+    "brandName": "BENPLUS",
+    "packSize": "10",
+    "company": "TORQUE PHARMACEUTICALS PVT LTD",
+    "brandMrp": "7.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "0.75"
+  },
+  {
+    "brandName": "ERAWORM",
+    "packSize": "10",
+    "company": "MARC LABORATORIES PVT. LTD",
+    "brandMrp": "17.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.70"
+  },
+  {
+    "brandName": "ABEN",
+    "packSize": "10",
+    "company": "LABORATE PHARMACEUTICAL LTD",
+    "brandMrp": "17.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.75"
+  },
+  {
+    "brandName": "ALBID",
+    "packSize": "10",
+    "company": "SHINE PHARMACEUTICALS LTD",
+    "brandMrp": "18.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  },
+  {
+    "brandName": "HELMINEX",
+    "packSize": "10",
+    "company": "SHRINIVAS GUJARAT LABORATORIES PVT LTD",
+    "brandMrp": "18.79",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.88"
+  },
+  {
+    "brandName": "BEN",
+    "packSize": "10",
+    "company": "BURNET PHARMACEUTICALS P. LTD",
+    "brandMrp": "19.11",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.91"
+  },
+  {
+    "brandName": "ORTEL",
+    "packSize": "10",
+    "company": "ORISON PHARMACEUTICALS",
+    "brandMrp": "19.66",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "1.97"
+  },
+  {
+    "brandName": "ABZ",
+    "packSize": "10",
+    "company": "INDOCO REMEDIES LTD",
+    "brandMrp": "20.05",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "2.01"
+  }
+]

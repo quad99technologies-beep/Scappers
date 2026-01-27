@@ -1,0 +1,58 @@
+[
+  {
+    "brandName": "RIZANET (SUN)",
+    "packSize": "10",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "48.75",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "4.88"
+  },
+  {
+    "brandName": "MIGROF",
+    "packSize": "10",
+    "company": "UNIMARCK HEALTHCARE LTD",
+    "brandMrp": "70.13",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "7.01"
+  },
+  {
+    "brandName": "RIZACT",
+    "packSize": "4",
+    "company": "CIPLA LTD.",
+    "brandMrp": "84.68",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.17"
+  },
+  {
+    "brandName": "RIZAMELT",
+    "packSize": "1",
+    "company": "ARINNA LIFESCIENCES PVT. LTD",
+    "brandMrp": "28.57",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "28.57"
+  },
+  {
+    "brandName": "RIZAGON",
+    "packSize": "4",
+    "company": "EAST WEST PHARMA",
+    "brandMrp": "133.70",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "33.43"
+  },
+  {
+    "brandName": "RIZORA",
+    "packSize": "4",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "237.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "59.30"
+  },
+  {
+    "brandName": "RIZACT",
+    "packSize": "4",
+    "company": "CIPLA LTD.",
+    "brandMrp": "256.01",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "64.00"
+  }
+]

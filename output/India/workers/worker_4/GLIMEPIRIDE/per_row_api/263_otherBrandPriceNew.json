@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "GP",
+    "packSize": "10",
+    "company": "USV PVT LTD",
+    "brandMrp": "68.58",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "6.86"
+  },
+  {
+    "brandName": "ZORYL",
+    "packSize": "15",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "124.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "8.31"
+  },
+  {
+    "brandName": "ZORYL",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "124.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "12.47"
+  }
+]

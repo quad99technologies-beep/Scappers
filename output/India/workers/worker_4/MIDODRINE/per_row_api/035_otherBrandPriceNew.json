@@ -1,0 +1,138 @@
+[
+  {
+    "brandName": "MIDGEO",
+    "packSize": "10",
+    "company": "CENTAUR PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "273.52",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "27.35"
+  },
+  {
+    "brandName": "ACTIFUL",
+    "packSize": "15",
+    "company": "TAS MED (INDIA) PRIVATE LTD.",
+    "brandMrp": "630.60",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.04"
+  },
+  {
+    "brandName": "MIDOREN",
+    "packSize": "10",
+    "company": "MEDIART LIFESCIENCES PVT.LTD",
+    "brandMrp": "421.88",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "42.19"
+  },
+  {
+    "brandName": "MIDOTAB",
+    "packSize": "20",
+    "company": "JB CHEMICALS",
+    "brandMrp": "872.26",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "43.61"
+  },
+  {
+    "brandName": "DRINELA",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "445.31",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "44.53"
+  },
+  {
+    "brandName": "ALADRINE",
+    "packSize": "60",
+    "company": "WATERLEY PHARMACEUTICALS PVT.LTD",
+    "brandMrp": "2700.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.00"
+  },
+  {
+    "brandName": "MIDOHEP",
+    "packSize": "10",
+    "company": "HETERO HEALTHCARE LTD",
+    "brandMrp": "450.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "45.00"
+  },
+  {
+    "brandName": "HYPOSTED",
+    "packSize": "10",
+    "company": "LA RENON HEALTHCARE PVT.LTD",
+    "brandMrp": "489.37",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "48.94"
+  },
+  {
+    "brandName": "MIDO G",
+    "packSize": "30",
+    "company": "SANATRA HEALTH CARE PVT.LTD",
+    "brandMrp": "1490.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "49.67"
+  },
+  {
+    "brandName": "HYPODRIN",
+    "packSize": "10",
+    "company": "ALNICHE LIFE SCIENCES PVT.LTD",
+    "brandMrp": "500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "50.00"
+  },
+  {
+    "brandName": "INRAMED",
+    "packSize": "10",
+    "company": "VIATRIS",
+    "brandMrp": "515.30",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "51.53"
+  },
+  {
+    "brandName": "CIPMIDO",
+    "packSize": "20",
+    "company": "CIPLA LTD.",
+    "brandMrp": "1077.65",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "53.88"
+  },
+  {
+    "brandName": "MIDORISE",
+    "packSize": "20",
+    "company": "TORRENT PHARMACEUTICALS LTD.",
+    "brandMrp": "1176.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "58.80"
+  },
+  {
+    "brandName": "MIDODRIVE",
+    "packSize": "20",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "1234.69",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "61.73"
+  },
+  {
+    "brandName": "GUTRON",
+    "packSize": "20",
+    "company": "CIPLA LTD.",
+    "brandMrp": "1364.06",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "68.20"
+  },
+  {
+    "brandName": "INRAMED",
+    "packSize": "100",
+    "company": "VIATRIS",
+    "brandMrp": "9500.00",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "95.00"
+  },
+  {
+    "brandName": "MIDORA",
+    "packSize": "30",
+    "company": "DR. REDDYS LABORATORIES LTD",
+    "brandMrp": "2882.34",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "96.08"
+  }
+]

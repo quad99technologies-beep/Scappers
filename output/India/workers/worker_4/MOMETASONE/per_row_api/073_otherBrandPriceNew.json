@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "MOMEFIRST",
+    "packSize": "10",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "292.50",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "29.25"
+  },
+  {
+    "brandName": "MOMEFIT",
+    "packSize": "10",
+    "company": "ENTOD PHARMACEUTICALS LTD",
+    "brandMrp": "321.09",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "32.11"
+  },
+  {
+    "brandName": "AQUAMET",
+    "packSize": "1",
+    "company": "SUN PHARMA LABORATORIES LTD.",
+    "brandMrp": "432.19",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "432.19"
+  }
+]

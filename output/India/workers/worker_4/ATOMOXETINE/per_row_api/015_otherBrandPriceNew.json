@@ -1,0 +1,26 @@
+[
+  {
+    "brandName": "ATONEXT",
+    "packSize": "10",
+    "company": "MSN LABORATORIES LTD",
+    "brandMrp": "201.03",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "20.10"
+  },
+  {
+    "brandName": "TOMKID",
+    "packSize": "10",
+    "company": "CNX HEALTHCARE PVT LTD",
+    "brandMrp": "215.62",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "21.56"
+  },
+  {
+    "brandName": "AXEPTA",
+    "packSize": "10",
+    "company": "INTAS PHARMACEUTICALS LTD",
+    "brandMrp": "386.25",
+    "yearMonth": "Dec-2025",
+    "mrpPerUnit": "38.63"
+  }
+]
