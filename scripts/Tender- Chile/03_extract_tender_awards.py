@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Step 3: Extract Tender Award Data
-=================================
+Step 3: Extract Tender Award Data (WDAC/AppLocker Safe)
+======================================================
 Extracts supplier bid and award information from MercadoPublico award pages.
 
 INPUTS:
@@ -12,6 +12,10 @@ INPUTS:
 OUTPUTS:
   - output/Tender_Chile/mercadopublico_supplier_rows.csv: Individual supplier bid rows
   - output/Tender_Chile/mercadopublico_lot_summary.csv: Aggregated lot award summaries
+
+IMPORTANT (Windows Policy):
+  - DO NOT use webdriver-manager (.wdm is blocked in your machine).
+  - Set env var CHROMEDRIVER_PATH to an allowlisted chromedriver.exe path.
 """
 
 from __future__ import annotations
@@ -25,16 +29,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional, List, Dict, Any, Tuple
 
-# Add repo root to path for imports
-_repo_root = Path(__file__).resolve().parents[2]
-if str(_repo_root) not in sys.path:
-    sys.path.insert(0, str(_repo_root))
-
-# Add scripts/Tender- Chile to path for config_loader
-_script_dir = Path(__file__).parent
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
-
 from bs4 import BeautifulSoup
 
 from selenium import webdriver
@@ -42,15 +36,27 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 
-from core.chrome_manager import get_chromedriver_path
 
-# Import config_loader for platform integration
+# ----------------------------
+# Add repo root + script dir
+# ----------------------------
+_repo_root = Path(__file__).resolve().parents[2]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+_script_dir = Path(__file__).parent
+if str(_script_dir) not in sys.path:
+    sys.path.insert(0, str(_script_dir))
+
+
+# ----------------------------
+# Config loader (optional)
+# ----------------------------
 try:
     from config_loader import (
-        load_env_file, getenv, getenv_int, getenv_bool,
+        load_env_file, getenv_int, getenv_bool,
         get_output_dir as _get_output_dir
     )
     load_env_file()
@@ -58,13 +64,12 @@ try:
 except ImportError:
     _CONFIG_LOADER_AVAILABLE = False
 
-# Constants
+
 INPUT_FILENAME = "tender_redirect_urls.csv"
 SUPPLIER_OUTPUT_FILENAME = "mercadopublico_supplier_rows.csv"
 LOT_SUMMARY_OUTPUT_FILENAME = "mercadopublico_lot_summary.csv"
-REQUIRED_INPUT_COLUMNS = ['tender_details_url', 'tender_award_url']
+REQUIRED_INPUT_COLUMNS = ["tender_details_url", "tender_award_url"]
 
-# Config values
 if _CONFIG_LOADER_AVAILABLE:
     HEADLESS = getenv_bool("HEADLESS", True)
     WAIT_SECONDS = getenv_int("WAIT_SECONDS", 60)
@@ -74,7 +79,6 @@ else:
 
 
 def get_output_dir() -> Path:
-    """Get standardized output directory path - uses platform config if available"""
     if _CONFIG_LOADER_AVAILABLE:
         return _get_output_dir()
     return _repo_root / "output" / "Tender_Chile"
@@ -94,7 +98,6 @@ def parse_locale_number(raw: str) -> Optional[float]:
     s = re.sub(r"[^\d\.,\-\s]", "", s)
     s = clean_text(s)
 
-    # handle weird "4123 20" -> "412320"
     if re.fullmatch(r"\d+\s+\d{1,2}", s):
         s = s.replace(" ", "")
 
@@ -130,6 +133,35 @@ def parse_locale_number(raw: str) -> Optional[float]:
         return None
 
 
+# ==========================================================
+# WDAC / AppLocker safe ChromeDriver resolver (NO .wdm)
+# ==========================================================
+def _resolve_chromedriver_path_strict() -> Optional[str]:
+    """
+    STRICT order:
+      1) CHROMEDRIVER_PATH env var (recommended + required for WDAC machines)
+      2) core.chrome_manager.get_chromedriver_path() ONLY if it returns an existing path
+      3) None -> Selenium Manager last resort (may still be blocked in strict WDAC)
+    """
+    env_path = (os.getenv("CHROMEDRIVER_PATH") or "").strip().strip('"')
+    if env_path:
+        p = Path(env_path)
+        if p.exists():
+            return str(p)
+        raise RuntimeError(f"CHROMEDRIVER_PATH is set but file not found: {env_path}")
+
+    # Optional repo helper (only if it returns allowlisted path)
+    try:
+        from core.chrome_manager import get_chromedriver_path  # type: ignore
+        p2 = get_chromedriver_path()
+        if p2 and Path(p2).exists():
+            return str(Path(p2))
+    except Exception:
+        pass
+
+    return None
+
+
 def build_driver() -> webdriver.Chrome:
     opts = Options()
     if HEADLESS:
@@ -139,8 +171,32 @@ def build_driver() -> webdriver.Chrome:
     opts.add_argument("--no-sandbox")
     opts.add_argument("--disable-blink-features=AutomationControlled")
 
-    service = Service(get_chromedriver_path())
-    driver = webdriver.Chrome(service=service, options=opts)
+    chrome_bin = (os.getenv("CHROME_BINARY") or "").strip().strip('"')
+    if chrome_bin:
+        opts.binary_location = chrome_bin
+
+    driver_path = _resolve_chromedriver_path_strict()
+
+    try:
+        if driver_path:
+            service = Service(driver_path)
+            driver = webdriver.Chrome(service=service, options=opts)
+        else:
+            # last resort: Selenium Manager default
+            driver = webdriver.Chrome(options=opts)
+    except OSError as e:
+        msg = str(e)
+        if "4551" in msg or "Application Control policy" in msg:
+            raise RuntimeError(
+                "Windows Application Control policy blocked chromedriver.exe.\n"
+                "Fix:\n"
+                "  1) Put chromedriver.exe in an allowlisted folder (example: D:\\quad99\\tools\\chromedriver.exe)\n"
+                "  2) Set env var CHROMEDRIVER_PATH to that full path.\n"
+                "     PowerShell: setx CHROMEDRIVER_PATH \"D:\\quad99\\tools\\chromedriver.exe\"\n"
+                "  3) Restart terminal and rerun.\n"
+            ) from e
+        raise
+
     driver.set_page_load_timeout(120)
     return driver
 
@@ -159,7 +215,6 @@ def wait_for_result_table(driver: webdriver.Chrome) -> None:
 
 def extract_award_date(html: str) -> Optional[str]:
     text = clean_text(BeautifulSoup(html, "lxml").get_text(" ", strip=True))
-
     m = re.search(
         r"\b(?:In|En)\s+[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\.\-\s]+,\s*(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})\b",
         text,
@@ -177,19 +232,17 @@ def extract_award_date(html: str) -> Optional[str]:
 
 def is_awarded_state(state: str) -> bool:
     """
-    FIXED: must not treat "Not Awarded" as awarded.
+    Must not treat "Not Awarded" as awarded.
     """
     s = clean_text(state).lower()
 
-    # negatives first
     if re.search(r"\bnot\s+awarded\b", s):
         return False
-    if re.search(r"\bno\s+adjudic", s):  # e.g. No adjudicada
+    if re.search(r"\bno\s+adjudic", s):  # No adjudicada
         return False
     if re.search(r"\bno\s+award", s):
         return False
 
-    # positives
     return bool(re.search(r"\bawarded\b", s) or re.search(r"\badjudic", s))
 
 
@@ -295,6 +348,8 @@ def extract_supplier_rows_and_lot_summary(html: str, award_url: str) -> Tuple[Li
                 "lot_quantity": lot_quantity,
                 "supplier": supplier,
                 "supplier_specifications": supplier_specs,
+                # NEW FIELD (bidder-row specific)
+                "AWARDED LOT TITLE": supplier_specs,
                 "unit_price_offer_raw": unit_offer_raw,
                 "unit_price_offer": unit_offer_num,
                 "awarded_quantity_raw": awarded_qty_raw,
@@ -326,7 +381,6 @@ def extract_supplier_rows_and_lot_summary(html: str, award_url: str) -> Tuple[Li
         if has_award == "NO":
             no_award_lots.append(lot_no)
 
-        # if multiple awarded rows (rare), keep first + you can expand later
         first_awarded = awarded_rows[0] if awarded_rows else {}
 
         lot_summary_rows.append({
@@ -342,6 +396,8 @@ def extract_supplier_rows_and_lot_summary(html: str, award_url: str) -> Tuple[Li
             "HAS_AWARD": has_award,
             "LOT_RESULT": "Awarded" if has_award == "YES" else "No Award",
             "AWARDED_SUPPLIER": first_awarded.get("supplier", ""),
+            # NEW FIELD (awarded bidder only in summary)
+            "AWARDED LOT TITLE": first_awarded.get("AWARDED LOT TITLE", ""),
             "AWARDED_UNIT_PRICE": first_awarded.get("awarded_unit_price", None),
             "AWARDED_AMOUNT": first_awarded.get("total_net_awarded", None),
         })
@@ -362,46 +418,25 @@ def write_csv(path: Path, data: List[Dict[str, Any]], fieldnames: List[str]) -> 
         w.writerows(data)
 
 
-def get_award_url_from_details_url(details_url: str) -> Optional[str]:
-    """Convert DetailsAcquisition URL to PreviewAwardAct URL"""
-    if 'qs=' in details_url:
-        match = re.search(r'qs=([^&]+)', details_url)
-        if match:
-            qs = match.group(1)
-            return f"https://www.mercadopublico.cl/Procurement/Modules/RFB/StepsProcessAward/PreviewAwardAct.aspx?qs={qs}"
-    
-    if 'idlicitacion=' in details_url:
-        match = re.search(r'idlicitacion=([^&]+)', details_url)
-        if match:
-            lic_id = match.group(1)
-            return f"https://www.mercadopublico.cl/Procurement/Modules/RFB/StepsProcessAward/PreviewAwardAct.aspx?idlicitacion={lic_id}"
-    
-    return None
-
-
 def extract_single_award(award_url: str, headless: bool = False) -> Optional[Dict[str, Any]]:
-    """Extract award data from a single award URL"""
     driver = build_driver()
     try:
         print(f"   Opening: {award_url[:60]}...")
         driver.get(award_url)
 
-        # Award URL already has qs parameter from Script 2, so no need to get redirect again
-        # Just wait for page to load
         wait_for_result_table(driver)
         time.sleep(2)
 
-        # Use the award_url (which already has qs parameter) as the source URL
         source_url = award_url
-
         html = driver.page_source
+
         supplier_rows, lot_summary_rows = extract_supplier_rows_and_lot_summary(html, source_url)
 
         if not supplier_rows:
-            print(f"   [WARN]  No supplier rows extracted")
+            print("   [WARN] No supplier rows extracted")
             return None
         if not lot_summary_rows:
-            print(f"   [WARN]  No lot summary rows built")
+            print("   [WARN] No lot summary rows built")
             return None
 
         return {
@@ -411,142 +446,96 @@ def extract_single_award(award_url: str, headless: bool = False) -> Optional[Dic
         }
 
     except Exception as e:
-        print(f"   [ERROR] Error: {e}")
+        print(f"   [ERROR] {e}")
         return None
     finally:
         driver.quit()
 
 
 def validate_input_file(input_path: Path) -> bool:
-    """Validate that input CSV exists and has required columns"""
     if not input_path.exists():
-        print(f"[ERROR] ERROR: {input_path} not found. Run Script 2 first.")
+        print(f"[ERROR] {input_path} not found. Run Script 1 first.")
         return False
-    
+
     try:
-        with open(input_path, 'r', encoding='utf-8-sig') as f:
+        with open(input_path, "r", encoding="utf-8-sig") as f:
             reader = csv.DictReader(f)
             fieldnames = reader.fieldnames or []
-            
-            # Check for required columns
-            missing_cols = [col for col in REQUIRED_INPUT_COLUMNS if col not in fieldnames]
-            if missing_cols:
-                print(f"[ERROR] ERROR: Missing required columns in {input_path}: {', '.join(missing_cols)}")
+            missing = [c for c in REQUIRED_INPUT_COLUMNS if c not in fieldnames]
+            if missing:
+                print(f"[ERROR] Missing required columns: {', '.join(missing)}")
                 print(f"   Available columns: {', '.join(fieldnames)}")
                 return False
     except Exception as e:
-        print(f"[ERROR] ERROR: Cannot read {input_path}: {e}")
+        print(f"[ERROR] Cannot read {input_path}: {e}")
         return False
-    
+
     return True
 
 
 def main():
     output_dir = get_output_dir()
     output_dir.mkdir(parents=True, exist_ok=True)
-    
-    # Check if tender_redirect_urls.csv exists (preferred - has qs parameters)
+
     input_path = output_dir / INPUT_FILENAME
-    use_redirect_csv = input_path.exists()
-    
-    if use_redirect_csv:
-        if not validate_input_file(input_path):
-            sys.exit(1)
-        
-        print(f" Reading redirect URLs from: {input_path}")
-        print("=" * 80)
-        
-        # Read award URLs directly from redirect CSV (has qs parameters)
-        tender_award_pairs = []
-        with open(input_path, 'r', encoding='utf-8-sig') as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                details_url = row.get('tender_details_url', '').strip()
-                award_url = row.get('tender_award_url', '').strip()
-                if details_url and award_url:
-                    tender_award_pairs.append((details_url, award_url))
-        
-        if not tender_award_pairs:
-            print("[ERROR] No tender/award URL pairs found in CSV")
-            sys.exit(1)
-        
-        print(f"[OK] Found {len(tender_award_pairs)} tender/award URL pairs")
-    else:
-        # Fallback to tender_details.csv
-        tender_details_path = output_dir / "tender_details.csv"
-        if not tender_details_path.exists():
-            print(f"[ERROR] ERROR: {tender_details_path} not found. Run Script 3 first.")
-            sys.exit(1)
-        
-        print(f" Reading tender details from: {tender_details_path}")
-        print("=" * 80)
-        
-        # Read unique tender URLs from CSV
-        tender_urls = set()
-        with open(tender_details_path, 'r', encoding='utf-8-sig') as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                url = row.get('Source URL', '').strip()
-                if url and 'DetailsAcquisition' in url:
-                    tender_urls.add(url)
-        
-        if not tender_urls:
-            print("[ERROR] No tender URLs found in CSV")
-            sys.exit(1)
-        
-        print(f"[OK] Found {len(tender_urls)} unique tender URLs")
-        
-        # Convert to pairs
-        tender_award_pairs = []
-        for details_url in tender_urls:
-            award_url = get_award_url_from_details_url(details_url)
-            if award_url:
-                tender_award_pairs.append((details_url, award_url))
-    
+    if not validate_input_file(input_path):
+        sys.exit(1)
+
+    print(f" Reading redirect URLs from: {input_path}")
     print("=" * 80)
-    
+
+    tender_award_pairs = []
+    with open(input_path, "r", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            details_url = (row.get("tender_details_url") or "").strip()
+            award_url = (row.get("tender_award_url") or "").strip()
+            if details_url and award_url:
+                tender_award_pairs.append((details_url, award_url))
+
+    if not tender_award_pairs:
+        print("[ERROR] No tender/award URL pairs found in CSV")
+        sys.exit(1)
+
+    print(f"[OK] Found {len(tender_award_pairs)} tender/award URL pairs")
+    print("=" * 80)
+
     all_supplier_rows = []
     all_lot_summary_rows = []
-    
+
     for i, (details_url, award_url) in enumerate(tender_award_pairs, 1):
         print(f"\n[{i}/{len(tender_award_pairs)}] Processing tender...")
-        
-        if not award_url:
-            print(f"   [WARN]  No award URL for: {details_url[:60]}...")
-            continue
-        
         result = extract_single_award(award_url, headless=HEADLESS)
         if result:
-            # Add source URL to each row
-            for row in result["supplier_rows"]:
-                row["source_tender_url"] = details_url
-            for row in result["lot_summary"]:
-                row["source_tender_url"] = details_url
-            
+            for r in result["supplier_rows"]:
+                r["source_tender_url"] = details_url
+            for r in result["lot_summary"]:
+                r["source_tender_url"] = details_url
+
             all_supplier_rows.extend(result["supplier_rows"])
             all_lot_summary_rows.extend(result["lot_summary"])
             print(f"   [OK] Extracted {len(result['supplier_rows'])} supplier rows, {len(result['lot_summary'])} lot summaries")
         else:
-            print(f"   [WARN]  Failed to extract award data")
-        
-        time.sleep(2)  # Delay between requests
-    
+            print("   [WARN] Failed to extract award data")
+
+        time.sleep(2)
+
     if not all_supplier_rows:
         print("\n[ERROR] No supplier rows extracted")
         sys.exit(1)
     if not all_lot_summary_rows:
         print("\n[ERROR] No lot summary rows built")
         sys.exit(1)
-    
+
     supplier_fields = list(all_supplier_rows[0].keys())
     summary_fields = list(all_lot_summary_rows[0].keys())
-    
+
     supplier_csv = output_dir / SUPPLIER_OUTPUT_FILENAME
     lot_summary_csv = output_dir / LOT_SUMMARY_OUTPUT_FILENAME
-    
+
     write_csv(supplier_csv, all_supplier_rows, supplier_fields)
     write_csv(lot_summary_csv, all_lot_summary_rows, summary_fields)
-    
+
     print("\n" + "=" * 80)
     print(f"[OK] Supplier rows: {len(all_supplier_rows)} -> {supplier_csv}")
     print(f"[OK] Lot summary rows: {len(all_lot_summary_rows)} -> {lot_summary_csv}")
@@ -555,4 +544,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

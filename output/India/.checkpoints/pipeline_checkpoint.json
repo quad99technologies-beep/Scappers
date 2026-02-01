@@ -1,17 +1,11 @@
 {
   "scraper": "India",
-  "last_run": "2026-01-26T10:59:49.561311",
-  "completed_steps": [
-    0
-  ],
-  "step_outputs": {
-    "step_0": {
-      "step_number": 0,
-      "step_name": "Backup and Clean",
-      "completed_at": "2026-01-26T10:59:49.561304",
-      "output_files": [],
-      "duration_seconds": 1.510352611541748
-    }
-  },
-  "metadata": {}
+  "last_run": "2026-02-01T13:28:06.182388",
+  "completed_steps": [],
+  "step_outputs": {},
+  "metadata": {
+    "current_step": 0,
+    "current_step_name": "Scrape to PostgreSQL",
+    "status": "resume"
+  }
 }

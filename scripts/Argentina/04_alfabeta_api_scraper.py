@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Argentina - API Scraper (Backup)
-Processes products listed in the API input CSV generated after Selenium attempts are exhausted.
-These are products that still ended with 0 records after max Selenium runs.
+Argentina - API Scraper (Backup, DB-only)
+Processes products selected from ar_product_index where:
+  total_records == 0 and loop_count >= SELENIUM_MAX_RUNS
 """
 
 import csv
@@ -42,6 +42,7 @@ from config_loader import (
     API_REQUEST_TIMEOUT, QUEUE_GET_TIMEOUT, PAUSE_HTML_LOAD,
     API_THREADS,
     IGNORE_LIST_FILE,
+    SELENIUM_MAX_RUNS,
     OUTPUT_PRODUCTS_CSV, OUTPUT_ERRORS_CSV,
     API_INPUT_CSV
 )
@@ -52,6 +53,10 @@ from scraper_utils import (
     nk, ts, strip_accents, OUT_FIELDS,
     CSV_LOCK, ERROR_LOCK
 )
+from core.db.connection import CountryDB
+from db.repositories import ArgentinaRepository
+from db.schema import apply_argentina_schema
+from core.db.models import generate_run_id
 
 # ====== PATHS ======
 INPUT_DIR = get_input_dir()
@@ -62,6 +67,31 @@ ERRORS = OUTPUT_DIR / OUTPUT_ERRORS_CSV
 LOG_DIR = OUTPUT_DIR / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 LOG_FILE = LOG_DIR / f"argentina_api_{datetime.now():%Y%m%d_%H%M%S}.log"
+
+# DB setup
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+_RUN_ID_FILE = OUTPUT_DIR / ".current_run_id"
+
+def _get_run_id() -> str:
+    rid = os.environ.get("ARGENTINA_RUN_ID")
+    if rid:
+        return rid
+    if _RUN_ID_FILE.exists():
+        try:
+            txt = _RUN_ID_FILE.read_text(encoding="utf-8").strip()
+            if txt:
+                return txt
+        except Exception:
+            pass
+    rid = generate_run_id()
+    os.environ["ARGENTINA_RUN_ID"] = rid
+    _RUN_ID_FILE.write_text(rid, encoding="utf-8")
+    return rid
+
+_DB = CountryDB("Argentina")
+apply_argentina_schema(_DB)
+_RUN_ID = _get_run_id()
+_REPO = ArgentinaRepository(_DB, _RUN_ID)
 
 # ====== LOGGING ======
 logging.basicConfig(
@@ -487,14 +517,29 @@ def api_worker(api_queue: Queue, args, skip_set: set):
             
             if rows_with_values:
                 # API succeeded with actual values - save results
-                append_rows(rows_with_values)
-                # Update skip_set to prevent reprocessing in same run (only for SUCCESS cases)
-                with _skip_lock:
-                    skip_set.add(key)
-                log.info(f"[API_WORKER] [SUCCESS] {in_company} | {in_product} -> {len(rows_with_values)} rows with values")
+                saved = append_rows(rows_with_values, source="api")
+                if saved:
+                    try:
+                        _REPO.mark_api_result(in_company, in_product, total_records=len(rows_with_values), status="completed")
+                    except Exception as e:
+                        log.warning(f"[DB] Failed to mark API result for {in_company} | {in_product}: {e}")
+                    # Update skip_set to prevent reprocessing in same run (only for SUCCESS cases)
+                    with _skip_lock:
+                        skip_set.add(key)
+                    log.info(f"[API_WORKER] [SUCCESS] {in_company} | {in_product} -> {len(rows_with_values)} rows with values")
+                else:
+                    log.warning(f"[API_WORKER] [DB_FAIL] {in_company} | {in_product} -> insert failed, will retry later")
+                    try:
+                        _REPO.mark_api_result(in_company, in_product, total_records=0, status="failed", error_message="db_insert_failed")
+                    except Exception as e:
+                        log.warning(f"[DB] Failed to mark API db-failure for {in_company} | {in_product}: {e}")
             else:
                 # API returned no values (null, no price, connection lost, not found) - keep in API for retry
                 log.warning(f"[API_WORKER] [NO_VALUES] API returned no values for {in_company} | {in_product}, keeping in API (not recording)")
+                try:
+                    _REPO.mark_api_result(in_company, in_product, total_records=0, status="failed")
+                except Exception as e:
+                    log.warning(f"[DB] Failed to mark API failure for {in_company} | {in_product}: {e}")
             
             # Update progress counter
             with _progress_lock:
@@ -547,79 +592,49 @@ def main():
     log.info(f"[SKIP_SET]   - Products file: {OUT_CSV.name} (exists: {OUT_CSV.exists()})")
     log.info(f"[SKIP_SET]   - Ignore list: {ignore_file.name} (exists: {ignore_file.exists()})")
     
-    # Load API input file generated after Selenium attempts are exhausted
-    if not API_INPUT_FILE_PATH.exists():
-        log.info(f"[INPUT] API input file not found: {API_INPUT_FILE_PATH}")
-        log.info("[INPUT] Nothing to process in API step")
-        return
-    
-    log.info(f"[INPUT] Reading API targets from: {API_INPUT_FILE_PATH}")
-    
-    # Load products from API input file
+    # Load API targets from DB (total_records=0 and loop_count >= SELENIUM_MAX_RUNS)
     api_targets: List[Tuple[str, str, str]] = []  # (product, company, url)
-    seen_pairs = set()  # Track seen pairs to deduplicate within the same file
+    seen_pairs = set()
     skipped_count = 0
-    
-    # Try multiple encodings to handle different file encodings
-    encoding_attempts = ["utf-8-sig", "utf-8", "latin-1", "windows-1252", "cp1252"]
-    f = None
-    for encoding in encoding_attempts:
-        try:
-            f = open(API_INPUT_FILE_PATH, encoding=encoding)
-            r = csv.DictReader(f)
-            headers = {nk(h): h for h in (r.fieldnames or [])}
-            break  # Success, exit encoding loop
-        except UnicodeDecodeError:
-            if f:
-                f.close()
-            continue  # Try next encoding
-        except Exception as e:
-            if f:
-                f.close()
-            log.error(f"[INPUT] Failed to read prepared URLs file: {e}")
-            return
-    
-    if f is None:
-        log.error(f"[INPUT] Failed to read prepared URLs file with any encoding")
-        return
-    
+
     try:
-        pcol = headers.get(nk("Product")) or headers.get("product") or "Product"
-        ccol = headers.get(nk("Company")) or headers.get("company") or "Company"
-        url_col = headers.get(nk("URL")) or headers.get("url") or "URL"
-        
-        for row in r:
-            prod = (row.get(pcol) or "").strip()
-            comp = (row.get(ccol) or "").strip()
-            url = (row.get(url_col) or "").strip()
-            
-            # Only process valid rows
-            if prod and comp:
-                # Normalize for comparison
-                key = (nk(comp), nk(prod))
-                
-                # Check if already seen in this file (deduplicate)
-                if key in seen_pairs:
-                    skipped_count += 1
-                    log.debug(f"[SKIP] Skipping duplicate {comp} | {prod} (already in file)")
-                    continue
-                
-                # Check if combination is in skip sets (ignore_list or products)
-                if key in skip_set:
-                    skipped_count += 1
-                    log.debug(f"[SKIP] Skipping {comp} | {prod} (in ignore_list or products)")
-                    continue
-                
-                # Add to seen pairs and targets
-                seen_pairs.add(key)
-                # Use the prepared URL, or construct if missing
-                if not url:
-                    url = construct_product_url(prod)
-                api_targets.append((prod, comp, url))
-    finally:
-        if f:
-            f.close()
-    
+        with _DB.cursor(dict_cursor=True) as cur:
+            cur.execute(
+                """
+                SELECT product, company, url
+                  FROM ar_product_index
+                 WHERE run_id = %s
+                   AND COALESCE(total_records,0) = 0
+                   AND COALESCE(loop_count,0) >= %s
+                """,
+                (_RUN_ID, int(SELENIUM_MAX_RUNS)),
+            )
+            rows = cur.fetchall()
+    except Exception as e:
+        log.error(f"[INPUT] Failed to load API targets from DB: {e}")
+        return
+
+    if not rows:
+        log.info("[INPUT] No API targets found in DB")
+        return
+
+    for row in rows:
+        prod = (row.get("product") or "").strip() if isinstance(row, dict) else (row[0] or "").strip()
+        comp = (row.get("company") or "").strip() if isinstance(row, dict) else (row[1] or "").strip()
+        url = (row.get("url") or "").strip() if isinstance(row, dict) else (row[2] or "").strip()
+
+        if prod and comp:
+            key = (nk(comp), nk(prod))
+            if key in seen_pairs:
+                skipped_count += 1
+                continue
+            if key in skip_set:
+                skipped_count += 1
+                continue
+            seen_pairs.add(key)
+            if not url:
+                url = construct_product_url(prod)
+            api_targets.append((prod, comp, url))
     unique_combinations = len(api_targets)
     log.info(f"[FILTER] Found {len(api_targets) + skipped_count} products in API input file")
     log.info(f"[FILTER] - Skipped (in ignore_list/products or duplicates): {skipped_count}")
@@ -721,6 +736,24 @@ def main():
     log.info("[MAIN] API thread is completed. Moving to Selenium step.")
     log.info("=" * 80)
 
+    # Count summary
+    try:
+        with _DB.cursor() as cur:
+            cur.execute("SELECT COUNT(*) FROM ar_product_index WHERE run_id = %s", (_RUN_ID,))
+            total = cur.fetchone()[0]
+            cur.execute(
+                "SELECT COUNT(*) FROM ar_product_index WHERE run_id = %s AND COALESCE(total_records,0) > 0",
+                (_RUN_ID,),
+            )
+            scraped = cur.fetchone()[0]
+            cur.execute("SELECT COUNT(*) FROM ar_products WHERE run_id = %s", (_RUN_ID,))
+            products = cur.fetchone()[0]
+        log.info("[COUNT] product_index=%s scraped_with_records=%s products_rows=%s", total, scraped, products)
+        print(f"[COUNT] product_index={total} scraped_with_records={scraped} products_rows={products}", flush=True)
+    except Exception as e:
+        log.warning(f"[COUNT] Failed to load DB counts: {e}")
+
 if __name__ == "__main__":
     main()
+
 

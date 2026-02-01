@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Argentina - Selenium Runner (Simple Loop-Count Mode)
-
-Uses Productlist_with_urls.csv as the only state file with columns:
-  Product, Company, URL, Loop Count, Total Records
+Argentina - Selenium Runner (DB-only, loop-count mode)
 
 Behavior:
 - Runs Selenium worker repeatedly until either:
   * no eligible rows remain, or
   * Loop Count reaches SELENIUM_MAX_RUNS for all remaining 0-record rows
-- After Selenium runs complete, generates an API input CSV containing rows where:
+- API input is now DB-only (no CSV written); rows are selected by:
   Total Records == 0 and Loop Count >= SELENIUM_MAX_RUNS
 """
 
@@ -36,11 +33,41 @@ from config_loader import (
     ROUND_PAUSE_SECONDS,
     TOR_CONTROL_HOST, TOR_CONTROL_PORT, TOR_CONTROL_COOKIE_FILE,
 )
+from core.db.connection import CountryDB
+from db.repositories import ArgentinaRepository
+from db.schema import apply_argentina_schema
+from core.db.models import generate_run_id
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 log = logging.getLogger("selenium_runner")
 
 SELENIUM_SCRIPT = "03_alfabeta_selenium_worker.py"
+
+# DB setup
+_OUTPUT_DIR = get_output_dir()
+_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+_RUN_ID_FILE = _OUTPUT_DIR / ".current_run_id"
+
+def _get_run_id() -> str:
+    rid = os.environ.get("ARGENTINA_RUN_ID")
+    if rid:
+        return rid
+    if _RUN_ID_FILE.exists():
+        try:
+            txt = _RUN_ID_FILE.read_text(encoding="utf-8").strip()
+            if txt:
+                return txt
+        except Exception:
+            pass
+    rid = generate_run_id()
+    os.environ["ARGENTINA_RUN_ID"] = rid
+    _RUN_ID_FILE.write_text(rid, encoding="utf-8")
+    return rid
+
+_DB = CountryDB("Argentina")
+apply_argentina_schema(_DB)
+_RUN_ID = _get_run_id()
+_REPO = ArgentinaRepository(_DB, _RUN_ID)
 
 
 def _pipeline_prefix() -> str:
@@ -132,35 +159,24 @@ def _read_state_rows(path: Path) -> tuple[list[dict], dict]:
 
 
 def _count_eligible(prepared_urls_path: Path) -> int:
-    if not prepared_urls_path.exists():
+    """DB-backed eligible count (ignores CSV path)."""
+    try:
+        with _DB.cursor() as cur:
+            cur.execute(
+                """
+                SELECT COUNT(*)
+                  FROM ar_product_index
+                 WHERE run_id = %s
+                   AND COALESCE(total_records,0) = 0
+                   AND COALESCE(loop_count,0) < %s
+                   AND url IS NOT NULL AND url <> ''
+                """,
+                (_RUN_ID, int(SELENIUM_MAX_RUNS)),
+            )
+            row = cur.fetchone()
+            return row[0] if isinstance(row, tuple) else row["count"]
+    except Exception:
         return 0
-    rows, headers = _read_state_rows(prepared_urls_path)
-    if not rows or not headers:
-        return 0
-
-    pcol = headers.get(nk("Product")) or "Product"
-    ccol = headers.get(nk("Company")) or "Company"
-    ucol = headers.get(nk("URL")) or "URL"
-    loop_col = headers.get(nk("Loop Count")) or headers.get(nk("Loop_Count")) or "Loop Count"
-    total_col = headers.get(nk("Total Records")) or headers.get(nk("Total_Records")) or "Total Records"
-
-    eligible = 0
-    for r in rows:
-        prod = (r.get(pcol) or "").strip()
-        comp = (r.get(ccol) or "").strip()
-        url = (r.get(ucol) or "").strip()
-        try:
-            loop_count = int(float((r.get(loop_col) or "0").strip() or "0"))
-        except Exception:
-            loop_count = 0
-        try:
-            total_records = int(float((r.get(total_col) or "0").strip() or "0"))
-        except Exception:
-            total_records = 0
-
-        if prod and comp and url and total_records == 0 and loop_count < int(SELENIUM_MAX_RUNS):
-            eligible += 1
-    return eligible
 
 
 def run_selenium_pass(max_rows: int = 0) -> bool:
@@ -178,41 +194,43 @@ def run_selenium_pass(max_rows: int = 0) -> bool:
 
 
 def write_api_input(prepared_urls_path: Path, api_input_path: Path):
-    rows, headers = _read_state_rows(prepared_urls_path)
-    pcol = headers.get(nk("Product")) or "Product"
-    ccol = headers.get(nk("Company")) or "Company"
-    ucol = headers.get(nk("URL")) or "URL"
-    loop_col = headers.get(nk("Loop Count")) or headers.get(nk("Loop_Count")) or "Loop Count"
-    total_col = headers.get(nk("Total Records")) or headers.get(nk("Total_Records")) or "Total Records"
+    """DB-only: log count of API-eligible rows instead of writing CSV."""
+    try:
+        with _DB.cursor() as cur:
+            cur.execute(
+                """
+                SELECT COUNT(*)
+                  FROM ar_product_index
+                 WHERE run_id = %s
+                   AND COALESCE(total_records,0) = 0
+                   AND COALESCE(loop_count,0) >= %s
+                """,
+                (_RUN_ID, int(SELENIUM_MAX_RUNS)),
+            )
+            row = cur.fetchone()
+            count = row[0] if isinstance(row, tuple) else row["count"]
+        log.info(f"[API_INPUT] DB-only mode: {count} rows eligible for API fallback")
+    except Exception as e:
+        log.warning(f"[API_INPUT] Failed to count API-eligible rows: {e}")
 
-    api_rows = []
-    seen = set()
-    for r in rows:
-        prod = (r.get(pcol) or "").strip()
-        comp = (r.get(ccol) or "").strip()
-        url = (r.get(ucol) or "").strip()
-        try:
-            loop_count = int(float((r.get(loop_col) or "0").strip() or "0"))
-        except Exception:
-            loop_count = 0
-        try:
-            total_records = int(float((r.get(total_col) or "0").strip() or "0"))
-        except Exception:
-            total_records = 0
-        if prod and comp and url and total_records == 0 and loop_count >= int(SELENIUM_MAX_RUNS):
-            key = (nk(comp), nk(prod))
-            if key in seen:
-                continue
-            seen.add(key)
-            api_rows.append({"Product": prod, "Company": comp, "URL": url})
 
-    api_input_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(api_input_path, "w", newline="", encoding="utf-8-sig") as f:
-        w = csv.DictWriter(f, fieldnames=["Product", "Company", "URL"])
-        w.writeheader()
-        w.writerows(api_rows)
-
-    log.info(f"[API_INPUT] Wrote {len(api_rows)} rows to: {api_input_path}")
+def log_db_counts():
+    """Log DB count summary for cross-checking."""
+    try:
+        with _DB.cursor() as cur:
+            cur.execute("SELECT COUNT(*) FROM ar_product_index WHERE run_id = %s", (_RUN_ID,))
+            total = cur.fetchone()[0]
+            cur.execute(
+                "SELECT COUNT(*) FROM ar_product_index WHERE run_id = %s AND COALESCE(total_records,0) > 0",
+                (_RUN_ID,),
+            )
+            scraped = cur.fetchone()[0]
+            cur.execute("SELECT COUNT(*) FROM ar_products WHERE run_id = %s", (_RUN_ID,))
+            products = cur.fetchone()[0]
+        log.info("[COUNT] product_index=%s scraped_with_records=%s products_rows=%s", total, scraped, products)
+        print(f"[COUNT] product_index={total} scraped_with_records={scraped} products_rows={products}", flush=True)
+    except Exception as e:
+        log.warning(f"[COUNT] Failed to load DB counts: {e}")
 
 
 def main() -> int:
@@ -221,10 +239,6 @@ def main() -> int:
     output_dir = get_output_dir()
     prepared_urls_path = output_dir / PREPARED_URLS_FILE
     api_input_path = output_dir / API_INPUT_CSV
-
-    if not prepared_urls_path.exists():
-        log.error(f"Prepared URLs file not found: {prepared_urls_path}")
-        return 1
 
     max_runs = int(SELENIUM_MAX_RUNS)
     print("ARGENTINA SELENIUM SCRAPER - SIMPLE LOOP-COUNT MODE")
@@ -252,9 +266,10 @@ def main() -> int:
             time.sleep(pause)
 
     write_api_input(prepared_urls_path, api_input_path)
+    log_db_counts()
     print(f"\n{'='*80}")
     print("[SUCCESS] Selenium loop-count scraping completed")
-    print(f"[SUCCESS] API input file: {api_input_path}")
+    print(f"[SUCCESS] API input: DB-only (no CSV written)")
     print(f"{'='*80}\n")
     return 0
 
@@ -268,10 +283,7 @@ if __name__ == "__main__":
             cp.mark_step_complete(
                 3,
                 "Scrape Products (Selenium)",
-                output_files=[
-                    str(get_output_dir() / PREPARED_URLS_FILE),
-                    str(get_output_dir() / API_INPUT_CSV),
-                ],
+                output_files=None,
             )
         except Exception as exc:
             log.warning(f"[CHECKPOINT] Failed to mark selenium step: {exc}")

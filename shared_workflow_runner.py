@@ -57,7 +57,20 @@ except ImportError:
         COMPLETED = "completed"
         FAILED = "failed"
         CANCELLED = "cancelled"
+        RESUME = "resume"
+        STOPPED = "stopped"
     _RUN_LEDGER_AVAILABLE = False
+
+# Optional pipeline checkpoint (for marking resumable state)
+try:
+    from core.pipeline_checkpoint import get_checkpoint_manager, recover_all_stale_checkpoints
+    _CHECKPOINT_AVAILABLE = True
+except ImportError:
+    _CHECKPOINT_AVAILABLE = False
+    def get_checkpoint_manager(scraper_name):
+        return None
+    def recover_all_stale_checkpoints(scraper_names=None):
+        return {}
 
 
 class ScraperInterface(ABC):
@@ -470,10 +483,58 @@ class WorkflowRunner:
                     except:
                         pass
 
+                    # Mark checkpoint as resumable so pipeline can be resumed
+                    try:
+                        if _CHECKPOINT_AVAILABLE:
+                            cp = get_checkpoint_manager(scraper_name)
+                            if cp:
+                                cp.mark_as_resumable()
+                    except Exception as e:
+                        logging.getLogger(__name__).warning(f"Failed to mark checkpoint as resumable: {e}")
+
+                    # Mark run ledger status as RESUME (file-based)
+                    try:
+                        if _RUN_LEDGER_AVAILABLE:
+                            ledger = FileRunLedger()
+                            # Find the latest running run for this scraper
+                            running_runs = ledger.list_runs(limit=10, status=RunStatus.RUNNING, scraper_name=scraper_name)
+                            if running_runs:
+                                latest_run = running_runs[0]
+                                ledger.update_run_status(latest_run.run_id, RunStatus.RESUME)
+                    except Exception as e:
+                        logging.getLogger(__name__).warning(f"Failed to update run ledger status: {e}")
+
+                    # Mark DATABASE run_ledger status as RESUME (SQLite table)
+                    try:
+                        from core.db.models import run_ledger_mark_resumable
+                        from core.db.connection import CountryDB
+                        from platform_config import get_path_manager
+
+                        pm = get_path_manager()
+                        output_dir = pm.get_output_dir(scraper_name)
+                        db_file = output_dir / f"{scraper_name.lower()}.db"
+                        if db_file.exists():
+                            db = CountryDB(scraper_name, db_path=db_file)
+                            conn = db.connect()
+                            # Find the latest running run and mark it as resume
+                            cursor = conn.execute(
+                                "SELECT run_id FROM run_ledger WHERE status = 'running' AND scraper_name = ? ORDER BY started_at DESC LIMIT 1",
+                                (scraper_name,)
+                            )
+                            row = cursor.fetchone()
+                            if row:
+                                sql, params = run_ledger_mark_resumable(row[0])
+                                conn.execute(sql, params)
+                                conn.commit()
+                                logging.getLogger(__name__).info(f"Marked DB run {row[0]} as 'resume'")
+                    except Exception as e:
+                        logging.getLogger(__name__).warning(f"Failed to update DB run ledger status: {e}")
+
                     return {
                         "status": "ok",
-                        "message": f"Stopped {scraper_name} pipeline (PID {pid})",
-                        "pid": pid
+                        "message": f"Stopped {scraper_name} pipeline (PID {pid}). Pipeline can be resumed.",
+                        "pid": pid,
+                        "resumable": True
                     }
                 except subprocess.TimeoutExpired:
                     return {
@@ -524,17 +585,65 @@ class WorkflowRunner:
                     except Exception:
                         # Don't use general cleanup - it would kill all scrapers' Chrome instances
                         pass
-                    
+
                     # Clean up lock file
                     try:
                         lock_file.unlink()
                     except:
                         pass
 
+                    # Mark checkpoint as resumable so pipeline can be resumed
+                    try:
+                        if _CHECKPOINT_AVAILABLE:
+                            cp = get_checkpoint_manager(scraper_name)
+                            if cp:
+                                cp.mark_as_resumable()
+                    except Exception as e:
+                        logging.getLogger(__name__).warning(f"Failed to mark checkpoint as resumable: {e}")
+
+                    # Mark run ledger status as RESUME (file-based)
+                    try:
+                        if _RUN_LEDGER_AVAILABLE:
+                            ledger = FileRunLedger()
+                            # Find the latest running run for this scraper
+                            running_runs = ledger.list_runs(limit=10, status=RunStatus.RUNNING, scraper_name=scraper_name)
+                            if running_runs:
+                                latest_run = running_runs[0]
+                                ledger.update_run_status(latest_run.run_id, RunStatus.RESUME)
+                    except Exception as e:
+                        logging.getLogger(__name__).warning(f"Failed to update run ledger status: {e}")
+
+                    # Mark DATABASE run_ledger status as RESUME (SQLite table)
+                    try:
+                        from core.db.models import run_ledger_mark_resumable
+                        from core.db.connection import CountryDB
+                        from platform_config import get_path_manager
+
+                        pm = get_path_manager()
+                        output_dir = pm.get_output_dir(scraper_name)
+                        db_file = output_dir / f"{scraper_name.lower()}.db"
+                        if db_file.exists():
+                            db = CountryDB(scraper_name, db_path=db_file)
+                            conn = db.connect()
+                            # Find the latest running run and mark it as resume
+                            cursor = conn.execute(
+                                "SELECT run_id FROM run_ledger WHERE status = 'running' AND scraper_name = ? ORDER BY started_at DESC LIMIT 1",
+                                (scraper_name,)
+                            )
+                            row = cursor.fetchone()
+                            if row:
+                                sql, params = run_ledger_mark_resumable(row[0])
+                                conn.execute(sql, params)
+                                conn.commit()
+                                logging.getLogger(__name__).info(f"Marked DB run {row[0]} as 'resume'")
+                    except Exception as e:
+                        logging.getLogger(__name__).warning(f"Failed to update DB run ledger status: {e}")
+
                     return {
                         "status": "ok",
-                        "message": f"Stopped {scraper_name} pipeline (PID {pid})",
-                        "pid": pid
+                        "message": f"Stopped {scraper_name} pipeline (PID {pid}). Pipeline can be resumed.",
+                        "pid": pid,
+                        "resumable": True
                     }
                 except Exception as e:
                     return {
@@ -989,3 +1098,137 @@ class WorkflowRunner:
                 "run_id": self.run_id,
                 "run_dir": str(self.run_dir) if self.run_dir else None
             }
+
+
+def recover_stale_pipelines(scraper_names: List[str] = None) -> Dict[str, Any]:
+    """
+    Recover stale 'running' pipelines on app startup.
+
+    This function should be called when the application starts to handle
+    scenarios where the system crashed or was terminated unexpectedly
+    while a pipeline was running.
+
+    Logic:
+    - For each scraper, find all runs with status='running'
+    - Mark the LATEST 'running' run as 'resume' (can be resumed)
+    - Mark all OTHER 'running' runs as 'stopped' (cannot be resumed)
+    - Also recover stale checkpoints
+
+    Args:
+        scraper_names: List of scraper names to check. If None, checks common scrapers.
+
+    Returns:
+        Dict with recovery results:
+        {
+            "checkpoint_recovery": {scraper_name: bool, ...},
+            "run_ledger_recovery": {"resumed": [...], "stopped": [...]},
+            "total_recovered": int
+        }
+    """
+    logger = logging.getLogger(__name__)
+
+    if scraper_names is None:
+        # Default list of scrapers
+        scraper_names = [
+            "India", "Malaysia", "Argentina", "CanadaOntario", "CanadaQuebec",
+            "Chile", "Korea", "NewZealand", "SouthAfrica", "Thailand"
+        ]
+
+    result = {
+        "checkpoint_recovery": {},
+        "run_ledger_recovery": {"resumed": [], "stopped": []},
+        "total_recovered": 0
+    }
+
+    # 1. Recover stale checkpoints
+    if _CHECKPOINT_AVAILABLE:
+        try:
+            checkpoint_results = recover_all_stale_checkpoints(scraper_names)
+            result["checkpoint_recovery"] = checkpoint_results
+            for scraper_name, recovered in checkpoint_results.items():
+                if recovered:
+                    result["total_recovered"] += 1
+                    logger.info(f"Recovered stale checkpoint for {scraper_name}")
+        except Exception as e:
+            logger.warning(f"Failed to recover stale checkpoints: {e}")
+
+    # 2. Recover stale run ledger entries
+    if _RUN_LEDGER_AVAILABLE:
+        try:
+            ledger = FileRunLedger()
+            ledger_result = ledger.recover_stale_runs()
+            result["run_ledger_recovery"] = ledger_result
+            result["total_recovered"] += len(ledger_result.get("resumed", []))
+            result["total_recovered"] += len(ledger_result.get("stopped", []))
+        except Exception as e:
+            logger.warning(f"Failed to recover stale run ledger entries: {e}")
+
+    if result["total_recovered"] > 0:
+        logger.info(f"Startup recovery: recovered {result['total_recovered']} stale pipeline(s)")
+    else:
+        logger.debug("Startup recovery: no stale pipelines found")
+
+    return result
+
+
+def get_resumable_pipelines(scraper_names: List[str] = None) -> Dict[str, Dict[str, Any]]:
+    """
+    Get list of pipelines that can be resumed.
+
+    Args:
+        scraper_names: List of scraper names to check. If None, checks common scrapers.
+
+    Returns:
+        Dict mapping scraper name to resumable run info:
+        {
+            "Malaysia": {
+                "run_id": "...",
+                "last_step": 2,
+                "last_step_name": "Product Details",
+                "next_step": 3,
+                "created_at": "..."
+            },
+            ...
+        }
+    """
+    if scraper_names is None:
+        scraper_names = [
+            "India", "Malaysia", "Argentina", "CanadaOntario", "CanadaQuebec",
+            "Chile", "Korea", "NewZealand", "SouthAfrica", "Thailand"
+        ]
+
+    resumable = {}
+
+    for scraper_name in scraper_names:
+        try:
+            # Check checkpoint first
+            if _CHECKPOINT_AVAILABLE:
+                cp = get_checkpoint_manager(scraper_name)
+                if cp and cp.is_resumable():
+                    info = cp.get_checkpoint_info()
+                    metadata = cp.get_metadata()
+                    resumable[scraper_name] = {
+                        "source": "checkpoint",
+                        "last_step": info.get("last_completed_step"),
+                        "last_step_name": metadata.get("current_step_name", "Unknown"),
+                        "next_step": info.get("next_step", 0),
+                        "last_run": info.get("last_run"),
+                        "status": cp.get_status()
+                    }
+                    continue
+
+            # Check run ledger
+            if _RUN_LEDGER_AVAILABLE:
+                ledger = FileRunLedger()
+                run = ledger.get_resumable_run(scraper_name)
+                if run:
+                    resumable[scraper_name] = {
+                        "source": "run_ledger",
+                        "run_id": run.run_id,
+                        "created_at": run.created_at,
+                        "status": run.status.value
+                    }
+        except Exception:
+            pass
+
+    return resumable

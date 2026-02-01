@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Argentina - Selenium Scraper
-Processes products marked as "selenium" in prepared URLs file.
+Argentina - Selenium Scraper (DB-only)
+Processes products from ar_product_index (pending rows with URL).
 Rotates accounts every 50 searches or when captcha is detected.
 """
 
@@ -20,6 +20,7 @@ import threading
 import signal
 import sys
 import atexit
+import gc
 from pathlib import Path
 from datetime import datetime
 from queue import Queue, Empty
@@ -29,6 +30,96 @@ try:
     import psutil  # optional
 except Exception:
     psutil = None
+
+# =============================================================================
+# PERFORMANCE FIX: Resource Monitoring and Cleanup
+# =============================================================================
+
+def get_resource_usage():
+    """Get current resource usage for monitoring"""
+    try:
+        process = psutil.Process(os.getpid())
+        mem_mb = process.memory_info().rss / 1024 / 1024
+        threads = threading.active_count()
+        return mem_mb, threads
+    except Exception:
+        return 0, threading.active_count()
+
+def log_resource_usage(prefix="[RESOURCE]"):
+    """Log current memory and thread usage"""
+    mem_mb, threads = get_resource_usage()
+    log.info(f"{prefix} Memory: {mem_mb:.1f}MB, Threads: {threads}")
+
+def force_cleanup():
+    """Force garbage collection and cleanup of temporary resources"""
+    gc.collect()
+    # Clear any unreferenced temp profiles
+    with _temp_profile_lock:
+        dead_profiles = []
+        for profile_dir in list(_temp_profile_dirs):
+            path = Path(profile_dir)
+            if not path.exists():
+                dead_profiles.append(profile_dir)
+        for profile_dir in dead_profiles:
+            _temp_profile_dirs.discard(profile_dir)
+
+
+# =============================================================================
+# HARD MEMORY LIMIT - Force restart when memory > 2GB
+# =============================================================================
+
+MEMORY_LIMIT_MB = 2048  # 2GB hard limit
+MEMORY_CHECK_INTERVAL = 10  # Check every 10 products
+
+def get_memory_usage_mb() -> float:
+    """Get current process memory usage in MB"""
+    try:
+        process = psutil.Process(os.getpid())
+        return process.memory_info().rss / 1024 / 1024
+    except Exception:
+        return 0.0
+
+def check_memory_limit() -> bool:
+    """Check if memory usage exceeds limit. Returns True if over limit."""
+    mem_mb = get_memory_usage_mb()
+    if mem_mb > MEMORY_LIMIT_MB:
+        log.warning(f"[MEMORY_LIMIT] Memory usage {mem_mb:.0f}MB exceeds limit {MEMORY_LIMIT_MB}MB")
+        return True
+    return False
+
+
+# =============================================================================
+# STRICTER CLEANUP - Kill ALL Firefox/Geckodriver processes
+# =============================================================================
+
+def kill_all_firefox_processes():
+    """Kill ALL Firefox and geckodriver processes system-wide (nuclear option)"""
+    killed_count = 0
+    if not psutil:
+        return killed_count
+    
+    log.warning("[NUCLEAR_CLEANUP] Killing ALL Firefox/geckodriver processes system-wide")
+    
+    for proc in psutil.process_iter(['pid', 'name']):
+        try:
+            proc_name = (proc.info['name'] or '').lower()
+            if 'firefox' in proc_name or 'geckodriver' in proc_name:
+                try:
+                    p = psutil.Process(proc.info['pid'])
+                    p.kill()
+                    killed_count += 1
+                    log.info(f"[NUCLEAR_CLEANUP] Killed {proc_name} PID {proc.info['pid']}")
+                except (psutil.NoSuchProcess, psutil.AccessDenied):
+                    pass
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            continue
+    
+    if killed_count > 0:
+        log.warning(f"[NUCLEAR_CLEANUP] Killed {killed_count} Firefox/geckodriver processes")
+        # Wait for processes to die
+        time.sleep(2)
+    
+    return killed_count
 
 try:
     import requests
@@ -51,6 +142,14 @@ except ImportError:
     ProtocolError = Exception
     URLLIB3_AVAILABLE = False
 
+_repo_root = Path(__file__).resolve().parents[2]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+_script_dir = Path(__file__).resolve().parent
+if str(_script_dir) not in sys.path:
+    sys.path.insert(0, str(_script_dir))
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -62,6 +161,11 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException,
 import os
 import socket
 from webdriver_manager.firefox import GeckoDriverManager
+
+from core.db.connection import CountryDB
+from db.repositories import ArgentinaRepository
+from db.schema import apply_argentina_schema
+from core.db.models import generate_run_id
 
 # ====== FINGERPRINT / SESSION ISOLATION ======
 UA_POOL = [
@@ -124,7 +228,9 @@ from config_loader import (
     TOR_NEWNYM_ENABLED, TOR_NEWNYM_INTERVAL_SECONDS, TOR_SOCKS_PORT,
     TOR_NEWNYM_COOLDOWN_SECONDS,
     SURFSHARK_RECONNECT_CMD, SURFSHARK_ROTATE_INTERVAL_SECONDS, SURFSHARK_IP_CHANGE_TIMEOUT_SECONDS,
-    MAX_BROWSER_RUNTIME_SECONDS
+    MAX_BROWSER_RUNTIME_SECONDS,
+    REQUIRE_TOR_PROXY,
+    SELENIUM_ROUND_ROBIN_RETRY, SELENIUM_MAX_ATTEMPTS_PER_PRODUCT
 )
 
 from core.ip_rotation import (
@@ -165,6 +271,54 @@ except Exception:
 # ====== LOGGING ======
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 log = logging.getLogger("selenium_scraper")
+
+_GECKODRIVER_INSTALL_LOCK = threading.Lock()
+_GECKODRIVER_PATH: str | None = None
+
+
+def _wipe_wdm_metadata() -> None:
+    """Clear webdriver-manager metadata file if it gets corrupted by concurrent writes."""
+    try:
+        root = Path.home() / ".wdm"
+        for name in ("drivers.json", "drivers.json.lock"):
+            p = root / name
+            try:
+                if p.exists():
+                    p.unlink()
+            except Exception:
+                pass
+    except Exception:
+        pass
+
+
+def _get_geckodriver_path() -> str:
+    """Resolve geckodriver path once per process to avoid webdriver-manager races."""
+    global _GECKODRIVER_PATH
+    if _GECKODRIVER_PATH:
+        return _GECKODRIVER_PATH
+
+    with _GECKODRIVER_INSTALL_LOCK:
+        if _GECKODRIVER_PATH:
+            return _GECKODRIVER_PATH
+
+        for attempt in range(1, 4):
+            try:
+                _GECKODRIVER_PATH = GeckoDriverManager().install()
+                return _GECKODRIVER_PATH
+            except Exception as e:
+                msg = str(e) or ""
+                if "JSONDecodeError" in type(e).__name__ or "Expecting value" in msg:
+                    log.warning("[WDM] Corrupted metadata detected; clearing drivers.json and retrying...")
+                    _wipe_wdm_metadata()
+                    time.sleep(0.25)
+                    continue
+                if attempt < 3:
+                    log.warning(f"[WDM] GeckoDriverManager install failed (attempt {attempt}/3): {e}")
+                    time.sleep(0.5)
+                    continue
+                raise
+
+    return _GECKODRIVER_PATH  # pragma: no cover
 
 def _pipeline_context_suffix() -> str:
     """Build a short context suffix so UI/pipeline logs show consistent numbering."""
@@ -207,15 +361,36 @@ def create_temp_profile():
     return webdriver.FirefoxProfile(str(profile_dir)), profile_dir
 
 def cleanup_temp_profile(profile_dir):
+    """Clean up temporary Firefox profile directory with retries"""
     if not profile_dir:
         return
     profile_path = Path(profile_dir)
+    
+    # Remove from tracking set first
     with _temp_profile_lock:
         _temp_profile_dirs.discard(str(profile_path))
-    try:
-        shutil.rmtree(profile_path, ignore_errors=True)
-    except Exception as e:
-        log.debug(f"[PROFILE] Could not remove temp profile dir {profile_path}: {e}")
+    
+    # Try to delete with retries (Windows file locking can cause issues)
+    if profile_path.exists():
+        for attempt in range(3):
+            try:
+                shutil.rmtree(profile_path, ignore_errors=False)
+                if not profile_path.exists():
+                    log.debug(f"[PROFILE] Cleaned up temp profile: {profile_path}")
+                    break
+            except Exception as e:
+                if attempt < 2:
+                    wait_time = 0.5 * (attempt + 1)
+                    log.debug(f"[PROFILE] Cleanup attempt {attempt + 1} failed, retrying in {wait_time}s: {e}")
+                    time.sleep(wait_time)
+                else:
+                    # Final attempt - use ignore_errors=True as fallback
+                    try:
+                        shutil.rmtree(profile_path, ignore_errors=True)
+                    except Exception:
+                        pass
+                    if profile_path.exists():
+                        log.warning(f"[PROFILE] Could not remove temp profile dir {profile_path} after 3 attempts")
 
 # ====== SHUTDOWN HANDLING ======
 _shutdown_requested = threading.Event()
@@ -237,6 +412,39 @@ _tor_newnym_thread = None
 # ====== TEMP PROFILE TRACKING ======
 _temp_profile_dirs = set()
 _temp_profile_lock = threading.Lock()
+
+# ====== ROUND-ROBIN RETRY TRACKING ======
+_product_attempt_counts = {}  # (company, product) -> attempt_count
+_attempt_counts_lock = threading.Lock()
+
+def get_product_attempt_count(company: str, product: str) -> int:
+    """Get the number of attempts made for a product."""
+    key = (nk(company), nk(product))
+    with _attempt_counts_lock:
+        return _product_attempt_counts.get(key, 0)
+
+def increment_product_attempt_count(company: str, product: str) -> int:
+    """Increment and return the attempt count for a product."""
+    key = (nk(company), nk(product))
+    with _attempt_counts_lock:
+        _product_attempt_counts[key] = _product_attempt_counts.get(key, 0) + 1
+        return _product_attempt_counts[key]
+
+def should_requeue_for_round_robin(company: str, product: str) -> bool:
+    """Check if product should be requeued for round-robin retry.
+    
+    Returns True if product should be requeued (attempts < max),
+    False if max attempts reached (should move to API).
+    """
+    if not SELENIUM_ROUND_ROBIN_RETRY:
+        return True  # Not in round-robin mode, always requeue
+    
+    attempts = increment_product_attempt_count(company, product)
+    if attempts >= SELENIUM_MAX_ATTEMPTS_PER_PRODUCT:
+        log.warning(f"[ROUND_ROBIN] Max attempts ({SELENIUM_MAX_ATTEMPTS_PER_PRODUCT}) reached for {company} | {product}")
+        return False
+    log.info(f"[ROUND_ROBIN] Requeueing {company} | {product} for attempt {attempts + 1}/{SELENIUM_MAX_ATTEMPTS_PER_PRODUCT}")
+    return True
 
 # ====== ROTATION COORDINATION ======
 class RotationCoordinator:
@@ -608,6 +816,54 @@ def kill_tracked_firefox_processes():
     if killed_count > 0:
         log.info(f"[SHUTDOWN] Killed {killed_count} tracked Firefox/geckodriver process(es) (Alfabeta only)")
 
+
+def cleanup_orphaned_firefox_processes():
+    """PERFORMANCE FIX: Kill any orphaned Firefox/geckodriver processes not in active drivers list"""
+    if not psutil:
+        return 0
+    
+    killed_count = 0
+    current_pids = set()
+    
+    # Get PIDs from active drivers
+    with _drivers_lock:
+        for driver in _active_drivers:
+            try:
+                if hasattr(driver, 'service') and hasattr(driver.service, 'process'):
+                    if driver.service.process:
+                        current_pids.add(driver.service.process.pid)
+            except Exception:
+                pass
+    
+    # Find and kill orphaned processes
+    try:
+        for proc in psutil.process_iter(['pid', 'name', 'ppid']):
+            try:
+                proc_name = (proc.info['name'] or '').lower()
+                pid = proc.info['pid']
+                
+                # Skip if it's in our active drivers
+                if pid in current_pids:
+                    continue
+                
+                # Check if it's a Firefox or geckodriver process started by us
+                if 'firefox' in proc_name or 'geckodriver' in proc_name:
+                    # Check if parent is our Python process or if it's an orphan
+                    try:
+                        parent = proc.parent()
+                        if parent and parent.pid == os.getpid():
+                            proc.kill()
+                            killed_count += 1
+                            log.info(f"[ORPHAN_CLEANUP] Killed orphaned {proc_name}: PID {pid}")
+                    except (psutil.NoSuchProcess, psutil.AccessDenied):
+                        pass
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                continue
+    except Exception as e:
+        log.debug(f"[ORPHAN_CLEANUP] Error during cleanup: {e}")
+    
+    return killed_count
+
 # Register signal handlers
 try:
     signal.signal(signal.SIGINT, signal_handler)
@@ -629,6 +885,31 @@ PROGRESS = OUTPUT_DIR / OUTPUT_PROGRESS_CSV
 ERRORS = OUTPUT_DIR / OUTPUT_ERRORS_CSV
 DEBUG_ERR = OUTPUT_DIR / "debug" / "error"
 DEBUG_NF = OUTPUT_DIR / "debug" / "not_found"
+
+# DB setup
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+_RUN_ID_FILE = OUTPUT_DIR / ".current_run_id"
+
+def _get_run_id() -> str:
+    rid = os.environ.get("ARGENTINA_RUN_ID")
+    if rid:
+        return rid
+    if _RUN_ID_FILE.exists():
+        try:
+            txt = _RUN_ID_FILE.read_text(encoding="utf-8").strip()
+            if txt:
+                return txt
+        except Exception:
+            pass
+    rid = generate_run_id()
+    os.environ["ARGENTINA_RUN_ID"] = rid
+    _RUN_ID_FILE.write_text(rid, encoding="utf-8")
+    return rid
+
+_DB = CountryDB("Argentina")
+apply_argentina_schema(_DB)
+_RUN_ID = _get_run_id()
+_REPO = ArgentinaRepository(_DB, _RUN_ID)
 
 # Create debug directories
 for d in [DEBUG_ERR, DEBUG_NF]:
@@ -833,6 +1114,19 @@ def mark_api_pending(company: str, product: str):
     """
     try:
         if USE_API_STEPS:
+            # DB-only: mark for API fallback
+            try:
+                _REPO.mark_attempt_by_name(
+                    company,
+                    product,
+                    loop_count=int(SELENIUM_MAX_RUNS),
+                    total_records=0,
+                    status="failed",
+                    source="selenium",
+                    error_message="pending_api",
+                )
+            except Exception:
+                pass
             update_prepared_urls_source(
                 company,
                 product,
@@ -898,9 +1192,9 @@ def save_debug(driver, folder: Path, tag: str):
 
 # ====== DRIVER / LOGIN ======
 
-# Global variable to store the Tor SOCKS port.
-# Prefer configured TOR_SOCKS_PORT (standalone Tor: 9050). Fallback to 9050.
-TOR_PROXY_PORT = int(TOR_SOCKS_PORT) if TOR_SOCKS_PORT else 9050
+# Global variable to store the Tor SOCKS port (0/None means direct connection).
+# Prefer configured TOR_SOCKS_PORT (standalone Tor: 9050) when available.
+TOR_PROXY_PORT = int(TOR_SOCKS_PORT) if TOR_SOCKS_PORT else 0
 
 def check_tor_running(host="127.0.0.1", timeout=2):
     """
@@ -1121,7 +1415,7 @@ def check_requirements():
         log.error("[REQUIREMENTS] Firefox/Tor Browser not found")
         all_ok = False
     
-    # Check 2: Tor service running
+    # Check 2: Tor service running (only required if REQUIRE_TOR_PROXY=true)
     print("\n[REQUIREMENTS] 2. Checking Tor proxy service...")
     tor_running, tor_port = check_tor_running()
     if tor_running:
@@ -1132,13 +1426,19 @@ def check_requirements():
         global TOR_PROXY_PORT
         TOR_PROXY_PORT = tor_port
     else:
-        print("  [FAIL] Tor proxy is not running on localhost:9050 or localhost:9150")
-        print("  [INFO] Please start Tor before running the scraper:")
-        print("  [INFO]   Option 1: Start Tor Browser (uses port 9150)")
-        print("  [INFO]   Option 2: Start Tor service separately (uses port 9050)")
-        print("  [INFO]   The scraper will automatically detect which port Tor is using")
-        log.error("[REQUIREMENTS] Tor proxy is not running")
-        all_ok = False
+        if REQUIRE_TOR_PROXY:
+            print("  [FAIL] Tor proxy is not running on localhost:9050 or localhost:9150")
+            print("  [INFO] Please start Tor before running the scraper:")
+            print("  [INFO]   Option 1: Start Tor Browser (uses port 9150)")
+            print("  [INFO]   Option 2: Start Tor service separately (uses port 9050)")
+            print("  [INFO]   The scraper will automatically detect which port Tor is using")
+            log.error("[REQUIREMENTS] Tor proxy is not running")
+            all_ok = False
+        else:
+            print("  [WARN] Tor proxy is not running; continuing with direct connection")
+            print("  [INFO] Set REQUIRE_TOR_PROXY=true to enforce Tor usage")
+            log.warning("[REQUIREMENTS] Tor proxy is not running; proceeding without Tor")
+            TOR_PROXY_PORT = 0
     
     # Check 3: Required Python packages (basic check)
     print("\n[REQUIREMENTS] 3. Checking Python dependencies...")
@@ -1235,15 +1535,19 @@ def setup_driver(headless=False):
     profile.set_preference("dom.webnotifications.enabled", False)
     profile.set_preference("dom.push.enabled", False)
     
-    # Configure Tor SOCKS5 proxy
-    profile.set_preference("network.proxy.type", 1)  # Manual proxy configuration
-    profile.set_preference("network.proxy.socks", "127.0.0.1")
+    # Configure Tor SOCKS5 proxy (only if Tor is enabled)
     socks_port = int(TOR_SOCKS_PORT or TOR_PROXY_PORT or 0)
-    profile.set_preference("network.proxy.socks_port", socks_port)
-    profile.set_preference("network.proxy.socks_version", 5)
-    profile.set_preference("network.proxy.socks_remote_dns", True)  # Route DNS through Tor
-    port_name = "Tor Browser" if socks_port == 9150 else "Tor service"
-    log.info(f"[TOR_CONFIG] Using Tor proxy on port {socks_port} ({port_name})")
+    if socks_port > 0:
+        profile.set_preference("network.proxy.type", 1)  # Manual proxy configuration
+        profile.set_preference("network.proxy.socks", "127.0.0.1")
+        profile.set_preference("network.proxy.socks_port", socks_port)
+        profile.set_preference("network.proxy.socks_version", 5)
+        profile.set_preference("network.proxy.socks_remote_dns", True)  # Route DNS through Tor
+        port_name = "Tor Browser" if socks_port == 9150 else "Tor service"
+        log.info(f"[TOR_CONFIG] Using Tor proxy on port {socks_port} ({port_name})")
+    else:
+        profile.set_preference("network.proxy.type", 0)  # Direct connection
+        log.info("[TOR_CONFIG] Tor proxy disabled; using direct connection")
     
     # Update preferences
     opts.profile = profile
@@ -1274,7 +1578,7 @@ def setup_driver(headless=False):
         raise RuntimeError("Shutdown requested, cannot create new Firefox/Tor session")
     
     try:
-        drv = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=opts)
+        drv = webdriver.Firefox(service=Service(_get_geckodriver_path()), options=opts)
     except Exception:
         cleanup_temp_profile(profile_dir)
         raise
@@ -1425,6 +1729,8 @@ def navigate_to_products_page(driver):
             
             # Wait for navigation with timeout
             if navigation_complete.wait(timeout=navigation_timeout):
+                # PERFORMANCE FIX: Clean up thread object to prevent accumulation
+                nav_thread.join(timeout=1.0)
                 if navigation_error[0]:
                     raise navigation_error[0]
                 elapsed = time.time() - navigation_start
@@ -1535,14 +1841,30 @@ def navigate_to_products_page(driver):
         log.error(f"[NAVIGATE] Page source snippet: {driver.page_source[:500]}")
         raise
 
+def is_products_search_url(url: str) -> bool:
+    """
+    True if `url` is the Alfabeta products search/listing page (base URL), not a product detail page.
+
+    Examples:
+      - https://www.alfabeta.net/precio         -> True
+      - https://www.alfabeta.net/precio?x=y     -> True
+      - https://www.alfabeta.net/precio/abc.html -> False
+    """
+    base = (PRODUCTS_URL or "").lower().rstrip("/")
+    u = (url or "").lower()
+    if not base or not u.startswith(base):
+        return False
+    rest = u[len(base):]
+    return rest == "" or rest.startswith("?") or rest.startswith("#")
+
 def search_product_on_page(driver, product_term: str):
     """Search for product using the existing search form (no navigation - assumes already on products page)"""
     log.info(f"[SEARCH] Searching for product: {product_term}")
     
-    # Check if we're still on the products page, if not navigate back
-    current_url = driver.current_url.lower()
-    if "precio" not in current_url or PRODUCTS_URL.lower() not in current_url:
-        log.warning(f"[SEARCH] Not on products page (current: {driver.current_url}), navigating back...")
+    # Check if we're still on the products search page (not a product detail page), if not navigate back
+    current_url = driver.current_url
+    if not is_products_search_url(current_url):
+        log.warning(f"[SEARCH] Not on products search page (current: {current_url}), navigating back to {PRODUCTS_URL}...")
         navigate_to_products_page(driver)
     
     # Wait for search form to be present (might be refreshing after previous search)
@@ -1634,6 +1956,8 @@ def open_exact_pair(driver, product: str, company: str) -> bool:
     if not is_driver_alive(driver):
         raise WebDriverException("Driver is not alive before execute_script (likely crashed)")
     
+    prev_url = driver.current_url
+    base = (PRODUCTS_URL or "").lower().rstrip("/")
     driver.execute_script(f"if (document.{pr}) document.{pr}.submit();")
     
     # Rate limiting: pause after opening product page
@@ -1648,7 +1972,14 @@ def open_exact_pair(driver, product: str, company: str) -> bool:
         """Wait for product page to load in a separate thread"""
         try:
             WebDriverWait(driver, WAIT_PAGE_LOAD).until(
-                lambda d: "presentacion" in d.page_source.lower() or d.find_elements(By.CSS_SELECTOR, "tr.lproducto span.tproducto")
+                lambda d: (
+                    (d.current_url != prev_url)
+                    and ((not base) or d.current_url.lower().startswith(base + "/"))
+                    and (
+                        d.find_elements(By.CSS_SELECTOR, "tr.lproducto span.tproducto")
+                        or d.find_elements(By.CSS_SELECTOR, "td.dproducto > table.presentacion")
+                    )
+                )
             )
             page_load_complete.set()
         except Exception as e:
@@ -1662,6 +1993,8 @@ def open_exact_pair(driver, product: str, company: str) -> bool:
     # Wait for completion with timeout (add 5 seconds buffer to WAIT_PAGE_LOAD)
     timeout_with_buffer = WAIT_PAGE_LOAD + 5
     if page_load_complete.wait(timeout=timeout_with_buffer):
+        # PERFORMANCE FIX: Clean up thread object
+        wait_thread.join(timeout=1.0)
         if page_load_error[0]:
             # Re-raise the error from the wait thread
             raise page_load_error[0]
@@ -1695,6 +2028,8 @@ def open_exact_pair(driver, product: str, company: str) -> bool:
     
     # Wait for completion with timeout (15 seconds buffer)
     if ready_state_complete.wait(timeout=15):
+        # PERFORMANCE FIX: Clean up thread object
+        ready_thread.join(timeout=1.0)
         if ready_state_error[0]:
             # Log warning but don't fail - this is not critical
             log.warning(f"[OPEN_PAIR] Document ready state check failed: {ready_state_error[0]}, continuing anyway")
@@ -1711,6 +2046,20 @@ def open_exact_pair(driver, product: str, company: str) -> bool:
             log.warning("[OPEN_PAIR] No presentation tables found, content may not be fully loaded")
     except Exception as e:
         log.warning(f"[OPEN_PAIR] Could not verify presentation tables: {e}")
+
+    # Guard against false-success where navigation never happened and we'd re-extract the prior product page
+    try:
+        loaded_name = normalize_ws((driver.find_element(By.CSS_SELECTOR, "tr.lproducto span.tproducto").text or ""))
+        if loaded_name and nk(loaded_name) != nk(product):
+            log.warning(
+                f"[OPEN_PAIR] Product title mismatch after open (expected: {product} | got: {loaded_name}). URL: {driver.current_url}"
+            )
+            raise TimeoutException("Opened page does not match requested product")
+    except TimeoutException:
+        raise
+    except Exception:
+        # If we can't read the title, don't fail hard; extraction will handle missing elements.
+        pass
     
     return True
 
@@ -2110,11 +2459,15 @@ def main():
         return 1
     
     print("\n" + "=" * 80)
-    print("[STARTUP] Starting Selenium scraper with Tor...")
+    print("[STARTUP] Starting Selenium scraper...")
     print("[STARTUP] Configuration:")
     print(f"[STARTUP]   - Browser instances: {SELENIUM_THREADS}")
-    port_name = "Tor Browser" if TOR_PROXY_PORT == 9150 else "Tor service"
-    print(f"[STARTUP]   - Browser: Firefox with Tor (SOCKS5 proxy on localhost:{TOR_PROXY_PORT} - {port_name})")
+    socks_port = int(TOR_SOCKS_PORT or TOR_PROXY_PORT or 0)
+    if socks_port > 0:
+        port_name = "Tor Browser" if socks_port == 9150 else "Tor service"
+        print(f"[STARTUP]   - Browser: Firefox with Tor (SOCKS5 proxy on localhost:{socks_port} - {port_name})")
+    else:
+        print("[STARTUP]   - Browser: Firefox (direct connection)")
     print(f"[STARTUP]   - Restart browser every: {PRODUCTS_PER_RESTART} products")
     print(f"[STARTUP]   - Slow restart: {SLOW_PAGE_RESTART_ENABLED} (median >= {SLOW_PAGE_THRESHOLD_SECONDS}s, window {SLOW_PAGE_WINDOW_SIZE}, min {SLOW_PAGE_MIN_SAMPLES_COUNT})")
     if TOR_NEWNYM_ENABLED and TOR_NEWNYM_INTERVAL_SECONDS > 0:
@@ -2124,8 +2477,12 @@ def main():
     print(f"[STARTUP]   - Repeat items -> API: {SKIP_REPEAT_SELENIUM_TO_API}")
     print(f"[STARTUP]   - Images/CSS: BLOCKED (for performance)")
     print("=" * 80 + "\n")
-    log.info("[STARTUP] Starting Selenium scraper with Tor...")
-    log.info(f"[STARTUP] Browser: Firefox with Tor (SOCKS5 proxy on localhost:{TOR_PROXY_PORT} - {port_name})")
+    log.info("[STARTUP] Starting Selenium scraper...")
+    if socks_port > 0:
+        port_name = "Tor Browser" if socks_port == 9150 else "Tor service"
+        log.info(f"[STARTUP] Browser: Firefox with Tor (SOCKS5 proxy on localhost:{socks_port} - {port_name})")
+    else:
+        log.info("[STARTUP] Browser: Firefox (direct connection)")
     log.info(f"[STARTUP] Browser instances: {SELENIUM_THREADS}, Restart every: {PRODUCTS_PER_RESTART} products")
     log.info(f"[STARTUP] Slow restart: {SLOW_PAGE_RESTART_ENABLED} (median >= {SLOW_PAGE_THRESHOLD_SECONDS}s, window {SLOW_PAGE_WINDOW_SIZE}, min {SLOW_PAGE_MIN_SAMPLES_COUNT})")
     if TOR_NEWNYM_ENABLED and TOR_NEWNYM_INTERVAL_SECONDS > 0:
@@ -2148,70 +2505,34 @@ def main():
         log.error(traceback.format_exc())
         # Continue anyway - pre-sync failure shouldn't stop processing
     
-    # Load prepared URLs file
-    if not PREPARED_URLS_FILE_PATH.exists():
-        log.error(f"Prepared URLs file not found: {PREPARED_URLS_FILE_PATH}")
-        log.error("Please run script 02 (prepare_urls.py) first to generate Productlist_with_urls.csv")
+    # Load pending products from DB (no CSV)
+    log.info("[INPUT] Loading pending products from DB (ar_product_index)...")
+    try:
+        pending_rows = _REPO.get_pending_products(max_loop=int(SELENIUM_MAX_RUNS), limit=200000)
+    except Exception as e:
+        log.error(f"[INPUT] Failed to load pending rows from DB: {e}")
         return
-    
-    log.info(f"[INPUT] Reading prepared URLs from: {PREPARED_URLS_FILE_PATH}")
-    
-    # First pass: Count eligible rows (Total Records == 0, Loop Count < SELENIUM_MAX_RUNS)
+
     eligible_count = 0
-    encoding_attempts = ["utf-8-sig", "utf-8", "latin-1", "windows-1252", "cp1252"]
-    f_count = None
-    
-    for encoding in encoding_attempts:
-        try:
-            f_count = open(PREPARED_URLS_FILE_PATH, encoding=encoding)
-            r_count = csv.DictReader(f_count)
-            headers_count = {nk(h): h for h in (r_count.fieldnames or [])}
-            
-            pcol_count = headers_count.get(nk("Product")) or headers_count.get("product") or "Product"
-            ccol_count = headers_count.get(nk("Company")) or headers_count.get("company") or "Company"
-            url_col_count = headers_count.get(nk("URL")) or headers_count.get("url") or "URL"
-            loop_col_count = headers_count.get(nk("Loop Count")) or headers_count.get(nk("Loop_Count")) or headers_count.get(nk("LoopCount")) or "Loop Count"
-            total_col_count = headers_count.get(nk("Total Records")) or headers_count.get(nk("Total_Records")) or headers_count.get(nk("TotalRecords")) or "Total Records"
-            
-            for row in r_count:
-                prod = (row.get(pcol_count) or "").strip()
-                comp = (row.get(ccol_count) or "").strip()
-                url = (row.get(url_col_count) or "").strip()
-                loop_raw = (row.get(loop_col_count) or "0").strip()
-                total_raw = (row.get(total_col_count) or "0").strip()
-                try:
-                    loop_count = int(float(loop_raw)) if loop_raw else 0
-                except Exception:
-                    loop_count = 0
-                try:
-                    total_records = int(float(total_raw)) if total_raw else 0
-                except Exception:
-                    total_records = 0
-                
-                # Eligible row criteria: Total Records == 0, Loop Count < SELENIUM_MAX_RUNS, Product/Company/URL non-empty
-                if (total_records == 0 and loop_count < int(SELENIUM_MAX_RUNS) and prod and comp and url):
-                    # Check if not in skip_set (already processed)
-                    key = (nk(comp), nk(prod))
-                    if key not in skip_set:
-                        eligible_count += 1
-            
-            break  # Success, exit encoding loop
-        except UnicodeDecodeError:
-            if f_count:
-                f_count.close()
+    seen_keys = set()
+    for row in pending_rows:
+        prod = (row.get("product") or "").strip()
+        comp = (row.get("company") or "").strip()
+        url = (row.get("url") or "").strip()
+        if not (prod and comp and url):
             continue
-        except Exception as e:
-            if f_count:
-                f_count.close()
-            log.error(f"[INPUT] Failed to count eligible rows: {e}")
-            return
-        finally:
-            if f_count:
-                f_count.close()
-    
-    if f_count is None:
-        log.error(f"[INPUT] Failed to read prepared URLs file with any encoding")
-        return
+        key = (nk(comp), nk(prod))
+        if key in seen_keys:
+            continue
+        with _skip_lock:
+            if key in skip_set:
+                continue
+        # double-check DB for already scraped
+        from scraper_utils import is_product_already_scraped
+        if is_product_already_scraped(comp, prod):
+            continue
+        seen_keys.add(key)
+        eligible_count += 1
     
     log.info(f"[ELIGIBLE] Found {eligible_count} eligible rows for Selenium scraping")
     
@@ -2262,122 +2583,34 @@ def main():
         thread.start()
         log.info(f"[SELENIUM] Started thread {thread_idx + 1}/{num_threads}")
     
-    # Read CSV file row by row and add to queue
-    log.info("[CSV_READER] Starting to read products from CSV file row by row...")
-    
-    # Re-open the CSV file to read row by row
-    encoding_attempts = ["utf-8-sig", "utf-8", "latin-1", "windows-1252", "cp1252"]
-    csv_file = None
-    csv_reader = None
-    csv_headers = None
-    
-    for encoding in encoding_attempts:
-        try:
-            csv_file = open(PREPARED_URLS_FILE_PATH, "r", encoding=encoding, newline="")
-            csv_reader = csv.DictReader(csv_file)
-            csv_headers = {nk(h): h for h in (csv_reader.fieldnames or [])}
-            break
-        except UnicodeDecodeError:
-            if csv_file:
-                csv_file.close()
+    # Queue items from DB
+    log.info("[DB_READER] Queueing pending products from DB...")
+
+    selenium_count = 0
+    seen_keys = set()
+    for row in pending_rows:
+        prod = (row.get("product") or "").strip()
+        comp = (row.get("company") or "").strip()
+        url = (row.get("url") or "").strip()
+        if not (prod and comp and url):
             continue
-        except Exception as e:
-            if csv_file:
-                csv_file.close()
-            log.error(f"[CSV_READER] Failed to read CSV file: {e}")
-            break
-    
-    if csv_file is None or csv_reader is None:
-        log.error("[CSV_READER] Failed to open CSV file for row-by-row reading")
-        # Signal workers to exit
-        for _ in range(num_threads):
-            selenium_queue.put(None)  # None signals end of processing
-        # Wait for threads to complete
-        for thread in threads:
-            thread.join()
-        close_all_drivers()
-        return 1
-    
-    try:
-        pcol = csv_headers.get(nk("Product")) or csv_headers.get("product") or "Product"
-        ccol = csv_headers.get(nk("Company")) or csv_headers.get("company") or "Company"
-        url_col = csv_headers.get(nk("URL")) or csv_headers.get("url") or "URL"
-        loop_col = csv_headers.get(nk("Loop Count")) or csv_headers.get(nk("Loop_Count")) or csv_headers.get(nk("LoopCount")) or "Loop Count"
-        total_col = csv_headers.get(nk("Total Records")) or csv_headers.get(nk("Total_Records")) or csv_headers.get(nk("TotalRecords")) or "Total Records"
-        
-        row_count = 0
-        selenium_count = 0
-        blank_row_encountered = False
-        seen_keys = set()
-        
-        for row in csv_reader:
-            row_count += 1
-            
-            # Check for blank row (empty Product) - this is the stop condition
-            prod = (row.get(pcol) or "").strip()
-            
-            # If Product is empty or null, stop assigning new work and exit
-            if not prod:
-                log.info(f"[CSV_READER] Blank row detected at row {row_count} (Product is empty), stopping assignment and closing all instances...")
-                blank_row_encountered = True
-                # Signal all workers to exit
-                for _ in range(num_threads):
-                    selenium_queue.put(None)  # None signals end of processing
-                break
-            
-            comp = (row.get(ccol) or "").strip()
-            url = (row.get(url_col) or "").strip()
-            loop_raw = (row.get(loop_col) or "0").strip()
-            total_raw = (row.get(total_col) or "0").strip()
-            try:
-                loop_count = int(float(loop_raw)) if loop_raw else 0
-            except Exception:
-                loop_count = 0
-            try:
-                total_records = int(float(total_raw)) if total_raw else 0
-            except Exception:
-                total_records = 0
-            
-            # Eligible row criteria: Total Records == 0, Loop Count < SELENIUM_MAX_RUNS, Product/Company/URL non-empty
-            if (total_records == 0 and loop_count < int(SELENIUM_MAX_RUNS) and prod and comp and url):
-                # Check if already processed (in skip_set - checks output CSV and ignore list)
-                key = (nk(comp), nk(prod))
-                if key in seen_keys:
-                    log.debug(f"[CSV_READER] Skipping duplicate row for {comp} | {prod}")
-                    continue
-                with _skip_lock:
-                    if key in skip_set:
-                        log.debug(f"[SKIP] Skipping {comp} | {prod} (already in output CSV or ignore list)")
-                        continue  # Skip already processed products
-                
-                # Double-check CSV file to see if product was marked as completed by another thread
-                # This prevents duplicate scraping when CSV is updated during execution
-                from scraper_utils import is_product_already_scraped
-                if is_product_already_scraped(comp, prod):
-                    log.debug(f"[SKIP] Skipping {comp} | {prod} (already marked as scraped in CSV)")
-                    continue  # Skip already scraped products
-                
-                seen_keys.add(key)
-                selenium_count += 1
-                # Add to queue for processing (only product and company, no is_duplicate)
-                selenium_queue.put((prod, comp))
-        
-        if blank_row_encountered:
-            log.info(f"[CSV_READER] Blank row encountered. Stopped assigning new work. Processed {row_count} rows, queued {selenium_count} selenium products.")
-            # Mark Step 3 as completed (blank row stop condition)
-            log.info("[CSV_READER] Step 3 marked as completed due to blank row.")
-        else:
-            log.info(f"[CSV_READER] Completed reading CSV. Processed {row_count} rows, queued {selenium_count} selenium products")
-        
-        # Signal all workers that processing is complete (after all items are queued)
-        # Note: Workers can requeue items, so we signal completion after queuing is done
-        for _ in range(num_threads):
-            selenium_queue.put(None)  # None signals end of processing
-            
-    finally:
-        if csv_file:
-            csv_file.close()
-    
+        key = (nk(comp), nk(prod))
+        if key in seen_keys:
+            continue
+        with _skip_lock:
+            if key in skip_set:
+                continue
+        from scraper_utils import is_product_already_scraped
+        if is_product_already_scraped(comp, prod):
+            continue
+        seen_keys.add(key)
+        selenium_queue.put((prod, comp))
+        selenium_count += 1
+
+    log.info(f"[DB_READER] Queued {selenium_count} selenium products from DB")
+
+    for _ in range(num_threads):
+        selenium_queue.put(None)  # None signals end of processing
     log.info("[SELENIUM] All products queued. Waiting for queue to be processed...")
     
     # Wait for queue to be processed (with periodic checks and timeout)
@@ -2740,6 +2973,31 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                 log.info(f"[SELENIUM_WORKER] Restarting browser after {products_processed} products...")
                 create_new_driver("products_per_restart")
             
+            # PERFORMANCE FIX: Periodic resource cleanup every 25 products
+            if products_processed > 0 and products_processed % 25 == 0:
+                force_cleanup()
+                # Log resource usage every 50 products
+                if products_processed % 50 == 0:
+                    log_resource_usage(f"[SELENIUM_WORKER] Thread {thread_id} - Product {products_processed}")
+                # Clean up orphaned Firefox processes every 100 products
+                if products_processed % 100 == 0:
+                    orphaned = cleanup_orphaned_firefox_processes()
+                    if orphaned > 0:
+                        log.warning(f"[SELENIUM_WORKER] Cleaned up {orphaned} orphaned Firefox/geckodriver processes")
+            
+            # HARD MEMORY LIMIT: Check memory every N products
+            if products_processed > 0 and products_processed % MEMORY_CHECK_INTERVAL == 0:
+                if check_memory_limit():
+                    log.error(f"[SELENIUM_WORKER] Thread {thread_id}: MEMORY LIMIT EXCEEDED - forcing nuclear cleanup and restart")
+                    # Nuclear option: kill ALL Firefox processes
+                    kill_all_firefox_processes()
+                    # Force garbage collection
+                    gc.collect()
+                    # Restart driver
+                    create_new_driver("memory_limit_exceeded")
+                    # Reset counter
+                    products_processed = 0
+            
             # Check shutdown before getting from queue
             if _shutdown_requested.is_set():
                 log.warning(f"[SELENIUM_WORKER] Shutdown requested, thread {thread_id} exiting")
@@ -2770,7 +3028,7 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                 if driver is None:
                     # Failed to restart, requeue and continue (but check if already completed first)
                     if not _shutdown_requested.is_set():
-                        if SELENIUM_SINGLE_ATTEMPT:
+                        if SELENIUM_SINGLE_ATTEMPT or (SELENIUM_ROUND_ROBIN_RETRY and not should_requeue_for_round_robin(in_company, in_product)):
                             log.warning(f"[SELENIUM_WORKER] Driver restart failed, moving to API (single-attempt): {in_company} | {in_product}")
                             mark_api_pending(in_company, in_product)
                             try:
@@ -2797,9 +3055,19 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                                     skip_set.add(key)
                                     selenium_queue.task_done()  # Mark current attempt as done
                                 else:
-                                    selenium_queue.task_done()  # Mark current attempt as done first
-                                    selenium_queue.put(item)  # Then requeue (will have its own task_done() when processed)
-                                    log.info(f"[SELENIUM_WORKER] Requeued {in_company} | {in_product} after driver restart failure")
+                                    # Check round-robin retry logic
+                                    if SELENIUM_ROUND_ROBIN_RETRY and not should_requeue_for_round_robin(in_company, in_product):
+                                        # Max attempts reached, move to API
+                                        mark_api_pending(in_company, in_product)
+                                        skip_set.add(key)
+                                        selenium_queue.task_done()
+                                        with _progress_lock:
+                                            _products_completed += 1
+                                        note_product_complete(product_start)
+                                    else:
+                                        selenium_queue.task_done()  # Mark current attempt as done first
+                                        selenium_queue.put(item)  # Then requeue (will have its own task_done() when processed)
+                                        log.info(f"[SELENIUM_WORKER] Requeued {in_company} | {in_product} after driver restart failure")
                             else:
                                 log.debug(f"[SELENIUM_WORKER] Skipping requeue for {in_company} | {in_product} after driver restart failure (already in skip_set)")
                                 selenium_queue.task_done()  # Mark current attempt as done
@@ -2959,8 +3227,9 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                             # task_done() will be called in finally block
                             break
                         
-                        if SELENIUM_SINGLE_ATTEMPT:
-                            log.warning(f"[SELENIUM_WORKER] Captcha detected, moving to API (single-attempt): {in_company} | {in_product}")
+                        # In single-attempt or round-robin mode with max attempts reached: move to API
+                        if SELENIUM_SINGLE_ATTEMPT or (SELENIUM_ROUND_ROBIN_RETRY and not should_requeue_for_round_robin(in_company, in_product)):
+                            log.warning(f"[SELENIUM_WORKER] Captcha detected, moving to API (single-attempt/max-round-robin): {in_company} | {in_product}")
                             mark_api_pending(in_company, in_product)
                             try:
                                 append_progress(in_company, in_product, 0)
@@ -2987,11 +3256,22 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                                     skip_set.add(key)
                                     # task_done() will be called in finally block
                                 else:
-                                    # For requeue: call task_done() explicitly and set flag to prevent double call
-                                    selenium_queue.task_done()
-                                    task_done_called = True
-                                    selenium_queue.put(item)  # Then requeue (will have its own task_done() when processed)
-                                    log.info(f"[SELENIUM_WORKER] Requeued {in_company} | {in_product} for retry")
+                                    # Check round-robin retry logic
+                                    if SELENIUM_ROUND_ROBIN_RETRY and not should_requeue_for_round_robin(in_company, in_product):
+                                        # Max attempts reached, move to API
+                                        mark_api_pending(in_company, in_product)
+                                        skip_set.add(key)
+                                        with _progress_lock:
+                                            _products_completed += 1
+                                        note_product_complete(product_start)
+                                        task_done_called = True
+                                        selenium_queue.task_done()
+                                    else:
+                                        # For requeue: call task_done() explicitly and set flag to prevent double call
+                                        selenium_queue.task_done()
+                                        task_done_called = True
+                                        selenium_queue.put(item)  # Then requeue (will have its own task_done() when processed)
+                                        log.info(f"[SELENIUM_WORKER] Requeued {in_company} | {in_product} for retry")
                             else:
                                 log.debug(f"[SELENIUM_WORKER] Skipping requeue for {in_company} | {in_product} (already in skip_set)")
                                 # task_done() will be called in finally block
@@ -3088,7 +3368,34 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                     continue
                 
                 # Retry logic for TimeoutException
-                max_retries = 0 if SELENIUM_SINGLE_ATTEMPT else MAX_RETRIES_TIMEOUT
+                # Check round-robin mode: if enabled, check max attempts before proceeding
+                if SELENIUM_ROUND_ROBIN_RETRY:
+                    current_attempts = get_product_attempt_count(in_company, in_product)
+                    if current_attempts >= SELENIUM_MAX_ATTEMPTS_PER_PRODUCT:
+                        log.warning(f"[ROUND_ROBIN] Max attempts ({SELENIUM_MAX_ATTEMPTS_PER_PRODUCT}) reached for {in_company} | {in_product}, moving to API")
+                        try:
+                            update_prepared_urls_source(
+                                in_company, in_product,
+                                new_source="api",
+                                scraped_by_selenium="yes",
+                                scraped_by_api="no",
+                                selenium_records="0",
+                                api_records="0",
+                            )
+                        except Exception as e:
+                            log.warning(f"[ROUND_ROBIN] Failed to update source for {in_company} | {in_product}: {e}")
+                        with _skip_lock:
+                            skip_set.add((nk(in_company), nk(in_product)))
+                        with _progress_lock:
+                            _products_completed += 1
+                            completed = _products_completed
+                            total = _total_products
+                        note_product_complete(product_start)
+                        log_progress_with_step(f"Completed (max round-robin attempts): {in_product}", completed, total)
+                        continue
+                    log.info(f"[ROUND_ROBIN] Attempt {current_attempts + 1}/{SELENIUM_MAX_ATTEMPTS_PER_PRODUCT} for {in_company} | {in_product}")
+                
+                max_retries = 0 if (SELENIUM_SINGLE_ATTEMPT or SELENIUM_ROUND_ROBIN_RETRY) else MAX_RETRIES_TIMEOUT
                 retry_count = 0
                 success = False
                 
@@ -3119,7 +3426,8 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                         product_not_found = False
                         driver_restarted = False  # Flag to track if driver was restarted (requires requeue)
                         retry_loop_count = 0
-                        max_retry_loops = 1 if SELENIUM_SINGLE_ATTEMPT else 5  # Limit retries when single-attempt mode enabled
+                        # In round-robin mode: single attempt per loop, requeue to end for next loop
+                        max_retry_loops = 1 if (SELENIUM_SINGLE_ATTEMPT or SELENIUM_ROUND_ROBIN_RETRY) else 5
                         
                         while not data_found and not product_not_found and retry_loop_count < max_retry_loops:
                             retry_loop_count += 1
@@ -3224,15 +3532,18 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                             # Check if login page appeared after search
                             try:
                                 if is_login_page(driver):
-                                    if SELENIUM_SINGLE_ATTEMPT:
-                                        log.warning(f"[SELENIUM_WORKER] [LOGIN_CAPTCHA] Login captcha detected after search, moving to API (single-attempt): {in_company} | {in_product}")
-                                        mark_api_pending(in_company, in_product)
-                                        try:
-                                            append_progress(in_company, in_product, 0)
-                                            with _skip_lock:
-                                                skip_set.add((nk(in_company), nk(in_product)))
-                                        except Exception:
-                                            pass
+                                    # In single-attempt or round-robin mode: exit early to allow requeue/next loop
+                                    if SELENIUM_SINGLE_ATTEMPT or SELENIUM_ROUND_ROBIN_RETRY:
+                                        mode_str = "single-attempt" if SELENIUM_SINGLE_ATTEMPT else "round-robin"
+                                        log.warning(f"[SELENIUM_WORKER] [LOGIN_CAPTCHA] Login captcha detected after search, exiting for {mode_str}: {in_company} | {in_product}")
+                                        if SELENIUM_SINGLE_ATTEMPT:
+                                            mark_api_pending(in_company, in_product)
+                                            try:
+                                                append_progress(in_company, in_product, 0)
+                                                with _skip_lock:
+                                                    skip_set.add((nk(in_company), nk(in_product)))
+                                            except Exception:
+                                                pass
                                         product_not_found = True
                                         break
                                     log.warning(f"[SELENIUM_WORKER] [LOGIN_CAPTCHA] Login captcha detected after search for {in_company} | {in_product}")
@@ -3258,15 +3569,18 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                             # Check for captcha after search
                             try:
                                 if driver.current_url and not driver.current_url.startswith("about:") and is_captcha_page(driver):
-                                    if SELENIUM_SINGLE_ATTEMPT:
-                                        log.warning(f"[SELENIUM_WORKER] [CAPTCHA] Captcha detected after search, moving to API (single-attempt): {in_company} | {in_product}")
-                                        mark_api_pending(in_company, in_product)
-                                        try:
-                                            append_progress(in_company, in_product, 0)
-                                            with _skip_lock:
-                                                skip_set.add((nk(in_company), nk(in_product)))
-                                        except Exception:
-                                            pass
+                                    # In single-attempt or round-robin mode: exit early to allow requeue/next loop
+                                    if SELENIUM_SINGLE_ATTEMPT or SELENIUM_ROUND_ROBIN_RETRY:
+                                        mode_str = "single-attempt" if SELENIUM_SINGLE_ATTEMPT else "round-robin"
+                                        log.warning(f"[SELENIUM_WORKER] [CAPTCHA] Captcha detected after search, exiting for {mode_str}: {in_company} | {in_product}")
+                                        if SELENIUM_SINGLE_ATTEMPT:
+                                            mark_api_pending(in_company, in_product)
+                                            try:
+                                                append_progress(in_company, in_product, 0)
+                                                with _skip_lock:
+                                                    skip_set.add((nk(in_company), nk(in_product)))
+                                            except Exception:
+                                                pass
                                         product_not_found = True
                                         break
                                     log.warning(f"[SELENIUM_WORKER] [CAPTCHA] Captcha detected after search for {in_company} | {in_product}")
@@ -3375,15 +3689,18 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                             # Check if login page appeared after opening product page
                             try:
                                 if is_login_page(driver):
-                                    if SELENIUM_SINGLE_ATTEMPT:
-                                        log.warning(f"[SELENIUM_WORKER] [LOGIN_CAPTCHA] Login captcha on product page, moving to API (single-attempt): {in_company} | {in_product}")
-                                        mark_api_pending(in_company, in_product)
-                                        try:
-                                            append_progress(in_company, in_product, 0)
-                                            with _skip_lock:
-                                                skip_set.add((nk(in_company), nk(in_product)))
-                                        except Exception:
-                                            pass
+                                    # In single-attempt or round-robin mode: exit early to allow requeue/next loop
+                                    if SELENIUM_SINGLE_ATTEMPT or SELENIUM_ROUND_ROBIN_RETRY:
+                                        mode_str = "single-attempt" if SELENIUM_SINGLE_ATTEMPT else "round-robin"
+                                        log.warning(f"[SELENIUM_WORKER] [LOGIN_CAPTCHA] Login captcha on product page, exiting for {mode_str}: {in_company} | {in_product}")
+                                        if SELENIUM_SINGLE_ATTEMPT:
+                                            mark_api_pending(in_company, in_product)
+                                            try:
+                                                append_progress(in_company, in_product, 0)
+                                                with _skip_lock:
+                                                    skip_set.add((nk(in_company), nk(in_product)))
+                                            except Exception:
+                                                pass
                                         product_not_found = True
                                         break
                                     log.warning(f"[SELENIUM_WORKER] [LOGIN_CAPTCHA] Login captcha detected on product page for {in_company} | {in_product}")
@@ -3425,15 +3742,18 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                             # Check for captcha on product page
                             try:
                                 if driver.current_url and not driver.current_url.startswith("about:") and is_captcha_page(driver):
-                                    if SELENIUM_SINGLE_ATTEMPT:
-                                        log.warning(f"[SELENIUM_WORKER] [CAPTCHA] Captcha on product page, moving to API (single-attempt): {in_company} | {in_product}")
-                                        mark_api_pending(in_company, in_product)
-                                        try:
-                                            append_progress(in_company, in_product, 0)
-                                            with _skip_lock:
-                                                skip_set.add((nk(in_company), nk(in_product)))
-                                        except Exception:
-                                            pass
+                                    # In single-attempt or round-robin mode: exit early to allow requeue/next loop
+                                    if SELENIUM_SINGLE_ATTEMPT or SELENIUM_ROUND_ROBIN_RETRY:
+                                        mode_str = "single-attempt" if SELENIUM_SINGLE_ATTEMPT else "round-robin"
+                                        log.warning(f"[SELENIUM_WORKER] [CAPTCHA] Captcha on product page, exiting for {mode_str}: {in_company} | {in_product}")
+                                        if SELENIUM_SINGLE_ATTEMPT:
+                                            mark_api_pending(in_company, in_product)
+                                            try:
+                                                append_progress(in_company, in_product, 0)
+                                                with _skip_lock:
+                                                    skip_set.add((nk(in_company), nk(in_product)))
+                                            except Exception:
+                                                pass
                                         product_not_found = True
                                         break
                                     log.warning(f"[SELENIUM_WORKER] [CAPTCHA] Captcha detected on product page for {in_company} | {in_product}")
@@ -3550,12 +3870,17 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                                 log_progress_with_step(f"Saving results: {in_product}", completed, total)
                                 
                                 # Data found - save results and exit retry loop
-                                append_rows(rows_with_values)
-                                append_progress(in_company, in_product, len(rows_with_values))
-                                # Update skip_set to prevent reprocessing in same run
-                                with _skip_lock:
-                                    skip_set.add((nk(in_company), nk(in_product)))
-                                log.info(f"[SELENIUM_WORKER] [SUCCESS] {in_company} | {in_product} -> {len(rows_with_values)} rows with values")
+                                saved = append_rows(rows_with_values)
+                                if saved:
+                                    append_progress(in_company, in_product, len(rows_with_values))
+                                    # Update skip_set to prevent reprocessing in same run
+                                    with _skip_lock:
+                                        skip_set.add((nk(in_company), nk(in_product)))
+                                    log.info(f"[SELENIUM_WORKER] [SUCCESS] {in_company} | {in_product} -> {len(rows_with_values)} rows with values")
+                                else:
+                                    append_error(in_company, in_product, "DB insert failed (ar_products); leaving total_records=0 for retry")
+                                    append_progress(in_company, in_product, 0)
+                                    log.warning(f"[SELENIUM_WORKER] [DB_FAIL] {in_company} | {in_product} -> insert failed, will retry in later rounds")
                                 
                                 # Update result: If Selenium extracts valid values:
                                 # Source = selenium, Scraped_By_Selenium = yes, Scraped_By_API = no
@@ -3586,19 +3911,19 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                                 data_found = True
                                 
                                 # Navigate back to products page for next search
-                                current_url = driver.current_url.lower()
-                                if "precio" not in current_url or PRODUCTS_URL.lower() not in current_url:
-                                        log.info(f"[SELENIUM_WORKER] Navigating back to products page for next search...")
-                                        try:
-                                            driver.back()
-                                            if interruptible_sleep(1):
-                                                break  # Shutdown requested
-                                            WebDriverWait(driver, 5).until(
-                                                EC.presence_of_element_located((By.CSS_SELECTOR, "form#srvPr"))
-                                            )
-                                            log.info(f"[SELENIUM_WORKER] Successfully navigated back to products page")
-                                        except Exception:
-                                            navigate_to_products_page(driver)
+                                current_url = driver.current_url
+                                if not is_products_search_url(current_url):
+                                    log.info(f"[SELENIUM_WORKER] Navigating back to products page for next search...")
+                                    try:
+                                        driver.back()
+                                        if interruptible_sleep(1):
+                                            break  # Shutdown requested
+                                        WebDriverWait(driver, 5).until(
+                                            EC.presence_of_element_located((By.CSS_SELECTOR, "form#srvPr"))
+                                        )
+                                        log.info(f"[SELENIUM_WORKER] Successfully navigated back to products page")
+                                    except Exception:
+                                        navigate_to_products_page(driver)
                                 
                                 # Exit retry loop - data found!
                                 break
@@ -3699,6 +4024,18 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                                 continue  # Skip requeue
                             # Driver was restarted in inner loop, requeue item for retry with new driver
                             log.info(f"[FATAL_DRIVER] Thread {thread_id}: Driver restarted in retry loop, requeueing {in_company} | {in_product}")
+                            # Check round-robin retry logic
+                            if SELENIUM_ROUND_ROBIN_RETRY and not should_requeue_for_round_robin(in_company, in_product):
+                                # Max attempts reached, move to API
+                                mark_api_pending(in_company, in_product)
+                                with _skip_lock:
+                                    skip_set.add((nk(in_company), nk(in_product)))
+                                with _progress_lock:
+                                    _products_completed += 1
+                                note_product_complete(product_start)
+                                task_done_called = True
+                                selenium_queue.task_done()
+                                continue
                             # For requeue: call task_done() explicitly and set flag to prevent double call
                             selenium_queue.task_done()
                             task_done_called = True
@@ -3709,10 +4046,19 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                             continue  # Continue to next item
                         
                         if data_found or product_not_found:
-                            if product_not_found and not data_found and SELENIUM_SINGLE_ATTEMPT:
-                                mark_api_pending(in_company, in_product)
-                                with _skip_lock:
-                                    skip_set.add((nk(in_company), nk(in_product)))
+                            # In single-attempt mode: mark API pending when product not found
+                            # In round-robin mode with max attempts: also mark API pending
+                            if product_not_found and not data_found:
+                                if SELENIUM_SINGLE_ATTEMPT:
+                                    mark_api_pending(in_company, in_product)
+                                    with _skip_lock:
+                                        skip_set.add((nk(in_company), nk(in_product)))
+                                elif SELENIUM_ROUND_ROBIN_RETRY:
+                                    # Check if max attempts reached
+                                    if not should_requeue_for_round_robin(in_company, in_product):
+                                        mark_api_pending(in_company, in_product)
+                                        with _skip_lock:
+                                            skip_set.add((nk(in_company), nk(in_product)))
                             success = True
                             # If product_not_found but counter not yet incremented, increment now
                             # (blank result and max retries paths already increment, but error paths that break early might not)
@@ -3836,6 +4182,18 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                         continue
                     
                     # Requeue the item to retry with new driver
+                    # Check round-robin retry logic
+                    if SELENIUM_ROUND_ROBIN_RETRY and not should_requeue_for_round_robin(in_company, in_product):
+                        # Max attempts reached, move to API
+                        mark_api_pending(in_company, in_product)
+                        with _skip_lock:
+                            skip_set.add((nk(in_company), nk(in_product)))
+                        with _progress_lock:
+                            _products_completed += 1
+                        note_product_complete(product_start)
+                        task_done_called = True
+                        selenium_queue.task_done()
+                        continue
                     # For requeue: call task_done() explicitly and set flag to prevent double call
                     selenium_queue.task_done()
                     task_done_called = True
@@ -3860,7 +4218,11 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                 
                 msg = f"{type(driver_error).__name__}: {driver_error}"
                 try:
+                    # In single-attempt mode: mark API pending
+                    # In round-robin mode with max attempts: also mark API pending
                     if SELENIUM_SINGLE_ATTEMPT:
+                        mark_api_pending(in_company, in_product)
+                    elif SELENIUM_ROUND_ROBIN_RETRY and not should_requeue_for_round_robin(in_company, in_product):
                         mark_api_pending(in_company, in_product)
                     append_error(in_company, in_product, msg)
                     append_progress(in_company, in_product, 0)
@@ -3926,6 +4288,18 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                                 pass
                             selenium_queue.task_done()
                             continue
+                        # Check round-robin retry logic
+                        if SELENIUM_ROUND_ROBIN_RETRY and not should_requeue_for_round_robin(in_company, in_product):
+                            # Max attempts reached, move to API
+                            mark_api_pending(in_company, in_product)
+                            with _skip_lock:
+                                skip_set.add((nk(in_company), nk(in_product)))
+                            with _progress_lock:
+                                _products_completed += 1
+                            note_product_complete(product_start)
+                            task_done_called = True
+                            selenium_queue.task_done()
+                            continue
                         # For requeue: call task_done() explicitly and set flag to prevent double call
                         selenium_queue.task_done()
                         task_done_called = True
@@ -3936,7 +4310,11 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                 # Not a fatal driver error, treat as normal error
                 msg = f"{type(conn_error).__name__}: {conn_error}"
                 try:
+                    # In single-attempt mode: mark API pending
+                    # In round-robin mode with max attempts: also mark API pending
                     if SELENIUM_SINGLE_ATTEMPT:
+                        mark_api_pending(in_company, in_product)
+                    elif SELENIUM_ROUND_ROBIN_RETRY and not should_requeue_for_round_robin(in_company, in_product):
                         mark_api_pending(in_company, in_product)
                     append_error(in_company, in_product, msg)
                     append_progress(in_company, in_product, 0)
@@ -3989,6 +4367,18 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                         task_done_called = True
                         continue
                     # Restart driver and requeue
+                    # Check round-robin retry logic first
+                    if SELENIUM_ROUND_ROBIN_RETRY and not should_requeue_for_round_robin(in_company, in_product):
+                        # Max attempts reached, move to API
+                        mark_api_pending(in_company, in_product)
+                        with _skip_lock:
+                            skip_set.add((nk(in_company), nk(in_product)))
+                        with _progress_lock:
+                            _products_completed += 1
+                        note_product_complete(product_start)
+                        task_done_called = True
+                        selenium_queue.task_done()
+                        continue
                     driver = restart_driver(thread_id, driver, args.headless)
                     if driver is None:
                         try:
@@ -4025,7 +4415,11 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                 
                 msg = f"{type(e).__name__}: {e}"
                 try:
+                    # In single-attempt mode: mark API pending
+                    # In round-robin mode with max attempts: also mark API pending
                     if SELENIUM_SINGLE_ATTEMPT:
+                        mark_api_pending(in_company, in_product)
+                    elif SELENIUM_ROUND_ROBIN_RETRY and not should_requeue_for_round_robin(in_company, in_product):
                         mark_api_pending(in_company, in_product)
                     append_error(in_company, in_product, msg)
                     append_progress(in_company, in_product, 0)
@@ -4135,7 +4529,7 @@ def mark_pipeline_step_if_standalone():
         cp.mark_step_complete(
             3,
             "Scrape Products (Selenium)",
-            output_files=[str(OUT_CSV)]
+            output_files=None
         )
     except Exception as exc:
         log.warning(f"[CHECKPOINT] Failed to mark pipeline step: {exc}")
@@ -4166,3 +4560,5 @@ if __name__ == "__main__":
         _shutdown_requested.set()
         close_all_drivers()
         sys.exit(1)
+
+

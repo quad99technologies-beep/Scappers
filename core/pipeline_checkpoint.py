@@ -195,7 +195,7 @@ class PipelineCheckpoint:
         checkpoint_data = self._load_checkpoint()
         return dict(checkpoint_data.get("metadata", {}))
 
-    def update_metadata(self, updates: Dict, replace: bool = False) -> None:
+    def update_metadata(self, updates: Dict = None, replace: bool = False, **kwargs) -> None:
         """
         Update checkpoint metadata.
 
@@ -204,11 +204,17 @@ class PipelineCheckpoint:
             replace: If True, replaces metadata entirely.
         """
         checkpoint_data = self._load_checkpoint()
+        merged_updates = {}
+        if updates:
+            merged_updates.update(updates)
+        if kwargs:
+            merged_updates.update(kwargs)
+
         if replace:
-            checkpoint_data["metadata"] = dict(updates)
+            checkpoint_data["metadata"] = dict(merged_updates)
         else:
             checkpoint_data.setdefault("metadata", {})
-            checkpoint_data["metadata"].update(updates)
+            checkpoint_data["metadata"].update(merged_updates)
         self._save_checkpoint()
     
     def get_pipeline_timing(self) -> Dict:
@@ -344,7 +350,101 @@ class PipelineCheckpoint:
         return True
 
 
+    def get_status(self) -> str:
+        """
+        Get the current pipeline status from metadata.
+
+        Returns:
+            Status string: 'running', 'completed', 'resume', 'stopped', or 'idle'
+        """
+        metadata = self.get_metadata()
+        return metadata.get("status", "idle")
+
+    def set_status(self, status: str) -> None:
+        """
+        Set the pipeline status in metadata.
+
+        Args:
+            status: One of 'running', 'completed', 'resume', 'stopped', 'idle'
+        """
+        self.update_metadata({"status": status})
+        log.info(f"[CHECKPOINT] Set status to '{status}' for {self.scraper_name}")
+
+    def mark_as_resumable(self) -> None:
+        """Mark this checkpoint as resumable (for crash recovery or stop)."""
+        self.set_status("resume")
+
+    def mark_as_stopped(self) -> None:
+        """Mark this checkpoint as stopped (cannot be resumed)."""
+        self.set_status("stopped")
+
+    def mark_as_running(self, step_num: int = None, step_name: str = None) -> None:
+        """Mark this checkpoint as running."""
+        updates = {"status": "running"}
+        if step_num is not None:
+            updates["current_step"] = step_num
+        if step_name is not None:
+            updates["current_step_name"] = step_name
+        self.update_metadata(updates)
+
+    def mark_as_completed(self) -> None:
+        """Mark this checkpoint as completed."""
+        self.set_status("completed")
+
+    def is_resumable(self) -> bool:
+        """Check if this checkpoint can be resumed."""
+        status = self.get_status()
+        # Can resume if status is 'resume' OR 'running' (crash recovery)
+        return status in ("resume", "running")
+
+    def recover_if_stale(self) -> bool:
+        """
+        Check if checkpoint was left in 'running' state and recover it.
+
+        Called on app startup to handle crash scenarios.
+        If status is 'running', marks it as 'resume' so it can be resumed.
+
+        Returns:
+            True if recovery was performed, False otherwise
+        """
+        status = self.get_status()
+        if status == "running":
+            log.warning(f"[CHECKPOINT] Found stale 'running' checkpoint for {self.scraper_name}. Marking as 'resume'.")
+            self.mark_as_resumable()
+            return True
+        return False
+
+
 def get_checkpoint_manager(scraper_name: str, checkpoint_dir: Optional[Path] = None) -> PipelineCheckpoint:
     """Get or create a checkpoint manager for a scraper."""
     return PipelineCheckpoint(scraper_name, checkpoint_dir)
+
+
+def recover_all_stale_checkpoints(scraper_names: List[str] = None) -> Dict[str, bool]:
+    """
+    Recover all stale checkpoints on app startup.
+
+    Args:
+        scraper_names: List of scraper names to check. If None, checks common scrapers.
+
+    Returns:
+        Dict mapping scraper name to whether recovery was performed
+    """
+    if scraper_names is None:
+        # Default list of scrapers
+        scraper_names = [
+            "India", "Malaysia", "Argentina", "CanadaOntario", "CanadaQuebec",
+            "Chile", "Korea", "NewZealand", "SouthAfrica", "Thailand"
+        ]
+
+    results = {}
+    for scraper_name in scraper_names:
+        try:
+            cp = get_checkpoint_manager(scraper_name)
+            results[scraper_name] = cp.recover_if_stale()
+        except Exception as e:
+            log.warning(f"[CHECKPOINT] Failed to recover checkpoint for {scraper_name}: {e}")
+            results[scraper_name] = False
+
+    return results
 

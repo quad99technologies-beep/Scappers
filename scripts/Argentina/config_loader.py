@@ -53,6 +53,34 @@ except ImportError:
 SCRAPER_ID = "Argentina"
 
 
+def load_env_file():
+    """
+    Load environment variables from platform.env and Argentina.env.
+    Mirrors Malaysia loader for DB-backed runs.
+    """
+    try:
+        repo_root = get_repo_root()
+        if str(repo_root) not in sys.path:
+            sys.path.insert(0, str(repo_root))
+        from core.config_manager import ConfigManager
+
+        ConfigManager.ensure_dirs()
+        ConfigManager.load_env(SCRAPER_ID)
+    except (ImportError, FileNotFoundError, ValueError):
+        try:
+            from dotenv import load_dotenv
+            config_dir = get_repo_root() / "config"
+            env_file = config_dir / f"{SCRAPER_ID}.env"
+            if env_file.exists():
+                load_dotenv(env_file, override=True)
+            platform_env = config_dir / "platform.env"
+            if platform_env.exists():
+                load_dotenv(platform_env, override=False)
+        except Exception:
+            # best-effort: ignore if dotenv missing
+            pass
+
+
 def getenv(key: str, default: str = None) -> str:
     """
     Get environment variable with fallback to default.
@@ -280,7 +308,7 @@ SLOW_PAGE_MEDIAN_THRESHOLD_SECONDS = getenv_float("SLOW_PAGE_MEDIAN_THRESHOLD_SE
 
 # File names
 DICTIONARY_FILE = getenv("DICTIONARY_FILE", "Dictionary.csv")
-PCID_MAPPING_FILE = getenv("PCID_MAPPING_FILE", "pcid_Mapping.csv")
+PCID_MAPPING_FILE = getenv("PCID_MAPPING_FILE", "PCID Mapping - Argentina.csv")
 PRODUCTLIST_FILE = getenv("PRODUCTLIST_FILE", "Productlist.csv")
 PROXY_LIST_FILE = getenv("PROXY_LIST_FILE", "ProxyList.txt")
 IGNORE_LIST_FILE = getenv("IGNORE_LIST_FILE", "ignore_list.csv")
@@ -343,6 +371,10 @@ AUTO_START_TOR_PROXY = getenv_bool("AUTO_START_TOR_PROXY", True)  # Best-effort:
 SURFSHARK_RECONNECT_CMD = getenv("SURFSHARK_RECONNECT_CMD", "")
 SURFSHARK_ROTATE_INTERVAL_SECONDS = getenv_int("SURFSHARK_ROTATE_INTERVAL_SECONDS", 600)
 SURFSHARK_IP_CHANGE_TIMEOUT_SECONDS = getenv_int("SURFSHARK_IP_CHANGE_TIMEOUT_SECONDS", 120)
+
+# Round-robin retry mode: Try each product once, then come back for retries (don't retry immediately)
+SELENIUM_ROUND_ROBIN_RETRY = getenv_bool("SELENIUM_ROUND_ROBIN_RETRY", False)
+SELENIUM_MAX_ATTEMPTS_PER_PRODUCT = getenv_int("SELENIUM_MAX_ATTEMPTS_PER_PRODUCT", 5)  # Max attempts across all loops
 
 # Browser lifecycle
 MAX_BROWSER_RUNTIME_SECONDS = getenv_int("MAX_BROWSER_RUNTIME_SECONDS", 480)  # <8 minutes

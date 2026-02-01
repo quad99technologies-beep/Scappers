@@ -1,0 +1,29 @@
+# Platform Dependencies
+# Install with: pip install -r scripts/common/requirements.txt
+
+# Database
+psycopg2-binary>=2.9.0
+
+# HTTP Fetching
+requests>=2.28.0
+curl-cffi>=0.5.0  # For TLS fingerprint impersonation
+
+# Browser Automation
+selenium>=4.10.0
+selenium-stealth>=1.0.0
+playwright>=1.40.0  # Run: playwright install chromium
+
+# Parsing
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+
+# GUI
+streamlit>=1.30.0
+
+# Utilities
+python-dotenv>=1.0.0
+
+# Optional: For PDF extraction
+# pdfplumber>=0.10.0
+# pymupdf>=1.23.0
+# tabula-py>=2.8.0

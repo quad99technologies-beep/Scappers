@@ -6,12 +6,11 @@ Resilient end-to-end scraper that:
  - logs in
  - submits a blank 'patron' on form#srvPr to list all products
  - paginates through results, extracting (Product, Company)
- - saves Productlist.csv
+ - writes to ar_product_index (DB-only)
  - captures screenshots and page source on critical failure
 """
 
 import os
-import csv
 import time
 import logging
 import socket
@@ -58,9 +57,11 @@ except ImportError:
 # Use config values (aliased for backward compatibility)
 PAUSE = PAUSE_BETWEEN_OPERATIONS
 
-INPUT_DIR = get_input_dir()
-INPUT_DIR.mkdir(parents=True, exist_ok=True)
-OUT_PRODUCTS = INPUT_DIR / PRODUCTLIST_FILE
+from core.db.connection import CountryDB
+from db.repositories import ArgentinaRepository
+from db.schema import apply_argentina_schema
+from core.db.models import generate_run_id
+import os
 
 OUTPUT_DIR = get_output_dir()
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -68,6 +69,30 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 # Failure artifacts dir - store in output folder
 ARTIFACTS_DIR = OUTPUT_DIR / "artifacts"
 ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
+
+# DB setup
+_RUN_ID_FILE = OUTPUT_DIR / ".current_run_id"
+
+def _get_run_id() -> str:
+    run_id = os.environ.get("ARGENTINA_RUN_ID")
+    if run_id:
+        return run_id
+    if _RUN_ID_FILE.exists():
+        try:
+            txt = _RUN_ID_FILE.read_text(encoding="utf-8").strip()
+            if txt:
+                return txt
+        except Exception:
+            pass
+    run_id = generate_run_id()
+    os.environ["ARGENTINA_RUN_ID"] = run_id
+    _RUN_ID_FILE.write_text(run_id, encoding="utf-8")
+    return run_id
+
+_DB = CountryDB("Argentina")
+apply_argentina_schema(_DB)
+_RUN_ID = _get_run_id()
+_REPO = ArgentinaRepository(_DB, _RUN_ID)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 log = logging.getLogger("alfabeta-products-dump")
@@ -1184,14 +1209,35 @@ def main():
                 break
             page += 1
 
-        # write CSV
-        with open(OUT_PRODUCTS, "w", newline="", encoding="utf-8") as f:
-            w = csv.writer(f)
-            w.writerow(["Product", "Company"])
-            for prod, comp in sorted(acc, key=lambda x: (x[0].lower(), x[1].lower())):
-                w.writerow([prod, comp])
-
-        log.info(f"Saved {len(acc)} rows → {OUT_PRODUCTS}")
+        # after loop end
+        rows = [
+            {
+                "product": prod,
+                "company": comp,
+                "url": None,
+                "loop_count": 0,
+                "total_records": 0,
+                "status": "pending",
+            }
+            for prod, comp in sorted(acc, key=lambda x: (x[0].lower(), x[1].lower()))
+        ]
+        inserted = _REPO.upsert_product_index(rows)
+        db_count = _REPO.get_product_index_count()
+        log.info(f"[DB] Upserted {inserted} product index rows into ar_product_index (run_id={_RUN_ID})")
+        print(f"[DB] Product index ready: {db_count} rows", flush=True)
+        # Count cross-checks
+        extracted_count = len(rows)
+        if db_count != extracted_count:
+            log.error(
+                "[COUNT_MISMATCH] Extracted=%s, DB=%s (run_id=%s)",
+                extracted_count,
+                db_count,
+                _RUN_ID,
+            )
+            raise RuntimeError(
+                f"Count mismatch: extracted={extracted_count} db={db_count} (run_id={_RUN_ID})"
+            )
+        log.info("[COUNT_OK] website/extracted=%s db_inserted=%s", extracted_count, db_count)
         return 0
     except Exception:
         log.exception("Fatal error during scraping; capturing artifacts")

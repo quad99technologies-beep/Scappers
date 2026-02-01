@@ -1,0 +1,5 @@
+timestamp,keyword,page_rows,csv_rows,difference,status,reason,csv_file
+2026-01-30T22:12:03.821386,Tablet,6121,6121,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_001_Tablet.csv
+2026-01-30T22:13:23.193148,Capsule,6774,6774,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_002_Capsule.csv
+2026-01-30T22:14:42.440361,Powder,1916,1916,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_003_Powder.csv
+2026-01-30T22:16:00.546469,Granules,1030,1030,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_004_Granules.csv

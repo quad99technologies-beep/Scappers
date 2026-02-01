@@ -31,10 +31,9 @@ except Exception:
 
 from config_loader import (
     load_env_file,
-    require_env,
     getenv,
     get_central_output_dir,
-    get_input_dir,
+    require_env,
 )
 
 load_env_file()
@@ -50,6 +49,7 @@ QUEST_SEARCH_BY = getenv("SCRIPT_02_SEARCH_BY_SELECTOR")
 QUEST_SEARCH_TEXT = getenv("SCRIPT_02_SEARCH_TXT_SELECTOR")
 QUEST_SEARCH_BTN = getenv("SCRIPT_02_SEARCH_BUTTON_SELECTOR")
 QUEST_TABLE_SELECTOR = getenv("SCRIPT_02_RESULT_TABLE_SELECTOR")
+QUEST_INFO_SELECTOR = getenv("SCRIPT_02_INFO_SELECTOR", "#searchTable_info")
 
 # Script 04 (FUKKM) configuration
 FUKKM_URL = getenv("SCRIPT_04_BASE_URL")
@@ -149,12 +149,9 @@ def check_texts(url: str, texts: Iterable[str]) -> Tuple[bool, str]:
 
 
 def run_health_checks() -> List[CheckResult]:
-    pcid_mapping_path = get_input_dir() / "PCID Mapping - Malaysia.csv"
-
     checks: List[Tuple[str, str, Callable[[], Tuple[bool, str]]]] = [
         ("Config", "MyPriMe URL reachable", lambda: check_url_reachable(MYPRIME_URL)),
         ("Config", "Quest3+ search URL reachable", lambda: check_url_reachable(QUEST_URL)),
-        ("Config", "Malaysia PCID file present", lambda: (pcid_mapping_path.exists(), str(pcid_mapping_path.resolve()) if pcid_mapping_path.exists() else "missing file")),
         (
             "Layout",
             "'View All' text / button",
@@ -209,6 +206,22 @@ def run_health_checks() -> List[CheckResult]:
                 "Layout",
                 "Quest3+ result table selector",
                 lambda: (True, f"Selector configured: {QUEST_TABLE_SELECTOR} (Note: Table appears after search, cannot verify on initial page)"),
+            )
+        )
+    if QUEST_INFO_SELECTOR:
+        checks.append(
+            (
+                "Layout",
+                "Quest3+ info selector",
+                lambda: (True, f"Selector configured: {QUEST_INFO_SELECTOR} (DataTables info text used for total count)"),
+            )
+        )
+    else:
+        checks.append(
+            (
+                "Layout",
+                "Quest3+ info selector",
+                lambda: (False, "Selector not configured (SCRIPT_02_INFO_SELECTOR, default '#searchTable_info')"),
             )
         )
     

@@ -1,0 +1,26 @@
+timestamp,keyword,page_rows,csv_rows,difference,status,reason,csv_file
+2026-01-31T07:36:24.756014,Tablet,6121,6121,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_001_Tablet.csv
+2026-01-31T07:37:44.144302,Capsule,6774,6774,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_002_Capsule.csv
+2026-01-31T07:39:00.259697,Powder,1916,1916,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_003_Powder.csv
+2026-01-31T07:40:17.928425,Granules,1030,1030,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_004_Granules.csv
+2026-01-31T07:41:36.143578,Syrup,551,551,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_005_Syrup.csv
+2026-01-31T07:42:53.828281,Suspension,392,392,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_006_Suspension.csv
+2026-01-31T07:44:12.099528,Solution,1448,1448,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_007_Solution.csv
+2026-01-31T07:45:30.212396,Drops,144,144,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_008_Drops.csv
+2026-01-31T07:46:48.502720,Cream,463,463,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_009_Cream.csv
+2026-01-31T07:48:06.573080,Ointment,151,151,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_010_Ointment.csv
+2026-01-31T07:50:50.334610,Gel,0,0,0,no_csv_button,CSV button not available,
+2026-01-31T07:52:10.491850,Lotion,74,74,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_012_Lotion.csv
+2026-01-31T07:53:27.750946,Paste,16,16,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_013_Paste.csv
+2026-01-31T07:54:44.896513,Spray,104,104,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_014_Spray.csv
+2026-01-31T07:56:06.077312,Injection,1352,1352,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_015_Injection.csv
+2026-01-31T07:57:24.420610,Infusion,490,490,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_016_Infusion.csv
+2026-01-31T07:58:41.651153,Inhaler,49,49,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_017_Inhaler.csv
+2026-01-31T08:00:04.014087,Nebulizer,2,2,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_018_Nebulizer.csv
+2026-01-31T08:01:25.374281,Suppository,15,15,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_019_Suppository.csv
+2026-01-31T08:02:48.767975,Pessary,9,9,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_020_Pessary.csv
+2026-01-31T08:04:11.062124,Patch,41,41,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_021_Patch.csv
+2026-01-31T08:05:33.841895,Implant,2,2,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_022_Implant.csv
+2026-01-31T08:06:56.703426,Lozenge,126,126,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_023_Lozenge.csv
+2026-01-31T08:08:21.399220,Chewable,473,473,0,ok,,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_024_Chewable.csv
+2026-01-31T08:11:08.372513,Oral,0,0,0,no_csv_button,CSV button not available,

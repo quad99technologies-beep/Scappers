@@ -28,10 +28,55 @@ if str(repo_root) not in sys.path:
 
 try:
     from core.config_manager import ConfigManager
-    
+
     # Ensure directories exist
     ConfigManager.ensure_dirs()
-    
+
+    # STARTUP RECOVERY: Recover stale "running" pipelines from crashes
+    # This handles the scenario where the system crashed while a pipeline was running
+    _total_recovered = 0
+
+    # 1. Recover checkpoint/run_ledger (file-based)
+    try:
+        from shared_workflow_runner import recover_stale_pipelines
+        recovery_result = recover_stale_pipelines()
+        if recovery_result.get("total_recovered", 0) > 0:
+            _total_recovered += recovery_result["total_recovered"]
+            print(f"[STARTUP RECOVERY] Recovered {recovery_result['total_recovered']} stale checkpoint(s)")
+            for scraper, recovered in recovery_result.get("checkpoint_recovery", {}).items():
+                if recovered:
+                    print(f"  - {scraper}: checkpoint marked as 'resume'")
+    except ImportError:
+        pass  # shared_workflow_runner not available
+    except Exception as e:
+        print(f"[STARTUP RECOVERY] Checkpoint recovery warning: {e}")
+
+    # 2. Recover database run_ledger tables (Malaysia, India, etc.)
+    try:
+        from core.db.models import recover_stale_db_runs
+        from core.db.postgres_connection import PostgresDB
+
+        # Check each scraper's database
+        for scraper_name in ["Malaysia", "India", "Argentina", "Russia"]:
+            try:
+                db = PostgresDB(scraper_name)
+                db.connect()
+                db_result = recover_stale_db_runs(db, scraper_name)
+                if db_result["resumed"] or db_result["stopped"]:
+                    count = len(db_result["resumed"]) + len(db_result["stopped"])
+                    _total_recovered += count
+                    print(f"[STARTUP RECOVERY] {scraper_name} DB: {len(db_result['resumed'])} resumed, {len(db_result['stopped'])} stopped")
+                db.close()
+            except Exception as e:
+                print(f"[STARTUP RECOVERY] {scraper_name} DB warning: {e}")
+    except ImportError:
+        pass  # DB modules not available
+    except Exception as e:
+        print(f"[STARTUP RECOVERY] DB recovery warning: {e}")
+
+    if _total_recovered > 0:
+        print(f"[STARTUP RECOVERY] Total recovered: {_total_recovered} stale pipeline state(s)")
+
     # Try to acquire single-instance lock (prevents EXE runaway sessions)
     # If lock exists, show warning but allow GUI to start (user can clear stale locks)
     _app_lock_acquired = False
@@ -296,10 +341,10 @@ class ScraperGUI:
                 "scripts_dir": "",
                 "docs_dir": None,  # All docs now in root doc/ folder
                 "steps": [
-                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
-                    {"name": "01 - Get Medicine Details", "script": "02_get_details.py", "desc": "Extract medicine details and substitutes (supports resume and parallel workers)"},
+                    {"name": "01 - Scrape to PostgreSQL", "script": "run_scrapy_india.py", "desc": "Parallel Scrapy workers scrape medicine details into PostgreSQL (work-queue)"},
+                    {"name": "02 - QC + CSV Export", "script": "05_qc_and_export.py", "desc": "Quality gate checks and export latest run from PostgreSQL to CSV"},
                 ],
-                "pipeline_bat": "run_pipeline.bat",
+                "pipeline_script": "run_pipeline_scrapy.py",
                 "resume_options": {
                     "supports_formulation_resume": True,
                     "checkpoint_dir": ".checkpoints",
@@ -617,10 +662,20 @@ class ScraperGUI:
         self.main_notebook.add(dashboard_frame, text="Dashboard")
         self.setup_dashboard_page(dashboard_frame)
 
-        # Output page
-        outputs_frame = ttk.Frame(self.main_notebook)
-        self.main_notebook.add(outputs_frame, text="Output")
-        self.setup_outputs_page(outputs_frame)
+        # Input Management page (CSV to PostgreSQL input tables + PCID mapping)
+        input_mgmt_frame = ttk.Frame(self.main_notebook)
+        self.main_notebook.add(input_mgmt_frame, text="Input")
+        self.setup_input_management_tab(input_mgmt_frame)
+
+        # Output page (DB table browser)
+        output_frame = ttk.Frame(self.main_notebook)
+        self.main_notebook.add(output_frame, text="Output")
+        self.setup_output_tab_db(output_frame)
+
+        # Configuration page
+        config_frame = ttk.Frame(self.main_notebook)
+        self.main_notebook.add(config_frame, text="Configuration")
+        self.setup_config_tab(config_frame)
 
         # Health Check page (manual diagnostics)
         health_check_frame = ttk.Frame(self.main_notebook)
@@ -672,16 +727,7 @@ class ScraperGUI:
         # Setup right panel (console only)
         self.setup_console_panel(right_panel)
 
-    def setup_outputs_page(self, parent):
-        """Setup outputs/config page with tabs for final output, configuration, and output files"""
-        self.setup_right_panel(
-            parent,
-            include_pipeline_steps=False,
-            include_final_output=True,
-            include_config=True,
-            include_output=True,
-            include_docs=False
-        )
+    # setup_outputs_page removed — Output and Configuration are now top-level tabs
         
     def setup_left_panel(self, parent):
         """Setup left panel with execution controls and log status controls"""
@@ -724,6 +770,11 @@ class ScraperGUI:
                                      style='Modern.TCombobox')
         scraper_combo.pack(fill=tk.X, expand=True, padx=8, pady=(0, 6))
         scraper_combo.bind("<<ComboboxSelected>>", self.on_scraper_selected)
+        # Ensure UI state updates even on programmatic changes
+        try:
+            self.scraper_var.trace_add("write", lambda *_: self.refresh_run_button_state())
+        except Exception:
+            pass
 
         # Pipeline control - light gray border
         pipeline_section = tk.Frame(parent, bg=self.colors['white'],
@@ -765,6 +816,28 @@ class ScraperGUI:
                                          anchor=tk.W)
         self.chrome_count_label.pack(fill=tk.X, pady=(0, 3), padx=0)
 
+        # Checkpoint tools
+        checkpoint_tools = tk.Frame(pipeline_section, bg=self.colors['white'])
+        checkpoint_tools.pack(fill=tk.X, padx=8, pady=(0, 8))
+        ttk.Button(
+            checkpoint_tools,
+            text="View Checkpoint",
+            command=self.view_checkpoint_file,
+            style='Secondary.TButton'
+        ).pack(fill=tk.X, pady=(0, 3))
+        ttk.Button(
+            checkpoint_tools,
+            text="Manage Checkpoint",
+            command=self.manage_checkpoint,
+            style='Secondary.TButton'
+        ).pack(fill=tk.X, pady=(0, 3))
+        ttk.Button(
+            checkpoint_tools,
+            text="Clear Checkpoint",
+            command=self.clear_checkpoint,
+            style='Danger.TButton'
+        ).pack(fill=tk.X)
+
         # Actions - flat container (avoid dark border)
         actions_section = tk.Frame(parent, bg=self.colors['white'],
                                    highlightthickness=0,
@@ -794,27 +867,6 @@ class ScraperGUI:
         self.kill_all_chrome_button = ttk.Button(actions_section, text="Kill All Chrome Instances",
                   command=self.kill_all_chrome_instances, width=23, state=tk.NORMAL, style='Secondary.TButton')
         self.kill_all_chrome_button.pack(pady=(0, 6), padx=8, fill=tk.X, expand=True)
-        
-        # Checkpoint management - light gray border
-        checkpoint_section = tk.Frame(parent, bg=self.colors['white'],
-                                      highlightbackground=self.colors['border_gray'],
-                                      highlightthickness=1)
-        checkpoint_section.pack(fill=tk.X, padx=8, pady=(0, 6))
-        
-        tk.Label(checkpoint_section, text="Checkpoint Management", bg=self.colors['white'], fg='#000000', 
-                font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(6, 3))
-
-        self.view_checkpoint_button = ttk.Button(checkpoint_section, text="View Checkpoint",
-                  command=self.view_checkpoint_file, width=23, style='Secondary.TButton')
-        self.view_checkpoint_button.pack(pady=(0, 3), padx=8, fill=tk.X, expand=True)
-
-        self.manage_checkpoint_button = ttk.Button(checkpoint_section, text="Manage Checkpoint",
-                  command=self.manage_checkpoint, width=23, style='Secondary.TButton')
-        self.manage_checkpoint_button.pack(pady=(0, 3), padx=8, fill=tk.X, expand=True)
-
-        self.clear_checkpoint_button = ttk.Button(checkpoint_section, text="Clear Checkpoint",
-                  command=self.clear_checkpoint, width=23, style='Secondary.TButton')
-        self.clear_checkpoint_button.pack(pady=(0, 6), padx=8, fill=tk.X, expand=True)
 
         # Telegram bot control - light gray border
         telegram_section = tk.Frame(parent, bg=self.colors['white'],
@@ -829,40 +881,122 @@ class ScraperGUI:
         tk.Label(telegram_header_frame, text="Telegram Bot", bg=self.colors['white'], fg='#000000',
                 font=self.fonts['bold']).pack(side=tk.LEFT)
 
-        # Status icon (green for running, red for stopped)
-        self.telegram_status_icon = tk.Label(telegram_header_frame, text="●", bg=self.colors['white'],
-                                            fg='#dc3545', font=('Arial', 16))
+        # Status icon (circle indicator)
+        self.telegram_status_icon = tk.Label(
+            telegram_header_frame,
+            text="○",
+            bg=self.colors['white'],
+            fg='#cccccc',
+            font=self.fonts['bold']
+        )
         self.telegram_status_icon.pack(side=tk.RIGHT)
 
         telegram_status_frame = tk.Frame(telegram_section, bg=self.colors['white'])
         telegram_status_frame.pack(fill=tk.X, padx=8, pady=(0, 6))
 
+        # Status label with PID info
         self.telegram_status_label = tk.Label(telegram_status_frame,
                                               text="Status: Stopped",
                                               bg=self.colors['white'],
-                                              fg='#000000',
+                                              fg='#666666',
                                               font=self.fonts['standard'],
                                               anchor=tk.W)
         self.telegram_status_label.pack(fill=tk.X, pady=(0, 3), padx=0)
 
+        # Log file label
         self.telegram_log_label = tk.Label(telegram_status_frame,
                                            text="Log: (none)",
                                            bg=self.colors['white'],
-                                           fg='#000000',
+                                           fg='#666666',
                                            font=self.fonts['standard'],
                                            anchor=tk.W)
-        self.telegram_log_label.pack(fill=tk.X, pady=(0, 3), padx=0)
+        self.telegram_log_label.pack(fill=tk.X, pady=(0, 6), padx=0)
 
-        self.start_telegram_button = ttk.Button(telegram_section, text="Start Bot",
-                                                command=self.start_telegram_bot, width=23,
-                                                style='Secondary.TButton')
-        self.start_telegram_button.pack(pady=(0, 3), padx=8, fill=tk.X, expand=True)
-
-        self.stop_telegram_button = ttk.Button(telegram_section, text="Stop Bot",
-                                               command=self.stop_telegram_bot, width=23,
-                                               style='Secondary.TButton')
-        self.stop_telegram_button.pack(pady=(0, 6), padx=8, fill=tk.X, expand=True)
+        # Single toggle button for Start/Stop
+        self.telegram_toggle_button = ttk.Button(
+            telegram_section, 
+            text="▶ Start Bot",
+            command=self.on_telegram_toggle,
+            width=23,
+            style='Secondary.TButton'
+        )
+        self.telegram_toggle_button.pack(pady=(0, 6), padx=8, fill=tk.X, expand=True)
+        
+        # Store toggle state
+        self.telegram_toggle_var = tk.BooleanVar(value=False)
+        self._telegram_toggle_lock = False
+        
         self.refresh_telegram_status()
+
+    def _get_selected_scraper_for_data_reset(self) -> Optional[str]:
+        """Return the scraper name for data reset actions."""
+        if getattr(self, "_data_reset_use_output", False) and hasattr(self, "output_scraper_var"):
+            scraper = self.output_scraper_var.get()
+            if scraper:
+                return scraper
+        if hasattr(self, "scraper_var"):
+            return self.scraper_var.get()
+        return None
+
+    def setup_data_reset_section(self, parent):
+        """Setup data reset controls."""
+        reset_frame = tk.Frame(parent, bg=self.colors['white'])
+        reset_frame.pack(fill=tk.X, padx=8, pady=(0, 6))
+
+        tk.Label(reset_frame, text="Data Reset", bg=self.colors['white'],
+                 fg='#000000', font=self.fonts['bold']).pack(anchor=tk.W, pady=(0, 3))
+
+        chooser = tk.Frame(reset_frame, bg=self.colors['white'])
+        chooser.pack(fill=tk.X, pady=(0, 4))
+
+        tk.Label(chooser, text="Step:", bg=self.colors['white'],
+                 fg='#000000', font=self.fonts['standard']).pack(side=tk.LEFT)
+
+        self.clear_step_var = tk.StringVar(value="1")
+        self.clear_step_combo = ttk.Combobox(chooser, textvariable=self.clear_step_var,
+                                             values=["1", "2", "3", "4", "5"],
+                                             state="readonly", width=5,
+                                             style='Modern.TCombobox')
+        self.clear_step_combo.pack(side=tk.LEFT, padx=(6, 12))
+
+        self.clear_downstream_var = tk.BooleanVar(value=False)
+        self.clear_downstream_check = ttk.Checkbutton(
+            chooser, text="Include downstream",
+            variable=self.clear_downstream_var,
+            style='Secondary.TCheckbutton')
+        self.clear_downstream_check.pack(side=tk.LEFT)
+
+        self.clear_step_button = ttk.Button(reset_frame, text="Clear Step Data",
+                  command=self.clear_step_data_action, width=23,
+                  style='Danger.TButton')
+        self.clear_step_button.pack(pady=(4, 0), fill=tk.X)
+        # Disabled by default; enabled when a supported scraper is selected
+        self.clear_step_combo.config(state=tk.DISABLED)
+        self.clear_step_button.config(state=tk.DISABLED)
+        self.clear_downstream_check.state(["disabled"])
+
+    def update_reset_controls(self, scraper_name: str):
+        """Enable data-reset controls if clear_step_data.py exists for the scraper."""
+        if not hasattr(self, "clear_step_combo"):
+            return
+        scraper_info = self.scrapers.get(scraper_name, {})
+        script_path = scraper_info.get("path", self.repo_root / "scripts" / scraper_name) / "clear_step_data.py"
+
+        # Populate step combo values based on defined steps (1-based)
+        steps = scraper_info.get("steps", [])
+        step_numbers = [str(i + 1) for i, _ in enumerate(steps)] or ["1", "2", "3", "4", "5"]
+        self.clear_step_combo["values"] = step_numbers
+        if step_numbers:
+            self.clear_step_var.set(step_numbers[0])
+
+        if script_path.exists():
+            self.clear_step_combo.config(state="readonly")
+            self.clear_step_button.config(state=tk.NORMAL)
+            self.clear_downstream_check.state(["!disabled"])
+        else:
+            self.clear_step_combo.config(state=tk.DISABLED)
+            self.clear_step_button.config(state=tk.DISABLED)
+            self.clear_downstream_check.state(["disabled"])
     
     def setup_pipeline_steps_tab(self, parent):
         """Setup Pipeline Steps tab with step list, info, and explanation"""
@@ -1324,6 +1458,444 @@ class ScraperGUI:
                                     spacing1=4, spacing3=4)
         
         
+    # ==================================================================
+    # INPUT DATA MANAGEMENT TAB
+    # ==================================================================
+
+    def setup_input_management_tab(self, parent):
+        """Setup Input Data management tab: browse, upload, preview input tables + mappings."""
+        import tkinter.filedialog as filedialog
+        import tkinter.messagebox as messagebox
+
+        # --- Header ---
+        header = ttk.LabelFrame(parent, text="Input Data & Mappings", padding=10, style='Title.TLabelframe')
+        header.pack(fill=tk.X, padx=8, pady=(8, 4))
+
+        controls = tk.Frame(header, bg=self.colors['white'])
+        controls.pack(fill=tk.X)
+
+        # Country selector
+        tk.Label(controls, text="Country:", bg=self.colors['white'], fg='#000000',
+                 font=self.fonts['standard']).pack(side=tk.LEFT, padx=(0, 5))
+
+        self.input_scraper_var = tk.StringVar()
+        input_scraper_combo = ttk.Combobox(controls, textvariable=self.input_scraper_var,
+                                           state="readonly", width=18, style='Modern.TCombobox')
+        input_scraper_combo['values'] = list(self.scrapers.keys())
+        input_scraper_combo.pack(side=tk.LEFT, padx=5)
+        if self.scrapers:
+            self.input_scraper_var.set(list(self.scrapers.keys())[0])
+        input_scraper_combo.bind("<<ComboboxSelected>>", lambda e: (self._refresh_input_tables(), self._refresh_io_lock_states()))
+
+        # Table selector
+        tk.Label(controls, text="Table:", bg=self.colors['white'], fg='#000000',
+                 font=self.fonts['standard']).pack(side=tk.LEFT, padx=(15, 5))
+
+        self.input_table_var = tk.StringVar()
+        self.input_table_combo = ttk.Combobox(controls, textvariable=self.input_table_var,
+                                              state="readonly", width=22, style='Modern.TCombobox')
+        self.input_table_combo.pack(side=tk.LEFT, padx=5)
+        self.input_table_combo.bind("<<ComboboxSelected>>", lambda e: self._preview_input_table())
+
+        # Buttons (store references for lock/unlock during pipeline runs)
+        self._input_upload_btn = ttk.Button(controls, text="Upload CSV", command=self._upload_input_csv,
+                   style='Secondary.TButton')
+        self._input_upload_btn.pack(side=tk.LEFT, padx=(15, 5))
+        self._input_export_btn = ttk.Button(controls, text="Export CSV", command=self._export_input_csv,
+                   style='Secondary.TButton')
+        self._input_export_btn.pack(side=tk.LEFT, padx=5)
+        self._input_schema_btn = ttk.Button(controls, text="Schema Info", command=self._show_schema_info,
+                   style='Secondary.TButton')
+        self._input_schema_btn.pack(side=tk.LEFT, padx=5)
+        self._input_refresh_btn = ttk.Button(controls, text="Refresh", command=self._refresh_input_tables,
+                   style='Secondary.TButton')
+        self._input_refresh_btn.pack(side=tk.LEFT, padx=5)
+
+        # Lock warning label (hidden by default)
+        self._input_lock_label = tk.Label(controls, text="  Locked (scraper running)",
+                                          bg=self.colors['white'], fg='#ef4444',
+                                          font=self.fonts['standard'])
+        self._input_lock_label.pack(side=tk.LEFT, padx=(10, 0))
+        self._input_lock_label.pack_forget()
+
+        # --- Info bar ---
+        self.input_info_var = tk.StringVar(value="Select a country and table to view data")
+        info_bar = tk.Label(parent, textvariable=self.input_info_var,
+                            bg=self.colors['background_gray'], fg=self.colors['medium_gray'],
+                            font=self.fonts['standard'], anchor='w', padx=10, pady=4)
+        info_bar.pack(fill=tk.X, padx=8, pady=(0, 4))
+
+        # --- Data preview (Treeview table) ---
+        preview_frame = tk.Frame(parent, bg=self.colors['white'],
+                                 highlightbackground=self.colors['border_gray'], highlightthickness=1)
+        preview_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(0, 8))
+
+        # Treeview with scrollbars
+        tree_container = tk.Frame(preview_frame, bg=self.colors['white'])
+        tree_container.pack(fill=tk.BOTH, expand=True)
+
+        y_scroll = ttk.Scrollbar(tree_container, orient=tk.VERTICAL)
+        x_scroll = ttk.Scrollbar(tree_container, orient=tk.HORIZONTAL)
+
+        self.input_tree = ttk.Treeview(tree_container,
+                                       yscrollcommand=y_scroll.set,
+                                       xscrollcommand=x_scroll.set,
+                                       show='headings')
+        y_scroll.config(command=self.input_tree.yview)
+        x_scroll.config(command=self.input_tree.xview)
+
+        y_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        x_scroll.pack(side=tk.BOTTOM, fill=tk.X)
+        self.input_tree.pack(fill=tk.BOTH, expand=True)
+
+        # Initialize
+        self._refresh_input_tables()
+
+    def _get_country_db(self, country: str):
+        """Get or create PostgresDB for input tables."""
+        try:
+            self._last_input_db_error = None
+            from core.db.postgres_connection import PostgresDB
+            from core.db.schema_registry import SchemaRegistry
+            from pathlib import Path
+
+            db = PostgresDB(country)
+            db.connect()
+
+            # Apply common + inputs schema
+            from core.db.models import apply_common_schema
+            apply_common_schema(db)
+
+            repo_root = Path(__file__).resolve().parent
+            sql_dir = repo_root / "sql" / "schemas" / "postgres"
+            registry = SchemaRegistry(db)
+            inputs_schema = sql_dir / "inputs.sql"
+            if inputs_schema.exists():
+                registry.apply_schema(inputs_schema)
+            # Apply country-specific schema so input tables exist (e.g. in_input_formulations, my_input_products)
+            country_schemas = {"India": "india.sql", "Malaysia": "malaysia.sql"}
+            schema_file = country_schemas.get(country)
+            if schema_file and (sql_dir / schema_file).exists():
+                registry.apply_schema(sql_dir / schema_file)
+
+            return db
+        except Exception as e:
+            self._last_input_db_error = str(e)
+            return None
+
+    def _lock_input_controls(self):
+        """Disable input modification buttons while a scraper is running."""
+        for btn in (self._input_upload_btn, self._input_export_btn, self._input_schema_btn, self._input_refresh_btn):
+            try:
+                if btn:
+                    btn.config(state=tk.DISABLED)
+            except Exception:
+                pass
+        if hasattr(self, '_input_lock_label'):
+            self._input_lock_label.pack(side=tk.LEFT, padx=(10, 0))
+
+    def _unlock_input_controls(self):
+        """Re-enable input modification buttons after scraper finishes."""
+        for btn in (self._input_upload_btn, self._input_export_btn, self._input_schema_btn, self._input_refresh_btn):
+            try:
+                if btn:
+                    btn.config(state=tk.NORMAL)
+            except Exception:
+                pass
+        if hasattr(self, '_input_lock_label'):
+            self._input_lock_label.pack_forget()
+
+    def _update_output_lock_state(self):
+        """Enable/disable output controls based on selected scraper running state."""
+        scraper = self.output_scraper_var.get() if hasattr(self, "output_scraper_var") else None
+        running = scraper in self.running_scrapers
+        state = tk.DISABLED if running else tk.NORMAL
+        # Keep scraper combo always enabled so user can switch markets
+        # Leave dropdowns enabled; disable buttons only.
+        controls = [
+            getattr(self, "_output_refresh_btn", None),
+            getattr(self, "_output_export_btn", None),
+            getattr(self, "_output_delete_table_btn", None),
+            getattr(self, "_output_delete_all_btn", None),
+            getattr(self, "_output_delete_market_btn", None),
+        ]
+        for ctrl in controls:
+            try:
+                if ctrl:
+                    ctrl.config(state=state)
+            except Exception:
+                pass
+
+        # Data reset controls should follow running state
+        try:
+            if running:
+                if hasattr(self, "clear_step_combo"):
+                    self.clear_step_combo.config(state=tk.DISABLED)
+                if hasattr(self, "clear_step_button"):
+                    self.clear_step_button.config(state=tk.DISABLED)
+                if hasattr(self, "clear_downstream_check"):
+                    self.clear_downstream_check.state(["disabled"])
+            else:
+                if scraper:
+                    self.update_reset_controls(scraper)
+        except Exception:
+            pass
+
+    def _update_input_lock_state(self):
+        """Enable/disable input controls based on selected scraper running state."""
+        scraper = self.input_scraper_var.get() if hasattr(self, "input_scraper_var") else None
+        running = scraper in self.running_scrapers
+        if running:
+            self._lock_input_controls()
+        else:
+            self._unlock_input_controls()
+
+    def _refresh_io_lock_states(self):
+        """Refresh both input and output lock states."""
+        self._update_input_lock_state()
+        self._update_output_lock_state()
+
+    def _refresh_input_tables(self):
+        """Refresh the table dropdown and info for the selected country."""
+        country = self.input_scraper_var.get()
+        if not country:
+            return
+
+        try:
+            from core.db.csv_importer import INPUT_TABLE_REGISTRY, PCID_MAPPING_CONFIG
+        except ImportError:
+            self.input_info_var.set("Error: core.db.csv_importer not found")
+            return
+
+        # Build table list: country-specific + PCID mapping (if applicable)
+        tables = []
+        configs = INPUT_TABLE_REGISTRY.get(country, [])
+        for cfg in configs:
+            tables.append(cfg["display"])
+        
+        # Only add PCID mapping for countries that use it
+        countries_with_pcid = {"Argentina", "Malaysia", "Belarus", "Netherlands", "Taiwan", "Tender_Chile"}
+        if country in countries_with_pcid:
+            tables.append(PCID_MAPPING_CONFIG["display"])
+
+        self.input_table_combo['values'] = tables
+        if tables:
+            self.input_table_var.set(tables[0])
+            self._preview_input_table()
+        else:
+            self.input_table_var.set("")
+            self.input_info_var.set(f"No input tables configured for {country}")
+
+        # Store configs for lookup
+        self._input_configs = {cfg["display"]: cfg for cfg in configs}
+        if country in countries_with_pcid:
+            self._input_configs[PCID_MAPPING_CONFIG["display"]] = PCID_MAPPING_CONFIG
+
+    def _get_selected_table_config(self):
+        """Get the config dict for the currently selected table."""
+        display = self.input_table_var.get()
+        return getattr(self, '_input_configs', {}).get(display)
+
+    def _preview_input_table(self):
+        """Load and display the selected input table in the Treeview."""
+        country = self.input_scraper_var.get()
+        config = self._get_selected_table_config()
+        if not config:
+            return
+
+        table = config["table"]
+        db = self._get_country_db(country)
+        if not db:
+            err = getattr(self, "_last_input_db_error", None)
+            suffix = f": {err}" if err else ""
+            self.input_info_var.set(f"Could not open database for {country}{suffix}")
+            return
+
+        try:
+            from core.db.csv_importer import CSVImporter
+            importer = CSVImporter(db)
+
+            # Get table info
+            info = importer.get_table_info(table, country=country)
+            rows = importer.get_table_rows(table, limit=500, country=country)
+
+            # Update info bar
+            upload_info = ""
+            if info.get("last_upload"):
+                lu = info["last_upload"]
+                upload_info = f" | Last upload: {lu['source_file']} ({lu['uploaded_at']})"
+            self.input_info_var.set(f"{table}: {info['row_count']} rows{upload_info}")
+
+            # Update Treeview
+            self.input_tree.delete(*self.input_tree.get_children())
+
+            if rows:
+                # Filter out internal columns from display
+                skip_cols = {"id", "uploaded_at", "created_at"}
+                columns = [k for k in rows[0].keys() if k not in skip_cols]
+                self.input_tree['columns'] = columns
+                for col in columns:
+                    self.input_tree.heading(col, text=col)
+                    self.input_tree.column(col, width=120, minwidth=60)
+
+                for row in rows:
+                    values = [row.get(c, "") for c in columns]
+                    self.input_tree.insert("", tk.END, values=values)
+            else:
+                self.input_tree['columns'] = ["(empty)"]
+                self.input_tree.heading("(empty)", text="No data — upload a CSV to populate this table")
+
+        except Exception as e:
+            self.input_info_var.set(f"Error loading {table}: {e}")
+        finally:
+            db.close()
+
+    def _upload_input_csv(self):
+        """Open file dialog, import CSV into the selected input table."""
+        import tkinter.filedialog as filedialog
+        import tkinter.messagebox as messagebox
+
+        country = self.input_scraper_var.get()
+        config = self._get_selected_table_config()
+        if not config:
+            messagebox.showwarning("No Table", "Select a table first.")
+            return
+
+        csv_path = filedialog.askopenfilename(
+            title=f"Upload CSV for {config['display']} ({country})",
+            filetypes=[("CSV files", "*.csv"), ("All files", "*.*")],
+            initialdir=str(self.repo_root / "input" / country) if (self.repo_root / "input" / country).exists() else str(self.repo_root / "input"),
+        )
+        if not csv_path:
+            return
+
+        from pathlib import Path
+        csv_path = Path(csv_path)
+
+        # Ask replace or append
+        mode = "replace"
+        if messagebox.askyesno("Import Mode",
+                               f"Replace all existing data in '{config['display']}'?\n\n"
+                               f"Yes = Replace (delete old, import new)\n"
+                               f"No = Append (add to existing)"):
+            mode = "replace"
+        else:
+            mode = "append"
+
+        db = self._get_country_db(country)
+        if not db:
+            err = getattr(self, "_last_input_db_error", None)
+            suffix = f"\n\nDetails: {err}" if err else ""
+            messagebox.showerror("Error", f"Could not open database for {country}.{suffix}")
+            return
+
+        try:
+            from core.db.csv_importer import CSVImporter
+            importer = CSVImporter(db)
+
+            # Validate schema first
+            validation = importer.validate_csv(
+                csv_path, config.get("column_map", {}), config.get("required", [])
+            )
+            if not validation["valid"]:
+                messagebox.showerror("Validation Failed",
+                    "Cannot import — schema validation failed:\n\n" +
+                    "\n".join(validation["errors"]))
+                return
+            if validation["warnings"]:
+                warn_msg = "\n".join(validation["warnings"])
+                if not messagebox.askyesno("Validation Warnings",
+                    f"Schema validation passed with warnings:\n\n{warn_msg}\n\nProceed with import?"):
+                    return
+
+            result = importer.import_csv(
+                csv_path=csv_path,
+                table=config["table"],
+                column_map=config.get("column_map", {}),
+                mode=mode,
+                country=country,
+            )
+
+            if result.status == "ok":
+                msg = (f"Imported {result.rows_imported} rows into {config['display']}\n"
+                       f"Source: {result.source_file}\n"
+                       f"Columns mapped: {', '.join(result.columns_mapped)}")
+                if result.columns_unmapped:
+                    msg += f"\nColumns skipped: {', '.join(result.columns_unmapped)}"
+                if result.rows_skipped:
+                    msg += f"\nRows skipped (duplicates): {result.rows_skipped}"
+                messagebox.showinfo("Import Complete", msg)
+            elif result.status == "warning":
+                messagebox.showwarning("Import Warning", result.message)
+            else:
+                messagebox.showerror("Import Error", result.message)
+
+            # Refresh preview
+            self._preview_input_table()
+
+        except Exception as e:
+            messagebox.showerror("Import Error", f"Failed to import: {e}")
+        finally:
+            db.close()
+
+    def _export_input_csv(self):
+        """Export the selected input table to a CSV file."""
+        import tkinter.filedialog as filedialog
+        import tkinter.messagebox as messagebox
+
+        country = self.input_scraper_var.get()
+        config = self._get_selected_table_config()
+        if not config:
+            messagebox.showwarning("No Table", "Select a table first.")
+            return
+
+        save_path = filedialog.asksaveasfilename(
+            title=f"Export {config['display']} ({country})",
+            defaultextension=".csv",
+            filetypes=[("CSV files", "*.csv")],
+            initialfile=f"{config['table']}_{country}.csv",
+        )
+        if not save_path:
+            return
+
+        from pathlib import Path
+        db = self._get_country_db(country)
+        if not db:
+            err = getattr(self, "_last_input_db_error", None)
+            suffix = f"\n\nDetails: {err}" if err else ""
+            messagebox.showerror("Error", f"Could not open database for {country}.{suffix}")
+            return
+
+        try:
+            from core.db.csv_importer import CSVImporter
+            importer = CSVImporter(db)
+            msg = importer.export_table_csv(config["table"], Path(save_path), country=country)
+            messagebox.showinfo("Export", msg)
+        except Exception as e:
+            messagebox.showerror("Export Error", str(e))
+        finally:
+            db.close()
+
+    def _show_schema_info(self):
+        """Show expected schema / column mapping for the selected table."""
+        import tkinter.messagebox as messagebox
+
+        country = self.input_scraper_var.get()
+        config = self._get_selected_table_config()
+        if not config:
+            messagebox.showwarning("No Table", "Select a table first.")
+            return
+
+        lines = [f"Table: {config['table']}", f"Display: {config['display']}", ""]
+        lines.append("CSV Column → DB Column mapping:")
+        for csv_col, db_col in config.get("column_map", {}).items():
+            lines.append(f"  {csv_col} → {db_col}")
+        lines.append("")
+        req = config.get("required", [])
+        lines.append(f"Required DB columns: {', '.join(req) if req else '(none)'}")
+
+        messagebox.showinfo(f"Schema: {config['display']}", "\n".join(lines))
+
     def setup_logs_tab(self, parent):
         """Setup logs viewer panel"""
         self.setup_log_status_panel(parent)
@@ -1387,7 +1959,7 @@ class ScraperGUI:
                                           highlightthickness=1,
                                           highlightbackground=self.colors['border_gray'],
                                           bd=0)
-        execution_status_frame.pack(fill=tk.X, expand=False, padx=8, pady=(0, 8))
+        execution_status_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(0, 8))
         
         # Label for the section
         tk.Label(execution_status_frame, text="Execution Status", 
@@ -1457,7 +2029,44 @@ class ScraperGUI:
             font=self.fonts['standard']
         )
         self.progress_percent.pack(side=tk.RIGHT, padx=(10, 0))
-    
+
+        # DB Activity panel (below progress bar, fills remaining space)
+        db_activity_frame = tk.Frame(execution_status_frame, bg=self.colors['white'])
+        db_activity_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=(0, 5))
+
+        tk.Label(
+            db_activity_frame,
+            text="DB Activity:",
+            bg=self.colors['white'],
+            fg='#666666',
+            font=self.fonts['standard'],
+            anchor='w'
+        ).pack(anchor=tk.W)
+
+        self.db_activity_text = tk.Text(
+            db_activity_frame,
+            height=20,
+            wrap=tk.WORD,
+            font=("Consolas", 8),
+            bg='#1e1e1e',
+            fg='#00cc66',
+            insertbackground='#00cc66',
+            relief=tk.FLAT,
+            bd=1,
+            highlightthickness=1,
+            highlightbackground=self.colors['border_light'],
+            state=tk.DISABLED,
+        )
+        self.db_activity_text.pack(fill=tk.BOTH, expand=True, pady=(2, 0))
+
+        # Tag for different DB activity types
+        self.db_activity_text.tag_configure("claim", foreground="#66ccff")
+        self.db_activity_text.tag_configure("upsert", foreground="#ffcc00")
+        self.db_activity_text.tag_configure("ok", foreground="#00cc66")
+        self.db_activity_text.tag_configure("fail", foreground="#ff5555")
+        self.db_activity_text.tag_configure("seed", foreground="#cc99ff")
+        self.db_activity_text.tag_configure("finish", foreground="#ffffff")
+
     def setup_console_panel(self, parent):
         """Setup console viewer panel"""
         # Execution Log header + actions (above console)
@@ -1516,6 +2125,644 @@ class ScraperGUI:
         )
         self.log_text.pack(fill=tk.BOTH, expand=True)
         
+    def setup_output_tab_db(self, parent):
+        """Setup DB-backed output browser tab - queries PostgreSQL tables directly."""
+        container = tk.Frame(parent, bg=self.colors['white'])
+        container.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
+
+        screen_width = self.root.winfo_screenwidth()
+
+        # Left panel (controls)
+        left_panel = ttk.Frame(container)
+        left_panel.configure(style='TFrame')
+        left_panel.pack(side=tk.LEFT, fill=tk.Y, expand=False)
+        left_panel.config(width=int(screen_width * 0.17))
+        left_panel.pack_propagate(False)
+
+        # Right panel (data table)
+        right_panel = tk.Frame(container, bg=self.colors['white'])
+        right_panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        # --- Selection section ---
+        selection_section = tk.Frame(left_panel, bg=self.colors['white'],
+                                     highlightbackground=self.colors['border_gray'],
+                                     highlightthickness=1)
+        selection_section.pack(fill=tk.X, padx=8, pady=(6, 4))
+
+        tk.Label(selection_section, text="Output Browser", bg=self.colors['white'], fg='#000000',
+                 font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(6, 4))
+
+        form = tk.Frame(selection_section, bg=self.colors['white'])
+        form.pack(fill=tk.X, padx=8, pady=(0, 8))
+
+        tk.Label(form, text="Scraper:", bg=self.colors['white'], fg='#000000',
+                 font=self.fonts['standard']).pack(anchor=tk.W)
+
+        self.output_scraper_var = tk.StringVar()
+        self.output_scraper_combo = ttk.Combobox(
+            form, textvariable=self.output_scraper_var,
+            state="readonly", width=18, style='Modern.TCombobox')
+        self.output_scraper_combo['values'] = list(self.scrapers.keys())
+        self.output_scraper_combo.pack(fill=tk.X, pady=(2, 8))
+        if self.scrapers:
+            self.output_scraper_var.set(list(self.scrapers.keys())[0])
+        self.output_scraper_combo.bind("<<ComboboxSelected>>", lambda e: self._on_output_scraper_selected())
+
+        tk.Label(form, text="Table:", bg=self.colors['white'], fg='#000000',
+                 font=self.fonts['standard']).pack(anchor=tk.W)
+
+        self.output_table_var = tk.StringVar()
+        self.output_table_combo = ttk.Combobox(
+            form, textvariable=self.output_table_var,
+            state="readonly", width=18, style='Modern.TCombobox')
+        self.output_table_combo.pack(fill=tk.X, pady=(2, 8))
+        self.output_table_combo.bind("<<ComboboxSelected>>", lambda e: self._on_output_table_selected())
+
+        tk.Label(form, text="Run ID:", bg=self.colors['white'], fg='#000000',
+                 font=self.fonts['standard']).pack(anchor=tk.W)
+
+        self.output_run_var = tk.StringVar()
+        self.output_run_combo = ttk.Combobox(
+            form, textvariable=self.output_run_var,
+            state="readonly", width=18, style='Modern.TCombobox')
+        self.output_run_combo.pack(fill=tk.X, pady=(2, 8))
+        self.output_run_combo.bind("<<ComboboxSelected>>", lambda e: self._load_output_data())
+
+        # --- Actions section ---
+        actions_section = tk.Frame(left_panel, bg=self.colors['white'],
+                                   highlightbackground=self.colors['border_gray'],
+                                   highlightthickness=1)
+        actions_section.pack(fill=tk.X, padx=8, pady=(0, 4))
+
+        tk.Label(actions_section, text="Actions", bg=self.colors['white'], fg='#000000',
+                 font=self.fonts['bold']).pack(anchor=tk.W, padx=8, pady=(6, 3))
+
+        self._output_refresh_btn = ttk.Button(actions_section, text="Refresh", command=self._refresh_output_tables,
+                   style='Secondary.TButton')
+        self._output_refresh_btn.pack(fill=tk.X, padx=8, pady=(0, 4))
+        self._output_export_btn = ttk.Button(actions_section, text="Export CSV", command=self._export_output_csv,
+                   style='Primary.TButton')
+        self._output_export_btn.pack(fill=tk.X, padx=8, pady=(0, 4))
+        self._output_delete_table_btn = ttk.Button(actions_section, text="Delete run_id (table)", command=self._delete_run_id_in_selected_table,
+                   style='Secondary.TButton')
+        self._output_delete_table_btn.pack(fill=tk.X, padx=8, pady=(0, 4))
+        self._output_delete_all_btn = ttk.Button(actions_section, text="Delete run_id (all tables)", command=self._delete_run_id_all_tables,
+                   style='Secondary.TButton')
+        self._output_delete_all_btn.pack(fill=tk.X, padx=8, pady=(0, 4))
+        self._output_delete_market_btn = ttk.Button(actions_section, text="Delete market records", command=self._delete_all_records,
+                   style='Secondary.TButton')
+        self._output_delete_market_btn.pack(fill=tk.X, padx=8, pady=(0, 8))
+
+        # --- Data reset section (moved from Dashboard) ---
+        self._data_reset_use_output = True
+        data_reset_section = tk.Frame(left_panel, bg=self.colors['white'],
+                                      highlightbackground=self.colors['border_gray'],
+                                      highlightthickness=1)
+        data_reset_section.pack(fill=tk.X, padx=8, pady=(0, 6))
+        self.setup_data_reset_section(data_reset_section)
+
+        # --- Right panel header ---
+        header = tk.Frame(right_panel, bg=self.colors['white'])
+        header.pack(fill=tk.X, padx=8, pady=(6, 0))
+
+        tk.Label(header, text="Data Preview", bg=self.colors['white'], fg='#000000',
+                 font=self.fonts['bold']).pack(side=tk.LEFT)
+
+        self.output_row_count_label = tk.Label(
+            header, text="", bg=self.colors['white'], fg='#666666',
+            font=self.fonts['standard'])
+        self.output_row_count_label.pack(side=tk.RIGHT)
+
+        # --- Treeview data grid ---
+        tree_frame = tk.Frame(right_panel, bg=self.colors['white'],
+                              highlightbackground=self.colors['border_gray'],
+                              highlightthickness=1)
+        tree_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(6, 8))
+
+        # Scrollbars
+        tree_scroll_y = ttk.Scrollbar(tree_frame, orient=tk.VERTICAL)
+        tree_scroll_y.pack(side=tk.RIGHT, fill=tk.Y)
+        tree_scroll_x = ttk.Scrollbar(tree_frame, orient=tk.HORIZONTAL)
+        tree_scroll_x.pack(side=tk.BOTTOM, fill=tk.X)
+
+        self.output_tree = ttk.Treeview(
+            tree_frame, show="headings",
+            yscrollcommand=tree_scroll_y.set,
+            xscrollcommand=tree_scroll_x.set)
+        self.output_tree.pack(fill=tk.BOTH, expand=True)
+        tree_scroll_y.config(command=self.output_tree.yview)
+        tree_scroll_x.config(command=self.output_tree.xview)
+
+        # --- Status bar ---
+        self.output_status_label = tk.Label(
+            right_panel, text="Select a table to view data",
+            bg=self.colors['white'], fg='#666666',
+            font=self.fonts['standard'], anchor='w')
+        self.output_status_label.pack(fill=tk.X, padx=8)
+
+        # Initialize
+        self._on_output_scraper_selected()
+
+    # --- DB Output helpers ---
+
+    def _get_output_db(self):
+        """Get PostgresDB connection for the scraper selected in the Output tab."""
+        scraper_name = self.output_scraper_var.get() if hasattr(self, 'output_scraper_var') else None
+        if not scraper_name:
+            scraper_name = self.scraper_var.get() if hasattr(self, 'scraper_var') else None
+        if not scraper_name:
+            return None
+        scraper_info = self.scrapers.get(scraper_name, {})
+        country = scraper_info.get("country", scraper_name)
+        try:
+            from core.db.postgres_connection import PostgresDB
+            db = PostgresDB(country)
+            db.connect()
+            return db
+        except Exception:
+            return None
+
+    def _get_market_context(self):
+        """Return (scraper_name, country) for the current Output tab selection."""
+        scraper_name = self.output_scraper_var.get() if hasattr(self, 'output_scraper_var') else None
+        if not scraper_name:
+            scraper_name = self.scraper_var.get() if hasattr(self, 'scraper_var') else None
+        if not scraper_name:
+            return None, None
+        scraper_info = self.scrapers.get(scraper_name, {})
+        country = scraper_info.get("country", scraper_name)
+        return scraper_name, country
+
+    def _on_output_scraper_selected(self):
+        """Handle Output tab scraper selection changes."""
+        scraper_name = self.output_scraper_var.get() if hasattr(self, "output_scraper_var") else None
+        if scraper_name:
+            self.update_reset_controls(scraper_name)
+        self._refresh_output_tables()
+        self._update_output_lock_state()
+
+    def _get_input_table_basenames(self):
+        """Return base input table names from the CSV importer registry."""
+        basenames = set()
+        try:
+            from core.db.csv_importer import INPUT_TABLE_REGISTRY, PCID_MAPPING_CONFIG
+            for configs in INPUT_TABLE_REGISTRY.values():
+                for cfg in configs:
+                    base = cfg.get("table")
+                    if base:
+                        basenames.add(base)
+            if PCID_MAPPING_CONFIG.get("table"):
+                basenames.add(PCID_MAPPING_CONFIG["table"])
+        except Exception:
+            pass
+        return basenames
+
+    def _is_input_table(self, table_name: str, prefix: str) -> bool:
+        """Return True if table is an input table or input tracking table."""
+        if table_name in {"input_uploads", "pcid_mapping"}:
+            return True
+        basenames = self._get_input_table_basenames()
+        for base in basenames:
+            if prefix and table_name == f"{prefix}{base}":
+                return True
+        return False
+
+    def _filter_output_tables(self, all_tables, prefix, scraper_name=None):
+        """Filter tables for Output tab: exclude input tables, keep shared + market tables."""
+        from core.db.postgres_connection import SHARED_TABLES
+        tables = []
+        for table in all_tables:
+            if self._is_input_table(table, prefix):
+                continue
+            if scraper_name == "Argentina" and table == "http_requests":
+                continue
+            if table in SHARED_TABLES or (prefix and table.startswith(prefix)):
+                tables.append(table)
+        tables.sort(key=lambda t: (0 if t in SHARED_TABLES else 1, t))
+        return tables
+
+    def _get_shared_table_filter(self, table: str, scraper_name: str):
+        """Return (where_sql, params) to filter shared tables by selected market."""
+        if not scraper_name:
+            return "", ()
+        if table == "run_ledger":
+            return "scraper_name = %s", (scraper_name,)
+        if table in ("http_requests", "scraped_items"):
+            return "run_id IN (SELECT run_id FROM run_ledger WHERE scraper_name = %s)", (scraper_name,)
+        return "", ()
+
+    def _refresh_output_tables(self):
+        """Populate table dropdown with only tables for the selected market + global tables."""
+        if not hasattr(self, 'output_table_combo'):
+            return
+        db = self._get_output_db()
+        if not db:
+            self.output_table_combo['values'] = []
+            self.output_status_label.config(text="DB: Cannot connect to PostgreSQL")
+            return
+        try:
+            cur = db.execute(
+                "SELECT table_name FROM information_schema.tables "
+                "WHERE table_schema = 'public' AND table_name NOT LIKE '\\_%' ESCAPE '\\' "
+                "ORDER BY table_name")
+            all_tables = [row[0] for row in cur.fetchall()]
+            prefix = getattr(db, '_prefix', '') or getattr(db, 'prefix', '')
+            scraper_name, _ = self._get_market_context()
+            tables = self._filter_output_tables(all_tables, prefix, scraper_name=scraper_name)
+            self.output_table_combo['values'] = tables
+            if tables:
+                self.output_table_var.set(tables[0])
+                self._on_output_table_selected()
+            self.output_status_label.config(text=f"DB: PostgreSQL | {len(tables)} tables for this market")
+        except Exception as e:
+            self.output_status_label.config(text=f"Error: {e}")
+        finally:
+            db.close()
+
+    def _get_market_tables(self, db):
+        """Return list of tables for selected market (shared + market-prefixed)."""
+        cur = db.execute(
+            "SELECT table_name FROM information_schema.tables "
+            "WHERE table_schema = 'public' AND table_name NOT LIKE '\\_%' ESCAPE '\\' "
+            "ORDER BY table_name")
+        all_tables = [row[0] for row in cur.fetchall()]
+        prefix = getattr(db, '_prefix', '') or getattr(db, 'prefix', '')
+        scraper_name, _ = self._get_market_context()
+        return self._filter_output_tables(all_tables, prefix, scraper_name=scraper_name)
+
+    def _table_has_column(self, db, table, column):
+        try:
+            cur = db.execute(
+                "SELECT 1 FROM information_schema.columns "
+                "WHERE table_schema = 'public' AND table_name = %s AND column_name = %s",
+                (table, column))
+            return cur.fetchone() is not None
+        except Exception:
+            return False
+
+    def _delete_shared_table_market_rows(self, db, table, scraper_name, prefix):
+        """Delete only the selected market's rows from shared tables."""
+        if table == "http_requests":
+            db.execute(
+                "DELETE FROM http_requests WHERE run_id IN "
+                "(SELECT run_id FROM run_ledger WHERE scraper_name = %s)",
+                (scraper_name,))
+            return
+        if table == "scraped_items":
+            db.execute(
+                "DELETE FROM scraped_items WHERE run_id IN "
+                "(SELECT run_id FROM run_ledger WHERE scraper_name = %s)",
+                (scraper_name,))
+            return
+        if table == "run_ledger":
+            db.execute("DELETE FROM run_ledger WHERE scraper_name = %s", (scraper_name,))
+            return
+        if table == "pcid_mapping":
+            db.execute("DELETE FROM pcid_mapping WHERE source_country = %s", (scraper_name,))
+            return
+        if table == "input_uploads":
+            if prefix:
+                db.execute("DELETE FROM input_uploads WHERE table_name LIKE %s", (f"{prefix}%",))
+            return
+
+    def _delete_all_records(self):
+        """Delete all records for the selected market (shared + market tables). Confirmation required."""
+        db = self._get_output_db()
+        if not db:
+            messagebox.showerror("Error", "Cannot connect to PostgreSQL.")
+            return
+        try:
+            tables = self._get_market_tables(db)
+            if not tables:
+                messagebox.showinfo("Delete market records", "No tables found for this market.")
+                db.close()
+                return
+            scraper_name, _ = self._get_market_context()
+            prefix = getattr(db, '_prefix', '') or getattr(db, 'prefix', '')
+            protected = {"_schema_versions"}
+            display_tables = [t for t in tables if t not in protected]
+            ok = messagebox.askyesno(
+                "Delete market records",
+                f"This will permanently delete all rows for '{scraper_name}' from {len(display_tables)} table(s):\n\n"
+                + ", ".join(display_tables[:15])
+                + (" ..." if len(display_tables) > 15 else "")
+                + "\n\nAre you sure?",
+                icon="warning",
+                default="no",
+            )
+            if not ok:
+                db.close()
+                return
+            # Delete market-prefixed tables first to avoid FK issues with run_ledger
+            shared_tables = {"run_ledger", "http_requests", "scraped_items", "_schema_versions"}
+            for table in tables:
+                if table in shared_tables or table in protected:
+                    continue
+                db.execute(f'TRUNCATE TABLE "{table}" CASCADE')
+
+            # Then delete market rows in shared tables
+            if scraper_name:
+                for shared in ("http_requests", "scraped_items"):
+                    self._delete_shared_table_market_rows(db, shared, scraper_name, prefix)
+                self._delete_shared_table_market_rows(db, "run_ledger", scraper_name, prefix)
+            db.close()
+            messagebox.showinfo("Delete market records", f"All records deleted for '{scraper_name}'.")
+            self._refresh_output_tables()
+        except Exception as e:
+            try:
+                db.close()
+            except Exception:
+                pass
+            messagebox.showerror("Error", f"Failed to delete records: {e}")
+
+    def _delete_run_id_in_selected_table(self):
+        """Delete rows for the selected run_id in the selected table."""
+        table = self.output_table_var.get()
+        run_id = self.output_run_var.get()
+        if not table:
+            messagebox.showwarning("Delete run_id (table)", "Select a table first.")
+            return
+        if not run_id or run_id == "(All)":
+            messagebox.showwarning("Delete run_id (table)", "Select a specific run_id.")
+            return
+        db = self._get_output_db()
+        if not db:
+            messagebox.showerror("Error", "Cannot connect to PostgreSQL.")
+            return
+        try:
+            if not self._table_has_column(db, table, "run_id"):
+                messagebox.showinfo("Delete run_id (table)", f"Table '{table}' has no run_id column.")
+                db.close()
+                return
+            ok = messagebox.askyesno(
+                "Delete run_id (table)",
+                f"Delete rows from '{table}' for run_id = {run_id}?\n\nThis cannot be undone.",
+                icon="warning",
+                default="no",
+            )
+            if not ok:
+                db.close()
+                return
+            db.execute(f'DELETE FROM "{table}" WHERE run_id = %s', (run_id,))
+            db.close()
+            messagebox.showinfo("Delete run_id (table)", f"Deleted rows in '{table}' for run_id = {run_id}.")
+            self._load_output_data()
+        except Exception as e:
+            try:
+                db.close()
+            except Exception:
+                pass
+            messagebox.showerror("Error", f"Failed to delete run_id rows: {e}")
+
+    def _delete_run_id_all_tables(self):
+        """Delete rows for the selected run_id across all market tables (and shared tables that have run_id)."""
+        run_id = self.output_run_var.get()
+        if not run_id or run_id == "(All)":
+            messagebox.showwarning("Delete run_id (all tables)", "Select a specific run_id.")
+            return
+        db = self._get_output_db()
+        if not db:
+            messagebox.showerror("Error", "Cannot connect to PostgreSQL.")
+            return
+        try:
+            tables = self._get_market_tables(db)
+            if not tables:
+                messagebox.showinfo("Delete run_id (all tables)", "No tables found for this market.")
+                db.close()
+                return
+            ok = messagebox.askyesno(
+                "Delete run_id (all tables)",
+                f"Delete rows for run_id = {run_id} across {len(tables)} table(s)?\n\nThis cannot be undone.",
+                icon="warning",
+                default="no",
+            )
+            if not ok:
+                db.close()
+                return
+
+            # Delete from all tables with run_id, but do run_ledger last (FKs)
+            for table in tables:
+                if table == "_schema_versions" or table == "run_ledger":
+                    continue
+                if self._table_has_column(db, table, "run_id"):
+                    db.execute(f'DELETE FROM "{table}" WHERE run_id = %s', (run_id,))
+
+            if self._table_has_column(db, "run_ledger", "run_id"):
+                db.execute('DELETE FROM "run_ledger" WHERE run_id = %s', (run_id,))
+
+            db.close()
+            messagebox.showinfo("Delete run_id (all tables)", f"Deleted run_id = {run_id} across tables.")
+            self._refresh_output_tables()
+        except Exception as e:
+            try:
+                db.close()
+            except Exception:
+                pass
+            messagebox.showerror("Error", f"Failed to delete run_id rows: {e}")
+
+    def _delete_selected_table_records(self):
+        """Delete records from the selected table (market-only for shared tables)."""
+        table = self.output_table_var.get()
+        if not table:
+            messagebox.showwarning("Delete table data", "Select a table first.")
+            return
+        db = self._get_output_db()
+        if not db:
+            messagebox.showerror("Error", "Cannot connect to PostgreSQL.")
+            return
+        try:
+            from core.db.postgres_connection import SHARED_TABLES
+            scraper_name, _ = self._get_market_context()
+            prefix = getattr(db, '_prefix', '') or getattr(db, 'prefix', '')
+
+            if table == "_schema_versions":
+                messagebox.showinfo("Delete table data", "Schema versions are shared and cannot be deleted per market.")
+                db.close()
+                return
+
+            ok = messagebox.askyesno(
+                "Delete table data",
+                f"This will permanently delete data from '{table}' for '{scraper_name}'.\n\nAre you sure?",
+                icon="warning",
+                default="no",
+            )
+            if not ok:
+                db.close()
+                return
+
+            if table in SHARED_TABLES:
+                if table == "run_ledger":
+                    db.close()
+                    messagebox.showinfo(
+                        "Delete table data",
+                        "Run ledger has dependencies. Use 'Delete market records' to clear this market safely."
+                    )
+                    return
+                if not scraper_name:
+                    db.close()
+                    messagebox.showerror("Delete table data", "No market selected.")
+                    return
+                self._delete_shared_table_market_rows(db, table, scraper_name, prefix)
+            else:
+                db.execute(f'TRUNCATE TABLE "{table}" CASCADE')
+
+            db.close()
+            messagebox.showinfo("Delete table data", f"Deleted data from '{table}'.")
+            self._refresh_output_tables()
+        except Exception as e:
+            try:
+                db.close()
+            except Exception:
+                pass
+            messagebox.showerror("Error", f"Failed to delete table data: {e}")
+
+    def _on_output_table_selected(self):
+        """When a table is selected, populate the run_id dropdown."""
+        table = self.output_table_var.get()
+        db = self._get_output_db()
+        if not table or not db:
+            return
+        try:
+            # Check if table has run_id column
+            cur = db.execute(
+                "SELECT column_name FROM information_schema.columns "
+                "WHERE table_schema = 'public' AND table_name = %s ORDER BY ordinal_position",
+                (table,))
+            columns = [row[0] for row in cur.fetchall()]
+            if 'run_id' in columns:
+                from core.db.postgres_connection import SHARED_TABLES
+                scraper_name, _ = self._get_market_context()
+                filter_sql, filter_params = ("", ())
+                if table in SHARED_TABLES:
+                    filter_sql, filter_params = self._get_shared_table_filter(table, scraper_name)
+                if filter_sql:
+                    cur = db.execute(
+                        f"SELECT DISTINCT run_id FROM \"{table}\" WHERE {filter_sql} ORDER BY run_id DESC",
+                        filter_params
+                    )
+                else:
+                    cur = db.execute(f"SELECT DISTINCT run_id FROM \"{table}\" ORDER BY run_id DESC")
+                runs = [row[0] for row in cur.fetchall()]
+                runs.insert(0, "(All)")
+                self.output_run_combo['values'] = runs
+                self.output_run_var.set(runs[0] if len(runs) > 1 else "(All)")
+            else:
+                self.output_run_combo['values'] = ["(All)"]
+                self.output_run_var.set("(All)")
+            db.close()
+            self._load_output_data()
+        except Exception as e:
+            self.output_status_label.config(text=f"Error: {e}")
+
+    def _load_output_data(self):
+        """Load data from selected table/run into the Treeview."""
+        table = self.output_table_var.get()
+        run_id = self.output_run_var.get()
+        db = self._get_output_db()
+        if not table or not db:
+            return
+        try:
+            # Get column info
+            cur = db.execute(
+                "SELECT column_name FROM information_schema.columns "
+                "WHERE table_schema = 'public' AND table_name = %s ORDER BY ordinal_position",
+                (table,))
+            col_names = [row[0] for row in cur.fetchall()]
+
+            # Build query with market filters for shared tables
+            from core.db.postgres_connection import SHARED_TABLES
+            scraper_name, _ = self._get_market_context()
+            where_parts = []
+            params = []
+
+            if table in SHARED_TABLES:
+                filter_sql, filter_params = self._get_shared_table_filter(table, scraper_name)
+                if filter_sql:
+                    where_parts.append(filter_sql)
+                    params.extend(filter_params)
+
+            if run_id and run_id != "(All)" and 'run_id' in col_names:
+                where_parts.append("run_id = %s")
+                params.append(run_id)
+
+            where_clause = f" WHERE {' AND '.join(where_parts)}" if where_parts else ""
+            cur = db.execute(f"SELECT * FROM \"{table}\"{where_clause} LIMIT 1000", tuple(params))
+            rows = cur.fetchall()
+
+            # Get total count
+            count_cur = db.execute(f"SELECT COUNT(*) FROM \"{table}\"{where_clause}", tuple(params))
+            total_count = count_cur.fetchone()[0]
+            db.close()
+
+            # Clear existing tree
+            self.output_tree.delete(*self.output_tree.get_children())
+
+            # Set columns
+            self.output_tree['columns'] = col_names
+            for col in col_names:
+                self.output_tree.heading(col, text=col, anchor='w')
+                self.output_tree.column(col, width=120, minwidth=60, anchor='w')
+
+            # Insert rows
+            for row in rows:
+                display = [str(v) if v is not None else "" for v in row]
+                self.output_tree.insert("", tk.END, values=display)
+
+            showing = min(len(rows), 1000)
+            suffix = f" (showing {showing}/{total_count})" if total_count > 1000 else f" ({total_count} rows)"
+            self.output_row_count_label.config(text=f"{table}{suffix}")
+            run_label = f" | run_id={run_id}" if run_id and run_id != "(All)" else ""
+            self.output_status_label.config(text=f"Loaded {table}{run_label} | {total_count} total rows")
+        except Exception as e:
+            self.output_status_label.config(text=f"Error loading {table}: {e}")
+
+    def _export_output_csv(self):
+        """Export currently viewed table to CSV file."""
+        table = self.output_table_var.get()
+        run_id = self.output_run_var.get()
+        db = self._get_output_db()
+        if not table or not db:
+            return
+        from tkinter import filedialog
+        out_path = filedialog.asksaveasfilename(
+            defaultextension=".csv",
+            filetypes=[("CSV files", "*.csv")],
+            initialfile=f"{table}.csv")
+        if not out_path:
+            db.close()
+            return
+        try:
+            import csv
+            cur = db.execute(
+                "SELECT column_name FROM information_schema.columns "
+                "WHERE table_schema = 'public' AND table_name = %s ORDER BY ordinal_position",
+                (table,))
+            col_names = [row[0] for row in cur.fetchall()]
+            from core.db.postgres_connection import SHARED_TABLES
+            scraper_name, _ = self._get_market_context()
+            where_parts = []
+            params = []
+            if table in SHARED_TABLES:
+                filter_sql, filter_params = self._get_shared_table_filter(table, scraper_name)
+                if filter_sql:
+                    where_parts.append(filter_sql)
+                    params.extend(filter_params)
+            if run_id and run_id != "(All)" and 'run_id' in col_names:
+                where_parts.append("run_id = %s")
+                params.append(run_id)
+            where_clause = f" WHERE {' AND '.join(where_parts)}" if where_parts else ""
+            cur = db.execute(f"SELECT * FROM \"{table}\"{where_clause}", tuple(params))
+            rows = cur.fetchall()
+            db.close()
+            with open(out_path, 'w', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                writer.writerow(col_names)
+                writer.writerows(rows)
+            self.output_status_label.config(text=f"Exported {len(rows)} rows to {out_path}")
+        except Exception as e:
+            from tkinter import messagebox
+            messagebox.showerror("Export Error", str(e))
+
     def setup_output_tab(self, parent):
         """Setup output files viewer tab"""
         # Toolbar - white background
@@ -1714,6 +2961,8 @@ class ScraperGUI:
                   style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
         ttk.Button(toolbar, text="Save", command=self.save_config_file, 
                   style='Primary.TButton').pack(side=tk.LEFT, padx=3)
+        ttk.Button(toolbar, text="Format JSON", command=self.format_config_json,
+                  style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
         ttk.Button(toolbar, text="Open File", command=self.open_config_file, 
                   style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
         ttk.Button(toolbar, text="Create from Template", command=self.create_config_from_template, 
@@ -1826,6 +3075,21 @@ class ScraperGUI:
         except Exception as e:
             messagebox.showerror("Error", f"Failed to save config file:\n{str(e)}")
             self.config_status.config(text=f"Error saving config: {str(e)}")
+
+    def format_config_json(self):
+        """Format the config editor content as pretty JSON for readability."""
+        try:
+            content = self.config_text.get(1.0, tk.END).strip()
+            if not content:
+                messagebox.showwarning("Warning", "Configuration editor is empty.")
+                return
+            data = json.loads(content)
+            formatted = json.dumps(data, indent=2, ensure_ascii=False)
+            self.config_text.delete(1.0, tk.END)
+            self.config_text.insert(1.0, formatted + "\n")
+            self.config_status.config(text="Formatted JSON for readability.")
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to format JSON:\n{e}")
     
     def open_config_file(self):
         """Open config file in system default editor"""
@@ -1981,6 +3245,12 @@ class ScraperGUI:
         
         # Clear explanation when scraper changes
         self.clear_explanation()
+
+        # Enable/disable data reset controls based on script availability
+        self.update_reset_controls(scraper_name)
+        self._refresh_io_lock_states()
+        # Update run/stop buttons based on selected scraper
+        self.refresh_run_button_state()
         
         # Update output path to scraper output directory (not runs directory)
         if hasattr(self, 'output_path_var'):
@@ -2013,7 +3283,17 @@ class ScraperGUI:
             # Refresh final output files (filtered by scraper)
             if hasattr(self, 'refresh_final_output_files'):
                 self.refresh_final_output_files()
-        
+
+        # Sync Output and Input tabs to selected market so DB activities show only this market (like console)
+        if hasattr(self, 'output_scraper_var') and scraper_name:
+            self.output_scraper_var.set(scraper_name)
+        if hasattr(self, 'input_scraper_var') and scraper_name:
+            self.input_scraper_var.set(scraper_name)
+        if hasattr(self, 'output_table_combo'):
+            self._refresh_output_tables()
+        if hasattr(self, '_refresh_input_tables'):
+            self._refresh_input_tables()
+
         # Reset progress state when switching scrapers (to avoid showing stale data from previous runs)
         # Only reset if scraper is not currently running
         if scraper_name not in self.running_scrapers and scraper_name not in self.running_processes:
@@ -2400,11 +3680,14 @@ Provide a clear, concise explanation suitable for users who want to understand w
         if self._is_scraper_active(scraper_name):
             self._sync_external_log_if_running(scraper_name)
         log_content = self.scraper_logs.get(scraper_name, "")
+        if not log_content and not self._is_scraper_active(scraper_name):
+            log_content = self._load_latest_log_for_scraper(scraper_name)
         self.log_text.config(state=tk.NORMAL)
         self.log_text.delete(1.0, tk.END)
         self.log_text.insert(1.0, log_content)
         self.log_text.see(tk.END)
         self.log_text.config(state=tk.DISABLED)
+        self._sync_db_activity(log_content)
         
         # Schedule periodic refresh if this scraper is running
         # This ensures we see updates even if they come in while viewing another scraper
@@ -2437,7 +3720,11 @@ Provide a clear, concise explanation suitable for users who want to understand w
             self.progress_label.config(text=progress_state["description"])
             self.progress_bar['value'] = progress_state["percent"]
             self.progress_percent.config(text=f"{progress_state['percent']:.1f}%")
-        
+
+        # Sync DB activity from log content only for selected scraper
+        if scraper_name == self.scraper_var.get():
+            self._sync_db_activity(log_content)
+
         # Schedule next refresh in 500ms
         self.root.after(500, lambda sn=scraper_name: self.schedule_log_refresh(sn))
     
@@ -2624,6 +3911,28 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     }
                     general_line_idx = idx
                     break
+
+        # Priority 1.5: "left" progress lines (e.g., "Searching: X - 7546 left: 0/7546 (0.0%)")
+        if general_candidate is None:
+            for idx in range(len(lines) - 1, search_start_idx - 1, -1):
+                line = lines[idx]
+                left_match = re.search(
+                    r'\[PROGRESS\]\s+(.+?)\s*-\s*(\d+)\s*left:\s*(\d+)\s*/\s*(\d+)\s*\(([\d.]+)%\)',
+                    line,
+                    re.IGNORECASE
+                )
+                if left_match:
+                    step_desc = left_match.group(1).strip()
+                    current = int(left_match.group(3))
+                    total = int(left_match.group(4))
+                    percent = float(left_match.group(5))
+                    if total > 0:
+                        general_candidate = {
+                            "percent": percent,
+                            "description": f"{step_desc} ({current}/{total})"
+                        }
+                        general_line_idx = idx
+                        break
 
         # Priority 2: general "[PROGRESS] Step": percentage format
         for idx in range(len(lines) - 1, search_start_idx - 1, -1):
@@ -3013,6 +4322,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
             progress_desc = f"{progress_desc} | {stats_summary}"
         
         # Store progress state for this scraper
+        if progress_percent is None and is_running:
+            existing_progress = self.scraper_progress.get(scraper_name, {})
+            progress_percent = existing_progress.get("percent", 0) or 0
         final_percent = progress_percent if progress_percent is not None else 0
         progress_state = {"percent": final_percent, "description": progress_desc}
         self.scraper_progress[scraper_name] = progress_state
@@ -3034,6 +4346,88 @@ Provide a clear, concise explanation suitable for users who want to understand w
         """Append a line to the log display only if this scraper is currently selected"""
         if scraper_name == self.scraper_var.get():
             self.append_to_log_display(line)
+        # Route [DB] lines to activity panel only for selected scraper
+        if "[DB]" in line and scraper_name == self.scraper_var.get():
+            self._append_db_activity(line)
+
+    def _append_db_activity(self, line: str):
+        """Append a [DB] tagged line to the DB activity panel with color coding."""
+        if not hasattr(self, 'db_activity_text'):
+            return
+        # Skip noisy zero-record lines
+        upper = line.upper()
+        if "| ZERO_RECORDS |" in upper:
+            return
+        # Determine tag from content
+        tag = None
+        if "| CLAIM |" in upper:
+            tag = "claim"
+        elif "| UPSERT |" in upper:
+            tag = "upsert"
+        elif "| OK |" in upper or "| COMPLETED |" in upper:
+            tag = "ok"
+        elif "| FAIL" in upper:
+            tag = "fail"
+        elif "| SEED |" in upper:
+            tag = "seed"
+        elif "| FINISH |" in upper:
+            tag = "finish"
+
+        # Strip the [DB] prefix for cleaner display
+        display = line.strip()
+        if display.startswith("[DB] "):
+            display = display[5:]
+
+        self.db_activity_text.config(state=tk.NORMAL)
+        if tag:
+            self.db_activity_text.insert(tk.END, display + "\n", tag)
+        else:
+            self.db_activity_text.insert(tk.END, display + "\n")
+        # Keep only last 100 lines
+        line_count = int(self.db_activity_text.index('end-1c').split('.')[0])
+        if line_count > 100:
+            self.db_activity_text.delete('1.0', f'{line_count - 100}.0')
+        self.db_activity_text.see(tk.END)
+        self.db_activity_text.config(state=tk.DISABLED)
+
+    def _sync_db_activity(self, log_content: str):
+        """Extract [DB] lines from full log and refresh the DB activity panel."""
+        if not hasattr(self, 'db_activity_text'):
+            return
+        db_lines = [l for l in log_content.split('\n') if '[DB]' in l]
+        # Only show last 50 lines
+        db_lines = db_lines[-50:]
+        if not db_lines:
+            return
+        # Build the content with tags
+        self.db_activity_text.config(state=tk.NORMAL)
+        self.db_activity_text.delete('1.0', tk.END)
+        for line in db_lines:
+            upper = line.upper()
+            if "| ZERO_RECORDS |" in upper:
+                continue  # Skip noisy zero-record lines
+            display = line.strip()
+            if "[DB] " in display:
+                display = display[display.index("[DB] ") + 5:]
+            tag = None
+            if "| CLAIM |" in upper:
+                tag = "claim"
+            elif "| UPSERT |" in upper:
+                tag = "upsert"
+            elif "| OK |" in upper or "| COMPLETED |" in upper:
+                tag = "ok"
+            elif "| FAIL" in upper:
+                tag = "fail"
+            elif "| SEED |" in upper:
+                tag = "seed"
+            elif "| FINISH |" in upper:
+                tag = "finish"
+            if tag:
+                self.db_activity_text.insert(tk.END, display + "\n", tag)
+            else:
+                self.db_activity_text.insert(tk.END, display + "\n")
+        self.db_activity_text.see(tk.END)
+        self.db_activity_text.config(state=tk.DISABLED)
 
     def _get_lock_paths(self, scraper_name: str):
         try:
@@ -3088,7 +4482,49 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     pass
                 return False, None, None, None
 
+            # Extra safety: ensure PID command line matches scraper name; otherwise treat as stale lock.
+            if not self._pid_matches_scraper(pid, scraper_name):
+                try:
+                    lock_file.unlink()
+                except Exception:
+                    pass
+                return False, None, None, None
+
         return True, pid, log_path, lock_file
+
+    def _pid_matches_scraper(self, pid: int, scraper_name: str) -> bool:
+        """Check if a PID command line appears to belong to the given scraper."""
+        try:
+            if sys.platform == "win32":
+                result = subprocess.run(
+                    ["wmic", "process", "where", f"processid={pid}", "get", "CommandLine"],
+                    capture_output=True,
+                    text=True,
+                    timeout=2
+                )
+                cmdline = (result.stdout or "").lower()
+            else:
+                # Best-effort on non-Windows
+                result = subprocess.run(
+                    ["ps", "-p", str(pid), "-o", "command="],
+                    capture_output=True,
+                    text=True,
+                    timeout=2
+                )
+                cmdline = (result.stdout or "").lower()
+        except Exception:
+            return True  # If unsure, keep lock active
+
+        if not cmdline:
+            return True
+
+        name = scraper_name.lower()
+        # Match by scraper name or scripts/<scraper> path segment
+        if name in cmdline:
+            return True
+        if f"scripts\\{name}\\" in cmdline or f"scripts/{name}/" in cmdline:
+            return True
+        return False
 
     def _read_log_tail(self, scraper_name: str, log_path: Path) -> str:
         """Read new log data since the last offset for this scraper."""
@@ -3112,7 +4548,25 @@ Provide a clear, concise explanation suitable for users who want to understand w
         self._log_stream_state[scraper_name] = {"path": log_path, "offset": new_offset}
         return data
 
-    def _find_latest_external_log(self, scraper_name: str) -> Optional[Path]:
+    def _read_log_tail_bytes(self, log_path: Path, max_bytes: int = 200000) -> str:
+        """Read the tail of a log file (by size) for fast initial display."""
+        try:
+            with open(log_path, "rb") as f:
+                f.seek(0, os.SEEK_END)
+                size = f.tell()
+                start = max(0, size - max_bytes)
+                f.seek(start)
+                data = f.read()
+            text = data.decode("utf-8", errors="replace")
+            if start > 0:
+                nl = text.find("\n")
+                if nl != -1:
+                    text = text[nl + 1:]
+            return text
+        except Exception:
+            return ""
+
+    def _find_latest_external_log(self, scraper_name: str, include_archive: bool = False) -> Optional[Path]:
         candidates = []
         # Telegram bot logs
         try:
@@ -3140,7 +4594,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
         archive_dir = self._get_scraper_archive_dir(scraper_name)
         if scraper_logs_dir.exists():
             for log_path in scraper_logs_dir.rglob("*.log"):
-                if archive_dir in log_path.parents:
+                if archive_dir in log_path.parents and not include_archive:
                     continue
                 candidates.append(log_path)
 
@@ -3155,6 +4609,16 @@ Provide a clear, concise explanation suitable for users who want to understand w
         if not candidates:
             return None
         return max(candidates, key=lambda p: p.stat().st_mtime)
+
+    def _load_latest_log_for_scraper(self, scraper_name: str) -> str:
+        """Load the most recent log for a scraper (including archives) into memory."""
+        log_path = self._find_latest_external_log(scraper_name, include_archive=True)
+        if not log_path:
+            return ""
+        content = self._read_log_tail_bytes(log_path)
+        if content:
+            self.scraper_logs[scraper_name] = content
+        return content
 
     def _sync_external_log_if_running(self, scraper_name: str):
         if scraper_name in self.running_scrapers:
@@ -3619,29 +5083,46 @@ Provide a clear, concise explanation suitable for users who want to understand w
             return
 
         running = self.telegram_process is not None and self.telegram_process.poll() is None
+        
         if running:
             pid = self.telegram_process.pid
-            self.telegram_status_label.config(text=f"Status: Running (PID {pid})")
-            self.start_telegram_button.config(state=tk.DISABLED)
-            self.stop_telegram_button.config(state=tk.NORMAL)
+            self.telegram_status_label.config(
+                text=f"🟢 Running (PID {pid})",
+                fg='#28a745'
+            )
+            # Update toggle button to "Stop" state
+            if hasattr(self, "telegram_toggle_button"):
+                self.telegram_toggle_button.config(text="⏹ Stop Bot")
             # Update status icon to green
             if hasattr(self, "telegram_status_icon"):
-                self.telegram_status_icon.config(fg='#28a745')
+                self.telegram_status_icon.config(text="●", fg='#28a745')
         else:
             if self.telegram_process is not None and self.telegram_process.poll() is not None:
                 self.telegram_process = None
-            self.telegram_status_label.config(text="Status: Stopped")
-            self.start_telegram_button.config(state=tk.NORMAL)
-            self.stop_telegram_button.config(state=tk.DISABLED)
-            # Update status icon to red
+            self.telegram_status_label.config(
+                text="⚪ Stopped",
+                fg='#666666'
+            )
+            # Update toggle button to "Start" state
+            if hasattr(self, "telegram_toggle_button"):
+                self.telegram_toggle_button.config(text="▶ Start Bot")
+            # Update status icon (gray = not started)
             if hasattr(self, "telegram_status_icon"):
-                self.telegram_status_icon.config(fg='#dc3545')
+                self.telegram_status_icon.config(text="○", fg='#cccccc')
 
         if self.telegram_log_path:
             log_name = self.telegram_log_path.name if hasattr(self.telegram_log_path, "name") else str(self.telegram_log_path)
-            self.telegram_log_label.config(text=f"Log: {log_name}")
+            self.telegram_log_label.config(text=f"📝 {log_name}")
         else:
-            self.telegram_log_label.config(text="Log: (none)")
+            self.telegram_log_label.config(text="📝 (no log)")
+
+    def on_telegram_toggle(self):
+        """Handle the toggle button to start/stop the Telegram bot."""
+        running = self.telegram_process is not None and self.telegram_process.poll() is None
+        if not running:
+            self.start_telegram_bot()
+        else:
+            self.stop_telegram_bot()
 
     def start_telegram_bot(self):
         """Start Telegram bot process"""
@@ -3735,9 +5216,12 @@ Provide a clear, concise explanation suitable for users who want to understand w
         """Finish scraper run and update display if selected"""
         # Ensure scraper is removed from running sets
         self.running_scrapers.discard(scraper_name)
+        # Unlock input controls if no scrapers running
+        self._refresh_io_lock_states()
+        self.refresh_run_button_state()
         # Update kill all Chrome button state
         self.update_kill_all_chrome_button_state()
-        
+
         # Final cleanup of any remaining lock files (safety net with retries)
         import time
         max_retries = 5
@@ -4017,9 +5501,11 @@ Provide a clear, concise explanation suitable for users who want to understand w
         
         scraper_info = self.scrapers[scraper_name]
         
-        # Try resume script first
-        resume_script = scraper_info["path"] / "run_pipeline_resume.py"
-        
+        # Try resume script first (check both old and new names)
+        resume_script = scraper_info["path"] / scraper_info.get("pipeline_script", "run_pipeline_resume.py")
+        if not resume_script.exists():
+            resume_script = scraper_info["path"] / "run_pipeline_resume.py"
+
         if resume_script.exists():
             # Use resume script with resume/fresh flag
             mode = "resume" if resume else "fresh"
@@ -4039,8 +5525,11 @@ Provide a clear, concise explanation suitable for users who want to understand w
                         if total_steps is not None:
                             msg += f" (out of {total_steps - 1} total steps)"
                         msg += f"\nWill start from step: {info['next_step']}"
-                        if info['next_step'] >= total_steps if total_steps else False:
-                            msg += " (pipeline completed)"
+                        all_complete = total_steps is not None and info['next_step'] >= total_steps
+                        if all_complete:
+                            msg += "\n\nAll steps already completed. Use 'Fresh Run' to start a new pipeline, or clear the checkpoint first."
+                            messagebox.showinfo("Pipeline Already Complete", msg)
+                            return
                         msg += f"\nCompleted steps: {info['total_completed']}"
                         if total_steps is not None:
                             msg += f" / {total_steps}"
@@ -4085,6 +5574,46 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     return
                 
                 self.run_script_in_thread(pipeline_bat, scraper_info["path"], is_pipeline=True, extra_args=[])
+
+    def clear_step_data_action(self):
+        """Clear step data for the selected scraper (current run_id) if supported."""
+        scraper_name = self._get_selected_scraper_for_data_reset()
+        if not scraper_name:
+            messagebox.showwarning("Warning", "Select a scraper before clearing step data.")
+            return
+
+        # Validate step selection
+        step_val = self.clear_step_var.get() if hasattr(self, "clear_step_var") else None
+        try:
+            step_int = int(step_val)
+            if step_int not in (1, 2, 3, 4, 5):
+                raise ValueError()
+        except Exception:
+            messagebox.showerror("Invalid Step", "Select a step number (1-5) to clear.")
+            return
+
+        downstream = bool(self.clear_downstream_var.get()) if hasattr(self, "clear_downstream_var") else False
+
+        confirm_msg = (
+            f"Clear data for Step {step_int}"
+            f"{' and downstream steps' if downstream else ''} for the current run_id?\n\n"
+            "This deletes rows in the relevant table(s) for this run only."
+        )
+        if not messagebox.askyesno("Confirm Clear", confirm_msg):
+            return
+
+        scraper_info = self.scrapers.get(scraper_name, {})
+        script_path = scraper_info.get("path", self.repo_root / "scripts" / scraper_name) / "clear_step_data.py"
+        if not script_path.exists():
+            messagebox.showerror("Script Missing", f"clear_step_data.py not found for {scraper_name}:\n{script_path}")
+            return
+
+        extra_args = ["--step", str(step_int)]
+        if downstream:
+            extra_args.append("--downstream")
+
+        # Run as a non-pipeline task
+        self.run_script_in_thread(script_path, script_path.parent, is_pipeline=False, extra_args=extra_args)
     
     
     def run_script_in_thread(self, script_path, working_dir, is_pipeline=False, extra_args=None):
@@ -4096,6 +5625,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
         scraper_name = self.scraper_var.get()
         self.running_scrapers.add(scraper_name)
         self._last_completed_logs.pop(scraper_name, None)
+        # Lock input/output controls for the running scraper
+        self._refresh_io_lock_states()
+        self.refresh_run_button_state()
         # Update kill all Chrome button state (disable it)
         self.update_kill_all_chrome_button_state()
         
@@ -4596,10 +6128,32 @@ Provide a clear, concise explanation suitable for users who want to understand w
                             old_lock.unlink()
                     except:
                         pass
-                    
+
+                    # Mark DATABASE run_ledger status as RESUME (PostgreSQL table)
+                    try:
+                        from core.db.models import run_ledger_mark_resumable
+                        from core.db.postgres_connection import PostgresDB
+
+                        db = PostgresDB(scraper_name)
+                        db.connect()
+                        # Find the latest running run and mark it as resume
+                        cursor = db.execute(
+                            "SELECT run_id FROM run_ledger WHERE status = 'running' AND scraper_name = %s ORDER BY started_at DESC LIMIT 1",
+                            (scraper_name,)
+                        )
+                        row = cursor.fetchone()
+                        if row:
+                            sql, params = run_ledger_mark_resumable(row[0])
+                            db.execute(sql, params)
+                            db.commit()
+                            self.append_to_log_display(f"[DB] Marked run {row[0]} as 'resume'\n")
+                        db.close()
+                    except Exception as e:
+                        logging.getLogger(__name__).warning(f"Failed to update DB run ledger status: {e}")
+
                     # Mark as stopped by user
                     self._stopped_by_user.add(scraper_name)
-                    
+
                     # Remove from tracking
                     del self.running_processes[scraper_name]
                     self.running_scrapers.discard(scraper_name)
@@ -4898,7 +6452,16 @@ Provide a clear, concise explanation suitable for users who want to understand w
             try:
                 from core.chrome_pid_tracker import load_chrome_pids
                 for scraper_name in self.scrapers.keys():
-                    tracked_pids.update(load_chrome_pids(scraper_name, self.repo_root))
+                    pids = load_chrome_pids(scraper_name, self.repo_root)
+                    if not pids:
+                        pids = self._infer_chrome_pids_from_lock(scraper_name)
+                        if pids:
+                            try:
+                                from core.chrome_pid_tracker import save_chrome_pids
+                                save_chrome_pids(scraper_name, self.repo_root, pids)
+                            except Exception:
+                                pass
+                    tracked_pids.update(pids)
             except Exception:
                 tracked_pids = set()
 
@@ -5049,6 +6612,14 @@ Provide a clear, concise explanation suitable for users who want to understand w
             
             # Load tracked PIDs for this scraper
             pids = load_chrome_pids(scraper_name, self.repo_root)
+            if not pids:
+                pids = self._infer_chrome_pids_from_lock(scraper_name)
+                if pids:
+                    try:
+                        from core.chrome_pid_tracker import save_chrome_pids
+                        save_chrome_pids(scraper_name, self.repo_root, pids)
+                    except Exception:
+                        pass
             
             # Count active PIDs (processes that still exist)
             if pids:
@@ -5111,6 +6682,39 @@ Provide a clear, concise explanation suitable for users who want to understand w
             except Exception:
                 if hasattr(self, 'chrome_count_label'):
                     self.chrome_count_label.config(text="Chrome Instances: Error")
+
+    def _infer_chrome_pids_from_lock(self, scraper_name: str):
+        """Infer Chrome/ChromeDriver PIDs from the scraper lock process tree."""
+        try:
+            import psutil
+        except Exception:
+            return set()
+
+        lock_active, pid, _log_path, _lock_file = self._get_lock_status(scraper_name)
+        if not lock_active or not pid:
+            return set()
+
+        inferred = set()
+        try:
+            parent = psutil.Process(pid)
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            return set()
+
+        try:
+            children = parent.children(recursive=True)
+        except Exception:
+            children = []
+
+        for proc in children:
+            try:
+                name = (proc.name() or "").lower()
+                # Playwright/Selenium browsers may show up as chrome/chromium/msedge/brave, etc.
+                if any(token in name for token in ("chrome", "chromium", "msedge", "brave", "opera")):
+                    inferred.add(proc.pid)
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                continue
+
+        return inferred
     
     def manage_checkpoint(self):
         """Open dialog to manage checkpoint steps (roll back or add steps)"""
@@ -5956,7 +7560,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             "NorthMacedonia": ["north_macedonia_drug_register", "maxprices_output"],
             "Russia": ["russia_ved_report", "russia_excluded_report"],
             "Tender_Chile": ["final_tender_data"],
-            "India": ["medicine_details", "details", "search_results", "ceiling_prices", "scraping_report"],
+            "India": ["details_combined"],
             "Taiwan": ["taiwan_drug_code_details"]
         }
         
@@ -6125,7 +7729,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             "NorthMacedonia": ["north_macedonia_drug_register", "maxprices_output"],
             "Russia": ["russia_ved_report", "russia_excluded_report"],
             "Tender_Chile": ["final_tender_data"],
-            "India": ["medicine_details", "details", "search_results", "ceiling_prices", "scraping_report"],
+            "India": ["details_combined"],
             "Taiwan": ["taiwan_drug_code_details"]
         }
         patterns = scraper_patterns.get(scraper_name, [])
@@ -6397,8 +8001,12 @@ Provide a clear, concise explanation suitable for users who want to understand w
     
     def refresh_all_outputs(self):
         """Refresh all output tabs"""
-        self.refresh_output_files()
-        self.refresh_final_output_files()
+        if hasattr(self, 'output_listbox') and self.output_listbox:
+            self.refresh_output_files()
+        if hasattr(self, 'final_output_listbox'):
+            self.refresh_final_output_files()
+        if hasattr(self, 'output_table_combo'):
+            self._refresh_output_tables()
         self.update_status("All outputs refreshed")
     
     def show_statistics(self):

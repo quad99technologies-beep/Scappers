@@ -1,61 +1,62 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Step 1: Get Redirect URLs and Extract qs Parameters
-====================================================
-Reads input/Tender_Chile/tender_list.csv (CN numbers provided by client),
-builds DetailsAcquisition URLs, opens them in Selenium to capture
-final redirect URL containing qs=..., then writes output/Tender_Chile/tender_redirect_urls.csv.
+Step 2/5: Get Redirect URLs (WDAC/AppLocker safe)
+=================================================
+Reads input/Tender_Chile/TenderList.csv, builds tender DetailsAcquisition URLs,
+opens each in Selenium to capture the final redirect URL (contains qs=...),
+then writes output/Tender_Chile/tender_redirect_urls.csv.
 
-INPUT:
-  - input/Tender_Chile/tender_list.csv (or TenderList.csv)
-
-OUTPUT:
-  - output/Tender_Chile/tender_redirect_urls.csv
-    Required columns for downstream:
-      - tender_details_url  (Script 2)
-      - tender_award_url    (Script 3)
+IMPORTANT:
+- No webdriver-manager (Windows policy blocks .wdm executables).
+- Set env var CHROMEDRIVER_PATH to an allowlisted chromedriver.exe.
 """
 
 from __future__ import annotations
 
 import csv
-import time
+import os
 import re
 import sys
-import os
+import time
 from pathlib import Path
-from typing import Dict, Optional, Any, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
-# Add repo root to path for imports
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+
+
+# ------------------------------------------------------------
+# Repo root + script dir path wiring (keep same repo convention)
+# ------------------------------------------------------------
 _repo_root = Path(__file__).resolve().parents[2]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
-# Add scripts/Tender- Chile to path for config_loader
 _script_dir = Path(__file__).parent
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
 
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-
-# Import config_loader for platform integration
+# Optional config_loader (your repo uses this)
 try:
     from config_loader import (
-        load_env_file, getenv, getenv_int, getenv_bool,
+        load_env_file,
+        getenv_int,
+        getenv_bool,
         get_input_dir as _get_input_dir,
-        get_output_dir as _get_output_dir
+        get_output_dir as _get_output_dir,
     )
     load_env_file()
-    _CONFIG_LOADER_AVAILABLE = True
-except ImportError:
-    _CONFIG_LOADER_AVAILABLE = False
+    _CONFIG = True
+except Exception:
+    _CONFIG = False
+
 
 # ----------------------------
-# Constants (from config)
+# Config
 # ----------------------------
-if _CONFIG_LOADER_AVAILABLE:
+if _CONFIG:
     MAX_TENDERS = getenv_int("MAX_TENDERS", 100)
     HEADLESS = getenv_bool("HEADLESS", True)
     WAIT_SECONDS = getenv_int("WAIT_SECONDS", 60)
@@ -64,9 +65,7 @@ else:
     HEADLESS = os.getenv("HEADLESS", "True").lower() == "true"
     WAIT_SECONDS = int(os.getenv("WAIT_SECONDS", "60"))
 
-INPUT_FILENAME = "tender_list.csv"
 OUTPUT_FILENAME = "tender_redirect_urls.csv"
-
 REQUIRED_OUTPUT_COLUMNS = [
     "original_url",
     "redirect_url",
@@ -77,39 +76,24 @@ REQUIRED_OUTPUT_COLUMNS = [
 
 
 # ----------------------------
-# Paths (platform-aware)
+# Paths
 # ----------------------------
-def get_root_dir() -> Path:
-    """Get repository root directory"""
-    return _repo_root
-
-
 def get_input_dir() -> Path:
-    """Input directory path - uses platform config if available"""
-    if _CONFIG_LOADER_AVAILABLE:
+    if _CONFIG:
         return _get_input_dir()
     return _repo_root / "input" / "Tender_Chile"
 
 
 def get_output_dir() -> Path:
-    """Output directory path - uses platform config if available"""
-    if _CONFIG_LOADER_AVAILABLE:
+    if _CONFIG:
         return _get_output_dir()
     return _repo_root / "output" / "Tender_Chile"
 
 
-def get_debug_dir() -> Path:
-    return get_output_dir() / "debug_redirect_urls"
-
-
 # ----------------------------
-# CSV helpers (delimiter + encoding)
+# CSV dialect + encoding detect
 # ----------------------------
 def detect_csv_dialect_and_encoding(path: Path) -> Tuple[str, str]:
-    """
-    Detect delimiter and encoding using a practical heuristic.
-    Returns: (delimiter, encoding)
-    """
     encodings = ["utf-8-sig", "utf-8", "cp1252", "latin-1", "windows-1252"]
     sample = None
     used_enc = "utf-8"
@@ -140,13 +124,13 @@ def detect_csv_dialect_and_encoding(path: Path) -> Tuple[str, str]:
 
 
 # ----------------------------
-# URL logic
+# URL helpers
 # ----------------------------
 def validate_url_format(url: str) -> bool:
     if not url or not isinstance(url, str):
         return False
-    url = url.strip()
-    return url.startswith("http://") or url.startswith("https://")
+    u = url.strip()
+    return u.startswith("http://") or u.startswith("https://")
 
 
 def extract_qs_from_url(url: str) -> Optional[str]:
@@ -154,123 +138,151 @@ def extract_qs_from_url(url: str) -> Optional[str]:
     return m.group(1) if m else None
 
 
+def convert_to_details_url(value: str) -> str:
+    """
+    If value is a URL, return it.
+    Else treat as tender id/code and convert to DetailsAcquisition URL.
+    """
+    v = (value or "").strip()
+    if validate_url_format(v):
+        return v
+
+    return (
+        "https://www.mercadopublico.cl/Procurement/Modules/RFB/"
+        f"DetailsAcquisition.aspx?idlicitacion={v}"
+    )
+
+
 def extract_url_from_csv_row(row: Dict[str, Any]) -> Optional[str]:
     """
-    Extract a starting URL or tender id from any row.
-
-    Supports:
-      - explicit URL columns (notice/award/detail)
-      - any cell containing a MercadoPublico URL
-      - tender identifiers including CN Document Number (your case)
+    Your input file shows: CN Document Number
+    We also support a few common variants.
     """
-
-    # 1) Try explicit URL columns first
-    url_columns = [
-        "Original_Publication_Link_Notice",
-        "Original_Publication_Link_Award",
-        "Source URL",
-        "Detail URL",
-        "URL", "url", "Link", "link",
-        "Enlace", "enlace", "Detalle", "detalle",
-        "EnlaceDetalle", "Enlace Detalle", "Link Detalle", "LinkDetalle",
-    ]
-    for col in url_columns:
-        if col in row and row[col]:
-            v = str(row[col]).strip()
-            if validate_url_format(v):
-                return v
-
-    # 2) Any cell that looks like a MercadoPublico URL
-    for _, value in row.items():
-        if value and isinstance(value, str):
-            v = value.strip()
-            if validate_url_format(v) and "mercadopublico.cl" in v:
-                return v
-
-    # 3) Construct from tender id columns (EXPANDED)
-    id_columns = [
-        "IDLicitacion", "idlicitacion",
-        "CN Document Number",            # [OK] your current data
+    id_cols = [
+        "CN Document Number",
         "CodigoExterno", "CódigoExterno",
-        "Source Tender Id", "Tender ID",
-        "ID", "id", "Licitacion", "licitacion",
+        "IDLicitacion", "idlicitacion",
+        "Tender ID", "TenderId",
+        "ID", "id",
     ]
-    for col in id_columns:
-        if col in row and row[col]:
-            lic_id = str(row[col]).strip()
-            if lic_id:
-                # Build DetailsAcquisition URL
-                return (
-                    "https://www.mercadopublico.cl/Procurement/Modules/RFB/"
-                    f"DetailsAcquisition.aspx?idlicitacion={lic_id}"
-                )
+    url_cols = ["URL", "Url", "Link", "link", "Source URL", "Detail URL"]
+
+    # 1) if a real URL column exists, use it
+    for c in url_cols:
+        if c in row and row[c]:
+            val = str(row[c]).strip()
+            if validate_url_format(val) and "mercadopublico.cl" in val:
+                return val
+
+    # 2) else build URL from ID columns
+    for c in id_cols:
+        if c in row and row[c]:
+            return convert_to_details_url(str(row[c]))
+
+    # 3) else any cell that looks like MP URL
+    for _, v in row.items():
+        if isinstance(v, str):
+            vv = v.strip()
+            if validate_url_format(vv) and "mercadopublico.cl" in vv:
+                return vv
 
     return None
 
 
-def convert_to_details_url(url: str) -> str:
+# ==========================================================
+# WDAC/AppLocker SAFE ChromeDriver resolver (NO webdriver-manager)
+# ==========================================================
+def _resolve_chromedriver_path_strict() -> Optional[str]:
     """
-    Ensure we end up at a DetailsAcquisition.aspx URL.
-    If already DetailsAcquisition, return as-is.
-    If contains idlicitacion=, normalize to DetailsAcquisition.
-    Otherwise, return as-is.
+    STRICT order:
+      1) CHROMEDRIVER_PATH env var (recommended + required in WDAC machines)
+      2) core.chrome_manager.get_chromedriver_path() ONLY if it returns an existing path
+      3) None -> Selenium Manager last resort (may still be blocked)
     """
-    if "DetailsAcquisition.aspx" in url:
-        return url
+    env_path = (os.getenv("CHROMEDRIVER_PATH") or "").strip().strip('"')
+    if env_path:
+        p = Path(env_path)
+        if p.exists():
+            return str(p)
+        raise RuntimeError(f"CHROMEDRIVER_PATH is set but file not found: {env_path}")
 
-    if "idlicitacion=" in url:
-        m = re.search(r"idlicitacion=([^&]+)", url)
-        if m:
-            lic_id = m.group(1)
-            return (
-                "https://www.mercadopublico.cl/Procurement/Modules/RFB/"
-                f"DetailsAcquisition.aspx?idlicitacion={lic_id}"
-            )
+    # Optional repo helper (but must not return .wdm in your environment)
+    try:
+        from core.chrome_manager import get_chromedriver_path  # type: ignore
+        p2 = get_chromedriver_path()
+        if p2 and Path(p2).exists():
+            return str(Path(p2))
+    except Exception:
+        pass
 
-    return url
+    return None
 
 
-# ----------------------------
-# Selenium redirect capture
-# ----------------------------
+def _build_driver() -> webdriver.Chrome:
+    opts = Options()
+    if HEADLESS:
+        opts.add_argument("--headless=new")
+    opts.add_argument("--window-size=1400,900")
+    opts.add_argument("--lang=es-CL")
+    opts.add_argument("--disable-gpu")
+    opts.add_argument("--no-sandbox")
+    opts.add_argument("--disable-dev-shm-usage")
+
+    chrome_bin = (os.getenv("CHROME_BINARY") or "").strip().strip('"')
+    if chrome_bin:
+        opts.binary_location = chrome_bin
+
+    driver_path = _resolve_chromedriver_path_strict()
+
+    try:
+        if driver_path:
+            service = Service(driver_path)
+            driver = webdriver.Chrome(service=service, options=opts)
+        else:
+            driver = webdriver.Chrome(options=opts)  # Selenium Manager fallback
+    except OSError as e:
+        msg = str(e)
+        if "4551" in msg or "Application Control policy" in msg:
+            raise RuntimeError(
+                "Windows Application Control policy blocked chromedriver.exe.\n"
+                "Fix:\n"
+                "  1) Put chromedriver.exe in an allowlisted folder (example: D:\\quad99\\tools\\chromedriver.exe)\n"
+                "  2) Set env var CHROMEDRIVER_PATH to that full path\n"
+                "     PowerShell: setx CHROMEDRIVER_PATH \"D:\\quad99\\tools\\chromedriver.exe\"\n"
+                "  3) Restart terminal and rerun.\n"
+            ) from e
+        raise
+
+    driver.set_page_load_timeout(WAIT_SECONDS)
+    return driver
+
+
 def get_redirect_url(start_url: str) -> str:
     """
-    Open the URL in Selenium and wait until current_url stabilizes.
-    Returns the final current_url (often includes qs=...).
+    Open start_url in Selenium and wait until current_url stabilizes.
+    Returns final URL (usually includes qs=...).
     """
     if not validate_url_format(start_url):
-        raise ValueError(f"Invalid URL format: {start_url}")
+        raise ValueError(f"Invalid URL: {start_url}")
 
-    chrome_opts = Options()
-    if HEADLESS:
-        chrome_opts.add_argument("--headless=new")
-    chrome_opts.add_argument("--disable-gpu")
-    chrome_opts.add_argument("--no-sandbox")
-    chrome_opts.add_argument("--disable-dev-shm-usage")
-    chrome_opts.add_argument("--window-size=1400,900")
-    chrome_opts.add_argument("--lang=es-CL")
-
-    driver = webdriver.Chrome(options=chrome_opts)
+    driver = _build_driver()
     try:
-        driver.set_page_load_timeout(WAIT_SECONDS)
         driver.get(start_url)
 
         last = ""
-        stable_count = 0
+        stable = 0
         end_time = time.time() + WAIT_SECONDS
 
         while time.time() < end_time:
-            current = driver.current_url
-
-            if current == last:
-                stable_count += 1
+            cur = driver.current_url
+            if cur == last:
+                stable += 1
             else:
-                stable_count = 0
-                last = current
+                stable = 0
+                last = cur
 
-            # stable for ~1.5 seconds
-            if stable_count >= 3:
-                break
+            if stable >= 3:  # stable for ~1.5s
+                return cur
 
             time.sleep(0.5)
 
@@ -279,163 +291,85 @@ def get_redirect_url(start_url: str) -> str:
         driver.quit()
 
 
-# ----------------------------
-# Validation
-# ----------------------------
-def validate_input_file(path: Path) -> bool:
-    if not path.exists():
-        print(f"[ERROR] {path} not found. Run Script 1 first.")
-        return False
-    return True
-
-
-# ----------------------------
-# Main
-# ----------------------------
-def main():
-    root = get_root_dir()
-    input_dir = get_input_dir()
-    output_dir = get_output_dir()
-    input_dir.mkdir(parents=True, exist_ok=True)
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    debug_dir = get_debug_dir()
-    debug_dir.mkdir(parents=True, exist_ok=True)
-
-    # Try multiple filename variants
-    input_path = input_dir / INPUT_FILENAME
-    if not input_path.exists():
-        # Try alternative filename
-        input_path = input_dir / "TenderList.csv"
-    if not input_path.exists():
-        print(f"[ERROR] No tender list found in {input_dir}")
-        print(f"   Expected: tender_list.csv or TenderList.csv")
-        sys.exit(1)
-
-    print("=" * 80)
-    print("GETTING REDIRECT URLs FOR TENDERS")
-    print("=" * 80)
-    print(f"Reading: {input_path}")
-
-    delim, enc = detect_csv_dialect_and_encoding(input_path)
-    print(f"   Detected delimiter: {repr(delim)} | encoding: {enc}")
-
-    # Inspect structure
-    with open(input_path, "r", encoding=enc, newline="") as f:
-        reader = csv.DictReader(f, delimiter=delim)
-        fieldnames = reader.fieldnames or []
-        print(f"   Available columns: {', '.join(fieldnames) if fieldnames else '(none)'}")
-
-        try:
-            first_row = next(reader)
-            print("\n   Sample row (first row):")
-            shown = 0
-            for k, v in first_row.items():
-                if v and shown < 8:
-                    sv = str(v)
-                    sv = sv[:80] + ("..." if len(sv) > 80 else "")
-                    print(f"     {k}: {sv}")
-                    shown += 1
-        except StopIteration:
-            print(f"[ERROR] {input_path.name} is empty (no data rows).")
-            sys.exit(1)
-
-    # Build list of tender URLs
-    tender_urls: List[str] = []
-    with open(input_path, "r", encoding=enc, newline="") as f:
-        reader = csv.DictReader(f, delimiter=delim)
-
-        count = 0
-        for row_num, row in enumerate(reader, start=2):  # header is row 1
-            if count >= MAX_TENDERS:
-                break
-
-            raw = extract_url_from_csv_row(row)
-            if raw:
-                raw = raw.strip()
-                details_url = convert_to_details_url(raw)
-
-                if validate_url_format(details_url):
-                    tender_urls.append(details_url)
-                    count += 1
-                    if count <= 3:
-                        print(f"   [OK] Row {row_num}: URL ready -> {details_url[:90]}")
-                else:
-                    if row_num <= 5:
-                        print(f"   [WARN] Row {row_num}: Not a valid URL after conversion: {details_url[:90]}")
-            else:
-                if row_num <= 5:
-                    print(f"   [WARN] Row {row_num}: No URL/ID found in row")
-
-    if not tender_urls:
-        print("[ERROR] No valid tender URLs found in CSV")
-        print("   Fix options:")
-        print("   - Ensure CSV delimiter is correct (we auto-detect now)")
-        print("   - Ensure you have CN Document Number / IDLicitacion / or a URL column")
-        sys.exit(1)
-
-    print(f"[OK] Found {len(tender_urls)} tender URLs to process")
-    print("=" * 80)
-
-    redirect_rows: List[Dict[str, str]] = []
-
-    for i, url in enumerate(tender_urls, 1):
-        print(f"\n[{i}/{len(tender_urls)}] Processing: {url[:90]}")
-
-        row_out = {
-            "original_url": url,
-            "redirect_url": "",
-            "qs_parameter": "",
-            "tender_details_url": url,  # fallback
-            "tender_award_url": "",
-        }
-
-        try:
-            redirect_url = get_redirect_url(url)
-
-            if validate_url_format(redirect_url):
-                row_out["redirect_url"] = redirect_url
-
-                qs = extract_qs_from_url(redirect_url)
-                if qs:
-                    row_out["qs_parameter"] = qs
-                    row_out["tender_details_url"] = (
-                        "https://www.mercadopublico.cl/Procurement/Modules/RFB/"
-                        f"DetailsAcquisition.aspx?qs={qs}"
-                    )
-                    row_out["tender_award_url"] = (
-                        "https://www.mercadopublico.cl/Procurement/Modules/RFB/StepsProcessAward/"
-                        f"PreviewAwardAct.aspx?qs={qs}"
-                    )
-                    print(f"   [OK] qs: {qs}")
-                else:
-                    # still usable for Script 3 if it is DetailsAcquisition
-                    row_out["tender_details_url"] = redirect_url
-                    print("   [WARN] No qs parameter found; using redirect_url as tender_details_url")
-
-            else:
-                raise ValueError(f"Redirect URL is not a valid URL: {redirect_url}")
-
-        except Exception as e:
-            print(f"   [ERROR] {e}")
-
-        redirect_rows.append(row_out)
-        time.sleep(1)
-
-    # Write output CSV
-    out_path = output_dir / OUTPUT_FILENAME
-    with open(out_path, "w", encoding="utf-8-sig", newline="") as f:
+def write_output(path: Path, rows: List[Dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=REQUIRED_OUTPUT_COLUMNS)
         w.writeheader()
-        for r in redirect_rows:
-            w.writerow(r)
+        w.writerows(rows)
 
-    print("\n" + "=" * 80)
-    print(f"[OK] Saved: {out_path}")
-    print("Next:")
-    print(" - Run Script 3 (needs tender_details_url)")
-    print(" - Run Script 4 (needs tender_details_url + tender_award_url)")
-    print("=" * 80)
+
+def main() -> None:
+    input_dir = get_input_dir()
+    output_dir = get_output_dir()
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Your real input: TenderList.csv
+    candidates = [
+        input_dir / "TenderList.csv",
+        input_dir / "TenderList.CSV",
+        input_dir / "tender_list.csv",
+        input_dir / "TenderList.csv".lower(),
+    ]
+    input_path = next((p for p in candidates if p.exists()), None)
+    if not input_path:
+        print(f"[ERROR] Input not found in: {input_dir}")
+        for p in candidates:
+            print(f"  - {p.name}")
+        sys.exit(1)
+
+    delim, enc = detect_csv_dialect_and_encoding(input_path)
+    print(f"Reading: {input_path}")
+    print(f"   Detected delimiter: '{delim}' | encoding: {enc}")
+
+    with open(input_path, "r", encoding=enc, errors="replace", newline="") as f:
+        reader = csv.DictReader(f, delimiter=delim)
+        rows = list(reader)
+        print(f"   Available columns: {', '.join(reader.fieldnames or [])}")
+        if rows:
+            print("\n   Sample row (first row):")
+            for k, v in list(rows[0].items())[:5]:
+                print(f"     {k}: {v}")
+
+    if not rows:
+        print("[ERROR] Input CSV has no rows")
+        sys.exit(1)
+
+    out_rows: List[Dict[str, Any]] = []
+    total = min(len(rows), MAX_TENDERS)
+
+    for i, row in enumerate(rows[:total], start=1):
+        start_url = extract_url_from_csv_row(row)
+        if not start_url:
+            print(f"   [WARN] Row {i}: no tender id/url found -> skip")
+            continue
+
+        try:
+            final_url = get_redirect_url(start_url)
+            qs = extract_qs_from_url(final_url) or ""
+
+            details_url = final_url
+            award_url = final_url.replace("DetailsAcquisition.aspx", "Results.aspx")
+
+            out_rows.append({
+                "original_url": start_url,
+                "redirect_url": final_url,
+                "qs_parameter": qs,
+                "tender_details_url": details_url,
+                "tender_award_url": award_url,
+            })
+            print(f"   [OK] Row {i}: URL ready -> {details_url}")
+        except Exception as e:
+            print(f"   [ERROR] Row {i}: {e}")
+
+    if not out_rows:
+        print("[ERROR] No tender URLs processed successfully")
+        sys.exit(1)
+
+    out_path = output_dir / OUTPUT_FILENAME
+    write_output(out_path, out_rows)
+    print(f"[OK] Found {len(out_rows)} tender URLs to process")
+    print(f"[OK] Wrote: {out_path}")
 
 
 if __name__ == "__main__":

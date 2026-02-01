@@ -1,0 +1,11 @@
+{
+  "scraper": "Malaysia",
+  "last_run": "2026-01-30T08:45:49.494329",
+  "completed_steps": [],
+  "step_outputs": {},
+  "metadata": {
+    "current_step": 0,
+    "current_step_name": "Backup and Clean + DB Init",
+    "status": "running"
+  }
+}

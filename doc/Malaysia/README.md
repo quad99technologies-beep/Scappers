@@ -1,289 +1,57 @@
-# Malaysia Scraper Documentation
+# Malaysia Scraper Runbook (2026-01-30)
 
-## Overview
+This replaces all previous Malaysia docs. Keep this as the single source of truth.
 
-The Malaysia scraper extracts pharmaceutical pricing and product information from multiple Malaysian government sources:
-- MyPriMe (Ministry of Health) - Drug prices
-- QUEST3+ (Pharmacy Board) - Product registration details
-- Fully Reimbursable Drugs list
+## Pipeline at a glance
+- Steps (run via `python scripts/Malaysia/run_pipeline_resume.py`):
+  0. Backup & DB init (`steps/step_00_backup_clean.py`)
+  1. Product registration numbers (MyPriMe, Playwright)
+  2. Product details (Quest3+, bulk + individual)
+  3. Consolidate results (DB merge)
+  4. Fully reimbursable list (FUKKM)
+  5. PCID mapping + exports
+- Resume-safe: checkpoints stored by `core.pipeline_checkpoint`.
+- Run ID persisted at `output/Malaysia/.current_run_id`.
 
-The scraper consolidates data from these sources and generates PCID-mapped reports.
+## Prereqs
+- Env: `config/Malaysia.env.json` (or `.env` loaded by `config_loader.py`).
+- Input files:
+  - `input/Malaysia/products.csv` (keywords for bulk search)
+  - `input/Malaysia/PCID Mapping - Malaysia.csv` (columns: `LOCAL_PACK_CODE`, `PCID Mapping`)
+- DB: PostgreSQL reachable per env; schema auto-migrates on step 0/5.
 
-## Workflow
-
-The Malaysia scraper follows a 6-step pipeline:
-
-1. **00_backup_and_clean.py** - Backup existing output and clean for fresh run
-2. **01_Product_Registration_Number.py** - Scrape drug prices from MyPriMe
-3. **02_Product_Details.py** - Get product details from QUEST3+
-4. **03_Consolidate_Results.py** - Consolidate and standardize product data
-5. **04_Get_Fully_Reimbursable.py** - Scrape fully reimbursable drugs list
-6. **05_Generate_PCID_Mapped.py** - Generate final PCID-mapped report
-
-## Configuration
-
-All configuration is managed through `config/Malaysia.env.json`. The configuration uses script-specific prefixes:
-
-- **SCRIPT_01_*** - MyPriMe scraping settings
-- **SCRIPT_02_*** - QUEST3+ scraping settings
-- **SCRIPT_03_*** - Consolidation settings
-- **SCRIPT_04_*** - Fully reimbursable scraping settings
-- **SCRIPT_05_*** - PCID mapping settings
-
-### Key Configuration Values
-
-- `SCRIPT_01_URL` - MyPriMe drug price URL
-- `SCRIPT_01_WAIT_TIMEOUT` - Selenium wait timeout
-- `SCRIPT_01_CLICK_DELAY` - Delay between clicks
-- `SCRIPT_02_SEARCH_URL` - QUEST3+ search URL
-- `SCRIPT_02_DETAIL_URL` - QUEST3+ detail URL template
-- `SCRIPT_02_HEADLESS` - Browser headless mode
-- `SCRIPT_02_RESULT_TABLE_SELECTOR` - QUEST3+ result table element (now `table.table` so row selectors can be derived reliably)
-- `SCRIPT_02_RESULT_ROW_SELECTOR` - (Optional) Override for the row selector(s) used while verifying the table has loaded; by default this is `{TABLE_SELECTOR} tbody tr, {TABLE_SELECTOR} tr`
-- `SCRIPT_02_WAIT_BULK` - Bulk search wait time
-- `SCRIPT_04_BASE_URL` - Fully reimbursable URL
-- `SCRIPT_05_PCID_MAPPING` - PCID mapping file name
-
-## Input Files
-
-Place the following files in the input directory:
-
-- `PCID Mapping - Malaysia.csv` - PCID mapping file
-- `products.csv` - Optional product list for filtering
-
-## Output Files
-
-The scraper generates the following output files:
-
-- `malaysia_drug_prices_view_all.csv` - Drug prices from MyPriMe
-- `quest3_product_details.csv` - Product details from QUEST3+
-- `quest3_bulk_results.csv` - Bulk search results
-- `bulk_search_counts.csv` - Row-count comparison report for each QUEST3+ bulk search keyword
-- `missing_data_screenshots/` - (Optional) Screenshots captured on missing data or download failures when enabled
-- `quest3_missing_regnos.csv` - Missing registration numbers
-- `consolidated_products.csv` - Consolidated product data
-- `malaysia_fully_reimbursable_drugs.csv` - Fully reimbursable drugs
-- `malaysia_pcid_mapped.csv` - Final PCID-mapped report
-- `malaysia_pcid_not_mapped.csv` - Products without PCID mapping
-
-## Running the Scraper
-
-### Using the GUI
-
-1. Launch `scraper_gui.py`
-2. Select "Malaysia" from the scraper dropdown
-3. Click "Run Pipeline" to execute all steps sequentially
-
-### Using Command Line
-
-Navigate to `scripts/Malaysia/` and run:
-
-```batch
-run_pipeline.bat
-```
-
-Or run individual steps:
-
+## How to run
 ```bash
-python 00_backup_and_clean.py
-python 01_Product_Registration_Number.py
-python 02_Product_Details.py
-python 03_Consolidate_Results.py
-python 04_Get_Fully_Reimbursable.py
-python 05_Generate_PCID_Mapped.py
+cd scripts/Malaysia
+python run_pipeline_resume.py --fresh   # full run
+# or resume from a step
+python run_pipeline_resume.py --step 4  # start at reimbursable
 ```
 
-## Script Details
+## Key behaviors / fixes (current)
+- Quest3 bulk counts: `page_rows` is forced to `csv_rows` if the DataTables info under-reports (e.g., shows 10). Diff now zeroes when CSV is complete.
+- PCID mapping join: strips non‑alphanumerics on both reg no and local pack code; accepts header `PCID Mapping`.
+- Exports audit: `my_export_reports` logs mapped/not-mapped/coverage/diff with run_id.
 
-### 01_Product_Registration_Number.py
+## Outputs
+- DB tables (prefix `my_`): products, product_details, consolidated_products, reimbursable_drugs, pcid_reference, pcid_mappings, bulk_search_counts, export_reports, step_progress.
+- Files:
+  - Exports: `exports/Malaysia/malaysia_pcid_mapped_*.csv`, `malaysia_pcid_not_mapped_*.csv`, diff + coverage report.
+  - Health: `exports/Malaysia/health_check/health_check_*.txt|json`.
 
-Scrapes drug prices from MyPriMe website.
+## Health check
+```bash
+cd scripts/Malaysia
+python health_check.py
+```
+Checks URL reachability (MyPriMe, Quest3+, FUKKM), presence of PCID file, and selector config including `SCRIPT_02_INFO_SELECTOR` (`#searchTable_info` default).
 
-**Input:** None (scrapes from website)
-**Output:** `malaysia_drug_prices_view_all.csv`
+## Common issues
+- Counts mismatch in `my_bulk_search_counts`: rerun step 2; ensure CSV downloaded; page_rows now aligns automatically.
+- PCID missing: add mapping in `input/Malaysia/PCID Mapping - Malaysia.csv` and rerun step 5.
+- Stale checkpoint/run_id: `--fresh` clears; removes `.current_run_id`.
 
-**Configuration:**
-- `SCRIPT_01_URL` - MyPriMe URL
-- `SCRIPT_01_WAIT_TIMEOUT` - Selenium wait timeout
-- `SCRIPT_01_CLICK_DELAY` - Delay between clicks
-- `SCRIPT_01_HEADLESS` - Browser headless mode
-- `SCRIPT_01_CHROME_START_MAXIMIZED` - Chrome options
-- `SCRIPT_01_CHROME_DISABLE_AUTOMATION` - Anti-detection options
-
-**Features:**
-- Selenium WebDriver automation
-- Automatic "View All" button click
-- Table extraction
-- CSV export
-
-### 02_Product_Details.py
-
-Gets product details from QUEST3+ using registration numbers.
-
-**Input:** 
-- `products.csv` (optional)
-- `malaysia_drug_prices_view_all.csv`
-
-**Output:**
-- `quest3_product_details.csv` - Product details
-- `quest3_bulk_results.csv` - Bulk search results
-- `quest3_missing_regnos.csv` - Missing registration numbers
-
-**Configuration:**
-- `SCRIPT_02_SEARCH_URL` - QUEST3+ search URL
-- `SCRIPT_02_DETAIL_URL` - Detail URL template
-- `SCRIPT_02_HEADLESS` - Browser headless mode
-- `SCRIPT_02_WAIT_BULK` - Bulk search wait time
-- `SCRIPT_02_SEARCH_DELAY` - Delay between searches
-- `SCRIPT_02_DETAIL_DELAY` - Delay between detail fetches
-- `SCRIPT_02_PAGE_TIMEOUT` - Page load timeout
-- `SCRIPT_02_SELECTOR_TIMEOUT` - Selector wait timeout
-- `SCRIPT_02_DATA_LOAD_WAIT` - Additional seconds to wait for the bulk results table to settle before clicking CSV
-- `SCRIPT_02_OUT_COUNT_REPORT` - File name for the bulk search row-count comparison report
-- `SCRIPT_02_CSV_WAIT_SECONDS` - Seconds to wait after the results table stabilizes before clicking the CSV download button (default 60)
-- `SCRIPT_02_CSV_WAIT_MAX_SECONDS` - Maximum time (seconds) to keep waiting for loading indicators to disappear before proceeding with CSV (default 300)
-- `SCRIPT_02_CAPTURE_MISSING_SCREENSHOT` - Enable screenshot capture when a bulk search returns no data or fails (bool)
-- `SCRIPT_02_MISSING_SCREENSHOT_DIR` - Directory name (under the output folder) for storing missing-data screenshots
-
-**Features:**
-- Bulk search capability
-- Individual product detail fetching
-- Progress tracking
-- Error handling and retry logic
-- Missing registration number tracking
-- Row-count validation and reporting (`bulk_search_counts.csv` logs how many rows were visible on the page vs. how many landed in the CSV)
-- Optional missing-data screenshots (controlled by `SCRIPT_02_CAPTURE_MISSING_SCREENSHOT`) provide visual proof whenever a keyword returns no data or a download fails
-- Extra settle time for large tables (`SCRIPT_02_DATA_LOAD_WAIT` seconds are waited after rows stabilize to ensure all rows finish loading before download)
-- Guaranteed minimum delay (`SCRIPT_02_CSV_WAIT_SECONDS`) after hitting Search plus automatic extension until loading indicators are gone (max `SCRIPT_02_CSV_WAIT_MAX_SECONDS`) before clicking CSV
-
-#### Bulk search count report
-
-After every bulk keyword search the script compares the stable row count observed on the page with the number of rows that actually downloaded into the CSV. The per-keyword snapshot (keyword, page rows, CSV rows, difference, status, reason, file path, timestamp) is written to `bulk_search_counts.csv` so you can identify and re-run keywords that yielded partial or missing exports.
-
-#### Missing-data screenshots (optional)
-
-Enable `SCRIPT_02_CAPTURE_MISSING_SCREENSHOT` to capture a screenshot whenever QUEST3+ returns no data, the CSV button disappears, or the download ultimately fails. Screenshots are saved under `missing_data_screenshots/` so you have proof of the page state before re-running the keyword or investigating site changes.
-
-### 03_Consolidate_Results.py
-
-Consolidates and standardizes product data from multiple sources.
-
-**Input:**
-- `quest3_product_details.csv`
-
-**Output:**
-- `consolidated_products.csv`
-
-**Features:**
-- Data standardization
-- Column mapping
-- Data cleaning
-- Duplicate handling
-
-### 04_Get_Fully_Reimbursable.py
-
-Scrapes fully reimbursable drugs list from MOH website.
-
-**Input:** None (scrapes from website)
-**Output:** `malaysia_fully_reimbursable_drugs.csv`
-
-**Configuration:**
-- `SCRIPT_04_BASE_URL` - Fully reimbursable URL
-- `SCRIPT_04_TABLE_SELECTOR` - Table CSS selector
-- `SCRIPT_04_REQUEST_TIMEOUT` - Request timeout
-- `SCRIPT_04_PAGE_DELAY` - Delay between pages
-- `SCRIPT_04_FAIL_FAST` - Stop on first error
-- `SCRIPT_04_USER_AGENT` - User agent string
-
-**Features:**
-- Multi-page scraping
-- Table extraction
-- Error handling
-- Progress tracking
-
-### 05_Generate_PCID_Mapped.py
-
-Generates final PCID-mapped report.
-
-**Input:**
-- `consolidated_products.csv`
-- `malaysia_drug_prices_view_all.csv`
-- `malaysia_fully_reimbursable_drugs.csv`
-- `Malaysia_PCID.csv` (from input directory)
-
-**Output:**
-- `malaysia_pcid_mapped.csv` - Mapped products
-- `malaysia_pcid_not_mapped.csv` - Unmapped products
-
-**Configuration:**
-- `SCRIPT_05_PCID_MAPPING` - PCID mapping file name
-- `SCRIPT_05_CONSOLIDATED` - Consolidated file name
-- `SCRIPT_05_PRICES` - Prices file name
-- `SCRIPT_05_REIMBURSABLE` - Reimbursable file name
-
-**Features:**
-- PCID mapping
-- Data merging
-- Unmapped product tracking
-- Final report generation
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Selenium WebDriver Errors**
-   - Ensure ChromeDriver is installed and up to date
-   - Check Chrome browser version compatibility
-   - Verify `SCRIPT_01_HEADLESS` / `SCRIPT_02_HEADLESS` settings
-
-2. **Timeout Errors**
-   - Increase `WAIT_TIMEOUT`, `PAGE_TIMEOUT`, or `SELECTOR_TIMEOUT`
-   - Check internet connection
-   - Verify website is accessible
-
-3. **Missing Registration Numbers**
-   - Review `quest3_missing_regnos.csv`
-   - Check if registration numbers are valid
-   - Verify QUEST3+ website structure hasn't changed
-
-4. **PCID Mapping Issues**
-   - Verify `Malaysia_PCID.csv` format
-   - Check column names match expected format
-   - Review `malaysia_pcid_not_mapped.csv` for unmapped products
-
-5. **Scraping Failures**
-   - Check if website structure has changed
-   - Verify selectors are still valid
-   - Review error logs for specific failures
-
-## Dependencies
-
-- Selenium WebDriver
-- ChromeDriver
-- pandas
-- requests
-- Python 3.8+
-
-## Notes
-
-- The scraper uses Selenium for web automation
-- ChromeDriver must be installed and in PATH
-- All configuration values are in `config/Malaysia.env.json`
-- The scraper handles rate limiting and delays automatically
-
-## Health Check (Manual)
-
-- Run `python scripts/Malaysia/health_check.py` whenever you need to confirm the workflow is still
-  safe to execute. The script is intentional about not collecting or saving production data.
-- It prints a status matrix and writes a report to `exports/Malaysia/health_check/health_check_<timestamp>.txt`.
-- The check covers:
-  1. Reachability of the MyPriMe and QUEST3+ landing pages.
-  2. Presence of the Malaysia PCID mapping file (used by step 05).
-  3. Layout selectors on MyPriMe (`View All` text and the pricing table headers).
-  4. QUEST3+ search form selectors (`#searchBy`, `#searchTxt`, `button.btn-primary`) and the results table.
-- Use the matrix output to catch layout changes early; a `FAIL` entry signals the associated step must be reviewed
-  before starting a scrape.
-- The GUI now exposes a **Health Check** tab so you can run the same logic without leaving the app and monitor
-  the status text/log live for Malaysia or Argentina before touching the pipeline controls.
-- Progress is tracked and saved periodically
-
+## Maintenance tips
+- When selectors change, update env vars rather than code where possible; run `health_check.py` to confirm.
+- Keep input mappings in UTF-8; avoid stray BOM.
+- Before deploying, spot-check `my_export_reports` for the latest run to verify exports were written.

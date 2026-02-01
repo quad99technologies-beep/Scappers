@@ -35,7 +35,12 @@
       "Bash(powershell -Command:*)",
       "Bash(tail:*)",
       "Bash(taskkill /F /FI \"WINDOWTITLE eq python*01a_retry_failed_pages*\")",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(find:*)",
+      "Bash(pip install:*)",
+      "Bash(python -m pip install:*)",
+      "Bash(sqlite3:*)",
+      "Bash(del \"d:\\\\quad99\\\\Scrappers\\\\output\\\\Malaysia\\\\malaysia.db.db*\")"
     ]
   }
 }

@@ -27,7 +27,93 @@ if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
 
 from core.pipeline_checkpoint import get_checkpoint_manager
-from config_loader import get_output_dir, PREPARED_URLS_FILE, OUTPUT_PRODUCTS_CSV, OUTPUT_TRANSLATED_CSV, USE_API_STEPS
+from config_loader import get_output_dir, USE_API_STEPS
+
+
+def _read_run_id() -> str:
+    """Load run_id from env or .current_run_id if present."""
+    run_id = os.environ.get("ARGENTINA_RUN_ID")
+    if run_id:
+        return run_id
+    run_id_file = get_output_dir() / ".current_run_id"
+    if run_id_file.exists():
+        try:
+            run_id = run_id_file.read_text(encoding="utf-8").strip()
+            if run_id:
+                return run_id
+        except Exception:
+            pass
+    return ""
+
+
+def _log_step_progress(step_num: int, step_name: str, status: str, error_message: str = None) -> None:
+    """Persist step progress in PostgreSQL for Argentina pipeline."""
+    run_id = _read_run_id()
+    if not run_id:
+        return
+    try:
+        from core.db.connection import CountryDB
+
+        with CountryDB("Argentina") as db:
+            with db.cursor() as cur:
+                cur.execute(
+                    """
+                    INSERT INTO ar_step_progress
+                        (run_id, step_number, step_name, progress_key, status, error_message, started_at, completed_at)
+                    VALUES
+                        (%s, %s, %s, 'pipeline', %s, %s,
+                         CASE WHEN %s = 'in_progress' THEN CURRENT_TIMESTAMP ELSE NULL END,
+                         CASE WHEN %s IN ('completed','failed','skipped') THEN CURRENT_TIMESTAMP ELSE NULL END)
+                    ON CONFLICT (run_id, step_number, progress_key) DO UPDATE SET
+                        step_name = EXCLUDED.step_name,
+                        status = EXCLUDED.status,
+                        error_message = EXCLUDED.error_message,
+                        started_at = COALESCE(ar_step_progress.started_at, EXCLUDED.started_at),
+                        completed_at = EXCLUDED.completed_at
+                    """,
+                    (run_id, step_num, step_name, status, error_message, status, status),
+                )
+    except Exception:
+        # Non-blocking: progress logging should not break pipeline execution
+        return
+
+
+def _update_run_ledger_step_count(step_num: int) -> None:
+    """Update run_ledger.step_count for the current run_id."""
+    run_id = _read_run_id()
+    if not run_id:
+        return
+    try:
+        from core.db.connection import CountryDB
+
+        with CountryDB("Argentina") as db:
+            with db.cursor() as cur:
+                cur.execute(
+                    "UPDATE run_ledger SET step_count = %s WHERE run_id = %s",
+                    (step_num, run_id),
+                )
+    except Exception:
+        return
+
+
+def _mark_run_ledger_active_if_resume(start_step: int) -> None:
+    """Ensure run_ledger status is set to running when resuming mid-pipeline."""
+    if start_step <= 0:
+        return
+    run_id = _read_run_id()
+    if not run_id:
+        return
+    try:
+        from core.db.connection import CountryDB
+        from db.repositories import ArgentinaRepository
+
+        with CountryDB("Argentina") as db:
+            repo = ArgentinaRepository(db, run_id)
+            repo.resume_run()
+    except Exception:
+        # Non-blocking: don't fail pipeline if DB status update fails
+        return
+
 
 def cleanup_temp_files(output_dir: Path):
     """Remove stale temp files created during CSV rewrites (tmp* with no extension)."""
@@ -99,6 +185,9 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
     # Track step execution time
     start_time = time.time()
     duration_seconds = None
+
+    # Log step start (if run_id already available)
+    _log_step_progress(step_num, step_name, "in_progress")
     
     try:
         env = os.environ.copy()
@@ -107,6 +196,9 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         env["PIPELINE_TOTAL_STEPS"] = str(total_steps)
         env["PIPELINE_STEP_NAME"] = step_name
         env["PIPELINE_SCRIPT"] = script_name
+        run_id = _read_run_id()
+        if run_id:
+            env["ARGENTINA_RUN_ID"] = run_id
         result = subprocess.run(
             [sys.executable, "-u", str(script_path)],
             check=True,
@@ -139,6 +231,10 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         else:
             cp.mark_step_complete(step_num, step_name, duration_seconds=duration_seconds)
 
+        # Log DB progress now that run_id exists (step 0 gets logged here)
+        _log_step_progress(step_num, step_name, "completed")
+        _update_run_ledger_step_count(display_step)
+
         # Cleanup stale temp files (e.g., tmp* from CSV rewrites)
         cleanup_temp_files(get_output_dir())
         cleanup_legacy_progress(get_output_dir())
@@ -166,11 +262,13 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         # Track duration even on failure
         duration_seconds = time.time() - start_time
         print(f"\nERROR: Step {step_num} ({step_name}) failed with exit code {e.returncode} (duration: {duration_seconds:.2f}s)")
+        _log_step_progress(step_num, step_name, "failed", error_message=f"exit_code={e.returncode}")
         return False
     except Exception as e:
         # Track duration even on failure
         duration_seconds = time.time() - start_time
         print(f"\nERROR: Step {step_num} ({step_name}) failed: {e} (duration: {duration_seconds:.2f}s)")
+        _log_step_progress(step_num, step_name, "failed", error_message=str(e))
         return False
 
 def main():
@@ -187,6 +285,15 @@ def main():
         cp.clear_checkpoint()
         start_step = 0
         print("Starting fresh run (checkpoint cleared)")
+        # Fresh run should not reuse previous run_id
+        os.environ.pop("ARGENTINA_RUN_ID", None)
+        try:
+            run_id_file = get_output_dir() / ".current_run_id"
+            if run_id_file.exists():
+                run_id_file.unlink()
+                print(f"[CLEAN] Removed previous run_id file: {run_id_file}")
+        except Exception as e:
+            print(f"[CLEAN] Warning: could not remove previous run_id file: {e}")
     elif args.step is not None:
         start_step = args.step
         print(f"Starting from step {start_step}")
@@ -203,11 +310,11 @@ def main():
     output_dir = get_output_dir()
     steps = [
         (0, "00_backup_and_clean.py", "Backup and Clean", None),
-        (1, "01_getProdList.py", "Get Product List", None),  # Output is in input dir
-        (2, "02_prepare_urls.py", "Prepare URLs", [str(output_dir / PREPARED_URLS_FILE)]),
-        (3, "03_alfabeta_selenium_scraper.py", "Scrape Products (Selenium - 5 Rounds)", [str(output_dir / OUTPUT_PRODUCTS_CSV)]),
-        (4, "04_alfabeta_api_scraper.py", "Scrape Products (API)", [str(output_dir / OUTPUT_PRODUCTS_CSV)]),
-        (5, "05_TranslateUsingDictionary.py", "Translate Using Dictionary", [str(output_dir / OUTPUT_TRANSLATED_CSV)]),
+        (1, "01_getProdList.py", "Get Product List", None),  # DB-backed
+        (2, "02_prepare_urls.py", "Prepare URLs", None),  # DB-backed
+        (3, "03_alfabeta_selenium_scraper.py", "Scrape Products (Selenium - 5 Rounds)", None),  # DB-backed
+        (4, "04_alfabeta_api_scraper.py", "Scrape Products (API)", None),  # DB-backed (to be refactored)
+        (5, "05_TranslateUsingDictionary.py", "Translate Using Dictionary", None),
         (6, "06_GenerateOutput.py", "Generate Output", None),  # Output files vary by date
     ]
     
@@ -232,6 +339,9 @@ def main():
         print(f"\nWARNING: Step {earliest_rerun_step} needs re-run (output files missing).")
         print(f"Adjusting start step from {start_step} to {earliest_rerun_step} to maintain pipeline integrity.\n")
         start_step = earliest_rerun_step
+
+    # If resuming mid-pipeline, mark run_ledger as running (status) and resume (mode)
+    _mark_run_ledger_active_if_resume(start_step)
     
     # Run steps starting from start_step
     print(f"\n{'='*80}")
@@ -268,6 +378,8 @@ def main():
             print(f"\nStep {display_step}/7: {step_name} - SKIPPED (disabled in config)")
             print(f"[PROGRESS] Pipeline Step: {display_step}/{total_steps} ({completion_percent}%) - Skipped: API step disabled", flush=True)
             cp.mark_step_complete(step_num, step_name, duration_seconds=0.0)
+            _log_step_progress(step_num, step_name, "skipped")
+            _update_run_ledger_step_count(display_step)
             continue
         if step_num < start_step:
             # Skip completed steps (verify output files exist)
@@ -296,6 +408,8 @@ def main():
                 skip_desc = step_descriptions.get(step_num, f"Skipped: {step_name} already completed")
                 
                 print(f"[PROGRESS] Pipeline Step: {display_step}/{total_steps} ({completion_percent}%) - {skip_desc}", flush=True)
+                _log_step_progress(step_num, step_name, "completed")
+                _update_run_ledger_step_count(display_step)
             else:
                 # Step marked complete but output files missing - will re-run
                 display_step = step_num + 1

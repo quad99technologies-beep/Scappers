@@ -12,6 +12,12 @@ INPUTS:
 
 OUTPUTS:
   - output/Tender_Chile/final_tender_data.csv
+
+UPDATED (per EVERSANA):
+  - Adds new bidder-row field: "AWARDED LOT TITLE"
+    Source: mercadopublico_supplier_rows.csv (expected column "AWARDED LOT TITLE")
+    Fallback: supplier_specifications (if column not present)
+  - Applies EVERSANA rule: If Status=PUBLISHED, award-related fields must be blank (includes AWARDED LOT TITLE)
 """
 
 from __future__ import annotations
@@ -128,7 +134,6 @@ def safe_int_str(x) -> str:
         v = int(float(str(s).replace(",", "")))
         return str(v)
     except Exception:
-        # strip non-digits
         digits = re.sub(r"\D", "", str(s))
         return digits
 
@@ -261,11 +266,22 @@ def main() -> None:
 
     merged["Awarded Unit Price"] = merged["unit_price_offer"] if "unit_price_offer" in merged.columns else ""
 
+    # -------------------------
+    # NEW FIELD: AWARDED LOT TITLE (bidder-row specific)
+    # -------------------------
+    # Prefer column added in Script 3; fallback to supplier_specifications if needed.
+    if "AWARDED LOT TITLE" in merged.columns:
+        merged["AWARDED LOT TITLE"] = merged["AWARDED LOT TITLE"].fillna("").astype(str)
+    else:
+        merged["AWARDED LOT TITLE"] = merged["supplier_specifications"].fillna("").astype(str) if "supplier_specifications" in merged.columns else ""
+
+    # -------------------------
     # Bidder-row specific values
+    # -------------------------
     # Lot_Award_Value_Local should be populated only for the winning bidder row.
     if "total_net_awarded" in merged.columns and "is_awarded" in merged.columns:
         merged["Lot_Award_Value_Local"] = merged.apply(
-            lambda r: r.get("total_net_awarded") if to_yes_no(r.get("is_awarded")).__eq__("YES") else 0,
+            lambda r: r.get("total_net_awarded") if to_yes_no(r.get("is_awarded")) == "YES" else 0,
             axis=1,
         )
     else:
@@ -277,7 +293,7 @@ def main() -> None:
     # Awarded quantity is bidder-row specific; only the winner gets it.
     if "awarded_quantity" in merged.columns and "is_awarded" in merged.columns:
         merged["AWARDED QUANTITY"] = merged.apply(
-            lambda r: r.get("awarded_quantity") if to_yes_no(r.get("is_awarded")).__eq__("YES") else 0,
+            lambda r: r.get("awarded_quantity") if to_yes_no(r.get("is_awarded")) == "YES" else 0,
             axis=1,
         )
     else:
@@ -294,7 +310,16 @@ def main() -> None:
     # EVERSANA RULE: If PUBLISHED, keep award-related fields BLANK
     # -------------------------
     published_mask = merged["Status"].eq("PUBLISHED")
-    for c in ["Award Date", "Bidder", "Bid Status Award", "Lot_Award_Value_Local", "Awarded Unit Price", "Original_Publication_Link_Award", "AWARDED QUANTITY"]:
+    for c in [
+        "Award Date",
+        "Bidder",
+        "Bid Status Award",
+        "Lot_Award_Value_Local",
+        "Awarded Unit Price",
+        "Original_Publication_Link_Award",
+        "AWARDED QUANTITY",
+        "AWARDED LOT TITLE",  # NEW field is award/bidder-row related
+    ]:
         merged.loc[published_mask, c] = ""
 
     # -------------------------
@@ -326,6 +351,7 @@ def main() -> None:
         "CAN Document Number",
         "Award Date",
         "Bidder",
+        "AWARDED LOT TITLE",  # NEW column in final output
         "Bid Status Award",
         "Lot_Award_Value_Local",
         "Awarded Unit Price",
@@ -348,4 +374,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

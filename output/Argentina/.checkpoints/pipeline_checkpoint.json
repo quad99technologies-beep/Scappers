@@ -1,67 +1,32 @@
 {
   "scraper": "Argentina",
-  "last_run": "2026-01-25T12:48:54.191073",
+  "last_run": "2026-02-01T07:31:50.510743",
   "completed_steps": [
     0,
     1,
-    2,
-    3,
-    4,
-    5,
-    6
+    2
   ],
   "step_outputs": {
     "step_0": {
       "step_number": 0,
-      "step_name": "00 - Backup and Clean",
-      "completed_at": "2026-01-25T12:01:37.427324",
-      "output_files": []
+      "step_name": "Backup and Clean",
+      "completed_at": "2026-02-01T07:29:21.293140",
+      "output_files": [],
+      "duration_seconds": 2.3897745609283447
     },
     "step_1": {
       "step_number": 1,
-      "step_name": "01 - Get Product List",
-      "completed_at": "2026-01-25T12:01:37.427947",
-      "output_files": []
+      "step_name": "Get Product List",
+      "completed_at": "2026-02-01T07:31:36.959520",
+      "output_files": [],
+      "duration_seconds": 135.56750178337097
     },
     "step_2": {
       "step_number": 2,
-      "step_name": "02 - Prepare URLs",
-      "completed_at": "2026-01-25T12:01:37.428730",
-      "output_files": []
-    },
-    "step_3": {
-      "step_number": 3,
-      "step_name": "Scrape Products (Selenium - 5 Rounds)",
-      "completed_at": "2026-01-25T12:08:28.131752",
-      "output_files": [
-        "D:\\quad99\\Scappers\\output\\Argentina\\alfabeta_products_by_product.csv"
-      ],
-      "duration_seconds": 408.26210379600525
-    },
-    "step_4": {
-      "step_number": 4,
-      "step_name": "Scrape Products (API)",
-      "completed_at": "2026-01-25T12:08:54.234627",
-      "output_files": [
-        "D:\\quad99\\Scappers\\output\\Argentina\\alfabeta_products_by_product.csv"
-      ],
-      "duration_seconds": 26.083121299743652
-    },
-    "step_5": {
-      "step_number": 5,
-      "step_name": "Translate Using Dictionary",
-      "completed_at": "2026-01-25T12:39:49.916265",
-      "output_files": [
-        "D:\\quad99\\Scappers\\output\\Argentina\\alfabeta_products_all_dict_en.csv"
-      ],
-      "duration_seconds": 3.482243299484253
-    },
-    "step_6": {
-      "step_number": 6,
-      "step_name": "Generate Output",
-      "completed_at": "2026-01-25T12:48:54.191030",
+      "step_name": "Prepare URLs",
+      "completed_at": "2026-02-01T07:31:50.510736",
       "output_files": [],
-      "duration_seconds": 6.958492994308472
+      "duration_seconds": 13.538657426834106
     }
   },
   "metadata": {}

@@ -32,6 +32,8 @@ class RunStatus(str, Enum):
     COMPLETED = "completed"
     FAILED = "failed"
     CANCELLED = "cancelled"
+    RESUME = "resume"      # Can be resumed (interrupted but recoverable)
+    STOPPED = "stopped"    # Manually stopped, older runs that can't be resumed
 
 
 @dataclass
@@ -278,3 +280,100 @@ class FileRunLedger:
             if metadata:
                 results.append(metadata)
         return results
+
+    def update_run_status(
+        self,
+        run_id: str,
+        status: RunStatus,
+        run_dir: Optional[Path] = None,
+    ) -> Optional[RunMetadata]:
+        """
+        Update a run's status without changing other fields.
+        Used for stop pipeline (set to RESUME) and recovery operations.
+        """
+        run_dir = Path(run_dir) if run_dir else (self.runs_dir / run_id)
+        metadata = self._load_metadata(run_dir)
+        if metadata is None:
+            log.warning("Cannot update status for non-existent run: %s", run_id)
+            return None
+
+        metadata.status = status
+        # Only set ended_at if transitioning to a terminal state
+        if status in (RunStatus.COMPLETED, RunStatus.FAILED, RunStatus.CANCELLED, RunStatus.STOPPED):
+            if not metadata.ended_at:
+                metadata.ended_at = self._now_iso()
+
+        self._write_metadata(metadata, run_dir)
+        self._update_index(metadata, run_dir)
+        return metadata
+
+    def recover_stale_runs(
+        self,
+        scraper_name: Optional[str] = None,
+    ) -> Dict[str, List[str]]:
+        """
+        Recover stale 'running' runs on app startup.
+
+        Logic:
+        - Find all runs with status='running' for the given scraper (or all scrapers)
+        - Sort by created_at (newest first)
+        - Mark the LATEST 'running' run as 'resume' (can be resumed)
+        - Mark all OTHER 'running' runs as 'stopped' (cannot be resumed)
+
+        Returns:
+            Dict with 'resumed' and 'stopped' lists of run_ids
+        """
+        # Rebuild index to ensure we have latest state
+        self._index = self._rebuild_index()
+
+        # Find all running runs, grouped by scraper
+        running_by_scraper: Dict[str, List[tuple]] = {}
+
+        for run_id, entry in self._index.items():
+            if entry.get("status") != RunStatus.RUNNING.value:
+                continue
+            if scraper_name and entry.get("scraper_name") != scraper_name:
+                continue
+
+            scraper = entry.get("scraper_name", "unknown")
+            created_at = entry.get("created_at", "")
+
+            if scraper not in running_by_scraper:
+                running_by_scraper[scraper] = []
+            running_by_scraper[scraper].append((created_at, run_id))
+
+        result = {"resumed": [], "stopped": []}
+
+        for scraper, runs in running_by_scraper.items():
+            if not runs:
+                continue
+
+            # Sort by created_at (newest first)
+            runs.sort(reverse=True)
+
+            # First (newest) one becomes 'resume'
+            latest_run_id = runs[0][1]
+            self.update_run_status(latest_run_id, RunStatus.RESUME)
+            result["resumed"].append(latest_run_id)
+            log.info("Marked run %s as RESUME (latest for %s)", latest_run_id, scraper)
+
+            # All others become 'stopped'
+            for _, run_id in runs[1:]:
+                self.update_run_status(run_id, RunStatus.STOPPED)
+                result["stopped"].append(run_id)
+                log.info("Marked run %s as STOPPED (older run for %s)", run_id, scraper)
+
+        return result
+
+    def get_resumable_run(self, scraper_name: str) -> Optional[RunMetadata]:
+        """
+        Get the most recent resumable run for a scraper.
+
+        Returns the latest run with status='resume' for the given scraper,
+        or None if no resumable run exists.
+        """
+        runs = self.list_runs(limit=50, scraper_name=scraper_name)
+        for run in runs:
+            if run.status == RunStatus.RESUME:
+                return run
+        return None

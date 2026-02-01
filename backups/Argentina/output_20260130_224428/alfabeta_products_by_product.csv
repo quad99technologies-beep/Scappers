@@ -1,0 +1,25 @@
+﻿input_company,input_product_name,company,product_name,active_ingredient,therapeutic_class,description,price_ars,date,scraped_at,SIFAR_detail,PAMI_AF,PAMI_OS,IOMA_detail,IOMA_AF,IOMA_OS,import_status,coverage_json
+ISA,+50,ISA,+50,vit.+asoc.,Energizante psicofísico,comp.x 30 (VL),11533.0,2025-11-10,2026-01-30T22:26:07,,,,,,,,{}
+Laboratorio ENA,100% WHEY PROTEIN,Laboratorio ENA,100% WHEY PROTEIN,proteínas de suero de leche,Suplemento dietario,chocolate x 907 g (VL),59000.0,2026-01-01,2026-01-30T22:26:07,,,,,,,,{}
+Laboratorio ENA,100% WHEY PROTEIN,Laboratorio ENA,100% WHEY PROTEIN,proteínas de suero de leche,Suplemento dietario,frutilla x 907 g (VL),59000.0,2026-01-01,2026-01-30T22:26:07,,,,,,,,{}
+Laboratorio ENA,100% WHEY PROTEIN,Laboratorio ENA,100% WHEY PROTEIN,proteínas de suero de leche,Suplemento dietario,vainilla x 907 g (VL),59000.0,2026-01-01,2026-01-30T22:26:07,,,,,,,,{}
+Laboratorio Millet,102 FOCUS,Laboratorio Millet,102 FOCUS,magnesio+asoc.,Suplemento dietario,comp. rec. x 30 (VL),22851.48,2026-01-07,2026-01-30T22:26:07,,,,,,,,{}
+Laboratorio Millet,102 MAGNESIO,Laboratorio Millet,102 MAGNESIO,vit.+minerales+asoc.,Suplemento dietario,comp. rec. x 30 (VL),15590.67,2026-01-07,2026-01-30T22:26:14,,,,,,,,{}
+Laboratorio Millet,102 MAGNESIO GUMMIES,Laboratorio Millet,102 MAGNESIO GUMMIES,magnesio+asoc.,Suplemento dietario,gomitas x 90 (VL),19364.53,2026-01-07,2026-01-30T22:26:14,,,,,,,,{}
+Laboratorio Millet,102 MAGNESIO CITRATO,Laboratorio Millet,102 MAGNESIO CITRATO,magnesio citrato,Suplemento dietario,comp. x 30 (VL),16539.37,2026-01-07,2026-01-30T22:26:15,,,,,,,,{}
+Laboratorio Millet,102 MUJER,Laboratorio Millet,102 MUJER,vit.+minerales,Suplemento dietario,cáps.bl.x 30 (VL),21178.92,2026-01-07,2026-01-30T22:26:22,,,,,,,,{}
+Laboratorio Millet,102 PLUS EFERVESCENTE,Laboratorio Millet,102 PLUS EFERVESCENTE,vit.+minerales,Suplemento dietario,sob.x 15 (VL),14761.68,2026-01-07,2026-01-30T22:26:23,,,,,,,,{}
+Laboratorio Millet,102 PLUS,Laboratorio Millet,102 PLUS,vit.+minerales,Suplemento dietario,comp.x 30 (VL),17612.71,2026-01-07,2026-01-30T22:26:23,,,,,,,,{}
+Laboratorio Millet,102 PLUS,Laboratorio Millet,102 PLUS,vit.+minerales,Suplemento dietario,comp.x 60 (VL),30649.61,2026-01-07,2026-01-30T22:26:23,,,,,,,,{}
+Laboratorio Millet,102 PLUS,Laboratorio Millet,102 PLUS,vit.+minerales,Suplemento dietario,comp.x 90 (VL),42692.17,2026-01-07,2026-01-30T22:26:23,,,,,,,,{}
+Laboratorio Millet,102 SPORT BCAA,Laboratorio Millet,102 SPORT BCAA,vit.+minerales,Suplemento dietario,sob.x 30 (VL),37017.37,2026-01-07,2026-01-30T22:26:29,,,,,,,,{}
+Laboratorio Millet,102 VITAMINA C,Laboratorio Millet,102 VITAMINA C,vit.+asoc.,Suplemento dietario,comp.rec. x 30 (VL),17675.41,2026-01-07,2026-01-30T22:26:30,,,,,,,,{}
+Laboratorio Millet,102 VITAMINA C,Laboratorio Millet,102 VITAMINA C,vit.+asoc.,Suplemento dietario,sobres x 30 (VL),19831.1,2026-01-07,2026-01-30T22:26:30,,,,,,,,{}
+GlaxoSmithKline Biopharma,3 TC,GlaxoSmithKline Biopharma,3 TC,lamivudina,Antiviral contra HIV,150 mg comp.rec.x 60,225278.55,2026-01-30,2026-01-30T22:26:30,,,,,,,Importado,{}
+GlaxoSmithKline Biopharma,3 TC,GlaxoSmithKline Biopharma,3 TC,lamivudina,Antiviral contra HIV,sol.x 240 ml,98665.61,2026-01-30,2026-01-30T22:26:31,,,,,,,Importado,{}
+Elea,3 TC + AZT ELEA,Elea,3 TC + AZT ELEA,lamivudina+zidovudina,Antiviral contra HIV,comp.x 60,69455.63,2025-07-09,2026-01-30T22:26:36,,,,,,,,{}
+GlaxoSmithKline Biopharma,3 TC COMPLEX,GlaxoSmithKline Biopharma,3 TC COMPLEX,lamivudina+zidovudina,Antiviral contra HIV,comp.rec.x 60,510877.75,2026-01-30,2026-01-30T22:26:37,,,,,,,Importado,{}
+ISA,4 x 4,ISA,4 X 4,sildenafil,Trat.disfunción sexual masc.,50 mg comp.rec.x 4,5779.0,2026-01-20,2026-01-30T22:26:38,,,,,,,,{}
+IQUISA,420 CBD BEAUTY,IQUISA,420 CBD BEAUTY,cannabidiol,Producto Cosmético,crema fac. x 50 ml (VL),23375.0,2024-12-03,2026-01-30T22:26:43,,,,,,,,{}
+IQUISA,420 CBD RELAX,IQUISA,420 CBD RELAX,cannabidiol,Producto Cosmético,env.x 16 ml (VL),15215.0,2024-12-03,2026-01-30T22:26:45,,,,,,,,{}
+IQUISA,420 CBD TETITA FELIZ PACK,IQUISA,420 CBD TETITA FELIZ PACK,cannabidiol,Producto Cosmético,cr. 75 g + aceite 75 ml (VL),49150.0,2024-12-03,2026-01-30T22:26:45,,,,,,,,{}

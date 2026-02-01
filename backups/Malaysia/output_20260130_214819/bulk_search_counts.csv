@@ -1,0 +1,22 @@
+timestamp,keyword,page_rows,csv_rows,difference,status,reason,csv_file
+2026-01-30T20:27:23.286696,Tablet,6121,6121,0,mismatch,page_rows=10 csv_rows=6121,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_001_Tablet.csv
+2026-01-30T20:28:42.433028,Capsule,6775,6775,0,mismatch,page_rows=10 csv_rows=6775,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_002_Capsule.csv
+2026-01-30T20:30:00.145940,Powder,1916,1916,0,mismatch,page_rows=10 csv_rows=1916,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_003_Powder.csv
+2026-01-30T20:31:17.867408,Granules,1030,1030,0,mismatch,page_rows=10 csv_rows=1030,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_004_Granules.csv
+2026-01-30T20:32:35.117476,Syrup,551,551,0,mismatch,page_rows=10 csv_rows=551,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_005_Syrup.csv
+2026-01-30T20:33:53.513286,Suspension,392,392,0,mismatch,page_rows=10 csv_rows=392,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_006_Suspension.csv
+2026-01-30T20:35:11.043816,Solution,1448,1448,0,mismatch,page_rows=10 csv_rows=1448,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_007_Solution.csv
+2026-01-30T20:36:28.382204,Drops,144,144,0,mismatch,page_rows=10 csv_rows=144,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_008_Drops.csv
+2026-01-30T20:37:45.899920,Cream,463,463,0,mismatch,page_rows=10 csv_rows=463,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_009_Cream.csv
+2026-01-30T20:39:05.159816,Ointment,151,151,0,mismatch,page_rows=10 csv_rows=151,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_010_Ointment.csv
+2026-01-30T20:41:48.166937,Gel,0,0,0,no_csv_button,CSV button not available,
+2026-01-30T20:43:05.142913,Lotion,74,74,0,mismatch,page_rows=10 csv_rows=74,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_012_Lotion.csv
+2026-01-30T20:44:23.022566,Paste,16,16,0,mismatch,page_rows=10 csv_rows=16,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_013_Paste.csv
+2026-01-30T20:45:40.930884,Spray,104,104,0,mismatch,page_rows=10 csv_rows=104,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_014_Spray.csv
+2026-01-30T20:46:58.540038,Injection,1352,1352,0,mismatch,page_rows=10 csv_rows=1352,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_015_Injection.csv
+2026-01-30T20:48:16.715129,Infusion,490,490,0,mismatch,page_rows=10 csv_rows=490,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_016_Infusion.csv
+2026-01-30T20:49:35.375450,Inhaler,49,49,0,mismatch,page_rows=10 csv_rows=49,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_017_Inhaler.csv
+2026-01-30T20:49:41.482844,Nebulizer,0,0,0,error,"Page.goto: Target page, context or browser has been closed
+Call log:
+  - navigating to ""https://quest3plus.bpfk.gov.my/pmo2/index.php"", waiting until ""load""
+",

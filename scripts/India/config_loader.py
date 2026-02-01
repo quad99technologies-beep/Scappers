@@ -94,6 +94,43 @@ def getenv_bool(key: str, default: bool = False) -> bool:
     return str(value).lower() in ("true", "1", "yes", "on")
 
 
+def check_vpn_connection() -> bool:
+    """
+    Check if VPN is connected (if required).
+    Returns True if VPN check passes or is disabled.
+    """
+    vpn_required = getenv_bool("VPN_REQUIRED", False)
+    vpn_check_enabled = getenv_bool("VPN_CHECK_ENABLED", False)
+    vpn_check_host = getenv("VPN_CHECK_HOST", "8.8.8.8")
+    vpn_check_port = getenv_int("VPN_CHECK_PORT", 53)
+    
+    if not vpn_check_enabled:
+        return True
+    
+    if not vpn_required:
+        print("[VPN] VPN not required, skipping check", flush=True)
+        return True
+    
+    print(f"[VPN] Checking connection to {vpn_check_host}:{vpn_check_port}...", flush=True)
+    
+    try:
+        import socket
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(5)
+        result = sock.connect_ex((vpn_check_host, vpn_check_port))
+        sock.close()
+        
+        if result == 0:
+            print("[VPN] Connection check passed", flush=True)
+            return True
+        else:
+            print(f"[VPN] Connection check failed (error code: {result})", flush=True)
+            return False
+    except Exception as e:
+        print(f"[VPN] Connection check error: {e}", flush=True)
+        return False
+
+
 def getenv_list(key: str, default: list = None) -> list:
     if default is None:
         default = []

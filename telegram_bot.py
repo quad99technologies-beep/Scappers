@@ -4,20 +4,33 @@
 Telegram bot controller for the Scraper platform.
 
 Commands:
-  /help
-  /whoami
-  /ping
-  /list
-  /status <scraper|all>
-  /run <scraper> [fresh]
-  /runfresh <scraper>
-  /clear <scraper>
+  /help, /start - Show help message
+  /whoami - Show your chat ID
+  /ping - Health check
+  /list - List available scrapers
+  /status <scraper|all> - Check pipeline status with DB summary
+  /run <scraper> [fresh] - Start pipeline if idle
+  /runfresh <scraper> - Start a fresh pipeline
+  /resume <scraper> - Resume pipeline
+  /stop <scraper> - Stop running pipeline
+  /clear <scraper> - Clear stale lock file
+  /summary <scraper> - Show database table summary
 """
 
 from __future__ import annotations
 
 import os
 import sys
+
+# Fix Windows console encoding
+if sys.platform == "win32":
+    import codecs
+    try:
+        sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+        sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
+    except Exception:
+        pass
+
 import time
 import threading
 import subprocess
@@ -25,12 +38,34 @@ import re
 import signal
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, Optional, Tuple, List
+from typing import Dict, Optional, Tuple, List, Any
+from contextlib import contextmanager
 
 import requests
 from dotenv import load_dotenv
 
+# Add repo root to path for imports
 REPO_ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(REPO_ROOT))
+
+# Database imports (PostgreSQL only)
+try:
+    from core.db.postgres_connection import PostgresDB, COUNTRY_PREFIX_MAP
+    POSTGRES_AVAILABLE = True
+except ImportError:
+    POSTGRES_AVAILABLE = False
+    PostgresDB = None
+    COUNTRY_PREFIX_MAP = {}
+
+try:
+    from scripts.common.db import get_country_db, get_cursor, get_connection
+    DB_UTILS_AVAILABLE = True
+except ImportError:
+    DB_UTILS_AVAILABLE = False
+
+# =============================================================================
+# Configuration
+# =============================================================================
 
 SCRAPERS: Dict[str, Dict[str, Path]] = {
     "CanadaQuebec": {"path": REPO_ROOT / "scripts" / "CanadaQuebec"},
@@ -46,12 +81,28 @@ SCRAPERS: Dict[str, Dict[str, Path]] = {
     "India": {"path": REPO_ROOT / "scripts" / "India"},
 }
 
+# Status emojis for better UX
+STATUS_EMOJIS = {
+    "running": "🟢",
+    "idle": "⚪",
+    "stale": "🟡",
+    "completed": "✅",
+    "failed": "❌",
+    "stopped": "🛑",
+    "cancelled": "⛔",
+    "resume": "⏸️",
+    "partial": "⚠️",
+}
+
+# =============================================================================
+# Helper Functions
+# =============================================================================
 
 def _normalize_name(value: str) -> str:
     return "".join(ch.lower() for ch in value if ch.isalnum())
 
 
-SCRAPER_ALIASES = { _normalize_name(name): name for name in SCRAPERS.keys() }
+SCRAPER_ALIASES = {_normalize_name(name): name for name in SCRAPERS.keys()}
 
 
 def resolve_scraper_name(raw_name: Optional[str]) -> Optional[str]:
@@ -246,7 +297,7 @@ def extract_latest_progress(log_path: Path) -> Optional[str]:
         if not line:
             continue
         if "Pipeline completed" in line or "Execution completed" in line:
-            return "Pipeline completed"
+            return "✅ Pipeline completed"
         for pattern in progress_patterns:
             match = re.search(pattern, line)
             if not match:
@@ -256,14 +307,14 @@ def extract_latest_progress(log_path: Path) -> Optional[str]:
             if len(match.groups()) >= 4:
                 percent = match.group(3)
                 desc = match.group(4).strip()
-                return f"Step {step}/{total} ({percent}%) - {desc}"
+                return f"📍 Step {step}/{total} ({percent}%) - {desc}"
             if len(match.groups()) == 3:
                 percent = match.group(3)
-                return f"Step {step}/{total} ({percent}%)"
+                return f"📍 Step {step}/{total} ({percent}%)"
             if len(match.groups()) == 2:
-                return f"Step {step}/{total}"
+                return f"📍 Step {step}/{total}"
         if "Pipeline stopped" in line or "[STOPPED]" in line:
-            return "Pipeline stopped"
+            return "🛑 Pipeline stopped"
     return None
 
 
@@ -291,6 +342,238 @@ def get_pipeline_status(scraper_name: str) -> Dict[str, Optional[str]]:
         "log_file": log_path
     }
 
+
+# =============================================================================
+# Database Summary Functions (PostgreSQL Only)
+# =============================================================================
+
+def get_db_summary(scraper_name: str) -> Optional[Dict[str, Any]]:
+    """
+    Get database summary for a scraper from PostgreSQL.
+    Returns table counts and latest run info.
+    """
+    if not POSTGRES_AVAILABLE:
+        return None
+    
+    try:
+        db = PostgresDB(scraper_name)
+        prefix = db.prefix
+        
+        summary = {
+            "scraper_name": scraper_name,
+            "prefix": prefix,
+            "tables": {},
+            "latest_run": None,
+            "total_entities": 0,
+        }
+        
+        with db.cursor() as cur:
+            # Get all tables with this country's prefix
+            cur.execute("""
+                SELECT table_name 
+                FROM information_schema.tables 
+                WHERE table_schema = 'public' 
+                AND table_name LIKE %s
+                AND table_type = 'BASE TABLE'
+            """, (f"{prefix}%",))
+            
+            tables = [row[0] for row in cur.fetchall()]
+            
+            # Get row counts for each table
+            for table in tables:
+                try:
+                    cur.execute(f"SELECT COUNT(*) FROM {table}")
+                    count = cur.fetchone()[0]
+                    # Remove prefix for display
+                    display_name = table.replace(prefix, "")
+                    summary["tables"][display_name] = count
+                    
+                    # Track total entities (common entity tables)
+                    if any(x in table for x in ['product', 'tender', 'drug', 'sku', 'entity']):
+                        summary["total_entities"] += count
+                except Exception:
+                    pass
+            
+            # Get latest run from run_ledger
+            try:
+                cur.execute("""
+                    SELECT run_id, started_at, ended_at, status, 
+                           items_scraped, items_exported, error_message
+                    FROM run_ledger 
+                    WHERE scraper_name = %s 
+                    ORDER BY started_at DESC 
+                    LIMIT 1
+                """, (scraper_name,))
+                
+                row = cur.fetchone()
+                if row:
+                    summary["latest_run"] = {
+                        "run_id": row[0],
+                        "started_at": row[1],
+                        "ended_at": row[2],
+                        "status": row[3],
+                        "items_scraped": row[4] or 0,
+                        "items_exported": row[5] or 0,
+                        "error_message": row[6],
+                    }
+            except Exception:
+                pass
+            
+            # Also try pipeline_runs table
+            try:
+                cur.execute("""
+                    SELECT run_id, created_at, started_at, ended_at, status,
+                           current_step, current_step_num, total_steps, error_message
+                    FROM pipeline_runs 
+                    WHERE country = %s 
+                    ORDER BY created_at DESC 
+                    LIMIT 1
+                """, (scraper_name,))
+                
+                row = cur.fetchone()
+                if row:
+                    summary["pipeline_run"] = {
+                        "run_id": row[0],
+                        "created_at": row[1],
+                        "started_at": row[2],
+                        "ended_at": row[3],
+                        "status": row[4],
+                        "current_step": row[5],
+                        "current_step_num": row[6],
+                        "total_steps": row[7],
+                        "error_message": row[8],
+                    }
+            except Exception:
+                pass
+        
+        db.close()
+        return summary
+        
+    except Exception as e:
+        return {"error": str(e)}
+
+
+def format_db_summary(summary: Optional[Dict[str, Any]]) -> str:
+    """Format database summary for Telegram display."""
+    if summary is None:
+        return "📊 <i>Database summary not available</i>"
+    
+    if "error" in summary:
+        return f"❌ <i>DB Error: {summary['error']}</i>"
+    
+    lines = ["📊 <b>Database Summary</b>"]
+    
+    # Table counts
+    if summary.get("tables"):
+        lines.append("")
+        lines.append("<b>Tables:</b>")
+        for name, count in sorted(summary["tables"].items()):
+            lines.append(f"  • {name}: <code>{count:,}</code>")
+    
+    # Total entities
+    if summary.get("total_entities"):
+        lines.append(f"\n📦 <b>Total Entities:</b> <code>{summary['total_entities']:,}</code>")
+    
+    # Latest run info
+    latest = summary.get("latest_run")
+    if latest:
+        lines.append("")
+        lines.append("<b>Latest Run:</b>")
+        status_emoji = STATUS_EMOJIS.get(latest.get("status", ""), "⚪")
+        lines.append(f"  {status_emoji} Status: <code>{latest.get('status', 'N/A')}</code>")
+        
+        started = latest.get("started_at")
+        if started:
+            if isinstance(started, datetime):
+                started = started.strftime("%Y-%m-%d %H:%M")
+            lines.append(f"  🕐 Started: <code>{started}</code>")
+        
+        if latest.get("items_scraped"):
+            lines.append(f"  📥 Scraped: <code>{latest['items_scraped']:,}</code>")
+        if latest.get("items_exported"):
+            lines.append(f"  📤 Exported: <code>{latest['items_exported']:,}</code>")
+        
+        if latest.get("error_message"):
+            lines.append(f"  ⚠️ Error: <code>{latest['error_message'][:100]}</code>")
+    
+    # Pipeline run info (more detailed)
+    pipeline = summary.get("pipeline_run")
+    if pipeline:
+        lines.append("")
+        lines.append("<b>Pipeline Run:</b>")
+        status_emoji = STATUS_EMOJIS.get(pipeline.get("status", ""), "⚪")
+        lines.append(f"  {status_emoji} Status: <code>{pipeline.get('status', 'N/A')}</code>")
+        
+        current_step = pipeline.get("current_step_num") or 0
+        total_steps = pipeline.get("total_steps") or 0
+        if total_steps > 0:
+            progress = (current_step / total_steps) * 100
+            lines.append(f"  📍 Progress: <code>{current_step}/{total_steps} ({progress:.1f}%)</code>")
+            
+            # Progress bar
+            filled = int(progress / 10)
+            bar = "█" * filled + "░" * (10 - filled)
+            lines.append(f"  <code>[{bar}]</code>")
+        
+        if pipeline.get("current_step"):
+            lines.append(f"  📝 Step: <code>{pipeline['current_step']}</code>")
+    
+    return "\n".join(lines)
+
+
+def get_all_scrapers_summary() -> str:
+    """Get a summary of all scrapers from the database."""
+    if not POSTGRES_AVAILABLE:
+        return "📊 <i>PostgreSQL not available</i>"
+    
+    lines = ["📊 <b>All Scrapers Summary</b>\n"]
+    
+    try:
+        db = PostgresDB("")  # No country prefix for shared tables
+        
+        with db.cursor() as cur:
+            # Get latest run for each scraper
+            cur.execute("""
+                SELECT DISTINCT ON (scraper_name)
+                    scraper_name, status, started_at, ended_at,
+                    items_scraped, items_exported
+                FROM run_ledger
+                ORDER BY scraper_name, started_at DESC
+            """)
+            
+            runs = cur.fetchall()
+            
+            if runs:
+                lines.append("<b>Latest Runs:</b>")
+                for row in runs:
+                    name, status, started, ended, scraped, exported = row
+                    emoji = STATUS_EMOJIS.get(status, "⚪")
+                    
+                    # Format time nicely
+                    if started and isinstance(started, datetime):
+                        time_str = started.strftime("%m-%d %H:%M")
+                    else:
+                        time_str = str(started)[:16] if started else "N/A"
+                    
+                    status_line = f"  {emoji} <b>{name}</b>: {status}"
+                    if scraped:
+                        status_line += f" | 📦 {scraped:,}"
+                    status_line += f" | 🕐 {time_str}"
+                    lines.append(status_line)
+            else:
+                lines.append("<i>No runs found in database</i>")
+        
+        db.close()
+        
+    except Exception as e:
+        lines.append(f"<i>Error: {str(e)[:100]}</i>")
+    
+    return "\n".join(lines)
+
+
+# =============================================================================
+# Pipeline Operations
+# =============================================================================
 
 def build_pipeline_command(scraper_name: str, fresh: bool = False) -> Tuple[List[str], Path]:
     scraper_path = SCRAPERS[scraper_name]["path"]
@@ -353,37 +636,70 @@ def launch_pipeline(scraper_name: str, fresh: bool = False) -> Tuple[int, Path]:
     return process.pid, log_path
 
 
+# =============================================================================
+# Formatting Functions (Improved UI/UX)
+# =============================================================================
+
 def format_status_line(scraper_name: str, status: Dict[str, Optional[str]]) -> str:
-    state = status.get("state")
+    state = status.get("state", "idle")
+    emoji = STATUS_EMOJIS.get(state, "⚪")
+    
     if state == "running":
-        line = f"{scraper_name}: RUNNING"
+        line = f"{emoji} <b>{scraper_name}</b>: RUNNING"
         if status.get("pid"):
-            line += f" (pid {status['pid']})"
+            line += f" <code>(pid {status['pid']})</code>"
         return line
     if state == "stale":
-        line = f"{scraper_name}: STALE LOCK"
+        line = f"{emoji} <b>{scraper_name}</b>: STALE LOCK"
         if status.get("pid"):
-            line += f" (pid {status['pid']})"
+            line += f" <code>(pid {status['pid']})</code>"
         return line
-    return f"{scraper_name}: IDLE"
+    return f"{emoji} <b>{scraper_name}</b>: IDLE"
 
 
 def format_status_details(scraper_name: str, status: Dict[str, Optional[str]]) -> str:
     lines = [format_status_line(scraper_name, status)]
+    
     if status.get("state") == "running":
         log_path = find_latest_log(scraper_name, status)
         if log_path:
             progress = extract_latest_progress(log_path)
             if progress:
-                lines.append(f"Current Step: {progress}")
-            lines.append(f"Log: {log_path}")
+                lines.append(f"\n{progress}")
+            lines.append(f"\n📝 <b>Log:</b> <code>{log_path.name}</code>")
         else:
-            lines.append("Current Step: (log not available)")
+            lines.append("\n<i>Current Step: (log not available)</i>")
+    
     if status.get("started"):
-        lines.append(f"Started: {status['started']}")
-    if status.get("lock_file"):
-        lines.append(f"Lock: {status['lock_file']}")
+        lines.append(f"\n🕐 <b>Started:</b> <code>{status['started']}</code>")
+    
+    # Add DB summary
+    lines.append("")
+    summary = get_db_summary(scraper_name)
+    lines.append(format_db_summary(summary))
+    
     return "\n".join(lines)
+
+
+def format_help_text() -> str:
+    """Format help text with emojis and better layout."""
+    return (
+        "🤖 <b>Scraper Bot Commands</b>\n\n"
+        "<b>General:</b>\n"
+        "  /help, /start - Show this help message\n"
+        "  /whoami - Show your chat ID\n"
+        "  /ping - Health check\n"
+        "  /list - List available scrapers\n\n"
+        "<b>Status & Monitoring:</b>\n"
+        "  /status &lt;scraper|all&gt; - Check pipeline status with DB summary\n"
+        "  /summary &lt;scraper&gt; - Show detailed database table summary\n\n"
+        "<b>Control:</b>\n"
+        "  /run &lt;scraper&gt; [fresh] - Start pipeline if idle\n"
+        "  /resume &lt;scraper&gt; - Resume pipeline\n"
+        "  /runfresh &lt;scraper&gt; - Start a fresh pipeline\n"
+        "  /stop &lt;scraper&gt; - Stop running pipeline\n"
+        "  /clear &lt;scraper&gt; - Clear stale lock file"
+    )
 
 
 def parse_allowed_chat_ids(raw_value: Optional[str]) -> Optional[set]:
@@ -399,6 +715,10 @@ def parse_allowed_chat_ids(raw_value: Optional[str]) -> Optional[set]:
     return ids or None
 
 
+# =============================================================================
+# Telegram Bot Class
+# =============================================================================
+
 class TelegramBot:
     def __init__(self, token: str, allowed_chat_ids: Optional[set], default_scraper: Optional[str] = None):
         self.token = token
@@ -407,11 +727,12 @@ class TelegramBot:
         self.base_url = f"https://api.telegram.org/bot{self.token}"
         self.last_update_id = None
 
-    def send_message(self, chat_id: int, text: str) -> None:
+    def send_message(self, chat_id: int, text: str, parse_mode: str = "HTML") -> None:
         payload = {
             "chat_id": chat_id,
             "text": text,
-            "disable_web_page_preview": True
+            "disable_web_page_preview": True,
+            "parse_mode": parse_mode
         }
         try:
             requests.post(f"{self.base_url}/sendMessage", data=payload, timeout=10)
@@ -431,24 +752,41 @@ class TelegramBot:
         args = parts[1:]
 
         if cmd in ("/start", "/help"):
-            self.send_message(chat_id, self.help_text())
+            self.send_message(chat_id, format_help_text())
             return
+            
         if cmd == "/whoami":
-            self.send_message(chat_id, f"Chat ID: {chat_id}")
+            self.send_message(chat_id, f"🆔 <b>Your Chat ID:</b> <code>{chat_id}</code>")
             return
+            
         if cmd == "/ping":
-            self.send_message(chat_id, "pong")
+            self.send_message(chat_id, "🏓 <b>pong</b>")
             return
 
         if cmd == "/list":
-            names = ", ".join(sorted(SCRAPERS.keys()))
-            self.send_message(chat_id, f"Available scrapers:\n{names}")
+            names = sorted(SCRAPERS.keys())
+            lines = ["📋 <b>Available Scrapers:</b>\n"]
+            for i, name in enumerate(names, 1):
+                lines.append(f"  {i}. {name}")
+            self.send_message(chat_id, "\n".join(lines))
+            return
+
+        if cmd == "/summary":
+            scraper_name = resolve_scraper_name(args[0]) if args else self.default_scraper
+            if not scraper_name:
+                self.send_message(chat_id, "⚠️ <b>Usage:</b> <code>/summary &lt;scraper&gt;</code>")
+                return
+            
+            self.send_message(chat_id, f"⏳ Fetching summary for <b>{scraper_name}</b>...")
+            summary = get_db_summary(scraper_name)
+            self.send_message(chat_id, format_db_summary(summary))
             return
 
         if cmd == "/status":
             if args and args[0].lower() in ("all", "*"):
-                lines = []
-                for name in SCRAPERS.keys():
+                # Show all scrapers status
+                lines = ["📊 <b>All Scrapers Status</b>\n"]
+                for name in sorted(SCRAPERS.keys()):
                     status = get_pipeline_status(name)
                     line = format_status_line(name, status)
                     if status.get("state") == "running":
@@ -456,14 +794,21 @@ class TelegramBot:
                         if log_path:
                             progress = extract_latest_progress(log_path)
                             if progress:
-                                line += f" | {progress}"
+                                line += f"\n   └─ {progress}"
                     lines.append(line)
+                
+                # Add DB summary for all
+                lines.append("\n" + "─" * 30)
+                lines.append(get_all_scrapers_summary())
+                
                 self.send_message(chat_id, "\n".join(lines))
                 return
+            
             scraper_name = resolve_scraper_name(args[0]) if args else self.default_scraper
             if not scraper_name:
-                self.send_message(chat_id, "Usage: /status <scraper|all>")
+                self.send_message(chat_id, "⚠️ <b>Usage:</b> <code>/status &lt;scraper|all&gt;</code>")
                 return
+            
             status = get_pipeline_status(scraper_name)
             self.send_message(chat_id, format_status_details(scraper_name, status))
             return
@@ -479,81 +824,79 @@ class TelegramBot:
             scraper_name = resolve_scraper_name(scraper_arg) if scraper_arg else self.default_scraper
             if not scraper_name:
                 if cmd == "/resume":
-                    self.send_message(chat_id, "Usage: /resume <scraper>")
+                    self.send_message(chat_id, "⚠️ <b>Usage:</b> <code>/resume &lt;scraper&gt;</code>")
                 else:
-                    self.send_message(chat_id, "Usage: /run <scraper> [fresh]")
+                    self.send_message(chat_id, "⚠️ <b>Usage:</b> <code>/run &lt;scraper&gt; [fresh]</code>")
                 return
+            
             status = get_pipeline_status(scraper_name)
             if status["state"] == "running":
                 self.send_message(chat_id, format_status_details(scraper_name, status))
                 return
+            
             try:
+                self.send_message(chat_id, f"⏳ Starting <b>{scraper_name}</b> ({'fresh' if fresh else 'resume'})...")
                 pid, log_path = launch_pipeline(scraper_name, fresh=fresh)
-                mode = "fresh" if fresh else "resume"
+                mode = "🆕 fresh" if fresh else "▶️ resume"
                 self.send_message(
                     chat_id,
-                    f"Started {scraper_name} ({mode})\nPID: {pid}\nLog: {log_path}"
+                    f"✅ <b>Started {scraper_name}</b> ({mode})\n"
+                    f"🆔 <b>PID:</b> <code>{pid}</code>\n"
+                    f"📝 <b>Log:</b> <code>{log_path.name}</code>"
                 )
             except Exception as exc:
-                self.send_message(chat_id, f"Failed to start {scraper_name}: {exc}")
+                self.send_message(chat_id, f"❌ <b>Failed to start {scraper_name}:</b> <code>{exc}</code>")
             return
 
         if cmd == "/stop":
             scraper_name = resolve_scraper_name(args[0]) if args else self.default_scraper
             if not scraper_name:
-                self.send_message(chat_id, "Usage: /stop <scraper>")
+                self.send_message(chat_id, "⚠️ <b>Usage:</b> <code>/stop &lt;scraper&gt;</code>")
                 return
+            
             status = get_pipeline_status(scraper_name)
             if status["state"] != "running":
-                self.send_message(chat_id, f"{scraper_name} is not running.")
+                self.send_message(chat_id, f"⚠️ <b>{scraper_name}</b> is not running.")
                 return
+            
             pid = None
             if status.get("pid"):
                 try:
                     pid = int(str(status["pid"]))
                 except Exception:
                     pid = None
+            
             if not terminate_pid(pid):
-                self.send_message(chat_id, f"Failed to stop {scraper_name}.")
+                self.send_message(chat_id, f"❌ <b>Failed to stop {scraper_name}.</b>")
                 return
+            
             lock_path = status.get("lock_file")
             if lock_path:
                 remove_lock_file(Path(lock_path))
-            self.send_message(chat_id, f"Stopped {scraper_name} (pid {pid}).")
+            
+            self.send_message(chat_id, f"🛑 <b>Stopped {scraper_name}</b> <code>(pid {pid})</code>")
             return
 
         if cmd == "/clear":
             scraper_name = resolve_scraper_name(args[0]) if args else self.default_scraper
             if not scraper_name:
-                self.send_message(chat_id, "Usage: /clear <scraper>")
+                self.send_message(chat_id, "⚠️ <b>Usage:</b> <code>/clear &lt;scraper&gt;</code>")
                 return
+            
             status = get_pipeline_status(scraper_name)
             if status["state"] == "running":
-                self.send_message(chat_id, "Pipeline is running; lock not cleared.")
+                self.send_message(chat_id, "⚠️ Pipeline is running; lock not cleared.")
                 return
+            
             lock_path = status.get("lock_file")
             if lock_path:
                 remove_lock_file(Path(lock_path))
-                self.send_message(chat_id, f"Cleared lock for {scraper_name}.")
+                self.send_message(chat_id, f"🧹 <b>Cleared lock for {scraper_name}</b>")
             else:
-                self.send_message(chat_id, f"No lock file found for {scraper_name}.")
+                self.send_message(chat_id, f"ℹ️ <b>No lock file found for {scraper_name}</b>")
             return
 
-        self.send_message(chat_id, "Unknown command. Use /help for options.")
-
-    def help_text(self) -> str:
-        return (
-            "Scraper Bot Commands:\n"
-            "/list - List available scrapers\n"
-            "/whoami - Show your chat ID\n"
-            "/ping - Health check\n"
-            "/status <scraper|all> - Check pipeline status\n"
-            "/run <scraper> [fresh] - Start pipeline if idle\n"
-            "/resume <scraper> - Resume pipeline if idle\n"
-            "/stop <scraper> - Stop running pipeline\n"
-            "/runfresh <scraper> - Start a fresh pipeline\n"
-            "/clear <scraper> - Clear stale lock file\n"
-        )
+        self.send_message(chat_id, "❓ Unknown command. Use /help for options.")
 
     def poll(self) -> None:
         while True:
@@ -596,7 +939,7 @@ class TelegramBot:
                             try:
                                 self.send_message(
                                     chat_id,
-                                    "Not authorized. Send /whoami to get your chat ID."
+                                    "🚫 <b>Not authorized.</b>\nSend /whoami to get your chat ID."
                                 )
                             except Exception:
                                 pass
@@ -613,17 +956,28 @@ class TelegramBot:
                 time.sleep(3)
 
 
+# =============================================================================
+# Main Entry Point
+# =============================================================================
+
 def main() -> None:
     load_dotenv(REPO_ROOT / ".env")
     token = os.getenv("TELEGRAM_BOT_TOKEN")
     if not token:
-        print("Missing TELEGRAM_BOT_TOKEN in environment.")
+        print("[ERROR] Missing TELEGRAM_BOT_TOKEN in environment.")
         sys.exit(1)
+    
     allowed_chat_ids = parse_allowed_chat_ids(os.getenv("TELEGRAM_ALLOWED_CHAT_IDS"))
     default_scraper = resolve_scraper_name(os.getenv("TELEGRAM_DEFAULT_SCRAPER"))
 
+    # Check database availability
+    if POSTGRES_AVAILABLE:
+        print("[OK] PostgreSQL support enabled")
+    else:
+        print("[WARN] PostgreSQL support not available (core.db.postgres_connection)")
+
     bot = TelegramBot(token, allowed_chat_ids, default_scraper=default_scraper)
-    print("Telegram bot started. Waiting for commands...")
+    print("[OK] Telegram bot started. Waiting for commands...")
     bot.poll()
 
 
