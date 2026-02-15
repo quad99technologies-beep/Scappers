@@ -1,17 +1,66 @@
 {
   "scraper": "Russia",
-  "last_run": "2026-02-01T16:07:25.004768",
+  "last_run": "2026-02-15T11:49:21.672377",
   "completed_steps": [
-    0
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
   ],
   "step_outputs": {
     "step_0": {
       "step_number": 0,
       "step_name": "Backup and Clean",
-      "completed_at": "2026-02-01T16:07:25.004749",
+      "completed_at": "2026-02-15T10:50:21.307285",
       "output_files": [],
-      "duration_seconds": 0.09704875946044922
+      "duration_seconds": 0.15439653396606445
+    },
+    "step_1": {
+      "step_number": 1,
+      "step_name": "Extract VED Pricing Data",
+      "completed_at": "2026-02-15T11:11:13.610838",
+      "output_files": [],
+      "duration_seconds": 21.899822235107422
+    },
+    "step_2": {
+      "step_number": 2,
+      "step_name": "Extract Excluded List",
+      "completed_at": "2026-02-15T11:46:17.717218",
+      "output_files": [],
+      "duration_seconds": 3508.220034599304
+    },
+    "step_3": {
+      "step_number": 3,
+      "step_name": "Retry Failed Pages",
+      "completed_at": "2026-02-15T11:47:41.955414",
+      "output_files": [],
+      "duration_seconds": 74.16314458847046
+    },
+    "step_4": {
+      "step_number": 4,
+      "step_name": "Process and Translate",
+      "completed_at": "2026-02-15T11:48:59.000168",
+      "output_files": [],
+      "duration_seconds": 67.02163791656494
+    },
+    "step_5": {
+      "step_number": 5,
+      "step_name": "Format for Export",
+      "completed_at": "2026-02-15T11:49:11.658194",
+      "output_files": [
+        "D:\\quad99\\Scrappers\\output\\Russia\\russia_pricing_data.csv",
+        "D:\\quad99\\Scrappers\\output\\Russia\\russia_discontinued_list.csv",
+        "D:\\quad99\\Scrappers\\exports\\Russia\\Russia_Pricing_Data.csv",
+        "D:\\quad99\\Scrappers\\exports\\Russia\\Russia_Discontinued_List.csv"
+      ],
+      "duration_seconds": 2.633687734603882
     }
   },
-  "metadata": {}
+  "metadata": {
+    "current_step": 5,
+    "current_step_name": "Format for Export",
+    "status": "completed"
+  }
 }

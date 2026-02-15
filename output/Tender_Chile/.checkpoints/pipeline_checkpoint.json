@@ -1,17 +1,40 @@
 {
   "scraper": "Tender_Chile",
-  "last_run": "2026-01-30T13:33:19.180868",
+  "last_run": "2026-02-14T19:38:17.776445",
   "completed_steps": [
-    0
+    0,
+    1,
+    4
   ],
   "step_outputs": {
     "step_0": {
       "step_number": 0,
       "step_name": "Backup and Clean",
-      "completed_at": "2026-01-30T13:33:19.180853",
+      "completed_at": "2026-02-10T16:19:39.465847",
       "output_files": [],
-      "duration_seconds": 0.13522076606750488
+      "duration_seconds": 0.2836432456970215
+    },
+    "step_1": {
+      "step_number": 1,
+      "step_name": "Get Redirect URLs",
+      "completed_at": "2026-02-10T16:32:14.781217",
+      "output_files": [
+        "D:\\quad99\\Scrappers\\output\\Tender_Chile\\tender_redirect_urls.csv"
+      ],
+      "duration_seconds": 745.2221500873566
+    },
+    "step_4": {
+      "step_number": 4,
+      "step_name": "Merge Final CSV",
+      "completed_at": "2026-02-14T19:38:07.701092",
+      "output_files": [
+        "D:\\quad99\\Scrappers\\output\\Tender_Chile\\final_tender_data.csv"
+      ],
+      "duration_seconds": 3.275522232055664
     }
   },
-  "metadata": {}
+  "metadata": {
+    "run_id": "20260210_104939_ab4c97af",
+    "status": "completed"
+  }
 }

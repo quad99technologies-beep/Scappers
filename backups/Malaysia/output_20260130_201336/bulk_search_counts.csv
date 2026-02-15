@@ -1,6 +1,0 @@
-timestamp,keyword,page_rows,csv_rows,difference,status,reason,csv_file
-2026-01-30T20:07:06.659971,Tablet,10,6121,-6111,mismatch,page_rows=10 csv_rows=6121,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_001_Tablet.csv
-2026-01-30T20:08:24.698076,Capsule,10,6775,-6765,mismatch,page_rows=10 csv_rows=6775,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_002_Capsule.csv
-2026-01-30T20:09:42.362476,Powder,10,1916,-1906,mismatch,page_rows=10 csv_rows=1916,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_003_Powder.csv
-2026-01-30T20:11:00.222565,Granules,10,1030,-1020,mismatch,page_rows=10 csv_rows=1030,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_004_Granules.csv
-2026-01-30T20:11:08.843154,Syrup,0,0,0,error,"Target page, context or browser has been closed",

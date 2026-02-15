@@ -1,56 +1,126 @@
 {
   "scraper": "Malaysia",
-  "last_run": "2026-01-31T17:24:37.102083",
+  "last_run": "2026-02-15T17:38:06.198452",
   "completed_steps": [
     0,
-    1,
-    2,
-    3,
-    4,
-    5
+    1
   ],
   "step_outputs": {
     "step_0": {
       "step_number": 0,
-      "step_name": "00 - Backup and Clean",
-      "completed_at": "2026-01-31T17:24:21.661015",
-      "output_files": []
+      "step_name": "Backup and Clean + DB Init",
+      "completed_at": "2026-02-15T17:34:58.052237",
+      "output_files": [],
+      "duration_seconds": 0.4513874053955078
     },
     "step_1": {
       "step_number": 1,
-      "step_name": "01 - Product Registration Number",
-      "completed_at": "2026-01-31T17:24:21.661663",
-      "output_files": []
-    },
-    "step_2": {
-      "step_number": 2,
-      "step_name": "02 - Product Details",
-      "completed_at": "2026-01-31T17:24:21.663197",
-      "output_files": []
-    },
-    "step_3": {
-      "step_number": 3,
-      "step_name": "03 - Consolidate Results",
-      "completed_at": "2026-01-31T17:24:21.664227",
-      "output_files": []
-    },
-    "step_4": {
-      "step_number": 4,
-      "step_name": "04 - Get Fully Reimbursable",
-      "completed_at": "2026-01-31T17:24:21.664591",
-      "output_files": []
-    },
-    "step_5": {
-      "step_number": 5,
-      "step_name": "Generate PCID Mapped",
-      "completed_at": "2026-01-31T17:24:27.099364",
+      "step_name": "Product Registration Number",
+      "completed_at": "2026-02-15T17:35:34.546757",
       "output_files": [],
-      "duration_seconds": 2.272146463394165
+      "duration_seconds": 36.35604810714722
     }
   },
   "metadata": {
-    "current_step": 5,
-    "current_step_name": "Generate PCID Mapped",
-    "status": "completed"
-  }
+    "run_id": "Malaysia_20260215_173456",
+    "current_step": 2,
+    "current_step_name": "Product Details",
+    "status": "resume"
+  },
+  "events": [
+    {
+      "timestamp": "2026-02-15T17:34:58.052244",
+      "event_type": "step_completed",
+      "status": "completed",
+      "step_number": 0,
+      "step_name": "Backup and Clean + DB Init",
+      "source": "checkpoint",
+      "details": {
+        "duration_seconds": 0.4513874053955078,
+        "output_count": 0
+      },
+      "sequence": 1
+    },
+    {
+      "timestamp": "2026-02-15T17:34:58.052904",
+      "event_type": "run_id_set",
+      "run_id": "Malaysia_20260215_173456",
+      "source": "metadata",
+      "details": {
+        "previous_run_id": null
+      },
+      "sequence": 2
+    },
+    {
+      "timestamp": "2026-02-15T17:34:58.189202",
+      "event_type": "status_changed",
+      "run_id": "Malaysia_20260215_173456",
+      "status": "running",
+      "step_number": 1,
+      "step_name": "Product Registration Number",
+      "source": "metadata",
+      "details": {
+        "from": null,
+        "to": "running"
+      },
+      "sequence": 3
+    },
+    {
+      "timestamp": "2026-02-15T17:34:58.189223",
+      "event_type": "step_pointer_changed",
+      "run_id": "Malaysia_20260215_173456",
+      "status": "running",
+      "step_number": 1,
+      "step_name": "Product Registration Number",
+      "source": "metadata",
+      "details": {
+        "previous_step_number": null,
+        "previous_step_name": null
+      },
+      "sequence": 4
+    },
+    {
+      "timestamp": "2026-02-15T17:35:34.546770",
+      "event_type": "step_completed",
+      "run_id": "Malaysia_20260215_173456",
+      "status": "completed",
+      "step_number": 1,
+      "step_name": "Product Registration Number",
+      "source": "checkpoint",
+      "details": {
+        "duration_seconds": 36.35604810714722,
+        "output_count": 0
+      },
+      "sequence": 5
+    },
+    {
+      "timestamp": "2026-02-15T17:35:34.588674",
+      "event_type": "step_pointer_changed",
+      "run_id": "Malaysia_20260215_173456",
+      "status": "running",
+      "step_number": 2,
+      "step_name": "Product Details",
+      "source": "metadata",
+      "details": {
+        "previous_step_number": 1,
+        "previous_step_name": "Product Registration Number"
+      },
+      "sequence": 6
+    },
+    {
+      "timestamp": "2026-02-15T17:38:06.198419",
+      "event_type": "status_changed",
+      "run_id": "Malaysia_20260215_173456",
+      "status": "resume",
+      "step_number": 2,
+      "step_name": "Product Details",
+      "source": "metadata",
+      "details": {
+        "from": "running",
+        "to": "resume"
+      },
+      "sequence": 7
+    }
+  ],
+  "event_seq": 7
 }

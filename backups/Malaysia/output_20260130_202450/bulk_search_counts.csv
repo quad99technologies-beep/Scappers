@@ -1,2 +1,0 @@
-timestamp,keyword,page_rows,csv_rows,difference,status,reason,csv_file
-2026-01-30T20:21:53.090229,Tablet,10,6121,-6111,mismatch,page_rows=10 csv_rows=6121,D:\quad99\Scrappers\output\Malaysia\bulk_search_csvs\bulk_search_001_Tablet.csv
