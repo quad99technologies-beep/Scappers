@@ -18,7 +18,6 @@ Notes:
 
 from __future__ import annotations
 
-import json
 import logging
 import os
 import unicodedata
@@ -90,10 +89,8 @@ _RUN_ID = _get_run_id()
 _REPO = ArgentinaRepository(_DB, _RUN_ID)
 
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
-CACHE_DIR = REPO_ROOT / "cache"
-CACHE_DIR.mkdir(parents=True, exist_ok=True)
-CACHE_FILE = CACHE_DIR / "argentina_translation_cache.json"
+# Translation cache now stored in DB (ar_translation_cache table)
+# Cache file removed - using DB cache via repository
 _TRANSLATION_CACHE: Dict[str, str] = {}
 
 
@@ -132,20 +129,14 @@ def is_numeric_like(s: str) -> bool:
         return False
 
 
-def load_translation_cache(path: Path) -> Dict[str, str]:
-    try:
-        if path.exists():
-            return json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
-        pass
-    return {}
+def load_translation_cache_from_db() -> Dict[str, str]:
+    """Load translation cache from DB (replaces JSON file cache)."""
+    return _REPO.get_translation_cache('es', 'en')
 
 
-def save_translation_cache(path: Path, cache: Dict[str, str]) -> None:
-    try:
-        path.write_text(json.dumps(cache, ensure_ascii=True, indent=2), encoding="utf-8")
-    except Exception:
-        pass
+def save_translation_cache_to_db(cache: Dict[str, str]) -> None:
+    """Save translation cache to DB (replaces JSON file cache)."""
+    _REPO.save_translation_cache(cache, 'es', 'en')
 
 
 def translate_with_google(text: str) -> str | None:
@@ -154,15 +145,22 @@ def translate_with_google(text: str) -> str | None:
     nkey = normalize_text(text)
     if not nkey:
         return None
+    # Check in-memory cache first
     cached = _TRANSLATION_CACHE.get(nkey)
     if isinstance(cached, str) and cached.strip():
         return cached
+    # Check DB cache
+    db_cached = _REPO.get_cached_translation(nkey, 'es', 'en')
+    if isinstance(db_cached, str) and db_cached.strip():
+        _TRANSLATION_CACHE[nkey] = db_cached  # Update in-memory cache
+        return db_cached
     try:
         out = _google_translator.translate(text)
         if isinstance(out, str):
             out = out.strip()
         if out:
             _TRANSLATION_CACHE[nkey] = out
+            _REPO.save_single_translation(nkey, out, 'es', 'en')  # Save to DB cache
             return out
     except Exception as exc:
         log.warning("[GOOGLE] Translation failed: %s", exc)
@@ -172,6 +170,16 @@ def translate_with_google(text: str) -> str | None:
 def translate_with_openai(text: str) -> str | None:
     if not _openai_client:
         return None
+    nkey = normalize_text(text)
+    # Check in-memory cache first
+    cached = _TRANSLATION_CACHE.get(nkey)
+    if isinstance(cached, str) and cached.strip():
+        return cached
+    # Check DB cache
+    db_cached = _REPO.get_cached_translation(nkey, 'es', 'en')
+    if isinstance(db_cached, str) and db_cached.strip():
+        _TRANSLATION_CACHE[nkey] = db_cached  # Update in-memory cache
+        return db_cached
     try:
         response = _openai_client.chat.completions.create(
             model=OPENAI_MODEL,
@@ -188,7 +196,11 @@ def translate_with_openai(text: str) -> str | None:
             ],
             max_tokens=200,
         )
-        return response.choices[0].message.content.strip()
+        result = response.choices[0].message.content.strip()
+        if result:
+            _TRANSLATION_CACHE[nkey] = result
+            _REPO.save_single_translation(nkey, result, 'es', 'en')  # Save to DB cache
+        return result
     except Exception as exc:
         log.warning("[OpenAI] Translation failed: %s", exc)
         return None
@@ -336,7 +348,8 @@ def main() -> None:
         _REPO.upsert_dictionary_entries(entries)
         log.info("Dictionary updated with %d new entries", len(entries))
 
-    save_translation_cache(CACHE_FILE, _TRANSLATION_CACHE)
+    # Save translation cache to DB (replaces JSON file cache)
+    save_translation_cache_to_db(_TRANSLATION_CACHE)
 
     if missing_counter:
         top_missing = sorted(missing_counter.items(), key=lambda x: (-x[1], x[0].lower()))[:10]

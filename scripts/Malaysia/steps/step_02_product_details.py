@@ -13,6 +13,10 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+_malaysia_dir = Path(__file__).resolve().parents[2]
+if str(_malaysia_dir) not in sys.path:
+    sys.path.insert(0, str(_malaysia_dir))
+
 _script_dir = Path(__file__).resolve().parents[1]
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
@@ -78,14 +82,12 @@ def main() -> None:
         "SCRIPT_02_REGISTRATION_COLUMN": getenv("SCRIPT_02_REGISTRATION_COLUMN", "Registration No / Notification No"),
     }
 
-    # Input files
-    input_products = get_input_dir() / getenv("SCRIPT_02_INPUT_PRODUCTS", "products.csv")
-
+    # DB-FIRST: No CSV input - Quest3Scraper will query my_products table
     scraper = Quest3Scraper(
         run_id=run_id,
         db=db,
         config=config,
-        input_products_path=input_products,
+        input_products_path=None,  # Not used - queries DB instead
         output_dir=output_dir,
     )
     count = scraper.run()

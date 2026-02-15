@@ -85,10 +85,24 @@ def check_selectors(url: str, selectors: Iterable[str]) -> Tuple[bool, str]:
     return True, f"Selectors ok (HTTP {status_code})"
 
 
+def check_db_connection() -> Tuple[bool, str]:
+    """Verify PostgreSQL connection and run_ledger table for Argentina."""
+    try:
+        from core.db.connection import CountryDB
+        with CountryDB("Argentina") as db:
+            with db.cursor() as cur:
+                cur.execute("SELECT 1 FROM run_ledger WHERE scraper_name = %s LIMIT 1", ("Argentina",))
+                cur.fetchone()
+        return True, "PostgreSQL connected, run_ledger accessible"
+    except Exception as exc:
+        return False, f"DB: {exc}"
+
+
 def run_health_checks() -> List[CheckResult]:
     pcid_path = get_input_dir() / PCID_MAPPING_FILE
 
     checks: List[Tuple[str, str, Callable[[], Tuple[bool, str]]]] = [
+        ("Config", "PostgreSQL (run_ledger)", check_db_connection),
         ("Config", "PRODUCTS_URL reachable", lambda: check_url_reachable(PRODUCTS_URL)),
         ("Config", "PCID mapping file present", lambda: check_path_exists(pcid_path)),
         (

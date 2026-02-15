@@ -34,28 +34,6 @@ echo Argentina Pipeline - Starting at %date% %time%
 echo ================================================================================
 echo.
 ) > "%log_file%"
-
-echo ================================================================================
-echo Argentina Pipeline - Starting at %date% %time%
-echo ================================================================================
-echo.
-
-REM Step 0: Backup and Clean
-echo [Step 0/6] Backup and Clean... >> "%log_file%"
-echo [Step 0/6] Backup and Clean...
-python -u "00_backup_and_clean.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
-set PYTHON_EXIT=%errorlevel%
-if %PYTHON_EXIT% neq 0 (
-    echo ERROR: Backup and Clean failed >> "%log_file%"
-    echo ERROR: Backup and Clean failed
-    exit /b 1
-)
-
-REM Step 1: Get Product List
-echo. >> "%log_file%"
-echo [Step 1/6] Get Product List... >> "%log_file%"
-echo.
-echo [Step 1/6] Get Product List...
 python -u "01_getProdList.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
 set PYTHON_EXIT=%errorlevel%
 if %PYTHON_EXIT% neq 0 (

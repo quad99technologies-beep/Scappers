@@ -39,7 +39,7 @@ except ImportError:
     CENTRAL_OUTPUT_DIR = _repo_root / "output" / "Taiwan"
     CENTRAL_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-from core.shared_utils import backup_output_folder, clean_output_folder
+from core.utils.shared_utils import backup_output_folder, clean_output_folder
 
 
 def main() -> None:

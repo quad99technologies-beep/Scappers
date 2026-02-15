@@ -29,8 +29,8 @@ def get_repo_root() -> Path:
 def get_central_output_dir() -> Path:
     """Get central exports directory for final reports - uses Documents/ScraperPlatform/output/exports/Netherlands/"""
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        exports_dir = pm.get_exports_dir(SCRAPER_ID)  # Scraper-specific exports
+        # Migrated: get_path_manager() -> ConfigManager
+        exports_dir = ConfigManager.get_exports_dir(SCRAPER_ID)  # Scraper-specific exports
         exports_dir.mkdir(parents=True, exist_ok=True)
         return exports_dir
     else:
@@ -40,9 +40,8 @@ def get_central_output_dir() -> Path:
         central_output.mkdir(parents=True, exist_ok=True)
         return central_output
 
-# Try to import platform_config (preferred)
 try:
-    from platform_config import PathManager, ConfigResolver, get_path_manager, get_config_resolver
+    from core.config.config_manager import ConfigManager
     _PLATFORM_CONFIG_AVAILABLE = True
 except ImportError:
     _PLATFORM_CONFIG_AVAILABLE = False
@@ -72,17 +71,14 @@ def getenv(key: str, default: str = None) -> str:
         return env_val
     
     if _PLATFORM_CONFIG_AVAILABLE:
-        cr = get_config_resolver()
-        # First check config section
-        val = cr.get(SCRAPER_ID, key, None)
-        if val is not None:
-            # Convert to string in case JSON config returns boolean/int/float
-            return str(val)
-        
-        # Then check secrets section
-        secret_val = cr.get_secret_value(SCRAPER_ID, key, "")
-        if secret_val:
-            return secret_val
+        try:
+            # Check config section (ConfigManager handles both config and secrets)
+            val = ConfigManager.get_config_value(SCRAPER_ID, key, None)
+            if val is not None:
+                # Convert to string in case JSON config returns boolean/int/float
+                return str(val)
+        except Exception:
+            pass
     
     # Return default if nothing found
     return default if default is not None else ""
@@ -187,8 +183,8 @@ def get_base_dir() -> Path:
     Legacy mode: Returns parent of scripts folder
     """
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        return pm.get_platform_root()
+        # Migrated: get_path_manager() -> ConfigManager
+        return ConfigManager.get_app_root()
     else:
         # Legacy: relative to script location
         return Path(__file__).resolve().parents[1]
@@ -202,8 +198,8 @@ def get_input_dir(subpath: str = None) -> Path:
         subpath: Optional subdirectory under input/
     """
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        base = pm.get_input_dir(SCRAPER_ID)  # Scraper-specific input
+        # Migrated: get_path_manager() -> ConfigManager
+        base = ConfigManager.get_input_dir(SCRAPER_ID)  # Scraper-specific input
         base.mkdir(parents=True, exist_ok=True)
     else:
         base = get_base_dir() / "input"
@@ -229,8 +225,8 @@ def get_output_dir(subpath: str = None) -> Path:
     else:
         # Use scraper-specific platform output directory
         if _PLATFORM_CONFIG_AVAILABLE:
-            pm = get_path_manager()
-            base = pm.get_output_dir(SCRAPER_ID)  # Scraper-specific output
+            # Migrated: get_path_manager() -> ConfigManager
+            base = ConfigManager.get_output_dir(SCRAPER_ID)  # Scraper-specific output
             base.mkdir(parents=True, exist_ok=True)
         else:
             # Fallback: use repo root output (legacy)
@@ -248,8 +244,8 @@ def get_output_dir(subpath: str = None) -> Path:
 def get_backup_dir() -> Path:
     """Get backup directory - uses Documents/ScraperPlatform/output/backups/Netherlands/"""
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        backup_dir = pm.get_backups_dir(SCRAPER_ID)  # Scraper-specific backups
+        # Migrated: get_path_manager() -> ConfigManager
+        backup_dir = ConfigManager.get_backups_dir(SCRAPER_ID)  # Scraper-specific backups
         backup_dir.mkdir(parents=True, exist_ok=True)
         return backup_dir
     else:
@@ -259,7 +255,7 @@ def get_backup_dir() -> Path:
 def get_logs_dir() -> Path:
     """Get logs directory."""
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
+        # Migrated: get_path_manager() -> ConfigManager
         return pm.get_logs_dir()
     else:
         return get_base_dir() / "logs"

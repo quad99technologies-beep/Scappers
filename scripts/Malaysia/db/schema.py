@@ -93,6 +93,7 @@ CREATE TABLE IF NOT EXISTS my_pcid_mappings (
     run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
     pcid TEXT,
     local_pack_code TEXT NOT NULL,
+    presentation TEXT,           -- Pack size/presentation from PCID reference
     package_number TEXT,
     country TEXT DEFAULT 'MALAYSIA',
     company TEXT,
@@ -123,9 +124,10 @@ CREATE TABLE IF NOT EXISTS my_pcid_mappings (
     unit_price REAL,
     search_method TEXT CHECK(search_method IN ('bulk', 'individual')),
     mapped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(run_id, local_pack_code)
+    UNIQUE(run_id, local_pack_code, presentation)
 );
 CREATE INDEX IF NOT EXISTS idx_my_pcid_code ON my_pcid_mappings(local_pack_code);
+CREATE INDEX IF NOT EXISTS idx_my_pcid_code_presentation ON my_pcid_mappings(local_pack_code, presentation);
 CREATE INDEX IF NOT EXISTS idx_my_pcid_run ON my_pcid_mappings(run_id);
 CREATE INDEX IF NOT EXISTS idx_my_pcid_pcid ON my_pcid_mappings(pcid);
 """
@@ -179,18 +181,37 @@ CREATE INDEX IF NOT EXISTS idx_my_export_reports_run ON my_export_reports(run_id
 CREATE INDEX IF NOT EXISTS idx_my_export_reports_type ON my_export_reports(report_type);
 """
 
+ERRORS_DDL = """
+CREATE TABLE IF NOT EXISTS my_errors (
+    id SERIAL PRIMARY KEY,
+    run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
+    error_type TEXT,
+    error_message TEXT NOT NULL,
+    context JSONB,
+    step_number INTEGER,
+    step_name TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_my_errors_run ON my_errors(run_id);
+CREATE INDEX IF NOT EXISTS idx_my_errors_step ON my_errors(step_number);
+CREATE INDEX IF NOT EXISTS idx_my_errors_type ON my_errors(error_type);
+"""
+
 # Temporary table for PCID reference CSV loading
 PCID_REFERENCE_DDL = """
 CREATE TABLE IF NOT EXISTS my_pcid_reference (
     id SERIAL PRIMARY KEY,
     pcid TEXT,
-    local_pack_code TEXT NOT NULL UNIQUE,
+    local_pack_code TEXT NOT NULL,
+    presentation TEXT,           -- Pack size/presentation for composite key (e.g., "a pack of 1 tube of 20gm")
     package_number TEXT,
     product_group TEXT,
     generic_name TEXT,
-    description TEXT
+    description TEXT,
+    UNIQUE(local_pack_code, presentation)
 );
 CREATE INDEX IF NOT EXISTS idx_my_pcidref_code ON my_pcid_reference(local_pack_code);
+CREATE INDEX IF NOT EXISTS idx_my_pcidref_code_presentation ON my_pcid_reference(local_pack_code, presentation);
 """
 
 # Migration: drop uniqueness on my_products to allow duplicates
@@ -210,6 +231,38 @@ BEGIN
 END $$;
 """
 
+# Migration: update unique constraint on my_pcid_reference to include presentation
+MIGRATE_MY_PCID_REFERENCE_CONSTRAINT = """
+DO $$
+DECLARE
+    cname text;
+BEGIN
+    IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'my_pcid_reference') THEN
+        -- Drop old unique constraint if it exists (single column)
+        SELECT conname INTO cname FROM pg_constraint
+        WHERE conrelid = 'my_pcid_reference'::regclass 
+        AND contype = 'u'
+        AND array_length(conkey, 1) = 1
+        LIMIT 1;
+        IF cname IS NOT NULL THEN
+            EXECUTE format('ALTER TABLE my_pcid_reference DROP CONSTRAINT %I', cname);
+        END IF;
+        
+        -- Create new composite unique constraint if it doesn't exist
+        IF NOT EXISTS (
+            SELECT 1 FROM pg_constraint
+            WHERE conrelid = 'my_pcid_reference'::regclass
+            AND contype = 'u'
+            AND array_length(conkey, 1) = 2
+        ) THEN
+            ALTER TABLE my_pcid_reference 
+            ADD CONSTRAINT my_pcid_reference_local_pack_code_presentation_key 
+            UNIQUE (local_pack_code, presentation);
+        END IF;
+    END IF;
+END $$;
+"""
+
 MALAYSIA_SCHEMA_DDL = [
     PRODUCTS_DDL,
     PRODUCT_DETAILS_DDL,
@@ -220,6 +273,7 @@ MALAYSIA_SCHEMA_DDL = [
     BULK_SEARCH_COUNTS_DDL,
     EXPORT_REPORTS_DDL,
     PCID_REFERENCE_DDL,
+    ERRORS_DDL,
 ]
 
 
@@ -227,14 +281,17 @@ def apply_malaysia_schema(db) -> None:
     """Apply all Malaysia-specific DDL to a CountryDB instance."""
     from core.db.models import apply_common_schema
     apply_common_schema(db)
-    for ddl in MALAYSIA_SCHEMA_DDL:
-        db.executescript(ddl)
-    # Drop any UNIQUE constraint on my_products to allow duplicates
-    # Use execute() not executescript() so the DO $$ ... END $$ block is not split on semicolons
+    
+    # Migrations for new columns must run BEFORE DDL that creates indexes on them
+    # These are safe no-ops if columns already exist
     try:
-        db.execute(MIGRATE_MY_PRODUCTS_DROP_UNIQUE)
+        db.execute("ALTER TABLE my_pcid_mappings ADD COLUMN IF NOT EXISTS presentation TEXT")
     except Exception:
-        pass  # Ignore if already migrated or table doesn't exist    # Migrations for new columns (safe no-ops if already present)
+        pass
+    try:
+        db.execute("ALTER TABLE my_pcid_reference ADD COLUMN IF NOT EXISTS presentation TEXT")
+    except Exception:
+        pass
     try:
         db.execute("ALTER TABLE my_consolidated_products ADD COLUMN IF NOT EXISTS search_method TEXT")
     except Exception:
@@ -243,3 +300,19 @@ def apply_malaysia_schema(db) -> None:
         db.execute("ALTER TABLE my_pcid_mappings ADD COLUMN IF NOT EXISTS search_method TEXT")
     except Exception:
         pass
+    
+    for ddl in MALAYSIA_SCHEMA_DDL:
+        db.executescript(ddl)
+    
+    # Drop any UNIQUE constraint on my_products to allow duplicates
+    # Use execute() not executescript() so the DO $$ ... END $$ block is not split on semicolons
+    try:
+        db.execute(MIGRATE_MY_PRODUCTS_DROP_UNIQUE)
+    except Exception:
+        pass  # Ignore if already migrated or table doesn't exist
+    
+    # Update unique constraint on my_pcid_reference to include presentation
+    try:
+        db.execute(MIGRATE_MY_PCID_REFERENCE_CONSTRAINT)
+    except Exception:
+        pass  # Ignore if already migrated or table doesn't exist

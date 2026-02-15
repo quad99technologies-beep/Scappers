@@ -142,14 +142,15 @@ class Quest3Scraper(BaseScraper):
                 print(f"\n" + "=" * 70, flush=True)
                 print(f"STAGE 2: Individual Detail Pages ({len(missing):,} products)", flush=True)
                 print("=" * 70, flush=True)
-                self._individual_phase(page, repo, missing)
+                # _individual_phase returns the (possibly replaced) page after crash recovery
+                page = self._individual_phase(page, repo, missing)
                 missing = repo.get_missing_registration_nos()
                 if missing and self.individual_retry_missing > 0:
                     for attempt in range(1, self.individual_retry_missing + 1):
                         print(f"\n" + "-" * 70, flush=True)
                         print(f"STAGE 2 RETRY {attempt}: Re-check missing details ({len(missing):,})", flush=True)
                         print("-" * 70, flush=True)
-                        self._individual_phase(page, repo, missing, force=True)
+                        page = self._individual_phase(page, repo, missing, force=True)
                         missing = repo.get_missing_registration_nos()
                         if not missing:
                             break
@@ -165,15 +166,41 @@ class Quest3Scraper(BaseScraper):
     # ------------------------------------------------------------------
 
     def _bulk_search(self, page: Page, repo) -> None:
-        """Search by product keyword, download CSV, parse into DB."""
-        if self.input_products_path is None or not self.input_products_path.exists():
-            logger.warning("products.csv not found: %s (skipping bulk; will proceed to individual details)", self.input_products_path)
-            print(f"[BULK] products.csv not found at {self.input_products_path} -> skipping bulk search, continuing to individual detail pages.", flush=True)
+        """Search by product keyword, download CSV, parse into DB.
+
+        DB-FIRST: Queries my_input_products table (manually uploaded search keywords).
+        Users must upload their search keywords CSV first using import_search_keywords.py
+        """
+        # Query search keywords from my_input_products table (user-uploaded)
+        print(f"[BULK] Querying search keywords from my_input_products table...", flush=True)
+
+        with self.db.cursor() as cur:
+            cur.execute("""
+                SELECT product_name, registration_no
+                FROM my_input_products
+                WHERE product_name IS NOT NULL
+                  AND product_name != ''
+                ORDER BY id
+            """)
+            rows = cur.fetchall()
+
+        if not rows:
+            print(f"[BULK] No search keywords found in my_input_products table.", flush=True)
+            print(f"[BULK] Please upload your search keywords:", flush=True)
+            print(f"[BULK]   python scripts/Malaysia/import_search_keywords.py input/Malaysia/products.csv", flush=True)
+            print(f"[BULK] Skipping bulk search, proceeding to individual detail pages.", flush=True)
             return
 
-        df = pd.read_csv(self.input_products_path)
+        # Convert to DataFrame format expected by rest of the code
+        data = []
+        for row in rows:
+            product_name = row[0] if isinstance(row, tuple) else row["product_name"]
+            registration_no = row[1] if isinstance(row, tuple) else row.get("registration_no", "")
+            data.append({"product_name": product_name, "registration_no": registration_no or ""})
+
+        df = pd.DataFrame(data)
         total = len(df)
-        print(f"[BULK] Found {total:,} product keywords to search", flush=True)
+        print(f"[BULK] Found {total:,} unique product names from database", flush=True)
 
         completed_keys = repo.get_completed_keys(step_number=2)
         completed = 0
@@ -345,6 +372,21 @@ class Quest3Scraper(BaseScraper):
             if page_rows is None:
                 page_rows = self._count_visible_rows(page, row_sel)
             result["page_rows"] = page_rows
+
+            # Discover URLs and add to frontier queue
+            try:
+                from core.utils.integration_helpers import add_url_to_frontier
+                from bs4 import BeautifulSoup
+                html = page.content()
+                soup = BeautifulSoup(html, 'html.parser')
+                # Find product detail links
+                for link in soup.find_all('a', href=True):
+                    href = link.get('href', '')
+                    if href and ('detail' in href.lower() or 'product' in href.lower()):
+                        full_url = page.url.split('?')[0].rsplit('/', 1)[0] + '/' + href if not href.startswith('http') else href
+                        add_url_to_frontier("Malaysia", full_url, priority=1, parent_url=page.url)
+            except Exception:
+                pass  # Frontier queue not critical
 
             # Try to download CSV
             csv_btn = page.query_selector(self.csv_btn_sel)
@@ -615,8 +657,77 @@ class Quest3Scraper(BaseScraper):
     # Stage 2: Individual detail pages
     # ------------------------------------------------------------------
 
-    def _individual_phase(self, page: Page, repo, missing: Set[str], force: bool = False) -> None:
-        """Scrape detail pages for each missing registration number."""
+    # Maximum consecutive crashes before adding a cooldown delay
+    MAX_CONSECUTIVE_CRASHES = 5
+    CRASH_COOLDOWN_SECONDS = 15
+
+    def _recover_page(self, page: Page) -> Page:
+        """Attempt to recover from a crashed page by creating a fresh one.
+
+        Strategy:
+        1. Close the dead page (best-effort).
+        2. Try creating a new page from the existing context.
+        3. If the context is also corrupted, create a fresh context + page.
+        Returns a new, healthy Page object.
+        """
+        # Step 1: Close the dead page
+        try:
+            page.close()
+        except Exception:
+            pass
+
+        # Step 2: Try creating a new page from the existing context
+        try:
+            new_page = self._context.new_page()
+            # Verify the page is healthy with a simple navigation
+            new_page.goto("about:blank", timeout=10000)
+            print("[RECOVERY] Created fresh page from existing context", flush=True)
+            return new_page
+        except Exception as ctx_err:
+            logger.warning("Context also corrupted: %s — recycling context", ctx_err)
+
+        # Step 3: Context is dead — create a whole new context
+        try:
+            old_ctx = self._context
+            self._context = self._create_context()
+            self._context.set_default_timeout(self.page_timeout)
+            try:
+                old_ctx.close()
+            except Exception:
+                pass
+            new_page = self._context.new_page()
+            new_page.goto("about:blank", timeout=10000)
+            print("[RECOVERY] Created fresh browser context + page", flush=True)
+            import gc
+            gc.collect()
+            return new_page
+        except Exception as fatal_err:
+            logger.error("Failed to recover browser: %s", fatal_err)
+            raise RuntimeError(f"Unrecoverable browser crash: {fatal_err}") from fatal_err
+
+    @staticmethod
+    def _is_crash_error(error_msg: str) -> bool:
+        """Detect if an error indicates a page/browser crash."""
+        crash_indicators = [
+            "page crashed",
+            "target closed",
+            "browser has been closed",
+            "browser was closed",
+            "context has been closed",
+            "connection closed",
+            "session closed",
+            "target page, context or browser has been closed",
+            "execution context was destroyed",
+        ]
+        low = error_msg.lower()
+        return any(indicator in low for indicator in crash_indicators)
+
+    def _individual_phase(self, page: Page, repo, missing: Set[str], force: bool = False) -> Page:
+        """Scrape detail pages for each missing registration number.
+
+        Returns the (possibly replaced) page object so the caller can
+        continue using the live page after this method returns.
+        """
         completed_keys = repo.get_completed_keys(step_number=2)
         if force:
             remaining = [r for r in sorted(missing)]
@@ -625,6 +736,8 @@ class Quest3Scraper(BaseScraper):
                          if f"individual_regno:{r}" not in completed_keys]
         total = len(remaining)
         print(f"[INDIV] Processing {total:,} remaining products", flush=True)
+
+        consecutive_crashes = 0
 
         for idx, regno in enumerate(remaining, 1):
             progress_key = f"individual_regno:{regno}"
@@ -645,13 +758,35 @@ class Quest3Scraper(BaseScraper):
                 )
                 repo.mark_progress(2, "Product Details", progress_key, "completed")
                 print(f"[SAVED] {idx}/{total} - {regno}", flush=True)
+                consecutive_crashes = 0  # Reset on success
             except Exception as e:
                 error_msg = str(e)
                 repo.mark_progress(2, "Product Details", progress_key, "failed", error_msg)
                 print(f"[ERROR] Failed {regno}: {error_msg}", flush=True)
 
+                # ── CRASH RECOVERY ──────────────────────────────────
+                if self._is_crash_error(error_msg):
+                    consecutive_crashes += 1
+                    print(f"[CRASH] Page crashed (consecutive: {consecutive_crashes}). Recovering...", flush=True)
+
+                    # Cooldown if too many consecutive crashes
+                    if consecutive_crashes >= self.MAX_CONSECUTIVE_CRASHES:
+                        print(f"[CRASH] {consecutive_crashes} consecutive crashes — "
+                              f"cooling down {self.CRASH_COOLDOWN_SECONDS}s", flush=True)
+                        time.sleep(self.CRASH_COOLDOWN_SECONDS)
+                        consecutive_crashes = 0  # Reset after cooldown
+
+                    try:
+                        page = self._recover_page(page)
+                        print(f"[CRASH] Recovery successful — continuing from next item", flush=True)
+                    except RuntimeError as recover_err:
+                        print(f"[FATAL] Browser unrecoverable: {recover_err}", flush=True)
+                        print(f"[FATAL] Stopping individual phase. Processed {idx-1}/{total}", flush=True)
+                        return page
+                # ── END CRASH RECOVERY ──────────────────────────────
+
                 # For timeout errors, record with error marker
-                if "timeout" in error_msg.lower():
+                elif "timeout" in error_msg.lower():
                     repo.insert_product_detail(
                         registration_no=regno,
                         product_name="[TIMEOUT ERROR]",
@@ -663,11 +798,21 @@ class Quest3Scraper(BaseScraper):
             if self.individual_delay > 0:
                 time.sleep(self.individual_delay)
 
+        return page
+
     def _extract_detail(self, page: Page, regno: str):
-        """Navigate to detail page and extract Product Name + Holder."""
+        """Navigate to detail page and extract Product Name + Holder.
+
+        Uses 'load' wait-state instead of 'networkidle' to reduce the
+        chance of Chromium renderer OOM crashes on heavy pages.
+        """
         url = self.detail_url_tpl.format(regno)
-        page.goto(url, timeout=self.page_timeout)
-        page.wait_for_load_state("networkidle", timeout=30000)
+        page.goto(url, wait_until="load", timeout=self.page_timeout)
+        # Use domcontentloaded instead of networkidle — less memory pressure
+        try:
+            page.wait_for_load_state("domcontentloaded", timeout=15000)
+        except Exception:
+            pass  # Best-effort; page content may already be available
         self.pause(0.5, 1.0)
 
         product_name = ""

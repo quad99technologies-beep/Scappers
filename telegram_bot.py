@@ -48,6 +48,15 @@ from dotenv import load_dotenv
 REPO_ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(REPO_ROOT))
 
+from core.pipeline_start_lock import (
+    claim_pipeline_start_lock,
+    get_lock_paths as _shared_get_lock_paths,
+    is_pid_running as _shared_is_pid_running,
+    read_lock_info as _shared_read_lock_info,
+    release_pipeline_lock,
+    update_pipeline_lock,
+)
+
 # Database imports (PostgreSQL only)
 try:
     from core.db.postgres_connection import PostgresDB, COUNTRY_PREFIX_MAP
@@ -63,23 +72,45 @@ try:
 except ImportError:
     DB_UTILS_AVAILABLE = False
 
+# Shared scraper registry (single source of truth for GUI, API, and Telegram bot)
+try:
+    from scripts.common.scraper_registry import (
+        SCRAPER_CONFIGS,
+        get_scraper_names,
+        get_scraper_path,
+        get_pipeline_script,
+        resolve_country_name,
+    )
+    REGISTRY_AVAILABLE = True
+except ImportError:
+    REGISTRY_AVAILABLE = False
+    SCRAPER_CONFIGS = {}
+
 # =============================================================================
 # Configuration
 # =============================================================================
 
-SCRAPERS: Dict[str, Dict[str, Path]] = {
-    "CanadaQuebec": {"path": REPO_ROOT / "scripts" / "CanadaQuebec"},
-    "Malaysia": {"path": REPO_ROOT / "scripts" / "Malaysia"},
-    "Argentina": {"path": REPO_ROOT / "scripts" / "Argentina"},
-    "CanadaOntario": {"path": REPO_ROOT / "scripts" / "Canada Ontario"},
-    "Netherlands": {"path": REPO_ROOT / "scripts" / "Netherlands"},
-    "Belarus": {"path": REPO_ROOT / "scripts" / "Belarus"},
-    "Russia": {"path": REPO_ROOT / "scripts" / "Russia"},
-    "Taiwan": {"path": REPO_ROOT / "scripts" / "Taiwan"},
-    "NorthMacedonia": {"path": REPO_ROOT / "scripts" / "North Macedonia"},
-    "Tender_Chile": {"path": REPO_ROOT / "scripts" / "Tender- Chile"},
-    "India": {"path": REPO_ROOT / "scripts" / "India"},
-}
+# Build SCRAPERS dict from registry (backward-compatible format)
+if REGISTRY_AVAILABLE:
+    SCRAPERS: Dict[str, Dict[str, Path]] = {
+        name: {"path": REPO_ROOT / cfg["path"]}
+        for name, cfg in SCRAPER_CONFIGS.items()
+    }
+else:
+    # Fallback if registry import fails
+    SCRAPERS: Dict[str, Dict[str, Path]] = {
+        "canada_quebec": {"path": REPO_ROOT / "scripts" / "canada_quebec"},
+        "Malaysia": {"path": REPO_ROOT / "scripts" / "Malaysia"},
+        "Argentina": {"path": REPO_ROOT / "scripts" / "Argentina"},
+        "CanadaOntario": {"path": REPO_ROOT / "scripts" / "canada_ontario"},
+        "Netherlands": {"path": REPO_ROOT / "scripts" / "Netherlands"},
+        "Belarus": {"path": REPO_ROOT / "scripts" / "Belarus"},
+        "Russia": {"path": REPO_ROOT / "scripts" / "Russia"},
+        "Taiwan": {"path": REPO_ROOT / "scripts" / "Taiwan"},
+        "NorthMacedonia": {"path": REPO_ROOT / "scripts" / "north_macedonia"},
+        "tender_chile": {"path": REPO_ROOT / "scripts" / "tender_chile"},
+        "India": {"path": REPO_ROOT / "scripts" / "India"},
+    }
 
 # Status emojis for better UX
 STATUS_EMOJIS = {
@@ -108,62 +139,34 @@ SCRAPER_ALIASES = {_normalize_name(name): name for name in SCRAPERS.keys()}
 def resolve_scraper_name(raw_name: Optional[str]) -> Optional[str]:
     if not raw_name:
         return None
+    # Try registry resolver first (handles display names and aliases)
+    if REGISTRY_AVAILABLE:
+        result = resolve_country_name(raw_name)
+        if result:
+            return result
+    # Fallback to local alias map
     key = _normalize_name(raw_name)
     return SCRAPER_ALIASES.get(key)
 
 
 def _get_path_manager():
     try:
-        from platform_config import get_path_manager
+        from core.config_manager import ConfigManager
         return get_path_manager()
     except Exception:
         return None
 
 
 def get_lock_paths(scraper_name: str) -> Tuple[Path, Path]:
-    pm = _get_path_manager()
-    if pm:
-        new_lock = pm.get_lock_file(scraper_name)
-    else:
-        new_lock = REPO_ROOT / ".locks" / f"{scraper_name}.lock"
-    old_lock = REPO_ROOT / f".{scraper_name}_run.lock"
-    return new_lock, old_lock
+    return _shared_get_lock_paths(scraper_name, repo_root=REPO_ROOT)
 
 
 def read_lock_info(lock_file: Path) -> Tuple[Optional[int], Optional[str], Optional[str]]:
-    try:
-        content = lock_file.read_text(encoding="utf-8").strip().splitlines()
-    except Exception:
-        return None, None, None
-    pid = int(content[0]) if content and content[0].isdigit() else None
-    started = content[1] if len(content) > 1 else None
-    log_path = content[2] if len(content) > 2 else None
-    return pid, started, log_path
+    return _shared_read_lock_info(lock_file)
 
 
 def is_pid_running(pid: Optional[int]) -> bool:
-    if not pid:
-        return False
-    try:
-        import psutil
-        return psutil.pid_exists(pid) and psutil.Process(pid).is_running()
-    except Exception:
-        if sys.platform == "win32":
-            try:
-                result = subprocess.run(
-                    ["tasklist", "/FI", f"PID eq {pid}"],
-                    capture_output=True,
-                    text=True,
-                    timeout=2
-                )
-                return str(pid) in result.stdout
-            except Exception:
-                return False
-        try:
-            os.kill(pid, 0)
-            return True
-        except OSError:
-            return False
+    return _shared_is_pid_running(pid)
 
 
 def terminate_pid(pid: Optional[int]) -> bool:
@@ -198,19 +201,11 @@ def terminate_pid(pid: Optional[int]) -> bool:
 
 
 def ensure_lock_file(lock_file: Path, pid: int, log_path: Optional[Path] = None) -> None:
-    lock_file.parent.mkdir(parents=True, exist_ok=True)
-    payload = [str(pid), datetime.now().isoformat()]
-    if log_path:
-        payload.append(str(log_path))
-    lock_file.write_text("\n".join(payload) + "\n", encoding="utf-8")
+    update_pipeline_lock(lock_file, pid, log_path=log_path)
 
 
 def remove_lock_file(lock_file: Path) -> None:
-    try:
-        if lock_file.exists():
-            lock_file.unlink()
-    except Exception:
-        pass
+    release_pipeline_lock(lock_file)
 
 
 def get_logs_dir() -> Path:
@@ -250,9 +245,9 @@ def find_latest_log(scraper_name: str, status: Dict[str, Optional[str]]) -> Opti
 
     # Output logs from pipeline batch scripts
     try:
-        from platform_config import get_path_manager
-        pm = get_path_manager()
-        output_dir = pm.get_output_dir(scraper_name)
+        from core.config_manager import ConfigManager
+        # Migrated: get_path_manager() -> ConfigManager
+        output_dir = ConfigManager.get_output_dir(scraper_name)
     except Exception:
         output_dir = REPO_ROOT / "output" / scraper_name
     if output_dir.exists():
@@ -363,11 +358,27 @@ def get_db_summary(scraper_name: str) -> Optional[Dict[str, Any]]:
             "scraper_name": scraper_name,
             "prefix": prefix,
             "tables": {},
+            "tables_all_runs": {},  # Total across all runs (for reference)
             "latest_run": None,
             "total_entities": 0,
         }
         
         with db.cursor() as cur:
+            # First, get the latest run_id
+            latest_run_id = None
+            try:
+                cur.execute("""
+                    SELECT run_id FROM run_ledger 
+                    WHERE scraper_name = %s 
+                    ORDER BY started_at DESC 
+                    LIMIT 1
+                """, (scraper_name,))
+                row = cur.fetchone()
+                if row:
+                    latest_run_id = row[0]
+            except Exception:
+                pass
+            
             # Get all tables with this country's prefix
             cur.execute("""
                 SELECT table_name 
@@ -379,20 +390,47 @@ def get_db_summary(scraper_name: str) -> Optional[Dict[str, Any]]:
             
             tables = [row[0] for row in cur.fetchall()]
             
-            # Get row counts for each table
+            # Check which tables have run_id column
+            tables_with_run_id = set()
             for table in tables:
                 try:
-                    cur.execute(f"SELECT COUNT(*) FROM {table}")
-                    count = cur.fetchone()[0]
+                    cur.execute("""
+                        SELECT 1 FROM information_schema.columns 
+                        WHERE table_name = %s AND column_name = 'run_id'
+                    """, (table,))
+                    if cur.fetchone():
+                        tables_with_run_id.add(table)
+                except Exception:
+                    pass
+            
+            # Get row counts for each table (filtered by latest run_id if applicable)
+            for table in tables:
+                try:
                     # Remove prefix for display
                     display_name = table.replace(prefix, "")
+                    
+                    # Get total count (all runs)
+                    cur.execute(f"SELECT COUNT(*) FROM {table}")
+                    total_count = cur.fetchone()[0]
+                    summary["tables_all_runs"][display_name] = total_count
+                    
+                    # Get count for latest run only (if table has run_id column)
+                    if table in tables_with_run_id and latest_run_id:
+                        cur.execute(f"SELECT COUNT(*) FROM {table} WHERE run_id = %s", (latest_run_id,))
+                        count = cur.fetchone()[0]
+                    else:
+                        count = total_count
+                    
                     summary["tables"][display_name] = count
                     
-                    # Track total entities (common entity tables)
+                    # Track total entities (common entity tables) - use latest run count
                     if any(x in table for x in ['product', 'tender', 'drug', 'sku', 'entity']):
                         summary["total_entities"] += count
                 except Exception:
                     pass
+            
+            # Store latest run_id in summary
+            summary["latest_run_id"] = latest_run_id
             
             # Get latest run from run_ledger
             try:
@@ -453,26 +491,79 @@ def get_db_summary(scraper_name: str) -> Optional[Dict[str, Any]]:
         return {"error": str(e)}
 
 
-def format_db_summary(summary: Optional[Dict[str, Any]]) -> str:
-    """Format database summary for Telegram display."""
+def format_db_summary(summary: Optional[Dict[str, Any]], human_readable: bool = True) -> str:
+    """Format database summary for Telegram display.
+    
+    Args:
+        summary: The database summary dict
+        human_readable: If True, format numbers in human-readable format (K, M, B)
+    """
     if summary is None:
         return "📊 <i>Database summary not available</i>"
     
     if "error" in summary:
         return f"❌ <i>DB Error: {summary['error']}</i>"
     
+    def fmt_num(n: int) -> str:
+        """Format number in human-readable format."""
+        if not human_readable:
+            return f"{n:,}"
+        if n >= 1_000_000_000:
+            return f"{n/1_000_000_000:.2f}B"
+        elif n >= 1_000_000:
+            return f"{n/1_000_000:.2f}M"
+        elif n >= 1_000:
+            return f"{n/1_000:.1f}K"
+        return f"{n:,}"
+    
     lines = ["📊 <b>Database Summary</b>"]
     
-    # Table counts
+    # Add note about current run filtering
+    latest_run_id = summary.get("latest_run_id")
+    if latest_run_id:
+        short_run_id = latest_run_id[:8] + "..." if len(latest_run_id) > 8 else latest_run_id
+        lines.append(f"<i>(Filtered by latest run: {short_run_id})</i>")
+    
+    # Intelligent table categorization
+    entity_tables = {}
+    metadata_tables = {}
+    other_tables = {}
+    
     if summary.get("tables"):
+        for name, count in summary["tables"].items():
+            lower_name = name.lower()
+            # Categorize tables
+            if any(x in lower_name for x in ['product', 'tender', 'drug', 'sku', 'entity', 'item', 'record', 'data']):
+                entity_tables[name] = count
+            elif any(x in lower_name for x in ['log', 'run', 'ledger', 'meta', 'config', 'setting', 'session']):
+                metadata_tables[name] = count
+            else:
+                other_tables[name] = count
+    
+    # Entity tables (main data)
+    if entity_tables:
         lines.append("")
-        lines.append("<b>Tables:</b>")
-        for name, count in sorted(summary["tables"].items()):
-            lines.append(f"  • {name}: <code>{count:,}</code>")
+        lines.append("📦 <b>Data Tables (Current Run):</b>")
+        for name, count in sorted(entity_tables.items(), key=lambda x: -x[1]):
+            lines.append(f"  • {name}: <code>{fmt_num(count)}</code>")
+    
+    # Other tables
+    if other_tables:
+        lines.append("")
+        lines.append("📋 <b>Other Tables:</b>")
+        for name, count in sorted(other_tables.items(), key=lambda x: -x[1]):
+            lines.append(f"  • {name}: <code>{fmt_num(count)}</code>")
+    
+    # Metadata tables (collapsed if too many)
+    if metadata_tables:
+        lines.append("")
+        lines.append("⚙️ <b>System Tables:</b>")
+        for name, count in sorted(metadata_tables.items(), key=lambda x: -x[1]):
+            lines.append(f"  • {name}: <code>{fmt_num(count)}</code>")
     
     # Total entities
     if summary.get("total_entities"):
-        lines.append(f"\n📦 <b>Total Entities:</b> <code>{summary['total_entities']:,}</code>")
+        lines.append(f"\n📊 <b>Total Records:</b> <code>{fmt_num(summary['total_entities'])}</code>")
     
     # Latest run info
     latest = summary.get("latest_run")
@@ -489,9 +580,9 @@ def format_db_summary(summary: Optional[Dict[str, Any]]) -> str:
             lines.append(f"  🕐 Started: <code>{started}</code>")
         
         if latest.get("items_scraped"):
-            lines.append(f"  📥 Scraped: <code>{latest['items_scraped']:,}</code>")
+            lines.append(f"  📥 Scraped: <code>{fmt_num(latest['items_scraped'])}</code>")
         if latest.get("items_exported"):
-            lines.append(f"  📤 Exported: <code>{latest['items_exported']:,}</code>")
+            lines.append(f"  📤 Exported: <code>{fmt_num(latest['items_exported'])}</code>")
         
         if latest.get("error_message"):
             lines.append(f"  ⚠️ Error: <code>{latest['error_message'][:100]}</code>")
@@ -521,15 +612,30 @@ def format_db_summary(summary: Optional[Dict[str, Any]]) -> str:
     return "\n".join(lines)
 
 
-def get_all_scrapers_summary() -> str:
+def get_all_scrapers_summary(human_readable: bool = True) -> str:
     """Get a summary of all scrapers from the database."""
     if not POSTGRES_AVAILABLE:
         return "📊 <i>PostgreSQL not available</i>"
     
+    def fmt_num(n: int) -> str:
+        """Format number in human-readable format."""
+        if not human_readable:
+            return f"{n:,}"
+        if n >= 1_000_000_000:
+            return f"{n/1_000_000_000:.2f}B"
+        elif n >= 1_000_000:
+            return f"{n/1_000_000:.2f}M"
+        elif n >= 1_000:
+            return f"{n/1_000:.1f}K"
+        return f"{n:,}"
+    
     lines = ["📊 <b>All Scrapers Summary</b>\n"]
     
     try:
-        db = PostgresDB("")  # No country prefix for shared tables
+        # Use first available scraper for DB connection (prefix doesn't matter
+        # since run_ledger is a shared table without prefix)
+        first_scraper = next(iter(SCRAPERS.keys()), "Malaysia")
+        db = PostgresDB(first_scraper)
         
         with db.cursor() as cur:
             # Get latest run for each scraper
@@ -557,7 +663,7 @@ def get_all_scrapers_summary() -> str:
                     
                     status_line = f"  {emoji} <b>{name}</b>: {status}"
                     if scraped:
-                        status_line += f" | 📦 {scraped:,}"
+                        status_line += f" | 📦 {fmt_num(scraped)}"
                     status_line += f" | 🕐 {time_str}"
                     lines.append(status_line)
             else:
@@ -596,6 +702,12 @@ def build_pipeline_command(scraper_name: str, fresh: bool = False) -> Tuple[List
 
 
 def launch_pipeline(scraper_name: str, fresh: bool = False) -> Tuple[int, Path]:
+    acquired, lock_file, reason = claim_pipeline_start_lock(
+        scraper_name, owner="telegram", repo_root=REPO_ROOT
+    )
+    if not acquired:
+        raise RuntimeError(f"{scraper_name} is already running ({reason})")
+
     cmd, cwd = build_pipeline_command(scraper_name, fresh=fresh)
     log_dir = get_logs_dir()
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -608,17 +720,54 @@ def launch_pipeline(scraper_name: str, fresh: bool = False) -> Tuple[int, Path]:
 
     env = os.environ.copy()
     env["PYTHONUNBUFFERED"] = "1"
+    
+    # Generate and pass run_id to pipeline so all components (GUI/API/Telegram) are in sync
+    if fresh:
+        # Check if pipeline is already running (started from elsewhere)
+        existing_run_id = None
+        try:
+            pm = _get_path_manager()
+            if pm:
+                output_dir = ConfigManager.get_output_dir(scraper_name)
+                run_id_file = output_dir / ".current_run_id"
+                if run_id_file.exists():
+                    existing_run_id = run_id_file.read_text(encoding='utf-8').strip()
+                    # Check if lock file exists (confirming it's running)
+                    new_lock, _old_lock = get_lock_paths(scraper_name)
+                    if not new_lock.exists():
+                        existing_run_id = None  # Not actually running
+        except Exception:
+            pass
+        
+        if existing_run_id:
+            run_id = existing_run_id
+            log_handle.write(f"[BOT] Using existing run_id from running pipeline: {run_id}\n")
+        else:
+            # Fresh run: generate new run_id
+            run_id = f"{scraper_name}_{timestamp}"
+            log_handle.write(f"[BOT] Generated fresh run_id: {run_id}\n")
+        
+        env_var_name = f"{scraper_name.upper().replace(' ', '_').replace('-', '_')}_RUN_ID"
+        env[env_var_name] = run_id
+        log_handle.flush()
 
-    process = subprocess.Popen(
-        cmd,
-        cwd=str(cwd),
-        stdout=log_handle,
-        stderr=subprocess.STDOUT,
-        env=env
-    )
+    try:
+        process = subprocess.Popen(
+            cmd,
+            cwd=str(cwd),
+            stdout=log_handle,
+            stderr=subprocess.STDOUT,
+            env=env
+        )
+    except Exception:
+        release_pipeline_lock(lock_file)
+        try:
+            log_handle.close()
+        except Exception:
+            pass
+        raise
 
-    new_lock, _old_lock = get_lock_paths(scraper_name)
-    ensure_lock_file(new_lock, process.pid, log_path=log_path)
+    ensure_lock_file(lock_file, process.pid, log_path=log_path)
 
     def _monitor() -> None:
         exit_code = process.wait()
@@ -626,7 +775,7 @@ def launch_pipeline(scraper_name: str, fresh: bool = False) -> Tuple[int, Path]:
             with log_path.open("a", encoding="utf-8", errors="replace") as handle:
                 handle.write(f"\n[BOT] {scraper_name} exited with code {exit_code} at {datetime.now().isoformat()}\n")
         finally:
-            remove_lock_file(new_lock)
+            remove_lock_file(lock_file)
             try:
                 log_handle.close()
             except Exception:
@@ -692,7 +841,8 @@ def format_help_text() -> str:
         "  /list - List available scrapers\n\n"
         "<b>Status & Monitoring:</b>\n"
         "  /status &lt;scraper|all&gt; - Check pipeline status with DB summary\n"
-        "  /summary &lt;scraper&gt; - Show detailed database table summary\n\n"
+        "  /summary &lt;scraper&gt; - Show detailed database table summary\n"
+        "  allincome - Show all scrapers data summary (human-readable)\n\n"
         "<b>Control:</b>\n"
         "  /run &lt;scraper&gt; [fresh] - Start pipeline if idle\n"
         "  /resume &lt;scraper&gt; - Resume pipeline\n"
@@ -744,12 +894,128 @@ class TelegramBot:
             return True
         return chat_id in self.allowed_chat_ids
 
+    def handle_allincome(self, chat_id: int) -> None:
+        """Handle 'allincome' message - show all scrapers data summary."""
+        if not POSTGRES_AVAILABLE:
+            self.send_message(chat_id, "📊 <i>PostgreSQL not available</i>")
+            return
+        
+        self.send_message(chat_id, "⏳ Fetching all scrapers data summary...")
+        
+        lines = ["📊 <b>All Scrapers Data Summary</b>\n"]
+        
+        def fmt_num(n: int) -> str:
+            """Format number in human-readable format."""
+            if n >= 1_000_000_000:
+                return f"{n/1_000_000_000:.2f}B"
+            elif n >= 1_000_000:
+                return f"{n/1_000_000:.2f}M"
+            elif n >= 1_000:
+                return f"{n/1_000:.1f}K"
+            return f"{n:,}"
+        
+        try:
+            total_all_records = 0
+            scraper_data = []
+            
+            for scraper_name in sorted(SCRAPERS.keys()):
+                try:
+                    db = PostgresDB(scraper_name)
+                    prefix = db.prefix
+                    
+                    with db.cursor() as cur:
+                        # Get all tables with this country's prefix
+                        cur.execute("""
+                            SELECT table_name 
+                            FROM information_schema.tables 
+                            WHERE table_schema = 'public' 
+                            AND table_name LIKE %s
+                            AND table_type = 'BASE TABLE'
+                        """, (f"{prefix}%",))
+                        
+                        tables = [row[0] for row in cur.fetchall()]
+                        
+                        # Get row counts for entity tables only
+                        entity_count = 0
+                        table_counts = {}
+                        for table in tables:
+                            try:
+                                cur.execute(f"SELECT COUNT(*) FROM {table}")
+                                count = cur.fetchone()[0]
+                                display_name = table.replace(prefix, "")
+                                table_counts[display_name] = count
+                                
+                                # Track total entities (common entity tables)
+                                if any(x in table for x in ['product', 'tender', 'drug', 'sku', 'entity', 'item', 'record']):
+                                    entity_count += count
+                            except Exception:
+                                pass
+                        
+                        # Get latest run info
+                        latest_scraped = 0
+                        try:
+                            cur.execute("""
+                                SELECT items_scraped
+                                FROM run_ledger 
+                                WHERE scraper_name = %s 
+                                ORDER BY started_at DESC 
+                                LIMIT 1
+                            """, (scraper_name,))
+                            row = cur.fetchone()
+                            if row and row[0]:
+                                latest_scraped = row[0]
+                        except Exception:
+                            pass
+                        
+                        scraper_data.append({
+                            'name': scraper_name,
+                            'entity_count': entity_count,
+                            'tables': table_counts,
+                            'latest_scraped': latest_scraped
+                        })
+                        total_all_records += entity_count
+                    
+                    db.close()
+                except Exception:
+                    pass
+            
+            # Sort by entity count (descending)
+            scraper_data.sort(key=lambda x: -x['entity_count'])
+            
+            # Build output
+            for data in scraper_data:
+                if data['entity_count'] > 0 or data['latest_scraped'] > 0:
+                    lines.append(f"📌 <b>{data['name']}</b>")
+                    lines.append(f"   📦 Records: <code>{fmt_num(data['entity_count'])}</code>")
+                    if data['latest_scraped'] > 0:
+                        lines.append(f"   📥 Last Run: <code>{fmt_num(data['latest_scraped'])}</code>")
+                    
+                    # Show top 3 tables
+                    top_tables = sorted(data['tables'].items(), key=lambda x: -x[1])[:3]
+                    if top_tables:
+                        table_str = " | ".join([f"{n}: {fmt_num(c)}" for n, c in top_tables if c > 0])
+                        if table_str:
+                            lines.append(f"   📋 {table_str}")
+                    lines.append("")
+            
+            lines.append(f"📊 <b>Grand Total:</b> <code>{fmt_num(total_all_records)}</code> records")
+            
+        except Exception as e:
+            lines.append(f"<i>Error: {str(e)[:100]}</i>")
+        
+        self.send_message(chat_id, "\n".join(lines))
+
     def handle_command(self, chat_id: int, text: str) -> None:
         parts = text.strip().split()
         if not parts:
             return
         cmd = parts[0].split("@")[0].lower()
         args = parts[1:]
+        
+        # Handle 'allincome' message
+        if cmd.lower() == "allincome":
+            self.handle_allincome(chat_id)
+            return
 
         if cmd in ("/start", "/help"):
             self.send_message(chat_id, format_help_text())
@@ -927,28 +1193,36 @@ class TelegramBot:
                     text = message.get("text", "")
                     if not chat_id or not text:
                         continue
-                    if text.strip().startswith("/"):
-                        cmd = text.strip().split()[0].split("@")[0].lower()
-                        if cmd == "/whoami":
-                            try:
-                                self.handle_command(chat_id, text)
-                            except Exception:
-                                continue
-                            continue
-                        if not self.is_authorized(chat_id):
-                            try:
-                                self.send_message(
-                                    chat_id,
-                                    "🚫 <b>Not authorized.</b>\nSend /whoami to get your chat ID."
-                                )
-                            except Exception:
-                                pass
-                            continue
+                    
+                    # Always respond to messages (bot is always ON)
+                    text_stripped = text.strip()
+                    cmd = text_stripped.split()[0].split("@")[0].lower()
+                    
+                    # Handle /whoami without authorization check
+                    if cmd == "/whoami":
                         try:
                             self.handle_command(chat_id, text)
                         except Exception:
-                            continue
+                            pass
                         continue
+                    
+                    # Check authorization for other commands
+                    if not self.is_authorized(chat_id):
+                        try:
+                            self.send_message(
+                                chat_id,
+                                "🚫 <b>Not authorized.</b>\nSend /whoami to get your chat ID."
+                            )
+                        except Exception:
+                            pass
+                        continue
+                    
+                    # Handle all commands and messages
+                    try:
+                        self.handle_command(chat_id, text)
+                    except Exception:
+                        pass
+                    continue
 
                 if new_last_update_id is not None:
                     self.last_update_id = new_last_update_id
@@ -975,6 +1249,11 @@ def main() -> None:
         print("[OK] PostgreSQL support enabled")
     else:
         print("[WARN] PostgreSQL support not available (core.db.postgres_connection)")
+
+    if REGISTRY_AVAILABLE:
+        print(f"[OK] Scraper registry loaded ({len(SCRAPER_CONFIGS)} scrapers)")
+    else:
+        print(f"[WARN] Registry not available, using fallback ({len(SCRAPERS)} scrapers)")
 
     bot = TelegramBot(token, allowed_chat_ids, default_scraper=default_scraper)
     print("[OK] Telegram bot started. Waiting for commands...")

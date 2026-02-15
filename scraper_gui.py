@@ -18,13 +18,90 @@ import webbrowser
 from datetime import datetime
 import json
 import time
+import traceback
 from typing import Optional
+
+# Try to import requests for Prometheus metrics
+try:
+    import requests
+    _REQUESTS_AVAILABLE = True
+except ImportError:
+    _REQUESTS_AVAILABLE = False
 
 # CRITICAL: Initialize ConfigManager FIRST before any other imports
 # Add repo root to path for core.config_manager
 repo_root = Path(__file__).resolve().parent
 if str(repo_root) not in sys.path:
     sys.path.insert(0, str(repo_root))
+
+# Auto-install missing dependencies on GUI startup
+def _check_and_install_dependencies():
+    """Check for missing dependencies and offer to install them."""
+    missing_packages = []
+    
+    # Check critical packages (GUI functionality)
+    critical_packages = {
+        'requests': 'requests',
+        'psycopg2': 'psycopg2-binary',
+        'prometheus_client': 'prometheus-client',
+    }
+    
+    # Check optional packages (features work without them)
+    optional_packages = {
+        'redis': 'redis',
+    }
+    
+    for module_name, package_name in critical_packages.items():
+        try:
+            __import__(module_name)
+        except ImportError:
+            missing_packages.append(package_name)
+    
+    if missing_packages:
+        print(f"\n[GUI] Missing dependencies detected: {', '.join(missing_packages)}")
+        print("[GUI] To install missing packages, run:")
+        print(f"      pip install {' '.join(missing_packages)}")
+        print("      Or install all dependencies:")
+        print(f"      pip install -r {repo_root / 'requirements.txt'}\n")
+        
+        # Try to auto-install if enabled via environment variable
+        auto_install_env = os.getenv('AUTO_INSTALL_DEPS', 'false').lower()
+        if auto_install_env == 'true':
+            try:
+                import subprocess
+                print(f"[GUI] Auto-installing missing packages...")
+                result = subprocess.run(
+                    [sys.executable, '-m', 'pip', 'install'] + missing_packages,
+                    capture_output=True,
+                    text=True,
+                    timeout=300,
+                    check=False
+                )
+                if result.returncode == 0:
+                    print("[GUI] Successfully installed missing packages!")
+                    print("[GUI] Please restart the GUI for changes to take effect.")
+                else:
+                    print(f"[GUI] Installation failed: {result.stderr}")
+                    print("[GUI] Please install manually using the command above.")
+            except Exception as e:
+                print(f"[GUI] Auto-installation failed: {e}")
+                print("[GUI] Please install manually using the command above.")
+        else:
+            print("[GUI] Tip: Set AUTO_INSTALL_DEPS=true environment variable to auto-install missing packages")
+    
+    # Check optional packages (just inform, don't require)
+    missing_optional = []
+    for module_name, package_name in optional_packages.items():
+        try:
+            __import__(module_name)
+        except ImportError:
+            missing_optional.append(package_name)
+    
+    if missing_optional:
+        print(f"[GUI] Optional packages not installed (features will be disabled): {', '.join(missing_optional)}")
+
+# Check dependencies on import (before GUI starts)
+_check_and_install_dependencies()
 
 try:
     from core.config_manager import ConfigManager
@@ -56,8 +133,9 @@ try:
         from core.db.models import recover_stale_db_runs
         from core.db.postgres_connection import PostgresDB
 
-        # Check each scraper's database
+        # Check each scraper's database (always close connection to avoid resource leak)
         for scraper_name in ["Malaysia", "India", "Argentina", "Russia"]:
+            db = None
             try:
                 db = PostgresDB(scraper_name)
                 db.connect()
@@ -66,9 +144,14 @@ try:
                     count = len(db_result["resumed"]) + len(db_result["stopped"])
                     _total_recovered += count
                     print(f"[STARTUP RECOVERY] {scraper_name} DB: {len(db_result['resumed'])} resumed, {len(db_result['stopped'])} stopped")
-                db.close()
             except Exception as e:
                 print(f"[STARTUP RECOVERY] {scraper_name} DB warning: {e}")
+            finally:
+                if db is not None:
+                    try:
+                        db.close()
+                    except Exception:
+                        pass
     except ImportError:
         pass  # DB modules not available
     except Exception as e:
@@ -154,6 +237,7 @@ class ScraperGUI:
             'italic': ('Segoe UI', 9, 'italic'),
             'monospace': ('Consolas', 9),  # Only for code/console content
             'header': ('Segoe UI', 9, 'bold'),
+            'small': ('Segoe UI', 8, 'normal'),
         }
         
         # Set window background to light gray
@@ -169,6 +253,10 @@ class ScraperGUI:
         self.root.minsize(1000, 700)
         self.root.resizable(False, False)  # Disable window resizing
         
+        # Log size caps to prevent memory bloat and GUI hang after long runs (2–3+ hours)
+        self.MAX_LOG_CHARS = 1_500_000   # ~1.5 MB in-memory per scraper
+        self.MAX_DISPLAY_LOG_CHARS = 500_000  # Show last 500k in widget for responsive UI
+
         # Current scraper and step
         self.current_scraper = None
         self.current_step = None
@@ -178,14 +266,23 @@ class ScraperGUI:
         self._pipeline_lock_files = {}  # Track lock files created for pipeline runs: {scraper_name: lock_file_path}
         self._stopped_by_user = set()  # Track scrapers that were stopped by user: {scraper_name}
         self._stopping_scrapers = set()  # Track scrapers currently being stopped to prevent multiple simultaneous stop attempts
+        self._stopping_started_at = {}  # Timestamp when each scraper stop began (for 30s stale state timeout)
         self.scraper_progress = {}  # Store progress state per scraper: {scraper_name: {"percent": float, "description": str}}
         self._last_completed_logs = {}  # Store last run log content per scraper for archive/save
         self._log_stream_state = {}  # Track external log stream offsets per scraper
         self._scraper_active_state = {}  # Track lock-based run activity per scraper
-        self.telegram_process = None
-        self.telegram_log_path = None
         self._external_log_files = {}  # Track external log files for pipelines started outside GUI
-        
+        self._last_known_lock_states = {}  # Track last known lock states to detect external starts/stops
+        self._pending_table_refresh_after_id = None  # Debounce Output/Input table refreshes on scraper switch
+        self._output_async_tokens = {"tables": 0, "runs": 0, "data": 0}  # Drop stale async Output tab updates
+        self.MONITOR_COMBO_WIDTH = 14
+
+        # Auto-restart timer: stop pipeline every 20 min, pause 30s, then resume to clear cache/memory
+        self._auto_restart_timers = {}       # {scraper_name: after_id} - active Tkinter timer IDs
+        self._auto_restart_pausing = set()   # scrapers currently in the 30s pause before resume
+        self._auto_restart_resume_ids = {}   # {scraper_name: after_id} - pending resume timer IDs
+        self._auto_restart_cycle_count = {}  # {scraper_name: int} - number of restart cycles completed
+
         # Network stats tracking for rate calculation
         self._prev_net_sent = 0
         self._prev_net_recv = 0
@@ -199,7 +296,7 @@ class ScraperGUI:
 
         # Start periodic cleanup task to check for stale locks
         self.start_periodic_lock_cleanup()
-        self.start_periodic_telegram_status()
+        self.start_periodic_network_info_update()
         
         # Step explanations cache (key: script_path, value: explanation text)
         self.step_explanations = {}
@@ -207,151 +304,13 @@ class ScraperGUI:
         self.explanation_cache_file = self.repo_root / ".step_explanations_cache.json"
         self.load_explanation_cache()
         
-        # Define scrapers and their steps
-        self.scrapers = {
-            "CanadaQuebec": {
-                "path": self.repo_root / "scripts" / "CanadaQuebec",
-                "scripts_dir": "",
-                "docs_dir": None,  # All docs now in root doc/ folder
-                "steps": [
-                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
-                    {"name": "01 - Split PDF into Annexes", "script": "01_split_pdf_into_annexes.py", "desc": "Split PDF into annexes (IV.1, IV.2, V)"},
-                    {"name": "02 - Validate PDF Structure", "script": "02_validate_pdf_structure.py", "desc": "Validate PDF structure (optional)"},
-                    {"name": "03 - Extract Annexe IV.1", "script": "03_extract_annexe_iv1.py", "desc": "Extract Annexe IV.1 data"},
-                    {"name": "04 - Extract Annexe IV.2", "script": "04_extract_annexe_iv2.py", "desc": "Extract Annexe IV.2 data"},
-                    {"name": "05 - Extract Annexe V", "script": "05_extract_annexe_v.py", "desc": "Extract Annexe V data"},
-                    {"name": "06 - Merge All Annexes", "script": "06_merge_all_annexes.py", "desc": "Merge all annexe outputs into final CSV"},
-                ],
-                "pipeline_bat": "run_pipeline.bat"
-            },
-            "Malaysia": {
-                "path": self.repo_root / "scripts" / "Malaysia",
-                "scripts_dir": "",
-                "docs_dir": None,  # All docs now in root doc/ folder
-                "steps": [
-                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
-                    {"name": "01 - Product Registration Number", "script": "01_Product_Registration_Number.py", "desc": "Get drug prices from MyPriMe"},
-                    {"name": "02 - Product Details", "script": "02_Product_Details.py", "desc": "Get company/holder info from QUEST3+"},
-                    {"name": "03 - Consolidate Results", "script": "03_Consolidate_Results.py", "desc": "Standardize and clean product details"},
-                    {"name": "04 - Get Fully Reimbursable", "script": "04_Get_Fully_Reimbursable.py", "desc": "Scrape fully reimbursable drugs list"},
-                    {"name": "05 - Generate PCID Mapped", "script": "05_Generate_PCID_Mapped.py", "desc": "Generate final PCID-mapped report"},
-                ],
-                "pipeline_bat": "run_pipeline.bat"
-            },
-            "Argentina": {
-                "path": self.repo_root / "scripts" / "Argentina",
-                "scripts_dir": "",
-                "docs_dir": None,  # All docs now in root doc/ folder
-                "steps": [
-                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
-                    {"name": "01 - Get Product List", "script": "01_getProdList.py", "desc": "Extract product list for each company"},
-                    {"name": "02 - Prepare URLs", "script": "02_prepare_urls.py", "desc": "Prepare URLs and initialize scrape state"},
-                    {"name": "03 - Scrape Products (Selenium)", "script": "03_alfabeta_selenium_scraper.py", "desc": "Scrape products using Selenium"},
-                    {"name": "04 - Scrape Products (API)", "script": "04_alfabeta_api_scraper.py", "desc": "Scrape products using API to fill gaps"},
-                    {"name": "05 - Translate Using Dictionary", "script": "05_TranslateUsingDictionary.py", "desc": "Translate Spanish to English"},
-                    {"name": "06 - Generate Output", "script": "06_GenerateOutput.py", "desc": "Generate final output report"},
-                ],
-                "pipeline_bat": "run_pipeline.bat"
-            },
-            "CanadaOntario": {
-                "path": self.repo_root / "scripts" / "Canada Ontario",
-                "scripts_dir": "",
-                "docs_dir": None,  # All docs now in root doc/ folder
-                "steps": [
-                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
-                    {"name": "01 - Extract Product Details", "script": "01_extract_product_details.py", "desc": "Extract product details from Ontario Formulary"},
-                    {"name": "02 - Extract EAP Prices", "script": "02_ontario_eap_prices.py", "desc": "Extract Exceptional Access Program product prices"},
-                    {"name": "03 - Generate Final Output", "script": "03_GenerateOutput.py", "desc": "Generate final output report with standardized columns"},
-                ],
-                "pipeline_bat": "run_pipeline.bat"
-            },
-            "Netherlands": {
-                "path": self.repo_root / "scripts" / "Netherlands",
-                "scripts_dir": "",
-                "docs_dir": None,  # All docs now in root doc/ folder
-                "steps": [
-                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
-                    {"name": "01 - Collect URLs", "script": "01_collect_urls.py", "desc": "Collect product URLs from search terms"},
-                    {"name": "02 - Reimbursement Extraction", "script": "02_reimbursement_extraction.py", "desc": "Extract reimbursement data from collected URLs"},
-                ],
-                "pipeline_bat": "run_pipeline.bat"
-            },
-            "Belarus": {
-                "path": self.repo_root / "scripts" / "Belarus",
-                "scripts_dir": "",
-                "docs_dir": None,  # All docs now in root doc/ folder
-                "steps": [
-                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
-                    {"name": "01 - Extract RCETH Data", "script": "01_belarus_rceth_extract.py", "desc": "Extract drug registration and pricing data from rceth.by"},
-                ],
-                "pipeline_bat": "run_pipeline.bat"
-            },
-            "Russia": {
-                "path": self.repo_root / "scripts" / "Russia",
-                "scripts_dir": "",
-                "docs_dir": None,  # All docs now in root doc/ folder
-                "steps": [
-                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
-                    {"name": "01 - Extract VED Registry", "script": "01_russia_farmcom_scraper.py", "desc": "Extract VED drug pricing from farmcom.info/site/reestr (with page-level resume)"},
-                    {"name": "02 - Extract Excluded List", "script": "02_russia_farmcom_excluded_scraper.py", "desc": "Extract excluded drugs from farmcom.info/site/reestr?vw=excl (with page-level resume)"},
-                    {"name": "03 - Retry Failed Pages", "script": "03_retry_failed_pages.py", "desc": "Retry pages with missing EAN or extraction failures (MANDATORY before translation)"},
-                    {"name": "04 - Process and Translate", "script": "04_process_and_translate.py", "desc": "Process raw data, translate Russian text to English using dictionary and AI"},
-                    {"name": "05 - Format for Export", "script": "05_format_for_export.py", "desc": "Format translated data into final export template"},
-                ],
-                "pipeline_bat": "run_pipeline.bat"
-            },
-            "Taiwan": {
-                "path": self.repo_root / "scripts" / "Taiwan",
-                "scripts_dir": "",
-                "docs_dir": None,  # All docs now in root doc/ folder
-                "steps": [
-                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
-                    {"name": "01 - Collect Drug Code URLs", "script": "01_taiwan_collect_drug_code_urls.py.py", "desc": "Collect drug code URLs from NHI site"},
-                    {"name": "02 - Extract Drug Code Details", "script": "02_taiwan_extract_drug_code_details.py", "desc": "Extract license details for each drug code"},
-                ],
-                "pipeline_bat": "run_pipeline.bat"
-            },
-            "NorthMacedonia": {
-                "path": self.repo_root / "scripts" / "North Macedonia",
-                "scripts_dir": "",
-                "docs_dir": None,  # All docs now in root doc/ folder
-                "steps": [
-                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
-                    {"name": "01 - Collect Detail URLs", "script": "01_collect_urls.py", "desc": "Collect detail URLs across overview pages"},
-                    {"name": "02 - Scrape Detail Pages", "script": "02_scrape_details.py", "desc": "Scrape drug register detail data from collected URLs"},
-                    {"name": "03 - Scrape Max Prices", "script": "03_scrape_zdravstvo.py", "desc": "Scrape max prices and effective dates from Zdravstvo"},
-                ],
-                "pipeline_bat": "run_pipeline.bat"
-            },
-            "Tender_Chile": {
-                "path": self.repo_root / "scripts" / "Tender- Chile",
-                "scripts_dir": "",
-                "docs_dir": None,  # All docs now in root doc/ folder
-                "steps": [
-                    {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
-                    {"name": "01 - Get Redirect URLs", "script": "01_get_redirect_urls.py", "desc": "Get redirect URLs with qs parameters from tender list"},
-                    {"name": "02 - Extract Tender Details", "script": "02_extract_tender_details.py", "desc": "Extract tender and lot details from MercadoPublico"},
-                    {"name": "03 - Extract Tender Awards", "script": "03_extract_tender_awards.py", "desc": "Extract bidder-level award data from award pages"},
-                    {"name": "04 - Merge Final CSV", "script": "04_merge_final_csv.py", "desc": "Merge all outputs into final EVERSANA-format CSV"},
-                ],
-                "pipeline_bat": "run_pipeline.bat"
-            },
-            "India": {
-                "path": self.repo_root / "scripts" / "India",
-                "scripts_dir": "",
-                "docs_dir": None,  # All docs now in root doc/ folder
-                "steps": [
-                    {"name": "01 - Scrape to PostgreSQL", "script": "run_scrapy_india.py", "desc": "Parallel Scrapy workers scrape medicine details into PostgreSQL (work-queue)"},
-                    {"name": "02 - QC + CSV Export", "script": "05_qc_and_export.py", "desc": "Quality gate checks and export latest run from PostgreSQL to CSV"},
-                ],
-                "pipeline_script": "run_pipeline_scrapy.py",
-                "resume_options": {
-                    "supports_formulation_resume": True,
-                    "checkpoint_dir": ".checkpoints",
-                    "resume_script_args": ["--resume-details"]
-                }
-            }
-        }
+        # API server state
+        self._api_server_thread = None
+        self._api_server_running = False
+        self._api_server_port = 8099
+
+        # Build scrapers from shared registry (single source of truth for GUI + API)
+        self.scrapers = self._build_scrapers_from_registry()
 
         self.health_check_scripts = self._discover_health_check_scripts()
         self.health_check_json_path = None
@@ -364,6 +323,35 @@ class ScraperGUI:
         # Install dependencies and show progress in GUI console
         self.root.after(200, self.install_dependencies_in_gui)
     
+    def _build_scrapers_from_registry(self):
+        """Build self.scrapers dict from the shared scraper_registry.
+
+        The registry (scripts/common/scraper_registry.py) is the single source of truth
+        used by both this GUI and the FastAPI api_server.py.
+        """
+        try:
+            from scripts.common.scraper_registry import SCRAPER_CONFIGS
+        except ImportError:
+            print("[GUI] WARNING: Could not import scraper_registry, falling back to empty config")
+            return {}
+
+        scrapers = {}
+        for key, cfg in SCRAPER_CONFIGS.items():
+            entry = {
+                "path": self.repo_root / cfg["path"],
+                "scripts_dir": "",
+                "docs_dir": None,
+                "steps": list(cfg["steps"]),  # shallow copy
+                "pipeline_bat": cfg.get("pipeline_bat", "run_pipeline.bat"),
+            }
+            # Preserve optional keys that some scrapers use
+            if "pipeline_script" in cfg:
+                entry["pipeline_script"] = cfg["pipeline_script"]
+            if "resume_options" in cfg:
+                entry["resume_options"] = cfg["resume_options"]
+            scrapers[key] = entry
+        return scrapers
+
     def setup_styles(self):
         """Configure professional ttk styles with gray, white, black, and yellow color scheme"""
         style = ttk.Style()
@@ -631,6 +619,62 @@ class ScraperGUI:
                               pady=8,
                               padx=15)
         title_label.pack(side=tk.LEFT)
+        
+        # Auto-restart status icon in top right (always ON)
+        auto_restart_frame = tk.Frame(header_frame, bg=self.colors['dark_gray'])
+        auto_restart_frame.pack(side=tk.RIGHT, padx=15, pady=8)
+        
+        # Auto-restart icon and label (always ON - no toggle)
+        self.auto_restart_icon_label = tk.Label(
+            auto_restart_frame,
+            text="🔄",  # Refresh/reload icon
+            bg=self.colors['dark_gray'],
+            fg=self.colors['console_yellow'],
+            font=('Segoe UI', 14, 'normal'),
+            cursor="hand2"
+        )
+        self.auto_restart_icon_label.pack(side=tk.LEFT, padx=(0, 5))
+        self.auto_restart_icon_label.bind("<Button-1>", lambda e: self._toggle_auto_restart_from_header())
+
+        # Auto-restart status text
+        self.auto_restart_status_label = tk.Label(
+            auto_restart_frame,
+            text="Auto-restart: ON (20 min)",
+            bg=self.colors['dark_gray'],
+            fg=self.colors['white'],
+            font=self.fonts['small'],
+            cursor="hand2"
+        )
+        self.auto_restart_status_label.pack(side=tk.LEFT)
+        self.auto_restart_status_label.bind("<Button-1>", lambda e: self._toggle_auto_restart_from_header())
+        
+        # Telegram Bot Link next to auto-restart
+        telegram_link = tk.Label(
+            auto_restart_frame,
+            text="📱 Telegram Bot",
+            bg=self.colors['dark_gray'],
+            fg='#10b981',  # Emerald green color
+            font=self.fonts['small'],
+            cursor='hand2'
+        )
+        telegram_link.pack(side=tk.LEFT, padx=(15, 0))
+        
+        # Bind click to open Telegram bot
+        telegram_link.bind("<Button-1>", lambda e: self._open_telegram_bot())
+
+        # API Server toggle
+        self.api_toggle_label = tk.Label(
+            auto_restart_frame,
+            text="API: OFF",
+            bg=self.colors['dark_gray'],
+            fg=self.colors['light_gray'],
+            font=self.fonts['small'],
+            cursor='hand2'
+        )
+        self.api_toggle_label.pack(side=tk.LEFT, padx=(15, 0))
+        self.api_toggle_label.bind("<Button-1>", lambda e: self._toggle_api_server())
+
+        # Note: Icon state will be updated after all UI setup is complete
 
         # Create ticker tape frame - positioned below header
         ticker_frame = tk.Frame(self.root, bg=self.colors['medium_gray'], height=30)
@@ -677,20 +721,22 @@ class ScraperGUI:
         self.main_notebook.add(config_frame, text="Configuration")
         self.setup_config_tab(config_frame)
 
-        # Health Check page (manual diagnostics)
-        health_check_frame = ttk.Frame(self.main_notebook)
-        self.main_notebook.add(health_check_frame, text="Health Check")
-        self.setup_health_check_tab(health_check_frame)
-
-        # Pipeline page
-        pipeline_steps_frame = ttk.Frame(self.main_notebook)
-        self.main_notebook.add(pipeline_steps_frame, text="Pipeline")
-        self.setup_pipeline_steps_tab(pipeline_steps_frame)
-
         # Documentation page
         documentation_frame = ttk.Frame(self.main_notebook)
         self.main_notebook.add(documentation_frame, text="Documentation")
         self.setup_documentation_tab(documentation_frame)
+
+        # Monitoring page (Pipeline, Health Check, Run Metrics, Prometheus, Proxy Pool, Frontier Queue, Geo Router, Selector Healer)
+        monitoring_frame = ttk.Frame(self.main_notebook)
+        self.main_notebook.add(monitoring_frame, text="Monitoring")
+        self.setup_monitoring_tab(monitoring_frame)
+        
+        # Initialize auto-restart header icon state (after all UI is set up)
+        # Use after() to ensure this runs after the method is fully defined
+        self.root.after(100, self._initialize_auto_restart_icon)
+        
+        # Initialize Prometheus metrics server (if available)
+        self.root.after(200, self._init_prometheus_server)
 
     def _discover_health_check_scripts(self) -> dict[str, Path]:
         """Locate health_check scripts for enabled scrapers."""
@@ -768,13 +814,22 @@ class ScraperGUI:
         scraper_combo = ttk.Combobox(scraper_section, textvariable=self.scraper_var, 
                                      values=list(self.scrapers.keys()), state="readonly",
                                      style='Modern.TCombobox')
-        scraper_combo.pack(fill=tk.X, expand=True, padx=8, pady=(0, 6))
+        scraper_combo.pack(fill=tk.X, expand=True, padx=8, pady=(0, 3))
         scraper_combo.bind("<<ComboboxSelected>>", self.on_scraper_selected)
         # Ensure UI state updates even on programmatic changes
         try:
             self.scraper_var.trace_add("write", lambda *_: self.refresh_run_button_state())
         except Exception:
             pass
+        
+        # Network info label - shows Tor/VPN/Direct and IP
+        self.network_info_label = tk.Label(scraper_section, 
+                                          text="Network: Select a scraper",
+                                          bg=self.colors['white'],
+                                          fg='#666666',
+                                          font=self.fonts['small'],
+                                          anchor=tk.W)
+        self.network_info_label.pack(fill=tk.X, padx=8, pady=(0, 6))
 
         # Pipeline control - light gray border
         pipeline_section = tk.Frame(parent, bg=self.colors['white'],
@@ -815,6 +870,17 @@ class ScraperGUI:
                                          font=self.fonts['standard'],
                                          anchor=tk.W)
         self.chrome_count_label.pack(fill=tk.X, pady=(0, 3), padx=0)
+
+        # Timeline status label (Line 4)
+        self.timeline_status_label = tk.Label(
+            status_frame,
+            text="Timeline: Not checked",
+            bg=self.colors['white'],
+            fg='#000000',
+            font=self.fonts['standard'],
+            anchor=tk.W
+        )
+        self.timeline_status_label.pack(fill=tk.X, pady=(0, 3), padx=0)
 
         # Checkpoint tools
         checkpoint_tools = tk.Frame(pipeline_section, bg=self.colors['white'])
@@ -866,67 +932,27 @@ class ScraperGUI:
         
         self.kill_all_chrome_button = ttk.Button(actions_section, text="Kill All Chrome Instances",
                   command=self.kill_all_chrome_instances, width=23, state=tk.NORMAL, style='Secondary.TButton')
-        self.kill_all_chrome_button.pack(pady=(0, 6), padx=8, fill=tk.X, expand=True)
+        self.kill_all_chrome_button.pack(pady=(0, 3), padx=8, fill=tk.X, expand=True)
 
-        # Telegram bot control - light gray border
-        telegram_section = tk.Frame(parent, bg=self.colors['white'],
-                                    highlightbackground=self.colors['border_gray'],
-                                    highlightthickness=1)
-        telegram_section.pack(fill=tk.X, padx=8, pady=(0, 6))
+        # Run Validation Table button (shows detailed progress for current scraper)
+        self.validation_table_button = ttk.Button(actions_section, text="Run Validation Table",
+                  command=self.show_validation_table, width=23, state=tk.NORMAL, style='Secondary.TButton')
+        self.validation_table_button.pack(pady=(0, 6), padx=8, fill=tk.X, expand=True)
 
-        # Header frame with title and status icon
-        telegram_header_frame = tk.Frame(telegram_section, bg=self.colors['white'])
-        telegram_header_frame.pack(fill=tk.X, padx=8, pady=(6, 3))
-
-        tk.Label(telegram_header_frame, text="Telegram Bot", bg=self.colors['white'], fg='#000000',
-                font=self.fonts['bold']).pack(side=tk.LEFT)
-
-        # Status icon (circle indicator)
-        self.telegram_status_icon = tk.Label(
-            telegram_header_frame,
-            text="○",
-            bg=self.colors['white'],
-            fg='#cccccc',
-            font=self.fonts['bold']
-        )
-        self.telegram_status_icon.pack(side=tk.RIGHT)
-
-        telegram_status_frame = tk.Frame(telegram_section, bg=self.colors['white'])
-        telegram_status_frame.pack(fill=tk.X, padx=8, pady=(0, 6))
-
-        # Status label with PID info
-        self.telegram_status_label = tk.Label(telegram_status_frame,
-                                              text="Status: Stopped",
-                                              bg=self.colors['white'],
-                                              fg='#666666',
-                                              font=self.fonts['standard'],
-                                              anchor=tk.W)
-        self.telegram_status_label.pack(fill=tk.X, pady=(0, 3), padx=0)
-
-        # Log file label
-        self.telegram_log_label = tk.Label(telegram_status_frame,
-                                           text="Log: (none)",
-                                           bg=self.colors['white'],
-                                           fg='#666666',
-                                           font=self.fonts['standard'],
-                                           anchor=tk.W)
-        self.telegram_log_label.pack(fill=tk.X, pady=(0, 6), padx=0)
-
-        # Single toggle button for Start/Stop
-        self.telegram_toggle_button = ttk.Button(
-            telegram_section, 
-            text="▶ Start Bot",
-            command=self.on_telegram_toggle,
+        # Detailed run/state timeline viewer (API-backed with local fallback)
+        self.timeline_view_button = ttk.Button(
+            actions_section,
+            text="View State Timeline",
+            command=self.show_state_timeline,
             width=23,
+            state=tk.NORMAL,
             style='Secondary.TButton'
         )
-        self.telegram_toggle_button.pack(pady=(0, 6), padx=8, fill=tk.X, expand=True)
-        
-        # Store toggle state
-        self.telegram_toggle_var = tk.BooleanVar(value=False)
-        self._telegram_toggle_lock = False
-        
-        self.refresh_telegram_status()
+        self.timeline_view_button.pack(pady=(0, 6), padx=8, fill=tk.X, expand=True)
+
+        # Auto-restart is always ON - no toggle needed
+        # The auto-restart feature runs automatically every 20 minutes to clear cache/memory
+        self._auto_restart_enabled = tk.BooleanVar(value=True)  # Always True
 
     def _get_selected_scraper_for_data_reset(self) -> Optional[str]:
         """Return the scraper name for data reset actions."""
@@ -998,7 +1024,7 @@ class ScraperGUI:
             self.clear_step_button.config(state=tk.DISABLED)
             self.clear_downstream_check.state(["disabled"])
     
-    def setup_pipeline_steps_tab(self, parent):
+    def setup_pipeline_steps_tab(self, parent, compact: bool = False):
         """Setup Pipeline Steps tab with step list, info, and explanation"""
         selector_frame = tk.Frame(parent, bg=self.colors['white'])
         selector_frame.pack(fill=tk.X, padx=8, pady=(8, 0))
@@ -1014,9 +1040,12 @@ class ScraperGUI:
             values=list(self.scrapers.keys()),
             state="readonly",
             style='Modern.TCombobox',
-            width=26
+            width=(self.MONITOR_COMBO_WIDTH if compact else 26)
         )
-        self.pipeline_steps_combo.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        if compact:
+            self.pipeline_steps_combo.pack(side=tk.LEFT, padx=(0, 0))
+        else:
+            self.pipeline_steps_combo.pack(side=tk.LEFT, fill=tk.X, expand=True)
         self.pipeline_steps_combo.bind("<<ComboboxSelected>>", self.on_pipeline_steps_scraper_selected)
         if self.scrapers:
             first_scraper = next(iter(self.scrapers))
@@ -1075,7 +1104,12 @@ class ScraperGUI:
                                          command=self.explain_step, 
                                          state=tk.NORMAL,
                                          style='Primary.TButton')
-        self.explain_button.pack(side=tk.LEFT, padx=0, pady=0)
+        self.explain_button.pack(side=tk.LEFT, padx=(0, 8), pady=0)
+        
+        ttk.Button(button_container, 
+                   text="Refresh Status",
+                   command=lambda: self.refresh_pipeline_steps_list(self.pipeline_steps_scraper_var.get()),
+                   style='Secondary.TButton').pack(side=tk.LEFT, padx=0, pady=0)
 
         # Explanation panel - with light gray border
         self.exec_controls_parent = parent
@@ -1123,8 +1157,40 @@ class ScraperGUI:
 
         self.pipeline_steps_scraper_var.set(scraper_name)
         self.steps_listbox.delete(0, tk.END)
-        for step in scraper_info["steps"]:
-            self.steps_listbox.insert(tk.END, step["name"])
+        
+        # Get status from DB for Netherlands and NorthMacedonia
+        statuses = {}
+        if scraper_name in ["Netherlands", "NorthMacedonia"]:
+            try:
+                from core.db.postgres_connection import get_db
+                db = get_db(scraper_name)
+
+                # Determine table prefix
+                prefix = "nl_" if scraper_name == "Netherlands" else "nm_"
+
+                with db.cursor() as cur:
+                    # Get latest run with progress
+                    cur.execute(f"SELECT run_id FROM {prefix}step_progress ORDER BY id DESC LIMIT 1")
+                    run_id_row = cur.fetchone()
+                    if run_id_row:
+                        run_id = run_id_row[0]
+                        cur.execute(f"SELECT step_number, status FROM {prefix}step_progress WHERE run_id = %s", (run_id,))
+                        statuses = {row[0]: row[1] for row in cur.fetchall()}
+            except Exception:
+                pass
+
+        for i, step in enumerate(scraper_info["steps"]):
+            name = step["name"]
+            if scraper_name in ["Netherlands", "NorthMacedonia"] and i in statuses:
+                status = statuses[i]
+                icon = "○"
+                if status == 'completed': icon = "✓"
+                elif status == 'failed': icon = "✗"
+                elif status == 'in_progress': icon = "↻"
+                elif status == 'skipped': icon = "→"
+                name = f"[{icon}] {name}"
+            self.steps_listbox.insert(tk.END, name)
+            
         self.current_step = None
         self.reset_step_info_text()
 
@@ -1172,10 +1238,13 @@ class ScraperGUI:
             textvariable=self.health_check_scraper_var,
             values=values,
             state="readonly",
+            width=self.MONITOR_COMBO_WIDTH,
             style='Modern.TCombobox'
         )
-        self.health_check_combo.grid(row=0, column=1, sticky=tk.EW, pady=4)
-        controls_frame.columnconfigure(1, weight=1)
+        self.health_check_combo.grid(row=0, column=1, sticky=tk.W, pady=4)
+        controls_frame.columnconfigure(1, weight=0)
+        if values:
+            self.health_check_scraper_var.set(values[0])
 
         self.health_check_status_var = tk.StringVar(value="Select a scraper above and press Run Health Check.")
         tk.Label(
@@ -1297,7 +1366,9 @@ class ScraperGUI:
         self.root.after(0, update)
 
         if "[HEALTH CHECK] JSON summary saved:" in message:
-            path = message.split(":", 1)[1].strip()
+            # Path may contain ":" (e.g. Windows C:\...), so take text after "JSON summary saved: "
+            prefix = "[HEALTH CHECK] JSON summary saved: "
+            path = message[message.find(prefix) + len(prefix):].strip()
             try:
                 self.health_check_json_path = Path(path)
             except Exception:
@@ -1373,6 +1444,11 @@ class ScraperGUI:
             config_frame = ttk.Frame(notebook)
             notebook.add(config_frame, text="Configuration")
             self.setup_config_tab(config_frame)
+
+        # Input Data tab
+        input_frame = ttk.Frame(notebook)
+        notebook.add(input_frame, text="Input Data")
+        self.setup_input_management_tab(input_frame)
 
         # Output Files tab
         if include_output:
@@ -1456,8 +1532,1137 @@ class ScraperGUI:
         self.doc_text.tag_configure("list", lmargin1=20, lmargin2=40, font=self.fonts['standard'])
         self.doc_text.tag_configure("list_item", lmargin1=20, lmargin2=40, font=self.fonts['standard'],
                                     spacing1=4, spacing3=4)
-        
-        
+    
+    # ==================================================================
+    # RUN METRICS TAB
+    # ==================================================================
+
+    def setup_run_metrics_tab(self, parent):
+        """Setup Run Metrics tab to view network consumption and execution time."""
+        # Header
+        header = ttk.LabelFrame(parent, text="Run Metrics (Network & Time)", padding=10, style='Title.TLabelframe')
+        header.pack(fill=tk.X, padx=8, pady=(8, 4))
+
+        # Controls frame
+        controls = tk.Frame(header, bg=self.colors['white'])
+        controls.pack(fill=tk.X)
+
+        # Scraper selector
+        tk.Label(controls, text="Scraper:", bg=self.colors['white'], fg='#000000',
+                 font=self.fonts['standard']).pack(side=tk.LEFT, padx=(0, 5))
+
+        self.metrics_scraper_var = tk.StringVar()
+        self.metrics_scraper_combo = ttk.Combobox(controls, textvariable=self.metrics_scraper_var,
+                                                   state="readonly", width=self.MONITOR_COMBO_WIDTH, style='Modern.TCombobox')
+        self.metrics_scraper_combo['values'] = ["All"] + list(self.scrapers.keys())
+        self.metrics_scraper_combo.pack(side=tk.LEFT, padx=5)
+        self.metrics_scraper_combo.set("All")
+        self.metrics_scraper_combo.bind("<<ComboboxSelected>>", self.on_metrics_scraper_changed)
+
+        # Refresh button
+        ttk.Button(controls, text="Refresh", command=self.load_run_metrics,
+                  style='Secondary.TButton').pack(side=tk.LEFT, padx=5)
+
+        # Export button
+        ttk.Button(controls, text="Export CSV", command=self.export_run_metrics,
+                  style='Secondary.TButton').pack(side=tk.LEFT, padx=5)
+
+        # Summary frame
+        summary_frame = ttk.LabelFrame(parent, text="Summary", padding=10, style='Title.TLabelframe')
+        summary_frame.pack(fill=tk.X, padx=8, pady=(4, 4))
+
+        self.metrics_summary_text = tk.Text(summary_frame, height=6, wrap=tk.WORD,
+                                           font=self.fonts['standard'],
+                                           bg=self.colors['white'],
+                                           fg='#000000',
+                                           state=tk.DISABLED,
+                                           borderwidth=0,
+                                           relief='flat',
+                                           highlightthickness=0)
+        self.metrics_summary_text.pack(fill=tk.X, expand=True)
+
+        # Treeview frame
+        tree_frame = ttk.LabelFrame(parent, text="Run History", padding=5, style='Title.TLabelframe')
+        tree_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(4, 8))
+
+        # Create treeview with scrollbars
+        tree_container = tk.Frame(tree_frame, bg=self.colors['white'])
+        tree_container.pack(fill=tk.BOTH, expand=True)
+
+        # Scrollbars
+        vsb = ttk.Scrollbar(tree_container, orient="vertical")
+        hsb = ttk.Scrollbar(tree_container, orient="horizontal")
+
+        # Treeview columns
+        columns = ('run_id', 'scraper', 'status', 'duration', 'network', 'started')
+        self.metrics_tree = ttk.Treeview(tree_container, columns=columns, show='headings',
+                                         yscrollcommand=vsb.set, xscrollcommand=hsb.set,
+                                         height=15)
+
+        vsb.config(command=self.metrics_tree.yview)
+        hsb.config(command=self.metrics_tree.xview)
+
+        # Define column headings
+        self.metrics_tree.heading('run_id', text='Run ID')
+        self.metrics_tree.heading('scraper', text='Scraper')
+        self.metrics_tree.heading('status', text='Status')
+        self.metrics_tree.heading('duration', text='Duration')
+        self.metrics_tree.heading('network', text='Network (GB)')
+        self.metrics_tree.heading('started', text='Started At')
+
+        # Define column widths
+        self.metrics_tree.column('run_id', width=250, minwidth=150)
+        self.metrics_tree.column('scraper', width=100, minwidth=80)
+        self.metrics_tree.column('status', width=80, minwidth=60)
+        self.metrics_tree.column('duration', width=100, minwidth=80)
+        self.metrics_tree.column('network', width=100, minwidth=80)
+        self.metrics_tree.column('started', width=180, minwidth=150)
+
+        # Grid layout
+        self.metrics_tree.grid(row=0, column=0, sticky='nsew')
+        vsb.grid(row=0, column=1, sticky='ns')
+        hsb.grid(row=1, column=0, sticky='ew')
+
+        tree_container.grid_rowconfigure(0, weight=1)
+        tree_container.grid_columnconfigure(0, weight=1)
+
+        # Bind double-click to show details
+        self.metrics_tree.bind('<Double-1>', self.on_metrics_item_double_click)
+
+        # Status bar
+        self.metrics_status_var = tk.StringVar(value="Ready")
+        status_label = tk.Label(parent, textvariable=self.metrics_status_var,
+                               bg=self.colors['white'], fg='#666666',
+                               font=self.fonts['small'], anchor='w')
+        status_label.pack(fill=tk.X, padx=8, pady=(0, 4))
+
+        # Load initial data
+        self.load_run_metrics()
+
+    def on_metrics_scraper_changed(self, event=None):
+        """Handle scraper selection change in metrics tab."""
+        self.load_run_metrics()
+
+    def load_run_metrics(self):
+        """Load and display run metrics."""
+        try:
+            from core.run_metrics_tracker import RunMetricsTracker
+        except ImportError:
+            self.metrics_status_var.set("Error: Run metrics tracker not available")
+            return
+
+        scraper_filter = self.metrics_scraper_var.get()
+        if scraper_filter == "All":
+            scraper_filter = None
+
+        token = self._next_monitor_async_token("run_metrics")
+        self.metrics_status_var.set("Loading run metrics...")
+
+        def worker():
+            try:
+                tracker = RunMetricsTracker()
+                metrics_list = tracker.list_metrics(scraper_name=scraper_filter, limit=100)
+                summary = tracker.get_summary(scraper_name=scraper_filter)
+                rows = []
+                for m in metrics_list:
+                    rows.append((
+                        m.run_id,
+                        m.scraper_name,
+                        m.status,
+                        self._format_duration(m.active_duration_seconds),
+                        f"{m.network_total_gb:.4f}",
+                        m.started_at[:19] if m.started_at else "N/A",
+                    ))
+                return {"rows": rows, "summary": summary, "count": len(metrics_list)}
+            except Exception as exc:
+                return {"error": f"Failed to load run metrics: {exc}"}
+
+        def apply(payload):
+            if not self._is_monitor_async_token_current("run_metrics", token):
+                return
+            if payload.get("error"):
+                self.metrics_status_var.set(payload["error"])
+                return
+
+            for item in self.metrics_tree.get_children():
+                self.metrics_tree.delete(item)
+            for row in payload.get("rows", []):
+                self.metrics_tree.insert('', 'end', values=row)
+
+            summary = payload.get("summary", {})
+            COST_PER_GB = 5.0
+            total_network_gb = float(summary.get("total_network_gb", 0.0))
+            total_cost = total_network_gb * COST_PER_GB
+
+            summary_text = (
+                f"Total Runs: {summary.get('total_runs', 0)} | "
+                f"Total Duration: {self._format_duration(float(summary.get('total_duration_seconds', 0.0)))} | "
+                f"Total Network: {total_network_gb:.4f} GB | "
+                f"Avg Duration: {self._format_duration(float(summary.get('avg_duration_seconds', 0.0)))} | "
+                f"Avg Network: {float(summary.get('avg_network_gb', 0.0)):.4f} GB\n\n"
+                f"{'='*60}\n"
+                f"TOTAL NETWORK CONSUMED: {total_network_gb:.4f} GB\n"
+                f"ESTIMATED COST (@ ${COST_PER_GB}/GB): ${total_cost:.2f}\n"
+                f"{'='*60}"
+            )
+
+            self.metrics_summary_text.config(state=tk.NORMAL)
+            self.metrics_summary_text.delete('1.0', tk.END)
+            self.metrics_summary_text.insert('1.0', summary_text)
+            self.metrics_summary_text.config(state=tk.DISABLED)
+            self.metrics_status_var.set(f"Loaded {payload.get('count', 0)} runs | Total Cost: ${total_cost:.2f}")
+
+        def run_async():
+            payload = worker()
+            self.root.after(0, lambda: apply(payload))
+
+        threading.Thread(target=run_async, daemon=True).start()
+
+    def _format_duration(self, seconds):
+        """Format duration in human-readable format."""
+        if seconds < 60:
+            return f"{seconds:.1f}s"
+        elif seconds < 3600:
+            minutes = seconds / 60
+            return f"{minutes:.1f}m"
+        else:
+            hours = seconds / 3600
+            return f"{hours:.2f}h"
+
+    def on_metrics_item_double_click(self, event):
+        """Handle double-click on metrics item - show details."""
+        selection = self.metrics_tree.selection()
+        if not selection:
+            return
+
+        item = selection[0]
+        values = self.metrics_tree.item(item, 'values')
+        run_id = values[0]
+
+        try:
+            from core.run_metrics_tracker import RunMetricsTracker
+            tracker = RunMetricsTracker()
+            metrics = tracker.get_metrics(run_id)
+
+            if metrics:
+                # Calculate cost for this run
+                COST_PER_GB = 5.0
+                run_cost = metrics.network_total_gb * COST_PER_GB
+                
+                # Show details in message box
+                details = (f"Run ID: {metrics.run_id}\n"
+                          f"Scraper: {metrics.scraper_name}\n"
+                          f"Status: {metrics.status}\n\n"
+                          f"Active Duration: {self._format_duration(metrics.active_duration_seconds)}\n"
+                          f"Network Sent: {metrics.network_sent_mb:.2f} MB\n"
+                          f"Network Received: {metrics.network_received_mb:.2f} MB\n"
+                          f"Network Total: {metrics.network_total_gb:.4f} GB\n"
+                          f"Estimated Cost: ${run_cost:.2f} (@ ${COST_PER_GB}/GB)\n\n"
+                          f"Started: {metrics.started_at}\n"
+                          f"Ended: {metrics.ended_at or 'N/A'}")
+
+                messagebox.showinfo("Run Details", details)
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to load run details: {e}")
+
+    def export_run_metrics(self):
+        """Export run metrics to CSV file."""
+        try:
+            from core.run_metrics_tracker import RunMetricsTracker
+            import csv
+        except ImportError:
+            messagebox.showerror("Error", "Run metrics tracker not available")
+            return
+
+        # Ask for file path
+        file_path = filedialog.asksaveasfilename(
+            defaultextension=".csv",
+            filetypes=[("CSV files", "*.csv"), ("All files", "*.*")],
+            title="Export Run Metrics"
+        )
+
+        if not file_path:
+            return
+
+        try:
+            tracker = RunMetricsTracker()
+            scraper_filter = self.metrics_scraper_var.get()
+            if scraper_filter == "All":
+                scraper_filter = None
+
+            metrics_list = tracker.list_metrics(scraper_name=scraper_filter, limit=10000)
+
+            with open(file_path, 'w', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                writer.writerow([
+                    'run_id', 'scraper_name', 'status', 'started_at', 'ended_at',
+                    'active_duration_seconds', 'active_duration_minutes',
+                    'network_sent_bytes', 'network_received_bytes',
+                    'network_total_gb', 'network_sent_mb', 'network_received_mb'
+                ])
+
+                for m in metrics_list:
+                    writer.writerow([
+                        m.run_id,
+                        m.scraper_name,
+                        m.status,
+                        m.started_at,
+                        m.ended_at,
+                        m.active_duration_seconds,
+                        round(m.active_duration_seconds / 60, 2),
+                        m.network_sent_bytes,
+                        m.network_received_bytes,
+                        round(m.network_total_gb, 6),
+                        round(m.network_sent_mb, 2),
+                        round(m.network_received_mb, 2),
+                    ])
+
+            self.metrics_status_var.set(f"Exported {len(metrics_list)} runs to {file_path}")
+            messagebox.showinfo("Export Complete", f"Exported {len(metrics_list)} runs to:\n{file_path}")
+        except Exception as e:
+            messagebox.showerror("Export Error", f"Failed to export: {e}")
+
+    # MONITORING TAB
+    # ==================================================================
+
+    def setup_monitoring_tab(self, parent):
+        """Setup Monitoring tab with Pipeline, Health Check, Run Metrics, Prometheus, Proxy Pool, Frontier Queue, Geo Router, and Selector Healer."""
+        # Create notebook for sub-tabs
+        monitoring_notebook = ttk.Notebook(parent)
+        monitoring_notebook.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
+
+        # Pipeline sub-tab
+        pipeline_steps_frame = ttk.Frame(monitoring_notebook)
+        monitoring_notebook.add(pipeline_steps_frame, text="Pipeline")
+        self.setup_pipeline_steps_tab(pipeline_steps_frame, compact=True)
+
+        # Health Check sub-tab
+        health_check_frame = ttk.Frame(monitoring_notebook)
+        monitoring_notebook.add(health_check_frame, text="Health Check")
+        self.setup_health_check_tab(health_check_frame)
+
+        # Run Metrics sub-tab
+        run_metrics_frame = ttk.Frame(monitoring_notebook)
+        monitoring_notebook.add(run_metrics_frame, text="Run Metrics")
+        self.setup_run_metrics_tab(run_metrics_frame)
+
+        # Prometheus Metrics sub-tab
+        prometheus_frame = ttk.Frame(monitoring_notebook)
+        monitoring_notebook.add(prometheus_frame, text="Prometheus Metrics")
+        self.setup_prometheus_tab(prometheus_frame)
+
+        # Proxy Pool sub-tab
+        proxy_frame = ttk.Frame(monitoring_notebook)
+        monitoring_notebook.add(proxy_frame, text="Proxy Pool")
+        self.setup_proxy_pool_tab(proxy_frame)
+
+        # Frontier Queue sub-tab
+        frontier_frame = ttk.Frame(monitoring_notebook)
+        monitoring_notebook.add(frontier_frame, text="Frontier Queue")
+        self.setup_frontier_queue_tab(frontier_frame)
+
+        # Geo Router sub-tab
+        geo_frame = ttk.Frame(monitoring_notebook)
+        monitoring_notebook.add(geo_frame, text="Geo Router")
+        self.setup_geo_router_tab(geo_frame)
+
+        # Selector Healer sub-tab
+        healer_frame = ttk.Frame(monitoring_notebook)
+        monitoring_notebook.add(healer_frame, text="Selector Healer")
+        self.setup_selector_healer_tab(healer_frame)
+
+    def setup_prometheus_tab(self, parent):
+        """Setup Prometheus metrics display."""
+        # Header
+        header = ttk.LabelFrame(parent, text="Prometheus Metrics", padding=10, style='Title.TLabelframe')
+        header.pack(fill=tk.X, padx=8, pady=(8, 4))
+
+        # Controls
+        controls = tk.Frame(header, bg=self.colors['white'])
+        controls.pack(fill=tk.X)
+
+        scraper_label = tk.Label(
+            controls,
+            text="Scraper:",
+            bg=self.colors['white'],
+            fg='#000000',
+            font=self.fonts['standard'],
+        )
+
+        self.prometheus_scraper_var = tk.StringVar()
+        self.prometheus_scraper_combo = ttk.Combobox(
+            controls,
+            textvariable=self.prometheus_scraper_var,
+            state="readonly",
+            width=self.MONITOR_COMBO_WIDTH,
+            style='Modern.TCombobox',
+        )
+        self.prometheus_scraper_combo['values'] = ["All"] + list(self.scrapers.keys())
+        self.prometheus_scraper_combo.set("All")
+        self.prometheus_scraper_combo.bind("<<ComboboxSelected>>", self.on_prometheus_scraper_changed)
+
+        refresh_btn = ttk.Button(
+            controls,
+            text="Refresh",
+            command=self.load_prometheus_metrics,
+            style='Secondary.TButton',
+        )
+
+        open_endpoint_btn = ttk.Button(
+            controls,
+            text="Open Metrics Endpoint",
+            command=self.open_prometheus_endpoint,
+            style='Secondary.TButton',
+        )
+
+        start_server_btn = ttk.Button(
+            controls,
+            text="Start Server",
+            command=self.start_prometheus_server,
+            style='Secondary.TButton',
+        )
+
+        # Status
+        self.prometheus_status_var = tk.StringVar(value="Ready")
+        status_label = tk.Label(
+            controls,
+            textvariable=self.prometheus_status_var,
+            bg=self.colors['white'],
+            fg='#666666',
+            font=self.fonts['small'],
+            anchor='w',
+            justify=tk.LEFT,
+            wraplength=420,
+        )
+
+        def apply_controls_layout(compact: bool):
+            for w in (scraper_label, self.prometheus_scraper_combo, refresh_btn, open_endpoint_btn, start_server_btn, status_label):
+                w.grid_forget()
+            for col in range(6):
+                controls.grid_columnconfigure(col, weight=0)
+
+            if compact:
+                scraper_label.grid(row=0, column=0, sticky='w', padx=(0, 5), pady=(0, 4))
+                self.prometheus_scraper_combo.grid(row=0, column=1, sticky='w', padx=5, pady=(0, 4))
+                refresh_btn.grid(row=0, column=2, sticky='w', padx=5, pady=(0, 4))
+                open_endpoint_btn.grid(row=1, column=0, sticky='w', padx=(0, 5))
+                start_server_btn.grid(row=1, column=1, sticky='w', padx=5)
+                status_label.grid(row=1, column=2, columnspan=3, sticky='w', padx=(12, 0))
+                controls.grid_columnconfigure(5, weight=1)
+            else:
+                scraper_label.grid(row=0, column=0, sticky='w', padx=(0, 5))
+                self.prometheus_scraper_combo.grid(row=0, column=1, sticky='w', padx=5)
+                refresh_btn.grid(row=0, column=2, sticky='w', padx=5)
+                open_endpoint_btn.grid(row=0, column=3, sticky='w', padx=5)
+                start_server_btn.grid(row=0, column=4, sticky='w', padx=5)
+                status_label.grid(row=0, column=5, sticky='w', padx=(20, 0))
+                controls.grid_columnconfigure(5, weight=1)
+
+        controls_layout_state = {"compact": None}
+
+        def on_controls_resize(_event=None):
+            compact = controls.winfo_width() < 980
+            if controls_layout_state["compact"] == compact:
+                return
+            controls_layout_state["compact"] = compact
+            apply_controls_layout(compact)
+
+        controls.bind("<Configure>", on_controls_resize, add="+")
+        controls.after(0, on_controls_resize)
+
+        # Metrics display
+        metrics_frame = ttk.LabelFrame(parent, text="Metrics", padding=10, style='Title.TLabelframe')
+        metrics_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(4, 8))
+
+        # Create treeview
+        tree_container = tk.Frame(metrics_frame, bg=self.colors['white'])
+        tree_container.pack(fill=tk.BOTH, expand=True)
+
+        vsb = ttk.Scrollbar(tree_container, orient="vertical")
+        hsb = ttk.Scrollbar(tree_container, orient="horizontal")
+
+        columns = ('metric', 'value', 'labels', 'description')
+        self.prometheus_tree = ttk.Treeview(tree_container, columns=columns, show='headings',
+                                           yscrollcommand=vsb.set, xscrollcommand=hsb.set,
+                                           height=20)
+
+        vsb.config(command=self.prometheus_tree.yview)
+        hsb.config(command=self.prometheus_tree.xview)
+
+        self.prometheus_tree.heading('metric', text='Metric Name')
+        self.prometheus_tree.heading('value', text='Value')
+        self.prometheus_tree.heading('labels', text='Labels')
+        self.prometheus_tree.heading('description', text='Description')
+
+        self.prometheus_tree.column('metric', width=250, minwidth=150)
+        self.prometheus_tree.column('value', width=120, minwidth=80)
+        self.prometheus_tree.column('labels', width=200, minwidth=150)
+        self.prometheus_tree.column('description', width=300, minwidth=200)
+
+        self.prometheus_tree.grid(row=0, column=0, sticky='nsew')
+        vsb.grid(row=0, column=1, sticky='ns')
+        hsb.grid(row=1, column=0, sticky='ew')
+
+        tree_container.grid_rowconfigure(0, weight=1)
+        tree_container.grid_columnconfigure(0, weight=1)
+
+        # Load initial data
+        self.load_prometheus_metrics()
+
+    def setup_proxy_pool_tab(self, parent):
+        """Setup Proxy Pool status display."""
+        # Header
+        header = ttk.LabelFrame(parent, text="Proxy Pool Status", padding=10, style='Title.TLabelframe')
+        header.pack(fill=tk.X, padx=8, pady=(8, 4))
+
+        # Controls
+        controls = tk.Frame(header, bg=self.colors['white'])
+        controls.pack(fill=tk.X)
+
+        scraper_label = tk.Label(
+            controls,
+            text="Scraper:",
+            bg=self.colors['white'],
+            fg='#000000',
+            font=self.fonts['standard'],
+        )
+
+        self.proxy_scraper_var = tk.StringVar()
+        self.proxy_scraper_combo = ttk.Combobox(
+            controls,
+            textvariable=self.proxy_scraper_var,
+            state="readonly",
+            width=self.MONITOR_COMBO_WIDTH,
+            style='Modern.TCombobox',
+        )
+        self.proxy_scraper_combo['values'] = ["All"] + list(self.scrapers.keys())
+        self.proxy_scraper_combo.set("All")
+        self.proxy_scraper_combo.bind("<<ComboboxSelected>>", self.on_proxy_scraper_changed)
+
+        refresh_btn = ttk.Button(
+            controls,
+            text="Refresh",
+            command=self.load_proxy_pool_status,
+            style='Secondary.TButton',
+        )
+
+        # Status
+        self.proxy_status_var = tk.StringVar(value="Ready")
+        status_label = tk.Label(
+            controls,
+            textvariable=self.proxy_status_var,
+            bg=self.colors['white'],
+            fg='#666666',
+            font=self.fonts['small'],
+            anchor='w',
+            justify=tk.LEFT,
+            wraplength=420,
+        )
+
+        def apply_controls_layout(compact: bool):
+            for w in (scraper_label, self.proxy_scraper_combo, refresh_btn, status_label):
+                w.grid_forget()
+            for col in range(4):
+                controls.grid_columnconfigure(col, weight=0)
+
+            if compact:
+                scraper_label.grid(row=0, column=0, sticky='w', padx=(0, 5), pady=(0, 4))
+                self.proxy_scraper_combo.grid(row=0, column=1, sticky='w', padx=5, pady=(0, 4))
+                refresh_btn.grid(row=0, column=2, sticky='w', padx=5, pady=(0, 4))
+                status_label.grid(row=1, column=0, columnspan=4, sticky='w', padx=(0, 0))
+            else:
+                scraper_label.grid(row=0, column=0, sticky='w', padx=(0, 5))
+                self.proxy_scraper_combo.grid(row=0, column=1, sticky='w', padx=5)
+                refresh_btn.grid(row=0, column=2, sticky='w', padx=5)
+                status_label.grid(row=0, column=3, sticky='w', padx=(20, 0))
+                controls.grid_columnconfigure(3, weight=1)
+
+        controls_layout_state = {"compact": None}
+
+        def on_controls_resize(_event=None):
+            compact = controls.winfo_width() < 860
+            if controls_layout_state["compact"] == compact:
+                return
+            controls_layout_state["compact"] = compact
+            apply_controls_layout(compact)
+
+        controls.bind("<Configure>", on_controls_resize, add="+")
+        controls.after(0, on_controls_resize)
+
+        # Proxy list
+        proxy_frame = ttk.LabelFrame(parent, text="Proxy List", padding=10, style='Title.TLabelframe')
+        proxy_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(4, 8))
+
+        tree_container = tk.Frame(proxy_frame, bg=self.colors['white'])
+        tree_container.pack(fill=tk.BOTH, expand=True)
+
+        vsb = ttk.Scrollbar(tree_container, orient="vertical")
+        hsb = ttk.Scrollbar(tree_container, orient="horizontal")
+
+        columns = ('proxy_id', 'host', 'port', 'type', 'country', 'status', 'health_score', 'success_rate')
+        self.proxy_tree = ttk.Treeview(tree_container, columns=columns, show='headings',
+                                      yscrollcommand=vsb.set, xscrollcommand=hsb.set,
+                                      height=20)
+
+        vsb.config(command=self.proxy_tree.yview)
+        hsb.config(command=self.proxy_tree.xview)
+
+        self.proxy_tree.heading('proxy_id', text='Proxy ID')
+        self.proxy_tree.heading('host', text='Host')
+        self.proxy_tree.heading('port', text='Port')
+        self.proxy_tree.heading('type', text='Type')
+        self.proxy_tree.heading('country', text='Country')
+        self.proxy_tree.heading('status', text='Status')
+        self.proxy_tree.heading('health_score', text='Health Score')
+        self.proxy_tree.heading('success_rate', text='Success Rate')
+
+        self.proxy_tree.column('proxy_id', width=150, minwidth=100)
+        self.proxy_tree.column('host', width=150, minwidth=100)
+        self.proxy_tree.column('port', width=80, minwidth=60)
+        self.proxy_tree.column('type', width=120, minwidth=80)
+        self.proxy_tree.column('country', width=100, minwidth=80)
+        self.proxy_tree.column('status', width=100, minwidth=80)
+        self.proxy_tree.column('health_score', width=100, minwidth=80)
+        self.proxy_tree.column('success_rate', width=100, minwidth=80)
+
+        self.proxy_tree.grid(row=0, column=0, sticky='nsew')
+        vsb.grid(row=0, column=1, sticky='ns')
+        hsb.grid(row=1, column=0, sticky='ew')
+
+        tree_container.grid_rowconfigure(0, weight=1)
+        tree_container.grid_columnconfigure(0, weight=1)
+
+        # Load initial data
+        self.load_proxy_pool_status()
+
+    def setup_frontier_queue_tab(self, parent):
+        """Setup Frontier Queue stats display."""
+        # Header
+        header = ttk.LabelFrame(parent, text="Frontier Queue Statistics", padding=10, style='Title.TLabelframe')
+        header.pack(fill=tk.X, padx=8, pady=(8, 4))
+
+        # Controls
+        controls = tk.Frame(header, bg=self.colors['white'])
+        controls.pack(fill=tk.X)
+
+        tk.Label(controls, text="Scraper:", bg=self.colors['white'], fg='#000000',
+                 font=self.fonts['standard']).pack(side=tk.LEFT, padx=(0, 5))
+
+        self.frontier_scraper_var = tk.StringVar()
+        self.frontier_scraper_combo = ttk.Combobox(controls, textvariable=self.frontier_scraper_var,
+                                                   state="readonly", width=self.MONITOR_COMBO_WIDTH, style='Modern.TCombobox')
+        self.frontier_scraper_combo['values'] = list(self.scrapers.keys())
+        self.frontier_scraper_combo.pack(side=tk.LEFT, padx=5)
+        if self.scrapers:
+            self.frontier_scraper_combo.set(list(self.scrapers.keys())[0])
+        self.frontier_scraper_combo.bind("<<ComboboxSelected>>", self.on_frontier_scraper_changed)
+
+        ttk.Button(controls, text="Refresh", command=self.load_frontier_queue_stats,
+                  style='Secondary.TButton').pack(side=tk.LEFT, padx=5)
+
+        # Stats display
+        stats_frame = ttk.LabelFrame(parent, text="Queue Statistics", padding=10, style='Title.TLabelframe')
+        stats_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(4, 8))
+
+        self.frontier_stats_text = tk.Text(stats_frame, height=15, wrap=tk.WORD,
+                                          font=self.fonts['monospace'],
+                                          bg=self.colors['white'],
+                                          fg='#000000',
+                                          state=tk.DISABLED,
+                                          borderwidth=0,
+                                          relief='flat',
+                                          highlightthickness=0)
+        self.frontier_stats_text.pack(fill=tk.BOTH, expand=True)
+
+        # Status
+        self.frontier_status_var = tk.StringVar(value="Ready")
+        status_label = tk.Label(parent, textvariable=self.frontier_status_var,
+                               bg=self.colors['white'], fg='#666666',
+                               font=self.fonts['small'], anchor='w')
+        status_label.pack(fill=tk.X, padx=8, pady=(0, 4))
+
+        # Load initial data
+        self.load_frontier_queue_stats()
+
+    def setup_geo_router_tab(self, parent):
+        """Setup Geo Router configuration display."""
+        # Header
+        header = ttk.LabelFrame(parent, text="Geo Router Configuration", padding=10, style='Title.TLabelframe')
+        header.pack(fill=tk.X, padx=8, pady=(8, 4))
+
+        # Controls
+        controls = tk.Frame(header, bg=self.colors['white'])
+        controls.pack(fill=tk.X)
+
+        tk.Label(controls, text="Scraper:", bg=self.colors['white'], fg='#000000',
+                 font=self.fonts['standard']).pack(side=tk.LEFT, padx=(0, 5))
+
+        self.geo_scraper_var = tk.StringVar()
+        self.geo_scraper_combo = ttk.Combobox(controls, textvariable=self.geo_scraper_var,
+                                             state="readonly", width=self.MONITOR_COMBO_WIDTH, style='Modern.TCombobox')
+        self.geo_scraper_combo['values'] = list(self.scrapers.keys())
+        self.geo_scraper_combo.pack(side=tk.LEFT, padx=5)
+        if self.scrapers:
+            self.geo_scraper_combo.set(list(self.scrapers.keys())[0])
+        self.geo_scraper_combo.bind("<<ComboboxSelected>>", self.on_geo_scraper_changed)
+
+        ttk.Button(controls, text="Refresh", command=self.load_geo_router_config,
+                  style='Secondary.TButton').pack(side=tk.LEFT, padx=5)
+
+        # Config display
+        config_frame = ttk.LabelFrame(parent, text="Routing Configuration", padding=10, style='Title.TLabelframe')
+        config_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(4, 8))
+
+        self.geo_config_text = tk.Text(config_frame, height=15, wrap=tk.WORD,
+                                      font=self.fonts['monospace'],
+                                      bg=self.colors['white'],
+                                      fg='#000000',
+                                      state=tk.DISABLED,
+                                      borderwidth=0,
+                                      relief='flat',
+                                      highlightthickness=0)
+        self.geo_config_text.pack(fill=tk.BOTH, expand=True)
+
+        # Status
+        self.geo_status_var = tk.StringVar(value="Ready")
+        status_label = tk.Label(parent, textvariable=self.geo_status_var,
+                               bg=self.colors['white'], fg='#666666',
+                               font=self.fonts['small'], anchor='w')
+        status_label.pack(fill=tk.X, padx=8, pady=(0, 4))
+
+        # Load initial data
+        self.load_geo_router_config()
+
+    def setup_selector_healer_tab(self, parent):
+        """Setup Selector Healer stats display."""
+        # Header
+        header = ttk.LabelFrame(parent, text="Selector Healer Statistics", padding=10, style='Title.TLabelframe')
+        header.pack(fill=tk.X, padx=8, pady=(8, 4))
+
+        # Controls
+        controls = tk.Frame(header, bg=self.colors['white'])
+        controls.pack(fill=tk.X)
+
+        tk.Label(controls, text="Scraper:", bg=self.colors['white'], fg='#000000',
+                 font=self.fonts['standard']).pack(side=tk.LEFT, padx=(0, 5))
+
+        self.healer_scraper_var = tk.StringVar()
+        self.healer_scraper_combo = ttk.Combobox(controls, textvariable=self.healer_scraper_var,
+                                                 state="readonly", width=self.MONITOR_COMBO_WIDTH, style='Modern.TCombobox')
+        self.healer_scraper_combo['values'] = ["All"] + list(self.scrapers.keys())
+        self.healer_scraper_combo.pack(side=tk.LEFT, padx=5)
+        self.healer_scraper_combo.set("All")
+        self.healer_scraper_combo.bind("<<ComboboxSelected>>", self.on_healer_scraper_changed)
+
+        ttk.Button(controls, text="Refresh", command=self.load_selector_healer_stats,
+                  style='Secondary.TButton').pack(side=tk.LEFT, padx=5)
+
+        # Stats display
+        stats_frame = ttk.LabelFrame(parent, text="Healing Statistics", padding=10, style='Title.TLabelframe')
+        stats_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(4, 8))
+
+        self.healer_stats_text = tk.Text(stats_frame, height=15, wrap=tk.WORD,
+                                         font=self.fonts['monospace'],
+                                         bg=self.colors['white'],
+                                         fg='#000000',
+                                         state=tk.DISABLED,
+                                         borderwidth=0,
+                                         relief='flat',
+                                         highlightthickness=0)
+        self.healer_stats_text.pack(fill=tk.BOTH, expand=True)
+
+        # Status
+        self.healer_status_var = tk.StringVar(value="Ready")
+        status_label = tk.Label(parent, textvariable=self.healer_status_var,
+                               bg=self.colors['white'], fg='#666666',
+                               font=self.fonts['small'], anchor='w')
+        status_label.pack(fill=tk.X, padx=8, pady=(0, 4))
+
+        # Load initial data
+        self.load_selector_healer_stats()
+
+    def on_prometheus_scraper_changed(self, event=None):
+        """Handle scraper selection change in Prometheus tab."""
+        self.load_prometheus_metrics()
+
+    def load_prometheus_metrics(self):
+        """Load Prometheus metrics."""
+        if not _REQUESTS_AVAILABLE:
+            self.prometheus_status_var.set("Error: requests library not available")
+            return
+
+        token = self._next_monitor_async_token("prometheus")
+        self.prometheus_status_var.set("Loading metrics...")
+
+        def worker():
+            try:
+                response = requests.get("http://localhost:9090/metrics", timeout=5)
+                if response.status_code != 200:
+                    return {"error": f"Prometheus endpoint returned status {response.status_code}"}
+
+                rows = []
+                metric_count = 0
+                for line in response.text.split('\n'):
+                    if not line or line.startswith('#'):
+                        continue
+                    parts = line.split()
+                    if len(parts) < 2:
+                        continue
+                    metric_name = parts[0]
+                    value = parts[1]
+                    labels = ""
+                    description = ""
+                    if '{' in metric_name:
+                        name_part = metric_name.split('{')[0]
+                        labels_part = metric_name.split('{')[1].rstrip('}')
+                        metric_name = name_part
+                        labels = labels_part
+                    rows.append((metric_name, value, labels, description))
+                    metric_count += 1
+                    if metric_count >= 100:
+                        break
+                return {"rows": rows, "count": metric_count}
+            except requests.exceptions.ConnectionError:
+                return {"not_running": True}
+            except Exception as exc:
+                return {"error": f"Error loading metrics: {exc}"}
+
+        def apply(payload):
+            if not self._is_monitor_async_token_current("prometheus", token):
+                return
+            for item in self.prometheus_tree.get_children():
+                self.prometheus_tree.delete(item)
+
+            if payload.get("error"):
+                self.prometheus_status_var.set(payload["error"])
+                return
+            if payload.get("not_running"):
+                self.prometheus_status_var.set("Prometheus not running - Click 'Start Server' to start it")
+                self.prometheus_tree.insert('', 'end', values=(
+                    "INFO",
+                    "N/A",
+                    "",
+                    "Prometheus server not running. Click 'Start Server' button to start it."
+                ))
+                return
+
+            for row in payload.get("rows", []):
+                self.prometheus_tree.insert('', 'end', values=row)
+            self.prometheus_status_var.set(f"Loaded {payload.get('count', 0)} metrics from Prometheus")
+
+        def run_async():
+            payload = worker()
+            self.root.after(0, lambda: apply(payload))
+
+        threading.Thread(target=run_async, daemon=True).start()
+
+    def open_prometheus_endpoint(self):
+        """Open Prometheus metrics endpoint in browser."""
+        webbrowser.open("http://localhost:9090/metrics")
+
+    def start_prometheus_server(self):
+        """Start Prometheus metrics server manually."""
+        try:
+            from core.prometheus_exporter import init_prometheus_metrics
+            success = init_prometheus_metrics(port=9090)
+            if success:
+                self.prometheus_status_var.set("Prometheus server started on port 9090")
+                messagebox.showinfo("Success", "Prometheus metrics server started successfully!\n\nMetrics available at: http://localhost:9090/metrics")
+                # Refresh metrics after starting
+                self.root.after(500, self.load_prometheus_metrics)
+            else:
+                self.prometheus_status_var.set("Prometheus client not available - install prometheus_client")
+                messagebox.showwarning("Not Available", "Prometheus client not installed.\n\nInstall with: pip install prometheus-client")
+        except Exception as e:
+            self.prometheus_status_var.set(f"Error starting server: {e}")
+            messagebox.showerror("Error", f"Failed to start Prometheus server:\n{e}")
+
+    def on_proxy_scraper_changed(self, event=None):
+        """Handle scraper selection change in Proxy Pool tab."""
+        self.load_proxy_pool_status()
+
+    def load_proxy_pool_status(self):
+        """Load Proxy Pool status."""
+        token = self._next_monitor_async_token("proxy_pool")
+        self.proxy_status_var.set("Loading proxy pool...")
+
+        scraper_filter = self.proxy_scraper_var.get()
+        if scraper_filter == "All":
+            scraper_filter = None
+
+        def worker():
+            try:
+                from core.proxy_pool import get_proxy_pool
+            except ImportError:
+                return {"error": "Proxy Pool not available"}
+
+            try:
+                pool = get_proxy_pool()
+                stats = pool.get_stats()
+                proxies = []
+                rows = []
+                with pool._lock:
+                    for proxy in pool._proxies.values():
+                        if not scraper_filter:
+                            proxies.append(proxy)
+                        else:
+                            scraper_countries = {
+                                "Malaysia": "MY",
+                                "India": "IN",
+                                "Argentina": "AR",
+                                "Russia": "RU",
+                                "Netherlands": "NL",
+                                "Belarus": "BY",
+                            }
+                            country_code = scraper_countries.get(scraper_filter)
+                            if country_code and proxy.country_code == country_code:
+                                proxies.append(proxy)
+
+                for proxy in proxies:
+                    proxy_id = getattr(proxy, 'id', 'N/A')
+                    host = getattr(proxy, 'host', 'N/A')
+                    port = getattr(proxy, 'port', 'N/A')
+                    proxy_type_val = getattr(proxy.proxy_type, 'value', 'N/A') if hasattr(proxy, 'proxy_type') else 'N/A'
+                    country_code = getattr(proxy, 'country_code', 'N/A')
+                    status_val = getattr(proxy.status, 'value', 'N/A') if hasattr(proxy, 'status') else 'N/A'
+                    health_score = getattr(proxy, 'health_score', None)
+                    success_rate = getattr(proxy, 'success_rate', None)
+                    rows.append((
+                        proxy_id,
+                        host,
+                        port,
+                        proxy_type_val,
+                        country_code,
+                        status_val,
+                        f"{health_score:.2f}" if health_score is not None else "N/A",
+                        f"{success_rate:.2%}" if success_rate is not None else "N/A",
+                    ))
+
+                return {
+                    "rows": rows,
+                    "loaded": len(rows),
+                    "total": stats.get("total_proxies", 0),
+                }
+            except AttributeError as exc:
+                return {"error": f"Error accessing proxy pool: {exc}"}
+            except Exception as exc:
+                return {"error": f"Error loading proxy pool: {exc}"}
+
+        def apply(payload):
+            if not self._is_monitor_async_token_current("proxy_pool", token):
+                return
+            for item in self.proxy_tree.get_children():
+                self.proxy_tree.delete(item)
+
+            if payload.get("error"):
+                self.proxy_status_var.set(payload["error"])
+                return
+
+            for row in payload.get("rows", []):
+                self.proxy_tree.insert('', 'end', values=row)
+            self.proxy_status_var.set(
+                f"Loaded {payload.get('loaded', 0)} proxies | Total: {payload.get('total', 0)}"
+            )
+
+        def run_async():
+            payload = worker()
+            self.root.after(0, lambda: apply(payload))
+
+        threading.Thread(target=run_async, daemon=True).start()
+
+    def on_frontier_scraper_changed(self, event=None):
+        """Handle scraper selection change in Frontier Queue tab."""
+        self.load_frontier_queue_stats()
+
+    def load_frontier_queue_stats(self):
+        """Load Frontier Queue statistics."""
+        scraper_name = self.frontier_scraper_var.get()
+        if not scraper_name:
+            self.frontier_status_var.set("Please select a scraper")
+            return
+
+        token = self._next_monitor_async_token("frontier")
+        self.frontier_status_var.set("Loading frontier stats...")
+
+        def worker():
+            try:
+                from scripts.common.frontier_integration import get_frontier_stats
+            except ImportError:
+                return {"error": "Frontier Queue not available (Redis required)"}
+
+            try:
+                stats = get_frontier_stats(scraper_name)
+                stats_text = f"""Frontier Queue Statistics for {scraper_name}
+{'='*60}
+
+Queue Status:
+  Queued URLs:     {stats.get('queued', 0):,}
+  Seen URLs:      {stats.get('seen', 0):,}
+  Active URLs:    {stats.get('active', 0):,}
+  Completed URLs: {stats.get('completed', 0):,}
+  Failed URLs:    {stats.get('failed', 0):,}
+
+Total Processed:  {stats.get('queued', 0) + stats.get('completed', 0) + stats.get('failed', 0):,}
+Success Rate:     {(stats.get('completed', 0) / max(1, stats.get('completed', 0) + stats.get('failed', 0))) * 100:.1f}%
+
+{'='*60}
+"""
+                return {"text": stats_text}
+            except Exception as exc:
+                return {"error": f"Error loading frontier stats: {exc}"}
+
+        def apply(payload):
+            if not self._is_monitor_async_token_current("frontier", token):
+                return
+            if payload.get("error"):
+                self.frontier_status_var.set(payload["error"])
+                return
+
+            self.frontier_stats_text.config(state=tk.NORMAL)
+            self.frontier_stats_text.delete('1.0', tk.END)
+            self.frontier_stats_text.insert('1.0', payload.get("text", ""))
+            self.frontier_stats_text.config(state=tk.DISABLED)
+            self.frontier_status_var.set(f"Loaded stats for {scraper_name}")
+
+        def run_async():
+            payload = worker()
+            self.root.after(0, lambda: apply(payload))
+
+        threading.Thread(target=run_async, daemon=True).start()
+
+    def on_geo_scraper_changed(self, event=None):
+        """Handle scraper selection change in Geo Router tab."""
+        self.load_geo_router_config()
+
+    def load_geo_router_config(self):
+        """Load Geo Router configuration."""
+        scraper_name = self.geo_scraper_var.get()
+        if not scraper_name:
+            self.geo_status_var.set("Please select a scraper")
+            return
+
+        token = self._next_monitor_async_token("geo_router")
+        self.geo_status_var.set("Loading geo router config...")
+
+        def worker():
+            try:
+                from core.integration_helpers import get_geo_config_for_scraper
+            except ImportError:
+                return {"error": "Geo Router not available"}
+
+            try:
+                geo_config = get_geo_config_for_scraper(scraper_name)
+
+                if geo_config:
+                    config_text = f"""Geo Router Configuration for {scraper_name}
+{'='*60}
+
+Basic Settings:
+  Country Code:   {geo_config.get('country_code', 'N/A')}
+  Timezone:       {geo_config.get('timezone', 'N/A')}
+  Locale:         {geo_config.get('locale', 'N/A')}
+
+Geolocation:
+  Latitude:       {geo_config.get('geolocation', {}).get('latitude', 'N/A')}
+  Longitude:      {geo_config.get('geolocation', {}).get('longitude', 'N/A')}
+
+Proxy Configuration:
+"""
+                    if geo_config.get('proxy'):
+                        proxy = geo_config['proxy']
+                        config_text += f"""  Host:           {proxy.get('host', 'N/A')}
+  Port:           {proxy.get('port', 'N/A')}
+  Protocol:       {proxy.get('protocol', 'N/A')}
+  Username:       {proxy.get('username', 'N/A') or 'None'}
+"""
+                    else:
+                        config_text += "  Proxy:          Not configured\n"
+
+                    config_text += f"""
+{'='*60}
+"""
+                else:
+                    config_text = f"No geo configuration found for {scraper_name}\n"
+
+                return {"text": config_text}
+            except Exception as exc:
+                return {"error": f"Error loading geo config: {exc}"}
+
+        def apply(payload):
+            if not self._is_monitor_async_token_current("geo_router", token):
+                return
+            if payload.get("error"):
+                self.geo_status_var.set(payload["error"])
+                return
+
+            self.geo_config_text.config(state=tk.NORMAL)
+            self.geo_config_text.delete('1.0', tk.END)
+            self.geo_config_text.insert('1.0', payload.get("text", ""))
+            self.geo_config_text.config(state=tk.DISABLED)
+            self.geo_status_var.set(f"Loaded config for {scraper_name}")
+
+        def run_async():
+            payload = worker()
+            self.root.after(0, lambda: apply(payload))
+
+        threading.Thread(target=run_async, daemon=True).start()
+
+    def on_healer_scraper_changed(self, event=None):
+        """Handle scraper selection change in Selector Healer tab."""
+        self.load_selector_healer_stats()
+
+    def load_selector_healer_stats(self):
+        """Load Selector Healer statistics."""
+        token = self._next_monitor_async_token("selector_healer")
+        self.healer_status_var.set("Loading selector healer stats...")
+
+        def worker():
+            try:
+                from core.selector_healer import get_selector_healer
+            except ImportError:
+                return {"error": "Selector Healer not available"}
+
+            try:
+                healer = get_selector_healer()
+                stats_text = f"""Selector Healer Statistics
+{'='*60}
+
+Status:
+  Inference Available: {'Yes' if healer._inference_available else 'No'}
+
+Note: Selector healing statistics are tracked per-scraper during runtime.
+Healing attempts are logged when selectors fail and are automatically healed.
+
+To view detailed healing logs, check the scraper console output or logs.
+
+{'='*60}
+"""
+                # This would require per-scraper runtime healing counters.
+                stats_text += "\nHealing is automatically attempted when selectors fail.\n"
+                stats_text += "Check scraper logs for healing details.\n"
+                return {"text": stats_text}
+            except Exception as exc:
+                return {"error": f"Error loading healer stats: {exc}"}
+
+        def apply(payload):
+            if not self._is_monitor_async_token_current("selector_healer", token):
+                return
+            if payload.get("error"):
+                self.healer_status_var.set(payload["error"])
+                return
+
+            self.healer_stats_text.config(state=tk.NORMAL)
+            self.healer_stats_text.delete('1.0', tk.END)
+            self.healer_stats_text.insert('1.0', payload.get("text", ""))
+            self.healer_stats_text.config(state=tk.DISABLED)
+            self.healer_status_var.set("Selector Healer ready")
+
+        def run_async():
+            payload = worker()
+            self.root.after(0, lambda: apply(payload))
+
+        threading.Thread(target=run_async, daemon=True).start()
+
     # ==================================================================
     # INPUT DATA MANAGEMENT TAB
     # ==================================================================
@@ -1573,10 +2778,27 @@ class ScraperGUI:
             if inputs_schema.exists():
                 registry.apply_schema(inputs_schema)
             # Apply country-specific schema so input tables exist (e.g. in_input_formulations, my_input_products)
-            country_schemas = {"India": "india.sql", "Malaysia": "malaysia.sql"}
+            country_schemas = {
+                "India": "india.sql",
+                "Malaysia": "malaysia.sql",
+                "Argentina": "argentina.sql",
+                "Belarus": "belarus.sql",
+                "Russia": "russia.sql",
+                "Netherlands": "netherlands.sql",
+                "Taiwan": "taiwan.sql",
+                "tender_chile": "tender_chile.sql",
+                "CanadaOntario": "canada_ontario.sql",
+                "canada_quebec": "canada_quebec.sql",
+                "North_Macedonia": "north_macedonia.sql",
+            }
             schema_file = country_schemas.get(country)
             if schema_file and (sql_dir / schema_file).exists():
-                registry.apply_schema(sql_dir / schema_file)
+                try:
+                    registry.apply_schema(sql_dir / schema_file)
+                except Exception as e:
+                    # Non-fatal: input tables already created by inputs.sql above.
+                    # Country schema may fail if data tables have constraint issues.
+                    print(f"[GUI] Country schema {schema_file} partially failed (input tables still available): {e}")
 
             return db
         except Exception as e:
@@ -1655,6 +2877,30 @@ class ScraperGUI:
         self._update_input_lock_state()
         self._update_output_lock_state()
 
+    def _schedule_market_table_refresh(self, delay_ms: int = 80):
+        """Debounce table refresh while switching scrapers to keep dropdown responsive."""
+        if self._pending_table_refresh_after_id:
+            try:
+                self.root.after_cancel(self._pending_table_refresh_after_id)
+            except Exception:
+                pass
+            self._pending_table_refresh_after_id = None
+
+        def _run_refresh():
+            self._pending_table_refresh_after_id = None
+            try:
+                if hasattr(self, 'output_table_combo'):
+                    self._refresh_output_tables()
+            except Exception:
+                pass
+            try:
+                if hasattr(self, '_refresh_input_tables'):
+                    self._refresh_input_tables()
+            except Exception:
+                pass
+
+        self._pending_table_refresh_after_id = self.root.after(max(0, int(delay_ms)), _run_refresh)
+
     def _refresh_input_tables(self):
         """Refresh the table dropdown and info for the selected country."""
         country = self.input_scraper_var.get()
@@ -1674,7 +2920,7 @@ class ScraperGUI:
             tables.append(cfg["display"])
         
         # Only add PCID mapping for countries that use it
-        countries_with_pcid = {"Argentina", "Malaysia", "Belarus", "Netherlands", "Taiwan", "Tender_Chile"}
+        countries_with_pcid = {"Argentina", "Malaysia", "Belarus", "Netherlands", "Taiwan", "tender_chile", "NorthMacedonia"}
         if country in countries_with_pcid:
             tables.append(PCID_MAPPING_CONFIG["display"])
 
@@ -2125,6 +3371,10 @@ class ScraperGUI:
         )
         self.log_text.pack(fill=tk.BOTH, expand=True)
         
+    def setup_output_tab(self, parent):
+        """Alias for setup_output_tab_db - sets up the DB-backed output browser."""
+        self.setup_output_tab_db(parent)
+
     def setup_output_tab_db(self, parent):
         """Setup DB-backed output browser tab - queries PostgreSQL tables directly."""
         container = tk.Frame(parent, bg=self.colors['white'])
@@ -2175,8 +3425,12 @@ class ScraperGUI:
         self.output_table_combo = ttk.Combobox(
             form, textvariable=self.output_table_var,
             state="readonly", width=18, style='Modern.TCombobox')
+        # Ensure dropdown is visible and clickable
+        self.output_table_combo.config(state="readonly")
         self.output_table_combo.pack(fill=tk.X, pady=(2, 8))
         self.output_table_combo.bind("<<ComboboxSelected>>", lambda e: self._on_output_table_selected())
+        # Use postcommand so opening the dropdown never gets blocked by click handlers.
+        self.output_table_combo.configure(postcommand=self._ensure_output_tables_populated)
 
         tk.Label(form, text="Run ID:", bg=self.colors['white'], fg='#000000',
                  font=self.fonts['standard']).pack(anchor=tk.W)
@@ -2187,6 +3441,17 @@ class ScraperGUI:
             state="readonly", width=18, style='Modern.TCombobox')
         self.output_run_combo.pack(fill=tk.X, pady=(2, 8))
         self.output_run_combo.bind("<<ComboboxSelected>>", lambda e: self._load_output_data())
+
+        tk.Label(form, text="Status Filter:", bg=self.colors['white'], fg='#000000',
+                 font=self.fonts['standard']).pack(anchor=tk.W)
+
+        self.output_status_filter_var = tk.StringVar(value="All")
+        self.output_status_filter_combo = ttk.Combobox(
+            form, textvariable=self.output_status_filter_var,
+            values=["All", "running", "completed", "failed", "cancelled", "resume", "stopped", "partial"],
+            state="readonly", width=18, style='Modern.TCombobox')
+        self.output_status_filter_combo.pack(fill=tk.X, pady=(2, 8))
+        self.output_status_filter_combo.bind("<<ComboboxSelected>>", lambda e: self._on_status_filter_changed())
 
         # --- Actions section ---
         actions_section = tk.Frame(left_panel, bg=self.colors['white'],
@@ -2211,7 +3476,10 @@ class ScraperGUI:
         self._output_delete_all_btn.pack(fill=tk.X, padx=8, pady=(0, 4))
         self._output_delete_market_btn = ttk.Button(actions_section, text="Delete market records", command=self._delete_all_records,
                    style='Secondary.TButton')
-        self._output_delete_market_btn.pack(fill=tk.X, padx=8, pady=(0, 8))
+        self._output_delete_market_btn.pack(fill=tk.X, padx=8, pady=(0, 4))
+        self._output_set_resume_btn = ttk.Button(actions_section, text="Set as Resume", command=self._set_run_id_as_resume,
+                   style='Primary.TButton')
+        self._output_set_resume_btn.pack(fill=tk.X, padx=8, pady=(0, 8))
 
         # --- Data reset section (moved from Dashboard) ---
         self._data_reset_use_output = True
@@ -2274,6 +3542,12 @@ class ScraperGUI:
             return None
         scraper_info = self.scrapers.get(scraper_name, {})
         country = scraper_info.get("country", scraper_name)
+        return self._get_output_db_for_country(country)
+
+    def _get_output_db_for_country(self, country):
+        """Get PostgresDB connection for explicit country/scraper key."""
+        if not country:
+            return None
         try:
             from core.db.postgres_connection import PostgresDB
             db = PostgresDB(country)
@@ -2293,12 +3567,23 @@ class ScraperGUI:
         country = scraper_info.get("country", scraper_name)
         return scraper_name, country
 
+    def _ensure_output_tables_populated(self):
+        """Ensure tables are populated when dropdown is clicked."""
+        if not hasattr(self, 'output_table_combo'):
+            return
+        # If dropdown is empty, refresh tables
+        current_values = self.output_table_combo['values']
+        if not current_values or len(current_values) == 0:
+            # Defer refresh so the combobox interaction itself stays responsive.
+            self.root.after(0, self._refresh_output_tables)
+    
     def _on_output_scraper_selected(self):
         """Handle Output tab scraper selection changes."""
         scraper_name = self.output_scraper_var.get() if hasattr(self, "output_scraper_var") else None
         if scraper_name:
             self.update_reset_controls(scraper_name)
-        self._refresh_output_tables()
+        # Defer DB-heavy refresh to keep dropdown interaction smooth.
+        self.root.after(0, self._refresh_output_tables)
         self._update_output_lock_state()
 
     def _get_input_table_basenames(self):
@@ -2321,17 +3606,48 @@ class ScraperGUI:
         """Return True if table is an input table or input tracking table."""
         if table_name in {"input_uploads", "pcid_mapping"}:
             return True
+        # Protect any table matching {prefix}input_* pattern (from inputs.sql)
+        if prefix and table_name.startswith(f"{prefix}input_"):
+            return True
+        # Protect tables that match the INPUT_TABLE_REGISTRY basenames
         basenames = self._get_input_table_basenames()
         for base in basenames:
             if prefix and table_name == f"{prefix}{base}":
                 return True
+        # Also protect dictionary tables (Argentina uses ar_dictionary)
+        if prefix and table_name in {f"{prefix}dictionary"}:
+            return True
         return False
+
+    # Tables to exclude from output dropdown (deprecated/removed tables)
+    EXCLUDED_OUTPUT_TABLES = {
+        'ar_pcid_mappings',      # Deprecated: now uses CSV exports only
+        'ar_pcid_reference',     # Deprecated: removed from schema
+        # Note: nl_input_search_terms is correctly filtered as input table
+    }
+
+    LEGACY_RUN_TABLES = {
+        "Argentina": {"ar_pcid_mappings"},
+    }
+
+    def _cleanup_legacy_run_tables(self, db, run_id: str, scraper_name: Optional[str]) -> None:
+        """Remove rows from legacy tables that still reference run_id."""
+        if not run_id or not scraper_name:
+            return
+        tables = self.LEGACY_RUN_TABLES.get(scraper_name, set())
+        if not tables:
+            return
+        for table in tables:
+            if self._table_has_column(db, table, "run_id"):
+                db.execute(f'DELETE FROM "{table}" WHERE run_id = %s', (run_id,))
 
     def _filter_output_tables(self, all_tables, prefix, scraper_name=None):
         """Filter tables for Output tab: exclude input tables, keep shared + market tables."""
         from core.db.postgres_connection import SHARED_TABLES
         tables = []
         for table in all_tables:
+            if table in self.EXCLUDED_OUTPUT_TABLES:
+                continue
             if self._is_input_table(table, prefix):
                 continue
             if scraper_name == "Argentina" and table == "http_requests":
@@ -2349,35 +3665,133 @@ class ScraperGUI:
             return "scraper_name = %s", (scraper_name,)
         if table in ("http_requests", "scraped_items"):
             return "run_id IN (SELECT run_id FROM run_ledger WHERE scraper_name = %s)", (scraper_name,)
+        if table == "chrome_instances":
+            return "scraper_name = %s", (scraper_name,)
+        if table == "step_retries":
+            return "run_id IN (SELECT run_id FROM run_ledger WHERE scraper_name = %s)", (scraper_name,)
         return "", ()
+
+    def _next_output_async_token(self, kind: str) -> int:
+        """Return a monotonically increasing token for Output tab async tasks."""
+        current = int(self._output_async_tokens.get(kind, 0)) + 1
+        self._output_async_tokens[kind] = current
+        return current
+
+    def _is_output_async_token_current(self, kind: str, token: int) -> bool:
+        """Check whether async response is still the latest for given task kind."""
+        return int(self._output_async_tokens.get(kind, 0)) == int(token)
+
+    def _next_monitor_async_token(self, kind: str) -> int:
+        """Return a monotonic token for monitoring tab async tasks."""
+        if not hasattr(self, "_monitor_async_tokens"):
+            self._monitor_async_tokens = {}
+        current = int(self._monitor_async_tokens.get(kind, 0)) + 1
+        self._monitor_async_tokens[kind] = current
+        return current
+
+    def _is_monitor_async_token_current(self, kind: str, token: int) -> bool:
+        """Check whether monitoring async response is still current."""
+        if not hasattr(self, "_monitor_async_tokens"):
+            return False
+        return int(self._monitor_async_tokens.get(kind, 0)) == int(token)
 
     def _refresh_output_tables(self):
         """Populate table dropdown with only tables for the selected market + global tables."""
         if not hasattr(self, 'output_table_combo'):
             return
-        db = self._get_output_db()
-        if not db:
+
+        scraper_name, country = self._get_market_context()
+        if not scraper_name or not country:
             self.output_table_combo['values'] = []
-            self.output_status_label.config(text="DB: Cannot connect to PostgreSQL")
+            self.output_table_var.set("")
+            if hasattr(self, "output_run_combo"):
+                self.output_run_combo['values'] = ["(All)"]
+                self.output_run_var.set("(All)")
+            self.output_status_label.config(text="Select a scraper to view tables")
             return
-        try:
-            cur = db.execute(
-                "SELECT table_name FROM information_schema.tables "
-                "WHERE table_schema = 'public' AND table_name NOT LIKE '\\_%' ESCAPE '\\' "
-                "ORDER BY table_name")
-            all_tables = [row[0] for row in cur.fetchall()]
-            prefix = getattr(db, '_prefix', '') or getattr(db, 'prefix', '')
-            scraper_name, _ = self._get_market_context()
-            tables = self._filter_output_tables(all_tables, prefix, scraper_name=scraper_name)
+
+        selected_table = self.output_table_var.get() if hasattr(self, "output_table_var") else ""
+        token = self._next_output_async_token("tables")
+        self.output_status_label.config(text=f"Loading tables for {scraper_name}...")
+
+        def worker():
+            db = self._get_output_db_for_country(country)
+            if not db:
+                return {"error": "DB: Cannot connect to PostgreSQL", "scraper_name": scraper_name}
+            try:
+                cur = db.execute(
+                    "SELECT table_name FROM information_schema.tables "
+                    "WHERE table_schema = 'public' AND table_name NOT LIKE '\\_%' ESCAPE '\\' "
+                    "ORDER BY table_name"
+                )
+                all_tables = [row[0] for row in cur.fetchall()]
+                prefix = getattr(db, '_prefix', '') or getattr(db, 'prefix', '')
+                tables = self._filter_output_tables(all_tables, prefix, scraper_name=scraper_name)
+                return {
+                    "scraper_name": scraper_name,
+                    "tables": tables,
+                    "selected_table": selected_table,
+                }
+            except Exception as exc:
+                return {
+                    "error": f"Error loading tables: {str(exc)[:120]}",
+                    "scraper_name": scraper_name,
+                }
+            finally:
+                try:
+                    db.close()
+                except Exception:
+                    pass
+
+        def apply(payload):
+            if not self._is_output_async_token_current("tables", token):
+                return
+            current_scraper = self.output_scraper_var.get() if hasattr(self, "output_scraper_var") else None
+            if current_scraper != payload.get("scraper_name"):
+                return
+
+            if payload.get("error"):
+                self.output_table_combo['values'] = []
+                self.output_table_var.set("")
+                if hasattr(self, "output_run_combo"):
+                    self.output_run_combo['values'] = ["(All)"]
+                    self.output_run_var.set("(All)")
+                self.output_status_label.config(text=payload["error"])
+                return
+
+            tables = payload.get("tables", []) or []
             self.output_table_combo['values'] = tables
+            self.output_table_combo.config(state="readonly")
+
             if tables:
-                self.output_table_var.set(tables[0])
+                target = payload.get("selected_table")
+                if target not in tables:
+                    target = tables[0]
+                self.output_table_var.set(target)
+            else:
+                self.output_table_var.set("")
+                if hasattr(self, "output_run_combo"):
+                    self.output_run_combo['values'] = ["(All)"]
+                    self.output_run_var.set("(All)")
+                try:
+                    self.output_tree.delete(*self.output_tree.get_children())
+                    self.output_tree['columns'] = []
+                except Exception:
+                    pass
+
+            status_text = f"DB: PostgreSQL | {len(tables)} tables for this market"
+            if len(tables) == 0:
+                status_text += " (no tables found)"
+            self.output_status_label.config(text=status_text)
+
+            if tables:
                 self._on_output_table_selected()
-            self.output_status_label.config(text=f"DB: PostgreSQL | {len(tables)} tables for this market")
-        except Exception as e:
-            self.output_status_label.config(text=f"Error: {e}")
-        finally:
-            db.close()
+
+        def run_async():
+            payload = worker()
+            self.root.after(0, lambda: apply(payload))
+
+        threading.Thread(target=run_async, daemon=True).start()
 
     def _get_market_tables(self, db):
         """Return list of tables for selected market (shared + market-prefixed)."""
@@ -2390,6 +3804,17 @@ class ScraperGUI:
         scraper_name, _ = self._get_market_context()
         return self._filter_output_tables(all_tables, prefix, scraper_name=scraper_name)
 
+    def _table_exists(self, db, table):
+        """Check if a table exists in the database."""
+        try:
+            cur = db.execute(
+                "SELECT 1 FROM information_schema.tables "
+                "WHERE table_schema = 'public' AND table_name = %s",
+                (table,))
+            return cur.fetchone() is not None
+        except Exception:
+            return False
+
     def _table_has_column(self, db, table, column):
         try:
             cur = db.execute(
@@ -2399,6 +3824,53 @@ class ScraperGUI:
             return cur.fetchone() is not None
         except Exception:
             return False
+
+    def _get_fk_safe_delete_order(self, db, tables):
+        """Sort tables so FK children are deleted before parents.
+
+        Queries PostgreSQL's information_schema to find FK relationships
+        and returns tables in topological order (children first).
+        """
+        try:
+            cur = db.execute("""
+                SELECT
+                    tc.table_name AS child_table,
+                    ccu.table_name AS parent_table
+                FROM information_schema.table_constraints AS tc
+                JOIN information_schema.constraint_column_usage AS ccu
+                    ON tc.constraint_name = ccu.constraint_name
+                    AND tc.table_schema = ccu.table_schema
+                WHERE tc.constraint_type = 'FOREIGN KEY'
+                  AND tc.table_schema = 'public'
+            """)
+            fk_pairs = cur.fetchall()
+        except Exception:
+            return tables  # Can't query FKs, return original order
+
+        # Build dependency graph: parent -> set of children
+        table_set = set(tables)
+        children_of = {}  # parent -> [children]
+        for child, parent in fk_pairs:
+            if child in table_set and parent in table_set:
+                children_of.setdefault(parent, []).append(child)
+
+        # Topological sort: children before parents
+        visited = set()
+        ordered = []
+
+        def visit(t):
+            if t in visited:
+                return
+            visited.add(t)
+            for child in children_of.get(t, []):
+                visit(child)
+            ordered.append(t)
+
+        for t in tables:
+            visit(t)
+
+        # ordered has children before parents (topological order)
+        return ordered
 
     def _delete_shared_table_market_rows(self, db, table, scraper_name, prefix):
         """Delete only the selected market's rows from shared tables."""
@@ -2414,8 +3886,28 @@ class ScraperGUI:
                 "(SELECT run_id FROM run_ledger WHERE scraper_name = %s)",
                 (scraper_name,))
             return
+        if table == "data_quality_checks":
+            # Delete data_quality_checks for this scraper's runs
+            # This must be deleted before run_ledger due to FK constraint
+            db.execute(
+                "DELETE FROM data_quality_checks WHERE run_id IN "
+                "(SELECT run_id FROM run_ledger WHERE scraper_name = %s)",
+                (scraper_name,))
+            return
         if table == "run_ledger":
-            db.execute("DELETE FROM run_ledger WHERE scraper_name = %s", (scraper_name,))
+            # Increase lock timeout temporarily for run_ledger deletion to avoid lock timeouts
+            # This is needed because foreign key checks from deleted tables can cause locks
+            try:
+                db.execute("SET lock_timeout = '30s'")
+                db.execute("DELETE FROM run_ledger WHERE scraper_name = %s", (scraper_name,))
+                db.execute("SET lock_timeout = '5s'")  # Reset to default
+            except Exception as e:
+                # Reset timeout even on error
+                try:
+                    db.execute("SET lock_timeout = '5s'")
+                except Exception:
+                    pass
+                raise
             return
         if table == "pcid_mapping":
             db.execute("DELETE FROM pcid_mapping WHERE source_country = %s", (scraper_name,))
@@ -2440,7 +3932,15 @@ class ScraperGUI:
             scraper_name, _ = self._get_market_context()
             prefix = getattr(db, '_prefix', '') or getattr(db, 'prefix', '')
             protected = {"_schema_versions"}
+            legacy_tables = []
+            if scraper_name:
+                for legacy in self.LEGACY_RUN_TABLES.get(scraper_name, set()):
+                    if self._table_has_column(db, legacy, "run_id"):
+                        legacy_tables.append(legacy)
             display_tables = [t for t in tables if t not in protected]
+            for legacy in legacy_tables:
+                if legacy not in display_tables:
+                    display_tables.append(legacy)
             ok = messagebox.askyesno(
                 "Delete market records",
                 f"This will permanently delete all rows for '{scraper_name}' from {len(display_tables)} table(s):\n\n"
@@ -2455,16 +3955,128 @@ class ScraperGUI:
                 return
             # Delete market-prefixed tables first to avoid FK issues with run_ledger
             shared_tables = {"run_ledger", "http_requests", "scraped_items", "_schema_versions"}
-            for table in tables:
-                if table in shared_tables or table in protected:
-                    continue
-                db.execute(f'TRUNCATE TABLE "{table}" CASCADE')
+            
+            # For Netherlands, delete in correct order to respect foreign key constraints
+            # Order: child tables first, then parent tables, then run_ledger
+            if scraper_name == "Netherlands":
+                # Define deletion order for Netherlands tables (child -> parent)
+                nl_deletion_order = [
+                    "nl_costs",              # References nl_details
+                    "nl_packs",              # References nl_collected_urls
+                    "nl_details",            # Parent of nl_costs
+                    "nl_collected_urls",     # Parent of nl_packs
+                    "nl_consolidated",       # Standalone
+                    "nl_chrome_instances",   # Standalone
+                    "nl_input_search_terms", # Input table
+                    "nl_step_progress",      # Standalone
+                    "nl_export_reports",  # Standalone
+                    "nl_errors",          # Standalone
+                    "nl_products",        # Legacy
+                    "nl_reimbursement",   # Legacy
+                ]
+                
+                # Delete Netherlands tables in order
+                # NOTE: db.execute() auto-commits each statement, so each
+                # TRUNCATE/DELETE runs in its own transaction. No SAVEPOINTs needed.
+                deleted_count = 0
+                errors = []
+                for table_name in nl_deletion_order:
+                    if table_name in tables:
+                        try:
+                            db.execute(f'TRUNCATE TABLE "{table_name}" CASCADE')
+                            deleted_count += 1
+                            print(f"[DELETE] Truncated {table_name}", flush=True)
+                        except Exception as e1:
+                            # TRUNCATE failed — try DELETE as fallback
+                            try:
+                                db.execute(f'DELETE FROM "{table_name}"')
+                                deleted_count += 1
+                                print(f"[DELETE] Deleted all rows from {table_name}", flush=True)
+                            except Exception as e2:
+                                error_msg = f"{table_name}: {str(e2)}"
+                                errors.append(error_msg)
+                                print(f"[WARNING] Skipped {table_name}: {e2}", flush=True)
+
+                # Delete any remaining nl_ tables not in the ordered list
+                for table in tables:
+                    if table.startswith("nl_") and table not in nl_deletion_order and table not in shared_tables and table not in protected:
+                        try:
+                            db.execute(f'TRUNCATE TABLE "{table}" CASCADE')
+                            deleted_count += 1
+                            print(f"[DELETE] Truncated {table}", flush=True)
+                        except Exception as e:
+                            try:
+                                db.execute(f'DELETE FROM "{table}"')
+                                deleted_count += 1
+                                print(f"[DELETE] Deleted all rows from {table}", flush=True)
+                            except Exception as e2:
+                                error_msg = f"{table}: {str(e2)}"
+                                errors.append(error_msg)
+                                print(f"[WARNING] Skipped {table}: {e2}", flush=True)
+                
+                if deleted_count == 0:
+                    error_summary = "\n".join(errors) if errors else "No tables found or all deletions failed"
+                    raise Exception(f"No Netherlands tables were deleted.\n\nErrors:\n{error_summary}")
+                elif errors:
+                    print(f"[WARNING] Some tables had errors but {deleted_count} table(s) were deleted successfully.", flush=True)
+            else:
+                # For other scrapers, use FK-safe ordering
+                # db.execute() auto-commits each statement — no SAVEPOINTs needed
+                safe_tables = self._get_fk_safe_delete_order(db, [t for t in tables if t not in shared_tables and t not in protected])
+                for table in safe_tables:
+                    try:
+                        db.execute(f'TRUNCATE TABLE "{table}" CASCADE')
+                    except Exception as e:
+                        try:
+                            db.execute(f'DELETE FROM "{table}"')
+                        except Exception as e2:
+                            print(f"[WARNING] Failed to delete {table}: {e2}", flush=True)
+
+            for legacy in legacy_tables:
+                try:
+                    db.execute(f'TRUNCATE TABLE "{legacy}" CASCADE')
+                except Exception as e:
+                    try:
+                        db.execute(f'DELETE FROM "{legacy}"')
+                    except Exception as e2:
+                        print(f"[WARNING] Failed to delete {legacy}: {e2}", flush=True)
 
             # Then delete market rows in shared tables
+            # IMPORTANT: Delete run_ledger LAST after all market tables are deleted
+            # This avoids foreign key constraint lock timeouts
             if scraper_name:
-                for shared in ("http_requests", "scraped_items"):
-                    self._delete_shared_table_market_rows(db, shared, scraper_name, prefix)
-                self._delete_shared_table_market_rows(db, "run_ledger", scraper_name, prefix)
+                # Delete dependent shared tables first (in FK order: children before parents)
+                # data_quality_checks references run_ledger, so delete it before run_ledger
+                for shared in ("http_requests", "scraped_items", "data_quality_checks"):
+                    try:
+                        self._delete_shared_table_market_rows(db, shared, scraper_name, prefix)
+                    except Exception as e:
+                        # If table doesn't exist, that's OK - continue
+                        if "does not exist" not in str(e).lower() and "relation" not in str(e).lower():
+                            print(f"[WARNING] Failed to delete {shared}: {e}", flush=True)
+                
+                # Delete from run_ledger last (this can timeout if FK checks are still pending)
+                # We increase lock timeout in _delete_shared_table_market_rows for this
+                try:
+                    self._delete_shared_table_market_rows(db, "run_ledger", scraper_name, prefix)
+                except Exception as e:
+                    if "lock timeout" in str(e).lower() or "canceling statement due to lock timeout" in str(e).lower():
+                        # If lock timeout, try one more time with even longer timeout
+                        print(f"[WARNING] Lock timeout on run_ledger, retrying with longer timeout...", flush=True)
+                        try:
+                            db.execute("SET lock_timeout = '60s'")
+                            db.execute("DELETE FROM run_ledger WHERE scraper_name = %s", (scraper_name,))
+                            db.execute("SET lock_timeout = '5s'")
+                            print(f"[DELETE] Successfully deleted run_ledger rows on retry", flush=True)
+                        except Exception as e2:
+                            try:
+                                db.execute("SET lock_timeout = '5s'")
+                            except Exception:
+                                pass
+                            raise Exception(f"Failed to delete run_ledger even with extended timeout: {e2}")
+                    else:
+                        raise
+            
             db.close()
             messagebox.showinfo("Delete market records", f"All records deleted for '{scraper_name}'.")
             self._refresh_output_tables()
@@ -2473,7 +4085,10 @@ class ScraperGUI:
                 db.close()
             except Exception:
                 pass
-            messagebox.showerror("Error", f"Failed to delete records: {e}")
+            import traceback
+            error_details = traceback.format_exc()
+            print(f"[ERROR] Delete failed: {error_details}", flush=True)
+            messagebox.showerror("Error", f"Failed to delete records:\n\n{str(e)}\n\nCheck console for details.")
 
     def _delete_run_id_in_selected_table(self):
         """Delete rows for the selected run_id in the selected table."""
@@ -2503,7 +4118,40 @@ class ScraperGUI:
             if not ok:
                 db.close()
                 return
-            db.execute(f'DELETE FROM "{table}" WHERE run_id = %s', (run_id,))
+            scraper_name, _ = self._get_market_context()
+            if table == "run_ledger":
+                self._cleanup_legacy_run_tables(db, run_id, scraper_name)
+            
+            # For run_ledger, increase lock timeout to avoid lock timeout errors
+            if table == "run_ledger":
+                try:
+                    db.execute("SET lock_timeout = '30s'")
+                    db.execute(f'DELETE FROM "{table}" WHERE run_id = %s', (run_id,))
+                    db.execute("SET lock_timeout = '5s'")
+                except Exception as e:
+                    try:
+                        db.execute("SET lock_timeout = '5s'")
+                    except Exception:
+                        pass
+                    if "lock timeout" in str(e).lower() or "canceling statement due to lock timeout" in str(e).lower():
+                        # Retry with longer timeout
+                        try:
+                            print(f"[WARNING] Lock timeout on run_ledger, retrying with longer timeout...", flush=True)
+                            db.execute("SET lock_timeout = '60s'")
+                            db.execute(f'DELETE FROM "{table}" WHERE run_id = %s', (run_id,))
+                            db.execute("SET lock_timeout = '5s'")
+                            print(f"[DELETE] Successfully deleted run_ledger row on retry", flush=True)
+                        except Exception as e2:
+                            try:
+                                db.execute("SET lock_timeout = '5s'")
+                            except Exception:
+                                pass
+                            raise Exception(f"Failed to delete run_ledger even with extended timeout: {e2}")
+                    else:
+                        raise
+            else:
+                db.execute(f'DELETE FROM "{table}" WHERE run_id = %s', (run_id,))
+            
             db.close()
             messagebox.showinfo("Delete run_id (table)", f"Deleted rows in '{table}' for run_id = {run_id}.")
             self._load_output_data()
@@ -2513,6 +4161,45 @@ class ScraperGUI:
             except Exception:
                 pass
             messagebox.showerror("Error", f"Failed to delete run_id rows: {e}")
+
+    def _set_run_id_as_resume(self):
+        """Set the selected run_id status to 'running' in the database."""
+        run_id = self.output_run_var.get()
+        if not run_id or run_id == "(All)":
+            messagebox.showwarning("Set as Resume", "Select a specific run_id first.")
+            return
+        
+        scraper_name, _ = self._get_market_context()
+        if not scraper_name:
+            messagebox.showerror("Error", "Could not determine scraper name.")
+            return
+        
+        db = self._get_output_db()
+        if not db:
+            messagebox.showerror("Error", "Cannot connect to PostgreSQL.")
+            return
+        
+        try:
+            # Update run_ledger status to 'running'
+            db.execute(
+                "UPDATE run_ledger SET status = 'running' WHERE run_id = %s AND scraper_name = %s",
+                (run_id, scraper_name)
+            )
+            db.commit()
+            db.close()
+            
+            messagebox.showinfo("Set as Resume", f"Successfully set run_id = {run_id} status to 'running'.")
+            
+            # Refresh the data to show updated status
+            self._load_output_data()
+        except Exception as e:
+            try:
+                db.close()
+            except Exception:
+                pass
+            error_details = traceback.format_exc()
+            print(f"[ERROR] Set as resume failed: {error_details}", flush=True)
+            messagebox.showerror("Error", f"Failed to set run_id as resume:\n\n{str(e)}\n\nCheck console for details.")
 
     def _delete_run_id_all_tables(self):
         """Delete rows for the selected run_id across all market tables (and shared tables that have run_id)."""
@@ -2525,14 +4212,24 @@ class ScraperGUI:
             messagebox.showerror("Error", "Cannot connect to PostgreSQL.")
             return
         try:
+            scraper_name, _ = self._get_market_context()
             tables = self._get_market_tables(db)
             if not tables:
                 messagebox.showinfo("Delete run_id (all tables)", "No tables found for this market.")
                 db.close()
                 return
+            legacy_tables = []
+            if scraper_name:
+                for legacy in self.LEGACY_RUN_TABLES.get(scraper_name, set()):
+                    if self._table_has_column(db, legacy, "run_id"):
+                        legacy_tables.append(legacy)
+            effective_tables = list(tables)
+            for legacy in legacy_tables:
+                if legacy not in effective_tables:
+                    effective_tables.append(legacy)
             ok = messagebox.askyesno(
                 "Delete run_id (all tables)",
-                f"Delete rows for run_id = {run_id} across {len(tables)} table(s)?\n\nThis cannot be undone.",
+                f"Delete rows for run_id = {run_id} across {len(effective_tables)} table(s)?\n\nThis cannot be undone.",
                 icon="warning",
                 default="no",
             )
@@ -2541,14 +4238,60 @@ class ScraperGUI:
                 return
 
             # Delete from all tables with run_id, but do run_ledger last (FKs)
-            for table in tables:
-                if table == "_schema_versions" or table == "run_ledger":
+            # Sort tables so FK children are deleted before parents
+            # db.execute() auto-commits each statement — no SAVEPOINTs needed
+            
+            # First, delete from shared tables that reference run_ledger
+            # These must be deleted before run_ledger due to FK constraints
+            shared_tables_with_fk = ["http_requests", "scraped_items", "data_quality_checks"]
+            for shared_table in shared_tables_with_fk:
+                if self._table_exists(db, shared_table) and self._table_has_column(db, shared_table, "run_id"):
+                    try:
+                        db.execute(f'DELETE FROM "{shared_table}" WHERE run_id = %s', (run_id,))
+                        print(f"[DELETE] Deleted from {shared_table} for run_id {run_id}", flush=True)
+                    except Exception as del_err:
+                        print(f"[DELETE] Warning: Could not delete from {shared_table}: {del_err}", flush=True)
+            
+            # Then delete from market-specific tables
+            ordered_tables = self._get_fk_safe_delete_order(db, effective_tables)
+            for table in ordered_tables:
+                if table == "_schema_versions" or table == "run_ledger" or table in shared_tables_with_fk:
                     continue
                 if self._table_has_column(db, table, "run_id"):
-                    db.execute(f'DELETE FROM "{table}" WHERE run_id = %s', (run_id,))
+                    try:
+                        db.execute(f'DELETE FROM "{table}" WHERE run_id = %s', (run_id,))
+                    except Exception as del_err:
+                        print(f"[DELETE] Warning: Could not delete from {table}: {del_err}", flush=True)
 
             if self._table_has_column(db, "run_ledger", "run_id"):
-                db.execute('DELETE FROM "run_ledger" WHERE run_id = %s', (run_id,))
+                self._cleanup_legacy_run_tables(db, run_id, scraper_name)
+                # Delete from run_ledger LAST (after all FK children are deleted)
+                # Use increased lock timeout to avoid lock timeout errors
+                try:
+                    db.execute("SET lock_timeout = '30s'")
+                    db.execute('DELETE FROM "run_ledger" WHERE run_id = %s', (run_id,))
+                    db.execute("SET lock_timeout = '5s'")
+                except Exception as e:
+                    try:
+                        db.execute("SET lock_timeout = '5s'")
+                    except Exception:
+                        pass
+                    if "lock timeout" in str(e).lower() or "canceling statement due to lock timeout" in str(e).lower():
+                        # Retry with longer timeout
+                        try:
+                            print(f"[WARNING] Lock timeout on run_ledger, retrying with longer timeout...", flush=True)
+                            db.execute("SET lock_timeout = '60s'")
+                            db.execute('DELETE FROM "run_ledger" WHERE run_id = %s', (run_id,))
+                            db.execute("SET lock_timeout = '5s'")
+                            print(f"[DELETE] Successfully deleted run_ledger row on retry", flush=True)
+                        except Exception as e2:
+                            try:
+                                db.execute("SET lock_timeout = '5s'")
+                            except Exception:
+                                pass
+                            raise Exception(f"Failed to delete run_ledger even with extended timeout: {e2}")
+                    else:
+                        raise
 
             db.close()
             messagebox.showinfo("Delete run_id (all tables)", f"Deleted run_id = {run_id} across tables.")
@@ -2604,8 +4347,48 @@ class ScraperGUI:
                     return
                 self._delete_shared_table_market_rows(db, table, scraper_name, prefix)
             else:
-                db.execute(f'TRUNCATE TABLE "{table}" CASCADE')
-
+                # For Netherlands tables, handle foreign key constraints properly
+                if scraper_name == "Netherlands" and table.startswith("nl_"):
+                    # Check if this table has child tables that reference it
+                    child_tables_map = {
+                        "nl_collected_urls": ["nl_packs"],
+                        "nl_details": ["nl_costs"],
+                    }
+                    
+                    # Delete child tables first if this is a parent table
+                    if table in child_tables_map:
+                        for child_table in child_tables_map[table]:
+                            try:
+                                db.execute(f'TRUNCATE TABLE "{child_table}" CASCADE')
+                                print(f"[DELETE] Deleted child table {child_table} first", flush=True)
+                            except Exception as e:
+                                try:
+                                    db.execute(f'DELETE FROM "{child_table}"')
+                                    print(f"[DELETE] Deleted rows from child table {child_table}", flush=True)
+                                except Exception as e2:
+                                    print(f"[WARNING] Could not delete child table {child_table}: {e2}", flush=True)
+                    
+                    # Now delete the requested table
+                    try:
+                        db.execute(f'TRUNCATE TABLE "{table}" CASCADE')
+                        print(f"[DELETE] Truncated {table}", flush=True)
+                    except Exception as e:
+                        # Try DELETE if TRUNCATE fails
+                        try:
+                            db.execute(f'DELETE FROM "{table}"')
+                            print(f"[DELETE] Deleted all rows from {table}", flush=True)
+                        except Exception as e2:
+                            raise Exception(f"Failed to delete {table}: {e2}")
+                else:
+                    # For other tables, use standard deletion
+                    try:
+                        db.execute(f'TRUNCATE TABLE "{table}" CASCADE')
+                    except Exception as e:
+                        # Fallback to DELETE if TRUNCATE fails
+                        try:
+                            db.execute(f'DELETE FROM "{table}"')
+                        except Exception as e2:
+                            raise Exception(f"Failed to delete {table}: {e2}")
             db.close()
             messagebox.showinfo("Delete table data", f"Deleted data from '{table}'.")
             self._refresh_output_tables()
@@ -2614,96 +4397,214 @@ class ScraperGUI:
                 db.close()
             except Exception:
                 pass
-            messagebox.showerror("Error", f"Failed to delete table data: {e}")
+            import traceback
+            error_details = traceback.format_exc()
+            print(f"[ERROR] Delete table failed: {error_details}", flush=True)
+            messagebox.showerror("Error", f"Failed to delete table data:\n\n{str(e)}\n\nCheck console for details.")
 
-    def _on_output_table_selected(self):
-        """When a table is selected, populate the run_id dropdown."""
+    def _on_status_filter_changed(self):
+        """When status filter changes, repopulate run_id dropdown."""
+        self._populate_run_ids_with_status_filter()
+
+    def _populate_run_ids_with_status_filter(self):
+        """Populate run_id dropdown filtered by selected status from run_ledger."""
         table = self.output_table_var.get()
-        db = self._get_output_db()
-        if not table or not db:
+        scraper_name, country = self._get_market_context()
+        if not table or not scraper_name or not country:
+            if hasattr(self, "output_run_combo"):
+                self.output_run_combo['values'] = ["(All)"]
+                self.output_run_var.set("(All)")
             return
-        try:
-            # Check if table has run_id column
-            cur = db.execute(
-                "SELECT column_name FROM information_schema.columns "
-                "WHERE table_schema = 'public' AND table_name = %s ORDER BY ordinal_position",
-                (table,))
-            columns = [row[0] for row in cur.fetchall()]
-            if 'run_id' in columns:
+
+        status_filter = self.output_status_filter_var.get() if hasattr(self, 'output_status_filter_var') else "All"
+        current_run = self.output_run_var.get() if hasattr(self, "output_run_var") else "(All)"
+        token = self._next_output_async_token("runs")
+        self.output_status_label.config(text=f"Loading run IDs for {table}...")
+
+        def worker():
+            db = self._get_output_db_for_country(country)
+            if not db:
+                return {"error": "DB: Cannot connect to PostgreSQL", "scraper_name": scraper_name, "table": table}
+            try:
+                cur = db.execute(
+                    "SELECT column_name FROM information_schema.columns "
+                    "WHERE table_schema = 'public' AND table_name = %s ORDER BY ordinal_position",
+                    (table,),
+                )
+                columns = [row[0] for row in cur.fetchall()]
+                if 'run_id' not in columns:
+                    return {
+                        "scraper_name": scraper_name,
+                        "table": table,
+                        "runs": ["(All)"],
+                        "selected_run": "(All)",
+                    }
+
                 from core.db.postgres_connection import SHARED_TABLES
-                scraper_name, _ = self._get_market_context()
                 filter_sql, filter_params = ("", ())
                 if table in SHARED_TABLES:
                     filter_sql, filter_params = self._get_shared_table_filter(table, scraper_name)
-                if filter_sql:
+
+                if status_filter != "All":
                     cur = db.execute(
-                        f"SELECT DISTINCT run_id FROM \"{table}\" WHERE {filter_sql} ORDER BY run_id DESC",
-                        filter_params
+                        "SELECT run_id FROM run_ledger WHERE scraper_name = %s AND status = %s ORDER BY run_id DESC",
+                        (scraper_name, status_filter),
                     )
+                    filtered_run_ids = {row[0] for row in cur.fetchall()}
+                    if filter_sql:
+                        cur = db.execute(
+                            f"SELECT DISTINCT run_id FROM \"{table}\" WHERE {filter_sql} ORDER BY run_id DESC",
+                            filter_params,
+                        )
+                    else:
+                        cur = db.execute(f"SELECT DISTINCT run_id FROM \"{table}\" ORDER BY run_id DESC")
+                    table_run_ids = [row[0] for row in cur.fetchall()]
+                    runs = [rid for rid in table_run_ids if rid in filtered_run_ids]
                 else:
-                    cur = db.execute(f"SELECT DISTINCT run_id FROM \"{table}\" ORDER BY run_id DESC")
-                runs = [row[0] for row in cur.fetchall()]
+                    if filter_sql:
+                        cur = db.execute(
+                            f"SELECT DISTINCT run_id FROM \"{table}\" WHERE {filter_sql} ORDER BY run_id DESC",
+                            filter_params,
+                        )
+                    else:
+                        cur = db.execute(f"SELECT DISTINCT run_id FROM \"{table}\" ORDER BY run_id DESC")
+                    runs = [row[0] for row in cur.fetchall()]
+
                 runs.insert(0, "(All)")
-                self.output_run_combo['values'] = runs
-                self.output_run_var.set(runs[0] if len(runs) > 1 else "(All)")
-            else:
-                self.output_run_combo['values'] = ["(All)"]
-                self.output_run_var.set("(All)")
-            db.close()
+                selected_run = current_run if current_run in runs else "(All)"
+                return {
+                    "scraper_name": scraper_name,
+                    "table": table,
+                    "runs": runs,
+                    "selected_run": selected_run,
+                }
+            except Exception as exc:
+                return {
+                    "error": f"Error loading run IDs: {str(exc)[:120]}",
+                    "scraper_name": scraper_name,
+                    "table": table,
+                }
+            finally:
+                try:
+                    db.close()
+                except Exception:
+                    pass
+
+        def apply(payload):
+            if not self._is_output_async_token_current("runs", token):
+                return
+            current_scraper = self.output_scraper_var.get() if hasattr(self, "output_scraper_var") else None
+            current_table = self.output_table_var.get() if hasattr(self, "output_table_var") else None
+            if current_scraper != payload.get("scraper_name") or current_table != payload.get("table"):
+                return
+
+            if payload.get("error"):
+                self.output_status_label.config(text=payload["error"])
+                if hasattr(self, "output_run_combo"):
+                    self.output_run_combo['values'] = ["(All)"]
+                    self.output_run_var.set("(All)")
+                return
+
+            runs = payload.get("runs", ["(All)"])
+            self.output_run_combo['values'] = runs
+            self.output_run_var.set(payload.get("selected_run", "(All)"))
             self._load_output_data()
-        except Exception as e:
-            self.output_status_label.config(text=f"Error: {e}")
+
+        def run_async():
+            payload = worker()
+            self.root.after(0, lambda: apply(payload))
+
+        threading.Thread(target=run_async, daemon=True).start()
+
+    def _on_output_table_selected(self):
+        """When a table is selected, populate the run_id dropdown."""
+        self._populate_run_ids_with_status_filter()
 
     def _load_output_data(self):
         """Load data from selected table/run into the Treeview."""
         table = self.output_table_var.get()
         run_id = self.output_run_var.get()
-        db = self._get_output_db()
-        if not table or not db:
+        scraper_name, country = self._get_market_context()
+        if not table or not scraper_name or not country:
             return
-        try:
-            # Get column info
-            cur = db.execute(
-                "SELECT column_name FROM information_schema.columns "
-                "WHERE table_schema = 'public' AND table_name = %s ORDER BY ordinal_position",
-                (table,))
-            col_names = [row[0] for row in cur.fetchall()]
+        token = self._next_output_async_token("data")
+        self.output_status_label.config(text=f"Loading data for {table}...")
 
-            # Build query with market filters for shared tables
-            from core.db.postgres_connection import SHARED_TABLES
-            scraper_name, _ = self._get_market_context()
-            where_parts = []
-            params = []
+        def worker():
+            db = self._get_output_db_for_country(country)
+            if not db:
+                return {"error": "DB: Cannot connect to PostgreSQL", "scraper_name": scraper_name, "table": table, "run_id": run_id}
+            try:
+                cur = db.execute(
+                    "SELECT column_name FROM information_schema.columns "
+                    "WHERE table_schema = 'public' AND table_name = %s ORDER BY ordinal_position",
+                    (table,),
+                )
+                col_names = [row[0] for row in cur.fetchall()]
 
-            if table in SHARED_TABLES:
-                filter_sql, filter_params = self._get_shared_table_filter(table, scraper_name)
-                if filter_sql:
-                    where_parts.append(filter_sql)
-                    params.extend(filter_params)
+                from core.db.postgres_connection import SHARED_TABLES
+                where_parts = []
+                params = []
+                if table in SHARED_TABLES:
+                    filter_sql, filter_params = self._get_shared_table_filter(table, scraper_name)
+                    if filter_sql:
+                        where_parts.append(filter_sql)
+                        params.extend(filter_params)
 
-            if run_id and run_id != "(All)" and 'run_id' in col_names:
-                where_parts.append("run_id = %s")
-                params.append(run_id)
+                if run_id and run_id != "(All)" and 'run_id' in col_names:
+                    where_parts.append("run_id = %s")
+                    params.append(run_id)
 
-            where_clause = f" WHERE {' AND '.join(where_parts)}" if where_parts else ""
-            cur = db.execute(f"SELECT * FROM \"{table}\"{where_clause} LIMIT 1000", tuple(params))
-            rows = cur.fetchall()
+                where_clause = f" WHERE {' AND '.join(where_parts)}" if where_parts else ""
+                cur = db.execute(f"SELECT * FROM \"{table}\"{where_clause} LIMIT 1000", tuple(params))
+                rows = cur.fetchall()
+                count_cur = db.execute(f"SELECT COUNT(*) FROM \"{table}\"{where_clause}", tuple(params))
+                total_count = count_cur.fetchone()[0]
 
-            # Get total count
-            count_cur = db.execute(f"SELECT COUNT(*) FROM \"{table}\"{where_clause}", tuple(params))
-            total_count = count_cur.fetchone()[0]
-            db.close()
+                return {
+                    "scraper_name": scraper_name,
+                    "table": table,
+                    "run_id": run_id,
+                    "col_names": col_names,
+                    "rows": rows,
+                    "total_count": total_count,
+                }
+            except Exception as exc:
+                return {
+                    "error": f"Error loading {table}: {str(exc)[:140]}",
+                    "scraper_name": scraper_name,
+                    "table": table,
+                    "run_id": run_id,
+                }
+            finally:
+                try:
+                    db.close()
+                except Exception:
+                    pass
 
-            # Clear existing tree
+        def apply(payload):
+            if not self._is_output_async_token_current("data", token):
+                return
+            current_scraper = self.output_scraper_var.get() if hasattr(self, "output_scraper_var") else None
+            current_table = self.output_table_var.get() if hasattr(self, "output_table_var") else None
+            current_run = self.output_run_var.get() if hasattr(self, "output_run_var") else None
+            if current_scraper != payload.get("scraper_name") or current_table != payload.get("table") or current_run != payload.get("run_id"):
+                return
+
+            if payload.get("error"):
+                self.output_status_label.config(text=payload["error"])
+                return
+
+            col_names = payload.get("col_names", [])
+            rows = payload.get("rows", [])
+            total_count = payload.get("total_count", 0)
+
             self.output_tree.delete(*self.output_tree.get_children())
-
-            # Set columns
             self.output_tree['columns'] = col_names
             for col in col_names:
                 self.output_tree.heading(col, text=col, anchor='w')
                 self.output_tree.column(col, width=120, minwidth=60, anchor='w')
 
-            # Insert rows
             for row in rows:
                 display = [str(v) if v is not None else "" for v in row]
                 self.output_tree.insert("", tk.END, values=display)
@@ -2713,8 +4614,12 @@ class ScraperGUI:
             self.output_row_count_label.config(text=f"{table}{suffix}")
             run_label = f" | run_id={run_id}" if run_id and run_id != "(All)" else ""
             self.output_status_label.config(text=f"Loaded {table}{run_label} | {total_count} total rows")
-        except Exception as e:
-            self.output_status_label.config(text=f"Error loading {table}: {e}")
+
+        def run_async():
+            payload = worker()
+            self.root.after(0, lambda: apply(payload))
+
+        threading.Thread(target=run_async, daemon=True).start()
 
     def _export_output_csv(self):
         """Export currently viewed table to CSV file."""
@@ -2763,7 +4668,7 @@ class ScraperGUI:
             from tkinter import messagebox
             messagebox.showerror("Export Error", str(e))
 
-    def setup_output_tab(self, parent):
+    def setup_output_files_tab_legacy(self, parent):
         """Setup output files viewer tab"""
         # Toolbar - white background
         toolbar = tk.Frame(parent, bg=self.colors['white'])
@@ -2867,9 +4772,8 @@ class ScraperGUI:
         # Set default to exports directory (will be updated when scraper is selected)
         # Default to repo root/exports for now, will be updated per scraper
         try:
-            from platform_config import get_path_manager
-            pm = get_path_manager()
-            default_exports = pm.get_exports_dir()
+            from core.config_manager import ConfigManager
+            default_exports = ConfigManager.get_exports_dir()
             self.final_output_path_var.set(str(default_exports))
         except Exception:
             # Fallback to repo root/exports
@@ -2948,208 +4852,11 @@ class ScraperGUI:
     
     def setup_config_tab(self, parent):
         """Setup configuration/environment editing tab"""
-        # Toolbar - white background
-        toolbar = tk.Frame(parent, bg=self.colors['white'])
-        toolbar.pack(fill=tk.X, padx=8, pady=8)
-        
-        tk.Label(toolbar, text="Scraper Configuration:", 
-                font=self.fonts['standard'],
-                bg=self.colors['white'],
-                fg='#000000').pack(side=tk.LEFT, padx=(0, 8))
-        
-        ttk.Button(toolbar, text="Load", command=self.load_config_file, 
-                  style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
-        ttk.Button(toolbar, text="Save", command=self.save_config_file, 
-                  style='Primary.TButton').pack(side=tk.LEFT, padx=3)
-        ttk.Button(toolbar, text="Format JSON", command=self.format_config_json,
-                  style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
-        ttk.Button(toolbar, text="Open File", command=self.open_config_file, 
-                  style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
-        ttk.Button(toolbar, text="Create from Template", command=self.create_config_from_template, 
-                  style='Secondary.TButton').pack(side=tk.LEFT, padx=3)
-        
-        # Config editor - dark theme with border
-        editor_frame = ttk.LabelFrame(parent, text="Configuration Editor", padding=12, style='Title.TLabelframe')
-        editor_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
-        
-        self.config_text = scrolledtext.ScrolledText(editor_frame, wrap=tk.WORD,
-                                                     font=self.fonts['monospace'],  # Monospace
-                                                     bg=self.colors['white'],  # White background
-                                                     fg='#000000',  # Black text
-                                                     borderwidth=0,
-                                                     relief='flat',
-                                                     highlightthickness=0,
-                                                     padx=16,
-                                                     pady=16,
-                                                     insertbackground='#000000',
-                                                     selectbackground=self.colors['background_gray'],
-                                                     selectforeground='#000000')
-        self.config_text.pack(fill=tk.BOTH, expand=True)
-        
-        # Configure JSON syntax highlighting tags
-        self.config_text.tag_configure("json_key", foreground='#000000')
-        self.config_text.tag_configure("json_string", foreground="#10b981")  # Green for strings
-        self.config_text.tag_configure("json_number", foreground="#f59e0b")  # Amber for numbers
-        self.config_text.tag_configure("json_boolean", foreground='#000000')
-        
-        # Status - white background, no border
-        self.config_status = tk.Label(parent, text="Scraper-specific configuration file", 
-                                       relief=tk.FLAT, anchor=tk.W,
-                                       bg=self.colors['white'],
-                                       fg='#000000',
-                                       font=self.fonts['standard'],
-                                       padx=10,
-                                       borderwidth=0,
-                                       highlightthickness=0)
-        self.config_status.pack(fill=tk.X, padx=8, pady=8)
-        
-        # Store current config file path (will be set when scraper is selected)
+        # Use extracted ConfigTab module
+        from gui.tabs import ConfigTab
+        self.config_tab_instance = ConfigTab(parent, self)
+        # Store reference to current_config_file at instance level for compatibility
         self.current_config_file = None
-        
-        # Don't auto-load - wait for scraper selection
-    
-    
-    def load_config_file(self):
-        """Load scraper-specific config file (config/{scraper_id}.env.json)"""
-        scraper_name = self.scraper_var.get() if hasattr(self, 'scraper_var') else None
-        if not scraper_name:
-            messagebox.showwarning("Warning", "Please select a scraper first to load its configuration.")
-            return
-        
-        # Use scraper-specific config file from config directory
-        try:
-            from platform_config import get_path_manager
-            pm = get_path_manager()
-            config_dir = pm.get_config_dir()
-            config_file = config_dir / f"{scraper_name}.env.json"
-        except Exception:
-            # Fallback to repo root config directory
-            config_dir = self.repo_root / "config"
-            config_file = config_dir / f"{scraper_name}.env.json"
-        
-        # Update current config file path
-        self.current_config_file = config_file
-        
-        if config_file.exists():
-            try:
-                with open(config_file, "r", encoding="utf-8") as f:
-                    content = f.read()
-                self.config_text.delete(1.0, tk.END)
-                self.config_text.insert(1.0, content)
-                self.config_status.config(text=f"Loaded: {config_file.name} ({scraper_name} configuration)")
-            except Exception as e:
-                messagebox.showerror("Error", f"Failed to load config file:\n{str(e)}")
-                self.config_status.config(text=f"Error loading config: {str(e)}")
-        else:
-            # File doesn't exist, show empty editor with template
-            self.config_text.delete(1.0, tk.END)
-            template = "{\n"
-            template += f'  "{scraper_name}": {{\n'
-            template += '    "OPENAI_API_KEY": "",\n'
-            template += '    "OPENAI_MODEL": "gpt-4o-mini"\n'
-            template += "  }\n"
-            template += "}\n"
-            self.config_text.insert(1.0, template)
-            self.config_status.config(text=f"Config file not found. Will create: {config_file.name}")
-    
-    def save_config_file(self):
-        """Save .env file for selected scraper"""
-        if not self.current_config_file:
-            messagebox.showwarning("Warning", "No configuration file loaded. Select a scraper first.")
-            return
-        
-        try:
-            content = self.config_text.get(1.0, tk.END)
-            # Remove trailing newline from tkinter
-            if content.endswith("\n"):
-                content = content[:-1]
-            
-            # Create directory if needed
-            self.current_config_file.parent.mkdir(parents=True, exist_ok=True)
-            
-            with open(self.current_config_file, "w", encoding="utf-8") as f:
-                f.write(content)
-            
-            self.config_status.config(text=f"Saved: {self.current_config_file}")
-            messagebox.showinfo("Information", f"Configuration saved to:\n{self.current_config_file}")
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to save config file:\n{str(e)}")
-            self.config_status.config(text=f"Error saving config: {str(e)}")
-
-    def format_config_json(self):
-        """Format the config editor content as pretty JSON for readability."""
-        try:
-            content = self.config_text.get(1.0, tk.END).strip()
-            if not content:
-                messagebox.showwarning("Warning", "Configuration editor is empty.")
-                return
-            data = json.loads(content)
-            formatted = json.dumps(data, indent=2, ensure_ascii=False)
-            self.config_text.delete(1.0, tk.END)
-            self.config_text.insert(1.0, formatted + "\n")
-            self.config_status.config(text="Formatted JSON for readability.")
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to format JSON:\n{e}")
-    
-    def open_config_file(self):
-        """Open config file in system default editor"""
-        if not self.current_config_file:
-            messagebox.showwarning("Warning", "No configuration file loaded. Select a scraper first.")
-            return
-        
-        if self.current_config_file.exists():
-            os.startfile(str(self.current_config_file))
-        else:
-            messagebox.showinfo("Information", f"Configuration file does not exist:\n{self.current_config_file}\n\nUse 'Save' to create the file.")
-    
-    def create_config_from_template(self):
-        """Create scraper config file from template"""
-        scraper_name = self.scraper_var.get() if hasattr(self, 'scraper_var') else None
-        if not scraper_name:
-            messagebox.showwarning("Warning", "Please select a scraper first.")
-            return
-        
-        # Try to find template in config directory
-        try:
-            from platform_config import get_path_manager
-            pm = get_path_manager()
-            config_dir = pm.get_config_dir()
-            template_file = config_dir / f"{scraper_name}.env.json.example"
-        except Exception:
-            config_dir = self.repo_root / "config"
-            template_file = config_dir / f"{scraper_name}.env.json.example"
-        
-        if not template_file.exists():
-            # Try scraper directory
-            scraper_info = self.scrapers.get(scraper_name, {})
-            if scraper_info:
-                scraper_template = scraper_info["path"] / ".env.example"
-                if scraper_template.exists():
-                    template_file = scraper_template
-        
-        if not template_file.exists():
-            messagebox.showwarning("Warning", f"Template file not found:\n{template_file}\n\nCreating empty config file instead.")
-            self.config_text.delete(1.0, tk.END)
-            template = "{\n"
-            template += f'  "{scraper_name}": {{\n'
-            template += '    "OPENAI_API_KEY": "",\n'
-            template += '    "OPENAI_MODEL": "gpt-4o-mini"\n'
-            template += "  }\n"
-            template += "}\n"
-            self.config_text.insert(1.0, template)
-            return
-        
-        try:
-            with open(template_file, "r", encoding="utf-8") as f:
-                template_content = f.read()
-            
-            # Load into editor
-            self.config_text.delete(1.0, tk.END)
-            self.config_text.insert(1.0, template_content)
-            self.config_status.config(text=f"Loaded template from: {template_file.name}")
-            messagebox.showinfo("Information", f"Template loaded from:\n{template_file}\n\nUse 'Save' to create config file.")
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to load template:\n{str(e)}")
     
     def setup_rest_tab(self, parent):
         """Setup rest/utilities tab"""
@@ -3212,7 +4919,7 @@ class ScraperGUI:
                         # Extract scraper name from filename or use filename
                         scraper_name = doc_file.stem.upper()
                         if "CANADA" in scraper_name:
-                            scraper_name = "CanadaQuebec"
+                            scraper_name = "canada_quebec"
                         elif "MALAYSIA" in scraper_name:
                             scraper_name = "Malaysia"
                         elif "ARGENTINA" in scraper_name or "PIPELINE" in scraper_name:
@@ -3222,8 +4929,8 @@ class ScraperGUI:
                         key = f"{scraper_name} - {doc_file.name}"
                         self.docs[key] = doc_file
             
-            # Also check for scraper-specific doc directories (doc/CanadaQuebec/, doc/Malaysia/, etc.)
-            for scraper_name in ["CanadaQuebec", "Malaysia", "Argentina", "Taiwan"]:
+            # Also check for scraper-specific doc directories (doc/canada_quebec/, doc/Malaysia/, etc.)
+            for scraper_name in ["canada_quebec", "Malaysia", "Argentina", "Taiwan"]:
                 scraper_doc_dir = doc_root / scraper_name
                 if scraper_doc_dir.exists():
                     for doc_file in scraper_doc_dir.glob("*.md"):
@@ -3249,16 +4956,14 @@ class ScraperGUI:
         # Enable/disable data reset controls based on script availability
         self.update_reset_controls(scraper_name)
         self._refresh_io_lock_states()
-        # Update run/stop buttons based on selected scraper
-        self.refresh_run_button_state()
         
         # Update output path to scraper output directory (not runs directory)
         if hasattr(self, 'output_path_var'):
             # Use scraper-specific output directory
             try:
-                from platform_config import get_path_manager
-                pm = get_path_manager()
-                output_dir = pm.get_output_dir(scraper_name)
+                from core.config_manager import ConfigManager
+                # Migrated: pm = get_path_manager()
+                output_dir = ConfigManager.get_output_dir(scraper_name)
                 self.output_path_var.set(str(output_dir))
             except Exception:
                 # Fallback to scraper output directory
@@ -3271,9 +4976,9 @@ class ScraperGUI:
         # Update Final Output path to scraper-specific exports directory
         if hasattr(self, 'final_output_path_var'):
             try:
-                from platform_config import get_path_manager
-                pm = get_path_manager()
-                exports_dir = pm.get_exports_dir(scraper_name)
+                from core.config_manager import ConfigManager
+                # Migrated: pm = get_path_manager()
+                exports_dir = ConfigManager.get_exports_dir(scraper_name)
                 self.final_output_path_var.set(str(exports_dir))
             except Exception:
                 # Fallback to repo root/exports/{scraper_name}
@@ -3289,10 +4994,7 @@ class ScraperGUI:
             self.output_scraper_var.set(scraper_name)
         if hasattr(self, 'input_scraper_var') and scraper_name:
             self.input_scraper_var.set(scraper_name)
-        if hasattr(self, 'output_table_combo'):
-            self._refresh_output_tables()
-        if hasattr(self, '_refresh_input_tables'):
-            self._refresh_input_tables()
+        self._schedule_market_table_refresh(delay_ms=80)
 
         # Reset progress state when switching scrapers (to avoid showing stale data from previous runs)
         # Only reset if scraper is not currently running
@@ -3321,17 +5023,18 @@ class ScraperGUI:
         # Update progress bar for the newly selected scraper
         self.update_progress_for_scraper(scraper_name)
         
-        # Refresh button state
+        # Refresh button/checkpoint state once (update_checkpoint_status also refreshes timeline label)
+        # Avoid duplicate refresh calls here because they can block UI while switching scrapers.
         self.refresh_run_button_state()
-        
-        # Update checkpoint status
-        self.update_checkpoint_status()
         
         # Update Chrome instance count
         self.update_chrome_count()
         
         # Update kill all Chrome button state
         self.update_kill_all_chrome_button_state()
+        
+        # Update network info display (force refresh so Tor/Direct reflects this scraper's config)
+        self.update_network_info(scraper_name, force_refresh=True)
     
     def on_step_selected(self, event=None):
         """Handle step selection"""
@@ -3675,6 +5378,24 @@ Provide a clear, concise explanation suitable for users who want to understand w
         self.explanation_text.delete(1.0, tk.END)
         self.explanation_text.config(state=tk.DISABLED)
     
+    def _truncate_log_tail(self, content: str, max_chars: int = None) -> str:
+        """Return content or its tail to keep UI responsive and limit memory."""
+        if not content:
+            return content
+        limit = max_chars if max_chars is not None else self.MAX_DISPLAY_LOG_CHARS
+        if len(content) <= limit:
+            return content
+        return "... [earlier output truncated] ...\n\n" + content[-limit:]
+
+    def _cap_scraper_log(self, scraper_name: str) -> None:
+        """Keep in-memory log for scraper under MAX_LOG_CHARS to prevent bloat."""
+        if scraper_name not in self.scraper_logs:
+            return
+        s = self.scraper_logs[scraper_name]
+        if len(s) <= self.MAX_LOG_CHARS:
+            return
+        self.scraper_logs[scraper_name] = "... [earlier output truncated] ...\n\n" + s[-self.MAX_LOG_CHARS:]
+
     def update_log_display(self, scraper_name: str):
         """Update log display with the selected scraper's log"""
         if self._is_scraper_active(scraper_name):
@@ -3682,9 +5403,10 @@ Provide a clear, concise explanation suitable for users who want to understand w
         log_content = self.scraper_logs.get(scraper_name, "")
         if not log_content and not self._is_scraper_active(scraper_name):
             log_content = self._load_latest_log_for_scraper(scraper_name)
+        display_content = self._truncate_log_tail(log_content)
         self.log_text.config(state=tk.NORMAL)
         self.log_text.delete(1.0, tk.END)
-        self.log_text.insert(1.0, log_content)
+        self.log_text.insert(1.0, display_content)
         self.log_text.see(tk.END)
         self.log_text.config(state=tk.DISABLED)
         self._sync_db_activity(log_content)
@@ -3706,12 +5428,13 @@ Provide a clear, concise explanation suitable for users who want to understand w
         
         # Only refresh display if this scraper is still selected
         if scraper_name == self.scraper_var.get():
+            display_content = self._truncate_log_tail(log_content)
             current_content = self.log_text.get(1.0, tk.END)
-            if log_content != current_content.rstrip('\n'):
-                # Log has been updated, refresh display
+            if display_content.rstrip() != current_content.rstrip('\n'):
+                # Log has been updated, refresh display (tail only to avoid GUI freeze)
                 self.log_text.config(state=tk.NORMAL)
                 self.log_text.delete(1.0, tk.END)
-                self.log_text.insert(1.0, log_content)
+                self.log_text.insert(1.0, display_content)
                 self.log_text.see(tk.END)
                 self.log_text.config(state=tk.DISABLED)
             
@@ -4336,9 +6059,16 @@ Provide a clear, concise explanation suitable for users who want to understand w
             self.progress_label.config(text=progress_desc)
     
     def append_to_log_display(self, line: str):
-        """Append a line to the log display (if scraper is selected)"""
+        """Append a line to the log display (if scraper is selected). Cap widget size to avoid hang."""
         self.log_text.config(state=tk.NORMAL)
         self.log_text.insert(tk.END, line)
+        # Keep widget responsive: drop oldest lines if over ~8k lines
+        try:
+            line_count = int(self.log_text.index("end-1c").split(".")[0])
+            if line_count > 8000:
+                self.log_text.delete("1.0", f"{line_count - 6000}.0")
+        except Exception:
+            pass
         self.log_text.see(tk.END)
         self.log_text.config(state=tk.DISABLED)
     
@@ -4431,8 +6161,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
 
     def _get_lock_paths(self, scraper_name: str):
         try:
-            from platform_config import get_path_manager
-            pm = get_path_manager()
+            from core.config_manager import ConfigManager
+            # Migrated: pm = get_path_manager()
             new_lock = pm.get_lock_file(scraper_name)
         except Exception:
             new_lock = self.repo_root / ".locks" / f"{scraper_name}.lock"
@@ -4570,8 +6300,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
         candidates = []
         # Telegram bot logs
         try:
-            from platform_config import get_path_manager
-            pm = get_path_manager()
+            from core.config_manager import ConfigManager
+            # Migrated: pm = get_path_manager()
             logs_dir = pm.get_logs_dir()
         except Exception:
             logs_dir = self.repo_root / "logs"
@@ -4581,9 +6311,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
 
         # Output logs
         try:
-            from platform_config import get_path_manager
-            pm = get_path_manager()
-            output_dir = pm.get_output_dir(scraper_name)
+            from core.config_manager import ConfigManager
+            # Migrated: pm = get_path_manager()
+            output_dir = ConfigManager.get_output_dir(scraper_name)
         except Exception:
             output_dir = self.repo_root / "output" / scraper_name
         if output_dir.exists():
@@ -4651,6 +6381,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
         content = self._read_log_tail(scraper_name, log_path)
         if content:
             self.scraper_logs[scraper_name] = self.scraper_logs.get(scraper_name, "") + content
+            self._cap_scraper_log(scraper_name)
 
     def _is_scraper_active(self, scraper_name: str) -> bool:
         if scraper_name in self.running_scrapers or scraper_name in self.running_processes:
@@ -4714,14 +6445,14 @@ Provide a clear, concise explanation suitable for users who want to understand w
         else:
             # Check if any scraper has a lock file (might be running from outside GUI)
             try:
-                from platform_config import get_path_manager
-                pm = get_path_manager()
+                from core.config_manager import ConfigManager
+                # Migrated: pm = get_path_manager()
                 for scraper_name in self.scrapers.keys():
                     lock_file = pm.get_lock_file(scraper_name)
                     if lock_file.exists():
                         # Check if lock is stale
                         try:
-                            with open(lock_file, 'r') as f:
+                            with open(lock_file, 'r', encoding='utf-8') as f:
                                 lock_content = f.read().strip().split('\n')
                                 if lock_content and lock_content[0].isdigit():
                                     lock_pid = int(lock_content[0])
@@ -4894,21 +6625,47 @@ Provide a clear, concise explanation suitable for users who want to understand w
         """Start a periodic task to check for and clean up stale lock files"""
         def periodic_check():
             try:
-                # Check all scrapers for stale locks
+                # Check all scrapers for stale locks and external starts
                 for scraper_name in self.scrapers.keys():
-                    # Skip if scraper is actually running from GUI
-                    if scraper_name in self.running_scrapers:
-                        continue
-                    
                     try:
-                        from platform_config import get_path_manager
-                        pm = get_path_manager()
+                        from core.config_manager import ConfigManager
+                        # Migrated: pm = get_path_manager()
                         lock_file = pm.get_lock_file(scraper_name)
+                        
+                        # Check current lock state
+                        current_lock_exists = lock_file.exists()
+                        last_lock_exists = self._last_known_lock_states.get(scraper_name, False)
+                        
+                        # Update stored state
+                        self._last_known_lock_states[scraper_name] = current_lock_exists
+                        
+                        # Detect external start (lock appeared, not started from GUI)
+                        if current_lock_exists and not last_lock_exists and scraper_name not in self.running_scrapers:
+                            # External process started - refresh UI if this is the selected scraper
+                            if scraper_name == self.scraper_var.get():
+                                self.root.after(0, self.refresh_run_button_state)
+                                self.root.after(0, lambda sn=scraper_name: self.schedule_log_refresh(sn))
+                            # Also update ticker to show running status
+                            self.root.after(0, self.update_ticker_content)
+                            continue
+                        
+                        # Detect external stop (lock disappeared, not stopped from GUI)
+                        if not current_lock_exists and last_lock_exists and scraper_name not in self.running_scrapers:
+                            # External process stopped - refresh UI if this is the selected scraper
+                            if scraper_name == self.scraper_var.get():
+                                self.root.after(0, self.refresh_run_button_state)
+                            # Update ticker to reflect stopped status
+                            self.root.after(0, self.update_ticker_content)
+                            continue
+                        
+                        # Skip if scraper is actually running from GUI (stale lock check not needed)
+                        if scraper_name in self.running_scrapers:
+                            continue
                         
                         if lock_file.exists():
                             # Check if lock is stale
                             try:
-                                with open(lock_file, 'r') as f:
+                                with open(lock_file, 'r', encoding='utf-8') as f:
                                     lock_content = f.read().strip().split('\n')
                                     if lock_content and lock_content[0].isdigit():
                                         lock_pid = int(lock_content[0])
@@ -4925,6 +6682,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
                                             if str(lock_pid) not in result.stdout:
                                                 try:
                                                     lock_file.unlink()
+                                                    self._last_known_lock_states[scraper_name] = False
                                                     # Refresh button state if this is the selected scraper
                                                     if scraper_name == self.scraper_var.get():
                                                         self.root.after(0, self.refresh_run_button_state)
@@ -4934,6 +6692,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
                                 # If we can't read the lock file, it might be corrupted - try to remove it
                                 try:
                                     lock_file.unlink()
+                                    self._last_known_lock_states[scraper_name] = False
                                     if scraper_name == self.scraper_var.get():
                                         self.root.after(0, self.refresh_run_button_state)
                                 except:
@@ -4961,15 +6720,17 @@ Provide a clear, concise explanation suitable for users who want to understand w
         # Start the periodic check after 5 seconds
         self.root.after(5000, periodic_check)
 
-    def start_periodic_telegram_status(self):
-        """Start a periodic task to refresh Telegram bot status"""
-        def periodic_check():
+    def start_periodic_network_info_update(self):
+        """Start a periodic task to refresh network info (every 30 seconds)"""
+        def periodic_update():
             try:
-                self.root.after(0, self.refresh_telegram_status)
+                scraper_name = self.scraper_var.get()
+                if scraper_name:
+                    self.update_network_info(scraper_name)
             except:
                 pass
-            self.root.after(5000, periodic_check)
-        self.root.after(5000, periodic_check)
+            self.root.after(30000, periodic_update)  # 30 seconds
+        self.root.after(30000, periodic_update)  # First update after 30 seconds
 
     def start_ticker_animation(self):
         """Start the ticker tape animation"""
@@ -5077,141 +6838,6 @@ Provide a clear, concise explanation suitable for users who want to understand w
             return None
         return None
 
-    def refresh_telegram_status(self):
-        """Refresh Telegram bot status label and button states"""
-        if not hasattr(self, "telegram_status_label"):
-            return
-
-        running = self.telegram_process is not None and self.telegram_process.poll() is None
-        
-        if running:
-            pid = self.telegram_process.pid
-            self.telegram_status_label.config(
-                text=f"🟢 Running (PID {pid})",
-                fg='#28a745'
-            )
-            # Update toggle button to "Stop" state
-            if hasattr(self, "telegram_toggle_button"):
-                self.telegram_toggle_button.config(text="⏹ Stop Bot")
-            # Update status icon to green
-            if hasattr(self, "telegram_status_icon"):
-                self.telegram_status_icon.config(text="●", fg='#28a745')
-        else:
-            if self.telegram_process is not None and self.telegram_process.poll() is not None:
-                self.telegram_process = None
-            self.telegram_status_label.config(
-                text="⚪ Stopped",
-                fg='#666666'
-            )
-            # Update toggle button to "Start" state
-            if hasattr(self, "telegram_toggle_button"):
-                self.telegram_toggle_button.config(text="▶ Start Bot")
-            # Update status icon (gray = not started)
-            if hasattr(self, "telegram_status_icon"):
-                self.telegram_status_icon.config(text="○", fg='#cccccc')
-
-        if self.telegram_log_path:
-            log_name = self.telegram_log_path.name if hasattr(self.telegram_log_path, "name") else str(self.telegram_log_path)
-            self.telegram_log_label.config(text=f"📝 {log_name}")
-        else:
-            self.telegram_log_label.config(text="📝 (no log)")
-
-    def on_telegram_toggle(self):
-        """Handle the toggle button to start/stop the Telegram bot."""
-        running = self.telegram_process is not None and self.telegram_process.poll() is None
-        if not running:
-            self.start_telegram_bot()
-        else:
-            self.stop_telegram_bot()
-
-    def start_telegram_bot(self):
-        """Start Telegram bot process"""
-        if self.telegram_process is not None and self.telegram_process.poll() is None:
-            messagebox.showinfo("Information", "Telegram bot is already running.")
-            return
-
-        script_path = self.repo_root / "telegram_bot.py"
-        if not script_path.exists():
-            messagebox.showerror("Error", f"Telegram bot script not found:\n{script_path}")
-            return
-
-        token = os.getenv("TELEGRAM_BOT_TOKEN") or self._get_env_value_from_dotenv("TELEGRAM_BOT_TOKEN")
-        if not token:
-            messagebox.showerror("Error", "Missing TELEGRAM_BOT_TOKEN in .env or environment.")
-            return
-
-        try:
-            from platform_config import get_path_manager
-            pm = get_path_manager()
-            logs_dir = pm.get_logs_dir()
-        except Exception:
-            logs_dir = self.repo_root / "logs"
-
-        telegram_dir = logs_dir / "telegram"
-        telegram_dir.mkdir(parents=True, exist_ok=True)
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        log_path = telegram_dir / f"telegram_bot_{timestamp}.log"
-
-        try:
-            log_handle = open(log_path, "a", encoding="utf-8", errors="replace")
-        except Exception as e:
-            messagebox.showerror("Error", f"Could not open log file:\n{e}")
-            return
-
-        env = os.environ.copy()
-        env["PYTHONUNBUFFERED"] = "1"
-        if "TELEGRAM_BOT_TOKEN" not in env:
-            env["TELEGRAM_BOT_TOKEN"] = token
-
-        creation_flags = 0
-        if hasattr(subprocess, "CREATE_NO_WINDOW"):
-            creation_flags = subprocess.CREATE_NO_WINDOW
-
-        try:
-            self.telegram_process = subprocess.Popen(
-                [sys.executable, "-u", str(script_path)],
-                cwd=str(self.repo_root),
-                stdout=log_handle,
-                stderr=subprocess.STDOUT,
-                env=env,
-                creationflags=creation_flags
-            )
-            self.telegram_log_path = log_path
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to start Telegram bot:\n{e}")
-            try:
-                log_handle.close()
-            except Exception:
-                pass
-            self.telegram_process = None
-            self.telegram_log_path = None
-            return
-
-        self.update_status("Telegram bot started")
-        self.refresh_telegram_status()
-
-    def stop_telegram_bot(self):
-        """Stop Telegram bot process"""
-        if self.telegram_process is None or self.telegram_process.poll() is not None:
-            messagebox.showinfo("Information", "Telegram bot is not running.")
-            self.telegram_process = None
-            self.refresh_telegram_status()
-            return
-
-        try:
-            self.telegram_process.terminate()
-            self.telegram_process.wait(timeout=5)
-        except Exception:
-            try:
-                self.telegram_process.kill()
-            except Exception:
-                pass
-        finally:
-            self.telegram_process = None
-
-        self.update_status("Telegram bot stopped")
-        self.refresh_telegram_status()
-    
     def finish_scraper_run(self, scraper_name: str, return_code: int, stopped: bool = False):
         """Finish scraper run and update display if selected"""
         # Ensure scraper is removed from running sets
@@ -5227,8 +6853,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
         max_retries = 5
         for attempt in range(max_retries):
             try:
-                from platform_config import get_path_manager
-                pm = get_path_manager()
+                from core.config_manager import ConfigManager
+                # Migrated: pm = get_path_manager()
                 lock_file = pm.get_lock_file(scraper_name)
                 if lock_file.exists():
                     lock_file.unlink()
@@ -5275,8 +6901,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
             """Refresh button state after ensuring cleanup is complete"""
             # Double-check lock files are gone before refreshing
             try:
-                from platform_config import get_path_manager
-                pm = get_path_manager()
+                from core.config_manager import ConfigManager
+                # Migrated: pm = get_path_manager()
                 lock_file = pm.get_lock_file(scraper_name)
                 if lock_file.exists():
                     # Lock still exists, try to remove it one more time
@@ -5289,7 +6915,25 @@ Provide a clear, concise explanation suitable for users who want to understand w
             self.refresh_run_button_state()
         
         self.root.after(500, refresh_with_delay)  # 500ms delay to ensure file system updates
-    
+
+        # Auto-restart: if pipeline was stopped by the 20-min timer, schedule resume after 30s pause
+        if scraper_name in self._auto_restart_pausing:
+            self._auto_restart_pausing.discard(scraper_name)
+            if return_code == 0:
+                # Pipeline completed successfully - no need to restart
+                self._cancel_auto_restart(scraper_name)
+                self.append_to_log_display(f"[AUTO-RESTART] Pipeline completed successfully, auto-restart cycle ended.\n")
+            else:
+                # Schedule resume after 30 seconds
+                cycle = self._auto_restart_cycle_count.get(scraper_name, 0)
+                self.append_to_log_display(
+                    f"\n[AUTO-RESTART] Cycle #{cycle}: Pipeline stopped. Resuming in 30 seconds...\n")
+                resume_id = self.root.after(30000, lambda sn=scraper_name: self._auto_restart_resume_pipeline(sn))
+                self._auto_restart_resume_ids[scraper_name] = resume_id
+        elif return_code == 0:
+            # Natural successful completion - cancel any pending auto-restart
+            self._cancel_auto_restart(scraper_name)
+
     def handle_scraper_error(self, scraper_name: str, error: str):
         """Handle scraper execution error and update display if selected"""
         if scraper_name == self.scraper_var.get():
@@ -5475,32 +7119,38 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 new_end = self.doc_text.index(f"{tag_start}+{len(text)}c")
                 self.doc_text.tag_add("italic", tag_start, new_end)
     
-    def run_full_pipeline(self, resume=True):
-        """Run the full pipeline for selected scraper with resume/checkpoint support"""
+    def run_full_pipeline(self, resume=True, _skip_confirm=False):
+        """Run the full pipeline for selected scraper with resume/checkpoint support.
+
+        Args:
+            resume: True to resume from checkpoint, False for fresh run.
+            _skip_confirm: If True, skip all confirmation dialogs (used by auto-restart).
+        """
         # Check if THIS scraper is already running (not other scrapers)
         scraper_name = self.scraper_var.get()
         if not scraper_name:
-            messagebox.showwarning("Warning", "Select a scraper first")
+            if not _skip_confirm:
+                messagebox.showwarning("Warning", "Select a scraper first")
             return
 
         # Check if this specific scraper is running from GUI
         if scraper_name in self.running_scrapers:
-            messagebox.showwarning("Warning", f"{scraper_name} is already running. Wait for completion.")
+            if not _skip_confirm:
+                messagebox.showwarning("Warning", f"{scraper_name} is already running. Wait for completion.")
             return
-        
-        # Check if lock file exists (scraper might be running from outside GUI)
-        try:
-            from platform_config import get_path_manager
-            pm = get_path_manager()
-            lock_file = pm.get_lock_file(scraper_name)
-            if lock_file.exists():
-                messagebox.showwarning("Warning", f"{scraper_name} is already running (lock file exists).\n\nUse 'Clear Run Lock' if you're sure it's not running.")
-                return
-        except Exception:
-            pass  # Continue if check fails
-        
-        scraper_info = self.scrapers[scraper_name]
-        
+
+        # Check external running status through lock+PID validation (auto-cleans stale locks).
+        lock_active, _pid, _log_path, _lock_file = self._get_lock_status(scraper_name)
+        if lock_active:
+            if not _skip_confirm:
+                messagebox.showwarning("Warning", f"{scraper_name} is already running.")
+            return
+
+        scraper_info = self.scrapers.get(scraper_name)
+        if not scraper_info:
+            messagebox.showerror("Error", f"Unknown scraper: {scraper_name}")
+            return
+
         # Try resume script first (check both old and new names)
         resume_script = scraper_info["path"] / scraper_info.get("pipeline_script", "run_pipeline_resume.py")
         if not resume_script.exists():
@@ -5509,71 +7159,93 @@ Provide a clear, concise explanation suitable for users who want to understand w
         if resume_script.exists():
             # Use resume script with resume/fresh flag
             mode = "resume" if resume else "fresh"
-            if resume:
-                # Get checkpoint info for confirmation
-                try:
-                    from core.pipeline_checkpoint import get_checkpoint_manager
-                    cp = get_checkpoint_manager(scraper_name)
-                    info = cp.get_checkpoint_info()
-                    if info["total_completed"] > 0:
-                        # Get total steps for this scraper
-                        scraper_info = self.scrapers.get(scraper_name)
-                        total_steps = len(scraper_info.get("steps", [])) if scraper_info else None
-                        
-                        msg = f"Resume pipeline for {scraper_name}?\n\n"
-                        msg += f"Last completed step: {info['last_completed_step']}"
-                        if total_steps is not None:
-                            msg += f" (out of {total_steps - 1} total steps)"
-                        msg += f"\nWill start from step: {info['next_step']}"
-                        all_complete = total_steps is not None and info['next_step'] >= total_steps
-                        if all_complete:
-                            msg += "\n\nAll steps already completed. Use 'Fresh Run' to start a new pipeline, or clear the checkpoint first."
-                            messagebox.showinfo("Pipeline Already Complete", msg)
+            if not _skip_confirm:
+                if resume:
+                    # Get checkpoint info for confirmation
+                    try:
+                        from core.pipeline_checkpoint import get_checkpoint_manager
+                        cp = get_checkpoint_manager(scraper_name)
+                        info = cp.get_checkpoint_info()
+                        if info["total_completed"] > 0:
+                            # Get total steps for this scraper
+                            scraper_info = self.scrapers.get(scraper_name)
+                            total_steps = len(scraper_info.get("steps", [])) if scraper_info else None
+
+                            msg = f"Resume pipeline for {scraper_name}?\n\n"
+                            msg += f"Last completed step: {info['last_completed_step']}"
+                            if total_steps is not None:
+                                msg += f" (out of {total_steps - 1} total steps)"
+                            msg += f"\nWill start from step: {info['next_step']}"
+                            all_complete = total_steps is not None and info['next_step'] >= total_steps
+                            if all_complete:
+                                msg += "\n\nAll steps already completed. Use 'Fresh Run' to start a new pipeline, or clear the checkpoint first."
+                                messagebox.showinfo("Pipeline Already Complete", msg)
+                                return
+                            msg += f"\nCompleted steps: {info['total_completed']}"
+                            if total_steps is not None:
+                                msg += f" / {total_steps}"
+                            if not messagebox.askyesno("Confirm Resume", msg):
+                                return
+                        else:
+                            if not messagebox.askyesno("Confirm", f"Run pipeline for {scraper_name}?\n\nNo checkpoint found - will start from step 0."):
+                                return
+                    except Exception as e:
+                        if not messagebox.askyesno("Confirm", f"Run pipeline for {scraper_name}?"):
                             return
-                        msg += f"\nCompleted steps: {info['total_completed']}"
-                        if total_steps is not None:
-                            msg += f" / {total_steps}"
-                        if not messagebox.askyesno("Confirm Resume", msg):
-                            return
-                    else:
-                        if not messagebox.askyesno("Confirm", f"Run pipeline for {scraper_name}?\n\nNo checkpoint found - will start from step 0."):
-                            return
-                except Exception as e:
-                    if not messagebox.askyesno("Confirm", f"Run pipeline for {scraper_name}?"):
+                else:
+                    if not messagebox.askyesno("Confirm Fresh Run", f"Run fresh pipeline for {scraper_name}?\n\nThis will:\n- Clear checkpoint\n- Start from step 0\n- Create backup and clean output"):
                         return
-            else:
-                if not messagebox.askyesno("Confirm Fresh Run", f"Run fresh pipeline for {scraper_name}?\n\nThis will:\n- Clear checkpoint\n- Start from step 0\n- Create backup and clean output"):
-                    return
-            
+
             extra_args = [] if resume else ["--fresh"]
             if scraper_name == "India":
                 workers = os.getenv("INDIA_WORKERS", "5").strip()
                 if workers and "--workers" not in extra_args:
                     extra_args += ["--workers", workers]
-            self.run_script_in_thread(resume_script, scraper_info["path"], is_pipeline=True, extra_args=extra_args)
+            self.run_script_in_thread(
+                resume_script,
+                scraper_info["path"],
+                is_pipeline=True,
+                extra_args=extra_args,
+                preserve_existing_log=resume,
+            )
         else:
             # Fallback to workflow script or batch file
             workflow_script = scraper_info["path"] / "run_workflow.py"
-            
+
             if workflow_script.exists():
                 # Use new unified workflow
-                if not messagebox.askyesno("Confirm", f"Run full pipeline for {scraper_name}?\n\nThis will:\n- Create a backup first\n- Run all steps\n- Organize outputs in run folder"):
-                    return
-                
-                self.run_script_in_thread(workflow_script, scraper_info["path"], is_pipeline=True, extra_args=[])
+                if not _skip_confirm:
+                    if not messagebox.askyesno("Confirm", f"Run full pipeline for {scraper_name}?\n\nThis will:\n- Create a backup first\n- Run all steps\n- Organize outputs in run folder"):
+                        return
+
+                self.run_script_in_thread(
+                    workflow_script,
+                    scraper_info["path"],
+                    is_pipeline=True,
+                    extra_args=[],
+                    preserve_existing_log=False,
+                )
             else:
                 # Fallback to old batch file
                 pipeline_bat = scraper_info["path"] / scraper_info["pipeline_bat"]
-                
+
                 if not pipeline_bat.exists():
-                    messagebox.showerror("Error", f"Pipeline script not found:\n{pipeline_bat}")
+                    if not _skip_confirm:
+                        messagebox.showerror("Error", f"Pipeline script not found:\n{pipeline_bat}")
                     return
-                
+
                 # Confirm
-                if not messagebox.askyesno("Confirm", f"Run full pipeline for {scraper_name}?"):
-                    return
-                
-                self.run_script_in_thread(pipeline_bat, scraper_info["path"], is_pipeline=True, extra_args=[])
+                if not _skip_confirm:
+                    if not messagebox.askyesno("Confirm", f"Run full pipeline for {scraper_name}?"):
+                        return
+
+                self.run_script_in_thread(
+                    pipeline_bat,
+                    scraper_info["path"],
+                    is_pipeline=True,
+                    extra_args=[],
+                    preserve_existing_log=False,
+                )
 
     def clear_step_data_action(self):
         """Clear step data for the selected scraper (current run_id) if supported."""
@@ -5616,13 +7288,40 @@ Provide a clear, concise explanation suitable for users who want to understand w
         self.run_script_in_thread(script_path, script_path.parent, is_pipeline=False, extra_args=extra_args)
     
     
-    def run_script_in_thread(self, script_path, working_dir, is_pipeline=False, extra_args=None):
+    def run_script_in_thread(self, script_path, working_dir, is_pipeline=False, extra_args=None, preserve_existing_log=False):
         """Run script in a separate thread"""
         if extra_args is None:
             extra_args = []
-        
+
+        startup_lock_file = None
+        startup_lock_reason = ""
+
         # Set running state and disable run button for this scraper only
         scraper_name = self.scraper_var.get()
+
+        # Atomic single-instance guard across GUI/API/Telegram
+        if is_pipeline:
+            try:
+                from core.pipeline_start_lock import claim_pipeline_start_lock
+                acquired, startup_lock_file, startup_lock_reason = claim_pipeline_start_lock(
+                    scraper_name,
+                    owner="gui",
+                    repo_root=self.repo_root,
+                )
+            except Exception as exc:
+                messagebox.showerror("Start Failed", f"Could not acquire pipeline lock for {scraper_name}:\n{exc}")
+                return
+
+            if not acquired:
+                messagebox.showwarning(
+                    "Already Running",
+                    f"{scraper_name} is already running.\n\nDetails: {startup_lock_reason}",
+                )
+                self.refresh_run_button_state()
+                return
+
+            self._pipeline_lock_files[scraper_name] = startup_lock_file
+
         self.running_scrapers.add(scraper_name)
         self._last_completed_logs.pop(scraper_name, None)
         # Lock input/output controls for the running scraper
@@ -5631,13 +7330,20 @@ Provide a clear, concise explanation suitable for users who want to understand w
         # Update kill all Chrome button state (disable it)
         self.update_kill_all_chrome_button_state()
         
-        # Clear old logs when starting pipeline (only clear console, keep storage for archive)
+        existing_log_text = self.scraper_logs.get(scraper_name, "")
+
+        # Clear old logs when starting pipeline, unless we are resuming and need history preserved.
         if is_pipeline:
-            # Clear console display for this scraper when starting
-            if scraper_name == self.scraper_var.get():
-                self.clear_logs(scraper_name, silent=True, clear_storage=False)  # Clear console but keep storage for now
-            # Clear log storage for fresh pipeline run
-            self.scraper_logs[scraper_name] = ""
+            if not preserve_existing_log:
+                # Clear console display for this scraper when starting
+                if scraper_name == self.scraper_var.get():
+                    self.clear_logs(scraper_name, silent=True, clear_storage=False)  # Clear console but keep storage for now
+                # Clear log storage for fresh pipeline run
+                self.scraper_logs[scraper_name] = ""
+            # Refresh network info after a delay so it updates when pipeline (or our auto-start) brings Tor up
+            def _refresh_network_after_pipeline_start():
+                self.root.after(10000, lambda: self.update_network_info(scraper_name, force_refresh=True))
+            self.root.after(0, _refresh_network_after_pipeline_start)
         
         # Initialize log storage for this scraper if not exists
         if scraper_name not in self.scraper_logs:
@@ -5650,21 +7356,67 @@ Provide a clear, concise explanation suitable for users who want to understand w
             self.stop_button.config(state=tk.NORMAL)
         self.update_status(f"Running {scraper_name}...")
         
+        # Generate run_id for metrics tracking (or use existing if pipeline is running)
+        run_id = None
+        if is_pipeline:
+            # Check if pipeline is already running (started from elsewhere)
+            try:
+                from core.config_manager import ConfigManager
+                # Migrated: pm = get_path_manager()
+                output_dir = ConfigManager.get_output_dir(scraper_name)
+                run_id_file = output_dir / ".current_run_id"
+                if run_id_file.exists():
+                    # Pipeline might be running - read the run_id
+                    existing_run_id = run_id_file.read_text(encoding='utf-8').strip()
+                    if existing_run_id:
+                        # Check if lock file exists (confirming it's running)
+                        lock_file = pm.get_lock_file(scraper_name)
+                        if lock_file.exists():
+                            run_id = existing_run_id
+                            print(f"[SYNC] Using existing run_id from running pipeline: {run_id}")
+            except Exception:
+                pass  # Fall through to generate new run_id
+            
+            if not run_id:
+                # Generate new run_id
+                timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                run_id = f"{scraper_name}_{timestamp}"
+        
+        # Start metrics tracking for pipeline runs
+        metrics_tracker = None
+        if is_pipeline and run_id:
+            try:
+                from core.run_metrics_tracker import RunMetricsTracker
+                metrics_tracker = RunMetricsTracker()
+                metrics_tracker.start_run(run_id, scraper_name)
+                print(f"[METRICS] Started tracking for run: {run_id}")
+            except Exception as e:
+                print(f"[METRICS] Warning: Could not start metrics tracking: {e}")
+                metrics_tracker = None
+        
         def run():
             try:
                 # Initialize log for this scraper
-                log_header = f"Starting execution at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+                run_action = "Resuming execution" if preserve_existing_log else "Starting execution"
+                log_header = f"{run_action} at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
                 log_header += f"Scraper: {scraper_name}\n"
                 log_header += f"Script: {script_path}\n"
                 log_header += f"Working Directory: {working_dir}\n"
                 if extra_args:
                     log_header += f"Extra Arguments: {' '.join(extra_args)}\n"
                 log_header += "=" * 80 + "\n\n"
-                
-                self.scraper_logs[scraper_name] = log_header
+
+                if preserve_existing_log and existing_log_text.strip():
+                    separator = "\n\n" + "=" * 80 + "\n"
+                    separator += f"[GUI] Resume requested at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+                    separator += "=" * 80 + "\n\n"
+                    self.scraper_logs[scraper_name] = existing_log_text + separator + log_header
+                else:
+                    self.scraper_logs[scraper_name] = log_header
                 
                 # Initialize progress state
-                self.scraper_progress[scraper_name] = {"percent": 0, "description": f"Starting {scraper_name}..."}
+                progress_start = "Resuming" if preserve_existing_log else "Starting"
+                self.scraper_progress[scraper_name] = {"percent": 0, "description": f"{progress_start} {scraper_name}..."}
                 
                 # Update progress bar display only if this scraper is selected
                 if scraper_name == self.scraper_var.get():
@@ -5678,19 +7430,27 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 if scraper_name == initial_selected_scraper:
                     self.root.after(0, lambda sn=scraper_name: self.update_log_display(sn))
                 
-                # Run script
+                # Run script with binary pipes so we can decode as UTF-8 in the reader thread.
+                # This avoids Windows default (charmap) decoding which fails on Cyrillic etc.
+                env = os.environ.copy()
+                env["PYTHONUNBUFFERED"] = "1"
+                
+                # Pass run_id to pipeline so all components (GUI/API/Telegram) are in sync
+                if is_pipeline and run_id:
+                    env_var_name = f"{scraper_name.upper().replace(' ', '_').replace('-', '_')}_RUN_ID"
+                    env[env_var_name] = run_id
+                    print(f"[SYNC] Passing run_id to pipeline via {env_var_name}: {run_id}")
+                
+                subprocess_kw = dict(
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                    cwd=str(working_dir),
+                    env=env,
+                )
                 if script_path.suffix == ".bat":
                     # Run batch file
                     cmd = ["cmd", "/c", str(script_path)] + extra_args
-                    process = subprocess.Popen(
-                        cmd,
-                        cwd=str(working_dir),
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.STDOUT,
-                        text=True,
-                        bufsize=1,
-                        universal_newlines=True
-                    )
+                    process = subprocess.Popen(cmd, **subprocess_kw)
                 else:
                     # Run Python script
                     # In packaged EXE mode, use sys.executable to prevent recursive relaunch
@@ -5710,41 +7470,39 @@ Provide a clear, concise explanation suitable for users who want to understand w
                         python_cmd = "python"
                     
                     cmd = [python_cmd, str(script_path)] + extra_args
-                    process = subprocess.Popen(
-                        cmd,
-                        cwd=str(working_dir),
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.STDOUT,
-                        text=True,
-                        bufsize=1,
-                        universal_newlines=True
-                    )
+                    process = subprocess.Popen(cmd, **subprocess_kw)
 
-                # Create lock file for pipeline runs using the child process PID
+                # Finalize lock file with child PID (lock was atomically claimed before start)
                 if is_pipeline:
                     try:
-                        from platform_config import get_path_manager
-                        pm = get_path_manager()
-                        lock_file = pm.get_lock_file(scraper_name)
-                        # Ensure lock file directory exists
-                        lock_file.parent.mkdir(parents=True, exist_ok=True)
-                        with open(lock_file, 'w') as f:
-                            f.write(f"{process.pid}\n{datetime.now().isoformat()}\n")
-                        # Store lock file path for cleanup
-                        self._pipeline_lock_files[scraper_name] = lock_file
+                        from core.pipeline_start_lock import update_pipeline_lock
+                        lock_target = startup_lock_file
+                        if lock_target is None:
+                            from core.config_manager import ConfigManager
+                            # Migrated: pm = get_path_manager()
+                            lock_target = pm.get_lock_file(scraper_name)
+                        log_path_value = self._external_log_files.get(scraper_name, "")
+                        log_path_obj = Path(log_path_value) if log_path_value else None
+                        update_pipeline_lock(lock_target, process.pid, log_path=log_path_obj)
+                        self._pipeline_lock_files[scraper_name] = lock_target
                     except Exception as e:
-                        # If lock file creation fails, log but continue
-                        print(f"Warning: Could not create lock file: {e}")
+                        # If lock update fails, log but continue (process is already running)
+                        print(f"Warning: Could not update lock file with PID: {e}")
                 
                 self.running_processes[scraper_name] = process
                 
-                # Read output in real-time using non-blocking approach
+                # Read output in real-time: binary pipe, decode as UTF-8 in this process
+                # so Windows charmap is never used (avoids decode errors on Cyrillic etc.)
                 output_queue = queue.Queue()
                 
                 def read_output():
                     try:
-                        for line in iter(process.stdout.readline, ''):
-                            if line:
+                        for raw in iter(process.stdout.readline, b''):
+                            if raw:
+                                try:
+                                    line = raw.decode("utf-8", errors="replace")
+                                except Exception:
+                                    line = raw.decode("latin-1", errors="replace")
                                 output_queue.put(('line', line))
                         output_queue.put(('done', None))
                     except Exception as e:
@@ -5759,8 +7517,10 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     try:
                         msg_type, data = output_queue.get(timeout=0.1)
                         if msg_type == 'line':
-                            # Append to scraper's log
+                            # Append to scraper's log (cap size to avoid memory bloat on long runs)
                             self.scraper_logs[scraper_name] += data
+                            if len(self.scraper_logs[scraper_name]) > self.MAX_LOG_CHARS:
+                                self._cap_scraper_log(scraper_name)
                             # Update display if this scraper is currently selected
                             # Check in GUI thread via root.after
                             line_data = data
@@ -5775,14 +7535,20 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     except queue.Empty:
                         # Check if process is still running
                         if process.poll() is not None:
-                            # Process finished, check for remaining output
+                            # Process finished, check for remaining output (binary → decode UTF-8)
                             try:
-                                remaining = process.stdout.read()
-                                if remaining:
+                                raw_remaining = process.stdout.read()
+                                if raw_remaining:
+                                    try:
+                                        remaining = raw_remaining.decode("utf-8", errors="replace")
+                                    except Exception:
+                                        remaining = raw_remaining.decode("latin-1", errors="replace")
                                     self.scraper_logs[scraper_name] += remaining
+                                    if len(self.scraper_logs[scraper_name]) > self.MAX_LOG_CHARS:
+                                        self._cap_scraper_log(scraper_name)
                                     rem_data = remaining
                                     self.root.after(0, lambda r=rem_data, sn=scraper_name: self.append_to_log_if_selected(r, sn))
-                            except:
+                            except Exception:
                                 pass
                             break
                         continue
@@ -5857,8 +7623,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                                     del self._pipeline_lock_files[scraper_name]
                                 
                                 # Clean up WorkflowRunner lock files
-                                from platform_config import get_path_manager
-                                pm = get_path_manager()
+                                from core.config_manager import ConfigManager
+                                # Migrated: pm = get_path_manager()
                                 lock_file = pm.get_lock_file(scraper_name)
                                 if lock_file.exists():
                                     try:
@@ -5917,8 +7683,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     status_msg += f"Execution completed at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
                     # Simple lock file deletion after successful run
                     try:
-                        from platform_config import get_path_manager
-                        pm = get_path_manager()
+                        from core.config_manager import ConfigManager
+                        # Migrated: pm = get_path_manager()
                         lock_file = pm.get_lock_file(scraper_name)
                         if lock_file.exists():
                             lock_file.unlink()
@@ -5938,6 +7704,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     status_msg += f"Execution failed with return code {return_code}\n"
 
                 self.scraper_logs[scraper_name] += status_msg
+                if len(self.scraper_logs[scraper_name]) > self.MAX_LOG_CHARS:
+                    self._cap_scraper_log(scraper_name)
 
                 # Update display if this scraper is selected
                 # Schedule finish_scraper_run on GUI thread
@@ -5946,8 +7714,25 @@ Provide a clear, concise explanation suitable for users who want to understand w
             except Exception as e:
                 error_msg = f"\nError: {str(e)}\n"
                 self.scraper_logs[scraper_name] += error_msg
+                if len(self.scraper_logs[scraper_name]) > self.MAX_LOG_CHARS:
+                    self._cap_scraper_log(scraper_name)
+                if is_pipeline:
+                    try:
+                        from core.pipeline_start_lock import release_pipeline_lock
+                        release_pipeline_lock(startup_lock_file)
+                    except Exception:
+                        pass
+                    self._pipeline_lock_files.pop(scraper_name, None)
                 error_str = str(e)
                 self.root.after(0, lambda sn=scraper_name, err=error_str: self.handle_scraper_error(sn, err))
+                
+                # Complete metrics tracking on exception
+                if is_pipeline and metrics_tracker and run_id:
+                    try:
+                        metrics_tracker.complete_run(run_id, "failed")
+                        print(f"[METRICS] Completed tracking for run: {run_id} (exception)")
+                    except Exception as metrics_err:
+                        print(f"[METRICS] Warning: Could not complete metrics tracking: {metrics_err}")
             finally:
                 # Final cleanup - ensure everything is cleaned up even if there was an exception
                 # (Most cleanup happens above after process.wait(), but this is a safety net)
@@ -5963,8 +7748,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                         # Try multiple times to ensure lock is cleared
                         for attempt in range(5):
                             try:
-                                from platform_config import get_path_manager
-                                pm = get_path_manager()
+                                from core.config_manager import ConfigManager
+                                # Migrated: pm = get_path_manager()
                                 lock_file = pm.get_lock_file(scraper_name)
                                 if lock_file.exists():
                                     # Lock still exists, try to remove it
@@ -5990,8 +7775,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                         # Schedule another check after a longer delay as a safety net
                         def final_check():
                             try:
-                                from platform_config import get_path_manager
-                                pm = get_path_manager()
+                                from core.config_manager import ConfigManager
+                                # Migrated: pm = get_path_manager()
                                 lock_file = pm.get_lock_file(scraper_name)
                                 if lock_file.exists():
                                     try:
@@ -6033,271 +7818,474 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     del self.running_processes[scraper_name]
                 self.running_scrapers.discard(scraper_name)
                 
+                # Complete metrics tracking for pipeline runs
+                if is_pipeline and metrics_tracker and run_id:
+                    try:
+                        if was_stopped:
+                            # Pause metrics (run was stopped, may be resumed later)
+                            metrics_tracker.pause_run(run_id)
+                            print(f"[METRICS] Paused tracking for run: {run_id} (stopped by user)")
+                        elif return_code == 0:
+                            # Complete metrics successfully
+                            final_metrics = metrics_tracker.complete_run(run_id, "completed")
+                            if final_metrics:
+                                print(f"[METRICS] Completed tracking for run: {run_id}")
+                                print(f"[METRICS] Duration: {final_metrics.active_duration_seconds:.2f}s, "
+                                      f"Network: {final_metrics.network_total_gb:.4f} GB")
+                        else:
+                            # Complete metrics with failure
+                            metrics_tracker.complete_run(run_id, "failed")
+                            print(f"[METRICS] Completed tracking for run: {run_id} (failed)")
+                    except Exception as e:
+                        print(f"[METRICS] Warning: Could not complete metrics tracking: {e}")
+                
                 # Refresh button state after cleanup (lock should be released by workflow runner)
                 self.root.after(0, lambda: self.refresh_run_button_state())
         
         thread = threading.Thread(target=run, daemon=True)
-        thread.start()
+        try:
+            thread.start()
+        except Exception:
+            if is_pipeline:
+                try:
+                    from core.pipeline_start_lock import release_pipeline_lock
+                    release_pipeline_lock(startup_lock_file)
+                except Exception:
+                    pass
+                self._pipeline_lock_files.pop(scraper_name, None)
+            raise
+
+        # Start auto-restart timer if enabled and this is a pipeline run
+        if is_pipeline and self._auto_restart_enabled.get():
+            self._start_auto_restart_timer(scraper_name)
+
+    # ------------------------------------------------------------------
+    # Auto-restart: stop every 20 min → pause 30s → resume to clear cache/memory
+    # ------------------------------------------------------------------
+
+    def _start_auto_restart_timer(self, scraper_name: str):
+        """Schedule an auto-restart stop after 20 minutes for the given scraper."""
+        # Netherlands URLs are session-bound; stopping mid-run invalidates URL ids.
+        if scraper_name == "Netherlands":
+            self.append_to_log_display(
+                "[AUTO-RESTART] Disabled for Netherlands (session-bound URL ids require uninterrupted scraping).\n"
+            )
+            return
+
+        # Cancel any existing timer first
+        if scraper_name in self._auto_restart_timers:
+            try:
+                self.root.after_cancel(self._auto_restart_timers[scraper_name])
+            except Exception:
+                pass
+
+        timer_id = self.root.after(
+            20 * 60 * 1000,  # 20 minutes in ms
+            lambda sn=scraper_name: self._auto_restart_stop_pipeline(sn))
+        self._auto_restart_timers[scraper_name] = timer_id
+        cycle = self._auto_restart_cycle_count.get(scraper_name, 0)
+        if cycle == 0:
+            self.append_to_log_display(
+                f"[AUTO-RESTART] Enabled: pipeline will auto-restart every 20 min to clear cache/memory.\n")
+        # Update header icon to show active state
+        self._update_auto_restart_header_icon()
+
+    def _cancel_auto_restart(self, scraper_name: str):
+        """Cancel all auto-restart timers and pending resumes for a scraper."""
+        # Cancel the 20-min timer
+        if scraper_name in self._auto_restart_timers:
+            try:
+                self.root.after_cancel(self._auto_restart_timers[scraper_name])
+            except Exception:
+                pass
+            del self._auto_restart_timers[scraper_name]
+
+        # Cancel any pending 30s resume
+        if scraper_name in self._auto_restart_resume_ids:
+            try:
+                self.root.after_cancel(self._auto_restart_resume_ids[scraper_name])
+            except Exception:
+                pass
+            del self._auto_restart_resume_ids[scraper_name]
+
+        # Clear pausing state
+        self._auto_restart_pausing.discard(scraper_name)
+        self._auto_restart_cycle_count.pop(scraper_name, None)
+
+    def _auto_restart_stop_pipeline(self, scraper_name: str):
+        """Called after 20 minutes: silently stop the pipeline for auto-restart."""
+        # Remove timer reference (it has already fired)
+        self._auto_restart_timers.pop(scraper_name, None)
+
+        # Check if auto-restart is still enabled
+        if not self._auto_restart_enabled.get():
+            return
+
+        # Check if the scraper is actually running
+        if scraper_name not in self.running_processes:
+            return
+        process = self.running_processes[scraper_name]
+        if process is None or process.poll() is not None:
+            return
+
+        # Increment cycle counter
+        cycle = self._auto_restart_cycle_count.get(scraper_name, 0) + 1
+        self._auto_restart_cycle_count[scraper_name] = cycle
+
+        # Mark as auto-restart pausing so finish_scraper_run schedules the resume
+        self._auto_restart_pausing.add(scraper_name)
+        self._stopped_by_user.add(scraper_name)
+
+        self.append_to_log_display(
+            f"\n{'='*80}\n"
+            f"[AUTO-RESTART] Cycle #{cycle}: Stopping pipeline after 20 min to clear cache/memory...\n"
+            f"{'='*80}\n")
+
+        # Kill process in a background thread to avoid blocking the GUI
+        def do_kill():
+            try:
+                # Kill Chrome instances first (scraper-specific)
+                try:
+                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    terminated = terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
+                    if terminated > 0:
+                        self.root.after(0, lambda: self.append_to_log_display(
+                            f"[AUTO-RESTART] Terminated {terminated} Chrome process(es)\n"))
+                except Exception:
+                    pass
+
+                # Kill the main process tree
+                import time
+                if sys.platform == "win32":
+                    try:
+                        subprocess.run(
+                            ["taskkill", "/F", "/T", "/PID", str(process.pid)],
+                            capture_output=True, text=True, timeout=10)
+                    except Exception:
+                        process.terminate()
+                else:
+                    process.terminate()
+
+                time.sleep(1)
+                if process.poll() is None:
+                    process.kill()
+                    time.sleep(0.5)
+
+                # Final Chrome cleanup
+                try:
+                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
+                except Exception:
+                    pass
+            except Exception as e:
+                self.root.after(0, lambda: self.append_to_log_display(
+                    f"[AUTO-RESTART] Error during stop: {e}\n"))
+
+        threading.Thread(target=do_kill, daemon=True).start()
+
+    def _update_auto_restart_header_icon(self):
+        """Update the auto-restart icon and status text in header based on current state."""
+        if not hasattr(self, 'auto_restart_icon_label'):
+            return
+
+        enabled = self._auto_restart_enabled.get()
+        if enabled:
+            self.auto_restart_icon_label.config(
+                text="🔄",
+                fg=self.colors['console_yellow']
+            )
+            self.auto_restart_status_label.config(
+                text="Auto-restart: ON (20 min)",
+                fg=self.colors['white']
+            )
+        else:
+            self.auto_restart_icon_label.config(
+                text="⏸",
+                fg=self.colors['light_gray']
+            )
+            self.auto_restart_status_label.config(
+                text="Auto-restart: OFF",
+                fg=self.colors['light_gray']
+            )
     
+    def _initialize_auto_restart_icon(self):
+        """Initialize auto-restart icon state after UI is fully set up."""
+        if hasattr(self, 'auto_restart_icon_label'):
+            self._update_auto_restart_header_icon()
+
+    def _open_telegram_bot(self):
+        """Open the Telegram bot chat in the default browser."""
+        import webbrowser
+        webbrowser.open("https://t.me/esreportstatusbot")
+
+    # ── API Server toggle (embedded FastAPI) ──────────────────────────────
+    def _write_to_log(self, message):
+        """Thread-safe helper to append a line to the GUI execution log."""
+        def _insert():
+            self.log_text.config(state=tk.NORMAL)
+            self.log_text.insert(tk.END, message + "\n")
+            self.log_text.see(tk.END)
+            self.log_text.config(state=tk.DISABLED)
+        self.root.after(0, _insert)
+
+    def _toggle_api_server(self):
+        """Start or stop the embedded FastAPI server."""
+        if self._api_server_running:
+            self._stop_api_server()
+        else:
+            self._start_api_server()
+
+    def _start_api_server(self):
+        """Launch the FastAPI API server in a background thread."""
+        if self._api_server_running:
+            return
+        try:
+            from scripts.common.api_server import start_embedded, stop_embedded  # noqa: F401
+        except ImportError as exc:
+            self._write_to_log(f"[API] Failed to import api_server: {exc}")
+            return
+
+        def _run():
+            try:
+                start_embedded(host="0.0.0.0", port=self._api_server_port)
+            except Exception as exc:
+                print(f"[API] Server error: {exc}")
+
+        self._api_server_thread = threading.Thread(target=_run, daemon=True, name="api-server")
+        self._api_server_thread.start()
+        self._api_server_running = True
+        self.api_toggle_label.config(text=f"API: ON (:{self._api_server_port})", fg='#10b981')
+        self._write_to_log(f"[API] Server started on http://0.0.0.0:{self._api_server_port}  (Swagger: /docs)")
+
+    def _stop_api_server(self):
+        """Stop the embedded FastAPI server."""
+        if not self._api_server_running:
+            return
+        try:
+            from scripts.common.api_server import stop_embedded
+            stop_embedded()
+        except Exception as exc:
+            self._write_to_log(f"[API] Error stopping server: {exc}")
+        self._api_server_running = False
+        self.api_toggle_label.config(text="API: OFF", fg=self.colors['light_gray'])
+        self._write_to_log("[API] Server stopped")
+
+    def _init_prometheus_server(self):
+        """Initialize Prometheus metrics server on GUI startup."""
+        try:
+            from core.prometheus_exporter import init_prometheus_metrics
+            success = init_prometheus_metrics(port=9090)
+            if success:
+                print("[GUI] Prometheus metrics server started on port 9090")
+            else:
+                print("[GUI] Prometheus metrics server not available (prometheus_client not installed)")
+        except Exception as e:
+            print(f"[GUI] Failed to start Prometheus metrics server: {e}")
+
+    def _toggle_auto_restart_from_header(self):
+        """Toggle auto-restart from header icon click."""
+        current_state = self._auto_restart_enabled.get()
+        new_state = not current_state
+        self._auto_restart_enabled.set(new_state)
+        
+        # Checkbox removed - control is via header icon only
+        
+        # Update header icon
+        self._update_auto_restart_header_icon()
+        
+        # Show feedback
+        status = "ENABLED" if new_state else "DISABLED"
+        self.append_to_log_display(f"[AUTO-RESTART] Auto-restart {status} via header icon.\n")
+        
+        # If disabling, cancel all active timers
+        if not new_state:
+            for scraper_name in list(self._auto_restart_timers.keys()):
+                self._cancel_auto_restart(scraper_name)
+
+    def _auto_restart_resume_pipeline(self, scraper_name: str):
+        """Called 30 seconds after auto-restart stop: resume the pipeline."""
+        # Clean up resume timer reference
+        self._auto_restart_resume_ids.pop(scraper_name, None)
+
+        # Safety checks
+        if not self._auto_restart_enabled.get():
+            self.append_to_log_display(f"[AUTO-RESTART] Auto-restart disabled, skipping resume.\n")
+            return
+        if scraper_name in self.running_scrapers:
+            self.append_to_log_display(f"[AUTO-RESTART] Scraper already running, skipping resume.\n")
+            return
+
+        cycle = self._auto_restart_cycle_count.get(scraper_name, 0)
+        self.append_to_log_display(
+            f"\n{'='*80}\n"
+            f"[AUTO-RESTART] Cycle #{cycle}: Resuming pipeline now...\n"
+            f"{'='*80}\n")
+
+        # Ensure the correct scraper is selected (run_full_pipeline reads from scraper_var)
+        current = self.scraper_var.get()
+        if current != scraper_name:
+            self.scraper_var.set(scraper_name)
+
+        # Resume pipeline without confirmation dialogs
+        self.run_full_pipeline(resume=True, _skip_confirm=True)
+
     def stop_pipeline(self):
         """Stop the running pipeline for the currently selected scraper"""
         scraper_name = self.scraper_var.get()
         if not scraper_name:
-            messagebox.showwarning("Warning", "Select a scraper first")
+            messagebox.showwarning("Warning", "Select a scraper first", parent=self.root)
             return
-        
+
+        # Prevent multiple simultaneous stop attempts — but with a 30s timeout
+        # to avoid getting permanently stuck if a previous stop attempt hung
+        if scraper_name in self._stopping_scrapers:
+            stop_started = self._stopping_started_at.get(scraper_name)
+            if stop_started and (time.time() - stop_started) < 30:
+                return  # Still within timeout, ignore duplicate request
+            else:
+                # Stale stop state — force clear it and proceed
+                self._stopping_scrapers.discard(scraper_name)
+                self._stopping_started_at.pop(scraper_name, None)
+                print(f"[STOP] Cleared stale _stopping_scrapers state for {scraper_name}")
+
+        # Mark as stopping with timestamp
+        self._stopping_scrapers.add(scraper_name)
+        self._stopping_started_at[scraper_name] = time.time()
+
+        # Cancel auto-restart cycle when user manually stops (don't restart after this)
+        self._cancel_auto_restart(scraper_name)
+
+        process = None
         stop_confirmed = False
 
-        # Prevent multiple simultaneous stop attempts for the same scraper
-        if scraper_name in self._stopping_scrapers:
-            return  # Already stopping this scraper, ignore duplicate request
-        
-        # Mark as stopping
-        self._stopping_scrapers.add(scraper_name)
-        
-        try:
-            # First, try to stop the process tracked by GUI (if running from GUI)
-            if scraper_name in self.running_processes:
-                process = self.running_processes[scraper_name]
-                if process and process.poll() is None:  # Process is still running
-                    # Confirm stop
-                    if not messagebox.askyesno("Confirm Stop", f"Stop {scraper_name} pipeline?\n\nThis will terminate the running process."):
-                        return
-                    stop_confirmed = True
-                
-                self.update_status(f"Stopping {scraper_name}...")
+        # Check if running
+        if scraper_name in self.running_processes:
+            process = self.running_processes[scraper_name]
+            if process and process.poll() is None:  # Process is still running
+                # Confirm stop (parent=self.root ensures dialog appears on top)
+                if not messagebox.askyesno("Confirm Stop", f"Stop {scraper_name} pipeline?\n\nThis will terminate the running process.", parent=self.root):
+                    self._cleanup_stopping_state(scraper_name)
+                    return
+                stop_confirmed = True
 
+        if not stop_confirmed:
+            # Process is dead but UI thinks it's running — clean up stale state
+            if scraper_name in self.running_processes:
+                del self.running_processes[scraper_name]
+            self.finish_scraper_run(scraper_name, -1, stopped=True)
+            self._cleanup_stopping_state(scraper_name)
+            # Also clean up lock file
+            try:
+                from core.config_manager import ConfigManager
+                # Migrated: pm = get_path_manager()
+                lock_file = pm.get_lock_file(scraper_name)
+                if lock_file.exists():
+                    lock_file.unlink()
+            except Exception:
+                pass
+            messagebox.showinfo("Cleaned Up", f"{scraper_name} was no longer running.\nUI state has been reset.", parent=self.root)
+            return
+
+        # Run termination in a background thread to prevent GUI freeze/crash
+        def termination_worker():
+            try:
+                self.update_status(f"Stopping {scraper_name}...")
+                
+                # Step 1: Clean up Chrome instances (scraper-specific)
                 try:
-                    # IMPORTANT: Clean up Chrome instances FIRST (scraper-specific) BEFORE killing main process
-                    # This prevents killing Chrome instances that belong to other scrapers
-                    try:
-                        from core.chrome_pid_tracker import terminate_scraper_pids
-                        terminated_count = terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
-                        if terminated_count > 0:
-                            self.append_to_log_display(f"[STOP] Terminated {terminated_count} Chrome process(es) for {scraper_name} before process kill\n")
-                    except Exception:
-                        pass
-                    
-                    # Step 2: Terminate the process tree (pipeline + child Python processes)
-                    # Note: /T kills all child processes, so we clean up Chrome instances first above
+                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    terminated_count = terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
+                    if terminated_count > 0:
+                        self.append_to_log_display(f"[STOP] Terminated {terminated_count} Chrome process(es) for {scraper_name}\n")
+                except Exception as e:
+                    print(f"Error terminating Chrome PIDs: {e}")
+
+                # Step 2: Terminate main process
+                if process and process.poll() is None:
                     import time
                     if sys.platform == "win32":
                         try:
+                            # Try taskkill /T to kill tree
                             subprocess.run(
                                 ["taskkill", "/F", "/T", "/PID", str(process.pid)],
-                                capture_output=True,
-                                text=True,
-                                timeout=10
+                                capture_output=True, text=True, timeout=5
                             )
                         except Exception:
-                            # Fallback to direct terminate if taskkill fails
-                            process.terminate()
+                            try:
+                                process.terminate()
+                            except:
+                                pass
                     else:
-                        process.terminate()
-
-                    # Wait a bit for shutdown
+                        try:
+                            process.terminate()
+                        except:
+                            pass
+                    
+                    # Wait for shutdown
                     time.sleep(1)
                     if process.poll() is None:
-                        # Force kill if still running
-                        process.kill()
-                        time.sleep(0.5)  # Give it time to die
+                        try:
+                            process.kill()
+                        except:
+                            pass
+                
+                # Step 3: Final cleanup
+                try:
+                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
+                except:
+                    pass
                     
-                    # Step 3: Final cleanup - check for any remaining Chrome instances (in case some were missed)
-                    try:
-                        from core.chrome_pid_tracker import terminate_scraper_pids
-                        terminated_count = terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
-                        if terminated_count > 0:
-                            self.append_to_log_display(f"[STOP] Terminated {terminated_count} remaining Chrome process(es) for {scraper_name} after process kill\n")
-                    except Exception:
-                        pass
-                    
-                    # Clean up lock file if it exists
-                    try:
-                        from platform_config import get_path_manager
-                        pm = get_path_manager()
-                        lock_file = pm.get_lock_file(scraper_name)
-                        if lock_file.exists():
-                            lock_file.unlink()
-                    except:
-                        pass
-                    
-                    # Also check old lock location
-                    try:
-                        old_lock = self.repo_root / f".{scraper_name}_run.lock"
-                        if old_lock.exists():
-                            old_lock.unlink()
-                    except:
-                        pass
+                # Clean up lock file
+                try:
+                    from core.config_manager import ConfigManager
+                    # Migrated: pm = get_path_manager()
+                    lock_file = pm.get_lock_file(scraper_name)
+                    if lock_file.exists():
+                        lock_file.unlink()
+                except:
+                    pass
 
-                    # Mark DATABASE run_ledger status as RESUME (PostgreSQL table)
-                    try:
-                        from core.db.models import run_ledger_mark_resumable
-                        from core.db.postgres_connection import PostgresDB
-
-                        db = PostgresDB(scraper_name)
-                        db.connect()
-                        # Find the latest running run and mark it as resume
-                        cursor = db.execute(
+                # Mark DATABASE run_ledger status as RESUME (PostgreSQL table)
+                try:
+                    from core.db.postgres_connection import PostgresDB
+                    # Use a new connection for specific operation
+                    db = PostgresDB(scraper_name)
+                    db.connect()
+                    with db.cursor() as cursor:
+                        cursor.execute(
                             "SELECT run_id FROM run_ledger WHERE status = 'running' AND scraper_name = %s ORDER BY started_at DESC LIMIT 1",
                             (scraper_name,)
                         )
                         row = cursor.fetchone()
                         if row:
-                            sql, params = run_ledger_mark_resumable(row[0])
-                            db.execute(sql, params)
+                            cursor.execute("UPDATE run_ledger SET status = 'resume', ended_at = NOW() WHERE run_id = %s", (row[0],))
                             db.commit()
                             self.append_to_log_display(f"[DB] Marked run {row[0]} as 'resume'\n")
-                        db.close()
-                    except Exception as e:
-                        logging.getLogger(__name__).warning(f"Failed to update DB run ledger status: {e}")
-
-                    # Mark as stopped by user
-                    self._stopped_by_user.add(scraper_name)
-
-                    # Remove from tracking
-                    del self.running_processes[scraper_name]
-                    self.running_scrapers.discard(scraper_name)
-                    # Update kill all Chrome button state
-                    self.update_kill_all_chrome_button_state()
-                    
-                    # Clean up pipeline lock file if created by GUI
-                    if scraper_name in self._pipeline_lock_files:
-                        try:
-                            lock_file = self._pipeline_lock_files[scraper_name]
-                            if lock_file and lock_file.exists():
-                                lock_file.unlink()
-                            del self._pipeline_lock_files[scraper_name]
-                        except:
-                            pass
-                    
-                    # Archive log but DON'T clear console (user wants to see logs after stop)
-                    stop_msg = f"\n{'='*80}\n[STOPPED] Pipeline stopped by user at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n{'='*80}\n"
-                    # Save log to archive but don't clear console display
-                    self.archive_log_without_clearing(scraper_name, footer=stop_msg)
-                    # Update progress state
-                    self.scraper_progress[scraper_name] = {"percent": 0, "description": "Pipeline stopped"}
-                    
-                    if scraper_name == self.scraper_var.get():
-                        self.append_to_log_display(stop_msg)
-                        # Reset progress bar display
-                        self.progress_label.config(text="Pipeline stopped")
-                        self.progress_bar['value'] = 0
-                        self.progress_percent.config(text="0%")
-                    
-                    # Refresh button state
-                    self.refresh_run_button_state()
-                    self.update_status(f"Stopped {scraper_name}")
-                    messagebox.showinfo("Success", f"Stopped {scraper_name} pipeline")
-                    return
+                    db.close()
                 except Exception as e:
-                    messagebox.showerror("Error", f"Failed to stop {scraper_name}:\n{str(e)}")
-                    self.update_status(f"Error stopping {scraper_name}: {str(e)}")
-                    return
+                    print(f"Failed to update DB run status: {e}")
 
-            # If not tracked by GUI, try to stop via lock file (external process)
-            lock_file = None
-            old_lock_file = None
-            try:
-                from platform_config import get_path_manager
-                pm = get_path_manager()
-                lock_file = pm.get_lock_file(scraper_name)
-                # Also check old location as fallback
-                old_lock_file = self.repo_root / f".{scraper_name}_run.lock"
-            except Exception:
-                old_lock_file = self.repo_root / f".{scraper_name}_run.lock"
-            
-            # Use the lock file that exists, or prefer new location
-            if lock_file and not lock_file.exists() and old_lock_file and old_lock_file.exists():
-                lock_file = old_lock_file
-            elif not lock_file:
-                lock_file = old_lock_file
+                # Update UI via main thread
+                self.root.after(0, lambda: self._finalize_stop(scraper_name))
 
-            if (not lock_file or not lock_file.exists()) and scraper_name not in self.running_scrapers:
-                messagebox.showinfo("Information", f"{scraper_name} is not currently running.")
-                return
-
-            # Confirm stop
-            if not messagebox.askyesno("Confirm Stop", f"Stop {scraper_name} pipeline?\n\nThis will terminate the running process."):
-                return
-            stop_confirmed = True
-
-            self.update_status(f"Stopping {scraper_name}...")
-
-            # Try to stop via shared workflow runner
-            try:
-                from shared_workflow_runner import WorkflowRunner
-                result = WorkflowRunner.stop_pipeline(scraper_name, self.repo_root)
-
-                # Note: shared_workflow_runner.stop_pipeline already cleans up Chrome instances before killing process
-                # This is just a final check for any remaining instances
-                import time
-                time.sleep(0.5)
-                try:
-                    from core.chrome_pid_tracker import terminate_scraper_pids
-                    terminated_count = terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
-                    if terminated_count > 0:
-                        self.append_to_log_display(f"[STOP] Terminated {terminated_count} remaining Chrome process(es) for {scraper_name} after pipeline stop\n")
-                except Exception:
-                    pass
-
-                if result["status"] == "ok":
-                    messagebox.showinfo("Success", result["message"])
-                    self.update_status(f"Stopped {scraper_name}")
-
-                    # Remove from tracking
-                    if scraper_name in self.running_processes:
-                        del self.running_processes[scraper_name]
-                    self.running_scrapers.discard(scraper_name)
-                    # Update kill all Chrome button state
-                    self.update_kill_all_chrome_button_state()
-
-                    # Update log
-                    stop_msg = f"\n{'='*80}\n[STOPPED] Pipeline stopped by user at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n{'='*80}\n"
-                    if scraper_name in self.scraper_logs:
-                        self.scraper_logs[scraper_name] += stop_msg
-                    # Update progress state
-                    self.scraper_progress[scraper_name] = {"percent": 0, "description": "Pipeline stopped"}
-                    
-                    if scraper_name == self.scraper_var.get():
-                        self.append_to_log_display(stop_msg)
-                        # Reset progress bar display
-                        self.progress_label.config(text="Pipeline stopped")
-                        self.progress_bar['value'] = 0
-                        self.progress_percent.config(text="0%")
-
-                        # Refresh button state
-                        self.refresh_run_button_state()
-                        self.update_checkpoint_status()
-                        self.update_kill_all_chrome_button_state()
-                else:
-                    messagebox.showerror("Error", f"Failed to stop {scraper_name}:\n{result['message']}")
-                    self.update_status(f"Failed to stop {scraper_name}")
             except Exception as e:
-                # Ensure Chrome cleanup happens even if there's an error (scraper-specific only)
-                try:
-                    from core.chrome_pid_tracker import terminate_scraper_pids
-                    terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
-                except Exception:
-                    # Don't use general cleanup - it would kill all scrapers' Chrome instances
-                    pass
-                messagebox.showerror("Error", f"Failed to stop {scraper_name}:\n{str(e)}")
-                self.update_status(f"Error stopping {scraper_name}: {str(e)}")
-        finally:
-            # Final cleanup: Ensure all Chrome instances are killed (one last attempt)
-            if stop_confirmed:
-                try:
-                    import time
-                    time.sleep(0.5)  # Give processes time to die
-                    from core.chrome_pid_tracker import terminate_scraper_pids
-                    terminated_count = terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
-                    if terminated_count > 0:
-                        if scraper_name == self.scraper_var.get():
-                            self.append_to_log_display(f"[STOP] Final cleanup: Terminated {terminated_count} remaining Chrome process(es)\n")
-                except Exception:
-                    pass
-            
-            # Always remove from stopping set, even if there was an error or early return
-            self._stopping_scrapers.discard(scraper_name)
+                print(f"Error during stop_pipeline: {e}")
+                self.root.after(0, lambda: messagebox.showerror("Error", f"Error stopping pipeline: {e}", parent=self.root))
+                self.root.after(0, lambda: self._cleanup_stopping_state(scraper_name))
+
+        threading.Thread(target=termination_worker, daemon=True).start()
+
+    def _finalize_stop(self, scraper_name):
+        """Helper to update UI after stop completes"""
+        self.finish_scraper_run(scraper_name, -1, stopped=True)
+        self.update_status(f"Stopped {scraper_name}")
+        self._cleanup_stopping_state(scraper_name)
+        messagebox.showinfo("Stopped", f"Pipeline for {scraper_name} has been stopped.", parent=self.root)
+
+    def _cleanup_stopping_state(self, scraper_name):
+        self._stopping_scrapers.discard(scraper_name)
+        self._stopping_started_at.pop(scraper_name, None)
 
     def update_checkpoint_status(self):
         """Update checkpoint status label"""
@@ -6305,6 +8293,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
         if not scraper_name:
             if hasattr(self, 'checkpoint_status_label'):
                 self.checkpoint_status_label.config(text="Checkpoint: No scraper selected")
+            if hasattr(self, 'timeline_status_label'):
+                self.timeline_status_label.config(text="Timeline: No scraper selected")
             return
         
         try:
@@ -6315,8 +8305,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
             if info["total_completed"] > 0:
                 # Get total steps for this scraper
                 scraper_info = self.scrapers.get(scraper_name)
-                total_steps = len(scraper_info.get("steps", [])) if scraper_info else None
-                
+                steps_list = scraper_info.get("steps", []) if scraper_info else []
+
+                total_steps = len(steps_list)
                 if total_steps is not None and info['next_step'] >= total_steps:
                     status_text = f"Checkpoint: All {total_steps} steps completed"
                     resume_text = "Pipeline finished"
@@ -6336,6 +8327,318 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 self.checkpoint_status_label.config(text=f"Checkpoint: Error - {str(e)[:50]}")
             if hasattr(self, 'checkpoint_resume_label'):
                 self.checkpoint_resume_label.config(text="")
+        finally:
+            self.update_timeline_status()
+
+    def _api_base_url(self):
+        """Return base URL for embedded API server."""
+        return f"http://127.0.0.1:{self._api_server_port}"
+
+    def _build_local_step_snapshot(self, scraper_name, cp):
+        """Best-effort step snapshot from local checkpoint when API is unavailable."""
+        scraper_info = self.scrapers.get(scraper_name, {})
+        steps = scraper_info.get("steps", [])
+        info = cp.get_checkpoint_info()
+        metadata = cp.get_metadata() or {}
+        checkpoint_data = cp._load_checkpoint()
+        step_outputs = checkpoint_data.get("step_outputs", {})
+        completed_steps = set(info.get("completed_steps", []))
+        current_step = metadata.get("current_step")
+        snapshot = []
+
+        for i, step in enumerate(steps):
+            status = "pending"
+            if i in completed_steps:
+                status = "completed"
+            elif current_step == i and metadata.get("status") in ("running", "resume"):
+                status = "in_progress"
+
+            row = {
+                "step_number": i,
+                "name": step.get("name"),
+                "script": step.get("script"),
+                "status": status,
+                "source": "checkpoint",
+            }
+            step_output = step_outputs.get(f"step_{i}", {})
+            if step_output:
+                if step_output.get("completed_at"):
+                    row["completed_at"] = step_output.get("completed_at")
+                if step_output.get("duration_seconds") is not None:
+                    row["duration_seconds"] = step_output.get("duration_seconds")
+                row["output_files_count"] = len(step_output.get("output_files", []))
+            snapshot.append(row)
+        return snapshot
+
+    def _fetch_state_timeline_payload(self, scraper_name, limit=200, prefer_api=True, api_timeout=1.0):
+        """
+        Fetch timeline/state payload from API.
+        Falls back to local checkpoint data if API is unavailable.
+        """
+        api_error = None
+        should_try_api = bool(prefer_api and _REQUESTS_AVAILABLE and getattr(self, "_api_server_running", False))
+        if should_try_api:
+            try:
+                resp = requests.get(
+                    f"{self._api_base_url()}/api/v1/scrapers/{scraper_name}/timeline",
+                    params={"limit": int(limit)},
+                    timeout=max(0.1, float(api_timeout)),
+                )
+                if resp.status_code == 200:
+                    data = resp.json()
+                    data["source"] = "api"
+                    return data
+                api_error = f"HTTP {resp.status_code}"
+            except Exception as exc:
+                api_error = str(exc)
+        elif not _REQUESTS_AVAILABLE:
+            api_error = "requests not available"
+        elif not prefer_api:
+            api_error = "api skipped"
+        else:
+            api_error = "api server off"
+
+        try:
+            from core.pipeline_checkpoint import get_checkpoint_manager
+            cp = get_checkpoint_manager(scraper_name)
+            metadata = cp.get_metadata() or {}
+            run_id = metadata.get("run_id")
+            events = cp.get_events(limit=max(1, min(int(limit), 2000)), run_id=run_id)
+            return {
+                "scraper": scraper_name,
+                "run_id": run_id,
+                "running": scraper_name in self.running_scrapers or scraper_name in self.running_processes,
+                "event_count": len(events),
+                "events": events,
+                "step_snapshot": self._build_local_step_snapshot(scraper_name, cp),
+                "source": "checkpoint",
+                "api_error": api_error,
+            }
+        except Exception as exc:
+            return {
+                "scraper": scraper_name,
+                "run_id": None,
+                "running": scraper_name in self.running_scrapers or scraper_name in self.running_processes,
+                "event_count": 0,
+                "events": [],
+                "step_snapshot": [],
+                "source": "none",
+                "api_error": api_error,
+                "error": str(exc),
+            }
+
+    def update_timeline_status(self):
+        """Update short timeline status line under checkpoint status."""
+        if not hasattr(self, "timeline_status_label"):
+            return
+        scraper_name = self.scraper_var.get() if hasattr(self, "scraper_var") else ""
+        if not scraper_name:
+            self.timeline_status_label.config(text="Timeline: No scraper selected")
+            return
+
+        # Keep dropdown/label updates non-blocking: use local checkpoint snapshot only.
+        payload = self._fetch_state_timeline_payload(scraper_name, limit=20, prefer_api=False)
+        source = payload.get("source", "none")
+        events = payload.get("events", []) or []
+        run_id = payload.get("run_id") or "N/A"
+        running = payload.get("running", False)
+
+        if events:
+            last = events[-1]
+            ts = (last.get("timestamp") or "")[11:19] if last.get("timestamp") else "--:--:--"
+            ev = last.get("event_type", "event")
+            st = last.get("status", "")
+            step_num = last.get("step_number")
+            step_name = last.get("step_name", "")
+            step_text = ""
+            if step_num is not None:
+                step_text = f" step {step_num}"
+                if step_name:
+                    step_text += f" ({step_name})"
+            status_text = f" {st}" if st else ""
+            run_flag = "RUNNING" if running else "IDLE"
+            self.timeline_status_label.config(
+                text=f"Timeline [{source}/{run_flag}] {ts} {ev}{status_text}{step_text} | run: {run_id}"
+            )
+        else:
+            self.timeline_status_label.config(
+                text=f"Timeline [{source}] no events yet | run: {run_id}"
+            )
+
+    def show_state_timeline(self):
+        """Open a detailed state/step timeline viewer for selected scraper."""
+        scraper_name = self.scraper_var.get()
+        if not scraper_name:
+            messagebox.showwarning("Warning", "Select a scraper first", parent=self.root)
+            return
+
+        payload = self._fetch_state_timeline_payload(scraper_name, limit=400, prefer_api=True, api_timeout=1.0)
+
+        win = tk.Toplevel(self.root)
+        win.title(f"State Timeline - {scraper_name}")
+        win.geometry("1200x760")
+        win.configure(bg=self.colors['white'])
+
+        top = tk.Frame(win, bg=self.colors['white'])
+        top.pack(fill=tk.X, padx=10, pady=(10, 6))
+
+        summary_var = tk.StringVar(value="")
+        tk.Label(
+            top,
+            textvariable=summary_var,
+            bg=self.colors['white'],
+            fg='#000000',
+            font=self.fonts['standard'],
+            anchor=tk.W
+        ).pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+        auto_refresh_var = tk.BooleanVar(value=bool(payload.get("running", False)))
+
+        def refresh_now():
+            data = self._fetch_state_timeline_payload(scraper_name, limit=400, prefer_api=True, api_timeout=1.0)
+            source = data.get("source", "none")
+            run_id = data.get("run_id") or "N/A"
+            running = data.get("running", False)
+            events = data.get("events", []) or []
+            steps = data.get("step_snapshot", []) or []
+            api_error = data.get("api_error")
+
+            source_text = source.upper()
+            if api_error and source != "api":
+                source_text += f" fallback ({api_error})"
+            summary_var.set(
+                f"Scraper: {scraper_name} | run_id: {run_id} | running: {running} | "
+                f"events: {len(events)} | steps: {len(steps)} | source: {source_text}"
+            )
+
+            for item in step_tree.get_children():
+                step_tree.delete(item)
+            for row in sorted(steps, key=lambda r: r.get("step_number", 10**9)):
+                step_tree.insert(
+                    "",
+                    tk.END,
+                    values=(
+                        row.get("step_number"),
+                        row.get("status", ""),
+                        row.get("name", ""),
+                        row.get("duration_seconds", ""),
+                        row.get("rows_processed", ""),
+                        row.get("error_message", "") or "",
+                    ),
+                )
+
+            for item in event_tree.get_children():
+                event_tree.delete(item)
+            for ev in events:
+                event_tree.insert(
+                    "",
+                    tk.END,
+                    values=(
+                        ev.get("sequence", ""),
+                        ev.get("timestamp", ""),
+                        ev.get("event_type", ""),
+                        ev.get("status", ""),
+                        ev.get("step_number", ""),
+                        ev.get("step_name", ""),
+                        ev.get("message", ""),
+                    ),
+                    tags=("event_row",),
+                )
+
+            event_tree._events_payload = events  # attach for selection lookup
+
+        ttk.Button(top, text="Refresh", command=refresh_now, style='Secondary.TButton').pack(side=tk.RIGHT, padx=(6, 0))
+        ttk.Checkbutton(top, text="Auto-refresh (2s)", variable=auto_refresh_var, style='Secondary.TCheckbutton').pack(side=tk.RIGHT)
+
+        splitter = tk.PanedWindow(win, orient=tk.VERTICAL, sashrelief=tk.RAISED, bg=self.colors['background_gray'])
+        splitter.pack(fill=tk.BOTH, expand=True, padx=10, pady=(0, 10))
+
+        step_frame = tk.Frame(splitter, bg=self.colors['white'])
+        splitter.add(step_frame, minsize=180)
+        tk.Label(step_frame, text="Step Snapshot", bg=self.colors['white'], fg='#000000', font=self.fonts['bold']).pack(anchor=tk.W, pady=(6, 4))
+        step_tree = ttk.Treeview(
+            step_frame,
+            columns=("step", "status", "name", "duration", "rows", "error"),
+            show="headings",
+            height=8,
+        )
+        step_tree.heading("step", text="Step")
+        step_tree.heading("status", text="Status")
+        step_tree.heading("name", text="Name")
+        step_tree.heading("duration", text="Duration(s)")
+        step_tree.heading("rows", text="Rows Processed")
+        step_tree.heading("error", text="Error")
+        step_tree.column("step", width=60, anchor=tk.CENTER)
+        step_tree.column("status", width=100, anchor=tk.CENTER)
+        step_tree.column("name", width=320, anchor=tk.W)
+        step_tree.column("duration", width=100, anchor=tk.E)
+        step_tree.column("rows", width=120, anchor=tk.E)
+        step_tree.column("error", width=380, anchor=tk.W)
+        step_tree.pack(fill=tk.BOTH, expand=True)
+
+        event_frame = tk.Frame(splitter, bg=self.colors['white'])
+        splitter.add(event_frame, minsize=260)
+        tk.Label(event_frame, text="Event Timeline", bg=self.colors['white'], fg='#000000', font=self.fonts['bold']).pack(anchor=tk.W, pady=(6, 4))
+        event_tree = ttk.Treeview(
+            event_frame,
+            columns=("seq", "time", "event", "status", "step", "step_name", "message"),
+            show="headings",
+            height=12,
+        )
+        event_tree.heading("seq", text="#")
+        event_tree.heading("time", text="Timestamp")
+        event_tree.heading("event", text="Event")
+        event_tree.heading("status", text="Status")
+        event_tree.heading("step", text="Step")
+        event_tree.heading("step_name", text="Step Name")
+        event_tree.heading("message", text="Message")
+        event_tree.column("seq", width=60, anchor=tk.E)
+        event_tree.column("time", width=170, anchor=tk.W)
+        event_tree.column("event", width=170, anchor=tk.W)
+        event_tree.column("status", width=110, anchor=tk.CENTER)
+        event_tree.column("step", width=70, anchor=tk.CENTER)
+        event_tree.column("step_name", width=250, anchor=tk.W)
+        event_tree.column("message", width=330, anchor=tk.W)
+        event_tree.pack(fill=tk.BOTH, expand=True)
+
+        details_frame = tk.Frame(splitter, bg=self.colors['white'])
+        splitter.add(details_frame, minsize=140)
+        tk.Label(details_frame, text="Selected Event Details", bg=self.colors['white'], fg='#000000', font=self.fonts['bold']).pack(anchor=tk.W, pady=(6, 4))
+        details_text = scrolledtext.ScrolledText(
+            details_frame,
+            wrap=tk.WORD,
+            height=8,
+            font=self.fonts['monospace'],
+            bg='#1e1e1e',
+            fg='#00cc66',
+            insertbackground='#00cc66',
+        )
+        details_text.pack(fill=tk.BOTH, expand=True)
+
+        def on_event_select(_event=None):
+            sel = event_tree.selection()
+            if not sel:
+                return
+            row_index = event_tree.index(sel[0])
+            events = getattr(event_tree, "_events_payload", [])
+            if row_index < 0 or row_index >= len(events):
+                return
+            details_text.config(state=tk.NORMAL)
+            details_text.delete("1.0", tk.END)
+            details_text.insert("1.0", json.dumps(events[row_index], indent=2, ensure_ascii=False))
+            details_text.config(state=tk.DISABLED)
+
+        event_tree.bind("<<TreeviewSelect>>", on_event_select)
+
+        def schedule_auto_refresh():
+            if not win.winfo_exists():
+                return
+            if auto_refresh_var.get():
+                refresh_now()
+            win.after(2000, schedule_auto_refresh)
+
+        refresh_now()
+        schedule_auto_refresh()
     
     def view_checkpoint_file(self):
         """View checkpoint file location and contents"""
@@ -6435,12 +8738,519 @@ Provide a clear, concise explanation suitable for users who want to understand w
         try:
             from core.pipeline_checkpoint import get_checkpoint_manager
             cp = get_checkpoint_manager(scraper_name)
+            
+            # For Argentina: Reset database status before clearing checkpoint
+            if scraper_name == "Argentina":
+                try:
+                    from core.db.connection import CountryDB
+                    from scripts.Argentina.db.schema import apply_argentina_schema
+                    from scripts.Argentina.config_loader import get_output_dir
+                    from pathlib import Path
+                    import os
+                    
+                    # Get run_id - prefer existing run from database
+                    output_dir = get_output_dir()
+                    run_id_file = output_dir / '.current_run_id'
+                    run_id = None
+                    
+                    # First try to get from checkpoint metadata (before clearing)
+                    metadata = cp.get_metadata() or {}
+                    run_id = metadata.get('run_id')
+                    
+                    # If not in metadata, try file
+                    if not run_id and run_id_file.exists():
+                        run_id = run_id_file.read_text(encoding='utf-8').strip()
+                    
+                    # If still no run_id, get latest run from database
+                    if not run_id:
+                        # Last resort: get run_id from ar_step_progress (the table we're updating)
+                        # Prioritize run_id with status='running' in run_ledger
+                        try:
+                            db_temp = CountryDB("Argentina")
+                            apply_argentina_schema(db_temp)
+                            with db_temp.cursor() as cur:
+                                # Prioritize run_id with status='running' in run_ledger
+                                cur.execute("""
+                                    SELECT sp.run_id, COUNT(*) as step_count
+                                    FROM ar_step_progress sp
+                                    JOIN run_ledger rl ON sp.run_id = rl.run_id
+                                    WHERE sp.progress_key = 'pipeline'
+                                      AND rl.scraper_name = 'Argentina'
+                                      AND rl.status = 'running'
+                                    GROUP BY sp.run_id
+                                    ORDER BY step_count DESC, sp.run_id DESC
+                                    LIMIT 1
+                                """)
+                                row = cur.fetchone()
+                                if row:
+                                    run_id = row[0]
+                                
+                                # If no match, get any run_id with step_progress (ignore run_ledger status)
+                                if not run_id:
+                                    cur.execute("""
+                                        SELECT run_id, COUNT(*) as step_count
+                                        FROM ar_step_progress
+                                        WHERE progress_key = 'pipeline'
+                                        GROUP BY run_id
+                                        ORDER BY step_count DESC, run_id DESC
+                                        LIMIT 1
+                                    """)
+                                    row = cur.fetchone()
+                                    if row:
+                                        run_id = row[0]
+                                
+                                # Final fallback: get latest run from run_ledger with status='running' if no step_progress exists
+                                if not run_id:
+                                    cur.execute("""
+                                        SELECT run_id FROM run_ledger 
+                                        WHERE scraper_name = 'Argentina' 
+                                          AND status = 'running'
+                                        ORDER BY started_at DESC 
+                                        LIMIT 1
+                                    """)
+                                    row = cur.fetchone()
+                                    if row:
+                                        run_id = row[0]
+                            db_temp.close()
+                        except Exception:
+                            pass
+                    
+                    if run_id:
+                        # Ensure run_id is set in environment and file
+                        os.environ["ARGENTINA_RUN_ID"] = run_id
+                        run_id_file.parent.mkdir(parents=True, exist_ok=True)
+                        run_id_file.write_text(run_id, encoding='utf-8')
+                        
+                        with CountryDB("Argentina") as db:
+                            apply_argentina_schema(db)
+                            
+                            # Ensure run_id exists in run_ledger (required for foreign key constraint)
+                            from core.db.models import run_ledger_ensure_exists
+                            sql, params = run_ledger_ensure_exists(run_id, "Argentina", mode="resume")
+                            with db.cursor() as cur:
+                                cur.execute(sql, params)
+                            db.commit()
+                            
+                            # Reset all step progress to 'pending' in ar_step_progress table
+                            with db.cursor() as cur:
+                                cur.execute("""
+                                    UPDATE ar_step_progress
+                                    SET status = 'pending',
+                                        completed_at = NULL,
+                                        error_message = NULL
+                                    WHERE run_id = %s
+                                      AND progress_key = 'pipeline'
+                                      AND status IN ('completed', 'failed', 'in_progress')
+                                """, (run_id,))
+                                reset_steps = cur.rowcount
+                                if reset_steps > 0:
+                                    print(f"[CHECKPOINT] Reset {reset_steps} step progress records to 'pending' when clearing checkpoint")
+                            
+                            # Reset all failed/in_progress products to pending
+                            with db.cursor() as cur:
+                                cur.execute("""
+                                    UPDATE ar_product_index
+                                    SET status = 'pending'
+                                    WHERE run_id = %s
+                                      AND total_records = 0
+                                      AND status IN ('failed', 'in_progress')
+                                """, (run_id,))
+                                reset_count = cur.rowcount
+                                if reset_count > 0:
+                                    print(f"[CHECKPOINT] Reset {reset_count} products to 'pending' when clearing checkpoint")
+                            db.commit()
+                except Exception as db_error:
+                    print(f"[CHECKPOINT] Warning: Failed to update database: {db_error}")
+                    import traceback
+                    traceback.print_exc()
+                    # Continue anyway - checkpoint clear should still work
+            
             cp.clear_checkpoint()
             messagebox.showinfo("Success", f"Checkpoint cleared for {scraper_name}")
             self.update_checkpoint_status()
         except Exception as e:
             messagebox.showerror("Error", f"Failed to clear checkpoint:\n{e}")
     
+    def show_validation_table(self):
+        """Show validation/progress table for the currently selected scraper"""
+        scraper_name = self.scraper_var.get()
+        if not scraper_name:
+            messagebox.showwarning("Warning", "Please select a scraper first")
+            return
+        
+        # Route to appropriate validation viewer based on scraper
+        if scraper_name == "Russia":
+            self._show_russia_validation_table()
+        elif scraper_name == "Netherlands":
+            self._show_netherlands_validation_table()
+        elif scraper_name == "NorthMacedonia":
+            self._show_north_macedonia_validation_table()
+        else:
+            messagebox.showinfo("Validation Table",
+                f"Validation table for {scraper_name} is not yet implemented.\n\n"
+                f"Currently supported:\n - Russia (VED metrics)\n - Netherlands (Pipeline progress)\n - north_macedonia (Pipeline progress)")
+    
+    def _show_russia_validation_table(self):
+        """Show Russia VED scraping progress with detailed metrics"""
+        try:
+            import sys
+            sys.path.insert(0, str(self.repo_root / "scripts" / "Russia"))
+            from core.db.connection import CountryDB
+            
+            db = CountryDB("Russia")
+            
+            with db.cursor() as cur:
+                # Get run with most progress entries (not just latest)
+                cur.execute('''
+                    SELECT rl.run_id, rl.status, rl.started_at, COUNT(sp.id) as progress_count
+                    FROM run_ledger rl
+                    LEFT JOIN ru_step_progress sp ON rl.run_id = sp.run_id
+                    GROUP BY rl.run_id, rl.status, rl.started_at
+                    ORDER BY progress_count DESC, rl.started_at DESC
+                    LIMIT 1
+                ''')
+                run = cur.fetchone()
+                
+                if not run or run[3] == 0:
+                    messagebox.showinfo("Russia VED Progress", "No runs with progress data found in database.")
+                    return
+                
+                run_id, status, started_at, progress_count = run
+                
+                # Get progress entries with metrics
+                cur.execute('''
+                    SELECT progress_key, status, rows_found, ean_found, rows_scraped,
+                           rows_inserted, ean_missing, db_count_before, db_count_after,
+                           started_at, completed_at, error_message
+                    FROM ru_step_progress 
+                    WHERE run_id = %s
+                    ORDER BY progress_key
+                ''', (run_id,))
+                
+                rows = cur.fetchall()
+                
+                # Create progress window
+                progress_window = tk.Toplevel(self.root)
+                progress_window.title(f"Russia VED Validation Table - Run {run_id[:20]}...")
+                progress_window.geometry("1200x700")
+                progress_window.configure(bg='white')
+                
+                # Header info
+                header_frame = tk.Frame(progress_window, bg='white', padx=10, pady=10)
+                header_frame.pack(fill=tk.X)
+                
+                tk.Label(header_frame, text=f"Run ID: {run_id}", 
+                        bg='white', font=('Segoe UI', 10, 'bold')).pack(anchor=tk.W)
+                tk.Label(header_frame, text=f"Status: {status} | Started: {started_at}", 
+                        bg='white', font=('Segoe UI', 9)).pack(anchor=tk.W)
+                tk.Label(header_frame, text=f"Total Pages Tracked: {len(rows)}", 
+                        bg='white', font=('Segoe UI', 9)).pack(anchor=tk.W)
+                
+                # Summary statistics
+                # Column indices: 0=key, 1=status, 2=rows_found, 3=ean_found, 4=rows_scraped, 
+                #                 5=rows_inserted, 6=ean_missing, 7=db_before, 8=db_after
+                if rows:
+                    total_rows_found = sum(r[2] or 0 for r in rows)
+                    total_ean_found = sum(r[3] or 0 for r in rows)
+                    total_inserted = sum(r[5] or 0 for r in rows)  # Fixed: was r[6]
+                    total_missing = sum(r[6] or 0 for r in rows)   # Fixed: was r[5]
+                    
+                    summary_text = (f"Summary: {total_rows_found} rows found, {total_ean_found} EANs found, "
+                                  f"{total_inserted} inserted, {total_missing} missing EAN")
+                    tk.Label(header_frame, text=summary_text, 
+                            bg='white', font=('Segoe UI', 9, 'bold'), fg='#0066cc').pack(anchor=tk.W, pady=(5, 0))
+                
+                # Create treeview for detailed data
+                columns = ('Page', 'Status', 'Rows', 'EAN', 'Scraped', 'Inserted', 
+                          'Missing', 'DB Before', 'DB After', 'Started', 'Completed')
+                tree = ttk.Treeview(progress_window, columns=columns, show='headings', height=25)
+                
+                # Define column widths and headings
+                col_widths = {
+                    'Page': 80, 'Status': 100, 'Rows': 60, 'EAN': 60, 
+                    'Scraped': 70, 'Inserted': 70, 'Missing': 70,
+                    'DB Before': 80, 'DB After': 80, 'Started': 140, 'Completed': 140
+                }
+                
+                for col in columns:
+                    tree.heading(col, text=col)
+                    tree.column(col, width=col_widths.get(col, 100), anchor='center')
+                
+                # Add scrollbar
+                scrollbar = ttk.Scrollbar(progress_window, orient=tk.VERTICAL, command=tree.yview)
+                tree.configure(yscrollcommand=scrollbar.set)
+                
+                # Pack tree and scrollbar
+                tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(10, 0), pady=10)
+                scrollbar.pack(side=tk.RIGHT, fill=tk.Y, padx=(0, 10), pady=10)
+                
+                # Insert data
+                for row in rows:
+                    (page_key, status, rows_found, ean_found, rows_scraped, rows_inserted,
+                     ean_missing, db_before, db_after, started, completed, error) = row
+                    
+                    # Extract page number from key (e.g., "ved_page:1" -> "1")
+                    page_num = page_key.split(':')[-1] if ':' in page_key else page_key
+                    
+                    # Determine status color
+                    status_display = status
+                    if status == 'completed':
+                        status_display = '✓ Done'
+                    elif status == 'ean_missing':
+                        status_display = '⚠ EAN Missing'
+                    elif status == 'failed':
+                        status_display = '✗ Failed'
+                    
+                    tree.insert('', tk.END, values=(
+                        page_num, status_display,
+                        rows_found or 0, ean_found or 0, rows_scraped or 0,
+                        rows_inserted or 0, ean_missing or 0,
+                        db_before or 0, db_after or 0,
+                        str(started)[:19] if started else '',
+                        str(completed)[:19] if completed else ''
+                    ), tags=(status,))
+                
+                # Configure tag colors
+                tree.tag_configure('completed', background='#e6ffe6')
+                tree.tag_configure('ean_missing', background='#fff3e6')
+                tree.tag_configure('failed', background='#ffe6e6')
+                
+                # Close button
+                ttk.Button(progress_window, text="Close", 
+                          command=progress_window.destroy).pack(pady=(0, 10))
+                
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to load Russia VED progress:\n{e}")
+            import traceback
+            traceback.print_exc()
+
+    def _show_netherlands_validation_table(self):
+        """Show Netherlands pipeline step progress from nl_step_progress"""
+        try:
+            from core.db.postgres_connection import get_db
+            
+            db = get_db("Netherlands")
+            
+            with db.cursor() as cur:
+                # Find the run_id from run_ledger that has the most progress entries
+                cur.execute('''
+                    SELECT rl.run_id, rl.status, rl.started_at, COUNT(sp.id) as progress_count
+                    FROM run_ledger rl
+                    LEFT JOIN nl_step_progress sp ON rl.run_id = sp.run_id
+                    GROUP BY rl.run_id, rl.status, rl.started_at
+                    ORDER BY progress_count DESC, rl.started_at DESC
+                    LIMIT 1
+                ''')
+                run = cur.fetchone()
+                
+                if not run or run[3] == 0:
+                    messagebox.showinfo("Netherlands Progress", "No runs with progress data found in database.")
+                    return
+                
+                run_id, status, started_at, progress_count = run
+                
+                # Get all progress entries for this run
+                cur.execute('''
+                    SELECT step_number, step_name, status, error_message, started_at, completed_at
+                    FROM nl_step_progress
+                    WHERE run_id = %s
+                    ORDER BY step_number
+                ''', (run_id,))
+                
+                rows = cur.fetchall()
+                
+                # Create progress window
+                progress_window = tk.Toplevel(self.root)
+                progress_window.title(f"Netherlands Pipeline Progress - Run {run_id[:20]}...")
+                progress_window.geometry("1000x600")
+                progress_window.configure(bg='white')
+                
+                # Header info
+                header_frame = tk.Frame(progress_window, bg='white', padx=20, pady=20)
+                header_frame.pack(fill=tk.X)
+                
+                tk.Label(header_frame, text=f"Netherlands Pipeline Run Details", 
+                        bg='white', font=('Segoe UI', 14, 'bold')).pack(anchor=tk.W)
+                
+                info_frame = tk.Frame(header_frame, bg='white', pady=10)
+                info_frame.pack(fill=tk.X)
+                
+                tk.Label(info_frame, text=f"Run ID: {run_id}", 
+                        bg='white', font=('Segoe UI', 10)).pack(anchor=tk.W)
+                tk.Label(info_frame, text=f"Pipeline Status: {status} | Started: {started_at}", 
+                        bg='white', font=('Segoe UI', 10)).pack(anchor=tk.W)
+                
+                # Progress Treeview
+                columns = ('Step #', 'Step Name', 'Status', 'Started At', 'Completed At', 'Error')
+                tree = ttk.Treeview(progress_window, columns=columns, show='headings', height=15)
+                
+                col_widths = {
+                    'Step #': 70, 'Step Name': 250, 'Status': 120, 
+                    'Started At': 160, 'Completed At': 160, 'Error': 200
+                }
+                
+                for col in columns:
+                    tree.heading(col, text=col)
+                    tree.column(col, width=col_widths.get(col, 150), anchor=tk.W if col in ('Step Name', 'Error') else tk.CENTER)
+                
+                # Add scrollbar
+                scrollbar = ttk.Scrollbar(progress_window, orient=tk.VERTICAL, command=tree.yview)
+                tree.configure(yscrollcommand=scrollbar.set)
+                
+                tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(20, 0), pady=(0, 20))
+                scrollbar.pack(side=tk.RIGHT, fill=tk.Y, padx=(0, 20), pady=(0, 20))
+                
+                # Insert data
+                status_icons = {
+                    'completed': '✓ Completed',
+                    'in_progress': '↻ In Progress',
+                    'failed': '✗ Failed',
+                    'pending': '○ Pending',
+                    'skipped': '→ Skipped'
+                }
+                
+                for row in rows:
+                    step_num, step_name, status, error, started, completed = row
+                    
+                    status_display = status_icons.get(status, status)
+                    
+                    tree.insert('', tk.END, values=(
+                        step_num, step_name, status_display,
+                        str(started)[:19] if started else '-',
+                        str(completed)[:19] if completed else '-',
+                        error or ''
+                    ), tags=(status,))
+                
+                # Configure tag colors
+                tree.tag_configure('completed', background='#e6ffe6')   # Light green
+                tree.tag_configure('in_progress', background='#fff9e6') # Light yellow
+                tree.tag_configure('failed', background='#ffe6e6')      # Light red
+                tree.tag_configure('skipped', background='#f0f0f0')     # Light gray
+                
+                # Footer actions
+                footer = tk.Frame(progress_window, bg='white', pady=15)
+                footer.pack(fill=tk.X)
+                
+                ttk.Button(footer, text="Close", command=progress_window.destroy, 
+                          style='Secondary.TButton').pack()
+
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to load Netherlands progress:\n{e}")
+            import traceback
+            traceback.print_exc()
+
+    def _show_north_macedonia_validation_table(self):
+        """Show north_macedonia pipeline step progress from nm_step_progress"""
+        try:
+            from core.db.postgres_connection import get_db
+
+            db = get_db("NorthMacedonia")
+
+            with db.cursor() as cur:
+                # Find the run_id from run_ledger that has the most progress entries
+                cur.execute('''
+                    SELECT rl.run_id, rl.status, rl.started_at, COUNT(sp.id) as progress_count
+                    FROM run_ledger rl
+                    LEFT JOIN nm_step_progress sp ON rl.run_id = sp.run_id
+                    WHERE rl.scraper_name = 'NorthMacedonia'
+                    GROUP BY rl.run_id, rl.status, rl.started_at
+                    ORDER BY progress_count DESC, rl.started_at DESC
+                    LIMIT 1
+                ''')
+                run = cur.fetchone()
+
+                if not run or run[3] == 0:
+                    messagebox.showinfo("north_macedonia Progress", "No runs with progress data found in database.")
+                    return
+
+                run_id, status, started_at, progress_count = run
+
+                # Get all progress entries for this run
+                cur.execute('''
+                    SELECT step_number, step_name, status, started_at, completed_at, error_message
+                    FROM nm_step_progress
+                    WHERE run_id = %s
+                    ORDER BY step_number, started_at
+                ''', (run_id,))
+
+                rows = cur.fetchall()
+
+                # Create progress window
+                progress_window = tk.Toplevel(self.root)
+                progress_window.title(f"north_macedonia Pipeline Progress - Run {run_id[:20]}...")
+                progress_window.geometry("1000x600")
+                progress_window.configure(bg='white')
+
+                # Header info
+                header_frame = tk.Frame(progress_window, bg='white', padx=20, pady=20)
+                header_frame.pack(fill=tk.X)
+
+                tk.Label(header_frame, text=f"north_macedonia Pipeline Run Details",
+                        bg='white', font=('Segoe UI', 14, 'bold')).pack(anchor=tk.W)
+
+                info_frame = tk.Frame(header_frame, bg='white', pady=10)
+                info_frame.pack(fill=tk.X)
+
+                tk.Label(info_frame, text=f"Run ID: {run_id}", bg='white', font=('Courier', 10)).pack(anchor=tk.W)
+                tk.Label(info_frame, text=f"Status: {status}", bg='white', font=('Courier', 10)).pack(anchor=tk.W)
+                tk.Label(info_frame, text=f"Started: {started_at}", bg='white', font=('Courier', 10)).pack(anchor=tk.W)
+                tk.Label(info_frame, text=f"Progress Entries: {progress_count}", bg='white', font=('Courier', 10)).pack(anchor=tk.W)
+
+                # Table frame
+                table_frame = tk.Frame(progress_window, bg='white', padx=20)
+                table_frame.pack(fill=tk.BOTH, expand=True)
+
+                # Scrollbar
+                scrollbar = ttk.Scrollbar(table_frame)
+                scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+                # Treeview
+                columns = ("Step", "Name", "Status", "Started", "Completed", "Error")
+                tree = ttk.Treeview(table_frame, columns=columns, show='headings', yscrollcommand=scrollbar.set)
+                scrollbar.config(command=tree.yview)
+
+                # Column headers
+                tree.heading("Step", text="Step #")
+                tree.heading("Name", text="Step Name")
+                tree.heading("Status", text="Status")
+                tree.heading("Started", text="Started At")
+                tree.heading("Completed", text="Completed At")
+                tree.heading("Error", text="Error Message")
+
+                # Column widths
+                tree.column("Step", width=60)
+                tree.column("Name", width=200)
+                tree.column("Status", width=100)
+                tree.column("Started", width=150)
+                tree.column("Completed", width=150)
+                tree.column("Error", width=300)
+
+                # Insert data
+                for row in rows:
+                    step_num, step_name, step_status, start_time, complete_time, error = row
+                    tree.insert('', tk.END, values=(
+                        step_num,
+                        step_name,
+                        step_status,
+                        str(start_time) if start_time else "",
+                        str(complete_time) if complete_time else "",
+                        error or ""
+                    ))
+
+                tree.pack(fill=tk.BOTH, expand=True)
+
+                # Footer with close button
+                footer = tk.Frame(progress_window, bg='white', pady=20)
+                footer.pack()
+
+                ttk.Button(footer, text="Close", command=progress_window.destroy,
+                          style='Secondary.TButton').pack()
+
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to load north_macedonia progress:\n{e}")
+            import traceback
+            traceback.print_exc()
+
     def update_system_stats(self):
         """Update system statistics (Chrome, Tor, RAM, CPU, GPU, Network)"""
         try:
@@ -6683,6 +9493,39 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 if hasattr(self, 'chrome_count_label'):
                     self.chrome_count_label.config(text="Chrome Instances: Error")
 
+    def update_network_info(self, scraper_name: str = None, force_refresh: bool = False):
+        """Update network info display for selected scraper. Use force_refresh=True to re-detect (e.g. after pipeline may have started Tor)."""
+        if scraper_name is None:
+            scraper_name = self.scraper_var.get()
+        
+        if not scraper_name or not hasattr(self, 'network_info_label'):
+            return
+        
+        # Run in background thread to avoid blocking UI
+        def _fetch_network_info():
+            try:
+                from core.network_info import get_network_info_for_scraper, format_network_status
+                info = get_network_info_for_scraper(scraper_name, force_refresh=force_refresh)
+                status_text = format_network_status(info)
+                
+                # Update UI in main thread
+                self.root.after(0, lambda: self.network_info_label.config(
+                    text=f"Network: {status_text}",
+                    fg='#006600' if info.network_type == 'Tor' else 
+                       '#0066cc' if info.network_type == 'VPN' else
+                       '#666666'
+                ))
+            except Exception as e:
+                # Update UI with error
+                self.root.after(0, lambda: self.network_info_label.config(
+                    text=f"Network: Error detecting",
+                    fg='#cc0000'
+                ))
+        
+        # Start background thread
+        thread = threading.Thread(target=_fetch_network_info, daemon=True)
+        thread.start()
+
     def _infer_chrome_pids_from_lock(self, scraper_name: str):
         """Infer Chrome/ChromeDriver PIDs from the scraper lock process tree."""
         try:
@@ -6803,22 +9646,51 @@ Provide a clear, concise explanation suitable for users who want to understand w
                             step_vars[next_idx].set(False)
             
             # Create checkbox for each step
-            for idx, step in enumerate(steps):
-                var = tk.BooleanVar(value=(idx in completed_steps))
-                step_vars[idx] = var
+            step_index_map = {}  # Maps GUI index to actual step number
+            actual_step_nums = []
+
+            # Use sequential step numbering based on current scraper step list.
+            actual_step_nums = list(range(len(steps)))
+            for gui_idx in range(len(steps)):
+                step_index_map[gui_idx] = gui_idx
+            
+            for gui_idx, step in enumerate(steps):
+                actual_step = step_index_map.get(gui_idx, gui_idx)
+                is_completed = actual_step in completed_steps
+                
+                # Check if step should be skipped by default
+                skip_by_default = step.get("skip_by_default", False)
+                
+                # Completed steps should always render checked, even for skip_by_default steps.
+                var = tk.BooleanVar(value=is_completed)
+                step_vars[gui_idx] = var
                 
                 step_frame = ttk.Frame(scrollable_frame)
                 step_frame.pack(fill=tk.X, padx=5, pady=2)
                 
-                checkbox = ttk.Checkbutton(step_frame, text=f"Step {idx}: {step['name']}", 
+                step_display = f"Step {actual_step}"
+                checkbox_text = f"{step_display}: {step['name']}"
+                if skip_by_default:
+                    checkbox_text += " (SKIPPED BY DEFAULT)"
+                
+                checkbox = ttk.Checkbutton(step_frame, text=checkbox_text, 
                                            variable=var,
-                                           command=lambda i=idx, v=var: on_checkbox_change(i, v))
+                                           command=lambda i=gui_idx, v=var: on_checkbox_change(i, v))
                 checkbox.pack(side=tk.LEFT, padx=5)
                 
                 # Show status
-                status_text = "✓ Complete" if idx in completed_steps else "○ Pending"
+                if skip_by_default and not is_completed:
+                    status_text = "⊘ Skipped"
+                    status_color = "#999999"
+                elif is_completed:
+                    status_text = "✓ Complete"
+                    status_color = "#00AA00"
+                else:
+                    status_text = "○ Pending"
+                    status_color = "#666666"
+                    
                 status_label = ttk.Label(step_frame, text=status_text, 
-                                         font=("Segoe UI", 8), foreground="#666666")
+                                         font=("Segoe UI", 8), foreground=status_color)
                 status_label.pack(side=tk.LEFT, padx=10)
             
             canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
@@ -6831,12 +9703,14 @@ Provide a clear, concise explanation suitable for users who want to understand w
             def apply_changes():
                 """Apply checkpoint changes"""
                 try:
-                    # Get selected steps
-                    selected_steps = [step_num for step_num, var in step_vars.items() if var.get()]
+                    # Get selected steps (map GUI indices to actual step numbers)
+                    selected_gui_indices = [gui_idx for gui_idx, var in step_vars.items() if var.get()]
                     
-                    # Validate sequential selection (no gaps)
+                    # Map to actual step numbers
+                    selected_steps = [step_index_map[gui_idx] for gui_idx in selected_gui_indices]
+                    
+                    # Validate sequential selection (0..N without gaps)
                     if selected_steps:
-                        # Check if steps are sequential (0, 1, 2, ... with no gaps)
                         expected_steps = list(range(len(selected_steps)))
                         if selected_steps != expected_steps:
                             messagebox.showerror("Invalid Selection", 
@@ -6847,19 +9721,416 @@ Provide a clear, concise explanation suitable for users who want to understand w
                                 f"Please uncheck steps from the end to roll back, or check steps sequentially from the beginning.")
                             return
                     
+                    # Get previous completed steps to detect which steps were unmarked
+                    previous_completed = set(info.get("completed_steps", []))
+                    new_completed = set(selected_steps)
+                    unmarked_steps = previous_completed - new_completed
+                    
+                    # Get run_id BEFORE clearing checkpoint (to preserve it)
+                    # Priority: checkpoint metadata > .current_run_id file > run_id from completed steps in checkpoint
+                    run_id_before_clear = None
+                    if scraper_name == "Argentina":
+                        try:
+                            from scripts.Argentina.config_loader import get_output_dir
+                            metadata_before = cp.get_metadata() or {}
+                            run_id_before_clear = metadata_before.get('run_id')
+                            
+                            # If not in metadata, try .current_run_id file
+                            if not run_id_before_clear:
+                                output_dir = get_output_dir()
+                                run_id_file = output_dir / '.current_run_id'
+                                if run_id_file.exists():
+                                    run_id_before_clear = run_id_file.read_text(encoding='utf-8').strip()
+                            
+                            # If still no run_id, try to get from completed steps in checkpoint
+                            # This helps when checkpoint metadata was lost but steps are still marked
+                            if not run_id_before_clear:
+                                completed_steps = info.get("completed_steps", [])
+                                if completed_steps:
+                                    try:
+                                        from core.db.connection import CountryDB
+                                        from scripts.Argentina.db.schema import apply_argentina_schema
+                                        db_temp = CountryDB("Argentina")
+                                        apply_argentina_schema(db_temp)
+                                        with db_temp.cursor() as cur:
+                                            # Get run_id that has step_progress matching the completed steps
+                                            # This ensures we use the run_id associated with the checkpoint
+                                            cur.execute("""
+                                                SELECT run_id, COUNT(*) as step_count
+                                                FROM ar_step_progress
+                                                WHERE progress_key = 'pipeline'
+                                                  AND step_number = ANY(%s)
+                                                  AND status = 'completed'
+                                                GROUP BY run_id
+                                                ORDER BY step_count DESC, run_id DESC
+                                                LIMIT 1
+                                            """, ([s for s in completed_steps],))
+                                            row = cur.fetchone()
+                                            if row:
+                                                run_id_before_clear = row[0]
+                                        db_temp.close()
+                                    except Exception:
+                                        pass
+                        except Exception:
+                            # If import fails, just use metadata
+                            metadata_before = cp.get_metadata() or {}
+                            run_id_before_clear = metadata_before.get('run_id')
+                    
                     # Clear checkpoint first
                     cp.clear_checkpoint()
                     
-                    # Mark selected steps as complete
-                    for step_num in selected_steps:
-                        if step_num < len(steps):
-                            step = steps[step_num]
-                            cp.mark_step_complete(step_num, step['name'])
+                    # Preserve run_id in checkpoint metadata if we had one
+                    if run_id_before_clear:
+                        cp.update_metadata({"run_id": run_id_before_clear})
+                    
+                    # For Argentina: Reset database status for unmarked steps
+                    if scraper_name == "Argentina" and (unmarked_steps or not selected_steps):
+                        try:
+                            from core.db.connection import CountryDB
+                            from scripts.Argentina.db.schema import apply_argentina_schema
+                            from scripts.Argentina.config_loader import get_output_dir
+                            from pathlib import Path
+                            import os
+                            
+                            # Use the preserved run_id
+                            run_id = run_id_before_clear
+                            
+                            # If still no run_id, try to get from file or metadata
+                            if not run_id:
+                                output_dir = get_output_dir()
+                                run_id_file = output_dir / '.current_run_id'
+                                if run_id_file.exists():
+                                    run_id = run_id_file.read_text(encoding='utf-8').strip()
+                                else:
+                                    # Try to get from checkpoint metadata (after clear, but we restored it)
+                                    metadata = cp.get_metadata() or {}
+                                    run_id = metadata.get('run_id')
+                            
+                            if not run_id:
+                                # Last resort: try to match run_id with checkpoint's completed steps
+                                # This ensures we use the run_id associated with the checkpoint, even if records were deleted
+                                try:
+                                    completed_steps = selected_steps  # Steps that will be marked complete
+                                    if completed_steps:
+                                        db_temp = CountryDB("Argentina")
+                                        apply_argentina_schema(db_temp)
+                                        with db_temp.cursor() as cur:
+                                            # Get run_id that has step_progress matching the steps we're about to mark complete
+                                            cur.execute("""
+                                                SELECT run_id, COUNT(*) as step_count
+                                                FROM ar_step_progress
+                                                WHERE progress_key = 'pipeline'
+                                                  AND step_number = ANY(%s)
+                                                GROUP BY run_id
+                                                ORDER BY step_count DESC, run_id DESC
+                                                LIMIT 1
+                                            """, ([s for s in completed_steps],))
+                                            row = cur.fetchone()
+                                            if row:
+                                                run_id = row[0]
+                                            
+                                            # If no match, get run_id with most step_progress entries (most likely the active run)
+                                            if not run_id:
+                                                cur.execute("""
+                                                    SELECT run_id, COUNT(*) as step_count
+                                                    FROM ar_step_progress
+                                                    WHERE progress_key = 'pipeline'
+                                                    GROUP BY run_id
+                                                    ORDER BY step_count DESC, run_id DESC
+                                                    LIMIT 1
+                                                """)
+                                                row = cur.fetchone()
+                                                if row:
+                                                    run_id = row[0]
+                                            
+                                            # Final fallback: get latest run from run_ledger if no step_progress exists
+                                            if not run_id:
+                                                cur.execute("""
+                                                    SELECT run_id FROM run_ledger 
+                                                    WHERE scraper_name = 'Argentina' 
+                                                    ORDER BY started_at DESC 
+                                                    LIMIT 1
+                                                """)
+                                                row = cur.fetchone()
+                                                if row:
+                                                    run_id = row[0]
+                                        db_temp.close()
+                                except Exception:
+                                    pass
+                            
+                            if run_id:
+                                # Ensure run_id is set in environment and file
+                                os.environ["ARGENTINA_RUN_ID"] = run_id
+                                output_dir = get_output_dir()
+                                run_id_file = output_dir / '.current_run_id'
+                                run_id_file.parent.mkdir(parents=True, exist_ok=True)
+                                run_id_file.write_text(run_id, encoding='utf-8')
+                                
+                                with CountryDB("Argentina") as db:
+                                    apply_argentina_schema(db)
+                                    
+                                    # Ensure run_id exists in run_ledger (required for foreign key constraint)
+                                    from core.db.models import run_ledger_ensure_exists
+                                    sql, params = run_ledger_ensure_exists(run_id, "Argentina", mode="resume")
+                                    with db.cursor() as cur:
+                                        cur.execute(sql, params)
+                                    db.commit()
+                                    
+                                    # Update ar_step_progress table for unmarked steps
+                                    reset_count = 0
+                                    for step_num in unmarked_steps:
+                                        # Find step name
+                                        step_name = None
+                                        for gui_idx, step in enumerate(steps):
+                                            if step_index_map.get(gui_idx, gui_idx) == step_num:
+                                                step_name = step['name']
+                                                break
+                                        
+                                        if step_name:
+                                            with db.cursor() as cur:
+                                                # Reset step status to 'pending' in ar_step_progress
+                                                cur.execute("""
+                                                    UPDATE ar_step_progress
+                                                    SET status = 'pending',
+                                                        completed_at = NULL,
+                                                        error_message = NULL
+                                                    WHERE run_id = %s
+                                                      AND step_number = %s
+                                                      AND progress_key = 'pipeline'
+                                                """, (run_id, step_num))
+                                                if cur.rowcount > 0:
+                                                    reset_count += 1
+                                    
+                                    # Reset step 3 (Selenium): Reset failed/in_progress products to pending
+                                    if 3 in unmarked_steps:
+                                        with db.cursor() as cur:
+                                            cur.execute("""
+                                                UPDATE ar_product_index
+                                                SET status = 'pending'
+                                                WHERE run_id = %s
+                                                  AND total_records = 0
+                                                  AND status IN ('failed', 'in_progress')
+                                            """, (run_id,))
+                                            reset_count_products = cur.rowcount
+                                            if reset_count_products > 0:
+                                                print(f"[CHECKPOINT] Reset {reset_count_products} products to 'pending' for step 3 retry")
+                                    
+                                    # Reset step 2 (Prepare URLs): Reset products missing URLs
+                                    if 2 in unmarked_steps:
+                                        with db.cursor() as cur:
+                                            cur.execute("""
+                                                UPDATE ar_product_index
+                                                SET url = NULL,
+                                                    status = 'pending'
+                                                WHERE run_id = %s
+                                                  AND (url IS NULL OR url = '')
+                                            """, (run_id,))
+                                            reset_count_products = cur.rowcount
+                                            if reset_count_products > 0:
+                                                print(f"[CHECKPOINT] Reset {reset_count_products} products for step 2 retry")
+                                    
+                                    db.commit()
+                                    if reset_count > 0:
+                                        print(f"[CHECKPOINT] Reset {reset_count} step(s) in ar_step_progress table to 'pending' for run_id={run_id}")
+                            else:
+                                print(f"[CHECKPOINT] Warning: No run_id found, cannot reset unmarked steps in database")
+                        except Exception as db_error:
+                            error_msg = f"Failed to reset database for unmarked steps: {db_error}"
+                            print(f"[CHECKPOINT] ERROR: {error_msg}")
+                            import traceback
+                            traceback.print_exc()
+                            # Show error to user
+                            messagebox.showerror("Database Update Error", 
+                                f"Failed to update database:\n{error_msg}\n\n"
+                                f"Checkpoint file was updated, but database may be out of sync.\n"
+                                f"Please check the console for details.")
+                    
+                    # Mark selected steps as complete (use actual step numbers)
+                    for actual_step in selected_steps:
+                        # Find step name by actual step number
+                        step_name = None
+                        for gui_idx, step in enumerate(steps):
+                            if step_index_map.get(gui_idx, gui_idx) == actual_step:
+                                step_name = step['name']
+                                break
+                        
+                        if step_name:
+                            cp.mark_step_complete(actual_step, step_name)
+                    
+                    # For Argentina: Update ar_step_progress table for marked steps
+                    if scraper_name == "Argentina":
+                        db_updated = False
+                        try:
+                            from core.db.connection import CountryDB
+                            from scripts.Argentina.db.schema import apply_argentina_schema
+                            from scripts.Argentina.config_loader import get_output_dir
+                            import os
+                            
+                            # Use the preserved run_id
+                            run_id = run_id_before_clear
+                            
+                            # If still no run_id, try to get from file or metadata
+                            if not run_id:
+                                output_dir = get_output_dir()
+                                run_id_file = output_dir / '.current_run_id'
+                                if run_id_file.exists():
+                                    run_id = run_id_file.read_text(encoding='utf-8').strip()
+                                else:
+                                    # Try to get from checkpoint metadata (after clear, but we restored it)
+                                    metadata = cp.get_metadata() or {}
+                                    run_id = metadata.get('run_id')
+                            
+                            if not run_id:
+                                # Last resort: try to match run_id with checkpoint's completed steps
+                                # This ensures we use the run_id associated with the checkpoint, even if records were deleted
+                                try:
+                                    completed_steps = selected_steps  # Steps that will be marked complete
+                                    if completed_steps:
+                                        db_temp = CountryDB("Argentina")
+                                        apply_argentina_schema(db_temp)
+                                        with db_temp.cursor() as cur:
+                                            # Get run_id that has step_progress matching the steps we're about to mark complete
+                                            cur.execute("""
+                                                SELECT run_id, COUNT(*) as step_count
+                                                FROM ar_step_progress
+                                                WHERE progress_key = 'pipeline'
+                                                  AND step_number = ANY(%s)
+                                                GROUP BY run_id
+                                                ORDER BY step_count DESC, run_id DESC
+                                                LIMIT 1
+                                            """, ([s for s in completed_steps],))
+                                            row = cur.fetchone()
+                                            if row:
+                                                run_id = row[0]
+                                            
+                                            # If no match, get run_id with most step_progress entries (most likely the active run)
+                                            # BUT prioritize run_id with status='running' in run_ledger
+                                            if not run_id:
+                                                cur.execute("""
+                                                    SELECT sp.run_id, COUNT(*) as step_count
+                                                    FROM ar_step_progress sp
+                                                    JOIN run_ledger rl ON sp.run_id = rl.run_id
+                                                    WHERE sp.progress_key = 'pipeline'
+                                                      AND rl.scraper_name = 'Argentina'
+                                                      AND rl.status = 'running'
+                                                    GROUP BY sp.run_id
+                                                    ORDER BY step_count DESC, sp.run_id DESC
+                                                    LIMIT 1
+                                                """)
+                                                row = cur.fetchone()
+                                                if row:
+                                                    run_id = row[0]
+                                            
+                                            # If still no match, get any run_id with step_progress (ignore run_ledger status)
+                                            if not run_id:
+                                                cur.execute("""
+                                                    SELECT run_id, COUNT(*) as step_count
+                                                    FROM ar_step_progress
+                                                    WHERE progress_key = 'pipeline'
+                                                    GROUP BY run_id
+                                                    ORDER BY step_count DESC, run_id DESC
+                                                    LIMIT 1
+                                                """)
+                                                row = cur.fetchone()
+                                                if row:
+                                                    run_id = row[0]
+                                            
+                                            # Final fallback: get latest run from run_ledger with status='running' if no step_progress exists
+                                            if not run_id:
+                                                cur.execute("""
+                                                    SELECT run_id FROM run_ledger 
+                                                    WHERE scraper_name = 'Argentina' 
+                                                      AND status = 'running'
+                                                    ORDER BY started_at DESC 
+                                                    LIMIT 1
+                                                """)
+                                                row = cur.fetchone()
+                                                if row:
+                                                    run_id = row[0]
+                                        db_temp.close()
+                                except Exception:
+                                    pass
+                            
+                            if run_id:
+                                # Ensure run_id is set in environment and file
+                                os.environ["ARGENTINA_RUN_ID"] = run_id
+                                output_dir = get_output_dir()
+                                run_id_file = output_dir / '.current_run_id'
+                                run_id_file.parent.mkdir(parents=True, exist_ok=True)
+                                run_id_file.write_text(run_id, encoding='utf-8')
+                                
+                                with CountryDB("Argentina") as db:
+                                    apply_argentina_schema(db)
+                                    
+                                    # Ensure run_id exists in run_ledger (required for foreign key constraint)
+                                    from core.db.models import run_ledger_ensure_exists
+                                    sql, params = run_ledger_ensure_exists(run_id, "Argentina", mode="resume")
+                                    with db.cursor() as cur:
+                                        cur.execute(sql, params)
+                                    db.commit()
+                                    
+                                    # Update ar_step_progress for marked steps
+                                    updated_count = 0
+                                    for actual_step in selected_steps:
+                                        # Find step name
+                                        step_name = None
+                                        for gui_idx, step in enumerate(steps):
+                                            if step_index_map.get(gui_idx, gui_idx) == actual_step:
+                                                step_name = step['name']
+                                                break
+                                        
+                                        if step_name:
+                                            with db.cursor() as cur:
+                                                # Mark step as completed in ar_step_progress
+                                                cur.execute("""
+                                                    INSERT INTO ar_step_progress
+                                                        (run_id, step_number, step_name, progress_key, status, completed_at)
+                                                    VALUES
+                                                        (%s, %s, %s, 'pipeline', 'completed', CURRENT_TIMESTAMP)
+                                                    ON CONFLICT (run_id, step_number, progress_key) DO UPDATE SET
+                                                        step_name = EXCLUDED.step_name,
+                                                        status = 'completed',
+                                                        completed_at = CURRENT_TIMESTAMP,
+                                                        error_message = NULL
+                                                """, (run_id, actual_step, step_name))
+                                                if cur.rowcount > 0:
+                                                    updated_count += 1
+                                    
+                                    db.commit()
+                                    db_updated = True
+                                success_msg = f"[CHECKPOINT] Successfully updated {updated_count} step(s) in ar_step_progress table for run_id={run_id}"
+                                print(success_msg)
+                                # Show success message to user
+                                if updated_count > 0:
+                                    messagebox.showinfo("Checkpoint Updated", 
+                                        f"Checkpoint and database updated successfully!\n\n"
+                                        f"Updated {updated_count} step(s) in database.\n"
+                                        f"Run ID: {run_id}")
+                            else:
+                                warning_msg = "[CHECKPOINT] Warning: No run_id found, cannot update ar_step_progress table"
+                                print(warning_msg)
+                                messagebox.showwarning("Database Update Skipped", 
+                                    f"Checkpoint file was updated, but database was not updated.\n\n"
+                                    f"Reason: No run_id found.\n\n"
+                                    f"Database may be out of sync with checkpoint.")
+                        except Exception as db_error:
+                            error_msg = f"Failed to update ar_step_progress: {db_error}"
+                            print(f"[CHECKPOINT] ERROR: {error_msg}")
+                            import traceback
+                            traceback.print_exc()
+                            # Show error to user
+                            messagebox.showerror("Database Update Error", 
+                                f"Failed to update database:\n{error_msg}\n\n"
+                                f"Checkpoint file was updated, but database may be out of sync.\n"
+                                f"Please check the console for details.")
+                        finally:
+                            if not db_updated and scraper_name == "Argentina":
+                                print(f"[CHECKPOINT] Warning: Database update was skipped or failed for Argentina")
                     
                     # Update checkpoint status in main window
                     self.update_checkpoint_status()
                     
-                    # Close dialog without showing success messagebox
+                    # Close dialog - success message already shown above if database was updated
                     dialog.destroy()
                 except Exception as e:
                     messagebox.showerror("Error", f"Failed to update checkpoint:\n{e}")
@@ -6923,8 +10194,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
         lock_file = None
         old_lock_file = None
         try:
-            from platform_config import get_path_manager
-            pm = get_path_manager()
+            from core.config_manager import ConfigManager
+            # Migrated: pm = get_path_manager()
             lock_file = pm.get_lock_file(scraper_name)
             # Also check old location as fallback
             old_lock_file = self.repo_root / f".{scraper_name}_run.lock"
@@ -6959,7 +10230,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 # Read lock file to get PID
                 process_still_running = False
                 try:
-                    with open(lock_file, 'r') as f:
+                    with open(lock_file, 'r', encoding='utf-8') as f:
                         lock_content = f.read().strip().split('\n')
                         if lock_content and lock_content[0].isdigit():
                             lock_pid = int(lock_content[0])
@@ -7017,7 +10288,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
                         if sys.platform == "win32" and lock_file.exists():
                             # Try to open the file in exclusive mode to release any handles
                             try:
-                                with open(lock_file, 'r+') as f:
+                                with open(lock_file, 'r+', encoding='utf-8') as f:
                                     f.close()
                             except:
                                 pass  # Ignore if we can't open it
@@ -7133,8 +10404,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
     def _resolve_logs_dir(self) -> Path:
         """Return the root logs directory (Documents/ScraperPlatform/logs or repo/logs)."""
         try:
-            from platform_config import get_path_manager
-            pm = get_path_manager()
+            from core.config_manager import ConfigManager
+            # Migrated: pm = get_path_manager()
             logs_dir = Path(pm.get_logs_dir())
         except Exception:
             logs_dir = self.repo_root / "logs"
@@ -7401,8 +10672,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
     def _write_console_log_file(self, content):
         try:
             try:
-                from platform_config import get_path_manager
-                pm = get_path_manager()
+                from core.config_manager import ConfigManager
+                # Migrated: pm = get_path_manager()
                 logs_dir = pm.get_logs_dir()
             except Exception:
                 logs_dir = self.repo_root / "logs"
@@ -7458,9 +10729,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
         # Verify the output directory is correct for the selected scraper
         # If path doesn't match, update to correct output directory
         try:
-            from platform_config import get_path_manager
-            pm = get_path_manager()
-            correct_output_dir = pm.get_output_dir(scraper_name)
+            from core.config_manager import ConfigManager
+            # Migrated: pm = get_path_manager()
+            correct_output_dir = ConfigManager.get_output_dir(scraper_name)
             if output_dir != correct_output_dir:
                 output_dir = correct_output_dir
                 self.output_path_var.set(str(correct_output_dir))
@@ -7553,17 +10824,17 @@ Provide a clear, concise explanation suitable for users who want to understand w
         # List only final report files (CSV and XLSX) for the selected scraper
         # Filter by scraper-specific naming patterns
         scraper_patterns = {
-            "CanadaQuebec": ["canadaquebecreport"],
+            "canada_quebec": ["canadaquebecreport"],
             "CanadaOntario": ["canadaontarioreport"],
             "Malaysia": ["malaysia"],
             "Argentina": ["alfabeta_report"],
-            "NorthMacedonia": ["north_macedonia_drug_register", "maxprices_output"],
+            "NorthMacedonia": ["north_macedonia_drug_register"],
             "Russia": ["russia_ved_report", "russia_excluded_report"],
-            "Tender_Chile": ["final_tender_data"],
+            "tender_chile": ["final_tender_data"],
             "India": ["details_combined"],
             "Taiwan": ["taiwan_drug_code_details"]
         }
-        
+
         patterns = scraper_patterns.get(scraper_name, [])
         files = []
         for file_path in sorted(output_dir.iterdir()):
@@ -7722,18 +10993,18 @@ Provide a clear, concise explanation suitable for users who want to understand w
         # Search only final report files (CSV/XLSX) for the selected scraper
         scraper_name = self.scraper_var.get()
         scraper_patterns = {
-            "CanadaQuebec": ["canadaquebecreport"],
+            "canada_quebec": ["canadaquebecreport"],
             "CanadaOntario": ["canadaontarioreport"],
             "Malaysia": ["malaysia"],
             "Argentina": ["alfabeta_report"],
-            "NorthMacedonia": ["north_macedonia_drug_register", "maxprices_output"],
+            "NorthMacedonia": ["north_macedonia_drug_register"],
             "Russia": ["russia_ved_report", "russia_excluded_report"],
-            "Tender_Chile": ["final_tender_data"],
+            "tender_chile": ["final_tender_data"],
             "India": ["details_combined"],
             "Taiwan": ["taiwan_drug_code_details"]
         }
         patterns = scraper_patterns.get(scraper_name, [])
-        
+
         matches = []
         for file_path in sorted(output_dir.iterdir()):
             if file_path.is_file() and file_path.suffix.lower() in ['.csv', '.xlsx']:
@@ -7815,7 +11086,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 
                 # Determine table name based on scraper
                 table_name_map = {
-                    "CanadaQuebec": "canada_quebec_reports",
+                    "canada_quebec": "canada_quebec_reports",
                     "Malaysia": "malaysia_reports",
                     "Argentina": "argentina_reports",
                     "Taiwan": "taiwan_reports"
@@ -8207,9 +11478,20 @@ Provide a clear, concise explanation suitable for users who want to understand w
 
 
 def main():
-    root = tk.Tk()
-    app = ScraperGUI(root)
-    root.mainloop()
+    try:
+        root = tk.Tk()
+        app = ScraperGUI(root)
+        root.mainloop()
+    except Exception as e:
+        import traceback
+        with open("gui_crash.log", "w", encoding='utf-8') as f:
+            f.write(f"GUI Startup Crash: {e}\n")
+            traceback.print_exc(file=f)
+        try:
+            messagebox.showerror("Critical Error", f"Failed to start GUI:\n{e}\n\nSee gui_crash.log for details.")
+        except:
+            pass
+        raise e
 
 
 def install_dependencies(write_callback=None, progress_callback=None):
@@ -8407,3 +11689,4 @@ if __name__ == "__main__":
     import atexit
     atexit.register(cleanup_on_exit)
     main()
+

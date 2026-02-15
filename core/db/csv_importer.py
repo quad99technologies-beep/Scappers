@@ -51,22 +51,30 @@ INPUT_TABLE_REGISTRY: Dict[str, List[dict]] = {
     ],
     "Argentina": [
         {
-            "table": "input_product_list",
-            "display": "Product List",
-            "column_map": {"Product": "product_name", "URL": "url", "Company": "company"},
-            "required": ["product_name"],
-        },
-        {
-            "table": "input_ignore_list",
+            "table": "ignore_list",
             "display": "Ignore List",
-            "column_map": {"Product": "product_name"},
-            "required": ["product_name"],
+            "column_map": {
+                "Company": "company",
+                "Product": "product",
+                "company": "company",
+                "product": "product",
+            },
+            "required": ["company", "product"],
         },
         {
-            "table": "input_dictionary",
+            "table": "dictionary",
             "display": "Dictionary",
-            "column_map": {"Spanish": "source_term", "English": "translated_term", "source": "source_term", "target": "translated_term"},
-            "required": ["source_term"],
+            "column_map": {
+                "Spanish": "es",
+                "English": "en",
+                "es": "es",
+                "en": "en",
+                "source": "es",
+                "target": "en",
+                "source_term": "es",
+                "translated_term": "en",
+            },
+            "required": ["es"],
         },
     ],
     "Malaysia": [
@@ -83,20 +91,27 @@ INPUT_TABLE_REGISTRY: Dict[str, List[dict]] = {
             "required": ["product_name"],
         },
     ],
-    "Netherlands": [
-        {
-            "table": "input_search_terms",
-            "display": "Search Terms",
-            "column_map": {"search_term": "search_term", "term": "search_term", "Search Term": "search_term"},
-            "required": ["search_term"],
-        },
-    ],
     "Belarus": [
         {
             "table": "input_generic_names",
             "display": "Generic Names",
             "column_map": {"Generic Name": "generic_name", "name": "generic_name", "INN": "generic_name"},
             "required": ["generic_name"],
+        },
+        {
+            "table": "input_dictionary",
+            "display": "Dictionary (RU→EN)",
+            "column_map": {
+                "Russian": "source_term",
+                "English": "translated_term",
+                "RU": "source_term",
+                "EN": "translated_term",
+                "source": "source_term",
+                "target": "translated_term",
+                "source_term": "source_term",
+                "translated_term": "translated_term",
+            },
+            "required": ["source_term"],
         },
     ],
     "Taiwan": [
@@ -111,7 +126,18 @@ INPUT_TABLE_REGISTRY: Dict[str, List[dict]] = {
         {
             "table": "input_tender_list",
             "display": "Tender List",
-            "column_map": {"CN": "tender_id", "TenderID": "tender_id", "Description": "description", "URL": "url"},
+            "column_map": {
+                "CN Document Number": "tender_id",
+                "CN": "tender_id",
+                "TenderID": "tender_id",
+                "Tender ID": "tender_id",
+                "tender_id": "tender_id",
+                "Description": "description",
+                "description": "description",
+                "URL": "url",
+                "url": "url",
+                "Url": "url",
+            },
             "required": ["tender_id"],
         },
     ],
@@ -126,6 +152,40 @@ INPUT_TABLE_REGISTRY: Dict[str, List[dict]] = {
                 "EN": "translated_term",
                 "source": "source_term",
                 "target": "translated_term"
+            },
+            "required": ["source_term"],
+        },
+    ],
+    "NorthMacedonia": [
+        {
+            "table": "input_dictionary",
+            "display": "Dictionary (MK→EN)",
+            "column_map": {
+                "Macedonian": "source_term",
+                "English": "translated_term",
+                "MK": "source_term",
+                "EN": "translated_term",
+                "source": "source_term",
+                "target": "translated_term",
+                "source_term": "source_term",
+                "translated_term": "translated_term",
+            },
+            "required": ["source_term"],
+        },
+    ],
+    "North Macedonia": [
+        {
+            "table": "input_dictionary",
+            "display": "Dictionary (MK→EN)",
+            "column_map": {
+                "Macedonian": "source_term",
+                "English": "translated_term",
+                "MK": "source_term",
+                "EN": "translated_term",
+                "source": "source_term",
+                "target": "translated_term",
+                "source_term": "source_term",
+                "translated_term": "translated_term",
             },
             "required": ["source_term"],
         },
@@ -146,6 +206,9 @@ PCID_MAPPING_CONFIG = {
         # Malaysia style
         "LOCAL_PACK_CODE": "local_pack_code",
         "PCID Mapping": "pcid",
+        "Presentation": "presentation",
+        "PACK_SIZE": "presentation",
+        "Pack Size": "presentation",
         # Belarus/others
         "INN": "generic_name",
         "Trade Name": "local_product_name",
@@ -357,47 +420,61 @@ class CSVImporter:
         if not csv_path.exists():
             return ImportResult(status="error", message=f"File not found: {csv_path}", table=table)
 
-        encoding = self._detect_encoding(csv_path)
-        delimiter = self._detect_delimiter(csv_path, encoding)
-
-        # Read CSV
+        # Try multiple encodings with full file read to avoid mid-file encoding failures
         rows = []
         columns_unmapped = []
-        try:
-            with csv_path.open("r", encoding=encoding, newline="") as fh:
-                reader = csv.DictReader(fh, delimiter=delimiter)
-                csv_columns = list(reader.fieldnames or [])
+        encoding_used = None
+        last_error = None
 
-                # Build active column mapping (only columns present in CSV)
-                active_map = {}
-                for csv_col in csv_columns:
-                    csv_col_stripped = csv_col.strip()
-                    if csv_col_stripped in column_map:
-                        active_map[csv_col_stripped] = column_map[csv_col_stripped]
-                    else:
-                        columns_unmapped.append(csv_col_stripped)
+        for encoding in _ENCODINGS:
+            try:
+                delimiter = self._detect_delimiter(csv_path, encoding)
+                with csv_path.open("r", encoding=encoding, newline="", errors="strict") as fh:
+                    reader = csv.DictReader(fh, delimiter=delimiter)
+                    csv_columns = list(reader.fieldnames or [])
 
-                if not active_map:
-                    return ImportResult(
-                        status="error",
-                        message=f"No columns matched. CSV has: {csv_columns}",
-                        table=table,
-                        columns_unmapped=columns_unmapped,
-                    )
+                    # Build active column mapping (only columns present in CSV)
+                    active_map = {}
+                    columns_unmapped = []
+                    for csv_col in csv_columns:
+                        csv_col_stripped = csv_col.strip()
+                        if csv_col_stripped in column_map:
+                            active_map[csv_col_stripped] = column_map[csv_col_stripped]
+                        else:
+                            columns_unmapped.append(csv_col_stripped)
 
-                for row in reader:
-                    mapped_row = {}
-                    for csv_col, db_col in active_map.items():
-                        value = (row.get(csv_col) or "").strip()
-                        if value:
-                            mapped_row[db_col] = value
-                    if mapped_row:
-                        if country and table == "pcid_mapping":
-                            mapped_row["source_country"] = country
-                        rows.append(mapped_row)
+                    if not active_map:
+                        return ImportResult(
+                            status="error",
+                            message=f"No columns matched. CSV has: {csv_columns}",
+                            table=table,
+                            columns_unmapped=columns_unmapped,
+                        )
 
-        except Exception as exc:
-            return ImportResult(status="error", message=f"CSV read error: {exc}", table=table)
+                    rows = []
+                    for row in reader:
+                        mapped_row = {}
+                        for csv_col, db_col in active_map.items():
+                            value = (row.get(csv_col) or "").strip()
+                            if value:
+                                mapped_row[db_col] = value
+                        if mapped_row:
+                            if country and table == "pcid_mapping":
+                                mapped_row["source_country"] = country
+                            rows.append(mapped_row)
+
+                    encoding_used = encoding
+                    break  # Success - exit encoding loop
+
+            except (UnicodeDecodeError, UnicodeError) as exc:
+                last_error = exc
+                continue  # Try next encoding
+            except Exception as exc:
+                last_error = exc
+                continue  # Try next encoding
+
+        if encoding_used is None:
+            return ImportResult(status="error", message=f"CSV read error (tried all encodings): {last_error}", table=table)
 
         if not rows:
             return ImportResult(status="warning", message="No valid rows found in CSV", table=table)
@@ -415,21 +492,26 @@ class CSVImporter:
                     cur.execute(f"DELETE FROM {actual_table} WHERE source_country = %s", (country,))
                 else:
                     cur.execute(f"DELETE FROM {actual_table}")
+                conn.commit()  # Commit the delete before inserting
 
             # Determine columns from first row
             db_columns = list(rows[0].keys())
             placeholders = ", ".join(["%s"] * len(db_columns))
             col_str = ", ".join(db_columns)
-            sql = f"INSERT INTO {actual_table} ({col_str}) VALUES ({placeholders})"
+
+            # Use ON CONFLICT DO NOTHING to skip duplicates without rolling back
+            # This avoids the PostgreSQL issue where rollback after error loses all previous inserts
+            sql = f"INSERT INTO {actual_table} ({col_str}) VALUES ({placeholders}) ON CONFLICT DO NOTHING"
 
             skipped = 0
+            inserted = 0
             for row in rows:
                 values = tuple(row.get(c, "") for c in db_columns)
-                try:
-                    cur.execute(sql, values)
-                except PgIntegrityError:
+                cur.execute(sql, values)
+                if cur.rowcount > 0:
+                    inserted += 1
+                else:
                     skipped += 1
-                    conn.rollback()  # PostgreSQL requires rollback after error
 
             conn.commit()
 
@@ -440,7 +522,7 @@ class CSVImporter:
                 (
                     actual_table,
                     csv_path.name,
-                    len(rows) - skipped,
+                    inserted,
                     1 if mode == "replace" else 0,
                     country if table == "pcid_mapping" and country else None,
                 ),
@@ -453,9 +535,9 @@ class CSVImporter:
 
         return ImportResult(
             status="ok",
-            rows_imported=len(rows) - skipped,
+            rows_imported=inserted,
             rows_skipped=skipped,
-            message=f"Imported {len(rows) - skipped} rows into {table}",
+            message=f"Imported {inserted} rows into {table}",
             table=table,
             source_file=csv_path.name,
             columns_mapped=list(active_map.values()),

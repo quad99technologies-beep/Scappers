@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Backup Output Folder
+Backup Output Folder and Initialize Database
 
 Creates a backup of the output folder with a timestamp based on the latest
 file modification date, then cleans the output folder for a fresh run.
+Also initializes the database schema for Belarus.
 
 Author: Enterprise PDF Processing Pipeline
 License: Proprietary
@@ -37,7 +38,34 @@ except ImportError:
     _repo_root = Path(__file__).resolve().parents[2]
     CENTRAL_OUTPUT_DIR = _repo_root / "output"
 
-from core.shared_utils import backup_output_folder, clean_output_folder
+from core.utils.shared_utils import backup_output_folder, clean_output_folder
+
+
+def init_database():
+    """Initialize Belarus database schema."""
+    print("[DB] Initializing Belarus database schema...")
+    try:
+        from core.db.connection import CountryDB
+        from db.schema import apply_belarus_schema
+        from core.db.models import generate_run_id
+        
+        db = CountryDB("Belarus")
+        apply_belarus_schema(db)
+        
+        # Generate and store run_id
+        run_id = generate_run_id()
+        run_id_file = OUTPUT_DIR / ".current_run_id"
+        run_id_file.parent.mkdir(parents=True, exist_ok=True)
+        run_id_file.write_text(run_id, encoding="utf-8")
+        
+        # Set environment variable for child processes
+        os.environ["BELARUS_RUN_ID"] = run_id
+        
+        print(f"[DB] Schema applied successfully. Run ID: {run_id}")
+        return True
+    except Exception as e:
+        print(f"[DB] Warning: Could not initialize database: {e}")
+        return False
 
 
 def main() -> None:
@@ -49,7 +77,7 @@ def main() -> None:
     print()
 
     # Step 1: Backup
-    print("[1/2] Creating backup of output folder...")
+    print("[1/3] Creating backup of output folder...")
     backup_result = backup_output_folder(
         output_dir=OUTPUT_DIR,
         backup_dir=BACKUP_DIR,
@@ -72,7 +100,7 @@ def main() -> None:
     print()
 
     # Step 2: Clean
-    print("[2/2] Cleaning output folder...")
+    print("[2/3] Cleaning output folder...")
     keep_files = getenv_list("SCRIPT_00_KEEP_FILES", ["execution_log.txt"])
     keep_dirs = getenv_list("SCRIPT_00_KEEP_DIRS", ["runs", "backups"])
     clean_result = clean_output_folder(
@@ -92,6 +120,12 @@ def main() -> None:
     else:
         print(f"[ERROR] {clean_result['message']}")
         return
+
+    print()
+
+    # Step 3: Initialize Database
+    print("[3/3] Initializing database schema...")
+    init_database()
 
     print()
     print("=" * 80)

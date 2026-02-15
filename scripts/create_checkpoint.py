@@ -25,7 +25,7 @@ _repo_root = Path(__file__).resolve().parent.parent
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
-from core.pipeline_checkpoint import get_checkpoint_manager
+from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
 
 # Define pipeline steps for each scraper
 PIPELINE_STEPS = {
@@ -33,10 +33,14 @@ PIPELINE_STEPS = {
         (0, "Backup and Clean"),
         (1, "Get Product List"),
         (2, "Prepare URLs"),
-        (3, "Scrape Products (Selenium)"),
-        (4, "Scrape Products (API)"),
-        (5, "Translate Using Dictionary"),
-        (6, "Generate Output"),
+        (3, "Scrape Products (Selenium - Product Search)"),
+        (4, "Scrape Products (Selenium - Company Search)"),
+        (5, "Scrape Products (API)"),
+        (6, "Translate Using Dictionary"),
+        (7, "Generate Output"),
+        (8, "Scrape No-Data (Selenium Retry)"),
+        (9, "Refresh Export"),
+        (10, "Statistics & Data Validation"),
     ],
     "Malaysia": [
         (0, "Backup and Clean"),
@@ -64,7 +68,8 @@ PIPELINE_STEPS = {
     "Netherlands": [
         (0, "Backup and Clean"),
         (1, "Collect URLs"),
-        (2, "Reimbursement Extraction"),
+        (2, "Scrape Products"),
+        (3, "Consolidate Results"),
     ],
     "Tender_Chile": [
         (0, "Backup and Clean"),
@@ -78,6 +83,11 @@ PIPELINE_STEPS = {
         (1, "Collect URLs"),
         (2, "Extract Drug Register Data"),
         (3, "Scrape Max Prices"),
+    ],
+    "India": [
+        (0, "Initial Scrape"),
+        (1, "Retry Failed + Zero Records"),
+        (2, "QC + CSV Export"),
     ],
 }
 
@@ -327,4 +337,3 @@ Examples:
 
 if __name__ == "__main__":
     main()
-

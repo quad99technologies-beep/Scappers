@@ -253,19 +253,45 @@ class BaseScraper:
 
     def _track_playwright_chrome_pids(self) -> None:
         """
-        Best-effort: detect and persist Playwright-launched Chrome/Chromium PIDs for GUI tracking.
+        Best-effort: detect and persist Playwright-launched Chrome/Chromium PIDs using standardized ChromeInstanceTracker.
         """
         try:
             if not self._browser:
                 return
-            from core.chrome_pid_tracker import (
-                get_chrome_pids_from_playwright_browser,
-                save_chrome_pids,
-            )
-
+            
+            # Use standardized ChromeInstanceTracker instead of PID files
+            from core.browser.chrome_pid_tracker import get_chrome_pids_from_playwright_browser
+            from core.browser.chrome_instance_tracker import ChromeInstanceTracker
+            from core.db.connection import CountryDB
+            
             pids = get_chrome_pids_from_playwright_browser(self._browser)
-            if pids:
-                save_chrome_pids(self.scraper_name, self.repo_root, pids)
+            if pids and self.run_id:
+                try:
+                    db = CountryDB(self.scraper_name)
+                    tracker = ChromeInstanceTracker(self.scraper_name, self.run_id, db)
+                    # Get step number from context (default to 2 for product details)
+                    step_number = getattr(self, '_step_number', 2)
+                    thread_id = getattr(self, '_thread_id', None)
+                    
+                    for pid in pids:
+                        tracker.register(
+                            step_number=step_number,
+                            pid=pid,
+                            thread_id=thread_id,
+                            browser_type="chrome",
+                            user_data_dir=None  # Playwright handles its own profile
+                        )
+                    db.close()
+                except Exception as e:
+                    logger.debug(f"ChromeInstanceTracker registration failed (non-fatal): {e}")
+            
+            # Legacy: Also save to PID files for backward compatibility (can remove later)
+            try:
+                from core.browser.chrome_pid_tracker import save_chrome_pids
+                if pids:
+                    save_chrome_pids(self.scraper_name, self.repo_root, pids)
+            except Exception:
+                pass
         except Exception:
             # Never fail scraping due to optional PID tracking.
             logger.debug("Chrome PID tracking failed (non-fatal)", exc_info=True)
@@ -284,25 +310,95 @@ class BaseScraper:
         ]
 
     def _context_options(self) -> dict:
-        """Return kwargs for browser.new_context()."""
-        return {
-            "locale": "en-US",
-            "timezone_id": "Asia/Kuala_Lumpur",
-            "viewport": {"width": 1366, "height": 768},
-            "user_agent": random.choice(_USER_AGENTS),
-            "extra_http_headers": {
-                "Accept-Language": "en-US,en;q=0.9",
-                "Accept-Encoding": "gzip, deflate, br",
-                "DNT": "1",
-            },
-            "geolocation": {"latitude": 3.139, "longitude": 101.6869},
-            "permissions": ["geolocation"],
-        }
+        """Return kwargs for browser.new_context() using standardized stealth profile and geo routing."""
+        # Start with standardized stealth profile
+        context_kwargs = {}
+        try:
+            from core.browser.stealth_profile import apply_playwright, get_stealth_init_script
+            apply_playwright(context_kwargs)
+        except ImportError:
+            # Fallback to custom implementation if stealth_profile not available
+            context_kwargs = {
+                "locale": "en-US",
+                "timezone_id": "Asia/Kuala_Lumpur",
+                "viewport": {"width": 1366, "height": 768},
+                "user_agent": random.choice(_USER_AGENTS),
+                "extra_http_headers": {
+                    "Accept-Language": "en-US,en;q=0.9",
+                    "Accept-Encoding": "gzip, deflate, br",
+                    "DNT": "1",
+                },
+            }
+        
+        # Apply Geo Router for automatic VPN/proxy/timezone/locale configuration
+        try:
+            from core.network.geo_router import GeoRouter, get_geo_router
+            router = get_geo_router()
+            route_config = router.get_route(self.scraper_name)
+            
+            if route_config:
+                # Apply geo-specific settings
+                context_kwargs["timezone_id"] = route_config.timezone
+                context_kwargs["locale"] = route_config.locale
+                
+                # Add geolocation if available
+                if route_config.country_code == "MY":
+                    context_kwargs["geolocation"] = {"latitude": 3.139, "longitude": 101.6869}
+                    context_kwargs["permissions"] = ["geolocation"]
+                
+                # Get proxy from proxy pool if enabled
+                try:
+                    proxy = router.proxy_pool.get_proxy(
+                        country_code=route_config.country_code,
+                        proxy_type=route_config.proxy_type
+                    )
+                    if proxy and proxy.status.value == "healthy":
+                        # Configure proxy for Playwright
+                        proxy_server = f"{proxy.host}:{proxy.port}"
+                        if proxy.username and proxy.password:
+                            proxy_server = f"{proxy.username}:{proxy.password}@{proxy_server}"
+                        context_kwargs["proxy"] = {
+                            "server": f"http://{proxy_server}",
+                            "username": proxy.username,
+                            "password": proxy.password
+                        }
+                        logger.info(f"[GEO_ROUTER] Using proxy: {proxy.id} for {self.scraper_name}")
+                except Exception as e:
+                    logger.debug(f"[GEO_ROUTER] Proxy not available: {e}")
+            else:
+                # Fallback to Malaysia defaults if no route config
+                context_kwargs["timezone_id"] = "Asia/Kuala_Lumpur"
+                context_kwargs["geolocation"] = {"latitude": 3.139, "longitude": 101.6869}
+                context_kwargs["permissions"] = ["geolocation"]
+        except ImportError:
+            # Fallback if geo router not available
+            context_kwargs["timezone_id"] = "Asia/Kuala_Lumpur"
+            context_kwargs["geolocation"] = {"latitude": 3.139, "longitude": 101.6869}
+            context_kwargs["permissions"] = ["geolocation"]
+        except Exception as e:
+            logger.debug(f"[GEO_ROUTER] Geo routing failed (non-fatal): {e}")
+            # Fallback to Malaysia defaults
+            context_kwargs["timezone_id"] = "Asia/Kuala_Lumpur"
+            context_kwargs["geolocation"] = {"latitude": 3.139, "longitude": 101.6869}
+            context_kwargs["permissions"] = ["geolocation"]
+        
+        return context_kwargs
 
     def _create_context(self) -> BrowserContext:
-        """Create a new stealth browser context."""
-        ctx = self._browser.new_context(**self._context_options())
-        ctx.add_init_script(_STEALTH_INIT_SCRIPT)
+        """Create a new stealth browser context using standardized stealth profile."""
+        ctx_kwargs = self._context_options()
+        ctx = self._browser.new_context(**ctx_kwargs)
+        
+        # Apply standardized stealth init script
+        try:
+            from core.browser.stealth_profile import get_stealth_init_script
+            stealth_script = get_stealth_init_script()
+            if stealth_script:
+                ctx.add_init_script(stealth_script)
+        except ImportError:
+            # Fallback to custom script if not available
+            ctx.add_init_script(_STEALTH_INIT_SCRIPT)
+        
         self._page_count = 0
         return ctx
 

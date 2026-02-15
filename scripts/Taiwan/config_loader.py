@@ -29,8 +29,8 @@ def get_repo_root() -> Path:
 def get_central_output_dir() -> Path:
     """Get central exports directory for final reports - exports/Taiwan/."""
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        exports_dir = pm.get_exports_dir(SCRAPER_ID)
+        # Migrated: get_path_manager() -> ConfigManager
+        exports_dir = ConfigManager.get_exports_dir(SCRAPER_ID)
         exports_dir.mkdir(parents=True, exist_ok=True)
         return exports_dir
     repo_root = get_repo_root()
@@ -40,7 +40,7 @@ def get_central_output_dir() -> Path:
 
 
 try:
-    from platform_config import PathManager, ConfigResolver, get_path_manager, get_config_resolver
+    from core.config.config_manager import ConfigManager
     _PLATFORM_CONFIG_AVAILABLE = True
 except ImportError:
     _PLATFORM_CONFIG_AVAILABLE = False
@@ -59,7 +59,7 @@ def load_env_file():
         repo_root = get_repo_root()
         if str(repo_root) not in sys.path:
             sys.path.insert(0, str(repo_root))
-        from core.config_manager import ConfigManager
+        from core.config.config_manager import ConfigManager
         ConfigManager.ensure_dirs()
         ConfigManager.load_env(SCRAPER_ID)
     except (ImportError, FileNotFoundError, ValueError):
@@ -145,16 +145,16 @@ def getenv_list(key: str, default: list = None) -> list:
 def get_base_dir() -> Path:
     """Get base directory for Taiwan scraper."""
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        return pm.get_platform_root()
+        # Migrated: get_path_manager() -> ConfigManager
+        return ConfigManager.get_app_root()
     return Path(__file__).resolve().parents[1]
 
 
 def get_input_dir(subpath: str = None) -> Path:
     """Get input directory - input/Taiwan/."""
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        base = pm.get_input_dir(SCRAPER_ID)
+        # Migrated: get_path_manager() -> ConfigManager
+        base = ConfigManager.get_input_dir(SCRAPER_ID)
         base.mkdir(parents=True, exist_ok=True)
     else:
         base = get_base_dir() / "input"
@@ -170,8 +170,8 @@ def get_output_dir(subpath: str = None) -> Path:
         base = Path(output_dir_str)
     else:
         if _PLATFORM_CONFIG_AVAILABLE:
-            pm = get_path_manager()
-            base = pm.get_output_dir(SCRAPER_ID)
+            # Migrated: get_path_manager() -> ConfigManager
+            base = ConfigManager.get_output_dir(SCRAPER_ID)
             base.mkdir(parents=True, exist_ok=True)
         else:
             repo_root = get_repo_root()
@@ -187,8 +187,8 @@ def get_output_dir(subpath: str = None) -> Path:
 def get_backup_dir() -> Path:
     """Get backup directory - backups/Taiwan/."""
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        return pm.get_backups_dir(SCRAPER_ID)
+        # Migrated: get_path_manager() -> ConfigManager
+        return ConfigManager.get_backups_dir(SCRAPER_ID)
     repo_root = get_repo_root()
     backup_dir = repo_root / "backups" / SCRAPER_ID
     backup_dir.mkdir(parents=True, exist_ok=True)

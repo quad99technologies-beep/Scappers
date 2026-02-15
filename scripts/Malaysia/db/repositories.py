@@ -109,6 +109,16 @@ class MalaysiaRepository:
             cur.execute(sql, params)
         self._db_log(f"FINISH | run_ledger updated | status={status} items={items_scraped}")
 
+    def ensure_run_in_ledger(self, mode: str = "resume") -> None:
+        """Ensure this run_id exists in run_ledger (insert if missing).
+        Use when resuming or when a step runs with a run_id that may not have been
+        inserted (e.g. step 0 was skipped or run_ledger was truncated)."""
+        from core.db.models import run_ledger_ensure_exists
+        sql, params = run_ledger_ensure_exists(self.run_id, "Malaysia", mode=mode)
+        with self.db.cursor() as cur:
+            cur.execute(sql, params)
+        self._db_log(f"OK | run_ledger ensure | run_id={self.run_id}")
+
     def resume_run(self) -> None:
         """Mark existing run as resumed."""
         from core.db.models import run_ledger_resume
@@ -510,10 +520,10 @@ class MalaysiaRepository:
             for r in rows:
                 cur.execute(f"""
                     INSERT INTO {table}
-                    (pcid, local_pack_code, package_number, product_group,
+                    (pcid, local_pack_code, presentation, package_number, product_group,
                      generic_name, description)
-                    VALUES (%s, %s, %s, %s, %s, %s)
-                    ON CONFLICT (local_pack_code) DO UPDATE SET
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
+                    ON CONFLICT (local_pack_code, presentation) DO UPDATE SET
                         pcid = EXCLUDED.pcid,
                         package_number = EXCLUDED.package_number,
                         product_group = EXCLUDED.product_group,
@@ -522,6 +532,7 @@ class MalaysiaRepository:
                 """, (
                     r.get("pcid", r.get("PCID", r.get("Pcid", r.get("PCID Mapping")))),
                     r.get("local_pack_code", r.get("LOCAL_PACK_CODE", r.get("Local Pack Code", ""))),
+                    r.get("presentation", r.get("Presentation", r.get("PACK_SIZE", r.get("Pack Size", "")))),
                     r.get("package_number", r.get("Package Number")),
                     r.get("product_group", r.get("Product Group")),
                     r.get("generic_name", r.get("Generic Name")),
@@ -564,11 +575,20 @@ class MalaysiaRepository:
                 cur.execute(f"ALTER TABLE {mappings_table} ADD COLUMN IF NOT EXISTS search_method TEXT")
             except Exception:
                 pass
+            # Add presentation column if not exists (migration)
+            try:
+                cur.execute(f"ALTER TABLE {mappings_table} ADD COLUMN IF NOT EXISTS presentation TEXT")
+            except Exception:
+                pass
+            try:
+                cur.execute(f"ALTER TABLE {pcid_ref_table} ADD COLUMN IF NOT EXISTS presentation TEXT")
+            except Exception:
+                pass
             cur.execute(f"DELETE FROM {mappings_table} WHERE run_id = %s", (self.run_id,))
 
             cur.execute(f"""
                 INSERT INTO {mappings_table} (
-                    run_id, pcid, local_pack_code, package_number,
+                    run_id, pcid, local_pack_code, presentation, package_number,
                     country, company, product_group,
                     local_product_name, generic_name, description,
                     pack_size, currency,
@@ -581,6 +601,7 @@ class MalaysiaRepository:
                     %s as run_id,
                     pr.pcid,
                     p.registration_no as local_pack_code,
+                    pr.presentation,
                     pr.package_number,
                     'MALAYSIA' as country,
                     cp.holder as company,
@@ -606,7 +627,9 @@ class MalaysiaRepository:
                     cp.search_method as search_method
                 FROM (
                     SELECT DISTINCT ON (registration_no)
+                        run_id,
                         registration_no,
+                        product_name,
                         generic_name,
                         dosage_form,
                         strength,
@@ -704,6 +727,7 @@ class MalaysiaRepository:
                 SELECT
                     pr.pcid,
                     pr.local_pack_code,
+                    pr.presentation,
                     pr.package_number,
                     pr.product_group,
                     pr.generic_name,

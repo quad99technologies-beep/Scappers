@@ -7,10 +7,18 @@ away from CSV inputs/progress files. Mirrors the Malaysia repository pattern.
 """
 
 from datetime import datetime
+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from typing import Dict, Iterable, List, Optional, Sequence
 
 import logging
 import hashlib
+import re
+
+try:
+    from psycopg2.extras import execute_values
+    _HAS_EXECUTE_VALUES = True
+except ImportError:
+    _HAS_EXECUTE_VALUES = False
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +36,54 @@ class ArgentinaRepository:
             print(f"[DB] {message}", flush=True)
         except Exception:
             pass
+
+    def _table(self, name: str) -> str:
+        """Get table name with Argentina prefix."""
+        return f"ar_{name}"
+
+    # ------------------------------------------------------------------ #
+    # Utility: clear step data                                           #
+    # ------------------------------------------------------------------ #
+
+    _STEP_TABLE_MAP = {
+        1: ("product_index",),  # Step 1: Get Product List
+        2: ("product_index",),  # Step 2: Prepare URLs (same table)
+        3: ("products",),       # Step 3: Selenium Scrape
+        4: ("products",),       # Step 4: API Scrape (same table)
+        5: ("products_translated",),  # Step 5: Translate
+        6: ("export_reports",),  # Step 6: Generate Output
+    }
+
+    def clear_step_data(self, step: int, include_downstream: bool = False) -> Dict[str, int]:
+        """
+        Delete data for the given step (and optionally downstream steps) for this run_id.
+
+        Args:
+            step: Pipeline step number (1-6)
+            include_downstream: If True, also clear tables for all later steps.
+
+        Returns:
+            Dict mapping full table name -> rows deleted.
+        """
+        if step not in self._STEP_TABLE_MAP:
+            raise ValueError(f"Unsupported step {step}; valid steps: {sorted(self._STEP_TABLE_MAP)}")
+
+        steps = [s for s in sorted(self._STEP_TABLE_MAP) if s == step or (include_downstream and s >= step)]
+        deleted: Dict[str, int] = {}
+        with self.db.cursor() as cur:
+            for s in steps:
+                for short_name in self._STEP_TABLE_MAP[s]:
+                    table = self._table(short_name)
+                    cur.execute(f"DELETE FROM {table} WHERE run_id = %s", (self.run_id,))
+                    deleted[table] = cur.rowcount
+        try:
+            self.db.commit()
+        except Exception:
+            # Connection class may autocommit; ignore if commit is unavailable.
+            pass
+
+        self._db_log(f"CLEAR | steps={steps} tables={','.join(deleted)} run_id={self.run_id}")
+        return deleted
 
     # ------------------------------------------------------------------ #
     # Run lifecycle                                                      #
@@ -60,6 +116,17 @@ class ArgentinaRepository:
             cur.execute(sql, params)
         self._db_log(f"FINISH | run_ledger updated | status={status} items={items_scraped}")
 
+    def ensure_run_in_ledger(self, mode: str = "resume") -> None:
+        """Ensure this run_id exists in run_ledger (insert if missing).
+        Use when resuming or when a step runs with a run_id that may not have been
+        inserted (e.g. step 0 was skipped or run_ledger was truncated)."""
+        from core.db.models import run_ledger_ensure_exists
+
+        sql, params = run_ledger_ensure_exists(self.run_id, "Argentina", mode=mode)
+        with self.db.cursor() as cur:
+            cur.execute(sql, params)
+        self._db_log(f"OK | run_ledger ensure | run_id={self.run_id}")
+
     def resume_run(self) -> None:
         from core.db.models import run_ledger_resume
 
@@ -75,14 +142,15 @@ class ArgentinaRepository:
         """
         Bulk upsert product/company pairs into ar_product_index.
         Each row dict must have keys: product, company, url (optional).
+        Uses execute_values for 5-10x faster bulk inserts.
         """
         if not rows:
             return 0
-        inserted = 0
+
         sql = """
             INSERT INTO ar_product_index
             (run_id, product, company, url, loop_count, total_records, status)
-            VALUES (%s, %s, %s, %s, COALESCE(%s,0), COALESCE(%s,0), %s)
+            VALUES %s
             ON CONFLICT (run_id, company, product) DO UPDATE SET
                 url = EXCLUDED.url,
                 loop_count = EXCLUDED.loop_count,
@@ -90,21 +158,42 @@ class ArgentinaRepository:
                 status = EXCLUDED.status,
                 updated_at = CURRENT_TIMESTAMP
         """
+        tuples = [
+            (
+                self.run_id,
+                r.get("product", ""),
+                r.get("company", ""),
+                r.get("url"),
+                r.get("loop_count", 0) or 0,
+                r.get("total_records", 0) or 0,
+                r.get("status", "pending"),
+            )
+            for r in rows
+        ]
+
+        BATCH = 500
+        inserted = 0
         with self.db.cursor() as cur:
-            for r in rows:
-                cur.execute(
-                    sql,
-                    (
-                        self.run_id,
-                        r.get("product", ""),
-                        r.get("company", ""),
-                        r.get("url"),
-                        r.get("loop_count", 0),
-                        r.get("total_records", 0),
-                        r.get("status", "pending"),
-                    ),
-                )
-                inserted += 1
+            if _HAS_EXECUTE_VALUES:
+                for i in range(0, len(tuples), BATCH):
+                    batch = tuples[i : i + BATCH]
+                    execute_values(cur, sql, batch, page_size=BATCH)
+                    inserted += len(batch)
+            else:
+                row_sql = """
+                    INSERT INTO ar_product_index
+                    (run_id, product, company, url, loop_count, total_records, status)
+                    VALUES (%s, %s, %s, %s, COALESCE(%s,0), COALESCE(%s,0), %s)
+                    ON CONFLICT (run_id, company, product) DO UPDATE SET
+                        url = EXCLUDED.url,
+                        loop_count = EXCLUDED.loop_count,
+                        total_records = EXCLUDED.total_records,
+                        status = EXCLUDED.status,
+                        updated_at = CURRENT_TIMESTAMP
+                """
+                for t in tuples:
+                    cur.execute(row_sql, t)
+                    inserted += 1
         self._db_log(f"OK | ar_product_index upserted={inserted} | run_id={self.run_id}")
         return inserted
 
@@ -112,20 +201,51 @@ class ArgentinaRepository:
         """
         Update URLs for products in product_index (keeps loop counters).
         rows: [{product, company, url}]
+        Uses a temp-table join for bulk URL updates (much faster than row-by-row).
         """
         if not rows:
             return 0
-        sql = """
-            UPDATE ar_product_index
-               SET url = %s,
-                   updated_at = CURRENT_TIMESTAMP
-             WHERE run_id = %s AND company = %s AND product = %s
-        """
-        updated = 0
-        with self.db.cursor() as cur:
-            for r in rows:
-                cur.execute(sql, (r.get("url"), self.run_id, r.get("company"), r.get("product")))
-                updated += cur.rowcount
+
+        if _HAS_EXECUTE_VALUES and len(rows) > 10:
+            # Bulk path: load into a temp table, then UPDATE ... FROM
+            tuples = [
+                (r.get("url"), self.run_id, r.get("company"), r.get("product"))
+                for r in rows
+            ]
+            with self.db.cursor() as cur:
+                cur.execute("""
+                    CREATE TEMP TABLE _tmp_url_update (
+                        url TEXT, run_id TEXT, company TEXT, product TEXT
+                    ) ON COMMIT DROP
+                """)
+                execute_values(
+                    cur,
+                    "INSERT INTO _tmp_url_update (url, run_id, company, product) VALUES %s",
+                    tuples,
+                    page_size=500,
+                )
+                cur.execute("""
+                    UPDATE ar_product_index pi
+                       SET url = t.url,
+                           updated_at = CURRENT_TIMESTAMP
+                      FROM _tmp_url_update t
+                     WHERE pi.run_id = t.run_id
+                       AND pi.company = t.company
+                       AND pi.product = t.product
+                """)
+                updated = cur.rowcount
+        else:
+            sql = """
+                UPDATE ar_product_index
+                   SET url = %s,
+                       updated_at = CURRENT_TIMESTAMP
+                 WHERE run_id = %s AND company = %s AND product = %s
+            """
+            updated = 0
+            with self.db.cursor() as cur:
+                for r in rows:
+                    cur.execute(sql, (r.get("url"), self.run_id, r.get("company"), r.get("product")))
+                    updated += cur.rowcount
         self._db_log(f"OK | ar_product_index urls_updated={updated} | run_id={self.run_id}")
         return updated
 
@@ -161,6 +281,16 @@ class ArgentinaRepository:
     def get_pending_products(self, max_loop: int = 5, limit: int = 500) -> List[Dict]:
         """
         Fetch products that still need scraping (Total Records = 0, loop_count < max_loop).
+        
+        Includes products that:
+        - Have total_records = 0 (no data scraped yet)
+        - Have loop_count < max_loop (haven't exceeded max attempts)
+        - Have status in ('pending','failed','in_progress')
+
+        Important:
+        - Do NOT filter on scraped_by_selenium here. That flag indicates an item has been
+          touched by Selenium at least once, but retries are governed by status + loop_count.
+          Filtering on scraped_by_selenium can permanently exclude pending retries.
         """
         sql = """
             SELECT id, product, company, url, loop_count, total_records
@@ -193,8 +323,9 @@ class ArgentinaRepository:
                 last_attempt_at = CURRENT_TIMESTAMP,
                 last_attempt_source = COALESCE(%s, last_attempt_source),
                 error_message = %s,
-                scraped_by_selenium = CASE WHEN %s = 'selenium' THEN TRUE ELSE scraped_by_selenium END,
+                scraped_by_selenium = CASE WHEN %s IN ('selenium','selenium_product','selenium_company') THEN TRUE ELSE scraped_by_selenium END,
                 scraped_by_api = CASE WHEN %s = 'api' THEN TRUE ELSE scraped_by_api END,
+                scrape_source = CASE WHEN %s > 0 THEN COALESCE(%s, scrape_source) ELSE scrape_source END,
                 updated_at = CURRENT_TIMESTAMP
             WHERE id = %s AND run_id = %s
         """
@@ -208,6 +339,8 @@ class ArgentinaRepository:
                     source,
                     error_message,
                     source,
+                    source,
+                    total_records,
                     source,
                     product_id,
                     self.run_id,
@@ -233,8 +366,9 @@ class ArgentinaRepository:
                    last_attempt_at = CURRENT_TIMESTAMP,
                    last_attempt_source = COALESCE(%s, last_attempt_source),
                    error_message = %s,
-                   scraped_by_selenium = CASE WHEN %s = 'selenium' THEN TRUE ELSE scraped_by_selenium END,
+                   scraped_by_selenium = CASE WHEN %s IN ('selenium','selenium_product','selenium_company') THEN TRUE ELSE scraped_by_selenium END,
                    scraped_by_api = CASE WHEN %s = 'api' THEN TRUE ELSE scraped_by_api END,
+                   scrape_source = CASE WHEN %s > 0 THEN COALESCE(%s, scrape_source) ELSE scrape_source END,
                    updated_at = CURRENT_TIMESTAMP
              WHERE run_id = %s AND company = %s AND product = %s
         """
@@ -248,6 +382,8 @@ class ArgentinaRepository:
                     source,
                     error_message,
                     source,
+                    source,
+                    total_records,
                     source,
                     self.run_id,
                     company,
@@ -273,8 +409,9 @@ class ArgentinaRepository:
                    last_attempt_at = CURRENT_TIMESTAMP,
                    last_attempt_source = COALESCE(%s, last_attempt_source),
                    error_message = %s,
-                   scraped_by_selenium = CASE WHEN %s = 'selenium' THEN TRUE ELSE scraped_by_selenium END,
+                   scraped_by_selenium = CASE WHEN %s IN ('selenium','selenium_product','selenium_company') THEN TRUE ELSE scraped_by_selenium END,
                    scraped_by_api = CASE WHEN %s = 'api' THEN TRUE ELSE scraped_by_api END,
+                   scrape_source = CASE WHEN %s > 0 THEN COALESCE(%s, scrape_source) ELSE scrape_source END,
                    updated_at = CURRENT_TIMESTAMP
              WHERE run_id = %s AND company = %s AND product = %s
         """
@@ -287,6 +424,8 @@ class ArgentinaRepository:
                     source,
                     error_message,
                     source,
+                    source,
+                    total_records,
                     source,
                     self.run_id,
                     company,
@@ -311,6 +450,7 @@ class ArgentinaRepository:
                    last_attempt_source = 'api',
                    error_message = %s,
                    scraped_by_api = TRUE,
+                   scrape_source = CASE WHEN %s > 0 THEN 'api' ELSE scrape_source END,
                    updated_at = CURRENT_TIMESTAMP
              WHERE run_id = %s AND company = %s AND product = %s
         """
@@ -321,6 +461,7 @@ class ArgentinaRepository:
                     total_records,
                     status,
                     error_message,
+                    total_records,
                     self.run_id,
                     company,
                     product,
@@ -354,6 +495,60 @@ class ArgentinaRepository:
                     return row.get(k.upper())
             return None
 
+        def _parse_price(value) -> Optional[Decimal]:
+            """Robustly coerce Argentina money strings into Decimals (preserve cents)."""
+            if value is None:
+                return None
+            if isinstance(value, (int, float)):
+                try:
+                    return Decimal(str(value)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+                except (TypeError, ValueError, InvalidOperation):
+                    return None
+
+            s = str(value).strip()
+            if not s:
+                return None
+            s = s.replace("\u00a0", "").replace(" ", "")
+            sl = s.lower()
+            if sl in {"nan", "none", "null"}:
+                return None
+
+            token = re.sub(r"[^\d,.\-]", "", s)
+            if not token or token in {".", ",", "-", ""}:
+                return None
+
+            negative = token.startswith("-")
+            if negative:
+                token = token[1:]
+
+            if not token:
+                return None
+
+            if "." in token and "," in token:
+                if token.rfind(",") > token.rfind("."):
+                    token = token.replace(".", "").replace(",", ".")
+                else:
+                    token = token.replace(",", "")
+            elif "," in token:
+                token = token.replace(",", ".")
+
+            normalized = token
+            try:
+                decimal_value = Decimal(normalized)
+            except InvalidOperation:
+                try:
+                    decimal_value = Decimal(normalized.replace(",", ""))
+                except InvalidOperation:
+                    return None
+
+            if negative:
+                decimal_value = -decimal_value
+
+            try:
+                return decimal_value.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+            except InvalidOperation:
+                return None
+
         def _hash_for_row(row: Dict) -> str:
             parts = [
                 str(source or ""),
@@ -378,85 +573,162 @@ class ArgentinaRepository:
             stable = "|".join(p.replace("\r", " ").replace("\n", " ").strip() for p in parts)
             return hashlib.sha1(stable.encode("utf-8", errors="ignore")).hexdigest()
 
-        sql = """
-            INSERT INTO ar_products
-            (run_id, record_hash, input_company, input_product_name, company, product_name,
-             active_ingredient, therapeutic_class, description, price_ars, price_raw,
-             date, scraped_at, sifar_detail, pami_af, pami_os, ioma_detail,
-             ioma_af, ioma_os, import_status, coverage_json, source)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,CURRENT_TIMESTAMP,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-            ON CONFLICT (run_id, record_hash) DO UPDATE SET
-                input_company = EXCLUDED.input_company,
-                input_product_name = EXCLUDED.input_product_name,
-                company = EXCLUDED.company,
-                product_name = EXCLUDED.product_name,
-                active_ingredient = EXCLUDED.active_ingredient,
-                therapeutic_class = EXCLUDED.therapeutic_class,
-                description = EXCLUDED.description,
-                price_ars = EXCLUDED.price_ars,
-                price_raw = EXCLUDED.price_raw,
-                date = EXCLUDED.date,
-                sifar_detail = EXCLUDED.sifar_detail,
-                pami_af = EXCLUDED.pami_af,
-                pami_os = EXCLUDED.pami_os,
-                ioma_detail = EXCLUDED.ioma_detail,
-                ioma_af = EXCLUDED.ioma_af,
-                ioma_os = EXCLUDED.ioma_os,
-                import_status = EXCLUDED.import_status,
-                coverage_json = EXCLUDED.coverage_json,
-                source = EXCLUDED.source,
-                scraped_at = CURRENT_TIMESTAMP
-        """
+        # Pre-compute all tuples (price parsing happens once per row, not per DB call)
+        # Use dict to deduplicate by hash (website may have duplicate presentation data)
+        tuples_dict = {}  # hash -> tuple
+        for r in rows:
+            price_ars = _val(r, "price_ars", "price_ARS", "Price_ARS", "price")
+            price_raw = _val(r, "price_raw", "price_ars_raw", "price")
+            parsed_price = _parse_price(price_ars)
+            if parsed_price is None:
+                parsed_price = _parse_price(price_raw)
+            fallback_raw = _val(r, "price_ars")
+            if price_raw is None and fallback_raw is not None:
+                price_raw = fallback_raw
+            if parsed_price is None:
+                parsed_price = _parse_price(fallback_raw)
+            if price_raw is not None:
+                if isinstance(price_raw, (int, float, Decimal)):
+                    price_raw = f"{price_raw}"
+                price_raw_str = str(price_raw).strip()
+                if price_raw_str and price_raw_str.lower() not in {"nan", "none", "null"}:
+                    price_raw = price_raw_str
+                else:
+                    price_raw = None
+            price_ars = parsed_price
+
+            row_hash = _hash_for_row(r)
+            # Deduplicate: keep first occurrence of each hash
+            if row_hash not in tuples_dict:
+                tuples_dict[row_hash] = (
+                    self.run_id,
+                    row_hash,
+                    _val(r, "input_company", "Company"),
+                    _val(r, "input_product_name", "Product", "product"),
+                    _val(r, "company", "Company"),
+                    _val(r, "product_name", "Product Name", "product_name"),
+                    _val(r, "active_ingredient", "Active Ingredient", "active"),
+                    _val(r, "therapeutic_class", "Therapeutic Class", "therapeutic"),
+                    _val(r, "description", "Description"),
+                    price_ars,
+                    price_raw,
+                    _val(r, "date", "Date"),
+                    _val(r, "sifar_detail", "SIFAR_detail"),
+                    _val(r, "pami_af", "PAMI_AF"),
+                    _val(r, "pami_os", "PAMI_OS"),
+                    _val(r, "ioma_detail", "IOMA_detail"),
+                    _val(r, "ioma_af", "IOMA_AF"),
+                    _val(r, "ioma_os", "IOMA_OS"),
+                    _val(r, "import_status", "Import_Status", "import"),
+                    _val(r, "coverage_json", "coverage"),
+                    source,
+                )
+
+        tuples = list(tuples_dict.values())
+
+        BATCH = 500
         inserted = 0
         with self.db.cursor() as cur:
-            for r in rows:
-                price_ars = _val(r, "price_ars", "price_ARS", "Price_ARS", "price")
-                # allow raw string for price to store separately
-                price_raw = _val(r, "price_raw", "price_ars_raw", "price")
-                try:
-                    price_ars = float(price_ars) if price_ars not in (None, "", "nan") else None
-                except Exception:
-                    price_ars = None
-                    if price_raw is None:
-                        price_raw = _val(r, "price_ars")
-                cur.execute(
-                    sql,
-                    (
-                        self.run_id,
-                        _hash_for_row(r),
-                        _val(r, "input_company", "Company"),
-                        _val(r, "input_product_name", "Product", "product"),
-                        _val(r, "company", "Company"),
-                        _val(r, "product_name", "Product Name", "product_name"),
-                        _val(r, "active_ingredient", "Active Ingredient", "active"),
-                        _val(r, "therapeutic_class", "Therapeutic Class", "therapeutic"),
-                        _val(r, "description", "Description"),
-                        price_ars,
-                        price_raw,
-                        _val(r, "date", "Date"),
-                        _val(r, "sifar_detail", "SIFAR_detail"),
-                        _val(r, "pami_af", "PAMI_AF"),
-                        _val(r, "pami_os", "PAMI_OS"),
-                        _val(r, "ioma_detail", "IOMA_detail"),
-                        _val(r, "ioma_af", "IOMA_AF"),
-                        _val(r, "ioma_os", "IOMA_OS"),
-                        _val(r, "import_status", "Import_Status", "import"),
-                        _val(r, "coverage_json", "coverage"),
-                        source,
-                    ),
-                )
-                inserted += 1
+            if _HAS_EXECUTE_VALUES:
+                sql_ev = """
+                    INSERT INTO ar_products
+                    (run_id, record_hash, input_company, input_product_name, company, product_name,
+                     active_ingredient, therapeutic_class, description, price_ars, price_raw,
+                     date, scraped_at, sifar_detail, pami_af, pami_os, ioma_detail,
+                     ioma_af, ioma_os, import_status, coverage_json, source)
+                    VALUES %s
+                    ON CONFLICT (run_id, record_hash) DO UPDATE SET
+                        input_company = EXCLUDED.input_company,
+                        input_product_name = EXCLUDED.input_product_name,
+                        company = EXCLUDED.company,
+                        product_name = EXCLUDED.product_name,
+                        active_ingredient = EXCLUDED.active_ingredient,
+                        therapeutic_class = EXCLUDED.therapeutic_class,
+                        description = EXCLUDED.description,
+                        price_ars = EXCLUDED.price_ars,
+                        price_raw = EXCLUDED.price_raw,
+                        date = EXCLUDED.date,
+                        sifar_detail = EXCLUDED.sifar_detail,
+                        pami_af = EXCLUDED.pami_af,
+                        pami_os = EXCLUDED.pami_os,
+                        ioma_detail = EXCLUDED.ioma_detail,
+                        ioma_af = EXCLUDED.ioma_af,
+                        ioma_os = EXCLUDED.ioma_os,
+                        import_status = EXCLUDED.import_status,
+                        coverage_json = EXCLUDED.coverage_json,
+                        source = EXCLUDED.source,
+                        scraped_at = CURRENT_TIMESTAMP
+                """
+                # Template adds scraped_at = CURRENT_TIMESTAMP via the VALUES row
+                tpl = ("(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,CURRENT_TIMESTAMP,%s,%s,%s,%s,%s,%s,%s,%s,%s)")
+                for i in range(0, len(tuples), BATCH):
+                    batch = tuples[i : i + BATCH]
+                    execute_values(cur, sql_ev, batch, template=tpl, page_size=BATCH)
+                    inserted += len(batch)
+            else:
+                sql_row = """
+                    INSERT INTO ar_products
+                    (run_id, record_hash, input_company, input_product_name, company, product_name,
+                     active_ingredient, therapeutic_class, description, price_ars, price_raw,
+                     date, scraped_at, sifar_detail, pami_af, pami_os, ioma_detail,
+                     ioma_af, ioma_os, import_status, coverage_json, source)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,CURRENT_TIMESTAMP,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                    ON CONFLICT (run_id, record_hash) DO UPDATE SET
+                        input_company = EXCLUDED.input_company,
+                        input_product_name = EXCLUDED.input_product_name,
+                        company = EXCLUDED.company,
+                        product_name = EXCLUDED.product_name,
+                        active_ingredient = EXCLUDED.active_ingredient,
+                        therapeutic_class = EXCLUDED.therapeutic_class,
+                        description = EXCLUDED.description,
+                        price_ars = EXCLUDED.price_ars,
+                        price_raw = EXCLUDED.price_raw,
+                        date = EXCLUDED.date,
+                        sifar_detail = EXCLUDED.sifar_detail,
+                        pami_af = EXCLUDED.pami_af,
+                        pami_os = EXCLUDED.pami_os,
+                        ioma_detail = EXCLUDED.ioma_detail,
+                        ioma_af = EXCLUDED.ioma_af,
+                        ioma_os = EXCLUDED.ioma_os,
+                        import_status = EXCLUDED.import_status,
+                        coverage_json = EXCLUDED.coverage_json,
+                        source = EXCLUDED.source,
+                        scraped_at = CURRENT_TIMESTAMP
+                """
+                for t in tuples:
+                    cur.execute(sql_row, t)
+                    inserted += 1
         logger.info("Inserted/updated %d product rows (source=%s)", inserted, source)
         self._db_log(f"OK | ar_products upserted={inserted} source={source} | run_id={self.run_id}")
         return inserted
 
     def log_error(self, company: str, product: str, message: str) -> None:
+        """Log error to ar_errors (all errors must be in DB)."""
         sql = """
             INSERT INTO ar_errors (run_id, input_company, input_product_name, error_message)
             VALUES (%s, %s, %s, %s)
         """
         with self.db.cursor() as cur:
-            cur.execute(sql, (self.run_id, company, product, message))
+            cur.execute(sql, (self.run_id, company, product, message[:5000] if message else ""))
+
+    def log_artifact(
+        self,
+        company: str,
+        product: str,
+        artifact_type: str,
+        file_path: str,
+    ) -> None:
+        """Log artifact (e.g. screenshot_before_api) to ar_artifacts - all artifacts in DB."""
+        sql = """
+            INSERT INTO ar_artifacts (run_id, input_company, input_product_name, artifact_type, file_path)
+            VALUES (%s, %s, %s, %s, %s)
+        """
+        with self.db.cursor() as cur:
+            cur.execute(
+                sql,
+                (self.run_id, company, product, artifact_type, file_path),
+            )
+        self._db_log(f"OK | ar_artifacts logged | type={artifact_type} path={file_path}")
 
     # ------------------------------------------------------------------ #
     # Translation (ar_products_translated)                               #
@@ -467,62 +739,99 @@ class ArgentinaRepository:
         self._db_log(f"RESET | ar_products_translated cleared | run_id={self.run_id}")
 
     def insert_translated(self, rows: Sequence[Dict]) -> int:
-        """Insert translated rows into ar_products_translated."""
+        """Insert translated rows into ar_products_translated.
+        Uses execute_values for bulk inserts."""
         if not rows:
             return 0
-        sql = """
-            INSERT INTO ar_products_translated
-            (run_id, product_id, company, product_name, active_ingredient,
-             therapeutic_class, description, price_ars, date,
-             sifar_detail, pami_af, pami_os, ioma_detail, ioma_af, ioma_os,
-             import_status, coverage_json, translation_source)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-            ON CONFLICT (run_id, product_id) DO UPDATE SET
-                company = EXCLUDED.company,
-                product_name = EXCLUDED.product_name,
-                active_ingredient = EXCLUDED.active_ingredient,
-                therapeutic_class = EXCLUDED.therapeutic_class,
-                description = EXCLUDED.description,
-                price_ars = EXCLUDED.price_ars,
-                date = EXCLUDED.date,
-                sifar_detail = EXCLUDED.sifar_detail,
-                pami_af = EXCLUDED.pami_af,
-                pami_os = EXCLUDED.pami_os,
-                ioma_detail = EXCLUDED.ioma_detail,
-                ioma_af = EXCLUDED.ioma_af,
-                ioma_os = EXCLUDED.ioma_os,
-                import_status = EXCLUDED.import_status,
-                coverage_json = EXCLUDED.coverage_json,
-                translation_source = EXCLUDED.translation_source,
-                translated_at = CURRENT_TIMESTAMP
-        """
+
+        tuples = [
+            (
+                self.run_id,
+                r.get("product_id"),
+                r.get("company"),
+                r.get("product_name"),
+                r.get("active_ingredient"),
+                r.get("therapeutic_class"),
+                r.get("description"),
+                r.get("price_ars"),
+                r.get("date"),
+                r.get("sifar_detail"),
+                r.get("pami_af"),
+                r.get("pami_os"),
+                r.get("ioma_detail"),
+                r.get("ioma_af"),
+                r.get("ioma_os"),
+                r.get("import_status"),
+                r.get("coverage_json"),
+                r.get("translation_source"),
+            )
+            for r in rows
+        ]
+
+        BATCH = 500
         inserted = 0
         with self.db.cursor() as cur:
-            for r in rows:
-                cur.execute(
-                    sql,
-                    (
-                        self.run_id,
-                        r.get("product_id"),
-                        r.get("company"),
-                        r.get("product_name"),
-                        r.get("active_ingredient"),
-                        r.get("therapeutic_class"),
-                        r.get("description"),
-                        r.get("price_ars"),
-                        r.get("date"),
-                        r.get("sifar_detail"),
-                        r.get("pami_af"),
-                        r.get("pami_os"),
-                        r.get("ioma_detail"),
-                        r.get("ioma_af"),
-                        r.get("ioma_os"),
-                        r.get("import_status"),
-                        r.get("coverage_json"),
-                        r.get("translation_source"),
-                    ),
-                )
-                inserted += 1
+            if _HAS_EXECUTE_VALUES:
+                sql_ev = """
+                    INSERT INTO ar_products_translated
+                    (run_id, product_id, company, product_name, active_ingredient,
+                     therapeutic_class, description, price_ars, date,
+                     sifar_detail, pami_af, pami_os, ioma_detail, ioma_af, ioma_os,
+                     import_status, coverage_json, translation_source)
+                    VALUES %s
+                    ON CONFLICT (run_id, product_id) DO UPDATE SET
+                        company = EXCLUDED.company,
+                        product_name = EXCLUDED.product_name,
+                        active_ingredient = EXCLUDED.active_ingredient,
+                        therapeutic_class = EXCLUDED.therapeutic_class,
+                        description = EXCLUDED.description,
+                        price_ars = EXCLUDED.price_ars,
+                        date = EXCLUDED.date,
+                        sifar_detail = EXCLUDED.sifar_detail,
+                        pami_af = EXCLUDED.pami_af,
+                        pami_os = EXCLUDED.pami_os,
+                        ioma_detail = EXCLUDED.ioma_detail,
+                        ioma_af = EXCLUDED.ioma_af,
+                        ioma_os = EXCLUDED.ioma_os,
+                        import_status = EXCLUDED.import_status,
+                        coverage_json = EXCLUDED.coverage_json,
+                        translation_source = EXCLUDED.translation_source,
+                        translated_at = CURRENT_TIMESTAMP
+                """
+                for i in range(0, len(tuples), BATCH):
+                    batch = tuples[i : i + BATCH]
+                    execute_values(cur, sql_ev, batch, page_size=BATCH)
+                    inserted += len(batch)
+            else:
+                sql_row = """
+                    INSERT INTO ar_products_translated
+                    (run_id, product_id, company, product_name, active_ingredient,
+                     therapeutic_class, description, price_ars, date,
+                     sifar_detail, pami_af, pami_os, ioma_detail, ioma_af, ioma_os,
+                     import_status, coverage_json, translation_source)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                    ON CONFLICT (run_id, product_id) DO UPDATE SET
+                        company = EXCLUDED.company,
+                        product_name = EXCLUDED.product_name,
+                        active_ingredient = EXCLUDED.active_ingredient,
+                        therapeutic_class = EXCLUDED.therapeutic_class,
+                        description = EXCLUDED.description,
+                        price_ars = EXCLUDED.price_ars,
+                        date = EXCLUDED.date,
+                        sifar_detail = EXCLUDED.sifar_detail,
+                        pami_af = EXCLUDED.pami_af,
+                        pami_os = EXCLUDED.pami_os,
+                        ioma_detail = EXCLUDED.ioma_detail,
+                        ioma_af = EXCLUDED.ioma_af,
+                        ioma_os = EXCLUDED.ioma_os,
+                        import_status = EXCLUDED.import_status,
+                        coverage_json = EXCLUDED.coverage_json,
+                        translation_source = EXCLUDED.translation_source,
+                        translated_at = CURRENT_TIMESTAMP
+                """
+                for t in tuples:
+                    cur.execute(sql_row, t)
+                    inserted += 1
         self._db_log(f"OK | ar_products_translated upserted={inserted} | run_id={self.run_id}")
         return inserted
 
@@ -531,135 +840,123 @@ class ArgentinaRepository:
     # ------------------------------------------------------------------ #
     def replace_dictionary(self, entries: Iterable[Dict[str, str]]) -> int:
         """Replace ar_dictionary with provided ES->EN entries."""
+        entry_list = list(entries)
+        # Deduplicate by 'es' so ON CONFLICT DO UPDATE does not affect the same row twice in one command
+        by_es: Dict[str, Dict[str, str]] = {}
+        for e in entry_list:
+            by_es[e.get("es", "")] = e
+        entry_list = list(by_es.values())
         with self.db.cursor() as cur:
             cur.execute("TRUNCATE ar_dictionary")
+        if not entry_list:
+            return 0
+        tuples = [(e.get("es"), e.get("en"), e.get("source", "file")) for e in entry_list]
+        BATCH = 500
         inserted = 0
-        sql = """
-            INSERT INTO ar_dictionary (es, en, source)
-            VALUES (%s, %s, %s)
-            ON CONFLICT (es) DO UPDATE SET en = EXCLUDED.en, source = EXCLUDED.source,
-                updated_at = CURRENT_TIMESTAMP
-        """
         with self.db.cursor() as cur:
-            for e in entries:
-                cur.execute(sql, (e.get("es"), e.get("en"), e.get("source", "file")))
-                inserted += 1
+            if _HAS_EXECUTE_VALUES:
+                sql_ev = """
+                    INSERT INTO ar_dictionary (es, en, source) VALUES %s
+                    ON CONFLICT (es) DO UPDATE SET en = EXCLUDED.en, source = EXCLUDED.source,
+                        updated_at = CURRENT_TIMESTAMP
+                """
+                for i in range(0, len(tuples), BATCH):
+                    batch = tuples[i : i + BATCH]
+                    execute_values(cur, sql_ev, batch, page_size=BATCH)
+                    inserted += len(batch)
+            else:
+                sql_row = """
+                    INSERT INTO ar_dictionary (es, en, source) VALUES (%s, %s, %s)
+                    ON CONFLICT (es) DO UPDATE SET en = EXCLUDED.en, source = EXCLUDED.source,
+                        updated_at = CURRENT_TIMESTAMP
+                """
+                for t in tuples:
+                    cur.execute(sql_row, t)
+                    inserted += 1
         self._db_log(f"OK | ar_dictionary replaced={inserted}")
         return inserted
 
     def upsert_dictionary_entries(self, entries: Iterable[Dict[str, str]]) -> int:
         """Upsert ES->EN dictionary entries without truncating the table."""
+        entry_list = list(entries)
+        # Deduplicate by 'es' to avoid CardinalityViolation in ON CONFLICT DO UPDATE
+        by_es: Dict[str, Dict[str, str]] = {}
+        for e in entry_list:
+            by_es[e.get("es", "")] = e
+        entry_list = list(by_es.values())
+        if not entry_list:
+            return 0
+        tuples = [(e.get("es"), e.get("en"), e.get("source", "manual")) for e in entry_list]
+        BATCH = 500
         inserted = 0
-        sql = """
-            INSERT INTO ar_dictionary (es, en, source)
-            VALUES (%s, %s, %s)
-            ON CONFLICT (es) DO UPDATE SET en = EXCLUDED.en, source = EXCLUDED.source,
-                updated_at = CURRENT_TIMESTAMP
-        """
         with self.db.cursor() as cur:
-            for e in entries:
-                cur.execute(sql, (e.get("es"), e.get("en"), e.get("source", "manual")))
-                inserted += 1
+            if _HAS_EXECUTE_VALUES:
+                sql_ev = """
+                    INSERT INTO ar_dictionary (es, en, source) VALUES %s
+                    ON CONFLICT (es) DO UPDATE SET en = EXCLUDED.en, source = EXCLUDED.source,
+                        updated_at = CURRENT_TIMESTAMP
+                """
+                for i in range(0, len(tuples), BATCH):
+                    batch = tuples[i : i + BATCH]
+                    execute_values(cur, sql_ev, batch, page_size=BATCH)
+                    inserted += len(batch)
+            else:
+                sql_row = """
+                    INSERT INTO ar_dictionary (es, en, source) VALUES (%s, %s, %s)
+                    ON CONFLICT (es) DO UPDATE SET en = EXCLUDED.en, source = EXCLUDED.source,
+                        updated_at = CURRENT_TIMESTAMP
+                """
+                for t in tuples:
+                    cur.execute(sql_row, t)
+                    inserted += 1
         self._db_log(f"OK | ar_dictionary upserted={inserted}")
         return inserted
 
+    # Argentina uses the shared pcid_mapping table (source_country='Argentina') as the single source.
+    # GUI Input page and Step 0 both read/write this table.
+    _PCID_SOURCE_COUNTRY = "Argentina"
+
     def replace_pcid_reference(self, rows: Iterable[Dict[str, str]]) -> int:
-        """Replace PCID reference table."""
+        """Replace Argentina rows in shared pcid_mapping table (single source for GUI + pipeline)."""
+        row_list = list(rows)
         with self.db.cursor() as cur:
-            cur.execute("TRUNCATE ar_pcid_reference")
-        inserted = 0
-        sql = """
-            INSERT INTO ar_pcid_reference
-            (pcid, company, local_product_name, generic_name, local_pack_description)
-            VALUES (%s, %s, %s, %s, %s)
-            ON CONFLICT (company, local_product_name, generic_name, local_pack_description)
-                DO UPDATE SET pcid = EXCLUDED.pcid
-        """
-        with self.db.cursor() as cur:
-            for r in rows:
-                cur.execute(
-                    sql,
-                    (
-                        r.get("pcid") or r.get("PCID"),
-                        r.get("company") or r.get("Company"),
-                        r.get("local_product_name") or r.get("Local Product Name"),
-                        r.get("generic_name") or r.get("Generic Name"),
-                        r.get("local_pack_description") or r.get("Local Pack Description"),
-                    ),
-                )
-                inserted += 1
-        self._db_log(f"OK | ar_pcid_reference replaced={inserted}")
-        return inserted
-
-    # ------------------------------------------------------------------ #
-    # Ignore list                                                       #
-    # ------------------------------------------------------------------ #
-    def replace_ignore_list(self, rows: Iterable[Dict[str, str]]) -> int:
-        """Replace ignore list entries."""
-        with self.db.cursor() as cur:
-            cur.execute("TRUNCATE ar_ignore_list")
-        inserted = 0
-        sql = """
-            INSERT INTO ar_ignore_list (company, product)
-            VALUES (%s, %s)
-            ON CONFLICT (company, product) DO NOTHING
-        """
-        with self.db.cursor() as cur:
-            for r in rows:
-                company = r.get("company") or r.get("Company") or ""
-                product = r.get("product") or r.get("Product") or ""
-                if company and product:
-                    cur.execute(sql, (company, product))
-                    inserted += 1
-        self._db_log(f"OK | ar_ignore_list replaced={inserted}")
-        return inserted
-
-    def get_ignore_list(self) -> List[Dict]:
-        with self.db.cursor(dict_cursor=True) as cur:
-            cur.execute("SELECT company, product FROM ar_ignore_list")
-            return [dict(row) for row in cur.fetchall()]
-
-    # ------------------------------------------------------------------ #
-    # PCID mappings (export source)                                      #
-    # ------------------------------------------------------------------ #
-    def clear_pcid_mappings(self) -> None:
-        with self.db.cursor() as cur:
-            cur.execute("DELETE FROM ar_pcid_mappings WHERE run_id = %s", (self.run_id,))
-        self._db_log(f"RESET | ar_pcid_mappings cleared | run_id={self.run_id}")
-
-    def insert_pcid_mappings(self, rows: Sequence[Dict]) -> int:
-        """Insert PCID mapped rows."""
-        if not rows:
+            cur.execute("DELETE FROM pcid_mapping WHERE source_country = %s", (self._PCID_SOURCE_COUNTRY,))
+        if not row_list:
             return 0
-        sql = """
-            INSERT INTO ar_pcid_mappings
-            (run_id, pcid, company, local_product_name, generic_name, local_pack_description, price_ars, source)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
-            ON CONFLICT (run_id, company, local_product_name, generic_name, local_pack_description)
-            DO UPDATE SET
-                pcid = EXCLUDED.pcid,
-                price_ars = EXCLUDED.price_ars,
-                source = EXCLUDED.source,
-                mapped_at = CURRENT_TIMESTAMP
-        """
+        tuples = [
+            (
+                r.get("pcid") or r.get("PCID"),
+                r.get("company") or r.get("Company"),
+                r.get("local_product_name") or r.get("Local Product Name"),
+                r.get("generic_name") or r.get("Generic Name"),
+                r.get("local_pack_description") or r.get("Local Pack Description"),
+                self._PCID_SOURCE_COUNTRY,
+            )
+            for r in row_list
+        ]
+        BATCH = 500
         inserted = 0
         with self.db.cursor() as cur:
-            for r in rows:
-                cur.execute(
-                    sql,
-                    (
-                        self.run_id,
-                        r.get("pcid"),
-                        r.get("company"),
-                        r.get("local_product_name"),
-                        r.get("generic_name"),
-                        r.get("local_pack_description"),
-                        r.get("price_ars"),
-                        r.get("source", "PRICENTRIC"),
-                    ),
-                )
-                inserted += 1
-        self._db_log(f"OK | ar_pcid_mappings upserted={inserted} | run_id={self.run_id}")
+            if _HAS_EXECUTE_VALUES:
+                sql_ev = """
+                    INSERT INTO pcid_mapping
+                    (pcid, company, local_product_name, generic_name, local_pack_description, source_country)
+                    VALUES %s
+                """
+                for i in range(0, len(tuples), BATCH):
+                    batch = tuples[i : i + BATCH]
+                    execute_values(cur, sql_ev, batch, page_size=BATCH)
+                    inserted += len(batch)
+            else:
+                sql_row = """
+                    INSERT INTO pcid_mapping
+                    (pcid, company, local_product_name, generic_name, local_pack_description, source_country)
+                    VALUES (%s, %s, %s, %s, %s, %s)
+                """
+                for t in tuples:
+                    cur.execute(sql_row, t)
+                    inserted += 1
+        self._db_log(f"OK | pcid_mapping (Argentina) replaced={inserted}")
         return inserted
 
     def log_export_report(self, report_type: str, file_path: str, row_count: Optional[int]) -> None:
@@ -703,42 +1000,114 @@ class ArgentinaRepository:
             return dict(row) if row else None
 
     # ------------------------------------------------------------------ #
+    # Scrape Stats Snapshots                                            #
+    # ------------------------------------------------------------------ #
+    def snapshot_scrape_stats(self, event_type: str, tor_ip: str = None) -> None:
+        """Insert a progress snapshot only if counts changed since last snapshot."""
+        self.db.execute("""
+            INSERT INTO ar_scrape_stats (run_id, event_type, total_combinations, with_records, zero_records, tor_ip)
+            SELECT %s, %s, cur.total, cur.wr, cur.zr, %s
+            FROM (
+                SELECT COUNT(*) AS total,
+                       COUNT(*) FILTER (WHERE total_records > 0) AS wr,
+                       COUNT(*) FILTER (WHERE total_records = 0) AS zr
+                FROM ar_product_index WHERE run_id = %s
+            ) cur
+            WHERE NOT EXISTS (
+                SELECT 1 FROM ar_scrape_stats prev
+                WHERE prev.run_id = %s
+                  AND prev.total_combinations = cur.total
+                  AND prev.with_records = cur.wr
+                  AND prev.zero_records = cur.zr
+                ORDER BY prev.id DESC LIMIT 1
+            )
+        """, (self.run_id, event_type, tor_ip, self.run_id, self.run_id))
+
+    # ------------------------------------------------------------------ #
+    # Translation Cache (delegates to core.translation)                 #
+    # ------------------------------------------------------------------ #
+    # Note: These methods now delegate to core.translation.TranslationCache
+    # for unified caching across all scrapers. The underlying table schema
+    # remains compatible (legacy schema with source_text as unique key).
+    
+    def _get_translation_cache(self):
+        """Lazy initialization of unified translation cache."""
+        if not hasattr(self, '_translation_cache'):
+            # Import here to avoid circular dependency
+            import sys
+            from pathlib import Path
+            repo_root = Path(__file__).resolve().parents[3]
+            if str(repo_root) not in sys.path:
+                sys.path.insert(0, str(repo_root))
+            from core.translation import get_cache
+            self._translation_cache = get_cache("argentina")
+        return self._translation_cache
+    
+    def get_translation_cache(self, source_lang: str = 'es', target_lang: str = 'en') -> Dict[str, str]:
+        """Load all translation cache entries from DB.
+        
+        DEPRECATED: Use get_cached_translation() for individual lookups.
+        Loading entire cache is memory-intensive.
+        """
+        cache = {}
+        try:
+            sql = """
+                SELECT source_text, translated_text
+                FROM ar_translation_cache
+                WHERE source_language = %s AND target_language = %s
+            """
+            with self.db.cursor() as cur:
+                cur.execute(sql, (source_lang, target_lang))
+                for row in cur.fetchall():
+                    cache[row[0]] = row[1]
+        except Exception as e:
+            print(f"[WARNING] Failed to load translation cache from DB: {e}")
+        return cache
+
+    def save_translation_cache(self, cache: Dict[str, str], source_lang: str = 'es', target_lang: str = 'en') -> None:
+        """Save translation cache entries to DB (upsert).
+        
+        DEPRECATED: Use save_single_translation() or unified cache directly.
+        """
+        if not cache:
+            return
+        tcache = self._get_translation_cache()
+        count = 0
+        for source_text, translated_text in cache.items():
+            if tcache.set(source_text, translated_text, source_lang, target_lang):
+                count += 1
+        print(f"[OK] Saved {count}/{len(cache)} translations to cache")
+
+    def get_cached_translation(self, source_text: str, source_lang: str = 'es', target_lang: str = 'en') -> Optional[str]:
+        """Get a single cached translation using unified cache."""
+        return self._get_translation_cache().get(source_text, source_lang, target_lang)
+
+    def save_single_translation(self, source_text: str, translated_text: str, source_lang: str = 'es', target_lang: str = 'en') -> None:
+        """Save a single translation to cache using unified cache."""
+        self._get_translation_cache().set(source_text, translated_text, source_lang, target_lang)
+
+    # ------------------------------------------------------------------ #
     # Stats                                                             #
     # ------------------------------------------------------------------ #
     def get_stats(self) -> Dict:
+        """Fetch all pipeline stats in a single round-trip query."""
+        sql = """
+            SELECT
+                (SELECT COUNT(*) FROM ar_product_index WHERE run_id = %s),
+                (SELECT COUNT(*) FROM ar_products WHERE run_id = %s),
+                (SELECT COUNT(*) FROM ar_products_translated WHERE run_id = %s),
+                (SELECT COALESCE(SUM(row_count), 0) FROM ar_export_reports
+                  WHERE run_id = %s AND report_type = 'pcid_mapping'),
+                (SELECT COALESCE(SUM(row_count), 0) FROM ar_export_reports
+                  WHERE run_id = %s AND report_type = 'pcid_missing')
+        """
         with self.db.cursor() as cur:
-            cur.execute(
-                "SELECT COUNT(*) FROM ar_product_index WHERE run_id = %s", (self.run_id,)
-            )
-            product_index = cur.fetchone()[0]
-            cur.execute(
-                "SELECT COUNT(*) FROM ar_products WHERE run_id = %s", (self.run_id,)
-            )
-            products = cur.fetchone()[0]
-            cur.execute(
-                "SELECT COUNT(*) FROM ar_products_translated WHERE run_id = %s", (self.run_id,)
-            )
-            translated = cur.fetchone()[0]
-            cur.execute(
-                """
-                SELECT COUNT(*) FROM ar_pcid_mappings
-                 WHERE run_id = %s AND pcid IS NOT NULL AND pcid <> ''
-                """,
-                (self.run_id,),
-            )
-            mapped = cur.fetchone()[0]
-            cur.execute(
-                """
-                SELECT COUNT(*) FROM ar_pcid_mappings
-                 WHERE run_id = %s AND (pcid IS NULL OR pcid = '')
-                """,
-                (self.run_id,),
-            )
-            not_mapped = cur.fetchone()[0]
+            cur.execute(sql, (self.run_id,) * 5)
+            row = cur.fetchone()
         return {
-            "product_index": product_index,
-            "products": products,
-            "translated": translated,
-            "pcid_mapped": mapped,
-            "pcid_not_mapped": not_mapped,
+            "product_index": row[0],
+            "products": row[1],
+            "translated": row[2],
+            "pcid_mapped": row[3],
+            "pcid_not_mapped": row[4],
         }

@@ -1,19 +1,33 @@
 @echo off
-REM Taiwan Pipeline Runner
-REM Runs all workflow steps in sequence with resume/checkpoint support
-REM By default, resumes from last completed step
-REM Use run_pipeline_resume.py --fresh to start fresh
+REM Taiwan Pipeline Runner - Enterprise Edition
+REM Wraps logic in scraper.py
 
-REM Enable unbuffered output for real-time console updates
 set PYTHONUNBUFFERED=1
-
 cd /d "%~dp0"
 
-REM Use resume script if available, otherwise fall back to original behavior
-if exist "run_pipeline_resume.py" (
-    python -u "run_pipeline_resume.py" %*
-    exit /b %errorlevel%
+REM Setup logging
+setlocal enabledelayedexpansion
+for /f "usebackq tokens=*" %%a in (`powershell -NoProfile -Command "Get-Date -Format 'yyyyMMdd_HHmmss'"` ) do set timestamp=%%a
+set log_dir=..\..\output\Taiwan
+set log_file=%log_dir%\Taiwan_run_%timestamp%.log
+
+if not exist "%log_dir%" mkdir "%log_dir%"
+
+echo ================================================================================
+echo Taiwan Pipeline - Starting at %date% %time%
+echo ================================================================================
+echo Log: %log_file%
+
+python -u "scraper.py" 2>&1 | powershell -NoProfile -Command "$input | Tee-Object -FilePath '%log_file%' -Append"
+
+if %ERRORLEVEL% NEQ 0 (
+    echo.
+    echo [ERROR] Pipeline failed with exit code %ERRORLEVEL%
+    exit /b %ERRORLEVEL%
 )
 
-echo ERROR: run_pipeline_resume.py not found.
-exit /b 1
+echo.
+echo ================================================================================
+echo Taiwan Pipeline - Completed at %date% %time%
+echo ================================================================================
+pause

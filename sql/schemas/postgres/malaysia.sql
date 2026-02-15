@@ -157,6 +157,21 @@ CREATE TABLE IF NOT EXISTS my_export_reports (
 CREATE INDEX IF NOT EXISTS idx_my_export_reports_run ON my_export_reports(run_id);
 CREATE INDEX IF NOT EXISTS idx_my_export_reports_type ON my_export_reports(report_type);
 
+-- Errors: Error tracking
+CREATE TABLE IF NOT EXISTS my_errors (
+    id SERIAL PRIMARY KEY,
+    run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
+    error_type TEXT,
+    error_message TEXT NOT NULL,
+    context JSONB,
+    step_number INTEGER,
+    step_name TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_my_errors_run ON my_errors(run_id);
+CREATE INDEX IF NOT EXISTS idx_my_errors_step ON my_errors(step_number);
+CREATE INDEX IF NOT EXISTS idx_my_errors_type ON my_errors(error_type);
+
 -- PCID reference: Temporary table for PCID reference CSV loading
 CREATE TABLE IF NOT EXISTS my_pcid_reference (
     id SERIAL PRIMARY KEY,

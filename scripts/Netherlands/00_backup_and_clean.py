@@ -1,112 +1,113 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Backup Output Folder - Netherlands
-
-Creates a backup of the output folder with a timestamp based on the latest
-file modification date, then cleans the output folder for a fresh run.
+Netherlands Backup and Clean Script
+Backs up previous results and cleans output directory before running new pipeline.
 """
 
-from pathlib import Path
-import sys
 import os
+import shutil
+import sys
+from datetime import datetime
+from pathlib import Path
 
-# Add repo root to path for shared utilities
-_repo_root = Path(__file__).resolve().parents[2]
+# Add repo root to path for config_loader import
+_repo_root = Path(__file__).resolve().parent.parent.parent
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
-from core.shared_utils import backup_output_folder, clean_output_folder
+from config_loader import get_output_dir, get_backup_dir
+from core.standalone_checkpoint import run_with_checkpoint
 
-# Get script directory
-SCRIPT_DIR = Path(__file__).resolve().parent
+SCRIPT_ID = "Netherlands"
 
-# Use platform paths if available, otherwise use script-relative paths
-try:
-    from platform_config import get_path_manager
-    pm = get_path_manager()
-    OUTPUT_DIR = pm.get_output_dir("Netherlands")
-    BACKUP_DIR = pm.get_backups_dir("Netherlands")
-    # Also backup script's local output if it exists
-    LOCAL_OUTPUT_DIR = SCRIPT_DIR / "output"
-except Exception:
-    # Fallback: use script-relative paths
-    OUTPUT_DIR = SCRIPT_DIR / "output"
-    BACKUP_DIR = _repo_root / "backups" / "Netherlands"
-    LOCAL_OUTPUT_DIR = OUTPUT_DIR
+def backup_previous_results():
+    """Backup previous results to timestamped folder."""
+    output_dir = get_output_dir()
+    backup_dir = get_backup_dir()
+    
+    if not output_dir.exists():
+        print("[BACKUP] Output directory doesn't exist, skipping backup")
+        return
+    
+    # Create backup directory if it doesn't exist
+    backup_dir.mkdir(exist_ok=True)
+    
+    # Create timestamped backup folder
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    backup_folder = backup_dir / f"backup_{timestamp}"
+    backup_folder.mkdir(exist_ok=True)
+    
+    # Copy files from output to backup
+    files_backed_up = 0
+    for file_path in output_dir.glob("*"):
+        if file_path.is_file():
+            try:
+                shutil.copy2(file_path, backup_folder / file_path.name)
+                files_backed_up += 1
+                print(f"[BACKUP] Backed up: {file_path.name}")
+            except Exception as e:
+                print(f"[BACKUP] Error backing up {file_path.name}: {e}")
+    
+    print(f"[BACKUP] Backup complete: {files_backed_up} files backed up to {backup_folder}")
 
-# Ensure directories exist
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-BACKUP_DIR.mkdir(parents=True, exist_ok=True)
-if LOCAL_OUTPUT_DIR != OUTPUT_DIR:
-    LOCAL_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+def clean_output_directory():
+    """Clean the output directory for new run."""
+    output_dir = get_output_dir()
+    
+    if not output_dir.exists():
+        output_dir.mkdir(exist_ok=True)
+        print("[CLEAN] Created output directory")
+        return
+    
+    # Remove old files (keep recent ones from last hour)
+    files_removed = 0
+    current_time = datetime.now()
+    
+    for file_path in output_dir.glob("*"):
+        if file_path.is_file():
+            try:
+                # Check file modification time
+                mod_time = datetime.fromtimestamp(file_path.stat().st_mtime)
+                time_diff = (current_time - mod_time).total_seconds()
+                
+                # Remove files older than 1 hour
+                if time_diff > 3600:
+                    file_path.unlink()
+                    files_removed += 1
+                    print(f"[CLEAN] Removed old file: {file_path.name}")
+            except Exception as e:
+                print(f"[CLEAN] Error removing {file_path.name}: {e}")
+    
+    print(f"[CLEAN] Clean complete: {files_removed} old files removed")
 
-
-def main() -> None:
-    """Main entry point."""
-    print()
-    print("=" * 80)
-    print("BACKUP AND CLEAN OUTPUT FOLDER - Netherlands")
-    print("=" * 80)
-    print()
-
-    # Backup both platform output and local output (if different)
-    output_dirs_to_backup = []
-    if OUTPUT_DIR.exists():
-        output_dirs_to_backup.append(OUTPUT_DIR)
-    if LOCAL_OUTPUT_DIR != OUTPUT_DIR and LOCAL_OUTPUT_DIR.exists():
-        output_dirs_to_backup.append(LOCAL_OUTPUT_DIR)
-
-    if not output_dirs_to_backup:
-        print("[SKIP] No output directories found to backup")
-    else:
-        # Step 1: Backup
-        print("[1/2] Creating backup of output folder(s)...")
-        for output_dir in output_dirs_to_backup:
-            backup_result = backup_output_folder(
-                output_dir=output_dir,
-                backup_dir=BACKUP_DIR,
-                central_output_dir=None,
-                exclude_dirs=[str(BACKUP_DIR)]
-            )
-
-            if backup_result["status"] == "ok":
-                print(f"[OK] Backup created successfully for {output_dir.name}!")
-                print(f"     Location: {backup_result['backup_folder']}")
-                print(f"     Files backed up: {backup_result['files_backed_up']}")
-            elif backup_result["status"] == "skipped":
-                print(f"[SKIP] {backup_result['message']}")
-            else:
-                print(f"[ERROR] {backup_result['message']}")
-
-        print()
-
-        # Step 2: Clean
-        print("[2/2] Cleaning output folder(s)...")
-        for output_dir in output_dirs_to_backup:
-            clean_result = clean_output_folder(
-                output_dir=output_dir,
-                backup_dir=BACKUP_DIR,
-                central_output_dir=None,
-                keep_files=[],
-                keep_dirs=["runs", "backups", ".checkpoints"]
-            )
-
-            if clean_result["status"] == "ok":
-                print(f"[OK] Output folder cleaned successfully: {output_dir.name}")
-                print(f"     Files deleted: {clean_result['files_deleted']}")
-                print(f"     Directories deleted: {clean_result['directories_deleted']}")
-            elif clean_result["status"] == "skipped":
-                print(f"[SKIP] {clean_result['message']}")
-            else:
-                print(f"[ERROR] {clean_result['message']}")
-
-    print()
-    print("=" * 80)
-    print("Backup and cleanup complete! Ready for fresh pipeline run.")
-    print("=" * 80)
-    print()
-
+def main():
+    """Main backup and clean function."""
+    print("=" * 60)
+    print("NETHERLANDS BACKUP AND CLEAN")
+    print("=" * 60)
+    
+    try:
+        # Backup previous results
+        print("\n[STEP 1] Backing up previous results...")
+        backup_previous_results()
+        
+        # Clean output directory
+        print("\n[STEP 2] Cleaning output directory...")
+        clean_output_directory()
+        
+        print("\n[SUCCESS] Backup and clean completed successfully!")
+        return 0
+        
+    except Exception as e:
+        print(f"\n[ERROR] Backup and clean failed: {e}")
+        import traceback
+        traceback.print_exc()
+        return 1
 
 if __name__ == "__main__":
-    main()
+    run_with_checkpoint(
+        main,
+        SCRIPT_ID,
+        0,
+        "Backup and Clean"
+    )

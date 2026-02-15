@@ -33,7 +33,6 @@ from config_loader import (
     load_env_file,
     getenv,
     get_central_output_dir,
-    get_input_dir,
 )
 
 load_env_file()
@@ -136,13 +135,38 @@ def check_texts(url: str, texts: Iterable[str]) -> Tuple[bool, str]:
     return True, f"Found text: {found[0]} (HTTP {status_code})"
 
 
-def run_health_checks() -> List[CheckResult]:
-    pcid_mapping_path = get_input_dir() / "PCID Mapping - Russia.csv"
+def check_db_connection() -> Tuple[bool, str]:
+    """Verify PostgreSQL connection and run_ledger table for Russia."""
+    try:
+        from core.db.connection import CountryDB
+        with CountryDB("Russia") as db:
+            with db.cursor() as cur:
+                cur.execute("SELECT 1 FROM run_ledger WHERE scraper_name = %s LIMIT 1", ("Russia",))
+                cur.fetchone()
+        return True, "PostgreSQL connected, run_ledger accessible"
+    except Exception as exc:
+        return False, f"DB: {exc}"
 
+
+def check_input_dictionary_table() -> Tuple[bool, str]:
+    """Verify ru_input_dictionary input table exists (used for translation; no CSV)."""
+    try:
+        from core.db.connection import CountryDB
+        with CountryDB("Russia") as db:
+            with db.cursor() as cur:
+                cur.execute("SELECT COUNT(*) FROM ru_input_dictionary")
+                count = cur.fetchone()[0] or 0
+        return True, f"ru_input_dictionary accessible ({count} rows)"
+    except Exception as exc:
+        return False, f"ru_input_dictionary: {exc}"
+
+
+def run_health_checks() -> List[CheckResult]:
     checks: List[Tuple[str, str, Callable[[], Tuple[bool, str]]]] = [
+        ("Config", "PostgreSQL (run_ledger)", check_db_connection),
+        ("Config", "Input table ru_input_dictionary", check_input_dictionary_table),
         ("Config", "VED Registry URL reachable", lambda: check_url_reachable(SCRIPT_01_BASE_URL)),
         ("Config", "Excluded List URL reachable", lambda: check_url_reachable(SCRIPT_02_BASE_URL)),
-        ("Config", "Russia PCID file present", lambda: (pcid_mapping_path.exists(), str(pcid_mapping_path.resolve()) if pcid_mapping_path.exists() else "missing file (optional - will be created during pipeline)")),
         (
             "Layout",
             "VED Registry region select (reg_id)",

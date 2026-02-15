@@ -14,6 +14,7 @@ import os
 import json
 import logging
 import sys
+import warnings
 from pathlib import Path
 from typing import Dict, Any, Optional, Union
 from datetime import datetime
@@ -31,6 +32,13 @@ except ImportError:
     ConfigManager = None
 
 logger = logging.getLogger(__name__)
+
+# Emit deprecation warning on module import
+warnings.warn(
+    "platform_config.py is deprecated. Use core.config_manager.ConfigManager directly.",
+    DeprecationWarning,
+    stacklevel=2
+)
 
 
 class PathManager:
@@ -60,7 +68,15 @@ class PathManager:
     
     @classmethod
     def get_platform_root(cls) -> Path:
-        """Get platform root directory - uses Documents/ScraperPlatform/"""
+        """Get platform root directory - uses Documents/ScraperPlatform/
+        
+        DEPRECATED: Use ConfigManager.get_app_root() directly.
+        """
+        warnings.warn(
+            "PathManager.get_platform_root() is deprecated. Use ConfigManager.get_app_root() directly.",
+            DeprecationWarning,
+            stacklevel=2
+        )
         if _CONFIG_MANAGER_AVAILABLE:
             ConfigManager.ensure_dirs()
             return ConfigManager.get_app_root()
@@ -69,7 +85,15 @@ class PathManager:
     
     @classmethod
     def get_config_dir(cls) -> Path:
-        """Get config directory - uses Documents/ScraperPlatform/config/"""
+        """Get config directory - uses Documents/ScraperPlatform/config/
+        
+        DEPRECATED: Use ConfigManager.get_config_dir() directly.
+        """
+        warnings.warn(
+            "PathManager.get_config_dir() is deprecated. Use ConfigManager.get_config_dir() directly.",
+            DeprecationWarning,
+            stacklevel=2
+        )
         if _CONFIG_MANAGER_AVAILABLE:
             ConfigManager.ensure_dirs()
             return ConfigManager.get_config_dir()
@@ -81,21 +105,29 @@ class PathManager:
     
     @classmethod
     def get_input_dir(cls, scraper_id: str) -> Path:
-        """Get input directory for scraper - uses Documents/ScraperPlatform/input/{scraper_id}/"""
+        """Get input directory for scraper - uses Documents/ScraperPlatform/input/{scraper_id}/
+        
+        DEPRECATED: Use ConfigManager.get_input_dir() directly.
+        """
+        warnings.warn(
+            "PathManager.get_input_dir() is deprecated. Use ConfigManager.get_input_dir() directly.",
+            DeprecationWarning,
+            stacklevel=2
+        )
         if _CONFIG_MANAGER_AVAILABLE:
             ConfigManager.ensure_dirs()
             return ConfigManager.get_input_dir(scraper_id)
         # Fallback: use scraper's own input directory
         repo_root = cls._detect_repo_root()
         scraper_dirs = {
-            "CanadaQuebec": "scripts/CanadaQuebec",
+            "canada_quebec": "scripts/canada_quebec",
             "Malaysia": "scripts/Malaysia",
             "Argentina": "scripts/Argentina",
-            "CanadaOntario": "scripts/Canada Ontario",
+            "CanadaOntario": "scripts/canada_ontario",
             "Netherlands": "scripts/Netherlands",
             "Belarus": "scripts/Belarus",
-            "NorthMacedonia": "scripts/North Macedonia",
-            "Tender_Chile": "scripts/Tender- Chile",
+            "NorthMacedonia": "scripts/north_macedonia",
+            "tender_chile": "scripts/tender_chile",
             "Russia": "scripts/Russia",
             "Taiwan": "scripts/Taiwan"
         }
@@ -477,7 +509,7 @@ if __name__ == "__main__":
             print(f"  Locks Dir:      {pm.get_locks_dir()}")
             print()
             print("SCRAPER INPUT DIRECTORIES:")
-            for scraper_id in ["CanadaQuebec", "Malaysia", "Argentina", "Taiwan"]:
+            for scraper_id in ["canada_quebec", "Malaysia", "Argentina", "Taiwan"]:
                 input_dir = pm.get_input_dir(scraper_id)
                 exists = "[OK]" if input_dir.exists() else "[  ]"
                 print(f"  {scraper_id:15} {exists} {input_dir}")
@@ -487,7 +519,7 @@ if __name__ == "__main__":
             print(json.dumps(platform_config, indent=2))
             print()
             print("SCRAPER CONFIGS:")
-            for scraper_id in ["CanadaQuebec", "Malaysia", "Argentina", "Taiwan"]:
+            for scraper_id in ["canada_quebec", "Malaysia", "Argentina", "Taiwan"]:
                 scraper_config = cr._load_scraper_config(scraper_id)
                 config_count = len(scraper_config.get('config', {}))
                 secret_count = len(scraper_config.get('secrets', {}))
@@ -515,10 +547,10 @@ if __name__ == "__main__":
 
             all_ok = True
 
-            # CanadaQuebec requirements
-            print("CanadaQuebec:")
-            cq_config = cr.get_config("CanadaQuebec")
-            openai_key = cr.get_secret_value("CanadaQuebec", "OPENAI_API_KEY", "")
+            # canada_quebec requirements
+            print("canada_quebec:")
+            cq_config = cr.get_config("canada_quebec")
+            openai_key = cr.get_secret_value("canada_quebec", "OPENAI_API_KEY", "")
             if openai_key and openai_key != "***MASKED***":
                 print("  [OK] OPENAI_API_KEY configured")
             else:

@@ -9,7 +9,6 @@ Features:
 - Chrome instance tracking and cleanup
 - Crash recovery with automatic resume
 - Comprehensive retry logic with driver restart
-- Deduplication via item_id
 - Bulk insert for performance
 - Progress logging every N pages
 
@@ -71,8 +70,17 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 
 # Chrome tracking
-from core.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids
-from core.chrome_manager import register_chrome_driver, unregister_chrome_driver
+try:
+    from core.browser.chrome_instance_tracker import ChromeInstanceTracker
+except ImportError:
+    ChromeInstanceTracker = None
+
+from core.browser.chrome_manager import register_chrome_driver, unregister_chrome_driver
+
+# Deprecated trackers
+get_chrome_pids_from_driver = None
+save_chrome_pids = None
+cleanup_chrome_pids = None
 
 # State machine
 from smart_locator import SmartLocator
@@ -80,7 +88,7 @@ from state_machine import NavigationStateMachine, NavigationState, StateConditio
 
 # Human actions
 try:
-    from core.human_actions import pause
+    from core.browser.human_actions import pause
 except ImportError:
     def pause(min_s=0.2, max_s=0.6):
         time.sleep(__import__('random').uniform(min_s, max_s))
@@ -99,13 +107,21 @@ SLEEP_BETWEEN_PAGES = getenv_float("SCRIPT_01_SLEEP_BETWEEN_PAGES")
 NAV_RETRIES = getenv_int("SCRIPT_01_NAV_RETRIES")
 NAV_RETRY_SLEEP = getenv_float("SCRIPT_01_NAV_RETRY_SLEEP")
 NAV_RESTART_DRIVER = getenv_bool("SCRIPT_01_NAV_RESTART_DRIVER")
-FETCH_EAN = getenv_bool("SCRIPT_01_FETCH_EAN")
-EAN_POPUP_TIMEOUT = getenv_int("SCRIPT_01_EAN_POPUP_TIMEOUT")
-MAX_PAGES = getenv_int("SCRIPT_01_MAX_PAGES")
+FETCH_EAN = getenv_bool("SCRIPT_01_FETCH_EAN", False)
+EAN_POPUP_TIMEOUT = getenv_int("SCRIPT_01_EAN_POPUP_TIMEOUT", 3)
+# Strictly 100 EANs per full page; retry barcode click + extract up to this many times
+EAN_CLICK_RETRIES = getenv_int("SCRIPT_01_EAN_CLICK_RETRIES", 5)
+MAX_PAGES = getenv_int("SCRIPT_01_MAX_PAGES", 0)  # 0 = no limit, extract all pages
 NUM_WORKERS = getenv_int("SCRIPT_01_NUM_WORKERS")
 MAX_RETRIES_PER_PAGE = getenv_int("SCRIPT_01_MAX_RETRIES_PER_PAGE")
 DB_BATCH_SIZE = getenv_int("DB_BATCH_INSERT_SIZE", 100)
 PROGRESS_INTERVAL = getenv_int("DB_PROGRESS_LOG_INTERVAL", 50)
+# Number of tabs to open for parallel page load (1 = sequential, 5 = 5 tabs)
+MULTI_TAB_BATCH = getenv_int("SCRIPT_01_MULTI_TAB_BATCH", 10)  # Default 10 pages per batch
+
+# Safety limits to prevent infinite loops (defensive programming)
+MAX_EMPTY_BATCH_ITERATIONS = getenv_int("SCRIPT_01_MAX_EMPTY_BATCH_ITERATIONS", 10)
+MAX_TOTAL_ITERATIONS = getenv_int("SCRIPT_01_MAX_TOTAL_ITERATIONS", 0)  # 0 = unlimited
 
 # Chrome options from env
 CHROME_START_MAXIMIZED = getenv("SCRIPT_01_CHROME_START_MAXIMIZED")
@@ -234,87 +250,68 @@ signal.signal(signal.SIGTERM, signal_handler)
 # CHROME INSTANCE TRACKING - Enhanced with Memory Management
 # =============================================================================
 
-def cleanup_all_chrome():
-    """Cleanup all tracked Chrome instances with enhanced memory management"""
-    print(f"[CLEANUP] Cleaning up {len(_active_drivers)} Chrome instance(s)...", flush=True)
-    
-    # Get all PIDs before closing
-    all_pids = set()
-    for driver in _active_drivers[:]:
-        try:
-            if hasattr(driver, 'service') and hasattr(driver.service, 'process'):
-                pid = driver.service.process.pid
-                if pid:
-                    all_pids.add(pid)
-                    try:
-                        import psutil
-                        parent = psutil.Process(pid)
-                        for child in parent.children(recursive=True):
-                            all_pids.add(child.pid)
-                    except Exception:
-                        pass
-        except Exception:
-            pass
-    
-    for driver in _active_drivers[:]:
-        try:
-            unregister_chrome_driver(driver)
-        except Exception:
-            pass
-        try:
-            driver.quit()
-        except Exception:
-            pass
-    _active_drivers.clear()
-    
-    # Kill any remaining Chrome processes
-    if all_pids:
-        try:
-            import psutil
-            for pid in all_pids:
-                try:
-                    proc = psutil.Process(pid)
-                    proc.kill()
-                except Exception:
-                    pass
-        except Exception:
-            pass
-    
-    # Kill any remaining Chrome processes tracked for Russia
-    try:
-        from core.chrome_pid_tracker import cleanup_chrome_pids
-        cleanup_chrome_pids("Russia", _repo_root)
-    except Exception:
-        pass
-    
-    # PERFORMANCE FIX: Force garbage collection
-    force_cleanup()
-    
-    print("[CLEANUP] Chrome cleanup complete", flush=True)
+# Start clean
+from core.browser.chrome_manager import kill_orphaned_chrome_processes
+kill_orphaned_chrome_processes()
 
-atexit.register(cleanup_all_chrome)
+# Register cleanup
+from core.browser.chrome_manager import cleanup_all_chrome_instances
+atexit.register(cleanup_all_chrome_instances)
 
 def track_driver(driver: webdriver.Chrome):
     """Track driver for cleanup"""
     _active_drivers.append(driver)
     register_chrome_driver(driver)
     
-    # Save PIDs for GUI tracking
-    try:
-        pids = get_chrome_pids_from_driver(driver)
-        if pids:
-            save_chrome_pids("Russia", _repo_root, pids)
-    except Exception:
-        pass
+    # Save PIDs for GUI tracking (Standardized Shared DB)
+    if ChromeInstanceTracker and _run_id:
+        try:
+            if hasattr(driver, "service") and hasattr(driver.service, "process"):
+                pid = driver.service.process.pid
+                if pid:
+                    # Need DB connection for tracker
+                    try:
+                        db = CountryDB("Russia")
+                        db.connect()
+                        tracker = ChromeInstanceTracker("Russia", _run_id, db)
+                        tracker.register(step_number=1, pid=pid, browser_type="chrome")
+                        
+                        # Attach instance ID or something if needed, or just rely on pid?
+                        # For now just register.
+                        db.close()
+                    except Exception as e:
+                        print(f"[WARN] Failed to register chrome instance: {e}")
+        except Exception:
+            pass
+    
+    print(f"[DRIVER] Now tracking {len(_active_drivers)} Chrome instance(s)", flush=True)
 
 def untrack_driver(driver: webdriver.Chrome):
-    """Untrack driver"""
+    """Untrack driver and mark terminated"""
     if driver in _active_drivers:
         _active_drivers.remove(driver)
+        
+    # Mark terminated in DB
+    if ChromeInstanceTracker and _run_id and hasattr(driver, "service") and hasattr(driver.service, "process"):
+        try:
+            pid = driver.service.process.pid
+            if pid:
+                try:
+                    db = CountryDB("Russia")
+                    db.connect()
+                    tracker = ChromeInstanceTracker("Russia", _run_id, db)
+                    tracker.mark_terminated_by_pid(pid, "untrack_driver")
+                    db.close()
+                except Exception:
+                    pass
+        except Exception:
+            pass
+
     try:
         unregister_chrome_driver(driver)
     except Exception:
         pass
+    print(f"[DRIVER] Now tracking {len(_active_drivers)} Chrome instance(s)", flush=True)
 
 # =============================================================================
 # DRIVER MANAGEMENT
@@ -355,6 +352,9 @@ def get_chromedriver_path() -> str:
 
 def make_driver() -> webdriver.Chrome:
     """Build Chrome driver with full anti-detection"""
+    # Kill any orphaned Chrome processes first
+    kill_orphaned_chrome()
+    
     opts = ChromeOptions()
     
     if HEADLESS:
@@ -370,22 +370,27 @@ def make_driver() -> webdriver.Chrome:
     if CHROME_DISABLE_AUTOMATION:
         opts.add_argument(CHROME_DISABLE_AUTOMATION)
     
-    # Standard anti-detection options
-    opts.add_argument("--disable-gpu")
+    # Basic options (matching old script)
     opts.add_argument("--window-size=1600,1000")
-    opts.add_argument("--lang=en-US")
-    opts.add_argument("--disable-extensions")
-    opts.add_argument("--disable-plugins")
-    opts.add_argument("--disable-infobars")
-    opts.add_argument("--disable-popup-blocking")
-    opts.add_argument("--disable-translate")
-    opts.add_argument("--disable-background-networking")
-    opts.add_argument("--disable-sync")
-    opts.add_argument("--disable-default-apps")
-    opts.add_argument("--mute-audio")
     opts.add_argument("--no-first-run")
     opts.add_argument("--no-default-browser-check")
-    opts.add_argument("--remote-debugging-port=0")
+    opts.add_argument("--disable-blink-features=AutomationControlled")
+    
+    # Critical for Windows stability - prevent tab crashes
+    opts.add_argument("--no-sandbox")
+    opts.add_argument("--disable-dev-shm-usage")
+    opts.add_argument("--disable-gpu")
+    opts.add_argument("--disable-software-rasterizer")
+    opts.add_argument("--disable-features=IsolateOrigins,site-per-process")
+    opts.add_argument("--single-process")  # Run in single process mode
+    opts.add_argument("--memory-model=low")  # Reduce memory usage
+    
+    # Specify Chrome binary location
+    opts.binary_location = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
+    
+    # Headless mode from config
+    if HEADLESS:
+        opts.add_argument("--headless=new")
     
     opts.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
     opts.add_experimental_option('useAutomationExtension', False)
@@ -568,8 +573,96 @@ def extract_price_and_date(cell_text: str) -> tuple[str, str]:
     return price, date_text
 
 
-def extract_row_data(row, page_num: int) -> Optional[Dict]:
-    """Extract data from a table row"""
+def extract_ean(text: str) -> str:
+    """Extract EAN digits from package text - finds longest digit sequence of 8-14 digits"""
+    if not text:
+        return ""
+    
+    # Remove all whitespace to normalize
+    text_compact = re.sub(r"\s+", "", text)
+    
+    # Find all sequences of 8-14 digits
+    matches = re.findall(r"\d{8,14}", text_compact)
+    
+    if not matches:
+        return ""
+    
+    # Return the longest match (most likely to be EAN)
+    return max(matches, key=len)
+
+
+def click_all_barcodes(driver: webdriver.Chrome, is_last_page: bool = False) -> None:
+    """Click all barcode icons to trigger EAN insertion into package column"""
+    if not FETCH_EAN:
+        return
+    
+    # Wait for page to be fully loaded and stable
+    time.sleep(1)
+    
+    # Scope to table.report tbody only (matches local page 52: 100 barcode links).
+    # Use a[onclick*="getEanCode"] so we only click "Штрихкод" links, not other a.info.
+    icons = driver.find_elements(By.CSS_SELECTOR, "table.report tbody a[onclick*='getEanCode']")
+    if not icons:
+        # Fallback: legacy selector (whole-page a.info)
+        icons = driver.find_elements(By.CSS_SELECTOR, "a.info")
+    if not icons:
+        print(f"  [WARN] No barcode icons found on this page", flush=True)
+        return
+    
+    # Warn if we don't see expected number of barcodes (but not on last page)
+    if not is_last_page and len(icons) < 90:
+        print(f"  [WARN] Only found {len(icons)} barcode icons. Expected ~100. Page may not have loaded fully.", flush=True)
+    
+    print(f"  Clicking {len(icons)} barcode icons...", flush=True)
+    
+    clicked = 0
+    failed = 0
+    for idx, ic in enumerate(icons):
+        try:
+            # Scroll into view first to ensure element is visible
+            driver.execute_script("arguments[0].scrollIntoView({block:'center'});", ic)
+            
+            # Get onclick attribute
+            onclick = ic.get_attribute("onclick")
+            
+            if onclick:
+                # Try to execute the onclick JavaScript directly
+                try:
+                    driver.execute_script(onclick)
+                    clicked += 1
+                except Exception as e:
+                    # Fallback to regular click
+                    driver.execute_script("arguments[0].click();", ic)
+                    clicked += 1
+            else:
+                # No onclick, use regular click
+                driver.execute_script("arguments[0].click();", ic)
+                clicked += 1
+            
+            # Small delay every 5 clicks to let async requests process
+            if (idx + 1) % 5 == 0:
+                time.sleep(0.3)
+                
+        except Exception as e:
+            error_msg = str(e).lower()
+            # Check if Chrome session is invalid
+            if 'invalid session id' in error_msg or 'session deleted' in error_msg or 'no such window' in error_msg:
+                print(f"  [WARN] Chrome session closed during barcode clicking. Stopping.", flush=True)
+                break  # Stop trying to click more barcodes
+            failed += 1
+            if failed <= 3:
+                print(f"  [DEBUG] Barcode click {idx} failed: {e}", flush=True)
+            pass
+    
+    print(f"  Successfully clicked {clicked}/{len(icons)} barcode icons ({failed} failed)", flush=True)
+    
+    # Wait for all AJAX requests to complete
+    # The gray rows are inserted asynchronously after clicking barcodes
+    time.sleep(5)
+
+
+def extract_row_data(row, page_num: int, driver=None) -> Optional[Dict]:
+    """Extract data from a table row with EAN extraction"""
     try:
         cells = row.find_elements(By.TAG_NAME, "td")
         if len(cells) < 7:
@@ -605,14 +698,36 @@ def extract_row_data(row, page_num: int) -> Optional[Dict]:
         inn = cells[3].text.strip() if len(cells) > 3 else ""
         manufacturer_country = cells[4].text.strip() if len(cells) > 4 else ""
         
-        # Release form - remove trailing "Barcode" text
+        # Release form - remove trailing "Barcode" or EAN text
         release_form_full = cells[5].text.strip() if len(cells) > 5 else ""
-        release_form = re.sub(r"\bBarcode\b\s*$", "", release_form_full).strip()
+        release_form = re.sub(r"\b(Barcode|\d{8,14})\b\s*$", "", release_form_full).strip()
         
         # Price and date from last cell
         price, date_text = "", ""
         if len(cells) > 6:
             price, date_text = extract_price_and_date(cells[6].text)
+        
+        # EAN extraction: Check next sibling row (gray row with EAN after barcode click)
+        ean = ""
+        if FETCH_EAN and driver:
+            try:
+                # Get next row after current main row
+                next_tr = driver.execute_script("return arguments[0].nextElementSibling;", row)
+                if next_tr:
+                    # Check if next row is an EAN row (no bullet image)
+                    next_bullets = next_tr.find_elements(By.CSS_SELECTOR, "img.bullet[linkhref]")
+                    if not next_bullets:
+                        # This is an EAN-only row
+                        next_tds = next_tr.find_elements(By.CSS_SELECTOR, "td")
+                        if len(next_tds) >= 6:
+                            next_package_text = next_tds[5].text.strip()
+                            ean = extract_ean(next_package_text)
+            except Exception:
+                pass
+            
+            # Fallback: try extracting from current row if EAN was appended
+            if not ean:
+                ean = extract_ean(release_form_full)
         
         return {
             "item_id": item_id,
@@ -620,7 +735,7 @@ def extract_row_data(row, page_num: int) -> Optional[Dict]:
             "inn": inn,
             "manufacturer_country": manufacturer_country,
             "release_form": release_form,
-            "ean": "",  # Would need popup click to get
+            "ean": ean,
             "registered_price_rub": price,
             "start_date_text": date_text,
             "page_number": page_num,
@@ -634,73 +749,337 @@ def extract_row_data(row, page_num: int) -> Optional[Dict]:
 # MAIN SCRAPING LOGIC
 # =============================================================================
 
-def scrape_page(driver: webdriver.Chrome, page_num: int, repo: RussiaRepository, existing_ids: Set[str]) -> tuple[int, int]:
+def extract_rows_from_table(driver: webdriver.Chrome, page_num: int = 0, last_page: int = 0) -> list[Dict]:
     """
-    Scrape a single page.
-    Returns: (scraped_count, skipped_count)
+    Internal function to extract rows from the current page table.
+    This is the core extraction logic that can be called multiple times for retry.
+    """
+    rows: list[Dict] = []
+    
+    # Re-fetch rows AFTER barcode clicks (new rows inserted)
+    tr_list = driver.find_elements(By.CSS_SELECTOR, "table.report tbody tr")
+    total_rows = len(tr_list)
+    
+    # Debug: Count main rows vs gray rows
+    main_rows = 0
+    gray_rows = 0
+    for tr in tr_list:
+        bullet_imgs = tr.find_elements(By.CSS_SELECTOR, "img.bullet[linkhref]")
+        if bullet_imgs:
+            main_rows += 1
+        else:
+            gray_rows += 1
+    
+    is_last_page = (page_num == last_page and last_page > 0)
+    
+    if FETCH_EAN:
+        print(f"  Processing {total_rows} rows (after EAN insertion)...", flush=True)
+        print(f"  [DEBUG] Main rows: {main_rows}, Gray/EAN rows: {gray_rows}", flush=True)
+        
+        # If we have main rows but no gray rows, the barcode click didn't work
+        # Only warn if we expect EAN rows (i.e., we have main rows to match)
+        if main_rows > 0 and gray_rows == 0 and main_rows >= 10:
+            print(f"  [WARN] No gray/EAN rows found after barcode click. EAN extraction may fail.", flush=True)
+    
+    # Warning if we don't see expected number of main rows
+    # Don't warn on last page (may have fewer rows) or if page_num is 0 (retry/unknown)
+    if not is_last_page and page_num > 0 and main_rows < 90:
+        print(f"  [WARNING] Expected ~100 main rows, found {main_rows}. Page navigation issue?", flush=True)
+    
+    extracted_count = 0
+    skipped_no_bullet = 0
+    skipped_no_item_id = 0
+    skipped_exception = 0
+    
+    for idx, tr in enumerate(tr_list, 1):
+        try:
+            # Only main rows have the bullet image with linkhref
+            bullet_imgs = tr.find_elements(By.CSS_SELECTOR, "img.bullet[linkhref]")
+            if not bullet_imgs:
+                # Skip EAN-only rows (gray rows inserted after barcode click)
+                skipped_no_bullet += 1
+                continue
+            
+            linkhref = bullet_imgs[0].get_attribute("linkhref") or ""
+            # Parse item_id from query string
+            # Example: frm_reestr_det.php?value=279.24&MnnName=...&item_id=31908
+            from urllib.parse import parse_qs, urlparse
+            qs = parse_qs(urlparse("http://x/?" + linkhref.split("?", 1)[-1]).query)
+            item_id = (qs.get("item_id", [""]) or [""])[0]
+            
+            if not item_id:
+                skipped_no_item_id += 1
+                if skipped_no_item_id <= 3:
+                    print(f"  [DEBUG] Row {idx}: No item_id from linkhref: {linkhref[:50]}...", flush=True)
+                continue
+            
+            tds = tr.find_elements(By.CSS_SELECTOR, "td")
+            if len(tds) < 7:
+                if idx <= 3:
+                    print(f"  [DEBUG] Row {idx}: Only {len(tds)} cells, skipping", flush=True)
+                continue
+            
+            tn = tds[2].text.strip()
+            inn = tds[3].text.strip()
+            manufacturer_country = tds[4].text.strip()
+            
+            release_form_full = tds[5].text.strip()
+            # Remove trailing "Barcode" or EAN text from release form cell
+            release_form = re.sub(r"\b(Barcode|\d{8,14})\b\s*$", "", release_form_full).strip()
+            
+            price, date_text = extract_price_and_date(tds[6].text)
+            
+            # EAN extraction: Check next sibling row (gray row with EAN after barcode click)
+            ean = ""
+            if FETCH_EAN:
+                try:
+                    # Get next row after current main row
+                    next_tr = driver.execute_script("return arguments[0].nextElementSibling;", tr)
+                    if next_tr:
+                        # Check if next row is an EAN row (no bullet image)
+                        next_bullets = next_tr.find_elements(By.CSS_SELECTOR, "img.bullet[linkhref]")
+                        if not next_bullets:
+                            # This is an EAN-only row
+                            next_tds = next_tr.find_elements(By.CSS_SELECTOR, "td")
+                            if len(next_tds) >= 6:
+                                next_package_text = next_tds[5].text.strip()
+                                ean = extract_ean(next_package_text)
+                except Exception:
+                    pass
+                
+                # Fallback: try extracting from current row if EAN was appended
+                if not ean:
+                    ean = extract_ean(release_form_full)
+            
+            rows.append({
+                "item_id": item_id,
+                "tn": tn,
+                "inn": inn,
+                "manufacturer_country": manufacturer_country,
+                "release_form": release_form,
+                "ean": ean,
+                "registered_price_rub": price,
+                "start_date_text": date_text,
+                "page_number": page_num,
+            })
+            extracted_count += 1
+            
+        except StaleElementReferenceException:
+            # Page changed mid-loop; skip this row
+            continue
+        except Exception as e:
+            skipped_exception += 1
+            error_msg = str(e).lower()
+            # Check if it's an invalid session error (Chrome closed)
+            if 'invalid session id' in error_msg or 'session deleted' in error_msg or 'no such window' in error_msg:
+                print(f"  [WARN] Chrome session closed. Stopping extraction.", flush=True)
+                break  # Stop trying to extract more rows
+            if extracted_count < 3:
+                print(f"  [DEBUG] Row {idx}: Exception: {e}", flush=True)
+            continue
+    
+    # Print extraction summary
+    if main_rows > 0:
+        print(f"  [DEBUG] Extraction summary: {extracted_count} extracted, {skipped_no_bullet} no bullet, {skipped_no_item_id} no item_id, {skipped_exception} exceptions", flush=True)
+    
+    return rows
+
+
+def scrape_page_with_ean_validation(driver: webdriver.Chrome, page_num: int, repo: RussiaRepository, existing_ids: Set[str], last_page: int = 0) -> tuple[int, int, int, int, int, bool]:
+    """
+    Scrape a single page with strict EAN validation.
+    
+    MEMORY FIX: Uses DB-backed deduplication when existing_ids set grows too large.
+    """
+    """
+    Scrape a single page with strict EAN validation.
+    
+    STRICT: We need exactly 100 EANs per full page (row_count == ean_count).
+    If less than 100 EANs, retry barcode click + extraction up to EAN_CLICK_RETRIES (5) times.
+    After 5 attempts still < 100 EANs: mark page for later retry (don't write data).
+    
+    Returns: (scraped_count, skipped_count, missing_ean_count, rows_found, ean_found, is_valid)
     """
     if _shutdown_requested:
-        return 0, 0
+        return 0, 0, 0, 0, 0, False
     
+    if page_num == 1:
+        print(f"  [DEBUG] FETCH_EAN = {FETCH_EAN}, EAN_CLICK_RETRIES = {EAN_CLICK_RETRIES}", flush=True)
+    
+    is_last_page = (page_num == last_page and last_page > 0)
+    rows = []
+    
+    if FETCH_EAN:
+        # Strictly 100 EANs: retry barcode click + extract up to EAN_CLICK_RETRIES times
+        for attempt in range(1, EAN_CLICK_RETRIES + 1):
+            if _shutdown_requested:
+                return 0, 0, 0, 0, 0, False
+            click_all_barcodes(driver, is_last_page)
+            rows = extract_rows_from_table(driver, page_num, last_page)
+            if not rows:
+                print(f"  [EAN RETRY {attempt}/{EAN_CLICK_RETRIES}] No rows extracted", flush=True)
+                if attempt < EAN_CLICK_RETRIES:
+                    time.sleep(5)
+                continue
+            row_count = len(rows)
+            ean_count = sum(1 for r in rows if r.get("ean"))
+            missing_count = row_count - ean_count
+            print(f"  [VALIDATION] Attempt {attempt}/{EAN_CLICK_RETRIES} | Rows: {row_count} | With EAN: {ean_count} | Missing: {missing_count}", flush=True)
+            # Strict: every row must have EAN (row_count == ean_count). Full page = 100.
+            if row_count == ean_count:
+                print(f"  [VALIDATION SUCCESS] All {ean_count} rows have EAN", flush=True)
+                break
+            if attempt < EAN_CLICK_RETRIES:
+                print(f"  [EAN RETRY] Need {row_count} EANs, got {ean_count}. Waiting 5s and re-clicking barcodes...", flush=True)
+                time.sleep(5)
+        else:
+            # All retries exhausted
+            row_count = len(rows)
+            ean_count = sum(1 for r in rows if r.get("ean")) if rows else 0
+            missing_count = row_count - ean_count if rows else 0
+            print(f"  [VALIDATION FAILED] After {EAN_CLICK_RETRIES} attempts: {ean_count} EANs (need 100). DATA NOT WRITTEN", flush=True)
+            repo.record_failed_page(page_num, "ved", f"EAN validation failed: {missing_count} missing after {EAN_CLICK_RETRIES} retries")
+            return 0, 0, missing_count, row_count, ean_count, False
+    else:
+        # No EAN fetch: single extract
+        rows = extract_rows_from_table(driver, page_num, last_page)
+    
+    # STRICT CHECK: Must have exactly 100 rows (except for last page)
+    rows_found = len(rows)
+    ean_found = sum(1 for r in rows if r.get("ean"))
+    is_last_page = (page_num == last_page and last_page > 0)
+    
+    if not is_last_page and rows_found < 100:
+        print(f"  [VALIDATION FAILED] Page {page_num} has only {rows_found} rows (expected 100). DATA NOT WRITTEN", flush=True)
+        repo.record_failed_page(page_num, "ved", f"Row count validation failed: {rows_found} rows (expected 100)")
+        return 0, 0, 0, rows_found, ean_found, False
+    
+        # Process extracted rows
     scraped = 0
     skipped = 0
+    missing_ean_count = 0
     batch = []
     
-    try:
-        rows = driver.find_elements(By.CSS_SELECTOR, "table.report tbody tr")
+    # STRICT: No deduplication - insert all scraped records as-is
+    for data in rows:
+        if _shutdown_requested:
+            break
         
-        # Debug: print row count on first page
-        if page_num == 1:
-            print(f"  [DEBUG] Found {len(rows)} rows on page 1", flush=True)
+        # Track missing EAN
+        if FETCH_EAN and not data.get("ean"):
+            missing_ean_count += 1
         
-        for idx, row in enumerate(rows):
-            if _shutdown_requested:
-                break
-            
-            data = extract_row_data(row, page_num)
-            if not data:
-                # Debug first few failed rows
-                if page_num == 1 and idx < 3:
-                    try:
-                        cells = row.find_elements(By.TAG_NAME, "td")
-                        print(f"  [DEBUG] Row {idx}: {len(cells)} cells, skipping", flush=True)
-                    except Exception:
-                        pass
-                continue
-            
-            # Deduplication check
-            if data["item_id"] in existing_ids:
-                skipped += 1
-                continue
-            
-            batch.append(data)
-            existing_ids.add(data["item_id"])
-            
-            # Bulk insert when batch is full
-            if len(batch) >= DB_BATCH_SIZE:
-                repo.insert_ved_products_bulk(batch)
-                scraped += len(batch)
-                batch = []
+        # Ensure page_number is set
+        data["page_number"] = page_num
         
-        # Insert remaining
-        if batch:
+        batch.append(data)
+        
+        # Bulk insert when batch is full
+        if len(batch) >= DB_BATCH_SIZE:
             repo.insert_ved_products_bulk(batch)
             scraped += len(batch)
+            batch = []
+    
+    # Insert remaining
+    if batch:
+        repo.insert_ved_products_bulk(batch)
+        scraped += len(batch)
+    
+    return scraped, skipped, missing_ean_count, rows_found, ean_found, True
+
+
+def scrape_page(driver: webdriver.Chrome, page_num: int, repo: RussiaRepository, existing_ids: Set[str], last_page: int = 0) -> tuple[int, int, int]:
+    """
+    Scrape a single page with EAN extraction and validation.
+    Returns: (scraped_count, skipped_count, missing_ean_count)
+    No deduplication - all scraped records are inserted.
+    """
+    # Verify we're on the correct page by checking URL
+    current_url = driver.current_url
+    expected_page_param = f"page={page_num}"
+    if expected_page_param not in current_url:
+        print(f"  [WARN] URL mismatch! Expected page {page_num} but URL is: {current_url}")
+        print(f"  [WARN] Navigating to correct page...")
+        try:
+            correct_url = f"{BASE_URL}?page={page_num}&reg_id={REGION_VALUE}"
+            driver.get(correct_url)
+            wait_for_table(driver)
+            print(f"  [OK] Navigated to correct page {page_num}")
+        except Exception as e:
+            print(f"  [ERROR] Failed to navigate to page {page_num}: {e}")
+            repo.record_failed_page(page_num, "ved", f"URL verification failed: {current_url}")
+            return 0, 0, 0
+    
+    # Get initial DB count for this page
+    initial_count = repo.get_ved_product_count_for_page(page_num)
+    
+    try:
+        # MEMORY FIX: Pass repo for DB-backed deduplication
+        scraped, skipped, missing_ean_count, rows_found, ean_found, is_valid = scrape_page_with_ean_validation(
+            driver, page_num, repo, existing_ids, last_page
+        )
         
-        # Mark page as completed
-        repo.mark_progress(1, "VED Scrape", f"ved_page:{page_num}", "completed")
+        # Get final DB count for this page
+        final_count = repo.get_ved_product_count_for_page(page_num)
+        inserted = final_count - initial_count
         
-        return scraped, skipped
+        # Verify data integrity - if we expected to insert rows but DB count didn't change, something went wrong
+        if scraped > 0 and inserted == 0:
+            print(f"  [WARN] Page {page_num}: Scraped {scraped} rows but DB count unchanged. Data may have been lost!")
+            # Don't mark as completed - this page needs to be retried
+            repo.record_failed_page(page_num, "ved", f"Data loss detected: scraped={scraped}, inserted={inserted}")
+            return scraped, skipped, missing_ean_count
+        
+        # Build metrics dictionary for structured storage
+        metrics = {
+            'rows_found': rows_found,
+            'ean_found': ean_found,
+            'rows_scraped': scraped,
+            'rows_inserted': inserted,
+            'ean_missing': missing_ean_count,
+            'db_count_before': initial_count,
+            'db_count_after': final_count,
+        }
+        
+        # Build log details string for quick viewing
+        log_details = (
+            f"rows_found={rows_found}, "
+            f"ean_found={ean_found}, "
+            f"scraped={scraped}, "
+            f"inserted={inserted}, "
+            f"ean_missing={missing_ean_count}"
+        )
+        
+        # Build the URL for this page
+        page_url = f"{BASE_URL}?page={page_num}&reg_id={REGION_VALUE}"
+        
+        if is_valid:
+            # Mark page as completed
+            repo.mark_progress(1, "VED Scrape", f"ved_page:{page_num}", "completed", 
+                             log_details=log_details, metrics=metrics, url=page_url)
+        else:
+            # Mark page for retry
+            repo.mark_progress(1, "VED Scrape", f"ved_page:{page_num}", "ean_missing", 
+                             f"Missing EAN: {missing_ean_count}", 
+                             log_details=log_details, metrics=metrics, url=page_url)
+        
+        return scraped, skipped, missing_ean_count
         
     except Exception as e:
         # Record failed page for retry
         repo.record_failed_page(page_num, "ved", str(e))
-        repo.mark_progress(1, "VED Scrape", f"ved_page:{page_num}", "failed", str(e))
+        metrics = {
+            'rows_found': 0, 'ean_found': 0, 'rows_scraped': 0,
+            'rows_inserted': 0, 'ean_missing': 0,
+            'db_count_before': initial_count, 'db_count_after': initial_count,
+        }
+        repo.mark_progress(1, "VED Scrape", f"ved_page:{page_num}", "failed", str(e), 
+                         log_details=f"error={type(e).__name__}", metrics=metrics)
         raise
 
 
 def get_last_page(driver: webdriver.Chrome) -> int:
-    """Get total number of pages"""
+    """Get total number of pages from pagination"""
     try:
         pager = driver.find_element(By.CSS_SELECTOR, "p.paging")
         links = pager.find_elements(By.TAG_NAME, "a")
@@ -726,12 +1105,57 @@ def get_last_page(driver: webdriver.Chrome) -> int:
         return 1
 
 
-def get_resume_page(repo: RussiaRepository) -> int:
-    """Get page to resume from"""
-    completed = repo.get_completed_keys(1)
-    if not completed:
-        return 1
+def ensure_tabs_and_load_pages(driver: webdriver.Chrome, page_numbers: list[int]) -> list:
+    """
+    Ensure we have len(page_numbers) tabs, load each tab with its page URL (kick off loads),
+    then wait for table in each tab. Returns list of window handles in order (tab 0 = page_numbers[0], etc.).
+    """
+    handles = list(driver.window_handles)
+    n = len(page_numbers)
+    # Open new tabs if we need more
+    while len(handles) < n:
+        driver.execute_script("window.open('');")
+        handles = list(driver.window_handles)
+    handles = handles[:n]
+    base_url = f"{BASE_URL}?reg_id={REGION_VALUE}"
+    # Kick off all loads (don't wait)
+    for i, (h, p) in enumerate(zip(handles, page_numbers)):
+        driver.switch_to.window(h)
+        driver.get(f"{base_url}&page={p}")
+    # Wait for table in each tab
+    for i, h in enumerate(handles):
+        driver.switch_to.window(h)
+        try:
+            wait_for_table(driver)
+        except Exception as e:
+            print(f"  [WARN] Tab {i+1} (page {page_numbers[i]}) table wait failed: {e}", flush=True)
+    return handles
+
+
+def get_resume_page_and_run_id(repo: RussiaRepository, exclude_run_id: str = None) -> tuple[int, Optional[str]]:
+    """
+    Find run with most completed pages and the next page to scrape.
+    Returns (resume_page, best_run_id). best_run_id is None if no previous run to resume.
+    """
+    run_pages = repo.get_all_run_completed_pages(1, exclude_run_id)
+    print(f"  [DEBUG] Found {len(run_pages)} previous runs with completed pages", flush=True)
     
+    if not run_pages:
+        return 1, None
+    
+    best_run_id = None
+    max_pages = 0
+    for run_id, pages in run_pages.items():
+        if pages > max_pages:
+            max_pages = pages
+            best_run_id = run_id
+    
+    if not best_run_id or max_pages == 0:
+        return 1, None
+    
+    print(f"  [DEBUG] Best run to resume from: {best_run_id} with {max_pages} pages", flush=True)
+    
+    completed = repo.get_completed_keys_for_run(1, best_run_id)
     pages = []
     for key in completed:
         if key.startswith("ved_page:"):
@@ -740,15 +1164,97 @@ def get_resume_page(repo: RussiaRepository) -> int:
             except ValueError:
                 pass
     
-    return max(pages) + 1 if pages else 1
+    print(f"  [DEBUG] Page numbers: {sorted(pages)[:10]}...", flush=True)
+    
+    resume_page = max(pages) + 1 if pages else 1
+    print(f"  [DEBUG] Will resume from page: {resume_page} using run_id: {best_run_id}", flush=True)
+    
+    return resume_page, best_run_id
+
+
+def get_next_pages_to_scrape(repo: RussiaRepository, last_page: int, batch_size: int = 5) -> List[int]:
+    """
+    Get next batch of pages to scrape.
+    
+    Logic:
+    1. Consider all pages from 1 to last_page
+    2. Exclude pages already completed (in step_progress with status='completed')
+    3. Exclude pages in failed_pages (will be handled by retry logic)
+    4. Return up to batch_size pages (not necessarily sequential)
+    
+    Returns: List of page numbers to scrape
+    """
+    # Get completed pages
+    completed_keys = repo.get_completed_keys(1)
+    completed_pages = set()
+    for key in completed_keys:
+        if key.startswith("ved_page:"):
+            try:
+                completed_pages.add(int(key.split(":")[1]))
+            except ValueError:
+                pass
+    
+    # Get failed pages (pending retry)
+    failed_pages_data = repo.get_failed_pages("ved")
+    failed_pages = set(p['page_number'] for p in failed_pages_data)
+    
+    # Find pages that need scraping
+    all_pages = set(range(1, last_page + 1))
+    pages_to_scrape = sorted(all_pages - completed_pages - failed_pages)
+    
+    # Return up to batch_size pages
+    return pages_to_scrape[:batch_size]
+
+
+def get_existing_item_ids_all_runs(repo: RussiaRepository) -> Set[str]:
+    """Get all existing item_ids from ALL runs for deduplication"""
+    return repo.get_all_existing_item_ids()
 
 
 # =============================================================================
 # MAIN ENTRY POINT
 # =============================================================================
 
+def _parse_args() -> tuple[Optional[List[int]], bool, Optional[str]]:
+    """
+    Parse command-line arguments.
+    Returns: (retry_pages, fresh_run, run_id)
+    - retry_pages: List of page numbers to retry (from --start/--end), or None for full run
+    - fresh_run: True if --fresh flag is present
+    - run_id: Specific run_id from --run-id, or None
+    """
+    start = end = None
+    fresh_run = False
+    run_id = None
+    
+    args = sys.argv[1:]
+    for i, a in enumerate(args):
+        if a == "--start" and i + 1 < len(args):
+            try:
+                start = int(args[i + 1])
+            except ValueError:
+                pass
+        elif a == "--end" and i + 1 < len(args):
+            try:
+                end = int(args[i + 1])
+            except ValueError:
+                pass
+        elif a == "--fresh":
+            fresh_run = True
+        elif a == "--run-id" and i + 1 < len(args):
+            run_id = args[i + 1]
+    
+    retry_pages = None
+    if start is not None and end is not None and start <= end:
+        retry_pages = list(range(start, end + 1))
+    
+    return retry_pages, fresh_run, run_id
+
+
 def main():
     global _run_id, _repo
+    
+    retry_pages, fresh_run, specified_run_id = _parse_args()
     
     print("=" * 80)
     print("Russia VED Scraper - DB-Based with Resume Support")
@@ -770,26 +1276,69 @@ def main():
     db = CountryDB("Russia")
     apply_russia_schema(db)
     
-    # Generate or get run_id
-    _run_id = os.getenv("RUSSIA_RUN_ID") or generate_run_id()
-    os.environ["RUSSIA_RUN_ID"] = _run_id
-    print(f"[INIT] Run ID: {_run_id}", flush=True)
+    # Resolve run_id based on command-line arguments
+    if fresh_run:
+        # --fresh flag: Always start a new run
+        _run_id = generate_run_id()
+        print(f"[INIT] --fresh flag detected, starting new run: {_run_id}", flush=True)
+    elif specified_run_id:
+        # --run-id specified: Use the specified run_id
+        _run_id = specified_run_id
+        print(f"[INIT] Using specified run_id: {_run_id}", flush=True)
+    else:
+        # Default behavior: Try to resume from best run
+        lookup_repo = RussiaRepository(db, "_lookup")
+        resume_page, best_run_id = get_resume_page_and_run_id(lookup_repo, exclude_run_id=None)
+        
+        if resume_page > 1 and best_run_id:
+            # Use the run that has the most VED pages
+            _run_id = best_run_id
+            print(f"[INIT] Resuming: using existing run_id {_run_id}", flush=True)
+        else:
+            _run_id = os.getenv("RUSSIA_RUN_ID") or generate_run_id()
+            print(f"[INIT] Fresh run: new run_id {_run_id}", flush=True)
     
-    # Initialize repository
+    os.environ["RUSSIA_RUN_ID"] = _run_id
+    
+    # Persist run_id to file so it survives pipeline restarts (e.g., from Telegram)
+    run_id_file = get_output_dir() / ".current_run_id"
+    try:
+        run_id_file.parent.mkdir(parents=True, exist_ok=True)
+        run_id_file.write_text(_run_id, encoding="utf-8")
+        print(f"[INIT] Saved run_id to {run_id_file}", flush=True)
+    except Exception as e:
+        print(f"[INIT] Warning: could not save run_id to file: {e}", flush=True)
+    
     _repo = RussiaRepository(db, _run_id)
     
-    # Check for resume
-    resume_page = get_resume_page(_repo)
-    if resume_page > 1:
-        print(f"[INIT] Resuming from page {resume_page}", flush=True)
-        _repo.resume_run()
-    else:
-        print(f"[INIT] Starting fresh run", flush=True)
-        _repo.start_run("fresh")
+    # No deduplication - insert all scraped records as-is (existing_ids kept for API compatibility, unused)
+    existing_ids = set()
     
-    # Get existing item_ids for deduplication
-    existing_ids = _repo.get_existing_item_ids()
-    print(f"[INIT] {len(existing_ids)} existing items in DB", flush=True)
+    # Start or resume run based on whether it's a fresh run
+    if fresh_run:
+        print(f"[INIT] Starting fresh run (--fresh flag)", flush=True)
+        _repo.start_run("fresh")
+    elif specified_run_id:
+        # Check if this run exists and has data
+        completed = len(_repo.get_completed_keys(1))
+        if completed > 0:
+            print(f"[INIT] Resuming specified run with {completed} pages already completed", flush=True)
+            _repo.resume_run()
+        else:
+            print(f"[INIT] Starting specified run (no previous data)", flush=True)
+            _repo.start_run("fresh")
+    else:
+        # Default resume logic
+        lookup_repo = RussiaRepository(db, _run_id)
+        resume_page, _ = get_resume_page_and_run_id(lookup_repo, exclude_run_id=None)
+        
+        if resume_page > 1:
+            completed = len(_repo.get_completed_keys(1))
+            print(f"[INIT] Resuming run with {completed} pages already completed", flush=True)
+            _repo.resume_run()
+        else:
+            print(f"[INIT] Starting fresh run", flush=True)
+            _repo.start_run("fresh")
     
     # Initialize driver
     print("[INIT] Starting Chrome...", flush=True)
@@ -806,85 +1355,237 @@ def main():
             last_page = min(last_page, MAX_PAGES)
         print(f"[INFO] Total pages to scrape: {last_page}", flush=True)
         
-        # Start from resume page
-        start_page = resume_page
-        if start_page > 1:
-            # Navigate to resume page
-            print(f"[NAV] Jumping to page {start_page}...", flush=True)
-            for page in range(2, start_page + 1):
-                if _shutdown_requested:
-                    break
-                try:
-                    # Click next or navigate directly
-                    next_link = driver.find_element(By.CSS_SELECTOR, "p.paging a:last-child")
-                    next_link.click()
-                    wait_for_table(driver)
-                except Exception as e:
-                    print(f"  [WARN] Navigation to page {page} failed: {e}", flush=True)
-                    # Try direct URL
-                    driver = navigate_with_retry(driver, f"{BASE_URL}?page={page-1}", f"Page {page}")
+        # Show how many pages are already done
+        completed = len(_repo.get_completed_keys(1))
+        print(f"[INFO] {completed} pages already completed, {last_page - completed} pages remaining", flush=True)
         
-        # Main scraping loop with memory monitoring
+        # BATCH SIZE: number of pages per batch (from env or default 10)
+        BATCH_SIZE = MULTI_TAB_BATCH if MULTI_TAB_BATCH > 0 else 10
+
+        # Main scraping loop - dynamically get pages to scrape
         total_scraped = 0
         total_skipped = 0
         global _operation_count
-        
-        for page_num in range(start_page, last_page + 1):
+        initial_retry_mode = retry_pages is not None  # --start/--end: do not finish_run (leave run resumable)
+
+        # Safety counters to prevent infinite loops (defensive programming)
+        empty_batch_count = 0
+        total_iteration_count = 0
+        consecutive_timeout_batches = 0
+        MAX_TIMEOUT_BATCHES = 3  # Restart driver after 3 consecutive batches with timeouts
+
+        while True:
+            # Check shutdown signal
             if _shutdown_requested:
                 print("[SHUTDOWN] Stopping gracefully...", flush=True)
                 break
+
+            # Safety limit: Check total iterations
+            if MAX_TOTAL_ITERATIONS > 0 and total_iteration_count >= MAX_TOTAL_ITERATIONS:
+                print(f"[SAFETY EXIT] Reached maximum total iterations ({MAX_TOTAL_ITERATIONS}), exiting to prevent infinite loop", flush=True)
+                break
+
+            total_iteration_count += 1
+
+            # Retry mode (--start N --end M): scrape only that range once then exit
+            was_retry_batch = False
+            if retry_pages is not None:
+                pages_to_scrape = retry_pages
+                retry_pages = None
+                was_retry_batch = True
+                print(f"[RETRY] Scraping only requested pages: {pages_to_scrape}", flush=True)
+            else:
+                pages_to_scrape = get_next_pages_to_scrape(_repo, last_page, BATCH_SIZE)
+
+            if not pages_to_scrape:
+                empty_batch_count += 1
+                if empty_batch_count >= MAX_EMPTY_BATCH_ITERATIONS:
+                    print(f"[SAFETY EXIT] get_next_pages_to_scrape() returned empty {empty_batch_count} times, exiting to prevent infinite loop", flush=True)
+                    print("[COMPLETE] All pages have been scraped!")
+                    break
+                else:
+                    print(f"[WARNING] get_next_pages_to_scrape() returned empty (attempt {empty_batch_count}/{MAX_EMPTY_BATCH_ITERATIONS})", flush=True)
+                    time.sleep(1)  # Brief pause before retrying
+                    continue
+
+            # Reset empty counter on successful batch
+            empty_batch_count = 0
             
-            print(f"[PAGE {page_num}/{last_page}] Scraping...", flush=True)
+            print(f"[BATCH] Loading {len(pages_to_scrape)} pages in parallel: {pages_to_scrape}", flush=True)
             
-            try:
-                scraped, skipped = scrape_page(driver, page_num, _repo, existing_ids)
-                total_scraped += scraped
-                total_skipped += skipped
+            batch_scraped = 0
+            batch_skipped = 0
+            
+            # Open multiple tabs and load all pages simultaneously
+            handles = []
+            base_url = f"{BASE_URL}?reg_id={REGION_VALUE}"
+            
+            # Ensure we have enough tabs
+            while len(driver.window_handles) < len(pages_to_scrape):
+                driver.execute_script("window.open('');")
+            
+            handles = driver.window_handles[:len(pages_to_scrape)]
+
+            # Track failed page loads
+            failed_loads = []
+
+            # Load all pages simultaneously (kick off loads)
+            for i, page_num in enumerate(pages_to_scrape):
+                try:
+                    driver.switch_to.window(handles[i])
+                    page_url = f"{BASE_URL}?page={page_num}&reg_id={REGION_VALUE}"
+                    driver.get(page_url)  # Start loading (non-blocking)
+                    # Small delay to prevent overwhelming browser
+                    if i < len(pages_to_scrape) - 1:
+                        time.sleep(0.1)
+                except TimeoutException as e:
+                    print(f"  [WARN] Page {page_num} timed out during load: {e}", flush=True)
+                    failed_loads.append(page_num)
+                except WebDriverException as e:
+                    print(f"  [WARN] Page {page_num} failed to load: {e}", flush=True)
+                    failed_loads.append(page_num)
+            
+            # Now wait for all pages to load and scrape each one
+            for i, page_num in enumerate(pages_to_scrape):
+                if _shutdown_requested:
+                    break
+
+                # Skip pages that failed to load
+                if page_num in failed_loads:
+                    print(f"  [SKIP] Page {page_num} skipped due to load failure", flush=True)
+                    continue
+
+                driver.switch_to.window(handles[i])
+
+                try:
+                    wait_for_table(driver)
+                    print(f"[PAGE {page_num}/{last_page}] Scraping (tab {i+1}/{len(pages_to_scrape)})...", flush=True)
+
+                    scraped, skipped, missing_ean = scrape_page(driver, page_num, _repo, existing_ids, last_page)
+                    batch_scraped += scraped
+                    batch_skipped += skipped
+                    total_scraped += scraped
+                    total_skipped += skipped
+                    _operation_count += 1
+
+                    ean_status = f", Missing EAN: {missing_ean}" if (FETCH_EAN and missing_ean > 0) else ""
+                    print(f"  [OK] Page {page_num}: Scraped {scraped}{ean_status}", flush=True)
+
+                except Exception as e:
+                    print(f"  [ERROR] Page {page_num} failed: {e}", flush=True)
+                    continue
+            
+            # Close extra tabs and keep only one for next batch
+            while len(driver.window_handles) > 1:
+                driver.switch_to.window(driver.window_handles[-1])
+                driver.close()
+            driver.switch_to.window(driver.window_handles[0])
+
+            # Report failed loads and track consecutive timeouts
+            if failed_loads:
+                print(f"[BATCH COMPLETE] Scraped {batch_scraped}, Skipped {batch_skipped}, Failed loads: {len(failed_loads)}, Total: {total_scraped}", flush=True)
+                print(f"  [INFO] Failed page loads will be retried in next run: {failed_loads}", flush=True)
+                consecutive_timeout_batches += 1
+
+                # Restart driver if too many consecutive timeout batches
+                if consecutive_timeout_batches >= MAX_TIMEOUT_BATCHES:
+                    print(f"[DRIVER] {consecutive_timeout_batches} consecutive batches with timeouts. Restarting Chrome to recover...", flush=True)
+                    driver = restart_driver(driver)
+                    consecutive_timeout_batches = 0
+                    # Re-navigate to the site after restart
+                    driver = navigate_to_site(driver)
+                    existing_ids = _repo.get_existing_item_ids(1)
+            else:
+                print(f"[BATCH COMPLETE] Scraped {batch_scraped}, Skipped {batch_skipped}, Total: {total_scraped}", flush=True)
+                consecutive_timeout_batches = 0  # Reset counter on successful batch
+
+            if was_retry_batch:
+                print("[RETRY] Requested page(s) done.", flush=True)
+                break
+            
+            # Progress logging
+            mem_mb = get_memory_usage_mb()
+            completed_count = len(_repo.get_completed_keys(1))
+            print(f"[PROGRESS] {completed_count}/{last_page} pages completed | Total scraped: {total_scraped} | Memory: {mem_mb:.1f}MB", flush=True)
+            
+            # MEMORY FIX: Periodic resource monitoring and cleanup
+            if _operation_count % MEMORY_CHECK_INTERVAL == 0:
+                try:
+                    from core.resource_monitor import periodic_resource_check, log_resource_status
+                    resource_status = periodic_resource_check("Russia", force=True)
+                    if resource_status.get("warnings"):
+                        for warning in resource_status["warnings"]:
+                            print(f"[RESOURCE WARNING] {warning}", flush=True)
+                except Exception:
+                    pass
                 
-                print(f"  [OK] Scraped: {scraped}, Skipped: {skipped}, Total: {total_scraped}", flush=True)
+                force_cleanup()
                 
-                _operation_count += 1
-                
-                # Progress logging with memory monitoring
-                if page_num % PROGRESS_INTERVAL == 0:
-                    mem_mb = get_memory_usage_mb()
-                    print(f"[PROGRESS] Page {page_num}/{last_page} | Total scraped: {total_scraped} | Memory: {mem_mb:.1f}MB", flush=True)
-                    # Force GC periodically
-                    force_cleanup()
-                
-                # PERFORMANCE FIX: Check memory limit periodically
-                if _operation_count % MEMORY_CHECK_INTERVAL == 0:
-                    if check_memory_limit():
-                        print(f"[MEMORY] Memory limit exceeded, restarting Chrome...", flush=True)
-                        # Restart driver to free memory
-                        try:
-                            driver.quit()
-                        except Exception:
-                            pass
-                        driver = make_driver()
-                        driver = navigate_with_retry(driver, f"{BASE_URL}?page={page_num}", f"Page {page_num}")
-                        print(f"[MEMORY] Chrome restarted successfully", flush=True)
-                
-                # Navigate to next page
-                if page_num < last_page:
-                    time.sleep(SLEEP_BETWEEN_PAGES)
-                    
+                # Check memory limit and restart Chrome if needed
+                if check_memory_limit():
+                    print(f"[MEMORY] Memory limit exceeded, restarting Chrome...", flush=True)
                     try:
-                        next_link = driver.find_element(By.CSS_SELECTOR, "p.paging a:last-child")
-                        next_link.click()
-                        wait_for_table(driver)
-                    except Exception as e:
-                        # Try direct navigation
-                        driver = navigate_with_retry(driver, f"{BASE_URL}?page={page_num}", f"Page {page_num + 1}")
-                
-            except Exception as e:
-                print(f"  [ERROR] Page {page_num} failed: {e}", flush=True)
-                # Continue to next page (failed page recorded in DB)
-                continue
+                        driver.quit()
+                    except Exception:
+                        pass
+                    driver = make_driver()
+                    print(f"[MEMORY] Chrome restarted successfully", flush=True)
         
-        # Mark run as complete
-        _repo.finish_run("completed", items_scraped=total_scraped)
-        print(f"\n[COMPLETE] Scraped {total_scraped} items, skipped {total_skipped} duplicates", flush=True)
+        # Mark run as complete (skip when retry mode so we do not overwrite run item count)
+        if not initial_retry_mode:
+            _repo.finish_run("completed", items_scraped=total_scraped)
+        print(f"\n[COMPLETE] Scraped {total_scraped} items (no deduplication)", flush=True)
+        
+        # VALIDATION REPORT
+        print("\n" + "="*80)
+        print("VED SCRAPER VALIDATION REPORT")
+        print("="*80)
+        
+        # Get count from DB for this run
+        db_count = _repo.get_ved_product_count()
+        
+        # Calculate total records from step progress metrics (includes previous sessions when resuming)
+        completed_pages = _repo.get_completed_keys(1)
+        total_rows_from_metrics = 0
+        for key in completed_pages:
+            if key.startswith("ved_page:"):
+                # Get the rows_inserted metric from step_progress
+                try:
+                    sql = """
+                        SELECT COALESCE(rows_inserted, 0) FROM ru_step_progress 
+                        WHERE run_id = %s AND progress_key = %s
+                    """
+                    with _repo.db.cursor() as cur:
+                        cur.execute(sql, (_run_id, key))
+                        row = cur.fetchone()
+                        if row:
+                            total_rows_from_metrics += row[0]
+                except Exception:
+                    pass
+        
+        # If we have metrics from step_progress, use that; otherwise fall back to current session count
+        if total_rows_from_metrics > 0:
+            records_scraped_display = total_rows_from_metrics
+            print(f"Records scraped from website (all sessions): {records_scraped_display}")
+            print(f"Records scraped this session: {total_scraped}")
+        else:
+            records_scraped_display = total_scraped
+            print(f"Records scraped from website: {records_scraped_display}")
+        
+        print(f"Records in database (ru_ved_products): {db_count}")
+        
+        if records_scraped_display == db_count:
+            print(f"[VALIDATION PASSED] Counts match: {records_scraped_display} = {db_count}")
+        else:
+            print(f"[VALIDATION WARNING] Count mismatch: Scraped={records_scraped_display}, DB={db_count}")
+            print(f"  Difference: {abs(records_scraped_display - db_count)}")
+        
+        # Check for failed pages
+        failed_pages = _repo.get_failed_pages("ved")
+        if failed_pages:
+            print(f"[WARNING] {len(failed_pages)} pages need retry (failed or missing EAN)")
+        
+        print("="*80)
         
     except Exception as e:
         print(f"\n[FATAL] Scraper failed: {e}", flush=True)

@@ -6,12 +6,14 @@ Tables:
 - ar_product_index       : Product + company pairs sourced from AlfaBeta (prep/queue)
 - ar_products            : Scraped product details (selenium/api)
 - ar_products_translated : English-normalised view after dictionary translation
-- ar_errors              : Per-product error log
+- ar_errors              : Per-product error log (all errors logged in DB)
 - ar_step_progress       : Sub-step resume tracking
 - ar_dictionary          : ES->EN dictionary entries (authoritative, replaces Dictionary.csv)
-- ar_pcid_reference      : PCID mapping reference (replaces PCID Mapping - Argentina.csv)
-- ar_pcid_mappings       : Final PCID mapped rows (export source)
 - ar_export_reports      : Generated export/report tracking
+- ar_artifacts           : Screenshots/artifacts (e.g. screenshot_before_api) - all logged in DB
+- ar_scrape_stats        : Progress snapshots (total/with_records/zero combos) at key events
+
+Note: PCID mapping reference is in shared 'pcid_mapping' table (use core.pcid_mapping module)
 """
 
 PRODUCT_INDEX_DDL = """
@@ -25,6 +27,7 @@ CREATE TABLE IF NOT EXISTS ar_product_index (
     total_records INTEGER DEFAULT 0,
     scraped_by_selenium BOOLEAN DEFAULT FALSE,
     scraped_by_api BOOLEAN DEFAULT FALSE,
+    scrape_source TEXT,  -- Tracks which step scraped: 'selenium_product', 'selenium_company', 'api', 'step7'
     status TEXT DEFAULT 'pending' CHECK (status IN ('pending','in_progress','completed','failed','skipped')),
     last_attempt_at TIMESTAMP,
     last_attempt_source TEXT,
@@ -49,7 +52,7 @@ CREATE TABLE IF NOT EXISTS ar_products (
     active_ingredient TEXT,
     therapeutic_class TEXT,
     description TEXT,
-    price_ars REAL,
+    price_ars NUMERIC(18,2),
     price_raw TEXT,
     date TEXT,
     scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -61,7 +64,7 @@ CREATE TABLE IF NOT EXISTS ar_products (
     ioma_os TEXT,
     import_status TEXT,
     coverage_json TEXT,
-    source TEXT CHECK(source IN ('selenium','api','manual')) DEFAULT 'selenium',
+    source TEXT CHECK(source IN ('selenium','selenium_product','selenium_company','api','step7','manual')) DEFAULT 'selenium',
     UNIQUE(run_id, record_hash)
 );
 CREATE INDEX IF NOT EXISTS idx_ar_products_run ON ar_products(run_id);
@@ -79,7 +82,7 @@ CREATE TABLE IF NOT EXISTS ar_products_translated (
     active_ingredient TEXT,
     therapeutic_class TEXT,
     description TEXT,
-    price_ars REAL,
+    price_ars NUMERIC(18,2),
     date TEXT,
     sifar_detail TEXT,
     pami_af TEXT,
@@ -138,46 +141,6 @@ CREATE TABLE IF NOT EXISTS ar_dictionary (
 CREATE INDEX IF NOT EXISTS idx_ar_dictionary_es ON ar_dictionary(es);
 """
 
-PCID_REFERENCE_DDL = """
-CREATE TABLE IF NOT EXISTS ar_pcid_reference (
-    id SERIAL PRIMARY KEY,
-    pcid TEXT,
-    company TEXT,
-    local_product_name TEXT,
-    generic_name TEXT,
-    local_pack_description TEXT,
-    UNIQUE(company, local_product_name, generic_name, local_pack_description)
-);
-"""
-
-IGNORE_LIST_DDL = """
-CREATE TABLE IF NOT EXISTS ar_ignore_list (
-    id SERIAL PRIMARY KEY,
-    company TEXT NOT NULL,
-    product TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(company, product)
-);
-CREATE INDEX IF NOT EXISTS idx_ar_ignore_company_product ON ar_ignore_list(company, product);
-"""
-
-PCID_MAPPINGS_DDL = """
-CREATE TABLE IF NOT EXISTS ar_pcid_mappings (
-    id SERIAL PRIMARY KEY,
-    run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
-    pcid TEXT,
-    company TEXT,
-    local_product_name TEXT,
-    generic_name TEXT,
-    local_pack_description TEXT,
-    price_ars REAL,
-    source TEXT DEFAULT 'PRICENTRIC',
-    mapped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(run_id, company, local_product_name, generic_name, local_pack_description)
-);
-CREATE INDEX IF NOT EXISTS idx_ar_pcid_mappings_run ON ar_pcid_mappings(run_id);
-CREATE INDEX IF NOT EXISTS idx_ar_pcid_mappings_pcid ON ar_pcid_mappings(pcid);
-"""
 
 EXPORT_REPORTS_DDL = """
 CREATE TABLE IF NOT EXISTS ar_export_reports (
@@ -191,6 +154,52 @@ CREATE TABLE IF NOT EXISTS ar_export_reports (
 CREATE INDEX IF NOT EXISTS idx_ar_export_reports_run ON ar_export_reports(run_id);
 """
 
+# Screenshots and artifacts (e.g. before moving to API) - all logged in DB
+ARTIFACTS_DDL = """
+CREATE TABLE IF NOT EXISTS ar_artifacts (
+    id SERIAL PRIMARY KEY,
+    run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
+    input_company TEXT NOT NULL,
+    input_product_name TEXT NOT NULL,
+    artifact_type TEXT NOT NULL,
+    file_path TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_ar_artifacts_run ON ar_artifacts(run_id);
+CREATE INDEX IF NOT EXISTS idx_ar_artifacts_type ON ar_artifacts(artifact_type);
+"""
+
+
+SCRAPE_STATS_DDL = """
+CREATE TABLE IF NOT EXISTS ar_scrape_stats (
+    id SERIAL PRIMARY KEY,
+    run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
+    event_type TEXT NOT NULL,
+    total_combinations INTEGER DEFAULT 0,
+    with_records INTEGER DEFAULT 0,
+    zero_records INTEGER DEFAULT 0,
+    tor_ip TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_ar_scrape_stats_run ON ar_scrape_stats(run_id);
+"""
+
+# Translation Cache (replaces JSON file cache)
+AR_TRANSLATION_CACHE_DDL = """
+CREATE TABLE IF NOT EXISTS ar_translation_cache (
+    id SERIAL PRIMARY KEY,
+    source_text TEXT NOT NULL UNIQUE,
+    translated_text TEXT NOT NULL,
+    source_language TEXT DEFAULT 'es',
+    target_language TEXT DEFAULT 'en',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_ar_trans_cache_source ON ar_translation_cache(source_text);
+CREATE INDEX IF NOT EXISTS idx_ar_trans_cache_lookup ON ar_translation_cache(source_language, target_language, source_text);
+"""
+
+
 ARGENTINA_SCHEMA_DDL = [
     PRODUCT_INDEX_DDL,
     PRODUCTS_DDL,
@@ -198,10 +207,10 @@ ARGENTINA_SCHEMA_DDL = [
     ERRORS_DDL,
     STEP_PROGRESS_DDL,
     DICTIONARY_DDL,
-    PCID_REFERENCE_DDL,
-    IGNORE_LIST_DDL,
-    PCID_MAPPINGS_DDL,
     EXPORT_REPORTS_DDL,
+    ARTIFACTS_DDL,
+    SCRAPE_STATS_DDL,
+    AR_TRANSLATION_CACHE_DDL,
 ]
 
 
@@ -213,10 +222,70 @@ def apply_argentina_schema(db) -> None:
     for ddl in ARGENTINA_SCHEMA_DDL:
         db.executescript(ddl)
 
+    # Drop removed tables (ignore list & OOS URLs no longer used)
+    for old_table in ("ar_ignore_list", "ar_oos_urls"):
+        try:
+            db.execute(f"DROP TABLE IF EXISTS {old_table} CASCADE")
+        except Exception:
+            pass
+
     # Lightweight migrations (must use execute(), not executescript()) because executescript
     # naively splits on semicolons and cannot safely run procedural blocks.
     try:
         db.execute("ALTER TABLE ar_products ADD COLUMN IF NOT EXISTS record_hash TEXT")
+    except Exception:
+        pass
+
+    # Add scrape_source column to ar_product_index (tracks which step scraped the product)
+    try:
+        db.execute("ALTER TABLE ar_product_index ADD COLUMN IF NOT EXISTS scrape_source TEXT")
+    except Exception:
+        pass
+
+    # Update ar_products source constraint to allow more granular sources
+    try:
+        db.execute(
+            """
+            DO $$
+            BEGIN
+              -- Drop the old constraint if it exists
+              ALTER TABLE ar_products DROP CONSTRAINT IF EXISTS ar_products_source_check;
+              -- Add the new constraint with expanded values
+              ALTER TABLE ar_products ADD CONSTRAINT ar_products_source_check
+                CHECK(source IN ('selenium','selenium_product','selenium_company','api','step7','manual'));
+            EXCEPTION WHEN others THEN
+              NULL;
+            END $$
+            """
+        )
+    except Exception:
+        pass
+
+    try:
+        db.execute(
+            """
+            ALTER TABLE ar_products
+            ALTER COLUMN price_ars TYPE NUMERIC(18,2)
+            USING CASE
+                    WHEN price_ars IS NULL THEN NULL
+                    ELSE ROUND(price_ars::numeric, 2)
+                 END
+            """
+        )
+    except Exception:
+        pass
+
+    try:
+        db.execute(
+            """
+            ALTER TABLE ar_products_translated
+            ALTER COLUMN price_ars TYPE NUMERIC(18,2)
+            USING CASE
+                    WHEN price_ars IS NULL THEN NULL
+                    ELSE ROUND(price_ars::numeric, 2)
+                 END
+            """
+        )
     except Exception:
         pass
 

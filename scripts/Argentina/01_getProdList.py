@@ -39,7 +39,6 @@ from config_loader import (
     get_input_dir, get_output_dir,
     ALFABETA_USER as USERNAME, ALFABETA_PASS as PASSWORD,
     HEADLESS, PRODUCTS_URL, HUB_URL,
-    PRODUCTLIST_FILE,
     WAIT_SHORT, WAIT_LONG, WAIT_ALERT, PAUSE_BETWEEN_OPERATIONS,
     PAGE_LOAD_TIMEOUT, IMPLICIT_WAIT, MAX_RETRIES_SUBMIT,
     PAUSE_SHORT, PAUSE_MEDIUM, PAUSE_AFTER_ALERT,
@@ -313,6 +312,7 @@ def check_tor_requirements():
     print("=" * 80 + "\n")
     
     return all_ok
+
 
 # ====== VPN CHECK (kept for backward compatibility, but not used) ======
 def get_vpn_info() -> dict:
@@ -675,7 +675,7 @@ def open_products_page(d):
         except TimeoutException:
             pass
 
-def navigate_to_products_page(d, max_nav_retries=3):
+def navigate_to_products_page(d, max_nav_retries=1):
     nav_timeout = PAGE_LOAD_TIMEOUT
     if TOR_PROXY_PORT:
         nav_timeout = max(nav_timeout, 120)
@@ -1062,7 +1062,7 @@ def extract_products_page(d) -> List[Tuple[str, str]]:
     except Exception:
         log.debug("Scrolling/waiting for render failed; continuing with extraction")
     
-    rows: List[Tuple[str, str]] = []
+    rows: List[Tuple[str, str, Optional[str]]] = []
     try:
         prods = d.find_elements(By.CSS_SELECTOR, "table.estandar td a.rprod")
         labs  = d.find_elements(By.CSS_SELECTOR, "table.estandar td a.rlab")
@@ -1071,7 +1071,10 @@ def extract_products_page(d) -> List[Tuple[str, str]]:
                 pname = clean(p.get_attribute("innerText"))
                 cname = clean(l.get_attribute("innerText"))
                 if pname or cname:
-                    rows.append((pname, cname))
+                    href = p.get_attribute("href")
+                    # Ensure relative URLs are made absolute if needed, or just store as is if absolute
+                    # Usually get_attribute("href") returns absolute URL
+                    rows.append((pname, cname, href))
             return rows
     except Exception:
         log.debug("Primary extraction method failed or found mismatched counts; falling back")
@@ -1082,21 +1085,26 @@ def extract_products_page(d) -> List[Tuple[str, str]]:
         for td in prod_nodes:
             anchors = td.find_elements(By.CSS_SELECTOR, "a.rprod, a.rlab")
             pending_prod: Optional[str] = None
+            pending_url: Optional[str] = None
             for a in anchors:
                 cls = a.get_attribute("class") or ""
                 text = clean(a.get_attribute("innerText"))
+                curr_href = a.get_attribute("href")
                 if not text:
                     continue
                 if "rprod" in cls:
                     if pending_prod:
-                        rows.append((pending_prod, ""))  # flush previous without lab
+                        rows.append((pending_prod, "", pending_url))  # flush previous without lab
                     pending_prod = text
+                    pending_url = curr_href
                 elif "rlab" in cls:
                     if pending_prod:
-                        rows.append((pending_prod, text))
+                        rows.append((pending_prod, text, pending_url))
                         pending_prod = None
+                        pending_url = None
             if pending_prod:
-                rows.append((pending_prod, ""))
+                rows.append((pending_prod, "", pending_url))
+
     except Exception:
         log.exception("Fallback extraction failed")
 
@@ -1127,6 +1135,9 @@ def main():
         print("[STARTUP] Tip: set REQUIRE_TOR_PROXY=true to enforce Tor usage")
         log.info("[STARTUP] Starting scraper without Tor (direct connection)")
     print("=" * 80 + "\n")
+    
+    # Ensure run_id is in run_ledger (in case step 0 was skipped or backup failed)
+    _REPO.ensure_run_in_ledger(mode="resume")
     
     # Force headless mode for product list extraction
     d = setup_driver(headless=True)
@@ -1171,18 +1182,21 @@ def main():
         log.info("Submitting blank search to load all products...")
         submit_blank_products(d)
 
-        acc: Set[Tuple[str, str]] = set()
+        acc: Set[Tuple[str, str, Optional[str]]] = set()
         page = 1
         # Estimate total pages (will update as we go)
         estimated_total = 100  # Initial estimate, will adjust
-        
+        consecutive_errors = 0
+        max_consecutive_errors = 3  # Exit after 3 consecutive extraction failures
+
         while True:
             try:
                 pairs = extract_products_page(d)
+                consecutive_errors = 0  # Reset on success
                 for row in pairs:
                     acc.add(row)
                 log.info(f"Page {page}: +{len(pairs)}  (unique total: {len(acc)})")
-                
+
                 # Output progress (estimate total pages, update as we discover more)
                 if page % 10 == 0 or len(pairs) == 0:  # Update every 10 pages or when no more products
                     # Estimate: if we're still getting products, there might be more
@@ -1191,8 +1205,12 @@ def main():
                     percent = round((page / estimated_total) * 100, 1) if estimated_total > 0 else 0
                     print(f"[PROGRESS] Extracting products: Page {page} (unique: {len(acc)})", flush=True)
             except Exception:
-                log.exception("Error extracting page; saving artifact and continuing")
+                consecutive_errors += 1
+                log.exception(f"Error extracting page (attempt {consecutive_errors}/{max_consecutive_errors}); saving artifact")
                 safe_screenshot_and_source(d, name_prefix=f"extract_page_{page}")
+                if consecutive_errors >= max_consecutive_errors:
+                    log.error(f"Too many consecutive extraction errors ({consecutive_errors}), aborting pagination")
+                    break
 
             # attempt to go next
             try:
@@ -1210,16 +1228,17 @@ def main():
             page += 1
 
         # after loop end
+
         rows = [
             {
                 "product": prod,
                 "company": comp,
-                "url": None,
+                "url": url,
                 "loop_count": 0,
                 "total_records": 0,
                 "status": "pending",
             }
-            for prod, comp in sorted(acc, key=lambda x: (x[0].lower(), x[1].lower()))
+            for prod, comp, url in sorted(acc, key=lambda x: (x[0].lower(), x[1].lower()))
         ]
         inserted = _REPO.upsert_product_index(rows)
         db_count = _REPO.get_product_index_count()
@@ -1252,6 +1271,24 @@ def main():
         except Exception:
             pass
         log.info("Done.")
+        
+        # Write metrics for pipeline runner
+        try:
+            metrics_file = os.environ.get("PIPELINE_METRICS_FILE")
+            if metrics_file:
+                import json
+                metrics = {
+                    "rows_processed": extracted_count if 'extracted_count' in locals() else 0,
+                    "rows_inserted": inserted if 'inserted' in locals() else 0,
+                    "rows_read": 0  # This step doesn't read from DB
+                }
+                with open(metrics_file, "w", encoding="utf-8") as f:
+                    json.dump(metrics, f)
+                log.info(f"[METRICS] Wrote metrics to {metrics_file}: {metrics}")
+        except Exception as e:
+            log.warning(f"[METRICS] Failed to write metrics: {e}")
+
+    return 0
 
 if __name__ == "__main__":
     import sys

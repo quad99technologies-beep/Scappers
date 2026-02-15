@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database for scrapers
+  postgres:
+    image: postgres:14-alpine
+    container_name: scraper-db
+    environment:
+      POSTGRES_USER: scraper
+      POSTGRES_PASSWORD: changeme123
+      POSTGRES_DB: scraper_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U scraper"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis for job queue (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: scraper-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Scraper worker
+  scraper:
+    build: .
+    container_name: scraper-worker
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      # Database connection
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: scraper
+      DB_PASSWORD: changeme123
+      DB_NAME: scraper_db
+      
+      # Redis connection
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      
+      # Scraper configuration
+      HEADLESS: "true"
+      AUTO_START_TOR_PROXY: "false"
+      REQUIRE_TOR_PROXY: "false"
+      
+      # Python
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      - ./exports:/app/exports
+      - ./logs:/app/logs
+      - ./output:/app/output
+    command: python test_refactored_scrapers.py
+    
+  # Optional: API server for remote control
+  api:
+    build: .
+    container_name: scraper-api
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "8099:8099"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: scraper
+      DB_PASSWORD: changeme123
+      DB_NAME: scraper_db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    command: python -m uvicorn api_server:app --host 0.0.0.0 --port 8099
+
+volumes:
+  postgres_data:

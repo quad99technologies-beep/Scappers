@@ -16,6 +16,10 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+_malaysia_dir = Path(__file__).resolve().parents[2]
+if str(_malaysia_dir) not in sys.path:
+    sys.path.insert(0, str(_malaysia_dir))
+
 _script_dir = Path(__file__).resolve().parents[1]
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
@@ -51,35 +55,26 @@ def main() -> None:
     db = CountryDB("Malaysia")
     run_id = _get_run_id()
     repo = MalaysiaRepository(db, run_id)
+    repo.ensure_run_in_ledger(mode="resume")  # ensure run exists before my_export_reports insert
 
     from config_loader import require_env, getenv_float, getenv_list
 
     # ── 1. Load PCID reference ──────────────────────────────────────────
-    print("[STEP 5] Loading PCID reference CSV...", flush=True)
-    pcid_filename = require_env("SCRIPT_05_PCID_MAPPING")
-    pcid_path = (input_dir / pcid_filename).resolve()
+    # DB-FIRST ARCHITECTURE: Check if PCID reference data exists in DB
+    print("[STEP 5] Checking PCID reference data...", flush=True)
 
-    if not pcid_path.exists():
-        # Try alternative filenames
-        for alt in ["PCID Mapping - Malaysia.csv", "Malaysia_PCID.csv"]:
-            alt_path = input_dir / alt
-            if alt_path.exists():
-                pcid_path = alt_path
-                print(f"  -> Using alternative: {alt_path.name}", flush=True)
-                break
-        else:
-            raise FileNotFoundError(f"PCID mapping file not found: {pcid_path}")
+    with db.cursor() as cur:
+        cur.execute("SELECT COUNT(*) FROM my_pcid_reference")
+        pcid_count = cur.fetchone()[0]
 
-    import csv as csv_mod
-    pcid_rows = []
-    with open(pcid_path, "r", encoding="utf-8-sig") as f:
-        reader = csv_mod.DictReader(f)
-        for row in reader:
-            pcid_rows.append(dict(row))
+    if pcid_count == 0:
+        print(f"  [WARNING] No PCID reference data found in my_pcid_reference table")
+        print(f"  [WARNING] Please run: python scripts/Malaysia/import_pcid_mapping.py")
+        print(f"  [WARNING] This will load PCID mapping from: input/Malaysia/PCID Mapping - Malaysia.csv")
+        raise RuntimeError("PCID reference data not loaded. Run import_pcid_mapping.py first.")
 
-    pcid_count = repo.load_pcid_reference(pcid_rows)
-    print(f"  -> Loaded {pcid_count:,} PCID reference rows", flush=True)
-    print(f"[PROGRESS] Loading data: PCID mapping loaded (1/2)", flush=True)
+    print(f"  -> Found {pcid_count:,} PCID reference rows in database", flush=True)
+    print(f"[PROGRESS] Loading data: PCID mapping ready (1/2)", flush=True)
 
     # ── 2. Generate PCID mappings via SQL JOIN ──────────────────────────
     print("[STEP 5] Generating PCID mappings...", flush=True)

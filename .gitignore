@@ -93,3 +93,12 @@ desktop.ini
 *.tmp
 *.temp
 *.bak
+
+# Large Output Files
+output/
+exports/
+*.csv
+*.xlsx
+*.zip
+*.gz
+*.bak

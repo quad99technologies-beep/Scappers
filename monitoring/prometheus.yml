@@ -1,0 +1,30 @@
+# Prometheus configuration for scraper platform
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'scraper-platform'
+    environment: 'production'
+
+scrape_configs:
+  # Scraper metrics
+  - job_name: 'scraper-metrics'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service: 'scraper-platform'
+    
+  # PostgreSQL metrics (if postgres_exporter is installed)
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['localhost:9187']
+        labels:
+          service: 'postgresql'
+    
+  # Redis metrics (if redis_exporter is installed)
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['localhost:9121']
+        labels:
+          service: 'redis'

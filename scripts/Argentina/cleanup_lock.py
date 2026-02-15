@@ -23,8 +23,8 @@ except ImportError:
     CLEANUP_RETRY_DELAY_BASE = 0.3
 
 try:
-    from platform_config import get_path_manager
-    pm = get_path_manager()
+    from core.config.config_manager import ConfigManager
+    # Migrated: get_path_manager() -> ConfigManager
     lock_file = pm.get_lock_file("Argentina")
     
     # Try to delete lock file with retries

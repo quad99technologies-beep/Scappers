@@ -25,9 +25,9 @@ _script_dir = Path(__file__).parent
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
 
-from core.pipeline_checkpoint import get_checkpoint_manager
+from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
 from config_loader import load_env_file, getenv, get_output_dir, get_central_output_dir
-from core.chrome_pid_tracker import terminate_scraper_pids
+from core.browser.chrome_pid_tracker import terminate_scraper_pids
 
 SCRAPER_NAME = "Taiwan"
 

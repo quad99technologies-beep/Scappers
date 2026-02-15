@@ -63,7 +63,19 @@ from core.db.models import generate_run_id
 import os
 
 def strip_accents(s: str) -> str:
-    return "".join(ch for ch in unicodedata.normalize("NFKD", s or "") if not unicodedata.combining(ch))
+    """Remove accents and normalize special characters for URL construction."""
+    if not s:
+        return ""
+    # Pre-process special characters before NFKD normalization
+    # German sharp S (ß) -> ss
+    s = s.replace("ß", "ss").replace("ẞ", "SS")
+    # Handle other common special characters
+    s = s.replace("æ", "ae").replace("Æ", "AE")
+    s = s.replace("œ", "oe").replace("Œ", "OE")
+    s = s.replace("ø", "o").replace("Ø", "O")
+    s = s.replace("ð", "d").replace("Ð", "D")
+    s = s.replace("þ", "th").replace("Þ", "TH")
+    return "".join(ch for ch in unicodedata.normalize("NFKD", s) if not unicodedata.combining(ch))
 
 def sanitize_product_name_for_url(product_name: str) -> str:
     if not product_name:
@@ -71,15 +83,18 @@ def sanitize_product_name_for_url(product_name: str) -> str:
 
     sanitized = strip_accents(product_name)
 
-    sanitized = re.sub(r"\s+\+\s+", "  ", sanitized)
-    sanitized = re.sub(r"\+", "", sanitized)
+    # Handle "+" sign: " + " (with spaces) becomes separator, standalone "+" preserved as "-"
+    # e.g., "NEWGEL+ LOLYPOP" -> "newgel-lolypop"
+    # e.g., "CIRUELAS+FIBRAS+VITAMINA C" -> "ciruelas-fibras-vitamina-c"
+    sanitized = re.sub(r"\s*\+\s*", " ", sanitized)  # Replace + with space (will become -)
 
+    # Remove other special characters but preserve alphanumeric, spaces, and hyphens
     sanitized = re.sub(r"[^a-zA-Z0-9\s-]", "", sanitized)
 
-    sanitized = re.sub(r"  ", " __DOUBLE__ ", sanitized)
-    sanitized = re.sub(r"\s+", "-", sanitized)
-    sanitized = re.sub(r"__DOUBLE__", "-", sanitized)
+    # Collapse multiple spaces to single space, then convert to hyphens
+    sanitized = re.sub(r"\s+", "-", sanitized.strip())
 
+    # Collapse multiple hyphens to double hyphen (for "word + word" -> "word--word" distinction)
     sanitized = re.sub(r"-{3,}", "--", sanitized)
 
     sanitized = sanitized.lower()
@@ -109,13 +124,21 @@ def main():
     for idx, row in enumerate(products_db, 1):
         prod = row["product"]
         comp = row["company"]
-        url = construct_product_url(prod)
+        existing_url = row.get("url")
+        
+        # If we have a valid URL from scraping, preserve it
+        if existing_url and existing_url.startswith("http"):
+            url = existing_url
+        else:
+            url = construct_product_url(prod)
+            
         url_updates.append({"product": prod, "company": comp, "url": url})
         if idx % 100 == 0 or idx == total:
             pct = round((idx / total) * 100, 1) if total else 0
             print(f"[PROGRESS] Preparing URLs: {idx}/{total} ({pct}%)", flush=True)
 
     updated = _REPO.set_urls(url_updates)
+
     total = _REPO.get_product_index_count()
     url_count = _REPO.get_urls_prepared_count()
     log.info(f"[DB] Updated URLs for {updated} rows in ar_product_index (run_id={_RUN_ID})")
@@ -130,6 +153,22 @@ def main():
         raise RuntimeError(
             f"URL count mismatch: product_index={total} url_prepared={url_count} (run_id={_RUN_ID})"
         )
+
+    # Write metrics for pipeline runner
+    try:
+        metrics_file = os.environ.get("PIPELINE_METRICS_FILE")
+        if metrics_file:
+            import json
+            metrics = {
+                "rows_processed": url_count,
+                "rows_updated": updated,
+                "rows_read": total
+            }
+            with open(metrics_file, "w", encoding="utf-8") as f:
+                json.dump(metrics, f)
+            print(f"[METRICS] Wrote metrics to {metrics_file}: {metrics}", flush=True)
+    except Exception as e:
+        log.warning(f"[METRICS] Failed to write metrics: {e}")
 
 if __name__ == "__main__":
     main()

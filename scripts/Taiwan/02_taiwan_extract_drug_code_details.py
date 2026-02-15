@@ -37,7 +37,7 @@ except ImportError:
         return Path(__file__).parent
 
 try:
-    from core.chrome_pid_tracker import (
+    from core.browser.chrome_pid_tracker import (
         get_chrome_pids_from_driver,
         save_chrome_pids,
         terminate_scraper_pids,

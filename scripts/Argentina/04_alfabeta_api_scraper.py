@@ -3,10 +3,11 @@
 """
 Argentina - API Scraper (Backup, DB-only)
 Processes products selected from ar_product_index where:
-  total_records == 0 and loop_count >= SELENIUM_MAX_RUNS
+  total_records == 0 and loop_count >= SELENIUM_MAX_LOOPS
 """
 
 import csv
+import os
 import re
 import json
 import time
@@ -20,9 +21,13 @@ from typing import Optional, Tuple, List, Dict, Any
 
 try:
     import requests
+    from requests.adapters import HTTPAdapter
+    from urllib3.util.retry import Retry as _Urllib3Retry
     REQUESTS_AVAILABLE = True
 except ImportError:
     requests = None
+    HTTPAdapter = None
+    _Urllib3Retry = None
     REQUESTS_AVAILABLE = False
 
 try:
@@ -31,6 +36,26 @@ try:
 except ImportError:
     BeautifulSoup = None
     BEAUTIFULSOUP_AVAILABLE = False
+
+# ---------------------------------------------------------------------------
+# Shared requests.Session with connection pooling (reuses TCP connections
+# across threads instead of opening a new socket per API call).
+# ---------------------------------------------------------------------------
+_api_session: "requests.Session | None" = None
+
+def _get_api_session() -> "requests.Session":
+    """Lazy-init a shared requests.Session with connection-pool and retry."""
+    global _api_session
+    if _api_session is None:
+        s = requests.Session()
+        retry = _Urllib3Retry(total=2, backoff_factor=0.3,
+                              status_forcelist=[429, 502, 503, 504])
+        adapter = HTTPAdapter(pool_connections=10, pool_maxsize=20,
+                              max_retries=retry)
+        s.mount("https://", adapter)
+        s.mount("http://", adapter)
+        _api_session = s
+    return _api_session
 
 # ====== CONFIG ======
 from config_loader import (
@@ -41,10 +66,8 @@ from config_loader import (
     REQUEST_PAUSE_BASE, REQUEST_PAUSE_JITTER_MIN, REQUEST_PAUSE_JITTER_MAX,
     API_REQUEST_TIMEOUT, QUEUE_GET_TIMEOUT, PAUSE_HTML_LOAD,
     API_THREADS,
-    IGNORE_LIST_FILE,
-    SELENIUM_MAX_RUNS,
-    OUTPUT_PRODUCTS_CSV, OUTPUT_ERRORS_CSV,
-    API_INPUT_CSV
+    SELENIUM_MAX_LOOPS,
+    OUTPUT_PRODUCTS_CSV, OUTPUT_ERRORS_CSV
 )
 
 from scraper_utils import (
@@ -61,7 +84,6 @@ from core.db.models import generate_run_id
 # ====== PATHS ======
 INPUT_DIR = get_input_dir()
 OUTPUT_DIR = get_output_dir()
-API_INPUT_FILE_PATH = OUTPUT_DIR / API_INPUT_CSV
 OUT_CSV = OUTPUT_DIR / OUTPUT_PRODUCTS_CSV
 ERRORS = OUTPUT_DIR / OUTPUT_ERRORS_CSV
 LOG_DIR = OUTPUT_DIR / "logs"
@@ -446,7 +468,8 @@ def scrape_single_product_api_with_url(product_url: str, product_name: str, comp
             "url": product_url,
             "dynamic": "true"
         }
-        response = requests.get(SCRAPINGDOG_URL, params=params, timeout=API_REQUEST_TIMEOUT)
+        session = _get_api_session()
+        response = session.get(SCRAPINGDOG_URL, params=params, timeout=API_REQUEST_TIMEOUT)
         
         if response.status_code == 200:
             html_content = response.text
@@ -474,8 +497,16 @@ def api_worker(api_queue: Queue, args, skip_set: set):
     global _api_products_completed, _api_total_products
     thread_id = threading.get_ident()
     log.info(f"[API_WORKER] Thread {thread_id} started")
-    
+
+    max_iterations = 100000  # Safety limit to prevent infinite loops
+    iterations = 0
+
     while True:
+        iterations += 1
+        if iterations > max_iterations:
+            log.error(f"[API_WORKER] Hit max iterations ({max_iterations}), exiting")
+            break
+
         try:
             item = api_queue.get(timeout=QUEUE_GET_TIMEOUT)
             # Format: (product, company, url)
@@ -584,15 +615,10 @@ def main():
     skip_set = combine_skip_sets()
     log.info(f"[SKIP_SET] Loaded skip_set size = {len(skip_set)}")
     
-    # Show skip set file information
-    from config_loader import IGNORE_LIST_FILE
-    ignore_file = INPUT_DIR / IGNORE_LIST_FILE
-    
     log.info(f"[SKIP_SET] Files used for skip set:")
     log.info(f"[SKIP_SET]   - Products file: {OUT_CSV.name} (exists: {OUT_CSV.exists()})")
-    log.info(f"[SKIP_SET]   - Ignore list: {ignore_file.name} (exists: {ignore_file.exists()})")
     
-    # Load API targets from DB (total_records=0 and loop_count >= SELENIUM_MAX_RUNS)
+    # Load API targets from DB (total_records=0 and loop_count >= SELENIUM_MAX_LOOPS)
     api_targets: List[Tuple[str, str, str]] = []  # (product, company, url)
     seen_pairs = set()
     skipped_count = 0
@@ -607,7 +633,7 @@ def main():
                    AND COALESCE(total_records,0) = 0
                    AND COALESCE(loop_count,0) >= %s
                 """,
-                (_RUN_ID, int(SELENIUM_MAX_RUNS)),
+                (_RUN_ID, int(SELENIUM_MAX_LOOPS)),
             )
             rows = cur.fetchall()
     except Exception as e:
@@ -637,7 +663,7 @@ def main():
             api_targets.append((prod, comp, url))
     unique_combinations = len(api_targets)
     log.info(f"[FILTER] Found {len(api_targets) + skipped_count} products in API input file")
-    log.info(f"[FILTER] - Skipped (in ignore_list/products or duplicates): {skipped_count}")
+    log.info(f"[FILTER] - Skipped (already scraped or duplicates): {skipped_count}")
     log.info(f"[FILTER] - Unique combinations to process: {unique_combinations}")
     
     # Apply max-rows limit if specified
@@ -657,20 +683,8 @@ def main():
     print(f"  - Products file: {OUT_CSV.name} (exists: {OUT_CSV.exists()})")
     print(f"  - Ignore list: {ignore_file.name} (exists: {ignore_file.exists()})")
     print(f"{'='*80}")
-    print(f"Waiting 10 seconds before starting... (Press Ctrl+C to cancel)")
+    print(f"Starting API workers now...")
     print(f"{'='*80}\n")
-    
-    # Wait 10 seconds with countdown
-    try:
-        for remaining in range(10, 0, -1):
-            print(f"\r[API] Starting in {remaining} seconds...", end="", flush=True)
-            time.sleep(1)
-        print("\r[API] Starting API workers now...                    ")
-        log.info("[API] Auto-start after 10 second wait")
-    except KeyboardInterrupt:
-        print("\n[API] Cancelled by user, exiting...")
-        log.warning("[API] Cancelled by user, exiting...")
-        return
     
     # Create API queue
     api_queue = Queue()
@@ -714,9 +728,23 @@ def main():
     
     if not api_queue.empty():
         log.warning(f"[MAIN] Queue still has {api_queue.qsize()} items after {elapsed}s, waiting for threads to finish...")
-    
+
     # Wait for queue to be fully processed (all task_done calls)
-    api_queue.join()  # Blocks until all items in queue have been processed
+    # Use a timeout loop instead of blocking join() to prevent indefinite hang
+    join_timeout = 600  # Maximum 10 minutes for join
+    join_interval = 1  # Check every second
+    join_elapsed = 0
+
+    while api_queue.unfinished_tasks > 0 and join_elapsed < join_timeout:
+        time.sleep(join_interval)
+        join_elapsed += join_interval
+        if join_elapsed % 30 == 0:  # Log every 30 seconds
+            log.info(f"[MAIN] Waiting for task_done calls: {api_queue.unfinished_tasks} unfinished tasks")
+
+    if api_queue.unfinished_tasks > 0:
+        log.warning(f"[MAIN] Queue still has {api_queue.unfinished_tasks} unfinished tasks after {join_elapsed}s timeout")
+    else:
+        log.info("[MAIN] All queue items processed successfully")
     
     # Now wait for all threads to complete
     log.info("[MAIN] Waiting for all API threads to finish...")

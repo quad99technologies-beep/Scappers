@@ -29,20 +29,19 @@ def get_repo_root() -> Path:
 def get_central_output_dir() -> Path:
     """Get central exports directory for final reports - uses Documents/ScraperPlatform/output/exports/Belarus/"""
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        exports_dir = pm.get_exports_dir(SCRAPER_ID)  # Scraper-specific exports
+        # Migrated: get_path_manager() -> ConfigManager
+        exports_dir = ConfigManager.get_exports_dir(SCRAPER_ID)  # Scraper-specific exports
         exports_dir.mkdir(parents=True, exist_ok=True)
         return exports_dir
     else:
-        # Fallback: use repo root output
+        # Fallback: use repo root exports/Belarus
         repo_root = get_repo_root()
-        central_output = repo_root / "output"
+        central_output = repo_root / "exports" / SCRAPER_ID
         central_output.mkdir(parents=True, exist_ok=True)
         return central_output
 
-# Try to import platform_config (preferred)
 try:
-    from platform_config import PathManager, ConfigResolver, get_path_manager, get_config_resolver
+    from core.config.config_manager import ConfigManager
     _PLATFORM_CONFIG_AVAILABLE = True
 except ImportError:
     _PLATFORM_CONFIG_AVAILABLE = False
@@ -65,7 +64,7 @@ def load_env_file():
         if str(repo_root) not in sys.path:
             sys.path.insert(0, str(repo_root))
         
-        from core.config_manager import ConfigManager
+        from core.config.config_manager import ConfigManager
         ConfigManager.ensure_dirs()
         ConfigManager.load_env(SCRAPER_ID)
     except (ImportError, FileNotFoundError, ValueError) as e:
@@ -105,8 +104,12 @@ def getenv(key: str, default: str = None) -> str:
         Environment variable value or default
     """
     if _PLATFORM_CONFIG_AVAILABLE:
-        cr = get_config_resolver()
-        return cr.get(SCRAPER_ID, key, default if default is not None else "")
+        try:
+            value = ConfigManager.get_config_value(SCRAPER_ID, key, default if default is not None else "")
+            return value if value is not None else (default if default is not None else "")
+        except Exception:
+            # Fallback to os.getenv if ConfigManager fails
+            return os.getenv(key, default)
     return os.getenv(key, default)
 
 
@@ -199,8 +202,8 @@ def get_base_dir() -> Path:
     Legacy mode: Returns parent of scripts folder
     """
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        return pm.get_platform_root()
+        # Migrated: get_path_manager() -> ConfigManager
+        return ConfigManager.get_app_root()
     else:
         # Legacy: relative to script location
         return Path(__file__).resolve().parents[1]
@@ -214,8 +217,8 @@ def get_input_dir(subpath: str = None) -> Path:
         subpath: Optional subdirectory under input/
     """
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        base = pm.get_input_dir(SCRAPER_ID)  # Scraper-specific input
+        # Migrated: get_path_manager() -> ConfigManager
+        base = ConfigManager.get_input_dir(SCRAPER_ID)  # Scraper-specific input
         base.mkdir(parents=True, exist_ok=True)
     else:
         base = get_base_dir() / "input"
@@ -241,13 +244,13 @@ def get_output_dir(subpath: str = None) -> Path:
     else:
         # Use scraper-specific platform output directory
         if _PLATFORM_CONFIG_AVAILABLE:
-            pm = get_path_manager()
-            base = pm.get_output_dir(SCRAPER_ID)  # Scraper-specific output
+            # Migrated: get_path_manager() -> ConfigManager
+            base = ConfigManager.get_output_dir(SCRAPER_ID)  # Scraper-specific output
             base.mkdir(parents=True, exist_ok=True)
         else:
-            # Fallback: use repo root output (legacy)
+            # Fallback: use repo root output/Belarus (scraper-specific)
             repo_root = get_repo_root()
-            base = repo_root / "output"
+            base = repo_root / "output" / SCRAPER_ID
             base.mkdir(parents=True, exist_ok=True)
 
     if subpath:
@@ -260,8 +263,8 @@ def get_output_dir(subpath: str = None) -> Path:
 def get_backup_dir() -> Path:
     """Get backup directory - scraper-specific: backups/Belarus/"""
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        return pm.get_backups_dir(SCRAPER_ID)  # Pass scraper ID for scraper-specific backup folder
+        # Migrated: get_path_manager() -> ConfigManager
+        return ConfigManager.get_backups_dir(SCRAPER_ID)  # Pass scraper ID for scraper-specific backup folder
     else:
         # Fallback: use repo root backups folder
         repo_root = get_repo_root()

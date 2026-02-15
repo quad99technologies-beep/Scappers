@@ -182,6 +182,20 @@ def run_ledger_resume(run_id: str) -> Tuple[str, tuple]:
     return sql, (run_id,)
 
 
+def run_ledger_ensure_exists(run_id: str, scraper_name: str, mode: str = "resume") -> Tuple[str, tuple]:
+    """Return (sql, params) to insert run_ledger row if missing, or update status if present.
+    Use when resuming or when a step (e.g. Generate Output) runs with a run_id that may
+    not have been inserted (e.g. step 0 was skipped or run_ledger was truncated)."""
+    sql = """
+        INSERT INTO run_ledger (run_id, scraper_name, started_at, status, mode)
+        VALUES (%s, %s, CURRENT_TIMESTAMP, 'running', %s)
+        ON CONFLICT (run_id) DO UPDATE SET
+            status = 'running',
+            mode = EXCLUDED.mode
+    """
+    return sql, (run_id, scraper_name, mode)
+
+
 def run_ledger_mark_resumable(run_id: str) -> Tuple[str, tuple]:
     """Return (sql, params) for marking a run as resumable (can be resumed later)."""
     sql = """

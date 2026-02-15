@@ -148,8 +148,22 @@ def check_texts(url: str, texts: Iterable[str]) -> Tuple[bool, str]:
     return True, f"Found text: {found[0]} (HTTP {status_code})"
 
 
+def check_db_connection() -> Tuple[bool, str]:
+    """Verify PostgreSQL connection and run_ledger table for Malaysia."""
+    try:
+        from core.db.connection import CountryDB
+        with CountryDB("Malaysia") as db:
+            with db.cursor() as cur:
+                cur.execute("SELECT 1 FROM run_ledger WHERE scraper_name = %s LIMIT 1", ("Malaysia",))
+                cur.fetchone()
+        return True, "PostgreSQL connected, run_ledger accessible"
+    except Exception as exc:
+        return False, f"DB: {exc}"
+
+
 def run_health_checks() -> List[CheckResult]:
     checks: List[Tuple[str, str, Callable[[], Tuple[bool, str]]]] = [
+        ("Config", "PostgreSQL (run_ledger)", check_db_connection),
         ("Config", "MyPriMe URL reachable", lambda: check_url_reachable(MYPRIME_URL)),
         ("Config", "Quest3+ search URL reachable", lambda: check_url_reachable(QUEST_URL)),
         (

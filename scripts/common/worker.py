@@ -200,31 +200,49 @@ class Worker:
         self._current_run_id = run_id
         self._start_heartbeat()
         
+        max_retries = 3
+        retry_delay = 60  # seconds
+        attempt = 0
+        
         try:
-            # Get the pipeline runner
-            runner = _pipeline_runners.get(country)
-            if not runner:
-                raise ValueError(f"No pipeline runner registered for {country}")
-            
-            # Run the pipeline
-            log.info(f"Starting pipeline for {country} from step {current_step}")
-            runner(run_id, current_step, self.check_stop_requested)
-            
-            # Check if stopped or completed
-            if self.check_stop_requested():
-                log.info(f"Pipeline stopped: run_id={run_id}")
-                update_run_status(run_id, "stopped")
-            else:
-                log.info(f"Pipeline completed: run_id={run_id}")
-                update_run_status(run_id, "completed")
-                
-        except Exception as e:
-            error_msg = f"{type(e).__name__}: {str(e)}"
-            stack = traceback.format_exc()
-            log.error(f"Pipeline failed: run_id={run_id}, error={error_msg}")
-            log.debug(stack)
-            update_run_status(run_id, "failed", error_message=error_msg)
-            
+            while attempt < max_retries:
+                try:
+                    # Get the pipeline runner
+                    runner = _pipeline_runners.get(country)
+                    if not runner:
+                        raise ValueError(f"No pipeline runner registered for {country}")
+                    
+                    # Run the pipeline
+                    log.info(f"Starting pipeline for {country} from step {current_step} (attempt {attempt + 1}/{max_retries})")
+                    runner(run_id, current_step, self.check_stop_requested)
+                    
+                    # Check if stopped or completed
+                    if self.check_stop_requested():
+                        log.info(f"Pipeline stopped: run_id={run_id}")
+                        update_run_status(run_id, "stopped")
+                    else:
+                        log.info(f"Pipeline completed: run_id={run_id}")
+                        update_run_status(run_id, "completed")
+                    
+                    # Success - break retry loop
+                    break
+                    
+                except Exception as e:
+                    attempt += 1
+                    error_msg = f"{type(e).__name__}: {str(e)}"
+                    stack = traceback.format_exc()
+                    log.error(f"Pipeline failed: run_id={run_id}, error={error_msg} (attempt {attempt}/{max_retries})")
+                    log.debug(stack)
+                    
+                    if attempt < max_retries:
+                        # Retry with exponential backoff
+                        wait_time = retry_delay * (2 ** (attempt - 1))
+                        log.info(f"Retrying in {wait_time} seconds...")
+                        time.sleep(wait_time)
+                    else:
+                        # Max retries reached - mark as failed
+                        update_run_status(run_id, "failed", error_message=error_msg)
+                        log.error(f"Pipeline failed after {max_retries} attempts: {error_msg}")
         finally:
             self._stop_heartbeat()
             self._current_run_id = None

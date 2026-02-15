@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS in_sku_mrp (
     payload_json TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+CREATE UNIQUE INDEX IF NOT EXISTS idx_in_skumrp_unique ON in_sku_mrp(hidden_id, run_id);
 CREATE INDEX IF NOT EXISTS idx_in_skumrp_hid ON in_sku_mrp(hidden_id);
 
 -- Other brand alternatives (from otherBrandPriceNew API)
@@ -46,6 +47,7 @@ CREATE TABLE IF NOT EXISTS in_brand_alternatives (
     id SERIAL PRIMARY KEY,
     run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
     hidden_id TEXT NOT NULL,
+    formulation TEXT,  -- Denormalized for fast queries without JOIN
     brand_name TEXT,
     company TEXT,
     pack_size TEXT,
@@ -54,8 +56,11 @@ CREATE TABLE IF NOT EXISTS in_brand_alternatives (
     year_month TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+-- Unique constraint to prevent duplicate brand alternatives per SKU per run
+CREATE UNIQUE INDEX IF NOT EXISTS idx_in_brand_unique ON in_brand_alternatives(hidden_id, brand_name, pack_size, run_id);
 CREATE INDEX IF NOT EXISTS idx_in_brand_hid ON in_brand_alternatives(hidden_id);
 CREATE INDEX IF NOT EXISTS idx_in_brand_run ON in_brand_alternatives(run_id);
+CREATE INDEX IF NOT EXISTS idx_in_brand_form ON in_brand_alternatives(formulation);
 
 -- Medicine details (from medDtlsNew API)
 CREATE TABLE IF NOT EXISTS in_med_details (
@@ -65,6 +70,7 @@ CREATE TABLE IF NOT EXISTS in_med_details (
     payload_json TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+CREATE UNIQUE INDEX IF NOT EXISTS idx_in_med_unique ON in_med_details(hidden_id, run_id);
 CREATE INDEX IF NOT EXISTS idx_in_med_hid ON in_med_details(hidden_id);
 
 -- Formulation processing status (work queue for parallel workers)
@@ -105,10 +111,19 @@ CREATE TABLE IF NOT EXISTS in_progress_snapshots (
 );
 CREATE INDEX IF NOT EXISTS idx_in_snap_run ON in_progress_snapshots(run_id);
 
--- Input formulations (India-specific input)
-CREATE TABLE IF NOT EXISTS in_input_formulations (
+-- in_input_formulations is now defined in inputs.sql (shared input tables)
+
+-- Error tracking
+CREATE TABLE IF NOT EXISTS in_errors (
     id SERIAL PRIMARY KEY,
-    generic_name TEXT NOT NULL,
-    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
+    error_type TEXT,
+    error_message TEXT NOT NULL,
+    context JSONB,
+    step_number INTEGER,
+    step_name TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-CREATE INDEX IF NOT EXISTS idx_in_form_name ON in_input_formulations(generic_name);
+CREATE INDEX IF NOT EXISTS idx_in_errors_run ON in_errors(run_id);
+CREATE INDEX IF NOT EXISTS idx_in_errors_step ON in_errors(step_number);
+CREATE INDEX IF NOT EXISTS idx_in_errors_type ON in_errors(error_type);

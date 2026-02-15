@@ -29,8 +29,8 @@ def get_repo_root() -> Path:
 def get_central_output_dir() -> Path:
     """Get central exports directory for final reports - uses Documents/ScraperPlatform/output/exports/Argentina/"""
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        exports_dir = pm.get_exports_dir(SCRAPER_ID)  # Scraper-specific exports
+        # Migrated: get_path_manager() -> ConfigManager
+        exports_dir = ConfigManager.get_exports_dir(SCRAPER_ID)  # Scraper-specific exports
         exports_dir.mkdir(parents=True, exist_ok=True)
         return exports_dir
     else:
@@ -40,9 +40,8 @@ def get_central_output_dir() -> Path:
         central_output.mkdir(parents=True, exist_ok=True)
         return central_output
 
-# Try to import platform_config (preferred)
 try:
-    from platform_config import PathManager, ConfigResolver, get_path_manager, get_config_resolver
+    from core.config.config_manager import ConfigManager
     _PLATFORM_CONFIG_AVAILABLE = True
 except ImportError:
     _PLATFORM_CONFIG_AVAILABLE = False
@@ -62,7 +61,7 @@ def load_env_file():
         repo_root = get_repo_root()
         if str(repo_root) not in sys.path:
             sys.path.insert(0, str(repo_root))
-        from core.config_manager import ConfigManager
+        from core.config.config_manager import ConfigManager
 
         ConfigManager.ensure_dirs()
         ConfigManager.load_env(SCRAPER_ID)
@@ -100,17 +99,14 @@ def getenv(key: str, default: str = None) -> str:
         return env_val
     
     if _PLATFORM_CONFIG_AVAILABLE:
-        cr = get_config_resolver()
-        # First check config section
-        val = cr.get(SCRAPER_ID, key, None)
-        if val is not None:
-            # Convert to string in case JSON config returns boolean/int/float
-            return str(val)
-        
-        # Then check secrets section
-        secret_val = cr.get_secret_value(SCRAPER_ID, key, "")
-        if secret_val:
-            return secret_val
+        try:
+            # Check config section (ConfigManager handles both config and secrets)
+            val = ConfigManager.get_config_value(SCRAPER_ID, key, None)
+            if val is not None:
+                # Convert to string in case JSON config returns boolean/int/float
+                return str(val)
+        except Exception:
+            pass
     
     # Return default if nothing found
     return default if default is not None else ""
@@ -147,26 +143,19 @@ def getenv_bool(key: str, default: bool = False) -> bool:
         return default
 
     if _PLATFORM_CONFIG_AVAILABLE:
-        cr = get_config_resolver()
-        val = cr.get(SCRAPER_ID, key, None)
-        if val is not None:
-            if isinstance(val, bool):
-                return val
-            val_str = str(val).strip().lower()
-            if val_str in ("1", "true", "yes", "on"):
-                return True
-            if val_str in ("0", "false", "no", "off", ""):
-                return False
-            return default
-
-        secret_val = cr.get_secret_value(SCRAPER_ID, key, "")
-        if secret_val:
-            val_str = str(secret_val).strip().lower()
-            if val_str in ("1", "true", "yes", "on"):
-                return True
-            if val_str in ("0", "false", "no", "off", ""):
-                return False
-            return default
+        try:
+            val = ConfigManager.get_config_value(SCRAPER_ID, key, None)
+            if val is not None:
+                if isinstance(val, bool):
+                    return val
+                val_str = str(val).strip().lower()
+                if val_str in ("1", "true", "yes", "on"):
+                    return True
+                if val_str in ("0", "false", "no", "off", ""):
+                    return False
+                return default
+        except Exception:
+            pass
 
     return default
 
@@ -179,8 +168,8 @@ def get_base_dir() -> Path:
     Legacy mode: Returns parent of scripts folder
     """
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        return pm.get_platform_root()
+        # Migrated: get_path_manager() -> ConfigManager
+        return ConfigManager.get_app_root()
     else:
         # Legacy: relative to script location
         return Path(__file__).resolve().parents[1]
@@ -194,8 +183,8 @@ def get_input_dir(subpath: str = None) -> Path:
         subpath: Optional subdirectory under input/
     """
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        base = pm.get_input_dir(SCRAPER_ID)  # Scraper-specific input
+        # Migrated: get_path_manager() -> ConfigManager
+        base = ConfigManager.get_input_dir(SCRAPER_ID)  # Scraper-specific input
         base.mkdir(parents=True, exist_ok=True)
     else:
         base = get_base_dir() / "Input"  # Note: Argentina uses capital I
@@ -221,8 +210,8 @@ def get_output_dir(subpath: str = None) -> Path:
     else:
         # Use scraper-specific platform output directory
         if _PLATFORM_CONFIG_AVAILABLE:
-            pm = get_path_manager()
-            base = pm.get_output_dir(SCRAPER_ID)  # Scraper-specific output
+            # Migrated: get_path_manager() -> ConfigManager
+            base = ConfigManager.get_output_dir(SCRAPER_ID)  # Scraper-specific output
             base.mkdir(parents=True, exist_ok=True)
         else:
             # Fallback: use repo root output (legacy)
@@ -240,8 +229,8 @@ def get_output_dir(subpath: str = None) -> Path:
 def get_backup_dir() -> Path:
     """Get backup directory - uses Documents/ScraperPlatform/output/backups/Argentina/"""
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        backup_dir = pm.get_backups_dir(SCRAPER_ID)  # Scraper-specific backups
+        # Migrated: get_path_manager() -> ConfigManager
+        backup_dir = ConfigManager.get_backups_dir(SCRAPER_ID)  # Scraper-specific backups
         backup_dir.mkdir(parents=True, exist_ok=True)
         return backup_dir
     else:
@@ -251,7 +240,7 @@ def get_backup_dir() -> Path:
 def get_logs_dir() -> Path:
     """Get logs directory."""
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
+        # Migrated: get_path_manager() -> ConfigManager
         return pm.get_logs_dir()
     else:
         return get_base_dir() / "logs"
@@ -293,11 +282,27 @@ API_THREADS = getenv_int("API_THREADS", 5)  # Number of threads for API processi
 SELENIUM_THREADS = getenv_int("SELENIUM_THREADS", 4)  # Number of threads for Selenium processing
 SELENIUM_SINGLE_ATTEMPT = getenv_bool("SELENIUM_SINGLE_ATTEMPT", False)  # If true, no retries/requeue in Selenium
 
-# 3-Round Retry configuration
-SELENIUM_ROUNDS = getenv_int("SELENIUM_ROUNDS", 3)  # Number of Selenium retry rounds (1, 2, or 3)
-ROUND_PAUSE_SECONDS = getenv_int("ROUND_PAUSE_SECONDS", 60)  # Pause between rounds in seconds
-SELENIUM_MAX_RUNS = getenv_int("SELENIUM_MAX_RUNS", SELENIUM_ROUNDS)  # Max attempts per product (simple loop-count mode)
-API_INPUT_CSV = getenv("API_INPUT_CSV", "Productlist_for_api.csv")  # Generated after Selenium: rows with Total Records=0 and Loop Count>=SELENIUM_MAX_RUNS
+# ---------------------------------------------------------------------------
+# LOOP vs RETRY (see doc/Argentina/LOOP_VS_RETRY.md)
+# ---------------------------------------------------------------------------
+# LOOP = full pass over queue. After each loop only products with record count 0
+#        are checked again. SELENIUM_MAX_LOOPS = how many such full passes.
+# RETRY = within one attempt at a product, how many times to try (e.g. on timeout);
+#         see MAX_RETRIES_TIMEOUT below.
+# ---------------------------------------------------------------------------
+SELENIUM_MAX_LOOPS = getenv_int("SELENIUM_MAX_LOOPS", 0)  # 0 = use SELENIUM_ROUNDS / SELENIUM_MAX_RUNS
+SELENIUM_ROUNDS = getenv_int("SELENIUM_ROUNDS", 3)  # Legacy: number of full passes (loops)
+ROUND_PAUSE_SECONDS = getenv_int("ROUND_PAUSE_SECONDS", 60)  # Pause between loops (seconds)
+SELENIUM_MAX_RUNS = getenv_int("SELENIUM_MAX_RUNS", SELENIUM_ROUNDS)  # Legacy alias for max loops
+if SELENIUM_MAX_LOOPS <= 0:
+    SELENIUM_MAX_LOOPS = SELENIUM_MAX_RUNS  # Primary: max full passes; after each pass only total_records=0 are re-checked
+
+# Step 3 retry limit (safety limit to prevent infinite pipeline retries)
+SELENIUM_STEP3_MAX_ATTEMPTS = getenv_int("SELENIUM_STEP3_MAX_ATTEMPTS", 5)  # Max attempts for step 3 before forcing complete
+
+# Step 8: No-Data Retry configuration
+NO_DATA_MAX_ROUNDS = getenv_int("NO_DATA_MAX_ROUNDS", 1)  # Number of retry rounds for no-data products
+SKIP_NO_DATA_STEP = getenv_bool("SKIP_NO_DATA_STEP", True)  # Skip no-data retry step by default
 
 # Browser restart / health configuration
 SELENIUM_PRODUCTS_PER_RESTART = getenv_int("SELENIUM_PRODUCTS_PER_RESTART", 100)
@@ -305,13 +310,6 @@ SLOW_PAGE_RESTART_ENABLED = getenv_bool("SLOW_PAGE_RESTART_ENABLED", True)
 SLOW_PAGE_MEDIAN_WINDOW = getenv_int("SLOW_PAGE_MEDIAN_WINDOW", 15)
 SLOW_PAGE_MIN_SAMPLES = getenv_int("SLOW_PAGE_MIN_SAMPLES", 8)
 SLOW_PAGE_MEDIAN_THRESHOLD_SECONDS = getenv_float("SLOW_PAGE_MEDIAN_THRESHOLD_SECONDS", 60.0)
-
-# File names
-DICTIONARY_FILE = getenv("DICTIONARY_FILE", "Dictionary.csv")
-PCID_MAPPING_FILE = getenv("PCID_MAPPING_FILE", "PCID Mapping - Argentina.csv")
-PRODUCTLIST_FILE = getenv("PRODUCTLIST_FILE", "Productlist.csv")
-PROXY_LIST_FILE = getenv("PROXY_LIST_FILE", "ProxyList.txt")
-IGNORE_LIST_FILE = getenv("IGNORE_LIST_FILE", "ignore_list.csv")
 
 # Output file names
 OUTPUT_PRODUCTS_CSV = getenv("OUTPUT_PRODUCTS_CSV", "alfabeta_products_by_product.csv")
@@ -361,7 +359,7 @@ TOR_CONTROL_PORT = getenv_int("TOR_CONTROL_PORT", 0)
 TOR_CONTROL_PASSWORD = getenv("TOR_CONTROL_PASSWORD", "")
 TOR_CONTROL_COOKIE_FILE = getenv("TOR_CONTROL_COOKIE_FILE", "")
 TOR_NEWNYM_ENABLED = getenv_bool("TOR_NEWNYM_ENABLED", False)
-TOR_NEWNYM_INTERVAL_SECONDS = getenv_int("TOR_NEWNYM_INTERVAL_SECONDS", 720)
+TOR_NEWNYM_INTERVAL_SECONDS = getenv_int("TOR_NEWNYM_INTERVAL_SECONDS", 180)
 TOR_SOCKS_PORT = getenv_int("TOR_SOCKS_PORT", 0)
 TOR_NEWNYM_COOLDOWN_SECONDS = getenv_int("TOR_NEWNYM_COOLDOWN_SECONDS", 10)
 REQUIRE_TOR_PROXY = getenv_bool("REQUIRE_TOR_PROXY", False)  # If true, steps will hard-fail when Tor SOCKS isn't running
@@ -379,9 +377,9 @@ SELENIUM_MAX_ATTEMPTS_PER_PRODUCT = getenv_int("SELENIUM_MAX_ATTEMPTS_PER_PRODUC
 # Browser lifecycle
 MAX_BROWSER_RUNTIME_SECONDS = getenv_int("MAX_BROWSER_RUNTIME_SECONDS", 480)  # <8 minutes
 
-# Retry configuration
+# Retry configuration (per-attempt retries: how many times to try within one attempt at a product)
 MAX_RETRIES_SUBMIT = getenv_int("MAX_RETRIES_SUBMIT", 4)
-MAX_RETRIES_TIMEOUT = getenv_int("MAX_RETRIES_TIMEOUT", 2)
+MAX_RETRIES_TIMEOUT = getenv_int("MAX_RETRIES_TIMEOUT", 2)  # Retries on timeout before giving up for this loop
 MAX_RETRIES_AUTH = getenv_int("MAX_RETRIES_AUTH", 3)
 
 # CPU throttling thresholds
@@ -422,17 +420,14 @@ def get_proxy_list() -> list:
 def get_accounts() -> list:
     """Get list of accounts from environment variables."""
     accounts = []
-    account_num = 1
-    while True:
+    max_accounts = 20  # Check up to 20 accounts (handles gaps in numbering)
+    for account_num in range(1, max_accounts + 1):
         user_key = f"ALFABETA_USER_{account_num}"
         pass_key = f"ALFABETA_PASS_{account_num}"
         user = getenv(user_key, "")
         pwd = getenv(pass_key, "")
         if user and pwd:
             accounts.append((user, pwd))
-            account_num += 1
-        else:
-            break
     
     # Fallback to single account
     if not accounts and ALFABETA_USER and ALFABETA_PASS:
@@ -453,6 +448,18 @@ def parse_proxy_url(proxy_url: str) -> dict:
         "password": parsed.password,
         "scheme": parsed.scheme or "http"
     }
+
+
+def validate_config() -> list:
+    """Validate required config; returns list of warning/error messages. Call after load_env_file()."""
+    issues = []
+    accounts = get_accounts()
+    if not accounts:
+        issues.append("No AlfaBeta credentials: set ALFABETA_USER/ALFABETA_PASS or ALFABETA_USER_1/ALFABETA_PASS_1, etc.")
+    if USE_API_STEPS and not getenv("SCRAPINGDOG_API_KEY", "").strip():
+        issues.append("USE_API_STEPS is True but SCRAPINGDOG_API_KEY is not set (API step may fail).")
+    return issues
+
 
 # Diagnostic function
 if __name__ == "__main__":

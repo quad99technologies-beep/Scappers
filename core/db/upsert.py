@@ -21,6 +21,14 @@ from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
+# PERFORMANCE: execute_values is 5-10x faster than executemany for PostgreSQL
+# (sends all rows in a single statement instead of row-by-row)
+try:
+    from psycopg2.extras import execute_values
+    _HAS_EXECUTE_VALUES = True
+except ImportError:
+    _HAS_EXECUTE_VALUES = False
+
 
 def compute_item_hash(item: Dict[str, Any], keys: Optional[List[str]] = None) -> str:
     """
@@ -48,7 +56,10 @@ def bulk_insert(
     batch_size: int = 500,
 ) -> int:
     """
-    Insert items in batches using executemany.
+    Insert items in batches.
+
+    Uses psycopg2.extras.execute_values when available (5-10x faster)
+    for sending all rows in a single statement instead of row-by-row.
 
     Args:
         conn: PostgreSQL database connection.
@@ -63,16 +74,35 @@ def bulk_insert(
         return 0
 
     columns = list(items[0].keys())
-    placeholders = ", ".join(["%s"] * len(columns))
     col_str = ", ".join(columns)
-    sql = f"INSERT INTO {table} ({col_str}) VALUES ({placeholders})"
 
     total = 0
     for i in range(0, len(items), batch_size):
         batch = items[i : i + batch_size]
         rows = [tuple(item.get(c) for c in columns) for item in batch]
-        conn.executemany(sql, rows)
-        conn.commit()
+
+        if _HAS_EXECUTE_VALUES:
+            raw_conn = getattr(conn, '_conn', conn)
+            cur = raw_conn.cursor()
+            try:
+                execute_values(
+                    cur,
+                    f"INSERT INTO {table} ({col_str}) VALUES %s",
+                    rows,
+                    page_size=batch_size,
+                )
+                raw_conn.commit()
+            except Exception:
+                raw_conn.rollback()
+                raise
+            finally:
+                cur.close()
+        else:
+            placeholders = ", ".join(["%s"] * len(columns))
+            sql = f"INSERT INTO {table} ({col_str}) VALUES ({placeholders})"
+            conn.executemany(sql, rows)
+            conn.commit()
+
         total += len(batch)
         logger.debug("Inserted batch %d-%d into %s", i, i + len(batch), table)
 
@@ -111,22 +141,41 @@ def upsert_items(
     if update_columns is None:
         update_columns = [c for c in columns if c not in conflict_columns]
 
-    placeholders = ", ".join(["%s"] * len(columns))
     col_str = ", ".join(columns)
     conflict_str = ", ".join(conflict_columns)
     update_str = ", ".join(f"{c} = EXCLUDED.{c}" for c in update_columns)
-
-    sql = (
-        f"INSERT INTO {table} ({col_str}) VALUES ({placeholders}) "
-        f"ON CONFLICT({conflict_str}) DO UPDATE SET {update_str}"
-    )
 
     total = 0
     for i in range(0, len(items), batch_size):
         batch = items[i : i + batch_size]
         rows = [tuple(item.get(c) for c in columns) for item in batch]
-        conn.executemany(sql, rows)
-        conn.commit()
+
+        if _HAS_EXECUTE_VALUES:
+            raw_conn = getattr(conn, '_conn', conn)
+            cur = raw_conn.cursor()
+            try:
+                execute_values(
+                    cur,
+                    f"INSERT INTO {table} ({col_str}) VALUES %s "
+                    f"ON CONFLICT({conflict_str}) DO UPDATE SET {update_str}",
+                    rows,
+                    page_size=batch_size,
+                )
+                raw_conn.commit()
+            except Exception:
+                raw_conn.rollback()
+                raise
+            finally:
+                cur.close()
+        else:
+            placeholders = ", ".join(["%s"] * len(columns))
+            sql = (
+                f"INSERT INTO {table} ({col_str}) VALUES ({placeholders}) "
+                f"ON CONFLICT({conflict_str}) DO UPDATE SET {update_str}"
+            )
+            conn.executemany(sql, rows)
+            conn.commit()
+
         total += len(batch)
 
     logger.info("Upserted %d rows into %s", total, table)
@@ -157,22 +206,40 @@ def insert_ignore(
         return 0
 
     columns = list(items[0].keys())
-
-    placeholders = ", ".join(["%s"] * len(columns))
     col_str = ", ".join(columns)
     conflict_str = ", ".join(conflict_columns)
-
-    sql = (
-        f"INSERT INTO {table} ({col_str}) VALUES ({placeholders}) "
-        f"ON CONFLICT({conflict_str}) DO NOTHING"
-    )
 
     total = 0
     for i in range(0, len(items), batch_size):
         batch = items[i : i + batch_size]
         rows = [tuple(item.get(c) for c in columns) for item in batch]
-        conn.executemany(sql, rows)
-        conn.commit()
+
+        if _HAS_EXECUTE_VALUES:
+            raw_conn = getattr(conn, '_conn', conn)
+            cur = raw_conn.cursor()
+            try:
+                execute_values(
+                    cur,
+                    f"INSERT INTO {table} ({col_str}) VALUES %s "
+                    f"ON CONFLICT({conflict_str}) DO NOTHING",
+                    rows,
+                    page_size=batch_size,
+                )
+                raw_conn.commit()
+            except Exception:
+                raw_conn.rollback()
+                raise
+            finally:
+                cur.close()
+        else:
+            placeholders = ", ".join(["%s"] * len(columns))
+            sql = (
+                f"INSERT INTO {table} ({col_str}) VALUES ({placeholders}) "
+                f"ON CONFLICT({conflict_str}) DO NOTHING"
+            )
+            conn.executemany(sql, rows)
+            conn.commit()
+
         total += len(batch)
 
     logger.info("Insert-ignored %d rows into %s", total, table)

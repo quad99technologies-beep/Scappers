@@ -1,0 +1,112 @@
+{
+  "dashboard": {
+    "title": "Scraper Platform Dashboard",
+    "tags": ["scraper", "monitoring"],
+    "timezone": "browser",
+    "schemaVersion": 27,
+    "version": 1,
+    "refresh": "30s",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Scraper Runs",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(rate(scraper_runs_total[5m])) by (country, status)",
+            "legendFormat": "{{country}} - {{status}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+      },
+      {
+        "id": 2,
+        "title": "Active Scrapers",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(active_scrapers) by (country)",
+            "legendFormat": "{{country}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+      },
+      {
+        "id": 3,
+        "title": "Scraper Duration",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(scraper_duration_seconds_bucket[5m])) by (country, le))",
+            "legendFormat": "{{country}} - p95"
+          },
+          {
+            "expr": "histogram_quantile(0.50, sum(rate(scraper_duration_seconds_bucket[5m])) by (country, le))",
+            "legendFormat": "{{country}} - p50"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}
+      },
+      {
+        "id": 4,
+        "title": "Items Scraped",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(rate(items_scraped_total[5m])) by (country, source)",
+            "legendFormat": "{{country}} - {{source}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8}
+      },
+      {
+        "id": 5,
+        "title": "Data Quality Score",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "data_quality_score",
+            "legendFormat": "{{country}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16}
+      },
+      {
+        "id": 6,
+        "title": "Step Duration",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(step_duration_seconds_bucket[5m])) by (country, step_name, le))",
+            "legendFormat": "{{country}} - {{step_name}} - p95"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16}
+      },
+      {
+        "id": 7,
+        "title": "HTTP Requests",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(rate(http_requests_total[5m])) by (country, status_code)",
+            "legendFormat": "{{country}} - {{status_code}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24}
+      },
+      {
+        "id": 8,
+        "title": "Errors",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(rate(scraper_errors_total[5m])) by (country, error_type)",
+            "legendFormat": "{{country}} - {{error_type}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 24}
+      }
+    ]
+  }
+}

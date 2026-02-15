@@ -32,7 +32,7 @@ def _ensure_dir(base: Path, fallback: Path) -> Path:
         return fallback
 
 try:
-    from platform_config import get_path_manager, get_config_resolver
+    from core.config.config_manager import ConfigManager, get_config_resolver
     _PLATFORM_CONFIG_AVAILABLE = True
 except ImportError:
     _PLATFORM_CONFIG_AVAILABLE = False
@@ -46,7 +46,7 @@ def get_repo_root() -> Path:
 
 def load_env_file() -> None:
     try:
-        from core.config_manager import ConfigManager
+        from core.config.config_manager import ConfigManager
         ConfigManager.ensure_dirs()
         ConfigManager.load_env(SCRAPER_ID)
     except (ImportError, FileNotFoundError, ValueError):
@@ -164,8 +164,8 @@ def get_output_dir(subpath: str = None) -> Path:
         base = Path(output_dir_str)
     else:
         if _PLATFORM_CONFIG_AVAILABLE:
-            pm = get_path_manager()
-            base = pm.get_output_dir(SCRAPER_ID)
+            # Migrated: get_path_manager() -> ConfigManager
+            base = ConfigManager.get_output_dir(SCRAPER_ID)
         else:
             base = get_repo_root() / "output" / SCRAPER_ID
     base = _ensure_dir(base, _LOCAL_OUTPUT_BASE)
@@ -178,8 +178,8 @@ def get_output_dir(subpath: str = None) -> Path:
 
 def get_input_dir(subpath: str = None) -> Path:
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        base = pm.get_input_dir(SCRAPER_ID)
+        # Migrated: get_path_manager() -> ConfigManager
+        base = ConfigManager.get_input_dir(SCRAPER_ID)
     else:
         base = get_repo_root() / "input" / SCRAPER_ID
     base = _ensure_dir(base, _LOCAL_INPUT_BASE)
@@ -192,8 +192,8 @@ def get_input_dir(subpath: str = None) -> Path:
 
 def get_backup_dir() -> Path:
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        return pm.get_backups_dir(SCRAPER_ID)
+        # Migrated: get_path_manager() -> ConfigManager
+        return ConfigManager.get_backups_dir(SCRAPER_ID)
     base = get_repo_root() / "backups" / SCRAPER_ID
     base.mkdir(parents=True, exist_ok=True)
     return base
@@ -208,8 +208,8 @@ def get_download_dir() -> Path:
 
 def get_central_output_dir() -> Path:
     if _PLATFORM_CONFIG_AVAILABLE:
-        pm = get_path_manager()
-        exports_dir = pm.get_exports_dir(SCRAPER_ID)
+        # Migrated: get_path_manager() -> ConfigManager
+        exports_dir = ConfigManager.get_exports_dir(SCRAPER_ID)
         exports_dir.mkdir(parents=True, exist_ok=True)
         return exports_dir
     repo_root = get_repo_root()

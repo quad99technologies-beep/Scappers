@@ -1,0 +1,119 @@
+{
+  "Argentina": {
+    "scraper_name": "Argentina",
+    "network_type": "Tor",
+    "ip_address": "45.84.107.128",
+    "exit_ip": "45.84.107.128",
+    "port": 9050,
+    "status": "active",
+    "last_updated": 1771158132.452909
+  },
+  "Russia": {
+    "scraper_name": "Russia",
+    "network_type": "Direct",
+    "ip_address": "103.100.222.33",
+    "exit_ip": null,
+    "port": null,
+    "status": "active",
+    "last_updated": 1771158297.1030014
+  },
+  "Malaysia": {
+    "scraper_name": "Malaysia",
+    "network_type": "Direct",
+    "ip_address": "103.100.222.44",
+    "exit_ip": null,
+    "port": null,
+    "status": "active",
+    "last_updated": 1771158066.149088
+  },
+  "India": {
+    "scraper_name": "India",
+    "network_type": "Direct",
+    "ip_address": "103.100.222.33",
+    "exit_ip": null,
+    "port": null,
+    "status": "active",
+    "last_updated": 1771158613.8364384
+  },
+  "Belarus": {
+    "scraper_name": "Belarus",
+    "network_type": "Tor",
+    "ip_address": "Start Tor to use",
+    "exit_ip": null,
+    "port": null,
+    "status": "tor_configured_but_not_running",
+    "last_updated": 1771159217.6724179
+  },
+  "CanadaQuebec": {
+    "scraper_name": "CanadaQuebec",
+    "network_type": "Direct",
+    "ip_address": "103.100.222.44",
+    "exit_ip": null,
+    "port": null,
+    "status": "active",
+    "last_updated": 1771158042.3753207
+  },
+  "Netherlands": {
+    "scraper_name": "Netherlands",
+    "network_type": "Tor",
+    "ip_address": "Start Tor to use",
+    "exit_ip": null,
+    "port": null,
+    "status": "tor_configured_but_not_running",
+    "last_updated": 1771159105.498603
+  },
+  "Taiwan": {
+    "scraper_name": "Taiwan",
+    "network_type": "Direct",
+    "ip_address": "45.88.186.89",
+    "exit_ip": null,
+    "port": null,
+    "status": "active",
+    "last_updated": 1771073439.416266
+  },
+  "CanadaOntario": {
+    "scraper_name": "CanadaOntario",
+    "network_type": "Direct",
+    "ip_address": "103.100.222.45",
+    "exit_ip": null,
+    "port": null,
+    "status": "active",
+    "last_updated": 1771159103.1231992
+  },
+  "Tender_Chile": {
+    "scraper_name": "Tender_Chile",
+    "network_type": "Tor",
+    "ip_address": "45.84.107.97",
+    "exit_ip": "45.84.107.97",
+    "port": 9050,
+    "status": "active",
+    "last_updated": 1771083927.7884762
+  },
+  "NorthMacedonia": {
+    "scraper_name": "NorthMacedonia",
+    "network_type": "Tor",
+    "ip_address": "Start Tor to use",
+    "exit_ip": null,
+    "port": null,
+    "status": "tor_configured_but_not_running",
+    "last_updated": 1771159144.8098717
+  },
+  "Italy": {
+    "scraper_name": "Italy",
+    "network_type": "Unknown",
+    "ip_address": "unknown",
+    "exit_ip": null,
+    "port": null,
+    "status": "no_config",
+    "last_updated": 1771073671.5675962
+  },
+  "Tender_Brazil": {
+    "scraper_name": "Tender_Brazil",
+    "network_type": "Tor",
+    "ip_address": "185.220.101.3",
+    "exit_ip": "185.220.101.3",
+    "port": 9050,
+    "status": "active",
+    "last_updated": 1771083715.7033076
+  }
+}

@@ -29,13 +29,15 @@ from abc import ABC, abstractmethod
 
 # Import platform config system
 try:
-    from platform_config import PathManager, ConfigResolver, get_path_manager, get_config_resolver
+    from core.config_manager import ConfigManager
     _PLATFORM_CONFIG_AVAILABLE = True
 except ImportError:
     # Fallback if platform_config not available (backward compatibility)
     _PLATFORM_CONFIG_AVAILABLE = False
     PathManager = None
     ConfigResolver = None
+    get_path_manager = None
+    get_config_resolver = None
 
 # Import Chrome manager for cleanup
 try:
@@ -72,6 +74,14 @@ except ImportError:
     def recover_all_stale_checkpoints(scraper_names=None):
         return {}
 
+# Optional run metrics tracking (network consumption and active time)
+try:
+    from core.run_metrics_integration import WorkflowMetricsIntegration
+    _METRICS_AVAILABLE = True
+except ImportError:
+    _METRICS_AVAILABLE = False
+    WorkflowMetricsIntegration = None
+
 
 class ScraperInterface(ABC):
     """Interface that all scrapers must implement"""
@@ -106,7 +116,7 @@ class WorkflowRunner:
         Initialize workflow runner.
 
         Args:
-            scraper_name: Name of the scraper (e.g., "CanadaQuebec", "Malaysia", "Argentina")
+            scraper_name: Name of the scraper (e.g., "canada_quebec", "Malaysia", "Argentina")
             scraper_root: Root directory of the scraper (legacy, kept for backward compatibility)
             repo_root: Root directory of the repository (legacy, kept for backward compatibility)
         """
@@ -116,9 +126,9 @@ class WorkflowRunner:
 
         # Use PathManager if available, otherwise fall back to repo-relative paths
         if _PLATFORM_CONFIG_AVAILABLE:
-            pm = get_path_manager()
-            self.backup_dir = pm.get_backups_dir(scraper_name)  # Scraper-specific backups
-            self.runs_dir = pm.get_runs_dir()
+            # Migrated: get_path_manager() -> ConfigManager
+            self.backup_dir = ConfigManager.get_backups_dir(scraper_name)  # Scraper-specific backups
+            self.runs_dir = ConfigManager.get_runs_dir()
             self.lock_file = pm.get_lock_file(scraper_name)
         else:
             # Fallback: use repo-relative paths (backward compatibility)
@@ -143,6 +153,9 @@ class WorkflowRunner:
         self.run_id = None
         self.run_dir = None
         self.run_ledger = FileRunLedger() if _RUN_LEDGER_AVAILABLE else None
+        
+        # Metrics tracking integration
+        self.metrics_integration = WorkflowMetricsIntegration() if _METRICS_AVAILABLE else None
     
     def _cleanup_lock_on_exit(self):
         """Cleanup lock file on process exit (atexit handler)"""
@@ -356,7 +369,7 @@ class WorkflowRunner:
         Stop a running pipeline by killing its process.
 
         Args:
-            scraper_name: Name of the scraper to stop (e.g., "Malaysia", "CanadaQuebec")
+            scraper_name: Name of the scraper to stop (e.g., "Malaysia", "canada_quebec")
             repo_root: Repository root path (optional, auto-detected if not provided)
 
         Returns:
@@ -371,7 +384,7 @@ class WorkflowRunner:
         # Get lock file path - check both new and old locations
         lock_file = None
         if _PLATFORM_CONFIG_AVAILABLE:
-            pm = get_path_manager()
+            # Migrated: get_path_manager() -> ConfigManager
             lock_file = pm.get_lock_file(scraper_name)
             # Also check old location as fallback
             old_lock_file = repo_root / f".{scraper_name}_run.lock"
@@ -493,6 +506,7 @@ class WorkflowRunner:
                         logging.getLogger(__name__).warning(f"Failed to mark checkpoint as resumable: {e}")
 
                     # Mark run ledger status as RESUME (file-based)
+                    run_id_to_pause = None
                     try:
                         if _RUN_LEDGER_AVAILABLE:
                             ledger = FileRunLedger()
@@ -500,22 +514,38 @@ class WorkflowRunner:
                             running_runs = ledger.list_runs(limit=10, status=RunStatus.RUNNING, scraper_name=scraper_name)
                             if running_runs:
                                 latest_run = running_runs[0]
+                                run_id_to_pause = latest_run.run_id
                                 ledger.update_run_status(latest_run.run_id, RunStatus.RESUME)
                     except Exception as e:
                         logging.getLogger(__name__).warning(f"Failed to update run ledger status: {e}")
+                    
+                    # Pause metrics tracking for the run
+                    if run_id_to_pause and _METRICS_AVAILABLE:
+                        try:
+                            from core.run_metrics_integration import WorkflowMetricsIntegration
+                            metrics_integration = WorkflowMetricsIntegration()
+                            metrics = metrics_integration.on_run_pause(run_id_to_pause)
+                            if metrics:
+                                logging.getLogger(__name__).info(
+                                    f"Paused metrics for {run_id_to_pause}: "
+                                    f"{metrics.active_duration_seconds:.2f}s, "
+                                    f"{metrics.network_total_gb:.4f} GB"
+                                )
+                        except Exception as e:
+                            logging.getLogger(__name__).warning(f"Failed to pause metrics tracking: {e}")
 
                     # Mark DATABASE run_ledger status as RESUME (SQLite table)
+                    _db = None
                     try:
                         from core.db.models import run_ledger_mark_resumable
                         from core.db.connection import CountryDB
-                        from platform_config import get_path_manager
 
-                        pm = get_path_manager()
-                        output_dir = pm.get_output_dir(scraper_name)
+                        # Migrated: get_path_manager() -> ConfigManager
+                        output_dir = ConfigManager.get_output_dir(scraper_name)
                         db_file = output_dir / f"{scraper_name.lower()}.db"
                         if db_file.exists():
-                            db = CountryDB(scraper_name, db_path=db_file)
-                            conn = db.connect()
+                            _db = CountryDB(scraper_name, db_path=db_file)
+                            conn = _db.connect()
                             # Find the latest running run and mark it as resume
                             cursor = conn.execute(
                                 "SELECT run_id FROM run_ledger WHERE status = 'running' AND scraper_name = ? ORDER BY started_at DESC LIMIT 1",
@@ -529,6 +559,12 @@ class WorkflowRunner:
                                 logging.getLogger(__name__).info(f"Marked DB run {row[0]} as 'resume'")
                     except Exception as e:
                         logging.getLogger(__name__).warning(f"Failed to update DB run ledger status: {e}")
+                    finally:
+                        if _db is not None:
+                            try:
+                                _db.close()
+                            except Exception:
+                                pass
 
                     return {
                         "status": "ok",
@@ -602,6 +638,7 @@ class WorkflowRunner:
                         logging.getLogger(__name__).warning(f"Failed to mark checkpoint as resumable: {e}")
 
                     # Mark run ledger status as RESUME (file-based)
+                    run_id_to_pause_unix = None
                     try:
                         if _RUN_LEDGER_AVAILABLE:
                             ledger = FileRunLedger()
@@ -609,22 +646,38 @@ class WorkflowRunner:
                             running_runs = ledger.list_runs(limit=10, status=RunStatus.RUNNING, scraper_name=scraper_name)
                             if running_runs:
                                 latest_run = running_runs[0]
+                                run_id_to_pause_unix = latest_run.run_id
                                 ledger.update_run_status(latest_run.run_id, RunStatus.RESUME)
                     except Exception as e:
                         logging.getLogger(__name__).warning(f"Failed to update run ledger status: {e}")
+                    
+                    # Pause metrics tracking for the run
+                    if run_id_to_pause_unix and _METRICS_AVAILABLE:
+                        try:
+                            from core.run_metrics_integration import WorkflowMetricsIntegration
+                            metrics_integration = WorkflowMetricsIntegration()
+                            metrics = metrics_integration.on_run_pause(run_id_to_pause_unix)
+                            if metrics:
+                                logging.getLogger(__name__).info(
+                                    f"Paused metrics for {run_id_to_pause_unix}: "
+                                    f"{metrics.active_duration_seconds:.2f}s, "
+                                    f"{metrics.network_total_gb:.4f} GB"
+                                )
+                        except Exception as e:
+                            logging.getLogger(__name__).warning(f"Failed to pause metrics tracking: {e}")
 
                     # Mark DATABASE run_ledger status as RESUME (SQLite table)
+                    _db = None
                     try:
                         from core.db.models import run_ledger_mark_resumable
                         from core.db.connection import CountryDB
-                        from platform_config import get_path_manager
 
-                        pm = get_path_manager()
-                        output_dir = pm.get_output_dir(scraper_name)
+                        # Migrated: get_path_manager() -> ConfigManager
+                        output_dir = ConfigManager.get_output_dir(scraper_name)
                         db_file = output_dir / f"{scraper_name.lower()}.db"
                         if db_file.exists():
-                            db = CountryDB(scraper_name, db_path=db_file)
-                            conn = db.connect()
+                            _db = CountryDB(scraper_name, db_path=db_file)
+                            conn = _db.connect()
                             # Find the latest running run and mark it as resume
                             cursor = conn.execute(
                                 "SELECT run_id FROM run_ledger WHERE status = 'running' AND scraper_name = ? ORDER BY started_at DESC LIMIT 1",
@@ -638,6 +691,12 @@ class WorkflowRunner:
                                 logging.getLogger(__name__).info(f"Marked DB run {row[0]} as 'resume'")
                     except Exception as e:
                         logging.getLogger(__name__).warning(f"Failed to update DB run ledger status: {e}")
+                    finally:
+                        if _db is not None:
+                            try:
+                                _db.close()
+                            except Exception:
+                                pass
 
                     return {
                         "status": "ok",
@@ -697,8 +756,8 @@ class WorkflowRunner:
             
             # Backup input files (from platform root if available, else scraper root)
             if _PLATFORM_CONFIG_AVAILABLE:
-                pm = get_path_manager()
-                input_dir = pm.get_input_dir(self.scraper_name)
+                # Migrated: get_path_manager() -> ConfigManager
+                input_dir = ConfigManager.get_input_dir(self.scraper_name)
             else:
                 # Fallback: use scraper root
                 input_dir = self.scraper_root / "input"
@@ -729,14 +788,14 @@ class WorkflowRunner:
             
             # Backup final output files (from exports directory) for this scraper
             if _PLATFORM_CONFIG_AVAILABLE:
-                pm = get_path_manager()
+                # Migrated: get_path_manager() -> ConfigManager
                 # Use exports directory for final reports (scraper-specific)
                 from core.config_manager import ConfigManager
                 central_output_dir = ConfigManager.get_exports_dir(self.scraper_name)
                 
                 # Scraper-specific final output patterns
                 scraper_patterns = {
-                    "CanadaQuebec": ["canadaquebecreport"],
+                    "canada_quebec": ["canadaquebecreport"],
                     "Malaysia": ["malaysia"],
                     "Argentina": ["alfabeta_report"],
                     "Taiwan": ["taiwan_drug_code_details"]
@@ -785,7 +844,7 @@ class WorkflowRunner:
         
         # Use PathManager if available, otherwise fall back to repo-relative paths
         if _PLATFORM_CONFIG_AVAILABLE:
-            pm = get_path_manager()
+            # Migrated: get_path_manager() -> ConfigManager
             self.run_dir = pm.get_run_dir(self.scraper_name, self.run_id)
         else:
             # Fallback: use repo-relative paths
@@ -968,6 +1027,16 @@ class WorkflowRunner:
                 run_started_monotonic = time.monotonic()
                 self._record_run_start(run_dir, backup_dir=str(backup_result.get("backup_dir")))
                 
+                # Start metrics tracking (network consumption and active time)
+                if self.metrics_integration and self.metrics_integration.is_available():
+                    try:
+                        self.metrics_integration.on_run_start(self.run_id, self.scraper_name)
+                        if logger:
+                            logger.info(f"Started metrics tracking for run: {self.run_id}")
+                    except Exception as e:
+                        if logger:
+                            logger.warning(f"Failed to start metrics tracking: {e}")
+                
                 # Step 4: Setup logging
                 logger = self.setup_logging(run_dir)
                 logger.info(f"Starting run: {self.run_id}")
@@ -985,6 +1054,12 @@ class WorkflowRunner:
                         error_message=f"Input validation failed: {validation_result.get('message', 'Unknown error')}",
                         backup_dir=str(backup_result.get("backup_dir")),
                     )
+                    # Complete metrics tracking for failed validation
+                    if self.metrics_integration and self.metrics_integration.is_available():
+                        try:
+                            self.metrics_integration.on_run_complete(self.run_id, "failed")
+                        except Exception:
+                            pass
                     return {
                         "status": "error",
                         "message": f"Input validation failed: {validation_result.get('message', 'Unknown error')}",
@@ -1003,6 +1078,12 @@ class WorkflowRunner:
                         error_message=f"Steps execution failed: {steps_result.get('message', 'Unknown error')}",
                         backup_dir=str(backup_result.get("backup_dir")),
                     )
+                    # Complete metrics tracking for failed run
+                    if self.metrics_integration and self.metrics_integration.is_available():
+                        try:
+                            self.metrics_integration.on_run_complete(self.run_id, "failed")
+                        except Exception:
+                            pass
                     return {
                         "status": "error",
                         "message": f"Steps execution failed: {steps_result.get('message', 'Unknown error')}",
@@ -1038,6 +1119,17 @@ class WorkflowRunner:
                     outputs=outputs_result.get("outputs", []),
                     backup_dir=str(backup_result.get("backup_dir")),
                 )
+                
+                # Complete metrics tracking
+                if self.metrics_integration and self.metrics_integration.is_available():
+                    try:
+                        metrics = self.metrics_integration.on_run_complete(self.run_id, "completed")
+                        if metrics and logger:
+                            logger.info(f"Metrics - Duration: {metrics.active_duration_seconds:.2f}s, "
+                                       f"Network: {metrics.network_total_gb:.4f} GB")
+                    except Exception as e:
+                        if logger:
+                            logger.warning(f"Failed to complete metrics tracking: {e}")
                 
                 if logger:
                     logger.info(f"Run completed successfully: {self.run_id}")
@@ -1087,6 +1179,12 @@ class WorkflowRunner:
                 error_message=str(e),
                 backup_dir=str(backup_result.get("backup_dir")) if "backup_result" in locals() else None,
             )
+            # Complete metrics tracking for exception
+            if self.metrics_integration and self.metrics_integration.is_available() and self.run_id:
+                try:
+                    self.metrics_integration.on_run_complete(self.run_id, "failed")
+                except Exception:
+                    pass
             if logger:
                 logger.error(f"Workflow error: {str(e)}", exc_info=True)
             else:
@@ -1128,9 +1226,9 @@ def recover_stale_pipelines(scraper_names: List[str] = None) -> Dict[str, Any]:
     logger = logging.getLogger(__name__)
 
     if scraper_names is None:
-        # Default list of scrapers
+        # Default list of scrapers (include Russia for recovery)
         scraper_names = [
-            "India", "Malaysia", "Argentina", "CanadaOntario", "CanadaQuebec",
+            "India", "Malaysia", "Argentina", "Russia", "CanadaOntario", "canada_quebec",
             "Chile", "Korea", "NewZealand", "SouthAfrica", "Thailand"
         ]
 
@@ -1193,7 +1291,7 @@ def get_resumable_pipelines(scraper_names: List[str] = None) -> Dict[str, Dict[s
     """
     if scraper_names is None:
         scraper_names = [
-            "India", "Malaysia", "Argentina", "CanadaOntario", "CanadaQuebec",
+            "India", "Malaysia", "Argentina", "Russia", "CanadaOntario", "canada_quebec",
             "Chile", "Korea", "NewZealand", "SouthAfrica", "Thailand"
         ]
 

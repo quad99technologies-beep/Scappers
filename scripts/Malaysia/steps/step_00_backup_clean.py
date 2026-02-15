@@ -16,6 +16,10 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+_malaysia_dir = Path(__file__).resolve().parents[2]  # scripts/Malaysia
+if str(_malaysia_dir) not in sys.path:
+    sys.path.insert(0, str(_malaysia_dir))
+
 _script_dir = Path(__file__).resolve().parents[1]
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
@@ -28,7 +32,7 @@ from config_loader import (
     load_env_file, getenv_list, get_output_dir, get_backup_dir,
     get_central_output_dir,
 )
-from core.shared_utils import backup_output_folder, clean_output_folder
+from core.utils.shared_utils import backup_output_folder, clean_output_folder
 from core.db.models import generate_run_id
 
 load_env_file()

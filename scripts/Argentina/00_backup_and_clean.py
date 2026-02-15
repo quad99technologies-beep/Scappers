@@ -8,13 +8,13 @@ What it does:
 - Cleans output (keeps runs/backups)
 - Applies PostgreSQL schema for Argentina (ar_ tables)
 - Generates/persists a run_id and registers it in run_ledger
-- (Optional) Seeds dictionary + PCID reference tables from input CSVs if present
+
+Reference data (dictionary, PCID mapping, ignore list) is not loaded from CSV here;
+use only manually uploaded data (e.g. via GUI).
 """
 
-import csv
 import os
 from pathlib import Path
-from typing import List, Dict
 import sys
 
 # Add repo root to path for shared imports
@@ -30,14 +30,11 @@ from config_loader import (
     get_backup_dir,
     get_central_output_dir,
     load_env_file,
-    get_input_dir,
-    DICTIONARY_FILE,
-    PCID_MAPPING_FILE,
-    IGNORE_LIST_FILE,
 )
-from core.shared_utils import backup_output_folder, clean_output_folder
+from core.utils.shared_utils import backup_output_folder, clean_output_folder
 from core.db.models import generate_run_id
 from core.db.connection import CountryDB
+from core.db.schema_registry import SchemaRegistry
 from db.schema import apply_argentina_schema
 from db.repositories import ArgentinaRepository
 
@@ -46,79 +43,7 @@ load_env_file()
 OUTPUT_DIR = get_output_dir()
 BACKUP_DIR = get_backup_dir()
 CENTRAL_OUTPUT_DIR = get_central_output_dir()
-INPUT_DIR = get_input_dir()
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
-
-def _read_csv_rows(path: Path) -> List[Dict[str, str]]:
-    """Best-effort CSV reader with UTF-8 BOM fallback."""
-    encodings = ["utf-8-sig", "utf-8", "cp1252", "latin1"]
-    for enc in encodings:
-        try:
-            with path.open(encoding=enc, newline="") as f:
-                reader = csv.DictReader(f)
-                return [dict(row) for row in reader]
-        except UnicodeDecodeError:
-            continue
-        except Exception:
-            break
-    return []
-
-
-def seed_dictionary(repo: ArgentinaRepository) -> int:
-    dict_path = INPUT_DIR / DICTIONARY_FILE
-    if not dict_path.exists():
-        return 0
-    rows = _read_csv_rows(dict_path)
-    entries = []
-    for r in rows:
-        # Use first two columns as es/en
-        keys = list(r.keys())
-        if len(keys) < 2:
-            continue
-        es = r.get(keys[0], "") or ""
-        en = r.get(keys[1], "") or ""
-        if es.strip() and en.strip():
-            entries.append({"es": es.strip(), "en": en.strip(), "source": "file"})
-    if not entries:
-        return 0
-    replaced = repo.replace_dictionary(entries)
-    try:
-        repo.log_input_upload("ar_dictionary", str(dict_path), replaced, replaced_previous=1, uploaded_by="pipeline")
-    except Exception:
-        pass
-    return replaced
-
-
-def seed_pcid_reference(repo: ArgentinaRepository) -> int:
-    pcid_path = INPUT_DIR / PCID_MAPPING_FILE
-    if not pcid_path.exists():
-        # Try common alternative filename
-        alt = INPUT_DIR / "PCID Mapping - Argentina.csv"
-        if alt.exists():
-            pcid_path = alt
-        else:
-            return 0
-    rows = _read_csv_rows(pcid_path)
-    replaced = repo.replace_pcid_reference(rows)
-    try:
-        repo.log_input_upload("ar_pcid_reference", str(pcid_path), replaced, replaced_previous=1, uploaded_by="pipeline")
-    except Exception:
-        pass
-    return replaced
-
-
-def seed_ignore_list(repo: ArgentinaRepository) -> int:
-    ignore_path = INPUT_DIR / IGNORE_LIST_FILE
-    if not ignore_path.exists():
-        return 0
-    rows = _read_csv_rows(ignore_path)
-    replaced = repo.replace_ignore_list(rows)
-    try:
-        repo.log_input_upload("ar_ignore_list", str(ignore_path), replaced, replaced_previous=1, uploaded_by="pipeline")
-    except Exception:
-        pass
-    return replaced
 
 
 def main() -> None:
@@ -127,7 +52,7 @@ def main() -> None:
     print("=" * 80 + "\n")
 
     # 1) Backup
-    print("[1/4] Creating backup of output folder...")
+    print("[1/3] Creating backup of output folder...")
     backup_result = backup_output_folder(
         output_dir=OUTPUT_DIR,
         backup_dir=BACKUP_DIR,
@@ -140,11 +65,13 @@ def main() -> None:
     elif status == "skipped":
         print(f"[SKIP] {backup_result['message']}")
     else:
-        print(f"[ERROR] {backup_result['message']}")
-        return
+        # Backup failed or incomplete: warn but continue so DB init and run_ledger always run
+        # (otherwise step 1 would use an unregistered run_id and hit FK violation)
+        print(f"[WARN] Backup issue: {backup_result['message']}")
+        print("[WARN] Continuing with clean and DB init so pipeline can proceed...")
 
     # 2) Clean
-    print("\n[2/4] Cleaning output folder...")
+    print("\n[2/3] Cleaning output folder...")
     clean_result = clean_output_folder(
         output_dir=OUTPUT_DIR,
         backup_dir=BACKUP_DIR,
@@ -158,9 +85,16 @@ def main() -> None:
     print(f"[OK] Cleaned ({clean_result['files_deleted']} files removed)")
 
     # 3) DB init + run_id
-    print("\n[3/4] Applying PostgreSQL schema and generating run_id...")
+    print("\n[3/3] Applying PostgreSQL schema and generating run_id...")
     db = CountryDB("Argentina")
     apply_argentina_schema(db)
+    # Ensure shared pcid_mapping table exists (single source for GUI + pipeline)
+    inputs_sql = _repo_root / "sql" / "schemas" / "postgres" / "inputs.sql"
+    if inputs_sql.exists():
+        try:
+            SchemaRegistry(db).apply_schema(inputs_sql)
+        except Exception as e:
+            print(f"[WARN] Could not apply inputs schema: {e}")
     run_id = os.environ.get("ARGENTINA_RUN_ID") or generate_run_id()
     os.environ["ARGENTINA_RUN_ID"] = run_id
     run_id_file = OUTPUT_DIR / ".current_run_id"
@@ -171,12 +105,8 @@ def main() -> None:
     repo.start_run(mode="fresh")
     print("[OK] run_ledger entry created")
 
-    # 4) Seed dictionary + PCID reference + ignore list into DB
-    print("\n[4/4] Seeding reference tables (dictionary, PCID, ignore list)...")
-    dict_count = seed_dictionary(repo)
-    pcid_count = seed_pcid_reference(repo)
-    ignore_count = seed_ignore_list(repo)
-    print(f"[OK] Dictionary rows: {dict_count} | PCID reference rows: {pcid_count} | Ignore rows: {ignore_count}")
+    # Reference data (dictionary, PCID, ignore list) is not loaded from CSV here.
+    # Use only manually uploaded data (e.g. via GUI); pipeline does not seed from CSV.
 
     print("\n" + "=" * 80)
     print("Backup, cleanup, DB init complete. Ready for pipeline.")

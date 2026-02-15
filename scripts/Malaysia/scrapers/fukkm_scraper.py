@@ -39,7 +39,7 @@ class FUKKMScraper:
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
             "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
         self.fail_fast = str(config.get("SCRIPT_04_FAIL_FAST", False)).lower() == "true"
-        self.page_max_retries = int(config.get("SCRIPT_04_PAGE_MAX_RETRIES", 0))
+        self.page_max_retries = int(config.get("SCRIPT_04_PAGE_MAX_RETRIES", 3))  # Changed from 0 to 3 (safety limit)
         self.retry_base_delay = float(config.get("SCRIPT_04_RETRY_BASE_DELAY", 2.0))
         self.retry_max_delay = float(config.get("SCRIPT_04_RETRY_MAX_DELAY", 60.0))
 

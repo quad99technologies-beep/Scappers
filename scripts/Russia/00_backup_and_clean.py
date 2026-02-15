@@ -37,7 +37,7 @@ except ImportError:
     _repo_root = Path(__file__).resolve().parents[2]
     CENTRAL_OUTPUT_DIR = _repo_root / "output"
 
-from core.shared_utils import backup_output_folder, clean_output_folder
+from core.utils.shared_utils import backup_output_folder, clean_output_folder
 
 
 def main() -> None:

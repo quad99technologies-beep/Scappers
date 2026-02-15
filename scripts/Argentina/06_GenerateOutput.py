@@ -5,7 +5,7 @@ Argentina - Final export (DB-only).
 
 Reads:
   - ar_products_translated (current run_id)
-  - ar_pcid_reference (global)
+  - pcid_mapping (shared, source_country='Argentina')
 
 Writes:
   - alfabeta_Report_<date>_pcid_mapping.csv
@@ -19,6 +19,7 @@ from __future__ import annotations
 import os
 import re
 import sys
+import tempfile
 import unicodedata
 from pathlib import Path
 from datetime import datetime
@@ -37,6 +38,29 @@ from core.db.connection import CountryDB
 from core.db.models import generate_run_id
 from db.schema import apply_argentina_schema
 from db.repositories import ArgentinaRepository
+
+
+def _atomic_replace(src: Path, dest: Path) -> None:
+    """Atomically replace dest with src (same filesystem)."""
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    os.replace(str(src), str(dest))
+
+
+def _atomic_df_to_csv(df: pd.DataFrame, dest: Path, **kwargs) -> None:
+    """Write DataFrame to CSV without risking a 0-byte/partial dest on crash."""
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp_name = tempfile.mkstemp(prefix=dest.name, suffix=".tmp", dir=str(dest.parent))
+    tmp_path = Path(tmp_name)
+    os.close(fd)
+    try:
+        df.to_csv(tmp_path, **kwargs)
+        _atomic_replace(tmp_path, dest)
+    finally:
+        try:
+            if tmp_path.exists():
+                tmp_path.unlink()
+        except Exception:
+            pass
 
 
 def _get_run_id(output_dir: Path) -> str:
@@ -108,7 +132,8 @@ def _norm(s: Optional[str]) -> str:
 def _norm_key(s: Optional[str]) -> str:
     if s is None:
         return ""
-    return re.sub(r"\s+", "", str(s).strip().lower())
+    # Remove ALL special characters - keep only alphanumeric
+    return re.sub(r"[^a-z0-9]", "", str(s).strip().lower())
 
 
 def normalize_cell(s: Optional[object]) -> Optional[str]:
@@ -245,65 +270,20 @@ def mapping_rows_to_output(mapping_df: pd.DataFrame, country_value: str, output_
 
 
 def main() -> None:
-    output_dir = get_output_dir()
-    output_dir.mkdir(parents=True, exist_ok=True)
+    # Write directly to central exports dir (no intermediate output/ directory)
     exports_dir = get_central_output_dir()
     exports_dir.mkdir(parents=True, exist_ok=True)
+
+    # Keep output_dir for run_id file only
+    output_dir = get_output_dir()
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     run_id = _get_run_id(output_dir)
 
     db = CountryDB("Argentina")
     apply_argentina_schema(db)
     repo = ArgentinaRepository(db, run_id)
-
-    # Load translated products
-    with db.cursor(dict_cursor=True) as cur:
-        cur.execute("SELECT * FROM ar_products_translated WHERE run_id = %s", (run_id,))
-        rows = cur.fetchall()
-    if not rows:
-        raise RuntimeError("No translated rows found. Run step 5 first.")
-
-    df = pd.DataFrame(rows)
-    df = normalize_df_strings(df)
-
-    # Compute RI fields
-    ri = df.apply(
-        lambda r: pd.Series(
-            compute_ri_fields(r),
-            index=["Reimbursement Category", "Reimbursement Amount", "Co-Pay Amount", "rule_label"],
-        ),
-        axis=1,
-    )
-    df = pd.concat([df, ri], axis=1)
-
-    # Map to output columns
-    df["Country"] = "ARGENTINA"
-    df["Company"] = df.get("company")
-    df["Local Product Name"] = df.get("product_name")
-    df["Generic Name"] = df.get("active_ingredient")
-    df["Effective Start Date"] = df.get("date")
-    df["Local Pack Description"] = df.get("description")
-
-    if not EXCLUDE_PRICE:
-        df["Public With VAT Price"] = df.get("price_ars").apply(parse_money)
-    else:
-        df["Public With VAT Price"] = pd.NA
-
-    df["Reimbursement Amount"] = df["Reimbursement Amount"].apply(parse_money)
-    df["Co-Pay Amount"] = df["Co-Pay Amount"].apply(parse_money)
-
-    # Load PCID reference from DB
-    with db.cursor(dict_cursor=True) as cur:
-        cur.execute(
-            "SELECT pcid, company, local_product_name, generic_name, local_pack_description FROM ar_pcid_reference"
-        )
-        mapping_rows = cur.fetchall()
-    mapping_df = pd.DataFrame(mapping_rows) if mapping_rows else pd.DataFrame(
-        columns=["pcid", "company", "local_product_name", "generic_name", "local_pack_description"]
-    )
-
-    # Attach PCID (strict 4-key match)
-    df = attach_pcid_strict(df, mapping_df)
+    repo.ensure_run_in_ledger(mode="resume")  # ensure run exists before ar_export_reports insert
 
     output_cols = [
         "PCID",
@@ -318,72 +298,146 @@ def main() -> None:
         "Co-Pay Amount",
         "Local Pack Description",
     ]
-    for c in output_cols:
-        if c not in df.columns:
-            df[c] = pd.NA
 
-    df_final = normalize_df_strings(df[output_cols].copy())
+    # Load PCID reference from pcid_mapping table (single source of truth)
+    # User must upload new CSV via GUI to update this table
+    from core.data.pcid_mapping import PCIDMapping
+    pcid_mapping = PCIDMapping("Argentina", db)
+    pcid_rows = pcid_mapping.get_all()
+    
+    if pcid_rows:
+        mapping_data = [
+            {
+                "pcid": m.pcid,
+                "company": m.company,
+                "local_product_name": m.local_product_name,
+                "generic_name": m.generic_name,
+                "local_pack_description": m.local_pack_description,
+            }
+            for m in pcid_rows
+        ]
+        mapping_df = pd.DataFrame(mapping_data)
+    else:
+        mapping_df = pd.DataFrame(
+            columns=["pcid", "company", "local_product_name", "generic_name", "local_pack_description"]
+        )
+    print(f"[PCID] Loaded {len(mapping_df)} rows from pcid_mapping table", flush=True)
+
+    # Load translated products (preferred)
+    with db.cursor(dict_cursor=True) as cur:
+        cur.execute("SELECT * FROM ar_products_translated WHERE run_id = %s", (run_id,))
+        rows = cur.fetchall()
+
+    # Fallback: if translation step was skipped/failed, use raw ar_products for this run_id
+    using_raw_products = False
+    if not rows:
+        with db.cursor(dict_cursor=True) as cur:
+            cur.execute(
+                "SELECT id, run_id, company, product_name, active_ingredient, therapeutic_class, "
+                "description, price_ars, date, sifar_detail, pami_af, pami_os, ioma_detail, ioma_af, "
+                "ioma_os, import_status, coverage_json FROM ar_products WHERE run_id = %s ORDER BY id",
+                (run_id,),
+            )
+            rows = cur.fetchall()
+        if rows:
+            using_raw_products = True
+            print("[WARNING] No ar_products_translated for this run_id; using ar_products (raw, untranslated).", flush=True)
+            print("[WARNING] Re-run step 5 (Translate) then step 6 for translated export.", flush=True)
+
+    if not rows:
+        print("[WARNING] No products for this run_id (ar_products_translated and ar_products both empty).", flush=True)
+        print("[WARNING] Writing empty output files. Re-run from step 3 (Selenium) if you expected data.", flush=True)
+        df_final = normalize_df_strings(pd.DataFrame(columns=output_cols))
+    else:
+        df = pd.DataFrame(rows)
+        df = normalize_df_strings(df)
+
+        # Compute RI fields
+        ri = df.apply(
+            lambda r: pd.Series(
+                compute_ri_fields(r),
+                index=["Reimbursement Category", "Reimbursement Amount", "Co-Pay Amount", "rule_label"],
+            ),
+            axis=1,
+        )
+        df = pd.concat([df, ri], axis=1)
+
+        # Map to output columns
+        df["Country"] = "ARGENTINA"
+        df["Company"] = df.get("company")
+        df["Local Product Name"] = df.get("product_name")
+        df["Generic Name"] = df.get("active_ingredient")
+        df["Effective Start Date"] = df.get("date")
+        df["Local Pack Description"] = df.get("description")
+
+        if not EXCLUDE_PRICE:
+            df["Public With VAT Price"] = df.get("price_ars").apply(parse_money)
+        else:
+            df["Public With VAT Price"] = pd.NA
+
+        df["Reimbursement Amount"] = df["Reimbursement Amount"].apply(parse_money)
+        df["Co-Pay Amount"] = df["Co-Pay Amount"].apply(parse_money)
+
+        # Attach PCID (strict 4-key match)
+        df = attach_pcid_strict(df, mapping_df)
+
+        for c in output_cols:
+            if c not in df.columns:
+                df[c] = pd.NA
+
+        df_final = normalize_df_strings(df[output_cols].copy())
+
     print(f"[COUNT] translated_rows={len(df_final)}", flush=True)
 
     pcid_norm = df_final["PCID"].astype("string").fillna("").str.strip()
-    mapped_mask = pcid_norm.ne("")
+    
+    # Categorize into 4 groups:
+    # 1. pcid_mapping: Has valid PCID (not empty, not OOS)
+    # 2. pcid_missing: No PCID match (empty string)
+    # 3. pcid_oos: PCID is "OOS" (Out of Scope)
+    # 4. pcid_no_data: PCID in mapping file but not used in scraped data
+    
+    is_oos_mask = pcid_norm.str.upper() == "OOS"
+    is_mapped_mask = pcid_norm.ne("") & ~is_oos_mask
+    is_missing_mask = pcid_norm.eq("")
 
-    df_mapped = df_final[mapped_mask].copy()
-    df_missing = df_final[~mapped_mask].copy()
+    df_mapped = df_final[is_mapped_mask].copy()
+    df_missing = df_final[is_missing_mask].copy()
+    df_oos = df_final[is_oos_mask].copy()
 
     today_str = datetime.now().strftime(DATE_FORMAT)
     out_prefix = f"{OUTPUT_REPORT_PREFIX}{today_str}"
-    out_mapped = output_dir / f"{out_prefix}_pcid_mapping.csv"
-    out_missing = output_dir / f"{out_prefix}_pcid_missing.csv"
-    out_oos = output_dir / f"{out_prefix}_pcid_oos.csv"
-    out_no_data = output_dir / f"{out_prefix}_pcid_no_data.csv"
+    
+    # Write directly to exports/ directory (no intermediate output/ files)
+    out_mapped = exports_dir / f"{out_prefix}_pcid_mapping.csv"
+    out_missing = exports_dir / f"{out_prefix}_pcid_missing.csv"
+    out_oos = exports_dir / f"{out_prefix}_pcid_oos.csv"
+    out_no_data = exports_dir / f"{out_prefix}_pcid_no_data.csv"
 
-    df_mapped.to_csv(out_mapped, index=False, encoding="utf-8-sig", float_format="%.2f")
-    df_missing.to_csv(out_missing, index=False, encoding="utf-8-sig", float_format="%.2f")
-    print(f"[COUNT] mapped={len(df_mapped)} missing={len(df_missing)}", flush=True)
-
-    # OOS not available in DB reference; write empty placeholder
-    empty = pd.DataFrame(columns=output_cols)
-    empty.to_csv(out_oos, index=False, encoding="utf-8-sig")
+    _atomic_df_to_csv(df_mapped, out_mapped, index=False, encoding="utf-8-sig", float_format="%.2f")
+    _atomic_df_to_csv(df_missing, out_missing, index=False, encoding="utf-8-sig", float_format="%.2f")
+    _atomic_df_to_csv(df_oos, out_oos, index=False, encoding="utf-8-sig", float_format="%.2f")
+    print(f"[COUNT] mapped={len(df_mapped)} missing={len(df_missing)} oos={len(df_oos)}", flush=True)
 
     # No-data: reference PCIDs not used in output (strict match)
-    used_pcid = set(pcid_norm[mapped_mask].tolist())
+    # Exclude OOS from no-data check since OOS is not a real PCID
+    used_pcid = set(pcid_norm[is_mapped_mask].tolist())
     if not mapping_df.empty:
-        no_data_mask = mapping_df["pcid"].astype(str).str.strip().ne("") & ~mapping_df["pcid"].isin(used_pcid)
+        no_data_mask = (
+            mapping_df["pcid"].astype(str).str.strip().ne("") & 
+            ~mapping_df["pcid"].astype(str).str.strip().str.upper().eq("OOS") &
+            ~mapping_df["pcid"].isin(used_pcid)
+        )
         no_data_df = mapping_rows_to_output(mapping_df[no_data_mask].copy(), "ARGENTINA", output_cols)
     else:
+        empty = pd.DataFrame(columns=output_cols)
         no_data_df = empty.copy()
-    no_data_df.to_csv(out_no_data, index=False, encoding="utf-8-sig", float_format="%.2f")
+    _atomic_df_to_csv(no_data_df, out_no_data, index=False, encoding="utf-8-sig", float_format="%.2f")
 
-    # Write to central exports dir
-    for out_path in [out_mapped, out_missing, out_oos, out_no_data]:
-        try:
-            target = exports_dir / out_path.name
-            target.write_bytes(out_path.read_bytes())
-        except Exception:
-            pass
-
-    # Persist mappings in DB (mapped + missing)
-    repo.clear_pcid_mappings()
-    mapping_rows_to_insert = []
-    for _, r in df_final.iterrows():
-        mapping_rows_to_insert.append(
-            {
-                "pcid": r.get("PCID"),
-                "company": r.get("Company"),
-                "local_product_name": r.get("Local Product Name"),
-                "generic_name": r.get("Generic Name"),
-                "local_pack_description": r.get("Local Pack Description"),
-                "price_ars": r.get("Public With VAT Price") if not EXCLUDE_PRICE else None,
-                "source": "PRICENTRIC",
-            }
-        )
-    repo.insert_pcid_mappings(mapping_rows_to_insert)
-
-    # Export report tracking
+    # Export report tracking (paths now point to exports/ directory)
     repo.log_export_report("pcid_mapping", str(out_mapped), len(df_mapped))
     repo.log_export_report("pcid_missing", str(out_missing), len(df_missing))
-    repo.log_export_report("pcid_oos", str(out_oos), len(empty))
+    repo.log_export_report("pcid_oos", str(out_oos), len(df_oos))
     repo.log_export_report("pcid_no_data", str(out_no_data), len(no_data_df))
 
     # Finish run in run_ledger
@@ -401,6 +455,7 @@ def main() -> None:
     print(f"[OK] Wrote: {out_missing}")
     print(f"[OK] Wrote: {out_oos}")
     print(f"[OK] Wrote: {out_no_data}")
+    print(f"[OK] All exports written to: {exports_dir}")
 
 
 if __name__ == "__main__":

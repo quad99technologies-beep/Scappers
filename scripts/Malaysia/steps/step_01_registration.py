@@ -13,6 +13,10 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+_malaysia_dir = Path(__file__).resolve().parents[2]
+if str(_malaysia_dir) not in sys.path:
+    sys.path.insert(0, str(_malaysia_dir))
+
 _script_dir = Path(__file__).resolve().parents[1]
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))

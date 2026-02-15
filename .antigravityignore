@@ -1,0 +1,22 @@
+# Exclude common temporary files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.git/
+.svn/
+.hg/
+.DS_Store
+Thumbs.db
+node_modules/
+bower_components/
+dist/
+build/
+output/
+logs/
+checkpoints/
+backups/
+tmp/
+.vscode/
+.idea/
+*.log

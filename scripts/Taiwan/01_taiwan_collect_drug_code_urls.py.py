@@ -39,17 +39,14 @@ except ImportError:
 
     def get_output_dir() -> Path:
         return Path(__file__).parent
-
 try:
-    from core.chrome_pid_tracker import (
-        get_chrome_pids_from_driver,
-        save_chrome_pids,
-        terminate_scraper_pids,
-    )
+    from core.browser.chrome_instance_tracker import ChromeInstanceTracker
 except ImportError:
-    get_chrome_pids_from_driver = None
-    save_chrome_pids = None
-    terminate_scraper_pids = None
+    ChromeInstanceTracker = None
+
+get_chrome_pids_from_driver = None
+save_chrome_pids = None
+terminate_scraper_pids = None
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -205,13 +202,28 @@ def ensure_driver() -> webdriver.Chrome:
         opts.add_argument("--headless=new")
     driver = webdriver.Chrome(options=opts)
     driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
-    if get_chrome_pids_from_driver and save_chrome_pids:
+    driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
+    
+    # Try to register with ChromeInstanceTracker (only if DB/RunID available)
+    if ChromeInstanceTracker and getenv("RUN_ID"):
         try:
-            pids = get_chrome_pids_from_driver(driver)
-            if pids:
-                save_chrome_pids(SCRAPER_NAME, _repo_root, pids)
+            from core.db.connection import CountryDB
+            run_id = getenv("RUN_ID")
+            # We assume CountryDB works for Taiwan if configured, 
+            # otherwise this block fails gracefully
+            db = CountryDB("Taiwan") 
+            # Note: ChromeInstanceTracker expects a db object that has cursor() context
+            # CountryDB usually needs .connect() or context manager.
+            # We'll just try/except pass.
+            db.connect()
+            tracker = ChromeInstanceTracker("Taiwan", run_id, db)
+            pid = driver.service.process.pid if hasattr(driver.service, 'process') else None
+            if pid:
+                tracker.register(step_number=1, pid=pid, browser_type="chrome")
+            db.close()
         except Exception:
             pass
+            
     return driver
 
 

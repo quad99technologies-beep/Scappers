@@ -35,15 +35,16 @@ COUNTRY_PREFIX_MAP: Dict[str, str] = {
     "Belarus": "by_",
     "Argentina": "ar_",
     "Taiwan": "tw_",
-    "Tender_Chile": "cl_",
-    "Tender-Chile": "cl_",
+    "Tender_Chile": "tc_",  # Fixed: schema uses tc_ prefix, not cl_
+    "Tender-Chile": "tc_",
     "CanadaOntario": "ca_on_",
     "Canada Ontario": "ca_on_",
     "CanadaQuebec": "ca_qc_",
     "Canada Quebec": "ca_qc_",
     "Russia": "ru_",
-    "North_Macedonia": "mk_",
-    "North Macedonia": "mk_",
+    "NorthMacedonia": "nm_",      # Fixed: schema uses nm_ prefix
+    "North_Macedonia": "nm_",
+    "North Macedonia": "nm_",
 }
 
 # Tables that are shared across all countries (no prefix)
@@ -54,6 +55,8 @@ SHARED_TABLES = frozenset({
     "scraped_items",
     "input_uploads",
     "pcid_mapping",
+    "chrome_instances",  # Standardized browser instance tracking
+    "step_retries",      # Step retry history tracking
 })
 
 
@@ -156,8 +159,8 @@ def _get_connection_pool() -> "pool.ThreadedConnectionPool":
                 _load_env_if_needed()
 
                 _connection_pool = pool.ThreadedConnectionPool(
-                    minconn=int(os.getenv("POSTGRES_POOL_MIN", "2")),
-                    maxconn=int(os.getenv("POSTGRES_POOL_MAX", "10")),
+                    minconn=int(os.getenv("POSTGRES_POOL_MIN", "4")),
+                    maxconn=int(os.getenv("POSTGRES_POOL_MAX", "15")),
                     host=os.getenv("POSTGRES_HOST", "localhost"),
                     port=int(os.getenv("POSTGRES_PORT", "5432")),
                     database=os.getenv("POSTGRES_DB", "scrappers"),
@@ -372,10 +375,8 @@ class PostgresDB:
         conn = self.connect()
         cur = conn.cursor()
         try:
-            # Split by semicolon, but be careful with strings containing semicolons
-            # For simplicity, we use a basic split - complex scripts should use
-            # separate execute() calls
-            statements = [s.strip() for s in sql_script.split(';') if s.strip()]
+            # Split by semicolons, but respect dollar-quoted strings ($$...$$)
+            statements = self._split_sql_statements(sql_script)
             for stmt in statements:
                 # Skip comment-only statements to avoid "can't execute an empty query"
                 non_comment_lines = []
@@ -393,6 +394,79 @@ class PostgresDB:
             raise
         finally:
             cur.close()
+
+    def _split_sql_statements(self, sql_script: str) -> list:
+        """
+        Split SQL script into individual statements, respecting dollar-quoted strings.
+        
+        Args:
+            sql_script: SQL script with multiple statements
+            
+        Returns:
+            List of individual SQL statements
+        """
+        statements = []
+        current_stmt = []
+        in_dollar_quote = False
+        dollar_tag = None
+        i = 0
+        
+        lines = sql_script.splitlines()
+        
+        while i < len(lines):
+            line = lines[i]
+            j = 0
+            
+            while j < len(line):
+                if not in_dollar_quote:
+                    # Check for start of dollar-quoted string
+                    if line[j] == '$':
+                        # Look ahead for tag
+                        k = j + 1
+                        while k < len(line) and (line[k].isalnum() or line[k] == '_'):
+                            k += 1
+                        if k < len(line) and line[k] == '$':
+                            # Found opening dollar quote
+                            dollar_tag = line[j+1:k]
+                            in_dollar_quote = True
+                            j = k + 1
+                            continue
+                    # Check for semicolon (statement terminator)
+                    elif line[j] == ';':
+                        current_stmt.append(line[:j])
+                        stmt_text = '\n'.join(current_stmt).strip()
+                        if stmt_text:
+                            statements.append(stmt_text)
+                        current_stmt = []
+                        line = line[j+1:]
+                        j = 0
+                        continue
+                else:
+                    # Check for end of dollar-quoted string
+                    if line[j] == '$':
+                        # Look for matching closing tag
+                        tag_len = len(dollar_tag)
+                        end_tag = f'${dollar_tag}$'
+                        if line[j:j+len(end_tag)] == end_tag:
+                            in_dollar_quote = False
+                            dollar_tag = None
+                            j += len(end_tag)
+                            continue
+                
+                j += 1
+            
+            # Add remaining line content to current statement
+            if line or current_stmt:
+                current_stmt.append(line)
+            i += 1
+        
+        # Add final statement if any
+        if current_stmt:
+            stmt_text = '\n'.join(current_stmt).strip()
+            if stmt_text:
+                statements.append(stmt_text)
+        
+        return statements
 
     def commit(self) -> None:
         """

@@ -230,7 +230,7 @@ class MalaysiaExporter:
         """Generate comprehensive coverage report."""
         stats = self.repo.get_run_stats()
 
-        report_path = self.output_dir / "malaysia_coverage_report.txt"
+        report_path = self.exports_dir / "malaysia_coverage_report.txt"
 
         total = stats["pcid_mapped"] + stats["pcid_not_mapped"]
         pcid_coverage = (stats["pcid_mapped"] / total * 100) if total else 0

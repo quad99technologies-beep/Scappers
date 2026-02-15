@@ -1,0 +1,12 @@
+URLs WITH drug records:
+================================================================================
+https://lekovi.zdravstvo.gov.mk/drugsregister:detaileddrug/1017828330?t:ac=overview
+https://lekovi.zdravstvo.gov.mk/drugsregister:detaileddrug/1019198254?t:ac=overview
+https://lekovi.zdravstvo.gov.mk/drugsregister:detaileddrug/1026762240?t:ac=overview
+
+
+URLs WITHOUT drug records:
+================================================================================
+https://lekovi.zdravstvo.gov.mk/drugsregister:detaileddrug/1018776540?t:ac=overview
+https://lekovi.zdravstvo.gov.mk/drugsregister:detaileddrug/1018776541?t:ac=overview
+https://lekovi.zdravstvo.gov.mk/drugsregister:detaileddrug/1018776542?t:ac=overview

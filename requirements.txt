@@ -1,82 +1,45 @@
-# Core Dependencies
+# Core Framework
 python-dotenv>=1.0.0
+psutil>=5.9.0
+requests>=2.31.0
+urllib3>=2.0.0
+tenacity>=8.2.0              # Smart retry logic
 
-# Web Scraping
+# Web Scraping & Browser Automation
 selenium>=4.0.0
 webdriver-manager>=4.0.0
-requests>=2.31.0
 beautifulsoup4>=4.12.0
 lxml>=4.9.0
-urllib3>=2.0.0
+playwright>=1.40.0           # Modern browser automation
 
-# Data Processing
+# Data Processing & Science
 pandas>=2.0.0
 numpy>=1.24.0
-openpyxl>=3.1.0  # For Excel file support (optional, used in GUI)
+openpyxl>=3.1.0              # Excel support
+python-dateutil>=2.8.2       # Date parsing
+dateparser>=1.2.0            # Advanced date parsing
+rapidfuzz>=3.5.0             # Fuzzy string matching
+scikit-learn>=1.3.0          # Anomaly detection (IsolationForest)
+pandera>=0.17.0              # Data validation schemas
+datacompy>=0.11.0            # Data comparison
 
-# PDF Processing
+# Database
+psycopg2-binary>=2.9.0
+
+# PDF & Crypto
 pdfplumber>=0.10.0
 PyPDF2>=3.0.0
 pycryptodome>=3.19.0
 
-# AI/ML
-openai>=1.0.0
+# UI & Progress
+rich>=13.7.0                 # Terminal UI
+joblib>=1.3.0                # Parallel processing helpers
+tqdm>=4.66.0                 # Progress bars
 
-# Database (optional)
-psycopg2-binary>=2.9.0
-
-# System utilities
-psutil>=5.9.0
-
-# Browser Automation
-playwright>=1.40.0
-
-# Translation
-deep-translator>=1.11.4
-
-# ============================================================
-# NEW: Intelligence & Improvement Libraries (No LLM Required)
-# ============================================================
-
-# Data Quality & Validation
-pandera>=0.17.0              # Schema validation for DataFrames
-rapidfuzz>=3.5.0             # Fast fuzzy string matching for deduplication
-scikit-learn>=1.3.0          # Anomaly detection (IsolationForest, LOF)
-
-# Smart Retry & Rate Limiting
-tenacity>=8.2.0              # Intelligent retry with exponential backoff
-ratelimit>=2.2.1             # Rate limiting decorators
-
-# Caching
-diskcache>=5.6.0             # Persistent disk-based caching
-
-# Enhanced UI/Progress
-rich>=13.7.0                 # Beautiful terminal output and progress bars
-
-# Notifications (optional)
-plyer>=2.1.0                 # Cross-platform desktop notifications
-
-# Reporting
-jinja2>=3.1.0                # HTML report templating
-
-# Data Comparison
-datacompy>=0.11.0            # Advanced DataFrame comparison
-
-# Date/Time Parsing (optional, for multi-language dates)
-dateparser>=1.2.0            # Parse dates in any format/language
-
-# ============================================================
-# Installation Notes:
-# ============================================================
-# All new libraries are OPTIONAL - the core modules gracefully
-# degrade if libraries are not installed.
-#
-# Minimal install (existing functionality):
-#   pip install -r requirements.txt --ignore-installed pandera rapidfuzz scikit-learn tenacity ratelimit diskcache rich plyer jinja2 datacompy dateparser
-#
-# Full install (all intelligence features):
-#   pip install -r requirements.txt
-#
-# The new modules will use fallback implementations if libraries
-# are not available, so existing functionality is preserved.
-# ============================================================
+# Monitoring & AI
+prometheus-client>=0.19.0    # Metrics
+openai>=1.0.0                # LLM integration (optional)
+deep-translator>=1.11.4      # Translation services
+plyer>=2.1.0                 # Desktop notifications
+jinja2>=3.1.0                # Reporting templates
+diskcache>=5.6.0             # File-based caching
