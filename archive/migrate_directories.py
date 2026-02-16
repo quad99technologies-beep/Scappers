@@ -80,7 +80,7 @@ def update_references():
     files_to_check = [
         "platform_config.py",
         "scraper_gui.py",
-        "telegram_bot.py",
+        "tools/telegram_bot.py",
         "shared_workflow_runner.py",
         "core/config_manager.py",
     ]

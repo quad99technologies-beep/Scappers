@@ -34,8 +34,9 @@ _repo_root = Path(__file__).resolve().parents[2]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 _script_dir = Path(__file__).parent
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
+if str(_script_dir) in sys.path:
+    sys.path.remove(str(_script_dir))
+sys.path.insert(0, str(_script_dir))
 
 # ---- Config loader ----
 try:

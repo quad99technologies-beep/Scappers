@@ -18,13 +18,13 @@ repo_root = Path(__file__).resolve().parent.parent
 if str(repo_root) not in sys.path:
     sys.path.insert(0, str(repo_root))
 
-from scripts.common.scraper_registry import (
+from services.scraper_registry import (
     get_scraper_config,
     get_execution_mode,
     get_run_id_env_var,
     get_pipeline_script
 )
-from core.url_work_queue import URLWorkQueue
+from core.pipeline.url_work_queue import URLWorkQueue
 
 logging.basicConfig(
     level=logging.INFO,
@@ -47,13 +47,20 @@ class ScraperOrchestrator:
         self.queue = URLWorkQueue(self.db_config)
     
     def _get_default_db_config(self) -> Dict[str, Any]:
-        """Get default database configuration from environment"""
+        """Get database configuration from env (platform.env). Uses POSTGRES_* or DB_* keys."""
+        def _e(k1: str, k2: str, default: str) -> str:
+            return os.getenv(k1) or os.getenv(k2) or default
+        def _ei(k1: str, k2: str, default: int) -> int:
+            try:
+                return int(_e(k1, k2, str(default)))
+            except (ValueError, TypeError):
+                return default
         return {
-            'host': os.getenv('DB_HOST', 'localhost'),
-            'port': int(os.getenv('DB_PORT', '5432')),
-            'database': os.getenv('DB_NAME', 'scraper_db'),
-            'user': os.getenv('DB_USER', 'postgres'),
-            'password': os.getenv('DB_PASSWORD', '')
+            'host': _e('POSTGRES_HOST', 'DB_HOST', 'localhost'),
+            'port': _ei('POSTGRES_PORT', 'DB_PORT', 5432),
+            'database': _e('POSTGRES_DB', 'DB_NAME', 'scraper_db'),
+            'user': _e('POSTGRES_USER', 'DB_USER', 'postgres'),
+            'password': _e('POSTGRES_PASSWORD', 'DB_PASSWORD', '')
         }
     
     def start_scraper(self, scraper_name: str, resume: bool = True, 
@@ -204,7 +211,7 @@ class ScraperOrchestrator:
             Worker start command
         """
         return (
-            f"python core/url_worker.py "
+            f"python core/utils/url_worker.py "
             f"--scraper {scraper_name} "
             f"--run-id {run_id} "
             f"--db-host {self.db_config['host']} "
@@ -241,9 +248,26 @@ class ScraperOrchestrator:
         }
 
 
+def _load_platform_env():
+    """Load platform.env and .env before reading config."""
+    try:
+        from dotenv import load_dotenv
+        repo_root = Path(__file__).resolve().parents[2]
+        platform_env = repo_root / "config" / "platform.env"
+        if platform_env.exists():
+            load_dotenv(platform_env, override=False)
+        root_env = repo_root / ".env"
+        if root_env.exists():
+            load_dotenv(root_env, override=False)
+    except ImportError:
+        pass
+
+
 def main():
     """CLI entry point"""
     import argparse
+
+    _load_platform_env()
     
     parser = argparse.ArgumentParser(description="Scraper Orchestrator")
     parser.add_argument("scraper", help="Scraper name")

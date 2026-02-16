@@ -29,7 +29,7 @@ def get_lock_paths(scraper_name: str, repo_root: Optional[Path] = None) -> Tuple
         from core.config.config_manager import ConfigManager
 
         # Migrated: get_path_manager() -> ConfigManager
-        new_lock = pm.get_lock_file(scraper_name)
+        new_lock = ConfigManager.get_sessions_dir() / f"{scraper_name}.lock"
     except Exception:
         new_lock = base_root / ".locks" / f"{scraper_name}.lock"
     old_lock = base_root / f".{scraper_name}_run.lock"

@@ -3,94 +3,55 @@
 """
 Backup Output Folder
 
-Creates a backup of the output folder with a timestamp based on the latest
-file modification date, then cleans the output folder for a fresh run.
-
-Author: Enterprise PDF Processing Pipeline
-License: Proprietary
+Creates a backup of the output folder, then cleans the output folder for a fresh run.
 """
 
-from pathlib import Path
 import sys
 import os
 
-# Force unbuffered output for real-time console updates
-sys.stdout.reconfigure(line_buffering=True) if hasattr(sys.stdout, 'reconfigure') else None
-os.environ.setdefault('PYTHONUNBUFFERED', '1')
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(line_buffering=True)
+os.environ.setdefault("PYTHONUNBUFFERED", "1")
 
-# Add repo root to path for shared utilities
+from pathlib import Path
+
 _repo_root = Path(__file__).resolve().parents[2]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
-try:
-    from config_loader import load_env_file, getenv_list, get_output_dir, get_backup_dir, get_central_output_dir
-    load_env_file()
-    OUTPUT_DIR = get_output_dir()
-    BACKUP_DIR = get_backup_dir()
-    CENTRAL_OUTPUT_DIR = get_central_output_dir()
-except ImportError:
-    # Fallback to original values if config_loader not available
-    BASE_DIR = Path(__file__).resolve().parents[1]
-    OUTPUT_DIR = BASE_DIR / "output"
-    BACKUP_DIR = BASE_DIR / "backup"
-    _repo_root = Path(__file__).resolve().parents[2]
-    CENTRAL_OUTPUT_DIR = _repo_root / "output"
+from core.utils.shared_utils import run_backup_and_clean
 
-from core.utils.shared_utils import backup_output_folder, clean_output_folder
+SCRAPER_ID = "Russia"
 
 
 def main() -> None:
-    """Main entry point."""
     print()
     print("=" * 80)
     print("BACKUP AND CLEAN OUTPUT FOLDER")
     print("=" * 80)
     print()
 
-    # Step 1: Backup
-    print("[1/2] Creating backup of output folder...")
-    backup_result = backup_output_folder(
-        output_dir=OUTPUT_DIR,
-        backup_dir=BACKUP_DIR,
-        central_output_dir=CENTRAL_OUTPUT_DIR,
-        exclude_dirs=[str(BACKUP_DIR)]
-    )
+    result = run_backup_and_clean(SCRAPER_ID)
+    backup_result = result["backup"]
+    clean_result = result["clean"]
 
+    print("[1/2] Creating backup of output folder...")
     if backup_result["status"] == "ok":
-        print(f"[OK] Backup created successfully!")
-        print(f"     Location: {backup_result['backup_folder']}")
-        print(f"     Timestamp: {backup_result['timestamp']}")
-        print(f"     Latest file modification: {backup_result['latest_modification']}")
-        print(f"     Files backed up: {backup_result['files_backed_up']}")
+        print(f"[OK] Backup: {backup_result['backup_folder']}")
     elif backup_result["status"] == "skipped":
         print(f"[SKIP] {backup_result['message']}")
     else:
-        print(f"[ERROR] {backup_result['message']}")
+        print(f"[ERROR] {backup_result.get('message', 'Backup failed')}")
         return
 
     print()
-
-    # Step 2: Clean
     print("[2/2] Cleaning output folder...")
-    keep_files = getenv_list("SCRIPT_00_KEEP_FILES", ["execution_log.txt"])
-    keep_dirs = getenv_list("SCRIPT_00_KEEP_DIRS", ["runs", "backups"])
-    clean_result = clean_output_folder(
-        output_dir=OUTPUT_DIR,
-        backup_dir=BACKUP_DIR,
-        central_output_dir=CENTRAL_OUTPUT_DIR,
-        keep_files=keep_files,
-        keep_dirs=keep_dirs
-    )
-
     if clean_result["status"] == "ok":
-        print(f"[OK] Output folder cleaned successfully!")
-        print(f"     Files deleted: {clean_result['files_deleted']}")
-        print(f"     Directories deleted: {clean_result['directories_deleted']}")
+        print(f"[OK] Cleaned ({clean_result.get('files_deleted', 0)} files removed)")
     elif clean_result["status"] == "skipped":
-        print(f"[SKIP] {clean_result['message']}")
+        print(f"[SKIP] {clean_result.get('message', '')}")
     else:
-        print(f"[ERROR] {clean_result['message']}")
+        print(f"[ERROR] {clean_result.get('message', 'Clean failed')}")
         return
 
     print()

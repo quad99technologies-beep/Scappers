@@ -219,19 +219,28 @@ def build_driver(headless: bool = False) -> webdriver.Chrome:
 
     driver.set_page_load_timeout(120)
     
-    # Track Chrome instance
+    # Track Chrome PIDs in DB for pipeline stop cleanup
     try:
+        from core.browser.chrome_pid_tracker import get_chrome_pids_from_driver
         from core.browser.chrome_instance_tracker import ChromeInstanceTracker
-        run_id = os.getenv("TENDER_CHILE_RUN_ID", "")
-        if run_id:
-            from core.db.connection import CountryDB
+        from core.db.connection import CountryDB
+        run_id = os.getenv("TENDER_CHILE_RUN_ID", "").strip()
+        if not run_id:
+            run_id_file = get_output_dir() / ".current_run_id"
+            if run_id_file.exists():
+                run_id = run_id_file.read_text(encoding="utf-8").strip()
+        pids = get_chrome_pids_from_driver(driver)
+        if pids and run_id:
+            driver_pid = driver.service.process.pid if hasattr(driver.service, 'process') else list(pids)[0]
             db = CountryDB("Tender_Chile")
-            tracker = ChromeInstanceTracker("Tender_Chile", run_id, db)
-            pid = driver.service.process.pid if hasattr(driver.service, 'process') else None
-            if pid:
-                tracker.register(step_number=2, thread_id=0, pid=pid, browser_type="chrome")
-    except ImportError:
-        pass  # Chrome tracking not available
+            db.connect()
+            try:
+                tracker = ChromeInstanceTracker("Tender_Chile", run_id, db)
+                tracker.register(step_number=2, pid=driver_pid, browser_type="chrome", child_pids=pids)
+            finally:
+                db.close()
+    except Exception:
+        pass
     
     return driver
 

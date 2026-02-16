@@ -1,0 +1,86 @@
+{
+  "id": "913b2f9e-e2d1-4201-a38c-07b4e292a4d4",
+  "titolo": "DET PRES/UPR 86/2026 Classificazione di specialita medicinali ai sensi dell'art. 8, comma 10, della legge 24 dicembre 1993, n. 537 - STEZEROL ",
+  "ufficio": "PRES - UFFICIO DI PRESIDENZA",
+  "ufficioEmettitore": {
+    "id": 1,
+    "codice": "EX00833",
+    "descrizioneIt": "AGENZIA ITALIANA DEL FARMACO",
+    "descrizioneEn": "AGENZIA ITALIANA DEL FARMACO"
+  },
+  "idSchedaDocumento": "197937707",
+  "idSchedaDocumentoRettifica": null,
+  "tipiAtto": [
+    {
+      "id": 1046,
+      "codice": "A_H",
+      "descrizioneIt": "Modifica Classe di Rimborsabilità di un medicinale (classi A-H)",
+      "descrizioneEn": "-",
+      "version": 2
+    }
+  ],
+  "tipoTrasmissione": "REDAZIONE",
+  "tipoProvvedimento": {
+    "id": 1020,
+    "codice": "DECRETO DIRIGENZIALE",
+    "descrizioneIt": "Determina",
+    "descrizioneEn": "Decree",
+    "version": 1
+  },
+  "numeroRepertorio": "AIFA_PRES-86-2026",
+  "numeroProtocollo": null,
+  "idDocumentoDocsPa": null,
+  "data": "2026-01-28T00:00:00Z",
+  "dataProtocollo": null,
+  "dataPubblicazione": "2026-02-02T09:59:35Z",
+  "dataEfficacia": "2026-02-05T00:00:00Z",
+  "datiFarmaco": [
+    {
+      "id": "a4febb48-6d80-49b4-b5fb-174dab5541b6",
+      "denominazione": "STEZEROL",
+      "denominazioneAzienda": "PHARMEXTRACTA S.P.A.",
+      "tipoFarmaco": {
+        "id": 1010,
+        "codice": "1",
+        "descrizioneIt": "PRODOTTO MEDICINALE CHIMICO",
+        "descrizioneEn": "CHEMICAL MEDICINAL PRODUCT"
+      },
+      "aic6": "051702",
+      "aic9": null,
+      "tipiProcedura": [
+        {
+          "id": 1005,
+          "codice": "M",
+          "descrizioneIt": "MUTUO RICONOSCIMENTO",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "tipiAutorizzazione": [
+        {
+          "id": 1004,
+          "codice": "1",
+          "descrizioneIt": "AUTORIZZAZIONE",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "principiAttivi": [
+        "ROSUVASTATINA",
+        "EZETIMIBE"
+      ],
+      "atcs": [
+        "C10BA06"
+      ]
+    }
+  ],
+  "allegati": [
+    {
+      "id": 1443,
+      "nome": "filePrincipale",
+      "principale": true
+    }
+  ],
+  "fileNameDetermina": "filePrincipale",
+  "version": 0
+}

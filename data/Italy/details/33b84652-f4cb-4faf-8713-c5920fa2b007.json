@@ -1,0 +1,85 @@
+{
+  "id": "33b84652-f4cb-4faf-8713-c5920fa2b007",
+  "titolo": "DET PRES/UPR 82/2026 Regime di rimborsabilita e prezzo a seguito di nuove indicazioni terapeutiche di medicinali - CLOPIDOGREL VIATRIS",
+  "ufficio": "PRES - UFFICIO DI PRESIDENZA",
+  "ufficioEmettitore": {
+    "id": 1,
+    "codice": "EX00833",
+    "descrizioneIt": "AGENZIA ITALIANA DEL FARMACO",
+    "descrizioneEn": "AGENZIA ITALIANA DEL FARMACO"
+  },
+  "idSchedaDocumento": "197811432",
+  "idSchedaDocumentoRettifica": null,
+  "tipiAtto": [
+    {
+      "id": 1046,
+      "codice": "A_H",
+      "descrizioneIt": "Modifica Classe di Rimborsabilità di un medicinale (classi A-H)",
+      "descrizioneEn": "-",
+      "version": 2
+    }
+  ],
+  "tipoTrasmissione": "REDAZIONE",
+  "tipoProvvedimento": {
+    "id": 1020,
+    "codice": "DECRETO DIRIGENZIALE",
+    "descrizioneIt": "Determina",
+    "descrizioneEn": "Decree",
+    "version": 1
+  },
+  "numeroRepertorio": "AIFA_PRES-82-2026",
+  "numeroProtocollo": null,
+  "idDocumentoDocsPa": null,
+  "data": "2026-01-20T00:00:00Z",
+  "dataProtocollo": null,
+  "dataPubblicazione": "2026-01-29T11:00:49Z",
+  "dataEfficacia": "2026-01-28T00:00:00Z",
+  "datiFarmaco": [
+    {
+      "id": "1e60951b-3a25-42f7-bccc-5022262a229b",
+      "denominazione": "CLOPIDOGREL VIATRIS",
+      "denominazioneAzienda": "VIATRIS LIMITED",
+      "tipoFarmaco": {
+        "id": 1010,
+        "codice": "1",
+        "descrizioneIt": "PRODOTTO MEDICINALE CHIMICO",
+        "descrizioneEn": "CHEMICAL MEDICINAL PRODUCT"
+      },
+      "aic6": "049579",
+      "aic9": null,
+      "tipiProcedura": [
+        {
+          "id": 1007,
+          "codice": "E",
+          "descrizioneIt": "CENTRALIZZATA",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "tipiAutorizzazione": [
+        {
+          "id": 1004,
+          "codice": "1",
+          "descrizioneIt": "AUTORIZZAZIONE",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "principiAttivi": [
+        "CLOPIDOGREL"
+      ],
+      "atcs": [
+        "B01AC04"
+      ]
+    }
+  ],
+  "allegati": [
+    {
+      "id": 1402,
+      "nome": "filePrincipale",
+      "principale": true
+    }
+  ],
+  "fileNameDetermina": "filePrincipale",
+  "version": 0
+}

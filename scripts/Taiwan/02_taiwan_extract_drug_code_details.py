@@ -39,13 +39,15 @@ except ImportError:
 try:
     from core.browser.chrome_pid_tracker import (
         get_chrome_pids_from_driver,
-        save_chrome_pids,
         terminate_scraper_pids,
     )
+    from core.browser.chrome_instance_tracker import ChromeInstanceTracker
+    from core.db.postgres_connection import PostgresDB
 except ImportError:
     get_chrome_pids_from_driver = None
-    save_chrome_pids = None
     terminate_scraper_pids = None
+    ChromeInstanceTracker = None
+    PostgresDB = None
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -105,6 +107,16 @@ def percent(current: int, total: int) -> float:
     return round((current / total) * 100, 1)
 
 
+def _get_run_id() -> Optional[str]:
+    """Get run_id from .current_run_id for DB tracking."""
+    run_id_file = OUTPUT_DIR / ".current_run_id"
+    if run_id_file.exists():
+        try:
+            return run_id_file.read_text(encoding="utf-8").strip() or None
+        except Exception:
+            pass
+    return None
+
 def ensure_driver() -> webdriver.Chrome:
     opts = webdriver.ChromeOptions()
     opts.add_argument("--start-maximized")
@@ -113,11 +125,19 @@ def ensure_driver() -> webdriver.Chrome:
         opts.add_argument("--headless=new")
     driver = webdriver.Chrome(options=opts)
     driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
-    if get_chrome_pids_from_driver and save_chrome_pids:
+    run_id = _get_run_id()
+    if ChromeInstanceTracker and PostgresDB and run_id and get_chrome_pids_from_driver:
         try:
             pids = get_chrome_pids_from_driver(driver)
             if pids:
-                save_chrome_pids(SCRAPER_NAME, _repo_root, pids)
+                pid = driver.service.process.pid if hasattr(driver.service, 'process') else list(pids)[0]
+                db = PostgresDB(SCRAPER_NAME)
+                db.connect()
+                try:
+                    tracker = ChromeInstanceTracker(SCRAPER_NAME, run_id, db)
+                    tracker.register(step_number=1, pid=pid, browser_type="chrome", child_pids=pids)
+                finally:
+                    db.close()
         except Exception:
             pass
     return driver

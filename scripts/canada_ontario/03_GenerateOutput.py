@@ -26,10 +26,14 @@ from pathlib import Path
 from datetime import datetime
 from typing import Optional
 
-# Add script directory to path for config_loader import
+# Add script directory to path for config_loader import (must be first to avoid loading another scraper's config)
 _script_dir = Path(__file__).resolve().parent
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
+
+# Clear conflicting config_loader when run in same process as other scrapers (e.g. GUI)
+if "config_loader" in sys.modules:
+    del sys.modules["config_loader"]
 
 from config_loader import (
     get_output_dir, get_central_output_dir,
@@ -39,6 +43,7 @@ from config_loader import (
 )
 from core.utils.logger import setup_standard_logger
 from core.progress.progress_tracker import StandardProgress
+from core.db.postgres_connection import PostgresDB
 
 import pandas as pd
 
@@ -70,6 +75,78 @@ def parse_float(value: Optional[object]) -> Optional[float]:
         return float(s)
     except (ValueError, TypeError):
         return None
+
+
+def insert_final_output_to_db(df: pd.DataFrame) -> None:
+    """Insert final output into co_final_output table."""
+    if df.empty:
+        logger.warning("[DB] No final output to migrate - dataframe is empty")
+        return
+    
+    try:
+        db = PostgresDB("CanadaOntario")
+        db.connect()
+        logger.info("[DB] Connected to PostgreSQL database")
+        try:
+            run_id = get_run_id()
+            db_rows = []
+            for _, row in df.iterrows():
+                db_row = (
+                    run_id,
+                    row.get("PCID", ""),
+                    "CANADA",  # country
+                    "NORTH AMERICA",  # region
+                    row.get("Company", ""),
+                    row.get("Local Product Name", ""),
+                    row.get("Generic Name", ""),
+                    parse_float(row.get("Public With VAT Price")),
+                    None,  # public_without_vat_price
+                    None,  # eap_price
+                    "CAD",  # currency
+                    row.get("Reimbursement Category", ""),
+                    parse_float(row.get("Reimbursement Amount")),
+                    parse_float(row.get("Co-Pay Amount")),
+                    "",  # benefit_status
+                    "",  # interchangeability
+                    row.get("LOCAL_PACK_CODE", ""),  # din
+                    "",  # strength
+                    "",  # dosage_form
+                    "",  # pack_size
+                    row.get("Local Pack Description", ""),
+                    row.get("LOCAL_PACK_CODE", ""),
+                    row.get("Effective Start Date", ""),
+                    "",  # effective_end_date
+                    "PRICENTRIC"  # source
+                )
+                db_rows.append(db_row)
+            
+            sql_query = """
+                INSERT INTO co_final_output 
+                (run_id, pcid, country, region, company, local_product_name, generic_name,
+                 unit_price, public_without_vat_price, eap_price, currency,
+                 reimbursement_category, reimbursement_amount, copay_amount,
+                 benefit_status, interchangeability, din, strength, dosage_form, pack_size,
+                 local_pack_description, local_pack_code, effective_start_date, effective_end_date, source)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                ON CONFLICT (run_id, din, pack_size) DO UPDATE SET
+                    pcid = EXCLUDED.pcid,
+                    company = EXCLUDED.company,
+                    unit_price = EXCLUDED.unit_price,
+                    reimbursement_category = EXCLUDED.reimbursement_category,
+                    reimbursement_amount = EXCLUDED.reimbursement_amount,
+                    copay_amount = EXCLUDED.copay_amount
+            """
+            
+            with db.cursor() as cur:
+                cur.executemany(sql_query, db_rows)
+            
+            logger.info(f"[DB] Migrated {len(db_rows)} rows to co_final_output table")
+        except Exception as e:
+            logger.error(f"[DB] Failed to migrate final output: {e}")
+        finally:
+            db.close()
+    except Exception as e:
+        logger.error(f"[DB] Connection failed: {e}")
 
 
 def determine_reimbursement_category(row: pd.Series) -> tuple:
@@ -114,16 +191,47 @@ def main():
     )
     logger.info("Canada Ontario final output generator")
     
-    if not INPUT_CSV.exists():
-        raise FileNotFoundError(
-            f"Input file not found: {INPUT_CSV}\n"
-            f"Please run script 01 (extract_product_details.py) first to generate this file."
-        )
-    
-    # Read input CSV
+    # Load data: DB first (primary), CSV fallback (legacy)
     progress.update(0, message="load data", force=True)
-    df = pd.read_csv(INPUT_CSV, dtype=str).fillna("")
-    logger.info("Loaded %s rows from %s", len(df), INPUT_CSV.name)
+    df = None
+    try:
+        from core.db.postgres_connection import PostgresDB
+        _co_dir = Path(__file__).resolve().parent
+        if str(_co_dir) not in sys.path:
+            sys.path.insert(0, str(_co_dir))
+        if "config_loader" in sys.modules:
+            del sys.modules["config_loader"]
+        from config_loader import get_run_id
+        from db.repositories import CanadaOntarioRepository
+        from db.schema import apply_canada_ontario_schema
+        db = PostgresDB("CanadaOntario")
+        db.connect()
+        apply_canada_ontario_schema(db)
+        repo = CanadaOntarioRepository(db, get_run_id())
+        products = repo.get_all_products()
+        db.close()
+        if products:
+            df = pd.DataFrame(products)
+            # Map DB columns to expected names for downstream processing
+            df = df.rename(columns={
+                "product_name": "brand_name_strength_dosage",
+                "manufacturer": "manufacturer_name",
+                "din": "local_pack_code",
+                "interchangeability": "interchangeable",
+                "therapeutic_notes": "therapeutic_notes_requirements",
+            })
+            logger.info("Loaded %s rows from co_products (DB)", len(df))
+    except Exception as e:
+        logger.debug("DB load failed: %s, trying CSV fallback", e)
+    
+    if df is None or df.empty:
+        if not INPUT_CSV.exists():
+            raise FileNotFoundError(
+                f"No product data found. Run script 01 (extract_product_details.py) first.\n"
+                f"DB query failed and CSV not found: {INPUT_CSV}"
+            )
+        df = pd.read_csv(INPUT_CSV, dtype=str).fillna("")
+        logger.info("Loaded %s rows from %s (CSV fallback)", len(df), INPUT_CSV.name)
     
     # Build final output dataframe
     progress.update(1, message="process data", force=True)
@@ -206,6 +314,12 @@ def main():
     # Write output CSV
     progress.update(2, message="write output", force=True)
     df_final.to_csv(OUTPUT_CSV, index=False, encoding="utf-8-sig", float_format="%.2f")
+    
+    # Save to DB
+    logger.info("[DB] Migrating final output to co_final_output table...")
+    insert_final_output_to_db(df_final)
+    logger.info("[DB] Final output migration complete")
+    
     progress.update(3, message="complete", force=True)
     
     logger.info("Wrote output: %s", OUTPUT_CSV)

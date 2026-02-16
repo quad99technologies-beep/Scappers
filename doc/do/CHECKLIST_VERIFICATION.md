@@ -130,7 +130,7 @@
 **Note:** Preflight DQ checks verify `run_id` exists in `run_ledger` before saving (fixes foreign key violation)
 
 ### 14. Audit Logging ✅
-- ✅ Imports `audit_log` from `core.audit_logger`
+- ✅ Imports `audit_log` from `core.monitoring.audit_logger`
 - ✅ Logs `run_started` event at pipeline start
 - ✅ Logs `run_completed` event on successful completion
 - ✅ Logs `run_failed` event on failure

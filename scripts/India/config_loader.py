@@ -68,8 +68,11 @@ def getenv(key: str, default: str = None):
     if env_val is not None and env_val != "":
         return env_val
     if _PLATFORM_CONFIG_AVAILABLE:
-        cr = get_config_resolver()
-        return cr.get(SCRAPER_ID, key, default if default is not None else "")
+        try:
+            val = ConfigManager.get_config_value(SCRAPER_ID, key, None)
+            return str(val) if val is not None else (default if default is not None else "")
+        except Exception:
+            pass
     return os.getenv(key, default)
 
 
@@ -135,8 +138,10 @@ def getenv_list(key: str, default: list = None) -> list:
     if default is None:
         default = []
     if _PLATFORM_CONFIG_AVAILABLE:
-        cr = get_config_resolver()
-        value = cr.get(SCRAPER_ID, key, default)
+        try:
+            value = ConfigManager.get_config_value(SCRAPER_ID, key, default)
+        except Exception:
+            value = os.getenv(key, None)
     else:
         value = os.getenv(key)
         if value is None:

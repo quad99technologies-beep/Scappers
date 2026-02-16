@@ -1,0 +1,11 @@
+{
+  "task_id": "canada_ontario_backup",
+  "current": 3,
+  "total": 3,
+  "unit": "steps",
+  "pct": 100.0,
+  "rate_per_sec": 17.4664,
+  "eta_seconds": 0,
+  "message": "backup complete",
+  "updated_at": "2026-02-16T02:52:55.254079+00:00"
+}

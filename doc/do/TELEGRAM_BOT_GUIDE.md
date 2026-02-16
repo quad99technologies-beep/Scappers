@@ -9,7 +9,7 @@ Use the Telegram bot to check pipeline status and start pipelines remotely.
    - `TELEGRAM_ALLOWED_CHAT_IDS` (optional, comma-separated)
    - `TELEGRAM_DEFAULT_SCRAPER` (optional, e.g. `CanadaQuebec`)
 3. Start the bot:
-   - `python telegram_bot.py`
+   - `python tools/telegram_bot.py`
 
 ## Commands
 - `/help` - Show help

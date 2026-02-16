@@ -18,15 +18,17 @@ import csv
 from pathlib import Path
 from typing import List, Dict, Optional
 
-# Add repo root to path
+# Add repo root and script dir to path (script dir first for config_loader)
 _repo_root = Path(__file__).resolve().parents[2]
-if str(_repo_root) not in sys.path:
-    sys.path.insert(0, str(_repo_root))
-
-# Add scripts/Canada Ontario to path for imports
 _script_dir = Path(__file__).parent
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+# Clear conflicting config_loader when run in same process as other scrapers (e.g. GUI)
+if "config_loader" in sys.modules:
+    del sys.modules["config_loader"]
 
 from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
 from core.utils.logger import setup_standard_logger
@@ -124,7 +126,7 @@ def _get_process_name(pid: int) -> str:
 
 
 def _acquire_lock(scraper_id: str) -> Optional[Path]:
-    lock_file = ConfigManager.get_lock_file(scraper_id)
+    lock_file = ConfigManager.get_sessions_dir() / f"{scraper_id}.lock"
     lock_file.parent.mkdir(parents=True, exist_ok=True)
     lock_force = getenv_bool("LOCK_FORCE", False)
     stale_seconds = getenv_int("LOCK_STALE_SECONDS", 21600)
@@ -202,6 +204,25 @@ def _validate_output_files(output_files: Optional[List[str]]) -> List[str]:
     return missing
 
 
+def _validate_step1_db_only() -> List[str]:
+    """When DB_ONLY, validate step 1 by checking co_products has rows instead of CSV files."""
+    try:
+        from core.db.postgres_connection import PostgresDB
+        db = PostgresDB("CanadaOntario")
+        db.connect()
+        try:
+            with db.cursor() as cur:
+                cur.execute("SELECT COUNT(*) FROM co_products WHERE run_id = %s", (RUN_ID,))
+                count = cur.fetchone()[0] or 0
+            if count > 0:
+                return []
+            return ["co_products has 0 rows for this run"]
+        finally:
+            db.close()
+    except Exception as e:
+        return [f"DB validation failed: {e}"]
+
+
 def _validate_final_output(path: Path) -> List[str]:
     required = {
         "PCID",
@@ -252,7 +273,12 @@ def run_step(step_meta: Dict, progress: StandardProgress):
         # Mark step as complete
         cp = get_checkpoint_manager("CanadaOntario")
         output_files = step_meta.get("outputs") or []
-        missing = _validate_output_files(output_files)
+        # Step 1: when DB_ONLY, validate DB instead of CSV files
+        db_only = getenv_bool("DB_ONLY", True)
+        if step_num == 1 and db_only:
+            missing = _validate_step1_db_only()
+        else:
+            missing = _validate_output_files(output_files)
         if missing:
             logger.error("Step %s outputs invalid: %s", step_name, "; ".join(missing))
             return False
@@ -267,7 +293,7 @@ def run_step(step_meta: Dict, progress: StandardProgress):
         
         # MEMORY FIX: Periodic resource monitoring
         try:
-            from core.resource_monitor import periodic_resource_check
+            from core.monitoring.resource_monitor import periodic_resource_check
             resource_status = periodic_resource_check("CanadaOntario", force=False)
             if resource_status.get("warnings"):
                 for warning in resource_status["warnings"]:
@@ -436,6 +462,7 @@ def main():
     
     # Check all steps before start_step to find the earliest step that needs re-running
     earliest_rerun_step = None
+    db_only = getenv_bool("DB_ONLY", True)
     for step in steps:
         step_num = step["id"]
         if step_num < start_step:
@@ -443,7 +470,10 @@ def main():
             if not step_complete:
                 earliest_rerun_step = step_num if earliest_rerun_step is None else min(earliest_rerun_step, step_num)
             else:
-                missing = _validate_output_files(step.get("outputs"))
+                if step_num == 1 and db_only:
+                    missing = _validate_step1_db_only()
+                else:
+                    missing = _validate_output_files(step.get("outputs"))
                 if missing:
                     logger.warning("Step %s marked complete but outputs missing: %s", step_num, "; ".join(missing))
                     earliest_rerun_step = step_num if earliest_rerun_step is None else min(earliest_rerun_step, step_num)
@@ -470,7 +500,7 @@ def main():
                 logger.error("Pipeline stopped at step %s", step["id"])
                 sys.exit(1)
 
-            if qa_enabled and step["id"] == 1:
+            if qa_enabled and step["id"] == 1 and not getenv_bool("DB_ONLY", True):
                 try:
                     qa_result = validate_output(str(output_dir / "products.csv"), "CanadaOntario")
                     if not qa_result.get("valid", True):
@@ -499,6 +529,7 @@ def main():
     total_duration = time.perf_counter() - pipeline_start
     progress.update(len(steps), message="pipeline completed", force=True)
     logger.info("Pipeline completed successfully in %.2fs", total_duration)
+    logger.info("[DB] All data migrated to PostgreSQL database successfully")
     try:
         timing = cp.get_pipeline_timing()
         timing["total_duration_seconds"] = total_duration

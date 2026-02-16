@@ -205,6 +205,12 @@ def detect_network_type(scraper_name: str, config: Optional[dict] = None) -> Net
         return info
     
     # Check for Tor configuration
+    # First check if Tor is explicitly disabled
+    tor_enabled = config.get("TOR_ENABLED", True)
+    if isinstance(tor_enabled, str):
+        tor_enabled = tor_enabled.strip().lower() in ("1", "true", "yes", "on")
+    
+    # Only check other Tor settings if TOR_ENABLED is not explicitly False
     tor_control_port = config.get("TOR_CONTROL_PORT", 0)
     if isinstance(tor_control_port, str):
         try:
@@ -223,7 +229,8 @@ def detect_network_type(scraper_name: str, config: Optional[dict] = None) -> Net
     if isinstance(use_tor_browser, str):
         use_tor_browser = use_tor_browser.strip().lower() in ("1", "true", "yes")
     
-    if tor_control_port or tor_newnym_enabled or use_tor_browser:
+    # Only use Tor if TOR_ENABLED is not False AND at least one other Tor setting is present
+    if tor_enabled and (tor_control_port or tor_newnym_enabled or use_tor_browser):
         tor_running, detected_port = check_tor_running(
             socks_port=tor_socks_port,
             control_port=tor_control_port or 9051
@@ -310,7 +317,9 @@ def detect_network_type(scraper_name: str, config: Optional[dict] = None) -> Net
 def load_scraper_config(scraper_name: str) -> Optional[dict]:
     """Load configuration for a scraper from its env.json file"""
     try:
-        config_path = Path(__file__).resolve().parents[1] / "config" / f"{scraper_name}.env.json"
+        # Resolve to repo root: core/network/network_info.py -> core/network -> core -> repo_root
+        repo_root = Path(__file__).resolve().parents[2]
+        config_path = repo_root / "config" / f"{scraper_name}.env.json"
         if config_path.exists():
             with open(config_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
@@ -328,7 +337,9 @@ def get_network_info_for_scraper(scraper_name: str, force_refresh: bool = False)
     Get network information for a scraper.
     Caches results for 60 seconds unless force_refresh is True.
     """
-    cache_file = Path(__file__).resolve().parents[1] / ".cache" / "network_info.json"
+    # Resolve to repo root: core/network/network_info.py -> core/network -> core -> repo_root
+    repo_root = Path(__file__).resolve().parents[2]
+    cache_file = repo_root / ".cache" / "network_info.json"
     cache_file.parent.mkdir(parents=True, exist_ok=True)
     
     # Try to load from cache

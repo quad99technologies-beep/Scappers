@@ -1,0 +1,85 @@
+{
+  "id": "b240970c-f06a-4f2e-8301-d96752227e3f",
+  "titolo": "DET PRES/UPR 100/2026 Aggiornamento piano terapeutico per la prescrizione di Dupilumab (Dupixent) nel trattamento nell'Asma Severo\n",
+  "ufficio": "PRES - UFFICIO DI PRESIDENZA",
+  "ufficioEmettitore": {
+    "id": 1,
+    "codice": "EX00833",
+    "descrizioneIt": "AGENZIA ITALIANA DEL FARMACO",
+    "descrizioneEn": "AGENZIA ITALIANA DEL FARMACO"
+  },
+  "idSchedaDocumento": "197939901",
+  "idSchedaDocumentoRettifica": null,
+  "tipiAtto": [
+    {
+      "id": 1046,
+      "codice": "A_H",
+      "descrizioneIt": "Modifica Classe di Rimborsabilità di un medicinale (classi A-H)",
+      "descrizioneEn": "-",
+      "version": 2
+    }
+  ],
+  "tipoTrasmissione": "REDAZIONE",
+  "tipoProvvedimento": {
+    "id": 1020,
+    "codice": "DECRETO DIRIGENZIALE",
+    "descrizioneIt": "Determina",
+    "descrizioneEn": "Decree",
+    "version": 1
+  },
+  "numeroRepertorio": "AIFA_PRES-100-2026",
+  "numeroProtocollo": null,
+  "idDocumentoDocsPa": null,
+  "data": "2026-01-28T00:00:00Z",
+  "dataProtocollo": null,
+  "dataPubblicazione": "2026-02-02T10:53:26Z",
+  "dataEfficacia": "2026-02-05T00:00:00Z",
+  "datiFarmaco": [
+    {
+      "id": "31bc231e-2ce2-4ec8-9f7d-429608823dcf",
+      "denominazione": "DUPIXENT",
+      "denominazioneAzienda": "SANOFI WINTHROP INDUSTRIE",
+      "tipoFarmaco": {
+        "id": 1019,
+        "codice": "10",
+        "descrizioneIt": "MEDICINALE BIOLOGICO PART A OF THE ANNEX TO REGULATION (EEC) NO 2309/93, I.E.",
+        "descrizioneEn": "LIST A BIOLOGICAL MEDICINAL PRODUCT"
+      },
+      "aic6": "045676",
+      "aic9": null,
+      "tipiProcedura": [
+        {
+          "id": 1007,
+          "codice": "E",
+          "descrizioneIt": "CENTRALIZZATA",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "tipiAutorizzazione": [
+        {
+          "id": 1004,
+          "codice": "1",
+          "descrizioneIt": "AUTORIZZAZIONE",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "principiAttivi": [
+        "DUPILUMAB"
+      ],
+      "atcs": [
+        "D11AH05"
+      ]
+    }
+  ],
+  "allegati": [
+    {
+      "id": 1449,
+      "nome": "filePrincipale",
+      "principale": true
+    }
+  ],
+  "fileNameDetermina": "filePrincipale",
+  "version": 0
+}

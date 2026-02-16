@@ -4,7 +4,7 @@ India pipeline wrapper for distributed workers.
 
 This adapter keeps the existing pipeline intact by delegating to
 run_pipeline_scrapy.py, while wiring PLATFORM_RUN_ID from WORKER_RUN_ID
-when invoked by scripts/common/worker.py.
+when invoked by services/worker.py.
 """
 
 import os

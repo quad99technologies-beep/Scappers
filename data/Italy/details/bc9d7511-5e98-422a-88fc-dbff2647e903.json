@@ -1,0 +1,85 @@
+{
+  "id": "bc9d7511-5e98-422a-88fc-dbff2647e903",
+  "titolo": "UPR DET/PRES 9/2026 Classificazione di specialita medicinali ai sensi dell'art. 8, comma 10, della legge 24 dicembre 1993, n. 537 - USYMRO",
+  "ufficio": "PRES - UFFICIO DI PRESIDENZA",
+  "ufficioEmettitore": {
+    "id": 1,
+    "codice": "EX00833",
+    "descrizioneIt": "AGENZIA ITALIANA DEL FARMACO",
+    "descrizioneEn": "AGENZIA ITALIANA DEL FARMACO"
+  },
+  "idSchedaDocumento": "197737065",
+  "idSchedaDocumentoRettifica": null,
+  "tipiAtto": [
+    {
+      "id": 1046,
+      "codice": "A_H",
+      "descrizioneIt": "Modifica Classe di Rimborsabilità di un medicinale (classi A-H)",
+      "descrizioneEn": "-",
+      "version": 2
+    }
+  ],
+  "tipoTrasmissione": "REDAZIONE",
+  "tipoProvvedimento": {
+    "id": 1020,
+    "codice": "DECRETO DIRIGENZIALE",
+    "descrizioneIt": "Determina",
+    "descrizioneEn": "Decree",
+    "version": 1
+  },
+  "numeroRepertorio": "AIFA_PRES-9-2026",
+  "numeroProtocollo": null,
+  "idDocumentoDocsPa": null,
+  "data": "2026-01-16T00:00:00Z",
+  "dataProtocollo": null,
+  "dataPubblicazione": "2026-01-24T16:48:45Z",
+  "dataEfficacia": "2026-01-28T00:00:00Z",
+  "datiFarmaco": [
+    {
+      "id": "0c076007-cb03-4a43-a3b8-2813b3b855f4",
+      "denominazione": "USYMRO",
+      "denominazioneAzienda": "GEDEON RICHTER PLC",
+      "tipoFarmaco": {
+        "id": 1019,
+        "codice": "10",
+        "descrizioneIt": "MEDICINALE BIOLOGICO PART A OF THE ANNEX TO REGULATION (EEC) NO 2309/93, I.E.",
+        "descrizioneEn": "LIST A BIOLOGICAL MEDICINAL PRODUCT"
+      },
+      "aic6": "052471",
+      "aic9": null,
+      "tipiProcedura": [
+        {
+          "id": 1007,
+          "codice": "E",
+          "descrizioneIt": "CENTRALIZZATA",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "tipiAutorizzazione": [
+        {
+          "id": 1004,
+          "codice": "1",
+          "descrizioneIt": "AUTORIZZAZIONE",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "principiAttivi": [
+        "USTEKINUMAB"
+      ],
+      "atcs": [
+        "L04AC05"
+      ]
+    }
+  ],
+  "allegati": [
+    {
+      "id": 1390,
+      "nome": "filePrincipale",
+      "principale": true
+    }
+  ],
+  "fileNameDetermina": "filePrincipale",
+  "version": 0
+}

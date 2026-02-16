@@ -171,15 +171,15 @@ def main():
     files_to_migrate = [
         # Core files
         "shared_workflow_runner.py",
-        "telegram_bot.py",
+        "tools/telegram_bot.py",
         
         # Core modules
         "core/pipeline_checkpoint.py",
         "core/pipeline_start_lock.py",
         
         # Common scripts
-        "scripts/common/api_server.py",
-        "scripts/common/pipeline_api.py",
+        "services/api_server.py",
+        "services/pipeline_api.py",
         
         # Scrapers - config_loader.py files
         "scripts/Argentina/config_loader.py",

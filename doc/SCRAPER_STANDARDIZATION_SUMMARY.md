@@ -153,9 +153,9 @@ All three interfaces (GUI, Telegram, API) now synchronize run_id:
 
 ### GUI/API/Telegram (3 files)
 - `scraper_gui.py` - Pass run_id, check existing runs
-- `telegram_bot.py` - Pass run_id, check existing runs
-- `scripts/common/api_server.py` - Pass run_id, check existing runs
-- `scripts/common/pipeline_api.py` - Pass run_id
+- `tools/telegram_bot.py` - Pass run_id, check existing runs
+- `services/api_server.py` - Pass run_id, check existing runs
+- `services/pipeline_api.py` - Pass run_id
 
 ## Verification
 All modified files compile successfully:

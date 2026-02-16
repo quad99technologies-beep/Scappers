@@ -24,25 +24,35 @@ import json
 import atexit
 import signal
 import gc
+# Add repo root and script dir to path (script dir first to avoid loading another scraper's db)
+from pathlib import Path
+_repo_root = Path(__file__).resolve().parents[2]
+_script_dir = Path(__file__).parent
+if str(_script_dir) not in sys.path:
+    sys.path.insert(0, str(_script_dir))
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+from core.control.lifecycle import register_shutdown_handler
+from core.parsing.price_parser import parse_price
+from core.network.proxy_checker import check_vpn_connection as core_check_vpn
+from core.browser.driver_factory import create_chrome_driver, restart_driver as core_restart_driver
+from core.browser.chrome_manager import register_chrome_driver, unregister_chrome_driver
+import gc
 from queue import Queue, Empty
 from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Set, Dict, List, Optional
 
 # Force unbuffered output
 sys.stdout.reconfigure(line_buffering=True) if hasattr(sys.stdout, 'reconfigure') else None
 os.environ.setdefault('PYTHONUNBUFFERED', '1')
 
-# Add repo root to path
-_repo_root = Path(__file__).resolve().parents[2]
-if str(_repo_root) not in sys.path:
-    sys.path.insert(0, str(_repo_root))
-
-_script_dir = Path(__file__).parent
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
+# Clear conflicting 'db' when run in same process as other scrapers (e.g. GUI)
+for mod in list(sys.modules.keys()):
+    if mod == "db" or mod.startswith("db."):
+        del sys.modules[mod]
 
 # Config loader
 from config_loader import (
@@ -77,10 +87,11 @@ except ImportError:
 
 from core.browser.chrome_manager import register_chrome_driver, unregister_chrome_driver
 
-# Deprecated trackers
-get_chrome_pids_from_driver = None
-save_chrome_pids = None
-cleanup_chrome_pids = None
+# PID tracking for pipeline stop cleanup (DB-based)
+try:
+    from core.browser.chrome_pid_tracker import get_chrome_pids_from_driver
+except ImportError:
+    get_chrome_pids_from_driver = None
 
 # State machine
 from smart_locator import SmartLocator
@@ -147,28 +158,7 @@ def check_vpn_connection() -> bool:
     if not VPN_CHECK_ENABLED:
         return True
     
-    if not VPN_REQUIRED:
-        print("[VPN] VPN not required, skipping check", flush=True)
-        return True
-    
-    print(f"[VPN] Checking connection to {VPN_CHECK_HOST}:{VPN_CHECK_PORT}...", flush=True)
-    
-    try:
-        import socket
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.settimeout(5)
-        result = sock.connect_ex((VPN_CHECK_HOST, VPN_CHECK_PORT))
-        sock.close()
-        
-        if result == 0:
-            print("[VPN] Connection check passed", flush=True)
-            return True
-        else:
-            print(f"[VPN] Connection check failed (error code: {result})", flush=True)
-            return False
-    except Exception as e:
-        print(f"[VPN] Connection check error: {e}", flush=True)
-        return False
+    return core_check_vpn(VPN_CHECK_HOST, VPN_CHECK_PORT, required=VPN_REQUIRED)
 
 
 # =============================================================================
@@ -225,26 +215,23 @@ _repo: Optional[RussiaRepository] = None
 # SIGNAL HANDLERS - Crash Guard
 # =============================================================================
 
-def signal_handler(signum, frame):
-    """Handle shutdown signals gracefully"""
+def save_state():
+    """Save progress to DB on shutdown"""
     global _shutdown_requested
-    print(f"\n[SIGNAL] Received signal {signum}, initiating graceful shutdown...", flush=True)
     _shutdown_requested = True
-    
-    # Save progress to DB
     if _repo and _run_id:
         try:
             _repo.finish_run("stopped", items_scraped=0)
             print(f"[SIGNAL] Run {_run_id} marked as stopped in DB", flush=True)
         except Exception as e:
             print(f"[SIGNAL] Warning: Could not update run status: {e}", flush=True)
-    
-    # Cleanup all Chrome instances
-    cleanup_all_chrome()
-    sys.exit(0)
 
-signal.signal(signal.SIGINT, signal_handler)
-signal.signal(signal.SIGTERM, signal_handler)
+def perform_cleanup():
+    """Cleanup all Chrome instances"""
+    cleanup_all_chrome()
+
+# Register standardized signal handler
+register_shutdown_handler(cleanup_func=perform_cleanup, save_state_func=save_state)
 
 # =============================================================================
 # CHROME INSTANCE TRACKING - Enhanced with Memory Management
@@ -256,6 +243,7 @@ kill_orphaned_chrome_processes()
 
 # Register cleanup
 from core.browser.chrome_manager import cleanup_all_chrome_instances
+cleanup_all_chrome = cleanup_all_chrome_instances
 atexit.register(cleanup_all_chrome_instances)
 
 def track_driver(driver: webdriver.Chrome):
@@ -263,21 +251,18 @@ def track_driver(driver: webdriver.Chrome):
     _active_drivers.append(driver)
     register_chrome_driver(driver)
     
-    # Save PIDs for GUI tracking (Standardized Shared DB)
+    # Track PIDs in DB for pipeline stop cleanup
     if ChromeInstanceTracker and _run_id:
         try:
             if hasattr(driver, "service") and hasattr(driver.service, "process"):
                 pid = driver.service.process.pid
                 if pid:
-                    # Need DB connection for tracker
+                    pids = get_chrome_pids_from_driver(driver) if get_chrome_pids_from_driver else {pid}
                     try:
                         db = CountryDB("Russia")
                         db.connect()
                         tracker = ChromeInstanceTracker("Russia", _run_id, db)
-                        tracker.register(step_number=1, pid=pid, browser_type="chrome")
-                        
-                        # Attach instance ID or something if needed, or just rely on pid?
-                        # For now just register.
+                        tracker.register(step_number=1, pid=pid, browser_type="chrome", child_pids=pids)
                         db.close()
                     except Exception as e:
                         print(f"[WARN] Failed to register chrome instance: {e}")
@@ -353,76 +338,29 @@ def get_chromedriver_path() -> str:
 def make_driver() -> webdriver.Chrome:
     """Build Chrome driver with full anti-detection"""
     # Kill any orphaned Chrome processes first
-    kill_orphaned_chrome()
-    
-    opts = ChromeOptions()
-    
-    if HEADLESS:
-        opts.add_argument("--headless=new")
-    
-    # Apply options from config
-    if CHROME_NO_SANDBOX:
-        opts.add_argument(CHROME_NO_SANDBOX)
-    if CHROME_DISABLE_DEV_SHM:
-        opts.add_argument(CHROME_DISABLE_DEV_SHM)
-    if CHROME_START_MAXIMIZED and not HEADLESS:
-        opts.add_argument(CHROME_START_MAXIMIZED)
-    if CHROME_DISABLE_AUTOMATION:
-        opts.add_argument(CHROME_DISABLE_AUTOMATION)
-    
-    # Basic options (matching old script)
-    opts.add_argument("--window-size=1600,1000")
-    opts.add_argument("--no-first-run")
-    opts.add_argument("--no-default-browser-check")
-    opts.add_argument("--disable-blink-features=AutomationControlled")
-    
-    # Critical for Windows stability - prevent tab crashes
-    opts.add_argument("--no-sandbox")
-    opts.add_argument("--disable-dev-shm-usage")
-    opts.add_argument("--disable-gpu")
-    opts.add_argument("--disable-software-rasterizer")
-    opts.add_argument("--disable-features=IsolateOrigins,site-per-process")
-    opts.add_argument("--single-process")  # Run in single process mode
-    opts.add_argument("--memory-model=low")  # Reduce memory usage
-    
-    # Specify Chrome binary location
-    opts.binary_location = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
-    
-    # Headless mode from config
-    if HEADLESS:
-        opts.add_argument("--headless=new")
-    
-    opts.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
-    opts.add_experimental_option('useAutomationExtension', False)
+    kill_orphaned_chrome_processes()
     
     # User agent from config
-    user_agent = getenv("SCRIPT_01_CHROME_USER_AGENT")
-    if user_agent:
-        opts.add_argument(f"--user-agent={user_agent}")
+    ua = getenv("SCRIPT_01_CHROME_USER_AGENT")
+    extra_opts = {}
+    if ua:
+        extra_opts['user_agent'] = ua
+    extra_opts['page_load_timeout'] = PAGE_LOAD_TIMEOUT
+
+    # Use core factory
+    driver = create_chrome_driver(
+        headless=HEADLESS, 
+        extra_options=extra_opts
+    )
     
-    # Disable images for speed
-    prefs = {
-        "profile.managed_default_content_settings.images": 2,
-        "profile.default_content_setting_values.notifications": 2,
-    }
-    opts.add_experimental_option("prefs", prefs)
-    
-    service = ChromeService(get_chromedriver_path())
-    driver = webdriver.Chrome(service=service, options=opts)
-    driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
-    
-    # CDP anti-detection
-    try:
-        driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
-            'source': '''
-                Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
-                Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3, 4, 5] });
-                Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en', 'ru-RU', 'ru'] });
-                window.chrome = { runtime: {} };
-            '''
-        })
-    except Exception:
-        pass
+    # Apply specific Russia scraper settings if needed (mostly covered by factory)
+    # The factory handles:
+    # - --headless=new
+    # - --no-sandbox, --disable-dev-shm-usage, etc.
+    # - --disable-blink-features=AutomationControlled
+    # - user-agent
+    # - page_load_timeout
+    # - CDP anti-detection
     
     track_driver(driver)
     return driver
@@ -432,11 +370,7 @@ def restart_driver(driver: webdriver.Chrome) -> webdriver.Chrome:
     """Restart driver with cleanup"""
     print("[DRIVER] Restarting Chrome...", flush=True)
     untrack_driver(driver)
-    try:
-        driver.quit()
-    except Exception:
-        pass
-    return make_driver()
+    return core_restart_driver(driver, make_driver)
 
 
 # =============================================================================
@@ -555,12 +489,7 @@ def select_region_and_search(driver: webdriver.Chrome) -> webdriver.Chrome:
 # DATA EXTRACTION
 # =============================================================================
 
-def parse_price(val: str) -> str:
-    """Extract numeric price from string"""
-    if not val:
-        return ""
-    nums = re.findall(r"[\d\s]+", val.replace(" ", ""))
-    return nums[0] if nums else val.strip()
+# parse_price imported from core
 
 
 def extract_price_and_date(cell_text: str) -> tuple[str, str]:
@@ -1286,17 +1215,32 @@ def main():
         _run_id = specified_run_id
         print(f"[INIT] Using specified run_id: {_run_id}", flush=True)
     else:
-        # Default behavior: Try to resume from best run
-        lookup_repo = RussiaRepository(db, "_lookup")
-        resume_page, best_run_id = get_resume_page_and_run_id(lookup_repo, exclude_run_id=None)
+        # Prefer pipeline-provided run_id (RUSSIA_RUN_ID or .current_run_id) when resuming
+        pipeline_run_id = (os.getenv("RUSSIA_RUN_ID") or "").strip()
+        if not pipeline_run_id:
+            run_id_file = get_output_dir() / ".current_run_id"
+            if run_id_file.exists():
+                try:
+                    pipeline_run_id = run_id_file.read_text(encoding="utf-8").strip()
+                except Exception:
+                    pass
         
-        if resume_page > 1 and best_run_id:
-            # Use the run that has the most VED pages
-            _run_id = best_run_id
-            print(f"[INIT] Resuming: using existing run_id {_run_id}", flush=True)
+        if pipeline_run_id:
+            # Use pipeline's run_id - get resume page for this specific run
+            lookup_repo = RussiaRepository(db, pipeline_run_id)
+            resume_page, _ = get_resume_page_and_run_id(lookup_repo, exclude_run_id=None)
+            _run_id = pipeline_run_id
+            print(f"[INIT] Resuming: using pipeline run_id {_run_id}", flush=True)
         else:
-            _run_id = os.getenv("RUSSIA_RUN_ID") or generate_run_id()
-            print(f"[INIT] Fresh run: new run_id {_run_id}", flush=True)
+            # No pipeline run_id - fall back to best run from DB
+            lookup_repo = RussiaRepository(db, "_lookup")
+            resume_page, best_run_id = get_resume_page_and_run_id(lookup_repo, exclude_run_id=None)
+            if resume_page > 1 and best_run_id:
+                _run_id = best_run_id
+                print(f"[INIT] Resuming: using best run from DB {_run_id}", flush=True)
+            else:
+                _run_id = generate_run_id()
+                print(f"[INIT] Fresh run: new run_id {_run_id}", flush=True)
     
     os.environ["RUSSIA_RUN_ID"] = _run_id
     
@@ -1511,7 +1455,7 @@ def main():
             # MEMORY FIX: Periodic resource monitoring and cleanup
             if _operation_count % MEMORY_CHECK_INTERVAL == 0:
                 try:
-                    from core.resource_monitor import periodic_resource_check, log_resource_status
+                    from core.monitoring.resource_monitor import periodic_resource_check, log_resource_status
                     resource_status = periodic_resource_check("Russia", force=True)
                     if resource_status.get("warnings"):
                         for warning in resource_status["warnings"]:

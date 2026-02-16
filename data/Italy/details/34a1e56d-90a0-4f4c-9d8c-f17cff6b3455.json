@@ -1,0 +1,85 @@
+{
+  "id": "34a1e56d-90a0-4f4c-9d8c-f17cff6b3455",
+  "titolo": "DET PRES/UPR 149/2026 Rinegoziazione di medicinali ai sensi dell'art. 8, comma 10, della legge 24 dicembre 1993, n. 537 - IMNOVID  ",
+  "ufficio": "PRES - UFFICIO DI PRESIDENZA",
+  "ufficioEmettitore": {
+    "id": 1,
+    "codice": "EX00833",
+    "descrizioneIt": "AGENZIA ITALIANA DEL FARMACO",
+    "descrizioneEn": "AGENZIA ITALIANA DEL FARMACO"
+  },
+  "idSchedaDocumento": "198165983",
+  "idSchedaDocumentoRettifica": null,
+  "tipiAtto": [
+    {
+      "id": 1046,
+      "codice": "A_H",
+      "descrizioneIt": "Modifica Classe di Rimborsabilità di un medicinale (classi A-H)",
+      "descrizioneEn": "-",
+      "version": 2
+    }
+  ],
+  "tipoTrasmissione": "REDAZIONE",
+  "tipoProvvedimento": {
+    "id": 1020,
+    "codice": "DECRETO DIRIGENZIALE",
+    "descrizioneIt": "Determina",
+    "descrizioneEn": "Decree",
+    "version": 1
+  },
+  "numeroRepertorio": "AIFA_PRES-149-2026",
+  "numeroProtocollo": null,
+  "idDocumentoDocsPa": null,
+  "data": "2026-02-09T00:00:00Z",
+  "dataProtocollo": null,
+  "dataPubblicazione": "2026-02-15T16:34:51Z",
+  "dataEfficacia": "2026-02-17T00:00:00Z",
+  "datiFarmaco": [
+    {
+      "id": "4350a15f-4e95-46cb-94da-20f7b3054aa2",
+      "denominazione": "IMNOVID",
+      "denominazioneAzienda": "BRISTOL-MYERS SQUIBB PHARMA EEIG",
+      "tipoFarmaco": {
+        "id": 1010,
+        "codice": "1",
+        "descrizioneIt": "PRODOTTO MEDICINALE CHIMICO",
+        "descrizioneEn": "CHEMICAL MEDICINAL PRODUCT"
+      },
+      "aic6": "042927",
+      "aic9": null,
+      "tipiProcedura": [
+        {
+          "id": 1007,
+          "codice": "E",
+          "descrizioneIt": "CENTRALIZZATA",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "tipiAutorizzazione": [
+        {
+          "id": 1004,
+          "codice": "1",
+          "descrizioneIt": "AUTORIZZAZIONE",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "principiAttivi": [
+        "POMALIDOMIDE"
+      ],
+      "atcs": [
+        "L04AX06"
+      ]
+    }
+  ],
+  "allegati": [
+    {
+      "id": 1506,
+      "nome": "filePrincipale",
+      "principale": true
+    }
+  ],
+  "fileNameDetermina": "filePrincipale",
+  "version": 0
+}

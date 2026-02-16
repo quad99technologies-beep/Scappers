@@ -20,9 +20,11 @@ repo_root = Path(__file__).resolve().parent.parent
 if str(repo_root) not in sys.path:
     sys.path.insert(0, str(repo_root))
 
-from core.url_work_queue import URLWorkQueue
-from core.network.tor_manager import check_tor_running, build_driver_firefox_tor
+from core.pipeline.url_work_queue import URLWorkQueue
 from core.browser.chrome_manager import kill_orphaned_chrome_processes
+# CORRECTED IMPORTS
+from core.network.proxy_checker import check_tor_running
+from core.browser.driver_factory import create_firefox_driver, create_chrome_driver
 
 logging.basicConfig(
     level=logging.INFO,
@@ -55,32 +57,26 @@ class DistributedURLWorker:
     def setup_browser(self, use_tor: bool = True):
         """Setup browser session with optional Tor"""
         try:
+            tor_config = {}
             if use_tor:
+                # Use the corrected import
                 tor_running, tor_port = check_tor_running()
                 if not tor_running:
                     logger.warning("Tor not running, attempting to use direct connection")
                     use_tor = False
+                else:
+                    tor_config = {"enabled": True, "port": tor_port}
             
             if use_tor:
-                self.driver = build_driver_firefox_tor(
-                    show_browser=False,
-                    disable_images=True,
-                    disable_css=True,
-                    run_id=self.run_id,
-                    scraper_name=self.scraper_name
+                # Use standardized driver factory
+                self.driver = create_firefox_driver(
+                    headless=True, 
+                    tor_config=tor_config
                 )
                 logger.info(f"Worker {self.worker_id} initialized with Tor")
             else:
-                # Fallback to basic Chrome
-                from selenium import webdriver
-                from selenium.webdriver.chrome.options import Options
-                
-                options = Options()
-                options.add_argument('--headless')
-                options.add_argument('--no-sandbox')
-                options.add_argument('--disable-dev-shm-usage')
-                
-                self.driver = webdriver.Chrome(options=options)
+                # Use standardized driver factory
+                self.driver = create_chrome_driver(headless=True)
                 logger.info(f"Worker {self.worker_id} initialized without Tor")
             
         except Exception as e:
@@ -215,19 +211,49 @@ class DistributedURLWorker:
             pass
 
 
+def _load_platform_env():
+    """Load platform.env and .env before reading config (all values from env files)."""
+    from dotenv import load_dotenv
+    repo_root = Path(__file__).resolve().parents[2]
+    platform_env = repo_root / "config" / "platform.env"
+    if platform_env.exists():
+        load_dotenv(platform_env, override=False)
+    root_env = repo_root / ".env"
+    if root_env.exists():
+        load_dotenv(root_env, override=False)
+
+
 def main():
     """Main entry point for distributed worker"""
     import argparse
-    
+
+    _load_platform_env()
+
+    def _env(key: str, default: str = "") -> str:
+        return os.getenv(key, default)
+
+    def _env_int(key: str, default: int) -> int:
+        try:
+            return int(os.getenv(key, str(default)))
+        except (ValueError, TypeError):
+            return default
+
     parser = argparse.ArgumentParser(description="Distributed URL Worker")
     parser.add_argument("--scraper", required=True, help="Scraper name")
     parser.add_argument("--run-id", required=True, help="Run ID")
-    parser.add_argument("--batch-size", type=int, default=10, help="Batch size")
-    parser.add_argument("--db-host", default="localhost", help="Database host")
-    parser.add_argument("--db-port", type=int, default=5432, help="Database port")
-    parser.add_argument("--db-name", default="scraper_db", help="Database name")
-    parser.add_argument("--db-user", default="postgres", help="Database user")
-    parser.add_argument("--db-password", default="", help="Database password")
+    parser.add_argument("--batch-size", type=int,
+                       default=_env_int("WORKER_BATCH_SIZE", 10), help="Batch size (env: WORKER_BATCH_SIZE)")
+    parser.add_argument("--db-host", default=_env("POSTGRES_HOST") or _env("DB_HOST", "localhost"),
+                        help="Database host (env: POSTGRES_HOST or DB_HOST)")
+    parser.add_argument("--db-port", type=int,
+                       default=_env_int("POSTGRES_PORT", 0) or _env_int("DB_PORT", 5432),
+                       help="Database port (env: POSTGRES_PORT or DB_PORT)")
+    parser.add_argument("--db-name", default=_env("POSTGRES_DB") or _env("DB_NAME", "scraper_db"),
+                        help="Database name (env: POSTGRES_DB or DB_NAME)")
+    parser.add_argument("--db-user", default=_env("POSTGRES_USER") or _env("DB_USER", "postgres"),
+                        help="Database user (env: POSTGRES_USER or DB_USER)")
+    parser.add_argument("--db-password", default=_env("POSTGRES_PASSWORD") or _env("DB_PASSWORD", ""),
+                        help="Database password (env: POSTGRES_PASSWORD or DB_PASSWORD)")
     
     args = parser.parse_args()
     

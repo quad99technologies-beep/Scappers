@@ -19,7 +19,7 @@ This platform supports three scrapers:
 
 ## Repository layout
 
-- **Root** – Main entry points: `scraper_gui.py`, `run_gui_professional.py`, `shared_workflow_runner.py`, `run_complete_processing.py`, `stop_workflow.py`, `telegram_bot.py`, `platform_config.py`, `setup_config.py`
+- **Root** – Main entry points: `scraper_gui.py`, `run_gui_professional.py`, `shared_workflow_runner.py`, `run_complete_processing.py`, `stop_workflow.py`, `tools/telegram_bot.py`, `platform_config.py`, `setup_config.py`
 - **doc/** – All documentation (`.md`); per-platform and general guides
 - **testing/** – One-off and test scripts (DB checks, migrations, reset/fix utilities); not part of the main pipeline
 - **scripts/** – Per-platform pipeline scripts (Argentina, Malaysia, Russia, India, etc.)

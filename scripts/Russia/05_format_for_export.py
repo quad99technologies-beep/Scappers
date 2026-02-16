@@ -22,13 +22,18 @@ from typing import Dict, List, Optional
 # Force unbuffered output
 sys.stdout.reconfigure(line_buffering=True) if hasattr(sys.stdout, 'reconfigure') else None
 
-# Add repo root to path
+# Add repo root and script dir to path (script dir first to avoid loading another scraper's db)
 _repo_root = Path(__file__).resolve().parents[2]
 _script_dir = Path(__file__).parent
-if str(_repo_root) not in sys.path:
-    sys.path.insert(0, str(_repo_root))
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+# Clear conflicting 'db' when run in same process as other scrapers (e.g. GUI)
+for mod in list(sys.modules.keys()):
+    if mod == "db" or mod.startswith("db."):
+        del sys.modules[mod]
 
 # Try to load config
 try:

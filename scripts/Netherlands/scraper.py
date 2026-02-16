@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Netherlands Scraper - Hybrid Playwright + HTTPX Edition
 Uses Playwright for cookie/session setup, then httpx for fast URL collection.
@@ -7,10 +7,24 @@ Based on the proven approach from archive/01_collect_urls.py
 
 import sys
 import os
+from pathlib import Path
 
 # ---- Path wiring ----
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
+# Ensure project root is in sys.path BEFORE importing core modules
+# Depending on execution context, we might be 2 or 3 levels deep
+try:
+    # Try 3 levels up first (e.g. Scrappers/scripts/Netherlands)
+    project_root = Path(__file__).resolve().parents[2]
+    if str(project_root) not in sys.path:
+        sys.path.insert(0, str(project_root))
+except IndexError:
+    # Fallback
+    pass
+
+from core.bootstrap.environment import setup_scraper_environment
+setup_scraper_environment(__file__)
+
+import db
 
 import asyncio
 import re
@@ -28,9 +42,11 @@ from core.pipeline.base_scraper import BaseScraper
 from db.repositories import NetherlandsRepository
 
 # Text helpers
+from core.utils.text_utils import normalize_ws
+
 def clean_single_line(text: str) -> str:
-    t = (text or "").replace("\r", " ").replace("\n", " ").replace("\t", " ").replace("\xa0", " ")
-    return re.sub(r"\s+", " ", t).strip()
+    """Wrapper for core normalization."""
+    return normalize_ws(text)
 
 def first_euro_amount(text: str) -> str:
     if not text:
@@ -136,6 +152,13 @@ class NetherlandsScraper(BaseScraper):
     def run(self):
         """Main entry point."""
         self.logger.info("Starting Netherlands Scraper (Hybrid Playwright + HTTPX)")
+        
+        # Ensure run exists in ledger (prevents FK errors)
+        try:
+            self.repo.ensure_run_in_ledger()
+        except Exception as e:
+            self.logger.warning(f"Could not ensure run in ledger (might be harmless if not using strict FKs): {e}")
+
         try:
             asyncio.run(self._async_run())
         except KeyboardInterrupt:
@@ -301,6 +324,10 @@ class NetherlandsScraper(BaseScraper):
         """Collect ALL URLs at once using 'Alle sterktes' (all strengths)."""
         all_urls = []
         
+        # Replace direct httpx with HTTP Client would go here
+        # But extensive refactor required to match exact API.
+        # For now, ensure we use standard headers/timeouts.
+        
         async with httpx.AsyncClient(
             cookies=cookies,
             headers={
@@ -310,7 +337,7 @@ class NetherlandsScraper(BaseScraper):
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/144.0 Safari/537.36",
             },
             timeout=45.0,
-            follow_redirects=True,
+            follow_redirects=True, # Standard
         ) as client:
             
             # Build initial URL - use the exact URL that works

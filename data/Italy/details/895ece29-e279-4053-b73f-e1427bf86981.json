@@ -1,0 +1,85 @@
+{
+  "id": "895ece29-e279-4053-b73f-e1427bf86981",
+  "titolo": "UPR DET/PRES 22/2026 Classificazione di specialita medicinali ai sensi dell'art. 8, comma 10, della legge 24 dicembre 1993, n. 537 - FAMOTIDINA TEVA",
+  "ufficio": "PRES - UFFICIO DI PRESIDENZA",
+  "ufficioEmettitore": {
+    "id": 1,
+    "codice": "EX00833",
+    "descrizioneIt": "AGENZIA ITALIANA DEL FARMACO",
+    "descrizioneEn": "AGENZIA ITALIANA DEL FARMACO"
+  },
+  "idSchedaDocumento": "197738210",
+  "idSchedaDocumentoRettifica": null,
+  "tipiAtto": [
+    {
+      "id": 1046,
+      "codice": "A_H",
+      "descrizioneIt": "Modifica Classe di Rimborsabilità di un medicinale (classi A-H)",
+      "descrizioneEn": "-",
+      "version": 2
+    }
+  ],
+  "tipoTrasmissione": "REDAZIONE",
+  "tipoProvvedimento": {
+    "id": 1020,
+    "codice": "DECRETO DIRIGENZIALE",
+    "descrizioneIt": "Determina",
+    "descrizioneEn": "Decree",
+    "version": 1
+  },
+  "numeroRepertorio": "AIFA_PRES-22-2026",
+  "numeroProtocollo": null,
+  "idDocumentoDocsPa": null,
+  "data": "2026-01-16T00:00:00Z",
+  "dataProtocollo": null,
+  "dataPubblicazione": "2026-01-24T15:42:22Z",
+  "dataEfficacia": "2026-01-28T00:00:00Z",
+  "datiFarmaco": [
+    {
+      "id": "075f547d-8375-4c34-82fd-27658533db7e",
+      "denominazione": "FAMOTIDINA TEVA",
+      "denominazioneAzienda": "TEVA B.V.",
+      "tipoFarmaco": {
+        "id": 1010,
+        "codice": "1",
+        "descrizioneIt": "PRODOTTO MEDICINALE CHIMICO",
+        "descrizioneEn": "CHEMICAL MEDICINAL PRODUCT"
+      },
+      "aic6": "052363",
+      "aic9": null,
+      "tipiProcedura": [
+        {
+          "id": 1006,
+          "codice": "D",
+          "descrizioneIt": "DECENTRATA",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "tipiAutorizzazione": [
+        {
+          "id": 1004,
+          "codice": "1",
+          "descrizioneIt": "AUTORIZZAZIONE",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "principiAttivi": [
+        "FAMOTIDINA"
+      ],
+      "atcs": [
+        "A02BA03"
+      ]
+    }
+  ],
+  "allegati": [
+    {
+      "id": 1363,
+      "nome": "filePrincipale",
+      "principale": true
+    }
+  ],
+  "fileNameDetermina": "filePrincipale",
+  "version": 0
+}

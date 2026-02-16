@@ -261,6 +261,70 @@ def backup_output_folder(
         }
 
 
+def run_backup_and_clean(
+    scraper_id: str,
+    exclude_dirs: Optional[list] = None,
+    keep_files: Optional[list] = None,
+    keep_dirs: Optional[list] = None,
+) -> Dict[str, Any]:
+    """
+    Shared backup and clean for a scraper. Uses ConfigManager for paths.
+
+    Args:
+        scraper_id: Scraper identifier (e.g. "Argentina", "Belarus")
+        exclude_dirs: Directories to exclude from backup (e.g. backup dir)
+        keep_files: File names to keep when cleaning (default: ["execution_log.txt"])
+        keep_dirs: Directory names to keep when cleaning (default: ["runs", "backups"])
+
+    Returns:
+        {"backup": backup_result, "clean": clean_result}
+    """
+    try:
+        from core.config.config_manager import ConfigManager
+        ConfigManager.ensure_dirs()
+        try:
+            ConfigManager.load_env(scraper_id)
+        except Exception:
+            pass
+        output_dir = ConfigManager.get_output_dir(scraper_id)
+        backup_dir = ConfigManager.get_backups_dir(scraper_id)
+        central_output_dir = ConfigManager.get_exports_dir(scraper_id)
+    except Exception:
+        return {"backup": {"status": "error", "message": "ConfigManager unavailable"}, "clean": {"status": "error"}}
+
+    exclude_dirs = list(exclude_dirs or [])
+    exclude_dirs.append(str(backup_dir))
+    if keep_files is None:
+        try:
+            from core.config.config_manager import ConfigManager
+            val = ConfigManager.get_config_value(scraper_id, "SCRIPT_00_KEEP_FILES", None)
+            keep_files = val if isinstance(val, list) else ["execution_log.txt"]
+        except Exception:
+            keep_files = ["execution_log.txt"]
+    if keep_dirs is None:
+        try:
+            from core.config.config_manager import ConfigManager
+            val = ConfigManager.get_config_value(scraper_id, "SCRIPT_00_KEEP_DIRS", None)
+            keep_dirs = val if isinstance(val, list) else ["runs", "backups"]
+        except Exception:
+            keep_dirs = ["runs", "backups"]
+
+    backup_result = backup_output_folder(
+        output_dir=output_dir,
+        backup_dir=backup_dir,
+        central_output_dir=central_output_dir,
+        exclude_dirs=exclude_dirs,
+    )
+    clean_result = clean_output_folder(
+        output_dir=output_dir,
+        backup_dir=backup_dir,
+        central_output_dir=central_output_dir,
+        keep_files=keep_files,
+        keep_dirs=keep_dirs,
+    )
+    return {"backup": backup_result, "clean": clean_result}
+
+
 def clean_output_folder(
     output_dir: Path,
     backup_dir: Optional[Path] = None,

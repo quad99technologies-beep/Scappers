@@ -42,8 +42,17 @@ if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
 _script_dir = Path(__file__).resolve().parent
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
+
+# Ensure Argentina directory is at the front of sys.path to prioritize local 'db' package
+# This fixes conflict with core/db which might be in sys.path
+sys.path = [p for p in sys.path if not Path(p).name == 'core']
+if str(_script_dir) in sys.path:
+    sys.path.remove(str(_script_dir))
+sys.path.insert(0, str(_script_dir))
+
+# Force re-import of db module if it was incorrectly loaded from core/db
+if 'db' in sys.modules:
+    del sys.modules['db']
 
 # Import from existing selenium worker
 from config_loader import (
@@ -138,76 +147,25 @@ def rate_limit_pause():
 import random
 
 
-def normalize_ws(s: str) -> str:
-    """Normalize whitespace in string."""
-    if not s:
-        return ""
-    return " ".join(s.split())
+from core.utils.text_utils import normalize_ws
+from core.network.proxy_checker import check_tor_running
+from core.browser.element_utils import get_text_safe
+from core.parsing.price_parser import ar_money_to_float
+from core.parsing.date_parser import parse_date
 
 
-def check_tor_running(host="127.0.0.1", timeout=2):
-    """Check if Tor SOCKS5 proxy is running."""
-    import socket
-    for port in [9050, 9150]:
-        try:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.settimeout(timeout)
-            result = sock.connect_ex((host, port))
-            sock.close()
-            if result == 0:
-                log.info(f"[TOR_CHECK] Tor proxy is running on {host}:{port}")
-                return True, port
-        except Exception:
-            continue
-    log.warning(f"[TOR_CHECK] Tor proxy is not running")
-    return False, None
-
+# Imported from core
+from core.browser.driver_factory import create_firefox_driver as create_firefox_driver_core
 
 def create_firefox_driver(headless: bool = True) -> webdriver.Firefox:
-    """Create a Firefox WebDriver instance with Tor proxy support."""
-    options = FirefoxOptions()
-    if headless:
-        options.add_argument("--headless")
+    # Wrap core function to provide specific tor logic if needed, 
+    # but core factory handles tor via config dict.
+    # The original script does dynamic check.
     
-    # Create Firefox profile with Tor proxy configuration
-    profile = webdriver.FirefoxProfile()
-    
-    # Disable notifications and popups
-    profile.set_preference("dom.webnotifications.enabled", False)
-    profile.set_preference("dom.push.enabled", False)
-    profile.set_preference("permissions.default.desktop-notification", 2)
-
-    # Disable images, CSS, and fonts for speed
-    profile.set_preference("permissions.default.image", 2)
-    profile.set_preference("permissions.default.stylesheet", 2)
-    profile.set_preference("browser.display.use_document_fonts", 0)
-    profile.set_preference("gfx.downloadable_fonts.enabled", False)
-
-    # Check for Tor proxy and configure if available
     tor_running, tor_port = check_tor_running()
-    if tor_running and tor_port:
-        # Configure SOCKS5 proxy for Tor
-        profile.set_preference("network.proxy.type", 1)  # Manual proxy configuration
-        profile.set_preference("network.proxy.socks", "127.0.0.1")
-        profile.set_preference("network.proxy.socks_port", tor_port)
-        profile.set_preference("network.proxy.socks_version", 5)
-        profile.set_preference("network.proxy.socks_remote_dns", True)  # Route DNS through Tor
-        log.info(f"[TOR_CONFIG] Using Tor proxy on port {tor_port}")
-    else:
-        log.warning("[TOR_CONFIG] Tor proxy not available, using direct connection")
+    tor_config = {"enabled": tor_running, "port": tor_port} if tor_running else {}
     
-    options.profile = profile
-    options.page_load_strategy = "eager"
-    
-    if WDM_AVAILABLE:
-        service = FirefoxService(GeckoDriverManager().install())
-        driver = webdriver.Firefox(service=service, options=options)
-    else:
-        driver = webdriver.Firefox(options=options)
-    
-    driver.set_page_load_timeout(120)
-    driver.implicitly_wait(10)
-    return driver
+    return create_firefox_driver_core(headless=headless, tor_config=tor_config)
 
 
 def navigate_to_products_page(driver) -> bool:
@@ -668,51 +626,10 @@ def find_and_click_product(driver, product_name: str, company_name: str) -> bool
         return False
 
 
-def get_text_safe(root, css):
-    """Safely get text from element, checking presence before fetching values."""
-    try:
-        elements = root.find_elements(By.CSS_SELECTOR, css)
-        if not elements:
-            return None
-        el = elements[0]
-        try:
-            _ = el.is_displayed()
-        except StaleElementReferenceException:
-            return None
-        text = el.text
-        return normalize_ws(text) if text else None
-    except Exception:
-        return None
+# get_text_safe imported from core
 
 
-def ar_money_to_float(s: str):
-    """Convert Argentine money format to float: '$ 1.234,56' -> 1234.56"""
-    if not s:
-        return None
-    t = re.sub(r"[^\d\.,]", "", s.strip())
-    if not t:
-        return None
-    # AR: dot thousands, comma decimals
-    t = t.replace(".", "").replace(",", ".")
-    try:
-        return float(t)
-    except ValueError:
-        return None
-
-
-def parse_date(s: str):
-    """Parse date: '(24/07/25)' or '24/07/25' -> '2025-07-24'"""
-    from datetime import datetime
-    s = (s or "").strip()
-    m = re.search(r"\((\d{2})/(\d{2})/(\d{2})\)", s) or re.search(r"\b(\d{2})/(\d{2})/(\d{2})\b", s)
-    if m:
-        d, mn, y = map(int, m.groups())
-        y += 2000
-        try:
-            return datetime(y, mn, d).date().isoformat()
-        except:
-            return None
-    return None
+# ar_money_to_float and parse_date imported from core
 
 
 def collect_coverage(pres_el) -> Dict[str, Any]:

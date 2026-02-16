@@ -29,18 +29,22 @@ from typing import Set, Dict, List, Optional
 sys.stdout.reconfigure(line_buffering=True) if hasattr(sys.stdout, 'reconfigure') else None
 os.environ.setdefault('PYTHONUNBUFFERED', '1')
 
-# Add repo root to path
+# Add repo root and script dir to path (script dir first to avoid loading another scraper's db)
 _repo_root = Path(__file__).resolve().parents[2]
-if str(_repo_root) not in sys.path:
-    sys.path.insert(0, str(_repo_root))
-
 _script_dir = Path(__file__).parent
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+# Clear conflicting 'db' when run in same process as other scrapers (e.g. GUI)
+for mod in list(sys.modules.keys()):
+    if mod == "db" or mod.startswith("db."):
+        del sys.modules[mod]
 
 # Config loader
 from config_loader import (
-    load_env_file, getenv, getenv_bool, getenv_int, getenv_float
+    load_env_file, getenv, getenv_bool, getenv_int, getenv_float, get_output_dir
 )
 load_env_file()
 
@@ -61,8 +65,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 
-# Chrome tracking
-from core.browser.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids
+# Chrome tracking (DB-based)
+from core.browser.chrome_pid_tracker import get_chrome_pids_from_driver
+from core.browser.chrome_instance_tracker import ChromeInstanceTracker
 from core.browser.chrome_manager import register_chrome_driver, unregister_chrome_driver
 
 # =============================================================================
@@ -180,15 +185,37 @@ def cleanup_all_chrome():
 
 atexit.register(cleanup_all_chrome)
 
+def _get_run_id() -> Optional[str]:
+    """Get run_id from .current_run_id or env for DB tracking."""
+    run_id = os.environ.get("RUSSIA_RUN_ID", "").strip()
+    if run_id:
+        return run_id
+    run_id_file = get_output_dir() / ".current_run_id"
+    if run_id_file.exists():
+        try:
+            return run_id_file.read_text(encoding="utf-8").strip() or None
+        except Exception:
+            pass
+    return None
+
 def track_driver(driver: webdriver.Chrome):
     _active_drivers.append(driver)
     register_chrome_driver(driver)
-    try:
-        pids = get_chrome_pids_from_driver(driver)
-        if pids:
-            save_chrome_pids("Russia", _repo_root, pids)
-    except Exception:
-        pass
+    run_id = _get_run_id()
+    if ChromeInstanceTracker and run_id and hasattr(driver, "service") and hasattr(driver.service, "process"):
+        try:
+            pid = driver.service.process.pid
+            if pid:
+                pids = get_chrome_pids_from_driver(driver) if get_chrome_pids_from_driver else {pid}
+                db = CountryDB("Russia")
+                db.connect()
+                try:
+                    tracker = ChromeInstanceTracker("Russia", run_id, db)
+                    tracker.register(step_number=1, pid=pid, browser_type="chrome", child_pids=pids)
+                finally:
+                    db.close()
+        except Exception:
+            pass
 
 def untrack_driver(driver: webdriver.Chrome):
     """Remove driver from tracking"""
@@ -751,11 +778,12 @@ def main():
     db = CountryDB("Russia")
     apply_russia_schema(db)
     
-    # Resolve run_id based on command-line arguments
+    # Resolve run_id - prefer pipeline/env/.current_run_id so step 2 uses same run as step 1
+    run_id_file = get_output_dir() / ".current_run_id"
+    _existing = (os.getenv("RUSSIA_RUN_ID") or "").strip() or (run_id_file.read_text(encoding="utf-8").strip() if run_id_file.exists() else None)
     if fresh_run:
-        # --fresh flag: Always start a new run
-        _run_id = generate_run_id()
-        print(f"[INIT] --fresh flag detected, starting new run: {_run_id}", flush=True)
+        _run_id = _existing or generate_run_id()
+        print(f"[INIT] --fresh flag: run_id={_run_id}", flush=True)
     elif run_id_arg:
         # --run-id specified: Use the specified run_id
         _run_id = run_id_arg
@@ -768,8 +796,6 @@ def main():
     os.environ["RUSSIA_RUN_ID"] = _run_id
     
     # Persist run_id to file so it survives pipeline restarts (e.g., from Telegram)
-    from config_loader import get_output_dir
-    run_id_file = get_output_dir() / ".current_run_id"
     try:
         run_id_file.parent.mkdir(parents=True, exist_ok=True)
         run_id_file.write_text(_run_id, encoding="utf-8")
@@ -779,24 +805,20 @@ def main():
     
     _repo = RussiaRepository(db, _run_id)
     
-    # Start or resume run based on whether it's a fresh run
-    if fresh_run:
-        print(f"[INIT] Starting fresh run (--fresh flag)", flush=True)
-        _repo.start_run("fresh")
+    # Use ensure_run_exists (INSERT ... ON CONFLICT DO UPDATE) instead of start_run
+    # to avoid UniqueViolation when step 2 runs after step 1 (run already in run_ledger)
+    _repo.ensure_run_exists(mode="resume" if not fresh_run else "fresh")
+    resume_page = get_resume_page(_repo, _run_id)
+    if resume_page > 1:
+        print(f"[INIT] Resuming from page {resume_page}", flush=True)
     else:
-        resume_page = get_resume_page(_repo, _run_id)
-        if resume_page > 1:
-            print(f"[INIT] Resuming from page {resume_page}", flush=True)
-            _repo.start_run("resumed")
-        else:
-            print(f"[INIT] Starting fresh", flush=True)
-            _repo.start_run("fresh")
+        print(f"[INIT] Starting from page 1", flush=True)
     
     # MEMORY FIX: Use empty set for excluded list (no dedup needed)
     # But track it for monitoring
     existing_ids = set()
     try:
-        from core.memory_leak_detector import track_set
+        from core.monitoring.memory_leak_detector import track_set
         track_set("russia_excluded_existing_ids", existing_ids, max_size=10000)
     except Exception:
         pass

@@ -13,6 +13,8 @@ from typing import Dict, Iterable, List, Optional, Sequence
 import logging
 import hashlib
 import re
+from typing import Set, Tuple
+from core.utils.text_utils import nk
 
 try:
     from psycopg2.extras import execute_values
@@ -729,6 +731,62 @@ class ArgentinaRepository:
                 (self.run_id, company, product, artifact_type, file_path),
             )
         self._db_log(f"OK | ar_artifacts logged | type={artifact_type} path={file_path}")
+
+    def is_product_already_scraped(self, company: str, product: str) -> bool:
+        """Check if a product already has data (total_records > 0 in ar_product_index)."""
+        try:
+            with self.db.cursor() as cur:
+                cur.execute(
+                    "SELECT total_records FROM ar_product_index WHERE run_id=%s AND company=%s AND product=%s",
+                    (self.run_id, company, product),
+                )
+                row = cur.fetchone()
+                if not row:
+                    return False
+                val = row[0] if isinstance(row, tuple) else row.get("total_records")
+                return (val or 0) > 0
+        except Exception:
+            return False
+
+    def combine_skip_sets(self) -> Set[Tuple[str, str]]:
+        """Combine skip sources from DB in a single query for speed."""
+        skip_set: Set[Tuple[str, str]] = set()
+        output_count = progress_count = 0
+        try:
+            with self.db.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT DISTINCT input_company AS company, input_product_name AS product, 'output' AS src
+                      FROM ar_products
+                     WHERE run_id = %s
+                    UNION
+                    SELECT company, product, 'progress' AS src
+                      FROM ar_product_index
+                     WHERE run_id = %s
+                       AND (COALESCE(total_records,0) > 0 OR status = 'completed')
+                    """,
+                    (self.run_id, self.run_id),
+                )
+                for row in cur.fetchall():
+                    c = (row[0] or "") if isinstance(row, tuple) else (row.get("company") or "")
+                    p = (row[1] or "") if isinstance(row, tuple) else (row.get("product") or "")
+                    src = row[2] if isinstance(row, tuple) else (row.get("src") or "")
+                    
+                    # Normalize keys using core nk
+                    key = (nk(c), nk(p))
+                    if key[0] and key[1]:
+                        skip_set.add(key)
+                        if src == "output":
+                            output_count += 1
+                        elif src == "progress":
+                            progress_count += 1
+        except Exception as e:
+            logger.warning(f"[SKIP_SET] Combined query failed: {e}")
+            # Fallback not implemented because direct DB access should work or fail
+            return set()
+            
+        logger.info(f"[SKIP_SET] Loaded skip_set size = {len(skip_set)} (output={output_count}, progress={progress_count})")
+        return skip_set
 
     # ------------------------------------------------------------------ #
     # Translation (ar_products_translated)                               #

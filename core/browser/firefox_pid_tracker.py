@@ -78,6 +78,56 @@ def _atomic_write_json(path: Path, payload: dict) -> None:
             pass
 
 
+def get_firefox_pids_from_driver(driver) -> Set[int]:
+    """
+    Extract Firefox and GeckoDriver process IDs from a WebDriver instance.
+
+    Args:
+        driver: Selenium WebDriver instance (Firefox/GeckoDriver)
+
+    Returns:
+        Set of process IDs (GeckoDriver PID and Firefox browser PIDs)
+    """
+    pids = set()
+
+    try:
+        if hasattr(driver, "service") and hasattr(driver.service, "process"):
+            geckodriver_pid = driver.service.process.pid
+            if geckodriver_pid:
+                pids.add(geckodriver_pid)
+                logger.debug(f"Found GeckoDriver PID: {geckodriver_pid}")
+    except Exception as e:
+        logger.warning(f"Could not get GeckoDriver PID: {e}")
+
+    if PSUTIL_AVAILABLE:
+        try:
+            geckodriver_pid = None
+            try:
+                if hasattr(driver, "service") and hasattr(driver.service, "process"):
+                    geckodriver_pid = driver.service.process.pid
+            except Exception:
+                pass
+
+            def get_descendant_pids(pid):
+                descendants = set()
+                try:
+                    parent = psutil.Process(pid)
+                    for child in parent.children(recursive=True):
+                        descendants.add(child.pid)
+                except (psutil.NoSuchProcess, psutil.AccessDenied):
+                    pass
+                return descendants
+
+            if geckodriver_pid:
+                descendant_pids = get_descendant_pids(geckodriver_pid)
+                pids.update(descendant_pids)
+                logger.debug(f"Found {len(descendant_pids)} descendant process(es) of GeckoDriver {geckodriver_pid}")
+        except Exception as e:
+            logger.warning(f"Error finding Firefox browser PIDs: {e}")
+
+    return pids
+
+
 def get_pid_file_path(scraper_name: str, repo_root: Path) -> Path:
     """Get the path to the Firefox PID tracking file for a scraper."""
     return repo_root / f".{scraper_name}_firefox_pids.json"
@@ -150,27 +200,20 @@ def load_firefox_pids(scraper_name: str, repo_root: Path) -> Set[int]:
 
 
 def terminate_firefox_pids(scraper_name: str, repo_root: Path, silent: bool = False) -> int:
-    """Terminate Firefox/GeckoDriver processes tracked for a specific scraper."""
-    pids = load_firefox_pids(scraper_name, repo_root)
+    """Terminate Firefox/GeckoDriver processes tracked for a specific scraper. Uses DB as primary source."""
+    from core.browser.chrome_pid_tracker import _get_run_id_from_file, get_active_pids_from_db
+    run_id = _get_run_id_from_file(scraper_name, repo_root)
+    pids = get_active_pids_from_db(
+        scraper_name, run_id, repo_root,
+        browser_types=["firefox"]
+    )
     if not pids:
         if not silent:
             logger.debug(f"No Firefox PIDs found for {scraper_name}")
         return 0
 
-    # Cross-check against other scrapers' Firefox PID files
-    other_scrapers = ["Argentina", "Malaysia", "CanadaQuebec", "CanadaOntario", "Netherlands", "Belarus", "NorthMacedonia", "Tender_Chile", "Taiwan"]
-    other_scraper_pids = set()
-    for other_scraper in other_scrapers:
-        if other_scraper != scraper_name:
-            other_scraper_pids.update(load_firefox_pids(other_scraper, repo_root))
-
     valid_pids = []
     for pid in pids:
-        if pid in other_scraper_pids:
-            if not silent:
-                logger.error(f"PID {pid} is tracked by another scraper! Skipping termination to prevent cross-scraper interference.")
-            continue
-
         if PSUTIL_AVAILABLE:
             try:
                 proc = psutil.Process(pid)
@@ -187,12 +230,6 @@ def terminate_firefox_pids(scraper_name: str, repo_root: Path, silent: bool = Fa
     if not valid_pids:
         if not silent:
             logger.debug(f"No valid Firefox PIDs to terminate for {scraper_name}")
-        try:
-            pid_file = get_pid_file_path(scraper_name, repo_root)
-            if pid_file.exists():
-                pid_file.unlink()
-        except Exception:
-            pass
         return 0
 
     terminated_count = 0
@@ -225,16 +262,22 @@ def terminate_firefox_pids(scraper_name: str, repo_root: Path, silent: bool = Fa
             if not silent:
                 logger.warning(f"Error terminating PID {pid}: {e}")
 
-    # Clean up PID file after termination
-    try:
-        pid_file = get_pid_file_path(scraper_name, repo_root)
-        if pid_file.exists():
-            pid_file.unlink()
+    # Mark instances as terminated in DB
+    if run_id and terminated_count > 0:
+        try:
+            from core.browser.chrome_instance_tracker import ChromeInstanceTracker
+            from core.db.postgres_connection import PostgresDB
+            db = PostgresDB(scraper_name)
+            db.connect()
+            try:
+                tracker = ChromeInstanceTracker(scraper_name, run_id, db)
+                tracker.terminate_all(reason="pipeline_cleanup")
+            finally:
+                if hasattr(db, "close"):
+                    db.close()
+        except Exception as e:
             if not silent:
-                logger.debug(f"Removed Firefox PID file: {pid_file}")
-    except Exception as e:
-        if not silent:
-            logger.warning(f"Could not remove Firefox PID file: {e}")
+                logger.debug(f"Could not mark Firefox instances terminated in DB: {e}")
 
     if not silent:
         logger.info(f"Terminated {terminated_count}/{len(valid_pids)} Firefox process(es) for {scraper_name}")

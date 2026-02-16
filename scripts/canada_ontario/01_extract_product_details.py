@@ -46,6 +46,7 @@ from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple, Set
 from pathlib import Path
 from urllib.parse import urlencode
+from datetime import datetime
 
 try:
     from core.browser.browser_session import BrowserSession
@@ -162,12 +163,14 @@ except ImportError:
 try:
     from core.browser.chrome_instance_tracker import ChromeInstanceTracker
     from core.browser.chrome_pid_tracker import get_chrome_pids_from_driver
+    from core.db.postgres_connection import PostgresDB
     CHROME_INSTANCE_TRACKING_AVAILABLE = True
 except ImportError:
     CHROME_INSTANCE_TRACKING_AVAILABLE = False
     def get_chrome_pids_from_driver(driver):
         return set()
     ChromeInstanceTracker = None
+    PostgresDB = None
 
 try:
     from core.browser.chrome_manager import get_chromedriver_path as _core_get_chromedriver_path
@@ -218,6 +221,9 @@ ALLOW_EMPTY_RESULTS = getenv_bool("ALLOW_EMPTY_RESULTS", True)
 # Progress/output
 ENABLE_PROGRESS_BAR = getenv_bool("ENABLE_PROGRESS_BAR", True)
 LOG_TO_FILE = getenv_bool("LOG_TO_FILE", False)
+
+# DB-only mode: skip CSV writes when DB migration is active (default True)
+DB_ONLY = getenv_bool("DB_ONLY", True)
 
 # Request behavior
 REQUEST_JITTER_MIN = getenv_float("REQUEST_JITTER_MIN", 0.1)
@@ -388,15 +394,17 @@ def build_driver() -> webdriver.Chrome:
         try:
             pids = get_chrome_pids_from_driver(driver)
             if pids:
+                driver_pid = driver.service.process.pid if hasattr(driver.service, 'process') else list(pids)[0]
                 db = PostgresDB("CanadaOntario")
-                tracker = ChromeInstanceTracker("CanadaOntario", run_id, db)
-                driver.tracked_pids = pids  # Attach PIDs to driver for later cleanup
-                for pid in pids:
-                    tracker.register(step_number=1, thread_id=0, pid=pid, browser_type='chrome')
-                db.close()
+                db.connect()
+                try:
+                    tracker = ChromeInstanceTracker("CanadaOntario", run_id, db)
+                    tracker.register(step_number=1, pid=driver_pid, browser_type="chrome", child_pids=pids)
+                finally:
+                    db.close()
         except Exception:
             pass
-    
+
     return driver
 
 
@@ -499,7 +507,32 @@ def safe_get(session: requests.Session, url: str, params: dict = None, timeout: 
     raise RuntimeError(f"GET failed: {url} params={params} err={last}")
 
 
+def load_mfr_master_from_db() -> Dict[str, str]:
+    """Load manufacturer master from co_manufacturers when DB_ONLY."""
+    master: Dict[str, str] = {}
+    try:
+        db = PostgresDB("CanadaOntario")
+        db.connect()
+        try:
+            run_id = get_run_id()
+            with db.cursor() as cur:
+                cur.execute(
+                    "SELECT manufacturer_code, manufacturer_name FROM co_manufacturers WHERE run_id = %s",
+                    (run_id,),
+                )
+                for r in cur.fetchall():
+                    if r[0]:
+                        master[norm(r[0])] = norm(r[1] or "")
+        finally:
+            db.close()
+    except Exception as e:
+        logger.warning(f"Could not load mfr master from DB: {e}")
+    return master
+
+
 def load_mfr_master(path: str) -> Dict[str, str]:
+    if DB_ONLY:
+        return load_mfr_master_from_db()
     if not os.path.exists(path):
         return {}
     df = pd.read_csv(path, dtype=str).fillna("")
@@ -520,7 +553,14 @@ def save_mfr_master(path: str, master: Dict[str, str]) -> None:
 
 
 def load_completed_letters(cp) -> Set[str]:
-    """Load set of completed letters from JSON file or checkpoint metadata."""
+    """Load set of completed letters from DB (primary) or JSON file (fallback)."""
+    # Try DB first
+    db_completed = load_completed_letters_from_db()
+    if db_completed:
+        logger.info(f"[DB] Loaded {len(db_completed)} completed letters from database")
+        return db_completed
+    
+    # Fallback to JSON file
     path = Path(COMPLETED_LETTERS_JSON)
     if path.exists():
         try:
@@ -534,7 +574,7 @@ def load_completed_letters(cp) -> Set[str]:
 
 
 def save_completed_letters(completed: Set[str]) -> None:
-    """Save set of completed letters to JSON file (atomic)."""
+    """Save set of completed letters to JSON file (atomic) - legacy fallback."""
     data = {"completed_letters": sorted(list(completed))}
     path = Path(COMPLETED_LETTERS_JSON)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -548,6 +588,17 @@ def save_completed_letters(completed: Set[str]) -> None:
             temp_path.unlink()
         with open(path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
+
+
+def save_mfr_master_to_db(mfr_master: Dict[str, str]) -> None:
+    """Save manufacturer master to database."""
+    if not mfr_master:
+        return
+    try:
+        insert_manufacturers_to_db(mfr_master)
+        logger.info(f"[DB] Saved {len(mfr_master)} manufacturers to co_manufacturers")
+    except Exception as e:
+        logger.error(f"[DB] Failed to save manufacturers: {e}")
 
 
 def detect_price_type(local_pack_code: str, brand_desc: str) -> str:
@@ -577,7 +628,11 @@ def page_has_no_results(html: str) -> bool:
 
 
 def parse_results_rows(html: str, q_letter: str) -> Tuple[List[dict], int]:
-    soup = BeautifulSoup(html, "lxml")
+    try:
+        soup = BeautifulSoup(html, "html.parser")
+    except Exception as e:
+        logger.error(f"BeautifulSoup parsing failed: {e}")
+        return [], 0
 
     tbody = soup.select_one('tbody#j_id_l\\:searchResultFull_data')
     if not tbody:
@@ -666,6 +721,7 @@ def validate_results_page(html: str, rows: List[dict], bad_rows: int) -> Tuple[b
 
 def fetch_results_page(session: requests.Session, q_letter: str, browser: Optional[BrowserSession]) -> Tuple[str, List[dict]]:
     last_err = None
+    logger.info(f"[DEBUG] fetch_results_page start for {q_letter}")
     for attempt in range(1, PAGE_VALIDATION_RETRIES + 2):
         try:
             if USE_BROWSER and browser:
@@ -675,9 +731,12 @@ def fetch_results_page(session: requests.Session, q_letter: str, browser: Option
                 browser.try_search_input(q_letter)
                 html = browser.driver.page_source if browser.driver else html
             else:
+                logger.info(f"[DEBUG] Requesting URL: {RESULTS_URL} q={q_letter}")
                 html = safe_get(session, RESULTS_URL, params={"q": q_letter, "s": "true", "type": "4"})
+                logger.info(f"[DEBUG] Response received. Length: {len(html)}")
 
             rows, bad_rows = parse_results_rows(html, q_letter=q_letter)
+            logger.info(f"[DEBUG] Parsed {len(rows)} rows, bad: {bad_rows}")
             ok, reason = validate_results_page(html, rows, bad_rows)
             if ok:
                 return html, rows
@@ -686,6 +745,8 @@ def fetch_results_page(session: requests.Session, q_letter: str, browser: Option
         except Exception as exc:
             last_err = exc
             logger.warning(f"[Q={q_letter}] Fetch failed (attempt {attempt}): {exc}")
+            import traceback
+            logger.warning(traceback.format_exc())
         backoff_sleep(attempt)
         if USE_BROWSER and browser:
             browser.restart()
@@ -777,7 +838,11 @@ def compute_prices(row: dict) -> dict:
 
 
 def load_existing_products(path: str) -> Tuple[pd.DataFrame, Set[str]]:
-    """Load existing products and return dataframe and set of seen codes"""
+    """Load existing products and return dataframe and set of seen codes.
+    When DB_ONLY, skip CSV and return empty (seen_codes come from load_seen_codes_from_db).
+    """
+    if DB_ONLY:
+        return pd.DataFrame(), set()
     if not os.path.exists(path):
         return pd.DataFrame(), set()
     try:
@@ -845,8 +910,9 @@ def save_products_incremental(path: str, new_rows: List[dict], existing_df: pd.D
     else:
         final_df = new_df
 
-    # Save to CSV
-    final_df.to_csv(path, index=False, encoding="utf-8-sig")
+    # Save to CSV only when not DB-only
+    if not DB_ONLY:
+        final_df.to_csv(path, index=False, encoding="utf-8-sig")
     
     # Update seen codes from final dataframe
     seen_codes = set(final_df["local_pack_code"].astype(str).tolist())
@@ -864,11 +930,10 @@ def insert_products_to_db(rows: List[dict]):
     
     try:
         run_id = get_run_id()
-        # Transform rows to match schema
+        # Transform rows to match schema (includes computed price fields)
         db_rows = []
         for r in rows:
-            # Map fields
-            db_row = (
+            db_rows.append((
                 run_id,
                 r.get("brand_name_strength_dosage", ""),
                 r.get("generic_name", ""),
@@ -876,16 +941,23 @@ def insert_products_to_db(rows: List[dict]):
                 r.get("mfr_code", ""),
                 r.get("local_pack_code", ""),
                 r.get("exfactory_price"),
+                r.get("reimbursable_price"),
+                r.get("public_with_vat"),
+                r.get("copay"),
                 r.get("interchangeable", ""),
-                r.get("price_type", ""), 
-                r.get("detail_url", "")
-            )
-            db_rows.append(db_row)
+                r.get("limited_use", ""),  # benefit_status
+                r.get("price_type", ""),
+                r.get("limited_use", ""),
+                r.get("therapeutic_notes_requirements", ""),
+                r.get("detail_url", ""),
+            ))
         
         sql_query = """
             INSERT INTO co_products 
-            (run_id, product_name, generic_name, manufacturer, manufacturer_code, din, unit_price, interchangeability, benefit_status, source_url)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            (run_id, product_name, generic_name, manufacturer, manufacturer_code, din, unit_price,
+             reimbursable_price, public_with_vat, copay, interchangeability, benefit_status, price_type,
+             limited_use, therapeutic_notes, source_url)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         
         with db.cursor() as cur:
@@ -893,6 +965,89 @@ def insert_products_to_db(rows: List[dict]):
             
     finally:
         db.close()
+
+
+def insert_manufacturers_to_db(mfr_master: Dict[str, str]):
+    """Insert manufacturer master data into co_manufacturers table."""
+    if not mfr_master:
+        return
+
+    db = PostgresDB("CanadaOntario")
+    db.connect()
+    
+    try:
+        run_id = get_run_id()
+        db_rows = []
+        for code, name in mfr_master.items():
+            db_row = (run_id, code, name, "")  # address is empty for now
+            db_rows.append(db_row)
+        
+        sql_query = """
+            INSERT INTO co_manufacturers 
+            (run_id, manufacturer_code, manufacturer_name, address)
+            VALUES (%s, %s, %s, %s)
+            ON CONFLICT (run_id, manufacturer_code) DO UPDATE SET
+                manufacturer_name = EXCLUDED.manufacturer_name,
+                address = EXCLUDED.address
+        """
+        
+        with db.cursor() as cur:
+            cur.executemany(sql_query, db_rows)
+            
+    finally:
+        db.close()
+
+
+def load_completed_letters_from_db() -> Set[str]:
+    """Load completed letters from co_step_progress table."""
+    completed = set()
+    try:
+        db = PostgresDB("CanadaOntario")
+        db.connect()
+        try:
+            run_id = get_run_id()
+            with db.cursor() as cur:
+                cur.execute("""
+                    SELECT progress_key FROM co_step_progress 
+                    WHERE run_id = %s AND step_number = 1 
+                    AND status = 'completed'
+                """, (run_id,))
+                rows = cur.fetchall()
+                for r in rows:
+                    if r[0]:
+                        completed.add(r[0])
+        except Exception as e:
+            logger.warning(f"Error loading completed letters from DB: {e}")
+        finally:
+            db.close()
+    except Exception as e:
+        logger.warning(f"DB connection failed: {e}")
+    return completed
+
+
+def save_completed_letter_to_db(letter: str):
+    """Mark a letter as completed in co_step_progress table."""
+    try:
+        db = PostgresDB("CanadaOntario")
+        db.connect()
+        try:
+            run_id = get_run_id()
+            now = datetime.now().isoformat()
+            with db.cursor() as cur:
+                cur.execute("""
+                    INSERT INTO co_step_progress 
+                    (run_id, step_number, step_name, progress_key, status, started_at, completed_at)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
+                    ON CONFLICT (run_id, step_number, progress_key) DO UPDATE SET
+                        status = EXCLUDED.status,
+                        completed_at = EXCLUDED.completed_at
+                """, (run_id, 1, "Extract Product Details", letter, "completed", now, now))
+        except Exception as e:
+            logger.warning(f"Error saving completed letter to DB: {e}")
+        finally:
+            db.close()
+    except Exception as e:
+        logger.warning(f"DB connection failed: {e}")
 
 
 def load_seen_codes_from_db() -> Set[str]:
@@ -942,6 +1097,7 @@ def main():
         logger.info("Proxy enabled for requests")
     logger.info("Retry config: max_retries=%s timeout=%s", RETRIES, REQUEST_TIMEOUT)
     logger.info("Jitter config: min=%s max=%s", REQUEST_JITTER_MIN, REQUEST_JITTER_MAX)
+    logger.info("[DB] Database migration active - products -> co_products, manufacturers -> co_manufacturers")
 
     browser = None
     if USE_BROWSER:
@@ -1020,6 +1176,8 @@ def main():
                 row_progress.update(0, message=f"letter={q}", force=True)
 
                 new_rows: List[dict] = []
+                batch_rows: List[dict] = []
+                BATCH_SIZE = 50
                 new_count = 0
                 skipped_count = 0
 
@@ -1056,33 +1214,48 @@ def main():
                     row = compute_prices(row)
 
                     new_rows.append(row)
+                    batch_rows.append(row)
                     seen_codes.add(code)
                     new_count += 1
                     progress.advance_row(1)
                     row_progress.update(skipped_count + new_count, message=f"letter={q}")
 
+                    # BATCH SAVE/INSERT
+                    if len(batch_rows) >= BATCH_SIZE:
+                        existing_df, seen_codes = save_products_incremental(PRODUCTS_CSV, batch_rows, existing_df, seen_codes)
+                        try:
+                            insert_products_to_db(batch_rows)
+                            logger.info(f"[DB] Inserted batch of {len(batch_rows)} rows into co_products")
+                        except Exception as e:
+                            logger.error(f"[DB] Failed to insert batch: {e}")
+                        batch_rows = []  # Clear batch
+
                 row_progress.update(len(rows), message=f"letter={q} done", force=True)
 
-                # Save data after each letter (incremental save)
-                if new_rows:
-                    existing_df, seen_codes = save_products_incremental(PRODUCTS_CSV, new_rows, existing_df, seen_codes)
-                    # Also insert into Database
+                # Process remaining batch
+                if batch_rows:
+                    existing_df, seen_codes = save_products_incremental(PRODUCTS_CSV, batch_rows, existing_df, seen_codes)
                     try:
-                        insert_products_to_db(new_rows)
-                        logger.info(f"[DB] Inserted {len(new_rows)} rows into co_products")
+                        insert_products_to_db(batch_rows)
+                        logger.info(f"[DB] Inserted final batch of {len(batch_rows)} rows into co_products")
                     except Exception as e:
-                        logger.error(f"[DB] Failed to insert products: {e}")
-                    
+                        logger.error(f"[DB] Failed to insert final batch: {e}")
+                    batch_rows = []
+
+                if new_rows:
                     logger.info(f"[Q={q}] Saved {new_count} new products (skipped {skipped_count} duplicates)")
                 else:
                     logger.info(f"[Q={q}] No new products (all {skipped_count} were duplicates)")
 
-                # Persist manufacturer master after each letter
-                save_mfr_master(MFR_MASTER_CSV, mfr_master)
+                # Persist manufacturer master after each letter (DB always; CSV only when not DB_ONLY)
+                save_mfr_master_to_db(mfr_master)
+                if not DB_ONLY:
+                    save_mfr_master(MFR_MASTER_CSV, mfr_master)
 
-                # Mark letter as completed
+                # Mark letter as completed (DB + JSON fallback)
                 completed_letters.add(q)
-                save_completed_letters(completed_letters)
+                save_completed_letter_to_db(q)
+                save_completed_letters(completed_letters)  # Keep JSON as backup
                 cp.update_metadata(
                     {
                         "completed_letters": sorted(list(completed_letters)),
@@ -1090,7 +1263,7 @@ def main():
                         "last_letter": q,
                     }
                 )
-                logger.info(f"[Q={q}] Letter completed and saved")
+                logger.info(f"[Q={q}] Letter completed and saved to DB")
                 progress.advance_letter(1)
 
                 letters_progress.update(len(completed_letters), message=f"letter={q}", force=True)
@@ -1107,10 +1280,25 @@ def main():
         letters_progress.update(total_letters, message="complete", force=True)
 
         logger.info("[DONE] All letters processed!")
-        logger.info(f"[DONE] Total products: {len(final_df)}")
-        logger.info(f"[DONE] Saved products: {PRODUCTS_CSV}")
-        logger.info(f"[DONE] Saved manufacturer master: {MFR_MASTER_CSV} (unique={len(mfr_master)})")
+        if DB_ONLY:
+            try:
+                db = PostgresDB("CanadaOntario")
+                db.connect()
+                with db.cursor() as cur:
+                    cur.execute("SELECT COUNT(*) FROM co_products WHERE run_id = %s", (get_run_id(),))
+                    total = cur.fetchone()[0] or 0
+                db.close()
+                logger.info(f"[DONE] Total products in DB: {total}")
+            except Exception as e:
+                logger.warning(f"[DONE] Could not get product count: {e}")
+        else:
+            logger.info(f"[DONE] Total products: {len(final_df)}")
+            logger.info(f"[DONE] Saved products: {PRODUCTS_CSV}")
+        logger.info(f"[DONE] Manufacturer master: {len(mfr_master)} unique (DB)")
+        if not DB_ONLY:
+            logger.info(f"[DONE] Saved manufacturer master: {MFR_MASTER_CSV}")
         logger.info(f"[DONE] Completed letters: {len(completed_letters)}/{total_letters}")
+        logger.info(f"[DB] Migration complete - All data saved to PostgreSQL database")
     finally:
         progress.close()
         if browser:
@@ -1121,4 +1309,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        logger.error(f"FATAL ERROR in main: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
+        sys.exit(1)

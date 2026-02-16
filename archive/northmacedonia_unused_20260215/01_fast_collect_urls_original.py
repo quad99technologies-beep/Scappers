@@ -66,7 +66,7 @@ except ImportError:
 
 # Import Telegram notifier
 try:
-    from core.telegram_notifier import TelegramNotifier
+    from core.utils.telegram_notifier import TelegramNotifier
     TELEGRAM_NOTIFIER_AVAILABLE = True
 except ImportError:
     TELEGRAM_NOTIFIER_AVAILABLE = False

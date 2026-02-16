@@ -110,6 +110,17 @@ CREATE TABLE IF NOT EXISTS by_input_dictionary (
 CREATE INDEX IF NOT EXISTS idx_by_dict_source ON by_input_dictionary(source_term);
 
 -- ============================================================
+-- MALAYSIA: product list (my_ prefix)
+-- ============================================================
+CREATE TABLE IF NOT EXISTS my_input_products (
+    id SERIAL PRIMARY KEY,
+    product_name TEXT NOT NULL,
+    registration_no TEXT,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_my_input_products_name ON my_input_products(product_name);
+
+-- ============================================================
 -- TAIWAN: ATC prefixes (tw_ prefix)
 -- ============================================================
 CREATE TABLE IF NOT EXISTS tw_input_atc_prefixes (
@@ -142,8 +153,16 @@ CREATE TABLE IF NOT EXISTS cl_input_tender_list (
 );
 
 -- ============================================================
--- CANADA ONTARIO: (ca_on_ prefix)
+-- CANADA ONTARIO: (co_ prefix - matches postgres_connection)
 -- ============================================================
+CREATE TABLE IF NOT EXISTS co_input_products (
+    id SERIAL PRIMARY KEY,
+    product_name TEXT NOT NULL,
+    din TEXT,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Legacy ca_on_ prefix (kept for migration compatibility)
 CREATE TABLE IF NOT EXISTS ca_on_input_products (
     id SERIAL PRIMARY KEY,
     product_name TEXT NOT NULL,

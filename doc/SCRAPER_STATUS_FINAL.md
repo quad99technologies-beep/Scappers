@@ -74,7 +74,7 @@
 ## 📁 Files Modified
 
 **Canada Quebec**:
-1. `scripts/common/scraper_registry.py` - Path fix
+1. `services/scraper_registry.py` - Path fix
 2. `scripts/canada_quebec/config_loader.py` - Multiple fixes
 3. `scripts/canada_quebec/db_handler.py` - Import path fix
 

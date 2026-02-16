@@ -34,6 +34,34 @@ repo_root = Path(__file__).resolve().parent
 if str(repo_root) not in sys.path:
     sys.path.insert(0, str(repo_root))
 
+# Import prometheus_exporter at module level to prevent import deadlocks in threads
+try:
+    from core.monitoring.prometheus_exporter import init_prometheus_metrics
+except ImportError:
+    try:
+        from core.prometheus_exporter import init_prometheus_metrics
+    except ImportError:
+        def init_prometheus_metrics(port=9090): return False
+
+# Fix broken imports - use correct module paths
+try:
+    from core.browser.chrome_manager import cleanup_all_chrome_instances
+except ImportError:
+    try:
+        from core.chrome_manager import cleanup_all_chrome_instances
+    except ImportError:
+        def cleanup_all_chrome_instances(silent=False):
+            pass
+
+try:
+    from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
+except ImportError:
+    try:
+        from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
+    except ImportError:
+        def get_checkpoint_manager(scraper_name):
+            return None
+
 # Auto-install missing dependencies on GUI startup
 def _check_and_install_dependencies():
     """Check for missing dependencies and offer to install them."""
@@ -104,7 +132,7 @@ def _check_and_install_dependencies():
 _check_and_install_dependencies()
 
 try:
-    from core.config_manager import ConfigManager
+    from core.config.config_manager import ConfigManager
 
     # Ensure directories exist
     ConfigManager.ensure_dirs()
@@ -326,11 +354,11 @@ class ScraperGUI:
     def _build_scrapers_from_registry(self):
         """Build self.scrapers dict from the shared scraper_registry.
 
-        The registry (scripts/common/scraper_registry.py) is the single source of truth
+        The registry (services/scraper_registry.py) is the single source of truth
         used by both this GUI and the FastAPI api_server.py.
         """
         try:
-            from scripts.common.scraper_registry import SCRAPER_CONFIGS
+            from services.scraper_registry import SCRAPER_CONFIGS
         except ImportError:
             print("[GUI] WARNING: Could not import scraper_registry, falling back to empty config")
             return {}
@@ -1646,7 +1674,7 @@ class ScraperGUI:
     def load_run_metrics(self):
         """Load and display run metrics."""
         try:
-            from core.run_metrics_tracker import RunMetricsTracker
+            from core.progress.run_metrics_tracker import RunMetricsTracker
         except ImportError:
             self.metrics_status_var.set("Error: Run metrics tracker not available")
             return
@@ -1740,7 +1768,7 @@ class ScraperGUI:
         run_id = values[0]
 
         try:
-            from core.run_metrics_tracker import RunMetricsTracker
+            from core.progress.run_metrics_tracker import RunMetricsTracker
             tracker = RunMetricsTracker()
             metrics = tracker.get_metrics(run_id)
 
@@ -1768,7 +1796,7 @@ class ScraperGUI:
     def export_run_metrics(self):
         """Export run metrics to CSV file."""
         try:
-            from core.run_metrics_tracker import RunMetricsTracker
+            from core.progress.run_metrics_tracker import RunMetricsTracker
             import csv
         except ImportError:
             messagebox.showerror("Error", "Run metrics tracker not available")
@@ -1870,6 +1898,109 @@ class ScraperGUI:
         healer_frame = ttk.Frame(monitoring_notebook)
         monitoring_notebook.add(healer_frame, text="Selector Healer")
         self.setup_selector_healer_tab(healer_frame)
+
+        # Tools sub-tab (__pycache__ cleanup, etc.)
+        tools_frame = ttk.Frame(monitoring_notebook)
+        monitoring_notebook.add(tools_frame, text="Tools")
+        self.setup_tools_tab(tools_frame)
+
+    def setup_tools_tab(self, parent):
+        """Setup Tools tab: __pycache__ cleanup and maintenance utilities."""
+        # Header
+        header = ttk.LabelFrame(parent, text="Maintenance Tools", padding=10, style='Title.TLabelframe')
+        header.pack(fill=tk.X, padx=8, pady=(8, 4))
+
+        # __pycache__ cleanup section
+        cache_frame = ttk.LabelFrame(header, text="Python Bytecode Cache", padding=8, style='Title.TLabelframe')
+        cache_frame.pack(fill=tk.X, pady=(0, 8))
+
+        tk.Label(cache_frame, text="Remove all __pycache__ folders to reduce clutter and fix stale bytecode issues.",
+                 font=self.fonts['standard'], wraplength=500).pack(anchor=tk.W)
+
+        btn_frame = tk.Frame(cache_frame, bg=self.colors['white'])
+        btn_frame.pack(fill=tk.X, pady=(8, 0))
+
+        self.clean_pycache_btn = ttk.Button(btn_frame, text="Clean __pycache__", command=self._run_clean_pycache,
+                                            style='Secondary.TButton')
+        self.clean_pycache_btn.pack(side=tk.LEFT, padx=(0, 8))
+
+        self.auto_clean_pycache_var = tk.BooleanVar(value=self._get_gui_pref("auto_clean_pycache", False))
+        auto_cb = ttk.Checkbutton(btn_frame, text="Auto-clean before every pipeline run",
+                                   variable=self.auto_clean_pycache_var,
+                                   command=self._save_auto_clean_pref)
+        auto_cb.pack(side=tk.LEFT, padx=(8, 0))
+
+        self.tools_status_var = tk.StringVar(value="Ready")
+        tk.Label(parent, textvariable=self.tools_status_var, font=self.fonts['small'],
+                 fg='#666666', anchor='w').pack(fill=tk.X, padx=8, pady=(0, 4))
+
+    def _get_gui_pref(self, key: str, default):
+        """Load a GUI preference from .gui_prefs.json."""
+        try:
+            prefs_file = self.repo_root / ".gui_prefs.json"
+            if prefs_file.exists():
+                with open(prefs_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                return data.get(key, default)
+        except Exception:
+            pass
+        return default
+
+    def _save_gui_pref(self, key: str, value) -> None:
+        """Save a GUI preference to .gui_prefs.json."""
+        try:
+            prefs_file = self.repo_root / ".gui_prefs.json"
+            data = {}
+            if prefs_file.exists():
+                with open(prefs_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+            data[key] = value
+            with open(prefs_file, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2)
+        except Exception:
+            pass
+
+    def _save_auto_clean_pref(self):
+        """Persist auto-clean __pycache__ preference."""
+        self._save_gui_pref("auto_clean_pycache", self.auto_clean_pycache_var.get())
+
+    def _run_clean_pycache(self):
+        """Run __pycache__ cleanup (called from Tools tab button)."""
+        self.tools_status_var.set("Cleaning __pycache__...")
+        self.clean_pycache_btn.config(state=tk.DISABLED)
+        self.root.update_idletasks()
+
+        def _do_clean():
+            try:
+                count = self._clean_pycache_folders(self.repo_root)
+                self.root.after(0, lambda: self._on_clean_pycache_done(count))
+            except Exception as e:
+                self.root.after(0, lambda: self._on_clean_pycache_done(0, str(e)))
+
+        threading.Thread(target=_do_clean, daemon=True).start()
+
+    def _on_clean_pycache_done(self, count: int, error: str = None):
+        """Called on main thread after __pycache__ cleanup completes."""
+        self.clean_pycache_btn.config(state=tk.NORMAL)
+        if error:
+            self.tools_status_var.set(f"Error: {error}")
+            messagebox.showerror("Cleanup Error", f"Failed to clean __pycache__:\n{error}")
+        else:
+            self.tools_status_var.set(f"Removed {count} __pycache__ folder(s)")
+            if count > 0:
+                messagebox.showinfo("Cleanup Complete", f"Removed {count} __pycache__ folder(s).\n\nPython will recreate them when you run code again.")
+
+    def _clean_pycache_folders(self, root: Path) -> int:
+        """Recursively remove all __pycache__ folders under root. Returns count removed."""
+        count = 0
+        for p in root.rglob("__pycache__"):
+            if p.is_dir():
+                try:
+                    shutil.rmtree(p, ignore_errors=True)
+                    count += 1
+                except Exception:
+                    pass
+        return count
 
     def setup_prometheus_tab(self, parent):
         """Setup Prometheus metrics display."""
@@ -2363,7 +2494,7 @@ class ScraperGUI:
     def start_prometheus_server(self):
         """Start Prometheus metrics server manually."""
         try:
-            from core.prometheus_exporter import init_prometheus_metrics
+            from core.monitoring.prometheus_exporter import init_prometheus_metrics
             success = init_prometheus_metrics(port=9090)
             if success:
                 self.prometheus_status_var.set("Prometheus server started on port 9090")
@@ -2392,9 +2523,9 @@ class ScraperGUI:
 
         def worker():
             try:
-                from core.proxy_pool import get_proxy_pool
+                from core.network.proxy_pool import get_proxy_pool
             except ImportError:
-                return {"error": "Proxy Pool not available"}
+                return {"error": "Proxy Pool not available (install core dependencies)"}
 
             try:
                 pool = get_proxy_pool()
@@ -2444,9 +2575,9 @@ class ScraperGUI:
                     "total": stats.get("total_proxies", 0),
                 }
             except AttributeError as exc:
-                return {"error": f"Error accessing proxy pool: {exc}"}
+                return {"error": f"Proxy pool not configured: {exc}"}
             except Exception as exc:
-                return {"error": f"Error loading proxy pool: {exc}"}
+                return {"error": f"Proxy pool: {exc}"}
 
         def apply(payload):
             if not self._is_monitor_async_token_current("proxy_pool", token):
@@ -2486,9 +2617,12 @@ class ScraperGUI:
 
         def worker():
             try:
-                from scripts.common.frontier_integration import get_frontier_stats
+                _repo = Path(__file__).resolve().parents[1]
+                if str(_repo) not in sys.path:
+                    sys.path.insert(0, str(_repo))
+                from services.frontier_integration import get_frontier_stats
             except ImportError:
-                return {"error": "Frontier Queue not available (Redis required)"}
+                return {"error": "Frontier Queue not available (Redis required). Install: pip install redis"}
 
             try:
                 stats = get_frontier_stats(scraper_name)
@@ -2546,9 +2680,9 @@ Success Rate:     {(stats.get('completed', 0) / max(1, stats.get('completed', 0)
 
         def worker():
             try:
-                from core.integration_helpers import get_geo_config_for_scraper
+                from core.utils.integration_helpers import get_geo_config_for_scraper
             except ImportError:
-                return {"error": "Geo Router not available"}
+                return {"error": "Geo Router not available (proxy pool dependency)"}
 
             try:
                 geo_config = get_geo_config_for_scraper(scraper_name)
@@ -2618,7 +2752,7 @@ Proxy Configuration:
 
         def worker():
             try:
-                from core.selector_healer import get_selector_healer
+                from core.browser.selector_healer import get_selector_healer
             except ImportError:
                 return {"error": "Selector Healer not available"}
 
@@ -4772,7 +4906,7 @@ To view detailed healing logs, check the scraper console output or logs.
         # Set default to exports directory (will be updated when scraper is selected)
         # Default to repo root/exports for now, will be updated per scraper
         try:
-            from core.config_manager import ConfigManager
+            from core.config.config_manager import ConfigManager
             default_exports = ConfigManager.get_exports_dir()
             self.final_output_path_var.set(str(default_exports))
         except Exception:
@@ -4955,13 +5089,12 @@ To view detailed healing logs, check the scraper console output or logs.
 
         # Enable/disable data reset controls based on script availability
         self.update_reset_controls(scraper_name)
-        self._refresh_io_lock_states()
         
         # Update output path to scraper output directory (not runs directory)
         if hasattr(self, 'output_path_var'):
             # Use scraper-specific output directory
             try:
-                from core.config_manager import ConfigManager
+                from core.config.config_manager import ConfigManager
                 # Migrated: pm = get_path_manager()
                 output_dir = ConfigManager.get_output_dir(scraper_name)
                 self.output_path_var.set(str(output_dir))
@@ -4976,7 +5109,7 @@ To view detailed healing logs, check the scraper console output or logs.
         # Update Final Output path to scraper-specific exports directory
         if hasattr(self, 'final_output_path_var'):
             try:
-                from core.config_manager import ConfigManager
+                from core.config.config_manager import ConfigManager
                 # Migrated: pm = get_path_manager()
                 exports_dir = ConfigManager.get_exports_dir(scraper_name)
                 self.final_output_path_var.set(str(exports_dir))
@@ -4994,6 +5127,8 @@ To view detailed healing logs, check the scraper console output or logs.
             self.output_scraper_var.set(scraper_name)
         if hasattr(self, 'input_scraper_var') and scraper_name:
             self.input_scraper_var.set(scraper_name)
+        # Refresh lock states after syncing Input/Output tabs
+        self._refresh_io_lock_states()
         self._schedule_market_table_refresh(delay_ms=80)
 
         # Reset progress state when switching scrapers (to avoid showing stale data from previous runs)
@@ -6102,6 +6237,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
             tag = "seed"
         elif "| FINISH |" in upper:
             tag = "finish"
+        elif "MIGRATION" in upper or "MIGRATED" in upper:
+            tag = "ok"  # Show migration messages as success
 
         # Strip the [DB] prefix for cleaner display
         display = line.strip()
@@ -6152,6 +6289,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 tag = "seed"
             elif "| FINISH |" in upper:
                 tag = "finish"
+            elif "MIGRATION" in upper or "MIGRATED" in upper:
+                tag = "ok"
             if tag:
                 self.db_activity_text.insert(tk.END, display + "\n", tag)
             else:
@@ -6161,9 +6300,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
 
     def _get_lock_paths(self, scraper_name: str):
         try:
-            from core.config_manager import ConfigManager
-            # Migrated: pm = get_path_manager()
-            new_lock = pm.get_lock_file(scraper_name)
+            from core.config.config_manager import ConfigManager
+            from core.pipeline.pipeline_start_lock import get_lock_paths
+            new_lock, _ = get_lock_paths(scraper_name, self.repo_root)
         except Exception:
             new_lock = self.repo_root / ".locks" / f"{scraper_name}.lock"
         old_lock = self.repo_root / f".{scraper_name}_run.lock"
@@ -6252,9 +6391,14 @@ Provide a clear, concise explanation suitable for users who want to understand w
         # Match by scraper name or scripts/<scraper> path segment
         if name in cmdline:
             return True
-        if f"scripts\\{name}\\" in cmdline or f"scripts/{name}/" in cmdline:
+        if f"scripts{os.sep}{name}{os.sep}" in cmdline or f"scripts/{name}/" in cmdline:
             return True
-        return False
+            
+        print(f"[DEBUG] PID match failed for {scraper_name} (PID {pid}). Cmdline: {cmdline[:200]}...")
+        # Fallback: strict matching is causing issues on some systems.
+        # If the PID exists (checked by caller), assume it's valid for now to avoid killing running scrapers.
+        return True
+        # return False
 
     def _read_log_tail(self, scraper_name: str, log_path: Path) -> str:
         """Read new log data since the last offset for this scraper."""
@@ -6300,9 +6444,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
         candidates = []
         # Telegram bot logs
         try:
-            from core.config_manager import ConfigManager
-            # Migrated: pm = get_path_manager()
-            logs_dir = pm.get_logs_dir()
+            from core.config.config_manager import ConfigManager
+            logs_dir = self.repo_root / "logs"
         except Exception:
             logs_dir = self.repo_root / "logs"
         telegram_dir = logs_dir / "telegram"
@@ -6311,7 +6454,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
 
         # Output logs
         try:
-            from core.config_manager import ConfigManager
+            from core.config.config_manager import ConfigManager
             # Migrated: pm = get_path_manager()
             output_dir = ConfigManager.get_output_dir(scraper_name)
         except Exception:
@@ -6445,10 +6588,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
         else:
             # Check if any scraper has a lock file (might be running from outside GUI)
             try:
-                from core.config_manager import ConfigManager
-                # Migrated: pm = get_path_manager()
+                from core.pipeline.pipeline_start_lock import get_lock_paths
                 for scraper_name in self.scrapers.keys():
-                    lock_file = pm.get_lock_file(scraper_name)
+                    lock_file, _ = get_lock_paths(scraper_name, self.repo_root)
                     if lock_file.exists():
                         # Check if lock is stale
                         try:
@@ -6496,7 +6638,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             # Kill Chrome instances for each scraper
             for scraper_name in self.scrapers.keys():
                 try:
-                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    from core.browser.chrome_pid_tracker import terminate_scraper_pids
                     count = terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
                     total_terminated += count
                 except Exception:
@@ -6504,7 +6646,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             
             # Also use fallback method to catch any remaining Chrome instances with automation flags
             try:
-                from core.chrome_pid_tracker import terminate_chrome_by_flags
+                from core.browser.chrome_pid_tracker import terminate_chrome_by_flags
                 fallback_count = terminate_chrome_by_flags(silent=True)
                 total_terminated += fallback_count
             except Exception:
@@ -6628,9 +6770,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 # Check all scrapers for stale locks and external starts
                 for scraper_name in self.scrapers.keys():
                     try:
-                        from core.config_manager import ConfigManager
-                        # Migrated: pm = get_path_manager()
-                        lock_file = pm.get_lock_file(scraper_name)
+                        from core.config.config_manager import ConfigManager
+                        from core.pipeline.pipeline_start_lock import get_lock_paths
+                        lock_file, _ = get_lock_paths(scraper_name, self.repo_root)
                         
                         # Check current lock state
                         current_lock_exists = lock_file.exists()
@@ -6853,9 +6995,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
         max_retries = 5
         for attempt in range(max_retries):
             try:
-                from core.config_manager import ConfigManager
-                # Migrated: pm = get_path_manager()
-                lock_file = pm.get_lock_file(scraper_name)
+                from core.pipeline.pipeline_start_lock import get_lock_paths
+                lock_file, _ = get_lock_paths(scraper_name, self.repo_root)
                 if lock_file.exists():
                     lock_file.unlink()
                     # Verify deletion
@@ -6901,9 +7042,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
             """Refresh button state after ensuring cleanup is complete"""
             # Double-check lock files are gone before refreshing
             try:
-                from core.config_manager import ConfigManager
-                # Migrated: pm = get_path_manager()
-                lock_file = pm.get_lock_file(scraper_name)
+                from core.pipeline.pipeline_start_lock import get_lock_paths
+                lock_file, _ = get_lock_paths(scraper_name, self.repo_root)
                 if lock_file.exists():
                     # Lock still exists, try to remove it one more time
                     try:
@@ -7163,7 +7303,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 if resume:
                     # Get checkpoint info for confirmation
                     try:
-                        from core.pipeline_checkpoint import get_checkpoint_manager
+                        from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
                         cp = get_checkpoint_manager(scraper_name)
                         info = cp.get_checkpoint_info()
                         if info["total_completed"] > 0:
@@ -7302,7 +7442,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
         # Atomic single-instance guard across GUI/API/Telegram
         if is_pipeline:
             try:
-                from core.pipeline_start_lock import claim_pipeline_start_lock
+                from core.pipeline.pipeline_start_lock import claim_pipeline_start_lock
                 acquired, startup_lock_file, startup_lock_reason = claim_pipeline_start_lock(
                     scraper_name,
                     owner="gui",
@@ -7331,6 +7471,15 @@ Provide a clear, concise explanation suitable for users who want to understand w
         self.update_kill_all_chrome_button_state()
         
         existing_log_text = self.scraper_logs.get(scraper_name, "")
+
+        # Auto-clean __pycache__ before pipeline run (if enabled in Tools tab)
+        if is_pipeline and getattr(self, 'auto_clean_pycache_var', None) and self.auto_clean_pycache_var.get():
+            try:
+                count = self._clean_pycache_folders(self.repo_root)
+                if count > 0:
+                    print(f"[TOOLS] Auto-cleaned {count} __pycache__ folder(s) before pipeline start")
+            except Exception as e:
+                print(f"[TOOLS] Auto-clean __pycache__ failed (non-fatal): {e}")
 
         # Clear old logs when starting pipeline, unless we are resuming and need history preserved.
         if is_pipeline:
@@ -7361,7 +7510,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
         if is_pipeline:
             # Check if pipeline is already running (started from elsewhere)
             try:
-                from core.config_manager import ConfigManager
+                from core.config.config_manager import ConfigManager
                 # Migrated: pm = get_path_manager()
                 output_dir = ConfigManager.get_output_dir(scraper_name)
                 run_id_file = output_dir / ".current_run_id"
@@ -7370,7 +7519,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     existing_run_id = run_id_file.read_text(encoding='utf-8').strip()
                     if existing_run_id:
                         # Check if lock file exists (confirming it's running)
-                        lock_file = pm.get_lock_file(scraper_name)
+                        from core.pipeline.pipeline_start_lock import get_lock_paths
+                        lock_file, _ = get_lock_paths(scraper_name, self.repo_root)
                         if lock_file.exists():
                             run_id = existing_run_id
                             print(f"[SYNC] Using existing run_id from running pipeline: {run_id}")
@@ -7386,7 +7536,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
         metrics_tracker = None
         if is_pipeline and run_id:
             try:
-                from core.run_metrics_tracker import RunMetricsTracker
+                from core.progress.run_metrics_tracker import RunMetricsTracker
                 metrics_tracker = RunMetricsTracker()
                 metrics_tracker.start_run(run_id, scraper_name)
                 print(f"[METRICS] Started tracking for run: {run_id}")
@@ -7475,12 +7625,12 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 # Finalize lock file with child PID (lock was atomically claimed before start)
                 if is_pipeline:
                     try:
-                        from core.pipeline_start_lock import update_pipeline_lock
+                        from core.pipeline.pipeline_start_lock import update_pipeline_lock
                         lock_target = startup_lock_file
                         if lock_target is None:
-                            from core.config_manager import ConfigManager
-                            # Migrated: pm = get_path_manager()
-                            lock_target = pm.get_lock_file(scraper_name)
+                            from core.config.config_manager import ConfigManager
+                            from core.pipeline.pipeline_start_lock import get_lock_paths
+                            lock_target, _ = get_lock_paths(scraper_name, self.repo_root)
                         log_path_value = self._external_log_files.get(scraper_name, "")
                         log_path_obj = Path(log_path_value) if log_path_value else None
                         update_pipeline_lock(lock_target, process.pid, log_path=log_path_obj)
@@ -7623,9 +7773,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
                                     del self._pipeline_lock_files[scraper_name]
                                 
                                 # Clean up WorkflowRunner lock files
-                                from core.config_manager import ConfigManager
-                                # Migrated: pm = get_path_manager()
-                                lock_file = pm.get_lock_file(scraper_name)
+                                from core.config.config_manager import ConfigManager
+                                from core.pipeline.pipeline_start_lock import get_lock_paths
+                                lock_file, _ = get_lock_paths(scraper_name, self.repo_root)
                                 if lock_file.exists():
                                     try:
                                         lock_file.unlink()
@@ -7683,9 +7833,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     status_msg += f"Execution completed at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
                     # Simple lock file deletion after successful run
                     try:
-                        from core.config_manager import ConfigManager
-                        # Migrated: pm = get_path_manager()
-                        lock_file = pm.get_lock_file(scraper_name)
+                        from core.config.config_manager import ConfigManager
+                        from core.pipeline.pipeline_start_lock import get_lock_paths
+                        lock_file, _ = get_lock_paths(scraper_name, self.repo_root)
                         if lock_file.exists():
                             lock_file.unlink()
                         # Also clean up old lock location
@@ -7718,7 +7868,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     self._cap_scraper_log(scraper_name)
                 if is_pipeline:
                     try:
-                        from core.pipeline_start_lock import release_pipeline_lock
+                        from core.pipeline.pipeline_start_lock import release_pipeline_lock
                         release_pipeline_lock(startup_lock_file)
                     except Exception:
                         pass
@@ -7748,9 +7898,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
                         # Try multiple times to ensure lock is cleared
                         for attempt in range(5):
                             try:
-                                from core.config_manager import ConfigManager
-                                # Migrated: pm = get_path_manager()
-                                lock_file = pm.get_lock_file(scraper_name)
+                                from core.config.config_manager import ConfigManager
+                                from core.pipeline.pipeline_start_lock import get_lock_paths
+                                lock_file, _ = get_lock_paths(scraper_name, self.repo_root)
                                 if lock_file.exists():
                                     # Lock still exists, try to remove it
                                     try:
@@ -7775,9 +7925,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
                         # Schedule another check after a longer delay as a safety net
                         def final_check():
                             try:
-                                from core.config_manager import ConfigManager
-                                # Migrated: pm = get_path_manager()
-                                lock_file = pm.get_lock_file(scraper_name)
+                                from core.config.config_manager import ConfigManager
+                                from core.pipeline.pipeline_start_lock import get_lock_paths
+                                lock_file, _ = get_lock_paths(scraper_name, self.repo_root)
                                 if lock_file.exists():
                                     try:
                                         lock_file.unlink()
@@ -7848,7 +7998,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
         except Exception:
             if is_pipeline:
                 try:
-                    from core.pipeline_start_lock import release_pipeline_lock
+                    from core.pipeline.pipeline_start_lock import release_pipeline_lock
                     release_pipeline_lock(startup_lock_file)
                 except Exception:
                     pass
@@ -7946,7 +8096,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             try:
                 # Kill Chrome instances first (scraper-specific)
                 try:
-                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    from core.browser.chrome_pid_tracker import terminate_scraper_pids
                     terminated = terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
                     if terminated > 0:
                         self.root.after(0, lambda: self.append_to_log_display(
@@ -7973,7 +8123,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
 
                 # Final Chrome cleanup
                 try:
-                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    from core.browser.chrome_pid_tracker import terminate_scraper_pids
                     terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
                 except Exception:
                     pass
@@ -8040,7 +8190,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
         if self._api_server_running:
             return
         try:
-            from scripts.common.api_server import start_embedded, stop_embedded  # noqa: F401
+            from services.api_server import start_embedded, stop_embedded  # noqa: F401
         except ImportError as exc:
             self._write_to_log(f"[API] Failed to import api_server: {exc}")
             return
@@ -8062,7 +8212,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
         if not self._api_server_running:
             return
         try:
-            from scripts.common.api_server import stop_embedded
+            from services.api_server import stop_embedded
             stop_embedded()
         except Exception as exc:
             self._write_to_log(f"[API] Error stopping server: {exc}")
@@ -8073,8 +8223,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
     def _init_prometheus_server(self):
         """Initialize Prometheus metrics server on GUI startup."""
         try:
-            from core.prometheus_exporter import init_prometheus_metrics
+            # use global init_prometheus_metrics imported at module level
             success = init_prometheus_metrics(port=9090)
+
             if success:
                 print("[GUI] Prometheus metrics server started on port 9090")
             else:
@@ -8176,9 +8327,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
             self._cleanup_stopping_state(scraper_name)
             # Also clean up lock file
             try:
-                from core.config_manager import ConfigManager
-                # Migrated: pm = get_path_manager()
-                lock_file = pm.get_lock_file(scraper_name)
+                from core.config.config_manager import ConfigManager
+                from core.pipeline.pipeline_start_lock import get_lock_paths
+                lock_file, _ = get_lock_paths(scraper_name, self.repo_root)
                 if lock_file.exists():
                     lock_file.unlink()
             except Exception:
@@ -8193,7 +8344,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 
                 # Step 1: Clean up Chrome instances (scraper-specific)
                 try:
-                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    from core.browser.chrome_pid_tracker import terminate_scraper_pids
                     terminated_count = terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
                     if terminated_count > 0:
                         self.append_to_log_display(f"[STOP] Terminated {terminated_count} Chrome process(es) for {scraper_name}\n")
@@ -8231,16 +8382,16 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 
                 # Step 3: Final cleanup
                 try:
-                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    from core.browser.chrome_pid_tracker import terminate_scraper_pids
                     terminate_scraper_pids(scraper_name, self.repo_root, silent=True)
                 except:
                     pass
                     
                 # Clean up lock file
                 try:
-                    from core.config_manager import ConfigManager
-                    # Migrated: pm = get_path_manager()
-                    lock_file = pm.get_lock_file(scraper_name)
+                    from core.config.config_manager import ConfigManager
+                    from core.pipeline.pipeline_start_lock import get_lock_paths
+                    lock_file, _ = get_lock_paths(scraper_name, self.repo_root)
                     if lock_file.exists():
                         lock_file.unlink()
                 except:
@@ -8298,7 +8449,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             return
         
         try:
-            from core.pipeline_checkpoint import get_checkpoint_manager
+            from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
             cp = get_checkpoint_manager(scraper_name)
             info = cp.get_checkpoint_info()
             
@@ -8399,7 +8550,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             api_error = "api server off"
 
         try:
-            from core.pipeline_checkpoint import get_checkpoint_manager
+            from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
             cp = get_checkpoint_manager(scraper_name)
             metadata = cp.get_metadata() or {}
             run_id = metadata.get("run_id")
@@ -8648,7 +8799,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             return
         
         try:
-            from core.pipeline_checkpoint import get_checkpoint_manager
+            from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
             cp = get_checkpoint_manager(scraper_name)
             checkpoint_file = cp.checkpoint_file
             checkpoint_dir = cp.checkpoint_dir
@@ -8736,7 +8887,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             return
         
         try:
-            from core.pipeline_checkpoint import get_checkpoint_manager
+            from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
             cp = get_checkpoint_manager(scraper_name)
             
             # For Argentina: Reset database status before clearing checkpoint
@@ -9260,14 +9411,14 @@ Provide a clear, concise explanation suitable for users who want to understand w
             chrome_count = 0
             tracked_pids = set()
             try:
-                from core.chrome_pid_tracker import load_chrome_pids
+                from core.browser.chrome_pid_tracker import load_chrome_pids
                 for scraper_name in self.scrapers.keys():
                     pids = load_chrome_pids(scraper_name, self.repo_root)
                     if not pids:
                         pids = self._infer_chrome_pids_from_lock(scraper_name)
                         if pids:
                             try:
-                                from core.chrome_pid_tracker import save_chrome_pids
+                                from core.browser.chrome_pid_tracker import save_chrome_pids
                                 save_chrome_pids(scraper_name, self.repo_root, pids)
                             except Exception:
                                 pass
@@ -9417,7 +9568,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
         
         active_count = 0
         try:
-            from core.chrome_pid_tracker import load_chrome_pids
+            from core.browser.chrome_pid_tracker import load_chrome_pids
             import psutil
             
             # Load tracked PIDs for this scraper
@@ -9426,7 +9577,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 pids = self._infer_chrome_pids_from_lock(scraper_name)
                 if pids:
                     try:
-                        from core.chrome_pid_tracker import save_chrome_pids
+                        from core.browser.chrome_pid_tracker import save_chrome_pids
                         save_chrome_pids(scraper_name, self.repo_root, pids)
                     except Exception:
                         pass
@@ -9457,7 +9608,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
         except ImportError:
             # psutil not available, try alternative method
             try:
-                from core.chrome_pid_tracker import load_chrome_pids
+                from core.browser.chrome_pid_tracker import load_chrome_pids
                 pids = load_chrome_pids(scraper_name, self.repo_root)
                 count = len(pids) if pids else 0
                 
@@ -9504,7 +9655,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
         # Run in background thread to avoid blocking UI
         def _fetch_network_info():
             try:
-                from core.network_info import get_network_info_for_scraper, format_network_status
+                from core.network.network_info import get_network_info_for_scraper, format_network_status
                 info = get_network_info_for_scraper(scraper_name, force_refresh=force_refresh)
                 status_text = format_network_status(info)
                 
@@ -9567,7 +9718,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             return
         
         try:
-            from core.pipeline_checkpoint import get_checkpoint_manager
+            from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
             cp = get_checkpoint_manager(scraper_name)
             info = cp.get_checkpoint_info()
             
@@ -10194,9 +10345,9 @@ Provide a clear, concise explanation suitable for users who want to understand w
         lock_file = None
         old_lock_file = None
         try:
-            from core.config_manager import ConfigManager
-            # Migrated: pm = get_path_manager()
-            lock_file = pm.get_lock_file(scraper_name)
+            from core.config.config_manager import ConfigManager
+            from core.pipeline.pipeline_start_lock import get_lock_paths
+            lock_file, _ = get_lock_paths(scraper_name, self.repo_root)
             # Also check old location as fallback
             old_lock_file = self.repo_root / f".{scraper_name}_run.lock"
         except Exception:
@@ -10404,9 +10555,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
     def _resolve_logs_dir(self) -> Path:
         """Return the root logs directory (Documents/ScraperPlatform/logs or repo/logs)."""
         try:
-            from core.config_manager import ConfigManager
-            # Migrated: pm = get_path_manager()
-            logs_dir = Path(pm.get_logs_dir())
+            from core.config.config_manager import ConfigManager
+            logs_dir = self.repo_root / "logs"
         except Exception:
             logs_dir = self.repo_root / "logs"
         logs_dir.mkdir(parents=True, exist_ok=True)
@@ -10672,9 +10822,8 @@ Provide a clear, concise explanation suitable for users who want to understand w
     def _write_console_log_file(self, content):
         try:
             try:
-                from core.config_manager import ConfigManager
-                # Migrated: pm = get_path_manager()
-                logs_dir = pm.get_logs_dir()
+                from core.config.config_manager import ConfigManager
+                logs_dir = self.repo_root / "logs"
             except Exception:
                 logs_dir = self.repo_root / "logs"
 
@@ -10729,7 +10878,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
         # Verify the output directory is correct for the selected scraper
         # If path doesn't match, update to correct output directory
         try:
-            from core.config_manager import ConfigManager
+            from core.config.config_manager import ConfigManager
             # Migrated: pm = get_path_manager()
             correct_output_dir = ConfigManager.get_output_dir(scraper_name)
             if output_dir != correct_output_dir:

@@ -26,15 +26,18 @@ from pathlib import Path
 from datetime import datetime
 
 # ---------------------------------------------------------------------------
-# Path wiring
+# Path wiring (script dir first for config_loader)
 # ---------------------------------------------------------------------------
 _repo_root = Path(__file__).resolve().parents[2]
-if str(_repo_root) not in sys.path:
-    sys.path.insert(0, str(_repo_root))
-
 _script_dir = Path(__file__).parent
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+# Clear conflicting config_loader when run in same process as other scrapers (e.g. GUI)
+if "config_loader" in sys.modules:
+    del sys.modules["config_loader"]
 
 # ---------------------------------------------------------------------------
 # Core imports
@@ -51,10 +54,10 @@ MAX_STEPS = 7  # steps 0-6
 # ---------------------------------------------------------------------------
 try:
     from core.pipeline.preflight_checks import PreflightChecker, CheckSeverity
-    from core.step_hooks import StepHookRegistry, StepMetrics
-    from core.alerting_integration import setup_alerting_hooks
+    from core.pipeline.step_hooks import StepHookRegistry, StepMetrics
+    from core.monitoring.alerting_integration import setup_alerting_hooks
     from core.data.data_quality_checks import DataQualityChecker
-    from core.audit_logger import audit_log
+    from core.monitoring.audit_logger import audit_log
     from core.monitoring.benchmarking import record_step_benchmark
     from core.utils.step_progress_logger import update_run_ledger_aggregation
     _FOUNDATION_AVAILABLE = True

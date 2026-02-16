@@ -46,15 +46,18 @@ class ConfigManager:
     
     @classmethod
     def _detect_repo_root(cls) -> Path:
-        """Detect repository root by looking for core/ directory"""
-        # Start from this file's location
+        """Detect repository root by looking for marker files."""
         current = Path(__file__).resolve()
-        # This file is in core/, so repo root is parent
-        repo_root = current.parent.parent
-        # Verify by checking for common repo files
-        if (repo_root / "core").exists() and (repo_root / "core" / "config_manager.py").exists():
-            return repo_root
-        # Fallback: assume current directory is repo root
+        # Navigate up until we find markers like 'package.json' or 'requirements.txt'
+        p = current.parent
+        while p != p.parent:
+            if (p / "package.json").exists() or (p / "core").is_dir():
+                # Verify it's actually the root by checking for core directory
+                if (p / "core").is_dir():
+                    return p
+            p = p.parent
+        
+        # Fallback: assume current directory is repo root (risky but better than crashing if logic fails)
         return Path.cwd()
     
     @classmethod
@@ -157,7 +160,7 @@ class ConfigManager:
                 f"You can copy .env.example from the repo as a template."
             )
         
-        logger.info(f"Loading platform config from: {platform_env}")
+        logger.debug(f"Loading platform config from: {platform_env}")
         try:
             load_dotenv(platform_env, override=False)
         except Exception as e:
@@ -180,7 +183,7 @@ class ConfigManager:
         
         # Step 2: Load scraper-specific .env (optional, overrides platform)
         if scraper_env.exists():
-            logger.info(f"Loading scraper config from: {scraper_env}")
+            logger.debug(f"Loading scraper config from: {scraper_env}")
             try:
                 load_dotenv(scraper_env, override=True)
             except Exception as e:
@@ -569,11 +572,11 @@ class ConfigManager:
                     _app_lock_handle.flush()
                     atexit.register(cls.release_lock)
                     return True
-                except (IOError, ImportError):
+                except (IOError, ImportError, OSError):
                     if _app_lock_handle:
                         try:
                             _app_lock_handle.close()
-                        except:
+                        except (OSError, IOError, ValueError):
                             pass
                         _app_lock_handle = None
                     return False
@@ -582,7 +585,7 @@ class ConfigManager:
             if _app_lock_handle:
                 try:
                     _app_lock_handle.close()
-                except:
+                except (OSError, IOError, ValueError):
                     pass
                 _app_lock_handle = None
             return False
@@ -626,6 +629,29 @@ class ConfigManager:
                         time.sleep(0.2 * (attempt + 1))
                     continue
 
+    @classmethod
+    def get_env_bool(cls, scraper_name: str, key: str, default: bool = False) -> bool:
+        """Get environment variable as boolean."""
+        val = cls.get_env_value(scraper_name, key, str(default))
+        return val.lower() in ("true", "1", "yes", "on")
+
+    @classmethod
+    def get_env_int(cls, scraper_name: str, key: str, default: int = 0) -> int:
+        """Get environment variable as integer."""
+        val = cls.get_env_value(scraper_name, key, str(default))
+        try:
+            return int(val)
+        except (ValueError, TypeError):
+            return default
+
+    @classmethod
+    def get_env_float(cls, scraper_name: str, key: str, default: float = 0.0) -> float:
+        """Get environment variable as float."""
+        val = cls.get_env_value(scraper_name, key, str(default))
+        try:
+            return float(val)
+        except (ValueError, TypeError):
+            return default
 
 # Convenience functions for backward compatibility
 def get_app_root() -> Path:
@@ -651,3 +677,12 @@ def acquire_lock() -> bool:
 def release_lock() -> None:
     """Release single-instance lock"""
     ConfigManager.release_lock()
+
+def get_env_bool(scraper_name: str, key: str, default: bool = False) -> bool:
+    return ConfigManager.get_env_bool(scraper_name, key, default)
+
+def get_env_int(scraper_name: str, key: str, default: int = 0) -> int:
+    return ConfigManager.get_env_int(scraper_name, key, default)
+
+def get_env_float(scraper_name: str, key: str, default: float = 0.0) -> float:
+    return ConfigManager.get_env_float(scraper_name, key, default)

@@ -22,8 +22,21 @@ _repo_root = Path(__file__).resolve().parents[2]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 _script_dir = Path(__file__).resolve().parent
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
+
+# Ensure Argentina directory is at the front of sys.path to prioritize local 'db' package
+# This fixes conflict with core/db which might be in sys.path
+sys.path = [p for p in sys.path if not Path(p).name == 'core']
+
+if str(_script_dir) in sys.path:
+    sys.path.remove(str(_script_dir))
+sys.path.insert(0, str(_script_dir))
+
+# Force re-import of db module if it was incorrectly loaded from core/db
+if 'db' in sys.modules:
+    del sys.modules['db']
+
+from db.schema import apply_argentina_schema
+from db.repositories import ArgentinaRepository
 
 from config_loader import (
     get_output_dir,
@@ -31,12 +44,10 @@ from config_loader import (
     get_central_output_dir,
     load_env_file,
 )
-from core.utils.shared_utils import backup_output_folder, clean_output_folder
+from core.utils.shared_utils import run_backup_and_clean
 from core.db.models import generate_run_id
 from core.db.connection import CountryDB
 from core.db.schema_registry import SchemaRegistry
-from db.schema import apply_argentina_schema
-from db.repositories import ArgentinaRepository
 
 load_env_file()
 
@@ -51,38 +62,25 @@ def main() -> None:
     print("STEP 0 - BACKUP, CLEAN, DB INIT (ARGENTINA)")
     print("=" * 80 + "\n")
 
-    # 1) Backup
+    # 1) Backup & 2) Clean (shared)
     print("[1/3] Creating backup of output folder...")
-    backup_result = backup_output_folder(
-        output_dir=OUTPUT_DIR,
-        backup_dir=BACKUP_DIR,
-        central_output_dir=CENTRAL_OUTPUT_DIR,
-        exclude_dirs=[str(BACKUP_DIR)],
-    )
+    result = run_backup_and_clean("Argentina", keep_files=[], keep_dirs=["runs", "backups"])
+    backup_result = result["backup"]
+    clean_result = result["clean"]
     status = backup_result.get("status")
     if status == "ok":
         print(f"[OK] Backup: {backup_result['backup_folder']}")
     elif status == "skipped":
         print(f"[SKIP] {backup_result['message']}")
     else:
-        # Backup failed or incomplete: warn but continue so DB init and run_ledger always run
-        # (otherwise step 1 would use an unregistered run_id and hit FK violation)
-        print(f"[WARN] Backup issue: {backup_result['message']}")
+        print(f"[WARN] Backup issue: {backup_result.get('message', '')}")
         print("[WARN] Continuing with clean and DB init so pipeline can proceed...")
 
-    # 2) Clean
     print("\n[2/3] Cleaning output folder...")
-    clean_result = clean_output_folder(
-        output_dir=OUTPUT_DIR,
-        backup_dir=BACKUP_DIR,
-        central_output_dir=CENTRAL_OUTPUT_DIR,
-        keep_files=[],
-        keep_dirs=["runs", "backups"],
-    )
     if clean_result["status"] != "ok":
         print(f"[ERROR] {clean_result.get('message')}")
         return
-    print(f"[OK] Cleaned ({clean_result['files_deleted']} files removed)")
+    print(f"[OK] Cleaned ({clean_result.get('files_deleted', 0)} files removed)")
 
     # 3) DB init + run_id
     print("\n[3/3] Applying PostgreSQL schema and generating run_id...")
@@ -114,6 +112,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    from core.standalone_checkpoint import run_with_checkpoint
+    from core.pipeline.standalone_checkpoint import run_with_checkpoint
 
     run_with_checkpoint(main, "Argentina", 0, "Backup and Clean + DB Init", output_files=None)

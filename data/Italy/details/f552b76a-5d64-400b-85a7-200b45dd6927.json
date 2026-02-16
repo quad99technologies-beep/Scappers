@@ -1,0 +1,85 @@
+{
+  "id": "f552b76a-5d64-400b-85a7-200b45dd6927",
+  "titolo": "DET. PRES/HTA 1795/2025 Classificazione di specialita medicinali ai sensi dell'art. 8, comma 10, della legge 24 dicembre 1993, n. 537 - NEOATRICON",
+  "ufficio": "PRES - UFFICIO DI PRESIDENZA",
+  "ufficioEmettitore": {
+    "id": 1,
+    "codice": "EX00833",
+    "descrizioneIt": "AGENZIA ITALIANA DEL FARMACO",
+    "descrizioneEn": "AGENZIA ITALIANA DEL FARMACO"
+  },
+  "idSchedaDocumento": "197286061",
+  "idSchedaDocumentoRettifica": null,
+  "tipiAtto": [
+    {
+      "id": 1047,
+      "codice": "C",
+      "descrizioneIt": "Modifica Classe di Rimborsabilità di un medicinale (classe C)",
+      "descrizioneEn": "-",
+      "version": 1
+    }
+  ],
+  "tipoTrasmissione": "REDAZIONE",
+  "tipoProvvedimento": {
+    "id": 1020,
+    "codice": "DECRETO DIRIGENZIALE",
+    "descrizioneIt": "Determina",
+    "descrizioneEn": "Decree",
+    "version": 1
+  },
+  "numeroRepertorio": "AIFA_PRES-1795-2025",
+  "numeroProtocollo": null,
+  "idDocumentoDocsPa": null,
+  "data": "2025-12-17T00:00:00Z",
+  "dataProtocollo": null,
+  "dataPubblicazione": "2025-12-24T15:31:35Z",
+  "dataEfficacia": "2025-12-31T00:00:00Z",
+  "datiFarmaco": [
+    {
+      "id": "091442a9-8216-46dc-8382-45c2733a43ce",
+      "denominazione": "NEOATRICON",
+      "denominazioneAzienda": "BREPCO BIOPHARMA LTD",
+      "tipoFarmaco": {
+        "id": 1010,
+        "codice": "1",
+        "descrizioneIt": "PRODOTTO MEDICINALE CHIMICO",
+        "descrizioneEn": "CHEMICAL MEDICINAL PRODUCT"
+      },
+      "aic6": "051250",
+      "aic9": null,
+      "tipiProcedura": [
+        {
+          "id": 1007,
+          "codice": "E",
+          "descrizioneIt": "CENTRALIZZATA",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "tipiAutorizzazione": [
+        {
+          "id": 1004,
+          "codice": "1",
+          "descrizioneIt": "AUTORIZZAZIONE",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "principiAttivi": [
+        "DOPAMINA"
+      ],
+      "atcs": [
+        "C01CA04"
+      ]
+    }
+  ],
+  "allegati": [
+    {
+      "id": 1240,
+      "nome": "filePrincipale",
+      "principale": true
+    }
+  ],
+  "fileNameDetermina": "filePrincipale",
+  "version": 0
+}

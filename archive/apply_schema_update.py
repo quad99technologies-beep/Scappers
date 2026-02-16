@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+cl#!/usr/bin/env python3
 """Apply database schema updates for Tender Chile."""
 
 import sys

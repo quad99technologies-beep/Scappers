@@ -32,8 +32,9 @@ _repo_root = Path(__file__).resolve().parents[2]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 _script_dir = Path(__file__).parent
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
+if str(_script_dir) in sys.path:
+    sys.path.remove(str(_script_dir))
+sys.path.insert(0, str(_script_dir))
 
 # ---- Config loader ----
 try:
@@ -245,11 +246,13 @@ async def async_main():
         db = CountryDB("Tender_Chile")
         db.connect()
 
+        raw = os.getenv("SCRIPT_01_INPUT_TABLE", "tc_input_tender_list")
+        input_table = raw if raw and raw.replace("_", "").isalnum() else "tc_input_tender_list"
         with db.cursor(dict_cursor=True) as cur:
-            cur.execute("SELECT tender_id, description, url FROM tc_input_tender_list ORDER BY id")
+            cur.execute(f"SELECT tender_id, description, url FROM {input_table} ORDER BY id")
             rows = cur.fetchall()
 
-        print(f"Reading: PostgreSQL table 'tc_input_tender_list'")
+        print(f"Reading: PostgreSQL table '{input_table}'")
         print(f"   Found {len(rows)} tender(s)")
         db.close()
     except Exception as e:

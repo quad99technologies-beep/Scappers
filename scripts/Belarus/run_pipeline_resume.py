@@ -16,15 +16,18 @@ import argparse
 import time
 from pathlib import Path
 
-# Add repo root to path
+# Add repo root and script dir to path (script dir first for config_loader/db)
 _repo_root = Path(__file__).resolve().parents[2]
-if str(_repo_root) not in sys.path:
-    sys.path.insert(0, str(_repo_root))
-
-# Add scripts/Belarus to path for imports
 _script_dir = Path(__file__).parent
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+# Clear conflicting db when run in same process as other scrapers (e.g. GUI)
+for mod in list(sys.modules.keys()):
+    if mod == "db" or mod.startswith("db."):
+        del sys.modules[mod]
 
 from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
 from config_loader import get_output_dir
@@ -169,7 +172,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         
         # MEMORY FIX: Periodic resource monitoring
         try:
-            from core.resource_monitor import periodic_resource_check
+            from core.monitoring.resource_monitor import periodic_resource_check
             resource_status = periodic_resource_check("Belarus", force=False)
             if resource_status.get("warnings"):
                 for warning in resource_status["warnings"]:

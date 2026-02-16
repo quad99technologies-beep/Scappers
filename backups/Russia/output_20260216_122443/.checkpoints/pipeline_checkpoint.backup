@@ -1,0 +1,22 @@
+{
+  "scraper": "Russia",
+  "last_run": "2026-02-16T12:24:41.644275",
+  "completed_steps": [],
+  "step_outputs": {},
+  "metadata": {
+    "run_id": "Russia_20260216_122439"
+  },
+  "events": [
+    {
+      "timestamp": "2026-02-16T12:24:41.644256",
+      "event_type": "run_id_set",
+      "run_id": "Russia_20260216_122439",
+      "source": "metadata",
+      "details": {
+        "previous_run_id": null
+      },
+      "sequence": 1
+    }
+  ],
+  "event_seq": 1
+}

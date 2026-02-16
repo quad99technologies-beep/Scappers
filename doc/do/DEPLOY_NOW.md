@@ -79,12 +79,12 @@ TELEGRAM_ALLOWED_CHAT_IDS=123456789
 
 #### B. Start Scheduler (Optional)
 ```bash
-python scripts\common\scheduler.py --daemon
+python services\scheduler.py --daemon
 ```
 
 #### C. Start API Server (Optional)
 ```bash
-python scripts\common\pipeline_api.py
+python services\pipeline_api.py
 ```
 
 ---

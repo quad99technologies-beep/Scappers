@@ -6,10 +6,13 @@ Uses Selenium for reliable URL collection and product scraping.
 
 import sys
 import os
+from pathlib import Path
 
 # ---- Path wiring ----
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
+
+_REPO_ROOT = Path(__file__).resolve().parents[2]
 
 import asyncio
 import re
@@ -121,7 +124,26 @@ class NetherlandsSeleniumScraper(BaseScraper):
         driver.get(self.base_url)
         time.sleep(2)
         driver.add_cookie({'name': 'cookieconsent', 'value': 'true', 'domain': '.medicijnkosten.nl'})
-        
+
+        # Track PIDs in DB for pipeline stop cleanup
+        try:
+            from core.browser.chrome_pid_tracker import get_chrome_pids_from_driver
+            from core.browser.chrome_instance_tracker import ChromeInstanceTracker
+            from core.db.postgres_connection import PostgresDB
+            run_id = getattr(self, 'run_id', None)
+            pids = get_chrome_pids_from_driver(driver)
+            if pids and run_id:
+                driver_pid = driver.service.process.pid if hasattr(driver.service, 'process') else list(pids)[0]
+                db = PostgresDB("Netherlands")
+                db.connect()
+                try:
+                    tracker = ChromeInstanceTracker("Netherlands", run_id, db)
+                    tracker.register(step_number=1, pid=driver_pid, browser_type="chrome", child_pids=pids)
+                finally:
+                    db.close()
+        except Exception:
+            pass
+
         return driver
 
     def run(self):

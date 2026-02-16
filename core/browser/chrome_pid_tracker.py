@@ -256,6 +256,65 @@ def save_chrome_pids(scraper_name: str, repo_root: Path, pids: Set[int]):
         _release_pid_lock(lock_path, lock_fd)
 
 
+def _get_run_id_from_file(scraper_name: str, repo_root: Path) -> Optional[str]:
+    """Get run_id from output/{scraper}/.current_run_id for DB-based termination."""
+    output_dir = repo_root / "output" / scraper_name
+    run_id_file = output_dir / ".current_run_id"
+    if not run_id_file.exists():
+        return None
+    try:
+        return run_id_file.read_text(encoding="utf-8").strip() or None
+    except Exception:
+        return None
+
+
+def get_active_pids_from_db(
+    scraper_name: str,
+    run_id: Optional[str],
+    repo_root: Path,
+    browser_types: Optional[List[str]] = None
+) -> Set[int]:
+    """
+    Get active browser PIDs from chrome_instances table for termination.
+    Uses all_pids column when present, else pid.
+    """
+    if not run_id:
+        return set()
+    pids = set()
+    try:
+        from core.db.postgres_connection import PostgresDB
+        db = PostgresDB(scraper_name)
+        db.connect()
+        try:
+            with db.cursor() as cur:
+                types_filter = ""
+                params = [run_id, scraper_name]
+                if browser_types:
+                    placeholders = ", ".join(["%s"] * len(browser_types))
+                    types_filter = f" AND browser_type IN ({placeholders})"
+                    params.extend(browser_types)
+                cur.execute(f"""
+                    SELECT pid, all_pids FROM chrome_instances
+                    WHERE run_id = %s AND scraper_name = %s AND terminated_at IS NULL
+                    {types_filter}
+                """, params)
+                for row in cur.fetchall():
+                    driver_pid, all_pids_val = row[0], row[1]
+                    if all_pids_val and len(all_pids_val) > 0:
+                        try:
+                            pids.update(int(p) for p in all_pids_val)
+                        except (TypeError, ValueError):
+                            pids.add(driver_pid)
+                    else:
+                        pids.add(driver_pid)
+        finally:
+            if hasattr(db, "close"):
+                db.close()
+    except Exception as e:
+        logger.debug(f"Could not get PIDs from DB for {scraper_name}: {e}")
+    return pids
+
+
 def load_chrome_pids(scraper_name: str, repo_root: Path) -> Set[int]:
     """
     Load Chrome process IDs from file.
@@ -314,6 +373,7 @@ def load_chrome_pids(scraper_name: str, repo_root: Path) -> Set[int]:
 def terminate_chrome_pids(scraper_name: str, repo_root: Path, silent: bool = False) -> int:
     """
     Terminate Chrome processes tracked for a specific scraper.
+    Uses DB (chrome_instances) as source; run_id from output/{scraper}/.current_run_id.
     
     Args:
         scraper_name: Name of the scraper
@@ -323,13 +383,15 @@ def terminate_chrome_pids(scraper_name: str, repo_root: Path, silent: bool = Fal
     Returns:
         Number of processes terminated
     """
-    pids = load_chrome_pids(scraper_name, repo_root)
+    run_id = _get_run_id_from_file(scraper_name, repo_root)
+    pids = get_active_pids_from_db(
+        scraper_name, run_id, repo_root,
+        browser_types=["chrome", "chromium"]
+    )
     
     if not pids:
         if not silent:
             logger.debug(f"No Chrome PIDs found for {scraper_name}")
-        # Don't use fallback method - it would kill all scrapers' Chrome instances
-        # Return 0 instead of calling terminate_chrome_by_flags
         return 0
     
     terminated_count = 0
@@ -337,24 +399,8 @@ def terminate_chrome_pids(scraper_name: str, repo_root: Path, silent: bool = Fal
     if not silent:
         logger.info(f"Terminating {len(pids)} Chrome process(es) for {scraper_name}: {sorted(pids)}")
     
-    # Verify each PID still exists and belongs ONLY to this scraper before terminating
-    # Check that PIDs are not tracked by other scrapers
-    other_scrapers = ["Argentina", "Malaysia", "CanadaQuebec", "CanadaOntario", "Netherlands", "Belarus", "NorthMacedonia", "Tender_Chile", "Taiwan", "India", "Russia"]
-    other_scraper_pids = set()
-    for other_scraper in other_scrapers:
-        if other_scraper != scraper_name:
-            other_pids = load_chrome_pids(other_scraper, repo_root)
-            other_scraper_pids.update(other_pids)
-    
     valid_pids = []
-    current_pids = set(pids)
     for pid in pids:
-        # CRITICAL: Ensure PID is NOT tracked by another scraper
-        if pid in other_scraper_pids:
-            if not silent:
-                logger.error(f"PID {pid} is tracked by another scraper! Skipping termination to prevent cross-scraper interference.")
-            continue
-        
         # Check if process still exists
         if PSUTIL_AVAILABLE:
             try:
@@ -374,13 +420,6 @@ def terminate_chrome_pids(scraper_name: str, repo_root: Path, silent: bool = Fal
     if not valid_pids:
         if not silent:
             logger.debug(f"No valid Chrome PIDs to terminate for {scraper_name}")
-        # Clean up PID file even if no valid PIDs
-        try:
-            pid_file = get_pid_file_path(scraper_name, repo_root)
-            if pid_file.exists():
-                pid_file.unlink()
-        except Exception:
-            pass
         return 0
     
     # Terminate each valid PID individually (without /T flag first to avoid killing unrelated processes)
@@ -441,19 +480,25 @@ def terminate_chrome_pids(scraper_name: str, repo_root: Path, silent: bool = Fal
             if not silent:
                 logger.warning(f"Error terminating PID {pid}: {e}")
     
-    # Clean up PID file after termination
-    try:
-        pid_file = get_pid_file_path(scraper_name, repo_root)
-        if pid_file.exists():
-            pid_file.unlink()
+    # Mark instances as terminated in DB
+    if run_id and terminated_count > 0:
+        try:
+            from core.browser.chrome_instance_tracker import ChromeInstanceTracker
+            from core.db.postgres_connection import PostgresDB
+            db = PostgresDB(scraper_name)
+            db.connect()
+            try:
+                tracker = ChromeInstanceTracker(scraper_name, run_id, db)
+                tracker.terminate_all(reason="pipeline_cleanup")
+            finally:
+                if hasattr(db, "close"):
+                    db.close()
+        except Exception as e:
             if not silent:
-                logger.debug(f"Removed PID file: {pid_file}")
-    except Exception as e:
-        if not silent:
-            logger.warning(f"Could not remove PID file: {e}")
+                logger.debug(f"Could not mark Chrome instances terminated in DB: {e}")
     
     if not silent:
-        logger.info(f"Terminated {terminated_count}/{len(pids)} Chrome process(es) for {scraper_name}")
+        logger.info(f"Terminated {terminated_count}/{len(valid_pids)} Chrome process(es) for {scraper_name}")
     
     return terminated_count
 

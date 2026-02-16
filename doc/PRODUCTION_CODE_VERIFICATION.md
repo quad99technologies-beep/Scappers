@@ -86,7 +86,7 @@
    - CLI entry point ✓
    - Import test passing ✓
 
-4. **`scripts/common/scraper_registry.py`** - ✅ Modified
+4. **`services/scraper_registry.py`** - ✅ Modified
    - Added `execution_mode` field to India config (line 214)
    - Added `get_execution_mode()` function (lines 254-258)
    - Added `get_run_id_env_var()` function (lines 261-267)
@@ -164,7 +164,7 @@ d:\quad99\Scrappers\core\
 ├── url_worker.py (252 lines) ✓
 └── scraper_orchestrator.py (287 lines) ✓
 
-d:\quad99\Scrappers\scripts\common\
+d:\quad99\Scrappers\services\
 └── scraper_registry.py (modified, +40 lines) ✓
 
 d:\quad99\Scrappers\
@@ -177,7 +177,7 @@ d:\quad99\Scrappers\
 d:\quad99\Scrappers\
 ├── DISTRIBUTED_SCRAPING_GUIDE.md ✓
 ├── DISTRIBUTED_IMPLEMENTATION.md ✓
-├── distributed_example.py (executable examples) ✓
+├── tools/distributed_example.py (executable examples) ✓
 ├── gui\README_REFACTORING.md ✓
 └── CODING_WORK_SUMMARY.md ✓
 ```
@@ -224,7 +224,7 @@ python core/scraper_orchestrator.py India --urls-file urls.txt  # ✓ Ready
 python core/url_worker.py --scraper India --run-id <id>  # ✓ Ready
 
 # Registry functions
-python -c "from scripts.common.scraper_registry import get_execution_mode; print(get_execution_mode('India'))"  # ✓ Works
+python -c "from services.scraper_registry import get_execution_mode; print(get_execution_mode('India'))"  # ✓ Works
 ```
 
 ---

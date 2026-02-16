@@ -17,18 +17,41 @@ if hasattr(sys.stdout, "reconfigure"):
 os.environ.setdefault("PYTHONUNBUFFERED", "1")
 
 _repo_root = Path(__file__).resolve().parents[2]
+_script_dir = Path(__file__).parent
+print(f"[DEBUG] _repo_root: {_repo_root}")
+print(f"[DEBUG] _script_dir: {_script_dir}")
+print(f"[DEBUG] sys.path before: {sys.path[:3]}...")
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
+if str(_script_dir) not in sys.path:
+    sys.path.insert(0, str(_script_dir))
+print(f"[DEBUG] sys.path after: {sys.path[:3]}...")
 
-from config_loader import load_env_file, getenv_list, get_output_dir, get_backup_dir, get_central_output_dir
-from core.utils.shared_utils import backup_output_folder, clean_output_folder
+from config_loader import load_env_file, get_output_dir
+from core.utils.shared_utils import run_backup_and_clean
+
+SCRAPER_ID = "Tender_Chile"
 
 
 def init_database():
     """Initialize Tender Chile database schema."""
     print("[DB] Initializing Tender Chile database schema...")
+    
+    # Force local script directory to front of path to prefer local 'db' package
+    if str(_script_dir) in sys.path:
+        sys.path.remove(str(_script_dir))
+    sys.path.insert(0, str(_script_dir))
+    
+    # If 'db' is already in modules and pointing effectively to core.db or elsewhere,
+    # we should clear it so we can import the local one.
+    # Note: 'core.db' is usually imported as 'core.db', but if 'core' was in path, it could be 'db'.
+    if "db" in sys.modules:
+        del sys.modules["db"]
+        
+    print(f"[DB] sys.path: {sys.path}")
     try:
         from core.db.connection import CountryDB
+        print(f"[DB] Importing db.schema from {Path(__file__).parent / 'db'}")
         from db.schema import apply_chile_schema
         from core.db.models import generate_run_id
         
@@ -37,7 +60,8 @@ def init_database():
         
         # Generate and store run_id
         run_id = generate_run_id()
-        run_id_file = get_output_dir() / ".current_run_id"
+        output_dir = get_output_dir()
+        run_id_file = output_dir / ".current_run_id"
         run_id_file.parent.mkdir(parents=True, exist_ok=True)
         run_id_file.write_text(run_id, encoding="utf-8")
         
@@ -59,51 +83,28 @@ def main() -> None:
     print()
 
     load_env_file()
-    output_dir = get_output_dir()
-    backup_dir = get_backup_dir()
-    central_output = get_central_output_dir()
 
     print("[1/3] Creating backup of output folder...")
-    backup_result = backup_output_folder(
-        output_dir=output_dir,
-        backup_dir=backup_dir,
-        central_output_dir=central_output,
-        exclude_dirs=[str(backup_dir)]
-    )
+    result = run_backup_and_clean(SCRAPER_ID)
+    backup_result = result["backup"]
+    clean_result = result["clean"]
 
     if backup_result["status"] == "ok":
-        print("[OK] Backup created successfully!")
-        print(f"     Location: {backup_result['backup_folder']}")
-        print(f"     Timestamp: {backup_result['timestamp']}")
-        print(f"     Latest file modification: {backup_result['latest_modification']}")
-        print(f"     Files backed up: {backup_result['files_backed_up']}")
+        print(f"[OK] Backup: {backup_result['backup_folder']}")
     elif backup_result["status"] == "skipped":
         print(f"[SKIP] {backup_result['message']}")
     else:
-        print(f"[ERROR] {backup_result['message']}")
+        print(f"[ERROR] {backup_result.get('message', 'Backup failed')}")
         return
 
     print()
-
     print("[2/3] Cleaning output folder...")
-    keep_files = getenv_list("SCRIPT_00_KEEP_FILES", ["execution_log.txt"])
-    keep_dirs = getenv_list("SCRIPT_00_KEEP_DIRS", ["runs", "backups"])
-    clean_result = clean_output_folder(
-        output_dir=output_dir,
-        backup_dir=backup_dir,
-        central_output_dir=central_output,
-        keep_files=keep_files,
-        keep_dirs=keep_dirs
-    )
-
     if clean_result["status"] == "ok":
-        print("[OK] Output folder cleaned successfully!")
-        print(f"     Files deleted: {clean_result['files_deleted']}")
-        print(f"     Directories deleted: {clean_result['directories_deleted']}")
+        print(f"[OK] Cleaned ({clean_result.get('files_deleted', 0)} files)")
     elif clean_result["status"] == "skipped":
-        print(f"[SKIP] {clean_result['message']}")
+        print(f"[SKIP] {clean_result.get('message', '')}")
     else:
-        print(f"[ERROR] {clean_result['message']}")
+        print(f"[ERROR] {clean_result.get('message', 'Clean failed')}")
         return
 
     print()

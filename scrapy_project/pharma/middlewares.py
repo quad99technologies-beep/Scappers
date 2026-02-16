@@ -157,7 +157,7 @@ class PlatformDBLoggingMiddleware:
         self.run_id = getattr(spider, "platform_run_id", None)
 
         try:
-            from scripts.common.db import (
+            from services.db import (
                 ensure_platform_schema,
                 register_url,
                 update_url_status,
@@ -308,8 +308,8 @@ class PlatformFetcherMiddleware:
         self.run_id = getattr(spider, "platform_run_id", None)
 
         try:
-            from scripts.common.db import ensure_platform_schema, upsert_url, log_fetch
-            from scripts.common.fetcher import fetch, FetchMethod
+            from services.db import ensure_platform_schema, upsert_url, log_fetch
+            from services.fetcher import fetch, FetchMethod
             import requests
 
             ensure_platform_schema()

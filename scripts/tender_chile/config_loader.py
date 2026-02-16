@@ -1,153 +1,138 @@
 """
-Configuration Loader for Tender Chile Scraper (Platform Config Integration)
+Configuration Loader for Tender Chile Scraper (Facade for Core ConfigManager)
 
-Loads configuration from config/Tender_Chile.env.json with fallback to .env.
+This module wraps platform_config.py for centralized path management.
+Includes legacy support for loading config from config/Tender_Chile.env.json.
 """
 import os
 import sys
+import json
 from pathlib import Path
+from typing import Optional, List
 
-_repo_root = Path(__file__).resolve().parents[2]
+# Ensure core is in path
+_script_dir = Path(__file__).resolve().parent
+_repo_root = _script_dir.parents[1]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
+from core.config.config_manager import ConfigManager, get_env_bool as _get_bool, get_env_int as _get_int, get_env_float as _get_float
+
 SCRAPER_ID = "Tender_Chile"
 
-try:
-    from core.config.config_manager import ConfigManager, get_config_resolver
-    _PLATFORM_CONFIG_AVAILABLE = True
-except ImportError:
-    _PLATFORM_CONFIG_AVAILABLE = False
-    get_path_manager = None
-    get_config_resolver = None
+def _load_legacy_json_config():
+    """Load legacy JSON config into os.environ so ConfigManager picks it up."""
+    try:
+        config_dir = ConfigManager.get_config_dir()
+        json_file = config_dir / f"{SCRAPER_ID}.env.json"
+        
+        if json_file.exists():
+            with open(json_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            # Load "config" section
+            if "config" in data and isinstance(data["config"], dict):
+                for k, v in data["config"].items():
+                    if k.startswith("_"): continue
+                    if k not in os.environ:
+                        if isinstance(v, (bool, int, float)):
+                            os.environ[k] = str(v).lower() if isinstance(v, bool) else str(v)
+                        elif isinstance(v, str):
+                            os.environ[k] = v
 
+            # Load "scraper" section id
+            if "scraper" in data and "id" in data["scraper"]:
+                if "SCRAPER_ID" not in os.environ:
+                    os.environ["SCRAPER_ID"] = data["scraper"]["id"]
+    except Exception as e:
+        print(f"Warning: Error loading legacy JSON config: {e}")
+
+# Initialize
+ConfigManager.ensure_dirs()
+ConfigManager.load_env(SCRAPER_ID)
+_load_legacy_json_config()
+
+# --- Path Accessors ---
 
 def get_repo_root() -> Path:
-    return _repo_root
+    return ConfigManager.get_app_root()
 
+def get_base_dir() -> Path:
+    return ConfigManager.get_app_root()
 
-def load_env_file() -> None:
-    try:
-        from core.config.config_manager import ConfigManager
-        ConfigManager.ensure_dirs()
-        ConfigManager.load_env(SCRAPER_ID)
-    except (ImportError, FileNotFoundError, ValueError):
-        try:
-            from dotenv import load_dotenv
-            config_dir = get_repo_root() / "config"
-            env_file = config_dir / f"{SCRAPER_ID}.env"
-            if env_file.exists():
-                load_dotenv(env_file, override=True)
-            platform_env = config_dir / "platform.env"
-            if platform_env.exists():
-                load_dotenv(platform_env, override=False)
-        except ImportError:
-            pass
-
-
-def getenv(key: str, default: str = None):
-    if _PLATFORM_CONFIG_AVAILABLE:
-        cr = get_config_resolver()
-        return cr.get(SCRAPER_ID, key, default if default is not None else "")
-    return os.getenv(key, default)
-
-
-def getenv_int(key: str, default: int = 0) -> int:
-    try:
-        return int(getenv(key, str(default)))
-    except (TypeError, ValueError):
-        return default
-
-
-def getenv_float(key: str, default: float = 0.0) -> float:
-    try:
-        return float(getenv(key, str(default)))
-    except (TypeError, ValueError):
-        return default
-
-
-def getenv_bool(key: str, default: bool = False) -> bool:
-    value = getenv(key, str(default))
-    if isinstance(value, bool):
-        return value
-    return str(value).lower() in ("true", "1", "yes", "on")
-
-
-def getenv_list(key: str, default: list = None) -> list:
-    if default is None:
-        default = []
-    if _PLATFORM_CONFIG_AVAILABLE:
-        cr = get_config_resolver()
-        value = cr.get(SCRAPER_ID, key, default)
-    else:
-        value = os.getenv(key)
-        if value is None:
-            return default
-        if isinstance(value, str):
-            try:
-                import json
-                value = json.loads(value)
-            except Exception:
-                value = [v.strip() for v in value.split(",") if v.strip()]
-    if isinstance(value, list):
-        return value
-    if isinstance(value, str):
-        try:
-            import json
-            return json.loads(value)
-        except Exception:
-            return [v.strip() for v in value.split(",") if v.strip()]
-    return default if value is None else [value]
-
-
-def get_output_dir(subpath: str = None) -> Path:
-    output_dir_str = getenv("OUTPUT_DIR", "")
-    if output_dir_str and Path(output_dir_str).is_absolute():
-        base = Path(output_dir_str)
-    else:
-        if _PLATFORM_CONFIG_AVAILABLE:
-            # Migrated: get_path_manager() -> ConfigManager
-            base = ConfigManager.get_output_dir(SCRAPER_ID)
-            base.mkdir(parents=True, exist_ok=True)
-        else:
-            base = get_repo_root() / "output" / SCRAPER_ID
-            base.mkdir(parents=True, exist_ok=True)
-    if subpath:
-        result = base / subpath
-        result.mkdir(parents=True, exist_ok=True)
-        return result
-    return base
-
+def get_central_output_dir() -> Path:
+    return ConfigManager.get_exports_dir(SCRAPER_ID)
 
 def get_input_dir(subpath: str = None) -> Path:
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        base = ConfigManager.get_input_dir(SCRAPER_ID)
-        base.mkdir(parents=True, exist_ok=True)
-    else:
-        base = get_repo_root() / "input" / SCRAPER_ID
-        base.mkdir(parents=True, exist_ok=True)
+    base = ConfigManager.get_input_dir(SCRAPER_ID)
     if subpath:
         return base / subpath
     return base
 
-
-def get_backup_dir() -> Path:
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        return ConfigManager.get_backups_dir(SCRAPER_ID)
-    base = get_repo_root() / "backups" / SCRAPER_ID
-    base.mkdir(parents=True, exist_ok=True)
+def get_output_dir(subpath: str = None) -> Path:
+    base = ConfigManager.get_output_dir(SCRAPER_ID)
+    if subpath:
+        return base / subpath
     return base
 
+def get_backup_dir() -> Path:
+    return ConfigManager.get_backups_dir(SCRAPER_ID)
 
-def get_central_output_dir() -> Path:
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        exports_dir = ConfigManager.get_exports_dir(SCRAPER_ID)
-        exports_dir.mkdir(parents=True, exist_ok=True)
-        return exports_dir
-    repo_root = get_repo_root()
-    central_output = repo_root / "output"
-    central_output.mkdir(parents=True, exist_ok=True)
-    return central_output
+# --- Environment Accessors ---
+
+def load_env_file():
+    """No-op, already loaded on import."""
+    pass
+
+def getenv(key: str, default: str = None) -> str:
+    val = ConfigManager.get_env_value(SCRAPER_ID, key, default)
+    return val if val is not None else ""
+
+def getenv_int(key: str, default: int = 0) -> int:
+    return _get_int(SCRAPER_ID, key, default)
+
+def getenv_float(key: str, default: float = 0.0) -> float:
+    return _get_float(SCRAPER_ID, key, default)
+
+def getenv_bool(key: str, default: bool = False) -> bool:
+    return _get_bool(SCRAPER_ID, key, default)
+
+def getenv_list(key: str, default: list = None) -> list:
+    if default is None: default = []
+    
+    # Check JSON file directly for complex types
+    try:
+        config_dir = ConfigManager.get_config_dir()
+        json_file = config_dir / f"{SCRAPER_ID}.env.json"
+        if json_file.exists():
+            with open(json_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            if "config" in data and isinstance(data["config"], dict) and key in data["config"]:
+                val = data["config"][key]
+                if isinstance(val, list): return val
+    except Exception:
+        pass
+
+    # Fallback to env var (comma sep)
+    val = getenv(key)
+    if not val: return default
+    
+    try:
+        return json.loads(val)
+    except (json.JSONDecodeError, ValueError):
+        return [v.strip() for v in val.split(",") if v.strip()]
+
+def require_env(key: str, default: str = None) -> str:
+    val = getenv(key, default)
+    # Original behavior seemed to imply optional if default provided?
+    return val
+
+# --- Diagnostic ---
+if __name__ == "__main__":
+    print("=" * 60)
+    print("Tender Chile Config Loader - Diagnostic (Facade)")
+    print("=" * 60)
+    print(f"Scraper ID: {SCRAPER_ID}")
+    print(f"Input Dir: {get_input_dir()}")
+    print(f"Output Dir: {get_output_dir()}")
+    print(f"Sample env: SCRAPER_ID={getenv('SCRAPER_ID')}")

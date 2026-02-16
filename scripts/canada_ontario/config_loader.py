@@ -245,7 +245,7 @@ def get_backup_dir() -> Path:
 def get_logs_dir() -> Path:
     """Get logs directory."""
     # Migrated: get_path_manager() -> ConfigManager
-    return pm.get_logs_dir()
+    return ConfigManager.get_logs_dir()
 
 
 def get_run_id() -> str:
@@ -262,7 +262,12 @@ def get_run_dir(run_id: Optional[str] = None) -> Path:
     """Get run directory for the current run."""
     # Migrated: get_path_manager() -> ConfigManager
     run_id = run_id or get_run_id()
-    return pm.get_run_dir(SCRAPER_ID, run_id)
+    # Manual construction as ConfigManager does not have get_run_dir
+    run_dir = ConfigManager.get_runs_dir() / run_id
+    (run_dir / "logs").mkdir(parents=True, exist_ok=True)
+    (run_dir / "artifacts").mkdir(parents=True, exist_ok=True)
+    (run_dir / "exports").mkdir(parents=True, exist_ok=True)
+    return run_dir
 
 
 def get_proxy_config() -> dict:

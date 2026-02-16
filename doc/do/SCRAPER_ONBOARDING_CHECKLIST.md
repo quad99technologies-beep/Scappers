@@ -130,7 +130,7 @@
 - [ ] Validates exports: `dq_checker.validate_export(export_file)` for each export file
 
 ### 14. Audit Logging
-- [ ] Imports `audit_log` from `core.audit_logger`
+- [ ] Imports `audit_log` from `core.monitoring.audit_logger`
 - [ ] Logs `run_started` event at pipeline start
 - [ ] Logs `run_completed` event on successful completion
 - [ ] Logs `run_failed` event on failure

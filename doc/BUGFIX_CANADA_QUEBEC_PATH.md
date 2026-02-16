@@ -9,7 +9,7 @@
 
 ## Problem
 
-In `scripts/common/scraper_registry.py`:
+In `services/scraper_registry.py`:
 ```python
 "CanadaQuebec": {
     "path": "scripts/CanadaQuebec",  # ← WRONG! Folder doesn't exist
@@ -32,7 +32,7 @@ Changed path in `scraper_registry.py`:
 ## Verification
 
 ```bash
-$ python -c "from scripts.common.scraper_registry import SCRAPER_CONFIGS; print(SCRAPER_CONFIGS['CanadaQuebec']['path'])"
+$ python -c "from services.scraper_registry import SCRAPER_CONFIGS; print(SCRAPER_CONFIGS['CanadaQuebec']['path'])"
 scripts/canada_quebec
 
 $ ls scripts/canada_quebec/run_pipeline.bat

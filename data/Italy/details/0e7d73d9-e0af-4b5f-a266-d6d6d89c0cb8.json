@@ -1,0 +1,85 @@
+{
+  "id": "0e7d73d9-e0af-4b5f-a266-d6d6d89c0cb8",
+  "titolo": "UPR DET/PRES 49/2026 Classificazione di specialita medicinali ai sensi dell'art. 8, comma 10, della legge 24 dicembre 1993, n. 537 - TARDYFER",
+  "ufficio": "PRES - UFFICIO DI PRESIDENZA",
+  "ufficioEmettitore": {
+    "id": 1,
+    "codice": "EX00833",
+    "descrizioneIt": "AGENZIA ITALIANA DEL FARMACO",
+    "descrizioneEn": "AGENZIA ITALIANA DEL FARMACO"
+  },
+  "idSchedaDocumento": "197749332",
+  "idSchedaDocumentoRettifica": null,
+  "tipiAtto": [
+    {
+      "id": 1046,
+      "codice": "A_H",
+      "descrizioneIt": "Modifica Classe di Rimborsabilità di un medicinale (classi A-H)",
+      "descrizioneEn": "-",
+      "version": 2
+    }
+  ],
+  "tipoTrasmissione": "REDAZIONE",
+  "tipoProvvedimento": {
+    "id": 1020,
+    "codice": "DECRETO DIRIGENZIALE",
+    "descrizioneIt": "Determina",
+    "descrizioneEn": "Decree",
+    "version": 1
+  },
+  "numeroRepertorio": "AIFA_PRES-49-2026",
+  "numeroProtocollo": null,
+  "idDocumentoDocsPa": null,
+  "data": "2026-01-16T00:00:00Z",
+  "dataProtocollo": null,
+  "dataPubblicazione": "2026-01-24T16:41:23Z",
+  "dataEfficacia": "2026-01-28T00:00:00Z",
+  "datiFarmaco": [
+    {
+      "id": "c2102100-3622-4a83-8d63-544099c6f394",
+      "denominazione": "TARDYFER",
+      "denominazioneAzienda": "PIERRE FABRE PHARMA S.R.L.",
+      "tipoFarmaco": {
+        "id": 1010,
+        "codice": "1",
+        "descrizioneIt": "PRODOTTO MEDICINALE CHIMICO",
+        "descrizioneEn": "CHEMICAL MEDICINAL PRODUCT"
+      },
+      "aic6": "041219",
+      "aic9": null,
+      "tipiProcedura": [
+        {
+          "id": 1005,
+          "codice": "M",
+          "descrizioneIt": "MUTUO RICONOSCIMENTO",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "tipiAutorizzazione": [
+        {
+          "id": 1004,
+          "codice": "1",
+          "descrizioneIt": "AUTORIZZAZIONE",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "principiAttivi": [
+        "FERROSO SOLFATO"
+      ],
+      "atcs": [
+        "B03AA07"
+      ]
+    }
+  ],
+  "allegati": [
+    {
+      "id": 1389,
+      "nome": "filePrincipale",
+      "principale": true
+    }
+  ],
+  "fileNameDetermina": "filePrincipale",
+  "version": 0
+}

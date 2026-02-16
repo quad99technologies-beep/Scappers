@@ -39,8 +39,9 @@ if str(_repo_root) not in sys.path:
 
 # Add scripts/Tender- Chile to path for config_loader
 _script_dir = Path(__file__).parent
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
+if str(_script_dir) in sys.path:
+    sys.path.remove(str(_script_dir))
+sys.path.insert(0, str(_script_dir))
 
 # Import config_loader for platform integration
 try:

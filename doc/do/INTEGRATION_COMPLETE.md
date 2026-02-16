@@ -97,7 +97,7 @@ except Exception:
 ### 4. Frontier Queue ✅
 **Status:** Integration helpers available
 
-**Module:** `scripts/common/frontier_integration.py`
+**Module:** `services/frontier_integration.py`
 
 **Features:**
 - URL discovery and queuing
@@ -107,7 +107,7 @@ except Exception:
 
 **Usage:**
 ```python
-from scripts.common.frontier_integration import (
+from services.frontier_integration import (
     initialize_frontier_for_scraper,
     add_seed_urls,
     discover_urls_from_page,
@@ -151,7 +151,7 @@ next_url = get_next_url_from_frontier("Malaysia")
 - Better error handling
 - Improved logging
 
-**File:** `scripts/common/worker.py`
+**File:** `services/worker.py`
 
 **Features:**
 - Automatic retry on failure

@@ -12,7 +12,8 @@ Usage:
     tracker.mark_terminated(instance_id, reason="cleanup")
 """
 
-from typing import Optional, List, Dict, Any
+import json
+from typing import Optional, List, Dict, Any, Set
 from datetime import datetime, timedelta
 
 
@@ -43,28 +44,34 @@ class ChromeInstanceTracker:
         thread_id: Optional[int] = None,
         browser_type: str = "chrome",
         parent_pid: Optional[int] = None,
-        user_data_dir: Optional[str] = None
+        user_data_dir: Optional[str] = None,
+        child_pids: Optional[Set[int]] = None
     ) -> int:
         """
         Register a Chrome/browser instance.
         
         Args:
             step_number: Pipeline step number
-            pid: Process ID of browser
+            pid: Process ID of driver (chromedriver/geckodriver)
             thread_id: Worker thread ID (if multi-threaded)
             browser_type: 'chrome', 'chromium', or 'firefox'
             parent_pid: Parent process ID (chromedriver/playwright)
             user_data_dir: Path to user data directory
+            child_pids: Full set of PIDs to kill (driver + browser children) for pipeline stop
         
         Returns:
             Instance ID
         """
+        all_pids_list = list(child_pids) if child_pids else [pid]
+        if pid not in all_pids_list:
+            all_pids_list = [pid] + [p for p in all_pids_list if p != pid]
+        all_pids_json = json.dumps(all_pids_list)
         try:
             with self.db.cursor() as cur:
                 cur.execute("""
                     INSERT INTO chrome_instances
-                    (run_id, scraper_name, step_number, thread_id, browser_type, pid, parent_pid, user_data_dir)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                    (run_id, scraper_name, step_number, thread_id, browser_type, pid, parent_pid, user_data_dir, all_pids)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s::jsonb)
                     RETURNING id
                 """, (
                     self.run_id,
@@ -74,7 +81,8 @@ class ChromeInstanceTracker:
                     browser_type,
                     pid,
                     parent_pid,
-                    user_data_dir
+                    user_data_dir,
+                    all_pids_json
                 ))
                 row = cur.fetchone()
                 instance_id = row[0] if row else 0

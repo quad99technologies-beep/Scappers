@@ -140,7 +140,7 @@ class DataQualityChecker:
     def check_pcid_mapping_coverage(self) -> QualityCheckResult:
         """Pre-flight: Check PCID mapping coverage."""
         try:
-            from core.pcid_mapping_contract import get_pcid_mapping
+            from core.data.pcid_mapping_contract import get_pcid_mapping
             
             pcid = get_pcid_mapping(self.scraper_name)
             all_mappings = pcid.get_all()

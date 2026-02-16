@@ -231,7 +231,7 @@ python 01_get_medicijnkosten_data.py
 **Solution:**
 ```bash
 # Kill all Chrome instances
-.\killChrome.bat
+.\tools\killChrome.bat
 
 # Restart scraper
 python 01_get_medicijnkosten_data.py

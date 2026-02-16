@@ -1,277 +1,149 @@
 """
-Configuration Loader for Netherlands Scraper (Platform Config Integration)
+Configuration Loader for Netherlands Scraper (Facade for Core ConfigManager)
 
-This module provides centralized config and path management for Netherlands scraper.
-Integrates with platform_config.py to read from config/Netherlands.env.json.
-
-Precedence (highest to lowest):
-1. Runtime overrides
-2. Environment variables (OS-level)
-3. Platform config (config/Netherlands.env.json)
-4. Hardcoded defaults
+This module wraps platform_config.py for centralized path management.
+Includes legacy support for loading config from config/Netherlands.env.json.
 """
 import os
 import sys
+import json
 from pathlib import Path
+from typing import Optional, List
 
-# Add repo root to path for platform_config import
-# Now: scripts/Netherlands/config_loader.py -> parents[2] = repo root
-_repo_root = Path(__file__).resolve().parents[2]
+# Ensure core is in path
+_script_dir = Path(__file__).resolve().parent
+_repo_root = _script_dir.parents[1]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
+from core.config.config_manager import ConfigManager, get_env_bool as _get_bool, get_env_int as _get_int, get_env_float as _get_float
 
-def get_repo_root() -> Path:
-    """Get repository root directory (parent of scraper directories)."""
-    return _repo_root
-
-
-def get_central_output_dir() -> Path:
-    """Get central exports directory for final reports - uses Documents/ScraperPlatform/output/exports/Netherlands/"""
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        exports_dir = ConfigManager.get_exports_dir(SCRAPER_ID)  # Scraper-specific exports
-        exports_dir.mkdir(parents=True, exist_ok=True)
-        return exports_dir
-    else:
-        # Fallback: use repo root output
-        repo_root = get_repo_root()
-        central_output = repo_root / "output"
-        central_output.mkdir(parents=True, exist_ok=True)
-        return central_output
-
-try:
-    from core.config.config_manager import ConfigManager
-    _PLATFORM_CONFIG_AVAILABLE = True
-except ImportError:
-    _PLATFORM_CONFIG_AVAILABLE = False
-    PathManager = None
-    ConfigResolver = None
-
-# Scraper ID for this scraper
 SCRAPER_ID = "Netherlands"
 
-
-def getenv(key: str, default: str = None) -> str:
-    """
-    Get environment variable with fallback to default.
-    Integrates with platform_config if available.
-    Checks both 'config' and 'secrets' sections.
-
-    Args:
-        key: Environment variable name
-        default: Default value if not found
-
-    Returns:
-        Environment variable value or default (always as string)
-    """
-    # First check environment variables (highest precedence)
-    env_val = os.getenv(key)
-    if env_val is not None:
-        return env_val
-    
-    if _PLATFORM_CONFIG_AVAILABLE:
-        try:
-            # Check config section (ConfigManager handles both config and secrets)
-            val = ConfigManager.get_config_value(SCRAPER_ID, key, None)
-            if val is not None:
-                # Convert to string in case JSON config returns boolean/int/float
-                return str(val)
-        except Exception:
-            pass
-    
-    # Return default if nothing found
-    return default if default is not None else ""
-
-
-def getenv_int(key: str, default: int = 0) -> int:
-    """Get environment variable as integer."""
+def _load_legacy_json_config():
+    """Load legacy JSON config into os.environ so ConfigManager picks it up."""
     try:
-        val = getenv(key, str(default))
-        return int(val)
-    except (ValueError, TypeError):
-        return default
+        config_dir = ConfigManager.get_config_dir()
+        json_file = config_dir / f"{SCRAPER_ID}.env.json"
+        
+        if json_file.exists():
+            with open(json_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            # Load "config" section
+            if "config" in data and isinstance(data["config"], dict):
+                for k, v in data["config"].items():
+                    if k.startswith("_"): continue
+                    # Set in os.environ if not already set (keep existing env vars as overrides)
+                    if k not in os.environ:
+                        if isinstance(v, (bool, int, float)):
+                            os.environ[k] = str(v).lower() if isinstance(v, bool) else str(v)
+                        elif isinstance(v, str):
+                            os.environ[k] = v
+                        # Complex types (list, dict) are not set in os.environ here.
+                        # They are handled by getenv_list via direct JSON check.
 
+            # Load "scraper" section id
+            if "scraper" in data and "id" in data["scraper"]:
+                if "SCRAPER_ID" not in os.environ:
+                    os.environ["SCRAPER_ID"] = data["scraper"]["id"]
+    except Exception as e:
+        print(f"Warning: Error loading legacy JSON config: {e}")
 
-def getenv_float(key: str, default: float = 0.0) -> float:
-    """Get environment variable as float."""
-    try:
-        val = getenv(key, str(default))
-        return float(val)
-    except (ValueError, TypeError):
-        return default
+# Initialize
+ConfigManager.ensure_dirs()
+ConfigManager.load_env(SCRAPER_ID)
+_load_legacy_json_config()
 
+# --- Path Accessors ---
 
-def getenv_bool(key: str, default: bool = False) -> bool:
-    """Get environment variable as boolean."""
-    val = getenv(key, default)
-
-    # Handle case where val might already be a boolean (from JSON config)
-    if isinstance(val, bool):
-        return val
-
-    # Convert to string and process
-    val_str = str(val).strip().lower()
-    if val_str in ("1", "true", "yes", "on"):
-        return True
-    elif val_str in ("0", "false", "no", "off", ""):
-        return False
-    return default
-
-
-def getenv_list(key: str, default: list = None) -> list:
-    """
-    Get environment variable as list.
-    Supports comma-separated strings or JSON arrays.
-
-    Args:
-        key: Environment variable name
-        default: Default list if not found
-
-    Returns:
-        List of values
-    """
-    val = getenv(key)
-
-    # If not found or empty, return default
-    if not val:
-        return default if default is not None else []
-
-    # If already a list (from JSON config), return it
-    if isinstance(val, list):
-        return val
-
-    # If string, split by comma
-    if isinstance(val, str):
-        return [item.strip() for item in val.split(',') if item.strip()]
-
-    return default if default is not None else []
-
-
-def require_env(key: str, default: str = None) -> str:
-    """
-    Get environment variable with fallback to default.
-    Similar to getenv but emphasizes that the value should exist.
-
-    Args:
-        key: Environment variable name
-        default: Default value if not found
-
-    Returns:
-        Environment variable value or default
-    """
-    return getenv(key, default)
-
-
-def load_env_file():
-    """
-    Load environment variables from .env file.
-    This is a no-op function for compatibility with scripts that expect it.
-
-    Since we're using platform_config.py with JSON configuration files,
-    we don't need to load .env files. This function exists only for
-    backward compatibility with existing scripts.
-    """
-    pass
-
+def get_repo_root() -> Path:
+    return ConfigManager.get_app_root()
 
 def get_base_dir() -> Path:
-    """
-    Get base directory for Netherlands scraper.
+    return ConfigManager.get_app_root()
 
-    With platform_config: Returns platform root
-    Legacy mode: Returns parent of scripts folder
-    """
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        return ConfigManager.get_app_root()
-    else:
-        # Legacy: relative to script location
-        return Path(__file__).resolve().parents[1]
-
+def get_central_output_dir() -> Path:
+    return ConfigManager.get_exports_dir(SCRAPER_ID)
 
 def get_input_dir(subpath: str = None) -> Path:
-    """
-    Get input directory - uses Documents/ScraperPlatform/input/Netherlands/
-
-    Args:
-        subpath: Optional subdirectory under input/
-    """
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        base = ConfigManager.get_input_dir(SCRAPER_ID)  # Scraper-specific input
-        base.mkdir(parents=True, exist_ok=True)
-    else:
-        base = get_base_dir() / "input"
-
+    base = ConfigManager.get_input_dir(SCRAPER_ID)
     if subpath:
         return base / subpath
     return base
 
-
 def get_output_dir(subpath: str = None) -> Path:
-    """
-    Get output directory - uses Documents/ScraperPlatform/output/Netherlands/
-    
-    Scraper-specific output directory for organized file management.
-
-    Args:
-        subpath: Optional subdirectory under output/
-    """
-    # First check if OUTPUT_DIR is explicitly set (absolute path or environment variable)
-    output_dir_str = getenv("OUTPUT_DIR", "")
-    if output_dir_str and Path(output_dir_str).is_absolute():
-        base = Path(output_dir_str)
-    else:
-        # Use scraper-specific platform output directory
-        if _PLATFORM_CONFIG_AVAILABLE:
-            # Migrated: get_path_manager() -> ConfigManager
-            base = ConfigManager.get_output_dir(SCRAPER_ID)  # Scraper-specific output
-            base.mkdir(parents=True, exist_ok=True)
-        else:
-            # Fallback: use repo root output (legacy)
-            repo_root = get_repo_root()
-            base = repo_root / "output" / SCRAPER_ID
-            base.mkdir(parents=True, exist_ok=True)
-
+    base = ConfigManager.get_output_dir(SCRAPER_ID)
     if subpath:
-        result = base / subpath
-        result.mkdir(parents=True, exist_ok=True)
-        return result
+        return base / subpath
     return base
 
-
 def get_backup_dir() -> Path:
-    """Get backup directory - uses Documents/ScraperPlatform/output/backups/Netherlands/"""
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        backup_dir = ConfigManager.get_backups_dir(SCRAPER_ID)  # Scraper-specific backups
-        backup_dir.mkdir(parents=True, exist_ok=True)
-        return backup_dir
-    else:
-        return get_base_dir() / "backups"
-
+    return ConfigManager.get_backups_dir(SCRAPER_ID)
 
 def get_logs_dir() -> Path:
-    """Get logs directory."""
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        return pm.get_logs_dir()
-    else:
-        return get_base_dir() / "logs"
+    return ConfigManager.get_logs_dir()
 
+# --- Environment Accessors ---
 
-# Diagnostic function
+def load_env_file():
+    """No-op, already loaded on import."""
+    pass
+
+def getenv(key: str, default: str = None) -> str:
+    val = ConfigManager.get_env_value(SCRAPER_ID, key, default)
+    return val if val is not None else ""
+
+def getenv_int(key: str, default: int = 0) -> int:
+    return _get_int(SCRAPER_ID, key, default)
+
+def getenv_float(key: str, default: float = 0.0) -> float:
+    return _get_float(SCRAPER_ID, key, default)
+
+def getenv_bool(key: str, default: bool = False) -> bool:
+    return _get_bool(SCRAPER_ID, key, default)
+
+def getenv_list(key: str, default: list = None) -> list:
+    if default is None: default = []
+    
+    # Check JSON file directly for complex types
+    try:
+        config_dir = ConfigManager.get_config_dir()
+        json_file = config_dir / f"{SCRAPER_ID}.env.json"
+        if json_file.exists():
+            with open(json_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            if "config" in data and isinstance(data["config"], dict) and key in data["config"]:
+                val = data["config"][key]
+                if isinstance(val, list): return val
+    except Exception:
+        pass
+
+    # Fallback to env var (comma sep)
+    val = getenv(key)
+    if not val: return default
+    
+    try:
+        return json.loads(val)
+    except (json.JSONDecodeError, ValueError):
+        return [v.strip() for v in val.split(",") if v.strip()]
+
+def require_env(key: str, default: str = None) -> str:
+    val = getenv(key, default)
+    if val is None or val == "":
+         # Original code allowed default? Wait, existing calls were require_env(key, default)
+         # But the name implies requirement.
+         # Original implementation: return getenv(key, default) 
+         # Wait, original implementation was just wrapper around getenv.
+         return val
+    return val
+
+# --- Diagnostic ---
 if __name__ == "__main__":
     print("=" * 60)
-    print("Netherlands Config Loader - Diagnostic")
+    print("Netherlands Config Loader - Diagnostic (Facade)")
     print("=" * 60)
-    print(f"Platform Config Available: {_PLATFORM_CONFIG_AVAILABLE}")
     print(f"Scraper ID: {SCRAPER_ID}")
-    print()
-    print("Paths:")
-    print(f"  Base Dir: {get_base_dir()}")
-    print(f"  Input Dir: {get_input_dir()}")
-    print(f"  Output Dir: {get_output_dir()}")
-    print(f"  Backup Dir: {get_backup_dir()}")
-    print(f"  Logs Dir: {get_logs_dir()}")
+    print(f"Input Dir: {get_input_dir()}")
+    print(f"Output Dir: {get_output_dir()}")
+    print(f"Sample env: SCRAPER_ID={getenv('SCRAPER_ID')}")

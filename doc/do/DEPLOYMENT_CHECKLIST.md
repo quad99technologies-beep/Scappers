@@ -74,12 +74,12 @@
 
 - [ ] **Start Scheduler** (if needed)
   ```bash
-  python scripts/common/scheduler.py --daemon
+  python services/scheduler.py --daemon
   ```
 
 - [ ] **Start API Server** (if needed)
   ```bash
-  python scripts/common/pipeline_api.py
+  python services/pipeline_api.py
   ```
 
 - [ ] **Configure Webhooks** (if needed)
@@ -90,7 +90,7 @@
 - [ ] **Set Up Backups** (if needed)
   ```bash
   # Add to crontab
-  0 2 * * * python scripts/common/backup_archive.py --strategy daily
+  0 2 * * * python services/backup_archive.py --strategy daily
   ```
 
 ---

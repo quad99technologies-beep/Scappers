@@ -1,0 +1,22 @@
+{
+  "scraper": "Belarus",
+  "last_run": "2026-02-16T10:33:52.699611",
+  "completed_steps": [],
+  "step_outputs": {},
+  "metadata": {
+    "run_id": "20260216_030152_55325d2d"
+  },
+  "events": [
+    {
+      "timestamp": "2026-02-16T10:33:52.699593",
+      "event_type": "run_id_set",
+      "run_id": "20260216_030152_55325d2d",
+      "source": "metadata",
+      "details": {
+        "previous_run_id": null
+      },
+      "sequence": 1
+    }
+  ],
+  "event_seq": 1
+}

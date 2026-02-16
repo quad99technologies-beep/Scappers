@@ -1,0 +1,85 @@
+{
+  "id": "c0f67049-5065-4f4b-abc0-213da7fc3cfb",
+  "titolo": "DET PRES/UPR 155/2026 Classificazione di specialita medicinali ai sensi dell'art. 8, comma 10, della legge 24 dicembre 1993, n. 537 - NALADOR",
+  "ufficio": "PRES - UFFICIO DI PRESIDENZA",
+  "ufficioEmettitore": {
+    "id": 1,
+    "codice": "EX00833",
+    "descrizioneIt": "AGENZIA ITALIANA DEL FARMACO",
+    "descrizioneEn": "AGENZIA ITALIANA DEL FARMACO"
+  },
+  "idSchedaDocumento": "198166240",
+  "idSchedaDocumentoRettifica": null,
+  "tipiAtto": [
+    {
+      "id": 1047,
+      "codice": "C",
+      "descrizioneIt": "Modifica Classe di Rimborsabilità di un medicinale (classe C)",
+      "descrizioneEn": "-",
+      "version": 1
+    }
+  ],
+  "tipoTrasmissione": "REDAZIONE",
+  "tipoProvvedimento": {
+    "id": 1020,
+    "codice": "DECRETO DIRIGENZIALE",
+    "descrizioneIt": "Determina",
+    "descrizioneEn": "Decree",
+    "version": 1
+  },
+  "numeroRepertorio": "AIFA_PRES-155-2026",
+  "numeroProtocollo": null,
+  "idDocumentoDocsPa": null,
+  "data": "2026-02-09T00:00:00Z",
+  "dataProtocollo": null,
+  "dataPubblicazione": "2026-02-15T16:41:48Z",
+  "dataEfficacia": "2026-02-17T00:00:00Z",
+  "datiFarmaco": [
+    {
+      "id": "4ca1cfa3-50d5-4d06-9063-284df91a7492",
+      "denominazione": "NALADOR",
+      "denominazioneAzienda": "TEOFARMA S.R.L.",
+      "tipoFarmaco": {
+        "id": 1010,
+        "codice": "1",
+        "descrizioneIt": "PRODOTTO MEDICINALE CHIMICO",
+        "descrizioneEn": "CHEMICAL MEDICINAL PRODUCT"
+      },
+      "aic6": "025998",
+      "aic9": null,
+      "tipiProcedura": [
+        {
+          "id": 1004,
+          "codice": "N",
+          "descrizioneIt": "NAZIONALE",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "tipiAutorizzazione": [
+        {
+          "id": 1004,
+          "codice": "1",
+          "descrizioneIt": "AUTORIZZAZIONE",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "principiAttivi": [
+        "SULPROSTONE"
+      ],
+      "atcs": [
+        "G02AD05"
+      ]
+    }
+  ],
+  "allegati": [
+    {
+      "id": 1507,
+      "nome": "filePrincipale",
+      "principale": true
+    }
+  ],
+  "fileNameDetermina": "filePrincipale",
+  "version": 0
+}

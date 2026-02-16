@@ -45,7 +45,7 @@ _driver_path_lock = threading.Lock()
 
 # Try to import core chrome_manager for offline-capable chromedriver resolution
 try:
-    from core.chrome_manager import get_chromedriver_path as _core_get_chromedriver_path, register_chrome_driver, unregister_chrome_driver
+    from core.browser.chrome_manager import get_chromedriver_path as _core_get_chromedriver_path, register_chrome_driver, unregister_chrome_driver
     CORE_CHROMEDRIVER_AVAILABLE = True
 except ImportError:
     CORE_CHROMEDRIVER_AVAILABLE = False
@@ -102,7 +102,7 @@ except Exception:
 
 # Import Chrome PID tracking utilities
 try:
-    from core.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids, terminate_scraper_pids
+    from core.browser.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids, terminate_scraper_pids
 except Exception:
     get_chrome_pids_from_driver = None
     save_chrome_pids = None
@@ -110,7 +110,7 @@ except Exception:
 
 # Import stealth profile for anti-detection
 try:
-    from core.stealth_profile import apply_selenium
+    from core.browser.stealth_profile import apply_selenium
     STEALTH_PROFILE_AVAILABLE = True
 except ImportError:
     STEALTH_PROFILE_AVAILABLE = False
@@ -119,7 +119,7 @@ except ImportError:
 
 # Import browser observer for idle detection
 try:
-    from core.browser_observer import observe_selenium, wait_until_idle
+    from core.browser.browser_observer import observe_selenium, wait_until_idle
     BROWSER_OBSERVER_AVAILABLE = True
 except ImportError:
     BROWSER_OBSERVER_AVAILABLE = False
@@ -130,7 +130,7 @@ except ImportError:
 
 # Import human pacing
 try:
-    from core.human_actions import pause
+    from core.browser.human_actions import pause
     HUMAN_ACTIONS_AVAILABLE = True
 except ImportError:
     HUMAN_ACTIONS_AVAILABLE = False
@@ -140,7 +140,7 @@ except ImportError:
 
 # Import Telegram notifier for status updates
 try:
-    from core.telegram_notifier import TelegramNotifier
+    from core.utils.telegram_notifier import TelegramNotifier
     TELEGRAM_NOTIFIER_AVAILABLE = True
 except ImportError:
     TELEGRAM_NOTIFIER_AVAILABLE = False

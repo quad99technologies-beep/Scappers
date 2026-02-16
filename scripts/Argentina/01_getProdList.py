@@ -10,6 +10,7 @@ Resilient end-to-end scraper that:
  - captures screenshots and page source on critical failure
 """
 
+import sys
 import os
 import time
 import logging
@@ -57,6 +58,19 @@ except ImportError:
 PAUSE = PAUSE_BETWEEN_OPERATIONS
 
 from core.db.connection import CountryDB
+
+# Ensure Argentina directory is at the front of sys.path to prioritize local 'db' package
+# This fixes conflict with core/db which might be in sys.path
+sys.path = [p for p in sys.path if not Path(p).name == 'core']
+_script_dir = Path(__file__).resolve().parent
+if str(_script_dir) in sys.path:
+    sys.path.remove(str(_script_dir))
+sys.path.insert(0, str(_script_dir))
+
+# Force re-import of db module if it was incorrectly loaded from core/db
+if 'db' in sys.modules:
+    del sys.modules['db']
+
 from db.repositories import ArgentinaRepository
 from db.schema import apply_argentina_schema
 from core.db.models import generate_run_id
@@ -288,7 +302,7 @@ def check_tor_requirements():
         if REQUIRE_TOR_PROXY:
             print("  [INFO] REQUIRE_TOR_PROXY=true, please start Tor before running the scraper:")
             print("  [INFO]   Option 1: Start Tor Browser (uses port 9150)")
-            print("  [INFO]   Option 2: Run scripts/Argentina/start_tor_proxy.bat (uses port 9050)")
+            print("  [INFO]   Option 2: Run proxies/start_tor_proxy_9050.bat (port 9050) or scripts/Argentina/start_tor_proxy.bat")
             print("  [INFO]   The scraper will automatically detect which port Tor is using")
             log.error("[TOR_CHECK] Tor proxy is not running (required)")
             all_ok = False

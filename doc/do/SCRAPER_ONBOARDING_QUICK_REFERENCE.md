@@ -26,7 +26,7 @@ from core.preflight_checks import PreflightChecker
 from core.step_hooks import StepHookRegistry, StepMetrics
 from core.alerting_integration import setup_alerting_hooks
 from core.data_quality_checks import DataQualityChecker
-from core.audit_logger import audit_log
+from core.monitoring.audit_logger import audit_log
 from core.benchmarking import record_step_benchmark
 from core.chrome_instance_tracker import ChromeInstanceTracker
 ```

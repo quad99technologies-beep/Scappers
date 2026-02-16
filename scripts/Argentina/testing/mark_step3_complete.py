@@ -5,10 +5,21 @@ Reset checkpoint to start from step 4 (company search).
 import os
 import sys
 import json
+from pathlib import Path
 
-_script_dir = os.path.dirname(os.path.abspath(__file__))
-_argentina_dir = os.path.dirname(_script_dir)
-sys.path.insert(0, _argentina_dir)
+# Ensure Argentina directory is at the front of sys.path to prioritize local 'db' package
+# This fixes conflict with core/db which might be in sys.path
+_script_dir = Path(__file__).resolve().parent
+_argentina_dir = _script_dir.parent
+
+sys.path = [p for p in sys.path if not Path(p).name == 'core']
+if str(_argentina_dir) in sys.path:
+    sys.path.remove(str(_argentina_dir))
+sys.path.insert(0, str(_argentina_dir))
+
+# Force re-import of db module if it was incorrectly loaded from core/db
+if 'db' in sys.modules:
+    del sys.modules['db']
 
 from config_loader import get_output_dir
 from core.db.connection import CountryDB

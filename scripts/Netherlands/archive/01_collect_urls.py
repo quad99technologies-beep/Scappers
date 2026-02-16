@@ -35,7 +35,7 @@ if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
 from config_loader import getenv, get_input_dir, get_output_dir
-from core.standalone_checkpoint import run_with_checkpoint
+from core.pipeline.standalone_checkpoint import run_with_checkpoint
 
 SCRIPT_ID = "Netherlands"
 

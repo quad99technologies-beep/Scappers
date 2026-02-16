@@ -19,7 +19,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
 from core.db.postgres_connection import get_db, COUNTRY_PREFIX_MAP
-from core.audit_logger import audit_log
+from core.monitoring.audit_logger import audit_log
 
 
 def create_snapshot(scraper_name: str, run_id: str) -> bool:

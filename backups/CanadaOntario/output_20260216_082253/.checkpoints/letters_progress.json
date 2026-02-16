@@ -1,0 +1,11 @@
+{
+  "task_id": "canada_ontario_letters",
+  "current": 26,
+  "total": 26,
+  "unit": "letters",
+  "pct": 100.0,
+  "rate_per_sec": 0.0417,
+  "eta_seconds": 0,
+  "message": "complete",
+  "updated_at": "2026-02-16T02:15:16.187801+00:00"
+}

@@ -1,25 +1,20 @@
 {
-  "scraper": {
-    "id": "India",
-    "enabled": true
-  },
+  "scraper": {"id": "India", "enabled": true},
   "config": {
     "SCRAPER_ID": "India",
     "OUTPUT_DIR": "",
-    "INPUT_DIR": "",
+    "INPUT_TABLE": "in_input_formulations",
     "BACKUP_DIR": "",
     "HEADLESS": false,
     "WAIT_SECONDS": 60,
     "MAX_FORMULATIONS": 0,
-    "INPUT_FILENAME": "formulations.csv",
     "OUTPUT_FILENAME": "medicine_details.csv",
     "SCRIPT_00_KEEP_FILES": ["execution_log.txt"],
     "SCRIPT_00_KEEP_DIRS": ["runs", "backups"],
-    "SCRIPT_01_INPUT_FILENAME": "formulations.csv",
+    "SCRIPT_01_INPUT_TABLE": "in_input_formulations",
     "SCRIPT_01_OUTPUT_FILENAME": "search_results.csv",
-    "SCRIPT_02_INPUT_FILENAME": "formulations.csv",
+    "SCRIPT_02_INPUT_TABLE": "in_input_formulations",
     "SCRIPT_02_OUTPUT_FILENAME": "medicine_details.csv"
   },
-  "secrets": {
-  }
+  "secrets": {}
 }

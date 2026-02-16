@@ -268,30 +268,24 @@ class BaseScraper:
             if pids and self.run_id:
                 try:
                     db = CountryDB(self.scraper_name)
-                    tracker = ChromeInstanceTracker(self.scraper_name, self.run_id, db)
-                    # Get step number from context (default to 2 for product details)
-                    step_number = getattr(self, '_step_number', 2)
-                    thread_id = getattr(self, '_thread_id', None)
-                    
-                    for pid in pids:
+                    db.connect()
+                    try:
+                        tracker = ChromeInstanceTracker(self.scraper_name, self.run_id, db)
+                        step_number = getattr(self, '_step_number', 2)
+                        thread_id = getattr(self, '_thread_id', None)
+                        driver_pid = list(pids)[0]
                         tracker.register(
                             step_number=step_number,
-                            pid=pid,
+                            pid=driver_pid,
                             thread_id=thread_id,
                             browser_type="chrome",
-                            user_data_dir=None  # Playwright handles its own profile
+                            user_data_dir=None,
+                            child_pids=pids
                         )
-                    db.close()
+                    finally:
+                        db.close()
                 except Exception as e:
                     logger.debug(f"ChromeInstanceTracker registration failed (non-fatal): {e}")
-            
-            # Legacy: Also save to PID files for backward compatibility (can remove later)
-            try:
-                from core.browser.chrome_pid_tracker import save_chrome_pids
-                if pids:
-                    save_chrome_pids(self.scraper_name, self.repo_root, pids)
-            except Exception:
-                pass
         except Exception:
             # Never fail scraping due to optional PID tracking.
             logger.debug("Chrome PID tracking failed (non-fatal)", exc_info=True)

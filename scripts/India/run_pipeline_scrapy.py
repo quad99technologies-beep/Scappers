@@ -28,19 +28,22 @@ from pathlib import Path
 os.environ.setdefault("PYTHONUNBUFFERED", "1")
 
 _repo_root = Path(__file__).resolve().parents[2]
-if str(_repo_root) not in sys.path:
-    sys.path.insert(0, str(_repo_root))
-
 _script_dir = Path(__file__).parent
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+# Clear conflicting config_loader when run in same process as other scrapers (e.g. GUI)
+if "config_loader" in sys.modules:
+    del sys.modules["config_loader"]
 
 from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
 from config_loader import get_output_dir, load_env_file, getenv_int
 
 # Platform DB (optional, for unified run tracking + fetch logs)
 try:
-    from scripts.common.db import (
+    from services.db import (
         ensure_platform_schema,
         create_pipeline_run,
         update_run_status,
@@ -148,7 +151,7 @@ def run_step(step_num: int, script_name: str, step_name: str,
         
         # MEMORY FIX: Periodic resource monitoring
         try:
-            from core.resource_monitor import periodic_resource_check
+            from core.monitoring.resource_monitor import periodic_resource_check
             resource_status = periodic_resource_check(SCRAPER_NAME, force=False)
             if resource_status.get("warnings"):
                 for warning in resource_status["warnings"]:

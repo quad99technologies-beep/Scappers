@@ -16,8 +16,8 @@ from core.config.config_manager import ConfigManager
 
 def main():
     """Remove lock file if it exists."""
-    # Migrated: get_path_manager() -> ConfigManager
-    lock_file = pm.get_lock_file("Netherlands")
+    from core.pipeline.pipeline_start_lock import get_lock_paths
+    lock_file, _ = get_lock_paths("Netherlands", _repo_root)
     if lock_file.exists():
         try:
             lock_file.unlink()

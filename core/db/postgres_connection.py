@@ -37,8 +37,8 @@ COUNTRY_PREFIX_MAP: Dict[str, str] = {
     "Taiwan": "tw_",
     "Tender_Chile": "tc_",  # Fixed: schema uses tc_ prefix, not cl_
     "Tender-Chile": "tc_",
-    "CanadaOntario": "ca_on_",
-    "Canada Ontario": "ca_on_",
+    "CanadaOntario": "co_",   # Schema uses co_ prefix (co_products, co_manufacturers, etc.)
+    "Canada Ontario": "co_",
     "CanadaQuebec": "ca_qc_",
     "Canada Quebec": "ca_qc_",
     "Russia": "ru_",
@@ -158,14 +158,22 @@ def _get_connection_pool() -> "pool.ThreadedConnectionPool":
                 # Load .env if needed
                 _load_env_if_needed()
 
+                def _pg(k1: str, k2: str, default: str) -> str:
+                    return os.getenv(k1) or os.getenv(k2) or default
+                def _pgi(k1: str, k2: str, default: int) -> int:
+                    try:
+                        return int(_pg(k1, k2, str(default)))
+                    except (ValueError, TypeError):
+                        return default
+
                 _connection_pool = pool.ThreadedConnectionPool(
-                    minconn=int(os.getenv("POSTGRES_POOL_MIN", "4")),
-                    maxconn=int(os.getenv("POSTGRES_POOL_MAX", "15")),
-                    host=os.getenv("POSTGRES_HOST", "localhost"),
-                    port=int(os.getenv("POSTGRES_PORT", "5432")),
-                    database=os.getenv("POSTGRES_DB", "scrappers"),
-                    user=os.getenv("POSTGRES_USER", "postgres"),
-                    password=os.getenv("POSTGRES_PASSWORD", ""),
+                    minconn=_pgi("POSTGRES_POOL_MIN", "DB_POOL_MIN", 4),
+                    maxconn=_pgi("POSTGRES_POOL_MAX", "DB_POOL_MAX", 15),
+                    host=_pg("POSTGRES_HOST", "DB_HOST", "localhost"),
+                    port=_pgi("POSTGRES_PORT", "DB_PORT", 5432),
+                    database=_pg("POSTGRES_DB", "DB_NAME", "scrappers"),
+                    user=_pg("POSTGRES_USER", "DB_USER", "postgres"),
+                    password=_pg("POSTGRES_PASSWORD", "DB_PASSWORD", ""),
                 )
 
     return _connection_pool
@@ -519,9 +527,14 @@ class PostgresDB:
         """Return connection to the pool."""
         if self._conn is not None and self._owns_connection:
             pool = _get_connection_pool()
-            pool.putconn(self._conn)
-            self._conn = None
-            self._owns_connection = False
+            try:
+                pool.putconn(self._conn)
+            except Exception:
+                # If pool is closed or connection invalid, ignore
+                pass
+            finally:
+                self._conn = None
+                self._owns_connection = False
 
     def __enter__(self) -> "PostgresDB":
         """Context manager entry."""

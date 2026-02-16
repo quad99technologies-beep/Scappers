@@ -94,6 +94,15 @@ class RussiaRepository:
             cur.execute(sql, params)
         self._db_log(f"RESUME | run_ledger updated | run_id={self.run_id}")
 
+    def ensure_run_exists(self, mode: str = "resume") -> None:
+        """Insert run_ledger row if missing, or update status if present.
+        Use when running step 2+ after step 1 (avoids UniqueViolation on resume)."""
+        from core.db.models import run_ledger_ensure_exists
+        sql, params = run_ledger_ensure_exists(self.run_id, "Russia", mode=mode)
+        with self.db.cursor() as cur:
+            cur.execute(sql, params)
+        self._db_log(f"OK | run_ledger ensure_exists | run_id={self.run_id} mode={mode}")
+
     # ------------------------------------------------------------------
     # Step progress (sub-step resume)
     # ------------------------------------------------------------------

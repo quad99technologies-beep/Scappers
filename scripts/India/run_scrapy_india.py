@@ -69,36 +69,38 @@ def parse_args():
 
 
 def _load_formulations(db, limit: int = None) -> List[str]:
-    """Load unique formulations from input table only (in_input_formulations). No CSV."""
+    """Load unique formulations from input table only. No CSV."""
+    raw = os.getenv("SCRIPT_01_INPUT_TABLE", "in_input_formulations")
+    table = raw if raw and raw.replace("_", "").isalnum() else "in_input_formulations"
     try:
-        cur = db.execute("SELECT COUNT(*) FROM in_input_formulations")
+        cur = db.execute(f"SELECT COUNT(*) FROM {table}")
         count = cur.fetchone()[0]
         if count == 0:
             raise SystemExit(
-                "No formulations in input table (in_input_formulations). "
-                "Upload via GUI or insert into in_input_formulations."
+                f"No formulations in input table ({table}). "
+                "Upload via GUI Input page or insert into the table."
             )
         limit_clause = f" LIMIT {limit}" if limit else ""
         cur = db.execute(
-            "SELECT DISTINCT generic_name FROM in_input_formulations "
+            f"SELECT DISTINCT generic_name FROM {table} "
             "WHERE generic_name IS NOT NULL AND generic_name != '' "
             "ORDER BY generic_name" + limit_clause
         )
         forms = [row[0].strip() for row in cur.fetchall() if row[0]]
         if not forms:
             raise SystemExit(
-                "No non-empty formulations in input table (in_input_formulations). "
-                "Upload via GUI or insert into in_input_formulations."
+                f"No non-empty formulations in input table ({table}). "
+                "Upload via GUI Input page or insert into the table."
             )
-        logger.info("Loaded %d unique formulations from input table (in_input_formulations)", len(forms))
+        logger.info("Loaded %d unique formulations from input table (%s)", len(forms), table)
         return forms
     except SystemExit:
         raise
     except Exception as exc:
-        logger.debug("in_input_formulations not available: %s", exc)
+        logger.debug("Input table %s not available: %s", table, exc)
         raise SystemExit(
-            "Input table (in_input_formulations) not available. "
-            "Ensure India schema is applied and upload formulations via GUI."
+            f"Input table ({table}) not available. "
+            "Ensure India schema is applied and upload formulations via GUI Input page."
         ) from exc
 
 

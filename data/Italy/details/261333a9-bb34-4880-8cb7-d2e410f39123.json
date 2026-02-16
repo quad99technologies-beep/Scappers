@@ -1,0 +1,86 @@
+{
+  "id": "261333a9-bb34-4880-8cb7-d2e410f39123",
+  "titolo": "DET PRES/HTA 1817/2025 Rinegoziazione di medicinali ai sensi dell'art. 8, comma 10, della legge 24 dicembre 1993, n. 537 - REVINTY ELLIPTA",
+  "ufficio": "PRES - UFFICIO DI PRESIDENZA",
+  "ufficioEmettitore": {
+    "id": 1,
+    "codice": "EX00833",
+    "descrizioneIt": "AGENZIA ITALIANA DEL FARMACO",
+    "descrizioneEn": "AGENZIA ITALIANA DEL FARMACO"
+  },
+  "idSchedaDocumento": "197432381",
+  "idSchedaDocumentoRettifica": null,
+  "tipiAtto": [
+    {
+      "id": 1046,
+      "codice": "A_H",
+      "descrizioneIt": "Modifica Classe di Rimborsabilità di un medicinale (classi A-H)",
+      "descrizioneEn": "-",
+      "version": 2
+    }
+  ],
+  "tipoTrasmissione": "REDAZIONE",
+  "tipoProvvedimento": {
+    "id": 1020,
+    "codice": "DECRETO DIRIGENZIALE",
+    "descrizioneIt": "Determina",
+    "descrizioneEn": "Decree",
+    "version": 1
+  },
+  "numeroRepertorio": "AIFA_PRES-1817-2025",
+  "numeroProtocollo": null,
+  "idDocumentoDocsPa": null,
+  "data": "2025-12-23T00:00:00Z",
+  "dataProtocollo": null,
+  "dataPubblicazione": "2026-01-07T10:24:28Z",
+  "dataEfficacia": "2026-01-11T00:00:00Z",
+  "datiFarmaco": [
+    {
+      "id": "0c97bb38-08cd-4caf-a2f1-464f6449240d",
+      "denominazione": "REVINTY ELLIPTA",
+      "denominazioneAzienda": "GLAXOSMITHKLINE TRADING SERVICES LIMITED",
+      "tipoFarmaco": {
+        "id": 1010,
+        "codice": "1",
+        "descrizioneIt": "PRODOTTO MEDICINALE CHIMICO",
+        "descrizioneEn": "CHEMICAL MEDICINAL PRODUCT"
+      },
+      "aic6": "043446",
+      "aic9": null,
+      "tipiProcedura": [
+        {
+          "id": 1007,
+          "codice": "E",
+          "descrizioneIt": "CENTRALIZZATA",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "tipiAutorizzazione": [
+        {
+          "id": 1004,
+          "codice": "1",
+          "descrizioneIt": "AUTORIZZAZIONE",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "principiAttivi": [
+        "VILANTEROLO",
+        "FLUTICASONE"
+      ],
+      "atcs": [
+        "R03AK10"
+      ]
+    }
+  ],
+  "allegati": [
+    {
+      "id": 1304,
+      "nome": "filePrincipale",
+      "principale": true
+    }
+  ],
+  "fileNameDetermina": "filePrincipale",
+  "version": 0
+}

@@ -20,18 +20,18 @@
 ### High-Value Features: 23/23 ✅
 1. ✅ Audit Logging (`core/audit_logger.py`)
 2. ✅ Performance Benchmarking (`core/benchmarking.py`)
-3. ✅ Pipeline Scheduling (`scripts/common/scheduler.py`)
-4. ✅ API Endpoints (`scripts/common/pipeline_api.py`)
+3. ✅ Pipeline Scheduling (`services/scheduler.py`)
+4. ✅ API Endpoints (`services/pipeline_api.py`)
 5. ✅ Run Comparison Tool (`core/run_comparison.py`)
 6. ✅ Anomaly Detection (`core/anomaly_detection.py`)
 7. ✅ Export Delivery Tracking (`core/export_delivery_tracking.py`)
 8. ✅ Trend Analysis (`core/trend_analysis.py`)
-9. ✅ Webhook Notifications (`scripts/common/webhook_notifications.py`)
+9. ✅ Webhook Notifications (`services/webhook_notifications.py`)
 10. ✅ Cost Tracking (`core/cost_tracking.py`)
-11. ✅ Backup & Archive (`scripts/common/backup_archive.py`)
-12. ✅ Run Replay Tool (`scripts/common/run_replay.py`)
-13. ✅ Documentation Generator (`scripts/common/doc_generator.py`)
-14. ✅ Pipeline Testing Framework (`scripts/common/pipeline_tests.py`)
+11. ✅ Backup & Archive (`services/backup_archive.py`)
+12. ✅ Run Replay Tool (`services/run_replay.py`)
+13. ✅ Documentation Generator (`services/doc_generator.py`)
+14. ✅ Pipeline Testing Framework (`services/pipeline_tests.py`)
 15. ✅ Run Rollback (`core/run_rollback.py`)
 16. ✅ Dashboard Module (`core/dashboard.py`)
 17. ✅ Real-Time Dashboard (module ready for GUI)
@@ -69,13 +69,13 @@
 - `core/dashboard.py` ✅
 
 ### Scripts (7 files)
-- `scripts/common/scheduler.py` ✅
-- `scripts/common/pipeline_api.py` ✅
-- `scripts/common/webhook_notifications.py` ✅
-- `scripts/common/backup_archive.py` ✅
-- `scripts/common/run_replay.py` ✅
-- `scripts/common/doc_generator.py` ✅
-- `scripts/common/pipeline_tests.py` ✅
+- `services/scheduler.py` ✅
+- `services/pipeline_api.py` ✅
+- `services/webhook_notifications.py` ✅
+- `services/backup_archive.py` ✅
+- `services/run_replay.py` ✅
+- `services/doc_generator.py` ✅
+- `services/pipeline_tests.py` ✅
 
 ### Database (1 file)
 - `sql/migrations/postgres/005_add_step_tracking_columns.sql` ✅

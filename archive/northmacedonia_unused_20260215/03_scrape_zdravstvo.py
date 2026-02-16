@@ -48,7 +48,7 @@ except Exception:
             return default
 
 try:
-    from core.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids, terminate_scraper_pids
+    from core.browser.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids, terminate_scraper_pids
 except Exception:
     get_chrome_pids_from_driver = None
     save_chrome_pids = None
@@ -56,7 +56,7 @@ except Exception:
 
 # Import Telegram notifier for status updates
 try:
-    from core.telegram_notifier import TelegramNotifier
+    from core.utils.telegram_notifier import TelegramNotifier
     TELEGRAM_NOTIFIER_AVAILABLE = True
 except ImportError:
     TELEGRAM_NOTIFIER_AVAILABLE = False
@@ -66,7 +66,7 @@ except ImportError:
 try:
     if str(_repo_root) not in sys.path:
         sys.path.insert(0, str(_repo_root))
-    from core.chrome_manager import get_chromedriver_path
+    from core.browser.chrome_manager import get_chromedriver_path
     CORE_CHROMEDRIVER_AVAILABLE = True
 except ImportError:
     CORE_CHROMEDRIVER_AVAILABLE = False

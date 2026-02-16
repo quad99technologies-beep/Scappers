@@ -1,0 +1,29 @@
+{
+  "Malaysia": {
+    "scraper_name": "Malaysia",
+    "network_type": "Unknown",
+    "ip_address": "unknown",
+    "exit_ip": null,
+    "port": null,
+    "status": "no_config",
+    "last_updated": 1771168863.7947898
+  },
+  "Argentina": {
+    "scraper_name": "Argentina",
+    "network_type": "Unknown",
+    "ip_address": "unknown",
+    "exit_ip": null,
+    "port": null,
+    "status": "no_config",
+    "last_updated": 1771169358.548055
+  },
+  "Netherlands": {
+    "scraper_name": "Netherlands",
+    "network_type": "Unknown",
+    "ip_address": "unknown",
+    "exit_ip": null,
+    "port": null,
+    "status": "no_config",
+    "last_updated": 1771169376.1337435
+  }
+}

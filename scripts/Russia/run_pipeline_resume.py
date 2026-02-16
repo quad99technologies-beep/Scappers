@@ -25,15 +25,18 @@ import time
 from pathlib import Path
 from datetime import datetime
 
-# Add repo root to path
+# Add repo root and script dir to path (script dir first for config_loader/db)
 _repo_root = Path(__file__).resolve().parents[2]
-if str(_repo_root) not in sys.path:
-    sys.path.insert(0, str(_repo_root))
-
-# Add scripts/Russia to path for imports
 _script_dir = Path(__file__).parent
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+# Clear conflicting db when run in same process as other scrapers (e.g. GUI)
+for mod in list(sys.modules.keys()):
+    if mod == "db" or mod.startswith("db."):
+        del sys.modules[mod]
 
 from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
 from config_loader import get_central_output_dir, get_output_dir
@@ -70,10 +73,10 @@ except ImportError:
 # Import foundation contracts
 try:
     from core.pipeline.preflight_checks import PreflightChecker, CheckSeverity
-    from core.step_hooks import StepHookRegistry, StepMetrics
-    from core.alerting_integration import setup_alerting_hooks
+    from core.pipeline.step_hooks import StepHookRegistry, StepMetrics
+    from core.monitoring.alerting_integration import setup_alerting_hooks
     from core.data.data_quality_checks import DataQualityChecker
-    from core.audit_logger import audit_log
+    from core.monitoring.audit_logger import audit_log
     from core.monitoring.benchmarking import record_step_benchmark
     _FOUNDATION_AVAILABLE = True
 except ImportError:
@@ -416,7 +419,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         
         # MEMORY FIX: Periodic resource monitoring
         try:
-            from core.resource_monitor import periodic_resource_check
+            from core.monitoring.resource_monitor import periodic_resource_check
             resource_status = periodic_resource_check("Russia", force=False)
             if resource_status.get("warnings"):
                 for warning in resource_status["warnings"]:
@@ -476,8 +479,7 @@ def main():
     # Check if another instance is already running (single instance enforcement)
     try:
         from core.config.config_manager import ConfigManager
-        # Migrated: get_path_manager() -> ConfigManager
-        lock_file = pm.get_lock_file("Russia")
+        lock_file = ConfigManager.get_sessions_dir() / "Russia.lock"
         if lock_file.exists():
             # Check if process is actually running
             try:
@@ -485,24 +487,28 @@ def main():
                     content = f.read().strip().split('\n')
                 if content and content[0].isdigit():
                     pid = int(content[0])
-                    # Check if process exists
-                    import subprocess
-                    result = subprocess.run(
-                        ['tasklist', '/FI', f'PID eq {pid}'],
-                        capture_output=True, text=True, timeout=2
-                    )
-                    if str(pid) in result.stdout:
-                        print(f"[ERROR] Another instance of Russia pipeline is already running (PID {pid}).")
-                        print("[ERROR] If you're sure it's not running, clear the lock file and try again.")
-                        sys.exit(1)
+                    # If lock PID is us, we're the one holding it (GUI spawned us and wrote our PID) - allow run
+                    if pid == os.getpid():
+                        pass  # Proceed - we own the lock
                     else:
-                        # Stale lock - remove it
-                        print(f"[WARNING] Removing stale lock file (PID {pid} not found)")
-                        lock_file.unlink()
+                        # Check if another process exists
+                        import subprocess
+                        result = subprocess.run(
+                            ['tasklist', '/FI', f'PID eq {pid}'],
+                            capture_output=True, text=True, timeout=2
+                        )
+                        if str(pid) in result.stdout:
+                            print(f"[ERROR] Another instance of Russia pipeline is already running (PID {pid}).")
+                            print("[ERROR] If you're sure it's not running, clear the lock file and try again.")
+                            sys.exit(1)
+                        else:
+                            # Stale lock - remove it
+                            print(f"[WARNING] Removing stale lock file (PID {pid} not found)")
+                            lock_file.unlink()
             except Exception:
                 pass  # Continue if check fails
     except Exception:
-        pass  # Continue if platform_config not available
+        pass  # Continue if ConfigManager not available
     
     # Recover stale pipelines on startup (handles crash recovery)
     if _RECOVERY_AVAILABLE:

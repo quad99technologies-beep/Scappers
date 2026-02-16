@@ -22,9 +22,17 @@ if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
 # Add scripts/Argentina to path for imports
-_script_dir = Path(__file__).parent
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
+# Ensure Argentina directory is at the front of sys.path to prioritize local 'db' package
+# This fixes conflict with core/db which might be in sys.path
+_script_dir = Path(__file__).resolve().parent
+sys.path = [p for p in sys.path if not Path(p).name == 'core']
+if str(_script_dir) in sys.path:
+    sys.path.remove(str(_script_dir))
+sys.path.insert(0, str(_script_dir))
+
+# Force re-import of db module if it was incorrectly loaded from core/db
+if 'db' in sys.modules:
+    del sys.modules['db']
 
 from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
 from config_loader import get_output_dir, USE_API_STEPS
@@ -32,10 +40,10 @@ from config_loader import get_output_dir, USE_API_STEPS
 # Import foundation contracts
 try:
     from core.pipeline.preflight_checks import PreflightChecker, CheckSeverity
-    from core.step_hooks import StepHookRegistry, StepMetrics
-    from core.alerting_integration import setup_alerting_hooks
+    from core.pipeline.step_hooks import StepHookRegistry, StepMetrics
+    from core.monitoring.alerting_integration import setup_alerting_hooks
     from core.data.data_quality_checks import DataQualityChecker
-    from core.audit_logger import audit_log
+    from core.monitoring.audit_logger import audit_log
     from core.monitoring.benchmarking import record_step_benchmark
     from core.utils.step_progress_logger import update_run_ledger_aggregation, log_step_progress, update_run_ledger_step_count
     from datetime import datetime
@@ -96,7 +104,7 @@ except ImportError:
 
 # Import Frontier Queue
 try:
-    from scripts.common.frontier_integration import initialize_frontier_for_scraper
+    from services.frontier_integration import initialize_frontier_for_scraper
     _FRONTIER_AVAILABLE = True
 except ImportError:
     _FRONTIER_AVAILABLE = False
@@ -596,6 +604,19 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
     print(f"[LOG] Step output will be saved to: {log_file_path}")
     
     try:
+        # Diagnostic: Check if critical environment variables are present
+        if not os.environ.get("ALFABETA_USER"):
+            print("[DEBUG] ALFABETA_USER missing from os.environ, attempting to reload...", flush=True)
+            try:
+                from config_loader import ALFABETA_USER, ALFABETA_PASS
+                if ALFABETA_USER:
+                    os.environ["ALFABETA_USER"] = ALFABETA_USER
+                    print("[DEBUG] Injected ALFABETA_USER from config_loader", flush=True)
+                if ALFABETA_PASS:
+                    os.environ["ALFABETA_PASS"] = ALFABETA_PASS
+            except ImportError:
+                print("[DEBUG] Could not import config_loader for fallback", flush=True)
+
         env = os.environ.copy()
         env["PIPELINE_RUNNER"] = "1"
         env["PIPELINE_STEP_DISPLAY"] = str(display_step)
@@ -839,7 +860,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         
         # MEMORY FIX: Periodic resource monitoring
         try:
-            from core.resource_monitor import periodic_resource_check
+            from core.monitoring.resource_monitor import periodic_resource_check
             resource_status = periodic_resource_check("Argentina", force=False)
             if resource_status.get("warnings"):
                 for warning in resource_status["warnings"]:

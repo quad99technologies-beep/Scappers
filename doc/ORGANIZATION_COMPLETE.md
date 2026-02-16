@@ -86,8 +86,8 @@ Scrappers/
 ├── scripts/             ← Scrapers
 ├── gui/                 ← GUI modules
 ├── scraper_gui.py       ← Main app
-├── telegram_bot.py      ← Bot
-├── distributed_example.py
+├── tools/telegram_bot.py      ← Bot
+├── tools/distributed_example.py
 ├── Dockerfile
 └── requirements.txt
 ```
@@ -128,7 +128,7 @@ cd archive
 ```bash
 # From root
 python scraper_gui.py
-python telegram_bot.py
+python tools/telegram_bot.py
 python core/url_worker.py --help
 ```
 

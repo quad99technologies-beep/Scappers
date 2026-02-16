@@ -51,13 +51,16 @@ except ImportError:
         except (ValueError, TypeError):
             return default
 
-# Import Chrome PID tracking utilities
+# Import Chrome PID tracking utilities (DB-based)
 try:
-    from core.browser.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids, terminate_scraper_pids
+    from core.browser.chrome_pid_tracker import get_chrome_pids_from_driver, terminate_scraper_pids
+    from core.browser.chrome_instance_tracker import ChromeInstanceTracker
+    from core.db.postgres_connection import PostgresDB
 except ImportError:
     get_chrome_pids_from_driver = None
-    save_chrome_pids = None
     terminate_scraper_pids = None
+    ChromeInstanceTracker = None
+    PostgresDB = None
 
 try:
     from core.browser.chrome_manager import get_chromedriver_path as _core_get_chromedriver_path, register_chrome_driver, unregister_chrome_driver
@@ -195,12 +198,17 @@ def build_driver(headless: bool = True) -> Optional[webdriver.Chrome]:
     options.add_argument("--disable-client-side-phishing-detection")
     options.add_argument("--disable-component-update")
     options.add_argument("--disable-breakpad")
-    options.add_argument("--remote-debugging-port=0")
+    # options.add_argument("--remote-debugging-port=0")  # Let ChromeDriver handle the port
 
     # Enhanced anti-detection options for bot bypass
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    options.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
-    options.add_experimental_option('useAutomationExtension', False)
+    if not STEALTH_PROFILE_AVAILABLE:
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
+        options.add_experimental_option('useAutomationExtension', False)
+    else:
+        # If stealth profile is available, just ensure logging is disabled in excludeSwitches
+        # Stealth profile already sets enable-automation
+        options.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
 
     # Use a realistic user agent
     user_agent = getenv("SCRIPT_01_CHROME_USER_AGENT", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
@@ -270,12 +278,27 @@ def build_driver(headless: bool = True) -> Optional[webdriver.Chrome]:
         except Exception:
             pass
 
-    # Track Chrome PIDs
-    if get_chrome_pids_from_driver and save_chrome_pids:
+    # Track Chrome PIDs in DB for pipeline stop cleanup
+    run_id = os.environ.get("NORTH_MACEDONIA_RUN_ID", "").strip()
+    if not run_id:
+        run_id_file = get_output_dir() / ".current_run_id"
+        if run_id_file.exists():
+            try:
+                run_id = run_id_file.read_text(encoding="utf-8").strip() or ""
+            except Exception:
+                pass
+    if ChromeInstanceTracker and PostgresDB and run_id and get_chrome_pids_from_driver:
         try:
             pids = get_chrome_pids_from_driver(driver)
             if pids:
-                save_chrome_pids("NorthMacedonia", _repo_root, pids)
+                driver_pid = driver.service.process.pid if hasattr(driver.service, 'process') else list(pids)[0]
+                db = PostgresDB("NorthMacedonia")
+                db.connect()
+                try:
+                    tracker = ChromeInstanceTracker("NorthMacedonia", run_id, db)
+                    tracker.register(step_number=1, pid=driver_pid, browser_type="chrome", child_pids=pids)
+                finally:
+                    db.close()
         except Exception:
             pass
     return driver
@@ -1124,7 +1147,7 @@ def main(headless: bool = True, rows_per_page: str = "200") -> None:
     
     # MEMORY FIX: Track set for monitoring
     try:
-        from core.memory_leak_detector import track_set
+        from core.monitoring.memory_leak_detector import track_set
         track_set("north_macedonia_seen_urls", seen_urls, max_size=100000)
     except Exception:
         pass

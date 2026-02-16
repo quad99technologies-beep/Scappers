@@ -1,0 +1,14 @@
+
+Extraction Verification Complete
+
+1. "Riduzione del prezzo..." (MSF Items):
+   - Data Source: API response (JSON), not PDF.
+   - Fix: Updated step_01 to query MSF sources, step_02 to download JSON details, step_03 to parse JSON 'testo'.
+   - Status: Verified. Extracted Public Price (e.g., 24.24, 28.98) from TX26ADD949.
+
+2. "DET PRES" (Standard Items):
+   - Data Source: PDF attachment.
+   - Fix: Updated regex in step_03 for hyphenated ex-factory prices.
+   - Status: Verified. Extracted Ex-Factory (7500.0) and Public Price (12378.0) from 945aa6ed.
+
+Pipeline is fully operational.

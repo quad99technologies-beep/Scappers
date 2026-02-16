@@ -8,7 +8,7 @@ The scraper system now supports **hybrid execution**:
 
 ## Per-Scraper Configuration
 
-In `scripts/common/scraper_registry.py`:
+In `services/scraper_registry.py`:
 
 ```python
 "India": {
@@ -56,8 +56,8 @@ Output:
 ### 2. Start Workers (On Each Node)
 
 ```bash
-# Node 1
-python core/url_worker.py \
+# Node 1 (DB/proxy from config/platform.env)
+python core/utils/url_worker.py \
   --scraper India \
   --run-id 20260215_120000 \
   --batch-size 50 \
@@ -66,7 +66,7 @@ python core/url_worker.py \
   --db-user postgres
 
 # Node 2 (same command, different machine)
-python core/url_worker.py \
+python core/utils/url_worker.py \
   --scraper India \
   --run-id 20260215_120000 \
   --batch-size 50 \

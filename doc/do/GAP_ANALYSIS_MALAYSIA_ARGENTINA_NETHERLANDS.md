@@ -1190,7 +1190,7 @@ alerts:
 **Description:** Side-by-side comparison of two pipeline runs.
 
 **Implementation:**
-- CLI tool: `python scripts/common/compare_runs.py Malaysia run_20260201_abc run_20260202_def`
+- CLI tool: `python services/compare_runs.py Malaysia run_20260201_abc run_20260202_def`
 - Compare: step durations, row counts, error rates, export file sizes
 - Visual diff: highlight differences >10%
 
@@ -1290,7 +1290,7 @@ alerts:
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
   ```
-- Scheduler service: `python scripts/common/scheduler.py` (runs as daemon)
+- Scheduler service: `python services/scheduler.py` (runs as daemon)
 - Integrate with existing `run_pipeline_resume.py`
 
 **Benefits:**
@@ -1317,7 +1317,7 @@ alerts:
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
   ```
-- CLI: `python scripts/common/rollback.py Malaysia run_20260201_abc`
+- CLI: `python services/rollback.py Malaysia run_20260201_abc`
 - Restore: Delete rows with `run_id > target_run_id`, restore from snapshot
 
 **Benefits:**
@@ -1335,7 +1335,7 @@ alerts:
   - Daily: Full DB dump of last 7 days
   - Weekly: Archive exports older than 30 days
   - Monthly: Compress and move to cold storage
-- CLI: `python scripts/common/backup.py --strategy daily`
+- CLI: `python services/backup.py --strategy daily`
 
 **Benefits:**
 - Disaster recovery
@@ -1355,7 +1355,7 @@ alerts:
   - Browser executable present
   - Input tables populated
   - Previous run not stale (<24h old)
-- CLI: `python scripts/common/health_check.py Malaysia`
+- CLI: `python services/health_check.py Malaysia`
 - Block run if critical checks fail
 
 **Benefits:**
@@ -1387,7 +1387,7 @@ alerts:
 **Description:** Smoke tests for pipeline steps.
 
 **Implementation:**
-- Test framework: `scripts/common/pipeline_tests.py`
+- Test framework: `services/pipeline_tests.py`
 - Tests:
   - Step 0: DB initialization succeeds
   - Step 1: Can connect to target website
@@ -1407,7 +1407,7 @@ alerts:
 **Description:** Replay a previous run's steps with same inputs.
 
 **Implementation:**
-- CLI: `python scripts/common/replay_run.py Malaysia run_20260201_abc --step 2`
+- CLI: `python services/replay_run.py Malaysia run_20260201_abc --step 2`
 - Load: Input data from target run_id
 - Execute: Same step script with same inputs
 - Compare: Results vs original run
@@ -1492,7 +1492,7 @@ alerts:
 **Description:** REST API for pipeline operations.
 
 **Implementation:**
-- Flask/FastAPI service: `scripts/common/pipeline_api.py`
+- Flask/FastAPI service: `services/pipeline_api.py`
 - Endpoints:
   - `GET /api/v1/pipelines/{country}/status`
   - `POST /api/v1/pipelines/{country}/run`

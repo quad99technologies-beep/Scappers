@@ -94,6 +94,13 @@ desktop.ini
 *.temp
 *.bak
 
+# GUI user preferences (local only)
+.gui_prefs.json
+
+# Legacy PID tracking (migrated to DB; these files are no longer used)
+.*_chrome_pids.json
+.*_firefox_pids.json
+
 # Large Output Files
 output/
 exports/

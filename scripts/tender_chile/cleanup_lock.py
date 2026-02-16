@@ -1,37 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Cleanup lock file for Tender Chile scraper.
-"""
-
+"""Cleanup lock file for Tender Chile scraper."""
 import sys
 from pathlib import Path
 
-# Add repo root to path
 _repo_root = Path(__file__).resolve().parents[2]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
-from core.config.config_manager import ConfigManager
+from core.pipeline.cleanup_lock import run_cleanup
 
-
-def main():
-    """Remove lock file if it exists."""
-    # Migrated: get_path_manager() -> ConfigManager
-    lock_file = pm.get_lock_file("Tender_Chile")
-    
-    if lock_file.exists():
-        try:
-            lock_file.unlink()
-            print(f"[CLEANUP] Removed lock file: {lock_file}")
-        except Exception as e:
-            print(f"[CLEANUP] Failed to remove lock file: {e}")
-            return 1
-    else:
-        print(f"[CLEANUP] No lock file found: {lock_file}")
-    
-    return 0
-
+SCRAPER_ID = "Tender_Chile"
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(run_cleanup(SCRAPER_ID, _repo_root, verbose=True))

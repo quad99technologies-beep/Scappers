@@ -239,7 +239,7 @@ def setup_tor(cfg: TorConfig) -> Optional[str]:
     if cfg.require:
         raise RuntimeError(
             f"[TOR] Tor SOCKS5 not available at {cfg.socks_host}:{cfg.socks_port} "
-            f"and auto-start failed. Start Tor manually with start_tor_proxy.bat"
+            f"and auto-start failed. Start Tor manually with proxies/start_tor_proxy_9050.bat (or the port matching TOR_SOCKS_PORT). See proxies/TOR_PORT_MAPPING.md"
         )
 
     print("[TOR] Tor not available — proceeding without proxy")

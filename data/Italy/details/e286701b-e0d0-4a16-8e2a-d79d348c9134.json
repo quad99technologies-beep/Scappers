@@ -1,0 +1,85 @@
+{
+  "id": "e286701b-e0d0-4a16-8e2a-d79d348c9134",
+  "titolo": "DET PRES/UPR 144/2026 Classificazione di specialita medicinali ai sensi dell'art. 8, comma 10, della legge 24 dicembre 1993, n. 537 - \nRANIVISIO (ranibizumab)",
+  "ufficio": "PRES - UFFICIO DI PRESIDENZA",
+  "ufficioEmettitore": {
+    "id": 1,
+    "codice": "EX00833",
+    "descrizioneIt": "AGENZIA ITALIANA DEL FARMACO",
+    "descrizioneEn": "AGENZIA ITALIANA DEL FARMACO"
+  },
+  "idSchedaDocumento": "198165880",
+  "idSchedaDocumentoRettifica": null,
+  "tipiAtto": [
+    {
+      "id": 1046,
+      "codice": "A_H",
+      "descrizioneIt": "Modifica Classe di Rimborsabilità di un medicinale (classi A-H)",
+      "descrizioneEn": "-",
+      "version": 2
+    }
+  ],
+  "tipoTrasmissione": "REDAZIONE",
+  "tipoProvvedimento": {
+    "id": 1020,
+    "codice": "DECRETO DIRIGENZIALE",
+    "descrizioneIt": "Determina",
+    "descrizioneEn": "Decree",
+    "version": 1
+  },
+  "numeroRepertorio": "AIFA_PRES-144-2026",
+  "numeroProtocollo": null,
+  "idDocumentoDocsPa": null,
+  "data": "2026-02-09T00:00:00Z",
+  "dataProtocollo": null,
+  "dataPubblicazione": "2026-02-15T16:57:42Z",
+  "dataEfficacia": "2026-02-17T00:00:00Z",
+  "datiFarmaco": [
+    {
+      "id": "1883ac15-0be3-42cc-b0a5-053d9f0a521b",
+      "denominazione": "RANIVISIO",
+      "denominazioneAzienda": "MIDAS PHARMA GMBH",
+      "tipoFarmaco": {
+        "id": 1019,
+        "codice": "10",
+        "descrizioneIt": "MEDICINALE BIOLOGICO PART A OF THE ANNEX TO REGULATION (EEC) NO 2309/93, I.E.",
+        "descrizioneEn": "LIST A BIOLOGICAL MEDICINAL PRODUCT"
+      },
+      "aic6": "050292",
+      "aic9": null,
+      "tipiProcedura": [
+        {
+          "id": 1007,
+          "codice": "E",
+          "descrizioneIt": "CENTRALIZZATA",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "tipiAutorizzazione": [
+        {
+          "id": 1004,
+          "codice": "1",
+          "descrizioneIt": "AUTORIZZAZIONE",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "principiAttivi": [
+        "RANIBIZUMAB"
+      ],
+      "atcs": [
+        "S01LA04"
+      ]
+    }
+  ],
+  "allegati": [
+    {
+      "id": 1525,
+      "nome": "filePrincipale",
+      "principale": true
+    }
+  ],
+  "fileNameDetermina": "filePrincipale",
+  "version": 0
+}

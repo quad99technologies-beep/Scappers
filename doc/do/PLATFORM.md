@@ -41,7 +41,7 @@ A database-driven, distributed scraping platform with hybrid fetch capabilities.
 ### 1. Install Dependencies
 
 ```bash
-pip install -r scripts/common/requirements.txt
+pip install -r services/requirements.txt
 playwright install chromium
 ```
 
@@ -65,7 +65,7 @@ psql -h localhost -U postgres -d scrappers -f sql/schemas/postgres/platform.sql
 
 Or in Python:
 ```python
-from scripts.common import ensure_platform_schema
+from services import ensure_platform_schema
 ensure_platform_schema()
 ```
 
@@ -73,34 +73,34 @@ ensure_platform_schema()
 
 On each machine:
 ```bash
-python scripts/common/worker.py
+python services/worker.py
 ```
 
 For specific countries:
 ```bash
-python scripts/common/worker.py --countries "India,Malaysia"
+python services/worker.py --countries "India,Malaysia"
 ```
 
 ### 5. Start Watchdog (Stale Job Recovery)
 
 ```bash
-python scripts/common/watchdog.py --interval 120
+python services/watchdog.py --interval 120
 ```
 
 ### 6. Start GUI
 
 ```bash
-streamlit run scripts/common/gui.py
+streamlit run services/gui.py
 ```
 
 ## Components
 
-### Database Layer (`scripts/common/db.py`)
+### Database Layer (`services/db.py`)
 
 Centralized database access with connection pooling.
 
 ```python
-from scripts.common import (
+from services import (
     # Pipeline operations
     create_pipeline_run,
     claim_next_run,
@@ -124,12 +124,12 @@ from scripts.common import (
 )
 ```
 
-### Unified Fetcher (`scripts/common/fetcher.py`)
+### Unified Fetcher (`services/fetcher.py`)
 
 Single entry point for all HTTP/browser fetching.
 
 ```python
-from scripts.common import fetch, fetch_html, FetchResult
+from services import fetch, fetch_html, FetchResult
 
 # Automatic method selection based on country
 result = fetch("https://example.com", country="Malaysia")
@@ -154,12 +154,12 @@ html = fetch_html("https://example.com", country="India")
 | Malaysia | HTTP Stealth | Playwright | Selenium |
 | _default | HTTP Stealth | Playwright | Selenium |
 
-### Response Validator (`scripts/common/validator.py`)
+### Response Validator (`services/validator.py`)
 
 Validate fetched content.
 
 ```python
-from scripts.common import validate_html, ValidationResult
+from services import validate_html, ValidationResult
 
 result = validate_html(
     content=html,
@@ -176,12 +176,12 @@ else:
     print(f"Invalid: {result.error_code}")
 ```
 
-### Distributed Worker (`scripts/common/worker.py`)
+### Distributed Worker (`services/worker.py`)
 
 Polls PostgreSQL for jobs and executes pipelines.
 
 ```python
-from scripts.common import Worker, register_pipeline
+from services import Worker, register_pipeline
 
 # Register a pipeline runner
 def my_pipeline(run_id, start_step, check_stop):
@@ -197,12 +197,12 @@ worker = Worker(countries=["Malaysia"])
 worker.run()
 ```
 
-### Watchdog (`scripts/common/watchdog.py`)
+### Watchdog (`services/watchdog.py`)
 
 Monitors for stale jobs and recovers them.
 
 ```python
-from scripts.common.watchdog import run_watchdog
+from services.watchdog import run_watchdog
 
 results = run_watchdog(
     heartbeat_timeout=600,  # 10 minutes
@@ -211,7 +211,7 @@ results = run_watchdog(
 )
 ```
 
-### GUI (`scripts/common/gui.py`)
+### GUI (`services/gui.py`)
 
 Streamlit-based control panel.
 
@@ -290,7 +290,7 @@ soup = BeautifulSoup(response.text, 'html.parser')
 
 **After:**
 ```python
-from scripts.common import (
+from services import (
     fetch,
     register_url,
     insert_entity,
@@ -320,7 +320,7 @@ insert_attributes(entity_id, data)
 Existing pipelines can run via subprocess without modification:
 
 ```python
-from scripts.common import create_subprocess_runner, register_pipeline
+from services import create_subprocess_runner, register_pipeline
 
 runner = create_subprocess_runner("Malaysia")
 register_pipeline("Malaysia", runner)
@@ -392,7 +392,7 @@ export POSTGRES_POOL_MAX=20
 
 Check watchdog is running:
 ```bash
-python scripts/common/watchdog.py --verbose
+python services/watchdog.py --verbose
 ```
 
 ### Fetch Always Falling Back to Browser

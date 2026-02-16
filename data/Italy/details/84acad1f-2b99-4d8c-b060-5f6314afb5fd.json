@@ -1,0 +1,85 @@
+{
+  "id": "84acad1f-2b99-4d8c-b060-5f6314afb5fd",
+  "titolo": "UPR DET/PRES 19/2026 Classificazione di specialita medicinali ai sensi dell'art. 8, comma 10, della legge 24 dicembre 1993, n. 537 - HYMPAVZI",
+  "ufficio": "PRES - UFFICIO DI PRESIDENZA",
+  "ufficioEmettitore": {
+    "id": 1,
+    "codice": "EX00833",
+    "descrizioneIt": "AGENZIA ITALIANA DEL FARMACO",
+    "descrizioneEn": "AGENZIA ITALIANA DEL FARMACO"
+  },
+  "idSchedaDocumento": "197737950",
+  "idSchedaDocumentoRettifica": null,
+  "tipiAtto": [
+    {
+      "id": 1046,
+      "codice": "A_H",
+      "descrizioneIt": "Modifica Classe di Rimborsabilità di un medicinale (classi A-H)",
+      "descrizioneEn": "-",
+      "version": 2
+    }
+  ],
+  "tipoTrasmissione": "REDAZIONE",
+  "tipoProvvedimento": {
+    "id": 1020,
+    "codice": "DECRETO DIRIGENZIALE",
+    "descrizioneIt": "Determina",
+    "descrizioneEn": "Decree",
+    "version": 1
+  },
+  "numeroRepertorio": "AIFA_PRES-19-2026",
+  "numeroProtocollo": null,
+  "idDocumentoDocsPa": null,
+  "data": "2026-01-16T00:00:00Z",
+  "dataProtocollo": null,
+  "dataPubblicazione": "2026-01-24T15:58:59Z",
+  "dataEfficacia": "2026-01-28T00:00:00Z",
+  "datiFarmaco": [
+    {
+      "id": "b8e6c7f8-6f92-46a5-8cc4-12c781b1254e",
+      "denominazione": "HYMPAVZI",
+      "denominazioneAzienda": "PFIZER EUROPE MA EEIG",
+      "tipoFarmaco": {
+        "id": 1019,
+        "codice": "10",
+        "descrizioneIt": "MEDICINALE BIOLOGICO PART A OF THE ANNEX TO REGULATION (EEC) NO 2309/93, I.E.",
+        "descrizioneEn": "LIST A BIOLOGICAL MEDICINAL PRODUCT"
+      },
+      "aic6": "051757",
+      "aic9": null,
+      "tipiProcedura": [
+        {
+          "id": 1007,
+          "codice": "E",
+          "descrizioneIt": "CENTRALIZZATA",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "tipiAutorizzazione": [
+        {
+          "id": 1004,
+          "codice": "1",
+          "descrizioneIt": "AUTORIZZAZIONE",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "principiAttivi": [
+        "MARSTACIMAB"
+      ],
+      "atcs": [
+        "B02BX11"
+      ]
+    }
+  ],
+  "allegati": [
+    {
+      "id": 1364,
+      "nome": "filePrincipale",
+      "principale": true
+    }
+  ],
+  "fileNameDetermina": "filePrincipale",
+  "version": 0
+}

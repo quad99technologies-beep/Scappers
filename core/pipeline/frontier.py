@@ -500,9 +500,14 @@ class URLDiscovery:
 
 
 # Convenience functions
-def create_frontier(scraper_name: str, redis_host: str = "localhost", 
-                    redis_port: int = 6379) -> CrawlFrontier:
-    """Create a crawl frontier with Redis connection"""
+def create_frontier(scraper_name: str, redis_host: str = None, 
+                    redis_port: int = None) -> CrawlFrontier:
+    """Create a crawl frontier with Redis connection.
+    Host/port from env: REDIS_HOST, REDIS_PORT (platform.env).
+    """
+    import os
     import redis
-    client = redis.Redis(host=redis_host, port=redis_port, decode_responses=True)
+    host = redis_host or os.getenv("REDIS_HOST", "localhost")
+    port = redis_port if redis_port is not None else int(os.getenv("REDIS_PORT", "6379"))
+    client = redis.Redis(host=host, port=port, decode_responses=True)
     return CrawlFrontier(scraper_name, client)

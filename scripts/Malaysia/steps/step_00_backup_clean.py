@@ -91,6 +91,24 @@ def main() -> None:
     print()
     print("[3/3] Initialising database & run_id...", flush=True)
 
+    # Ensure Malaysia directory is at the front of sys.path to prioritize local 'db' package
+    # This fixes conflict with core/db which might be in sys.path
+    malaysia_dir = str(Path(__file__).resolve().parents[2]) # scripts/Malaysia (actually ends up being registered as scripts/Malaysia in sys.path by logic)
+    script_dir = str(Path(__file__).resolve().parents[1]) # scripts/Malaysia directory ref
+    
+    # We found that D:\quad99\Scrappers\core was incorrectly in sys.path, causing 'import db' to pick core/db
+    # We remove any path ending in 'core' from sys.path to prevent this shadowing
+    sys.path = [p for p in sys.path if not Path(p).name == 'core']
+    
+    # Re-insert Malaysia directory at the front
+    if script_dir in sys.path:
+        sys.path.remove(script_dir)
+    sys.path.insert(0, script_dir)
+
+    # Force re-import of db module if it was incorrectly loaded from core/db
+    if 'db' in sys.modules:
+        del sys.modules['db']
+    
     from core.db.connection import CountryDB
     from db.schema import apply_malaysia_schema
 
@@ -126,5 +144,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    from core.standalone_checkpoint import run_with_checkpoint
+    from core.pipeline.standalone_checkpoint import run_with_checkpoint
     run_with_checkpoint(main, "Malaysia", 0, "Backup and Clean", output_files=None)

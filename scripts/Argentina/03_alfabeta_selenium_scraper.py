@@ -23,23 +23,40 @@ from pathlib import Path
 
 # Add script directory to path for config_loader import
 _script_dir = Path(__file__).resolve().parent
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
 
-from config_loader import (
-    get_output_dir,
-    PREPARED_URLS_FILE,
-    SELENIUM_MAX_LOOPS,
-    SELENIUM_MAX_RUNS,
-    SELENIUM_ROUNDS,
-    ROUND_PAUSE_SECONDS,
-    TOR_CONTROL_HOST, TOR_CONTROL_PORT, TOR_CONTROL_COOKIE_FILE,
-    AUTO_START_TOR_PROXY,
-)
+# Ensure Argentina directory is at the front of sys.path to prioritize local 'db' package
+# This fixes conflict with core/db which might be in sys.path
+sys.path = [p for p in sys.path if not Path(p).name == 'core']
+if str(_script_dir) in sys.path:
+    sys.path.remove(str(_script_dir))
+sys.path.insert(0, str(_script_dir))
+
+# Force re-import of db module if it was incorrectly loaded from core/db
+if 'db' in sys.modules:
+    del sys.modules['db']
+
+# Force re-import of db module if it was incorrectly loaded from core/db
+if 'db' in sys.modules:
+    del sys.modules['db']
+
+from core.config.config_manager import ConfigManager, get_env_bool, get_env_int
 from core.db.connection import CountryDB
 from db.repositories import ArgentinaRepository
 from db.schema import apply_argentina_schema
 from core.db.models import generate_run_id
+from core.utils.text_utils import nk
+from core.network.tor_manager import ensure_tor_proxy_running
+
+# Load Config
+PREPARED_URLS_FILE = ConfigManager.get_env_value("Argentina", "PREPARED_URLS_FILE", "prepared_urls.csv")
+SELENIUM_MAX_LOOPS = get_env_int("Argentina", "SELENIUM_MAX_LOOPS", 3)
+SELENIUM_MAX_RUNS = get_env_int("Argentina", "SELENIUM_MAX_RUNS", 1)
+SELENIUM_ROUNDS = get_env_int("Argentina", "SELENIUM_ROUNDS", 1)
+ROUND_PAUSE_SECONDS = get_env_int("Argentina", "ROUND_PAUSE_SECONDS", 0)
+TOR_CONTROL_HOST = ConfigManager.get_env_value("Argentina", "TOR_CONTROL_HOST", "127.0.0.1")
+TOR_CONTROL_PORT = get_env_int("Argentina", "TOR_CONTROL_PORT", 9051)
+TOR_CONTROL_COOKIE_FILE = ConfigManager.get_env_value("Argentina", "TOR_CONTROL_COOKIE_FILE", "")
+AUTO_START_TOR_PROXY = get_env_bool("Argentina", "AUTO_START_TOR_PROXY", True)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 log = logging.getLogger("selenium_runner")
@@ -47,7 +64,7 @@ log = logging.getLogger("selenium_runner")
 SELENIUM_SCRIPT = "03_alfabeta_selenium_worker.py"
 
 # DB setup
-_OUTPUT_DIR = get_output_dir()
+_OUTPUT_DIR = ConfigManager.get_output_dir("Argentina")
 _OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 _RUN_ID_FILE = _OUTPUT_DIR / ".current_run_id"
 
@@ -81,156 +98,6 @@ def _pipeline_prefix() -> str:
     return ""
 
 
-def nk(s: str) -> str:
-    import re
-    import unicodedata
-    if not s:
-        return ""
-    s = "".join(ch for ch in unicodedata.normalize("NFKD", s.strip()) if not unicodedata.combining(ch))
-    return re.sub(r"\s+", " ", s).lower()
-
-
-def _is_port_open(host: str, port: int, timeout: float = 0.5) -> bool:
-    try:
-        with socket.create_connection((host, port), timeout=timeout):
-            return True
-    except Exception:
-        return False
-
-
-def _tor_authenticate(sock) -> bool:
-    try:
-        cookie = Path(TOR_CONTROL_COOKIE_FILE).read_bytes()
-        cmd = f"AUTHENTICATE {cookie.hex()}\r\n"
-    except Exception:
-        cmd = "AUTHENTICATE\r\n"
-    try:
-        sock.sendall(cmd.encode("utf-8"))
-        resp = sock.recv(4096).decode("utf-8", "ignore")
-        return resp.startswith("250")
-    except Exception:
-        return False
-
-
-def _tor_get_bootstrap_percent() -> int:
-    host = TOR_CONTROL_HOST or "127.0.0.1"
-    port = int(TOR_CONTROL_PORT or 0)
-    if port <= 0:
-        return -1
-    try:
-        with socket.create_connection((host, port), timeout=2) as s:
-            s.settimeout(2)
-            if not _tor_authenticate(s):
-                return -1
-            s.sendall(b"GETINFO status/bootstrap-phase\r\n")
-            data = s.recv(4096).decode("utf-8", "ignore")
-            for part in data.split():
-                if part.startswith("PROGRESS="):
-                    try:
-                        return int(part.split("=", 1)[1])
-                    except Exception:
-                        return -1
-            return -1
-    except Exception:
-        return -1
-
-
-def _auto_start_tor_proxy() -> bool:
-    """
-    Best-effort auto-start for a standalone Tor daemon on 127.0.0.1:9050 (control 9051).
-    Reuses Tor Browser's tor.exe if present.
-    """
-    if not AUTO_START_TOR_PROXY:
-        return False
-
-    # Check if already running
-    host = TOR_CONTROL_HOST or "127.0.0.1"
-    port = int(TOR_CONTROL_PORT or 0)
-    if port > 0 and _is_port_open(host, port):
-        return True
-
-    home = Path.home()
-    tor_exe_candidates = [
-        home / "OneDrive" / "Desktop" / "Tor Browser" / "Browser" / "TorBrowser" / "Tor" / "tor.exe",
-        home / "Desktop" / "Tor Browser" / "Browser" / "TorBrowser" / "Tor" / "tor.exe",
-    ]
-    tor_exe = next((p for p in tor_exe_candidates if p.exists()), None)
-    if not tor_exe:
-        log.warning("[TOR_AUTO] tor.exe not found; cannot auto-start Tor proxy")
-        return False
-
-    torrc = Path("C:/TorProxy/torrc")
-    data_dir = Path("C:/TorProxy/data")
-    data_dir.mkdir(parents=True, exist_ok=True)
-    torrc.parent.mkdir(parents=True, exist_ok=True)
-
-    desired_torrc = (
-        "DataDirectory C:\\TorProxy\\data\n"
-        "SocksPort 9050\n"
-        "ControlPort 9051\n"
-        "CookieAuthentication 1\n"
-    )
-    try:
-        torrc.write_text(desired_torrc, encoding="ascii")
-    except Exception as e:
-        log.warning(f"[TOR_AUTO] Failed to write torrc: {e}")
-        return False
-
-    try:
-        log.info(f"[TOR_AUTO] Starting Tor proxy: {tor_exe} -f {torrc}")
-        subprocess.Popen(
-            [str(tor_exe), "-f", str(torrc)],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0),
-        )
-    except Exception as e:
-        log.warning(f"[TOR_AUTO] Failed to start Tor: {e}")
-        return False
-
-    # Wait for SOCKS port to open (best-effort)
-    deadline = time.time() + 90
-    while time.time() < deadline:
-        if _is_port_open(host, port):
-            log.info(f"[TOR_AUTO] Tor proxy is now running on {host}:{port}")
-            return True
-        time.sleep(1)
-    log.warning("[TOR_AUTO] Tor proxy did not come up within 90s")
-    return False
-
-
-def ensure_tor_proxy_running():
-    host = TOR_CONTROL_HOST or "127.0.0.1"
-    port = int(TOR_CONTROL_PORT or 0)
-    if port <= 0:
-        return
-    if _is_port_open(host, port):
-        log.info(f"[TOR] Control port {host}:{port} is already running")
-        return
-
-    # Try to auto-start Tor
-    if AUTO_START_TOR_PROXY:
-        log.warning(f"[TOR] Control port {host}:{port} not reachable; attempting auto-start...")
-        if _auto_start_tor_proxy():
-            return
-    
-    log.warning(f"[TOR] Control port {host}:{port} not reachable; start Tor Browser/tor.exe if required")
-
-
-def _read_state_rows(path: Path) -> tuple[list[dict], dict]:
-    encoding_attempts = ["utf-8-sig", "utf-8", "latin-1", "windows-1252", "cp1252"]
-    for encoding in encoding_attempts:
-        try:
-            with open(path, "r", encoding=encoding, newline="") as f:
-                reader = csv.DictReader(f)
-                fieldnames = reader.fieldnames or []
-                headers = {nk(h): h for h in fieldnames}
-                return (list(reader), headers)
-        except UnicodeDecodeError:
-            continue
-    return ([], {})
-
-
 def _count_eligible(prepared_urls_path: Path, debug: bool = False) -> tuple[int, dict]:
     """DB-backed eligible count matching worker eligibility logic.
     
@@ -248,10 +115,9 @@ def _count_eligible(prepared_urls_path: Path, debug: bool = False) -> tuple[int,
     try:
         # Match the exact query used by get_pending_products() in repositories.py
         # Then apply the same filters used in the worker (skip_set, is_product_already_scraped)
-        from scraper_utils import combine_skip_sets, is_product_already_scraped
-        
         # Load skip_set (products already in output/progress/ignore)
-        skip_set = combine_skip_sets()
+        # Uses enhanced repository method
+        skip_set = _REPO.combine_skip_sets()
         
         # Get pending products using same query as worker
         pending_rows = _REPO.get_pending_products(max_loop=int(SELENIUM_MAX_LOOPS), limit=200000)
@@ -267,6 +133,8 @@ def _count_eligible(prepared_urls_path: Path, debug: bool = False) -> tuple[int,
             if not (prod and comp and url):
                 debug_info["missing_fields"] += 1
                 continue
+            
+            # Use core nk (imported globally in previous step)
             key = (nk(comp), nk(prod))
             if key in seen_keys:
                 debug_info["duplicate_keys"] += 1
@@ -275,7 +143,7 @@ def _count_eligible(prepared_urls_path: Path, debug: bool = False) -> tuple[int,
                 debug_info["in_skip_set"] += 1
                 continue
             # double-check DB for already scraped
-            if is_product_already_scraped(comp, prod):
+            if _REPO.is_product_already_scraped(comp, prod):
                 debug_info["already_scraped"] += 1
                 continue
             seen_keys.add(key)

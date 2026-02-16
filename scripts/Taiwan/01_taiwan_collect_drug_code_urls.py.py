@@ -44,9 +44,10 @@ try:
 except ImportError:
     ChromeInstanceTracker = None
 
-get_chrome_pids_from_driver = None
-save_chrome_pids = None
-terminate_scraper_pids = None
+try:
+    from core.browser.chrome_pid_tracker import get_chrome_pids_from_driver
+except ImportError:
+    get_chrome_pids_from_driver = None
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -219,11 +220,12 @@ def ensure_driver() -> webdriver.Chrome:
             tracker = ChromeInstanceTracker("Taiwan", run_id, db)
             pid = driver.service.process.pid if hasattr(driver.service, 'process') else None
             if pid:
-                tracker.register(step_number=1, pid=pid, browser_type="chrome")
+                pids = get_chrome_pids_from_driver(driver) if get_chrome_pids_from_driver else {pid}
+                tracker.register(step_number=1, pid=pid, browser_type="chrome", child_pids=pids)
             db.close()
         except Exception:
             pass
-            
+
     return driver
 
 
@@ -233,6 +235,27 @@ def iter_prefixes_aa_zz() -> List[str]:
 
 
 def load_prefixes() -> List[str]:
+    # 1. Try input table first (user uploads via Input page)
+    input_table = getenv("SCRIPT_01_INPUT_TABLE", "").strip() if USE_CONFIG else ""
+    if input_table and re.match(r"^[a-z_][a-z0-9_]*$", input_table):
+        try:
+            from core.db.connection import CountryDB
+            db = CountryDB("Taiwan")
+            db.connect()
+            try:
+                with db.cursor() as cur:
+                    cur.execute(
+                        "SELECT DISTINCT atc_code FROM " + input_table + " WHERE atc_code IS NOT NULL AND atc_code != '' ORDER BY atc_code"
+                    )
+                    prefixes = [row[0].strip().upper() for row in cur.fetchall() if row and row[0]]
+                if prefixes:
+                    print(f"[INPUT] Loaded {len(prefixes)} ATC prefixes from table {input_table}")
+                    return prefixes
+            finally:
+                db.close()
+        except Exception as e:
+            print(f"[WARN] Could not load from input table {input_table}: {e}")
+    # 2. Fallback to CSV file
     if INPUT_PREFIXES.exists():
         with open(INPUT_PREFIXES, "r", encoding="utf-8-sig") as f:
             reader = csv.reader(f)

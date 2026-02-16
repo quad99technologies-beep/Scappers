@@ -52,7 +52,7 @@ result = orch.start_scraper("India", urls=[...])
 stats = orch.get_stats("India", "20260215_120000")
 ```
 
-### 4. **Registry Integration** (`scripts/common/scraper_registry.py`)
+### 4. **Registry Integration** (`services/scraper_registry.py`)
 - Added `execution_mode` field to configs
 - Added `get_execution_mode()` helper
 - **India** already configured as `"distributed"`
@@ -159,7 +159,7 @@ python core/scraper_orchestrator.py Russia --resume
 
 ### Enable Distributed Mode for a Scraper
 
-In `scripts/common/scraper_registry.py`:
+In `services/scraper_registry.py`:
 ```python
 "Malaysia": {
     ...
@@ -209,7 +209,7 @@ core/
 ├── url_worker.py           # Distributed worker process
 └── scraper_orchestrator.py # Routing & orchestration
 
-scripts/common/
+services/
 └── scraper_registry.py     # Added execution_mode support
 
 docs/

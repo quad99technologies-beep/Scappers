@@ -172,7 +172,7 @@ python run_pipeline_resume.py --fresh
 
 ```bash
 # As daemon (requires python-daemon)
-python scripts/common/scheduler.py --daemon
+python services/scheduler.py --daemon
 
 # Or use systemd (create service file)
 # Or use supervisor (create config)
@@ -188,7 +188,7 @@ After=network.target postgresql.service
 Type=simple
 User=your_user
 WorkingDirectory=/path/to/Scrappers
-ExecStart=/usr/bin/python3 scripts/common/scheduler.py
+ExecStart=/usr/bin/python3 services/scheduler.py
 Restart=always
 
 [Install]
@@ -199,7 +199,7 @@ WantedBy=multi-user.target
 
 ```bash
 # Start API server
-python scripts/common/pipeline_api.py
+python services/pipeline_api.py
 
 # Test API
 curl -H "X-API-Key: your_key" http://localhost:5000/api/v1/health
@@ -233,13 +233,13 @@ VALUES
 crontab -e
 
 # Daily backup at 2 AM
-0 2 * * * /usr/bin/python3 /path/to/Scrappers/scripts/common/backup_archive.py --strategy daily
+0 2 * * * /usr/bin/python3 /path/to/Scrappers/services/backup_archive.py --strategy daily
 
 # Weekly backup on Sunday at 1 AM
-0 1 * * 0 /usr/bin/python3 /path/to/Scrappers/scripts/common/backup_archive.py --strategy weekly
+0 1 * * 0 /usr/bin/python3 /path/to/Scrappers/services/backup_archive.py --strategy weekly
 
 # Monthly backup on 1st at midnight
-0 0 1 * * /usr/bin/python3 /path/to/Scrappers/scripts/common/backup_archive.py --strategy monthly
+0 0 1 * * /usr/bin/python3 /path/to/Scrappers/services/backup_archive.py --strategy monthly
 ```
 
 ---

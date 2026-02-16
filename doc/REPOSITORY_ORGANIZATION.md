@@ -55,10 +55,10 @@ Moved unused scripts:
 ### 📁 Root Directory (Clean!)
 Only active, essential files remain:
 - `scraper_gui.py` - Main GUI application
-- `telegram_bot.py` - Telegram bot
+- `tools/telegram_bot.py` - Telegram bot
 - `shared_workflow_runner.py` - Workflow runner
 - `platform_config.py` - Platform configuration
-- `distributed_example.py` - Distributed scraping examples
+- `tools/distributed_example.py` - Distributed scraping examples
 - `Dockerfile`, `docker-compose.yml` - Container configs
 - `requirements.txt` - Python dependencies
 - `.env`, `.gitignore` - Environment files

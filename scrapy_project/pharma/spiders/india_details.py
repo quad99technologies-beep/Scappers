@@ -1520,7 +1520,7 @@ class IndiaNPPASpider(Spider):
         if self._platform_ready:
             return
         try:
-            from scripts.common.db import ensure_platform_schema
+            from services.db import ensure_platform_schema
             ensure_platform_schema()
             self._platform_ready = True
         except Exception:
@@ -1531,7 +1531,7 @@ class IndiaNPPASpider(Spider):
         if not self._platform_ready:
             return None
         try:
-            from scripts.common.db import upsert_url
+            from services.db import upsert_url
             return upsert_url(url, self.country_name, source=source, entity_type=entity_type, metadata=metadata)
         except Exception:
             return None
@@ -1540,7 +1540,7 @@ class IndiaNPPASpider(Spider):
         if not self._platform_ready:
             return
         try:
-            from scripts.common.db import insert_entity, insert_attribute
+            from services.db import insert_entity, insert_attribute
         except Exception:
             return
 
@@ -1572,7 +1572,7 @@ class IndiaNPPASpider(Spider):
         if not entity_id:
             return
         try:
-            from scripts.common.db import insert_attribute
+            from services.db import insert_attribute
             for name, value in attrs.items():
                 insert_attribute(entity_id, name, value, source="scrape")
         except Exception:

@@ -1226,7 +1226,7 @@ def main_sync():
 
 
 if __name__ == "__main__":
-    from core.standalone_checkpoint import run_with_checkpoint
+    from core.pipeline.standalone_checkpoint import run_with_checkpoint
     # Allow step number to be configured via environment variable
     step_number = int(os.environ.get("NL_STEP_NUMBER", "1"))
     step_name = os.environ.get("NL_STEP_NAME", "Fast Scraper (DB-only)")

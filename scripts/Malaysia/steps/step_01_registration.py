@@ -9,17 +9,11 @@ import os
 import sys
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
+from core.bootstrap.environment import setup_scraper_environment
+REPO_ROOT = setup_scraper_environment(__file__)
 
-_malaysia_dir = Path(__file__).resolve().parents[2]
-if str(_malaysia_dir) not in sys.path:
-    sys.path.insert(0, str(_malaysia_dir))
 
-_script_dir = Path(__file__).resolve().parents[1]
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
+# Top level fix removed - we handle it inside main()
 
 sys.stdout.reconfigure(line_buffering=True) if hasattr(sys.stdout, 'reconfigure') else None
 os.environ.setdefault('PYTHONUNBUFFERED', '1')
@@ -40,6 +34,8 @@ def _get_run_id() -> str:
 
 
 def main() -> None:
+    # Path setup handled by bootstrap
+
     from core.db.connection import CountryDB
     from scrapers.myprime_scraper import MyPriMeScraper
 
@@ -73,7 +69,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    from core.standalone_checkpoint import run_with_checkpoint
+    from core.pipeline.standalone_checkpoint import run_with_checkpoint
     run_with_checkpoint(
         main, "Malaysia", 1, "Product Registration Number",
     )

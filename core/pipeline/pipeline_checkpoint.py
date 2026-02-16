@@ -195,13 +195,15 @@ class PipelineCheckpoint:
                     raise ValueError("Invalid checkpoint structure or scraper mismatch")
                 self._checkpoint_data = data
                 return self._checkpoint_data
-            except Exception as e:
+            except (json.JSONDecodeError, IOError, OSError, ValueError) as e:
                 log.warning(f"Failed to load checkpoint file: {e}")
                 try:
                     backup_path = self.checkpoint_file.with_suffix(".invalid.json")
+                    if backup_path.exists():
+                        backup_path.unlink()
                     self.checkpoint_file.replace(backup_path)
                     log.warning(f"Checkpoint file moved to: {backup_path}")
-                except Exception:
+                except (OSError, IOError):
                     pass
                 self._checkpoint_data = self._default_checkpoint_data()
                 return self._checkpoint_data
@@ -227,11 +229,17 @@ class PipelineCheckpoint:
                 with open(temp_file, 'w', encoding='utf-8') as f:
                     json.dump(checkpoint_data, f, indent=2, ensure_ascii=False)
                 # Atomic rename (Windows requires replace)
+                if self.checkpoint_file.exists():
+                    self.checkpoint_file.replace(self.checkpoint_file.with_suffix('.backup'))
                 temp_file.replace(self.checkpoint_file)
-            except Exception as e:
+            except (OSError, IOError) as e:
                 # If atomic write fails, try direct write as fallback
-                if temp_file.exists():
-                    temp_file.unlink()
+                log.warning(f"Atomic write failed, using fallback: {e}")
+                try:
+                    if temp_file.exists():
+                        temp_file.unlink()
+                except (OSError, IOError):
+                    pass
                 with open(self.checkpoint_file, 'w', encoding='utf-8') as f:
                     json.dump(checkpoint_data, f, indent=2, ensure_ascii=False)
         except Exception as e:

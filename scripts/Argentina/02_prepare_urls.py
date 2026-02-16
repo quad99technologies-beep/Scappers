@@ -29,6 +29,20 @@ OUTPUT_DIR = get_output_dir()
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 _RUN_ID_FILE = OUTPUT_DIR / ".current_run_id"
 from core.db.connection import CountryDB
+# Ensure Argentina directory is at the front of sys.path to prioritize local 'db' package
+# This fixes conflict with core/db which might be in sys.path
+import sys
+from pathlib import Path
+sys.path = [p for p in sys.path if not Path(p).name == 'core']
+_script_dir = Path(__file__).resolve().parent
+if str(_script_dir) in sys.path:
+    sys.path.remove(str(_script_dir))
+sys.path.insert(0, str(_script_dir))
+
+# Force re-import of db module if it was incorrectly loaded from core/db
+if 'db' in sys.modules:
+    del sys.modules['db']
+
 from db.repositories import ArgentinaRepository
 from db.schema import apply_argentina_schema
 from core.db.models import generate_run_id
@@ -102,7 +116,12 @@ def sanitize_product_name_for_url(product_name: str) -> str:
 
     if sanitized:
         return f"{sanitized}.html"
-    return ""
+    
+    # Fallback for product names with no alphanumeric characters
+    # e.g. "!!!" -> "product-hashed-<md5>.html"
+    import hashlib
+    fallback_hash = hashlib.md5(product_name.encode('utf-8', errors='ignore')).hexdigest()[:12]
+    return f"product-hashed-{fallback_hash}.html"
 
 def construct_product_url(product_name: str, base_url: str = None) -> str:
     if base_url is None:

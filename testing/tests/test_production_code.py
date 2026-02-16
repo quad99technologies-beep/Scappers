@@ -92,7 +92,7 @@ def main():
     print("-" * 70)
     
     try:
-        from scripts.common.scraper_registry import (
+        from services.scraper_registry import (
             get_execution_mode,
             get_run_id_env_var,
             get_pipeline_script

@@ -48,7 +48,7 @@ except ImportError:
             return default
 
 try:
-    from core.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids, terminate_scraper_pids
+    from core.browser.chrome_pid_tracker import get_chrome_pids_from_driver, save_chrome_pids, terminate_scraper_pids
 except ImportError:
     get_chrome_pids_from_driver = None
     save_chrome_pids = None
@@ -223,7 +223,7 @@ def main():
     tor_proxy = None
     try:
         sys.path.insert(0, str(_repo_root))
-        from core.tor_httpx import TorConfig, setup_tor
+        from core.network.tor_httpx import TorConfig, setup_tor
         from config_loader import getenv as config_getenv
         tor_cfg = TorConfig.from_env(config_getenv)
         tor_url = setup_tor(tor_cfg)

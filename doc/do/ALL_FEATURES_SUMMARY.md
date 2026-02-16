@@ -75,13 +75,13 @@ All **foundation contracts** and **23 high-value features** have been implemente
 - `core/dashboard.py`
 
 ### Scripts (7 files)
-- `scripts/common/scheduler.py`
-- `scripts/common/pipeline_api.py`
-- `scripts/common/webhook_notifications.py`
-- `scripts/common/backup_archive.py`
-- `scripts/common/run_replay.py`
-- `scripts/common/doc_generator.py`
-- `scripts/common/pipeline_tests.py`
+- `services/scheduler.py`
+- `services/pipeline_api.py`
+- `services/webhook_notifications.py`
+- `services/backup_archive.py`
+- `services/run_replay.py`
+- `services/doc_generator.py`
+- `services/pipeline_tests.py`
 
 ### Database (1 file)
 - `sql/migrations/postgres/005_add_step_tracking_columns.sql`
@@ -129,10 +129,10 @@ You'll see:
 
 ```bash
 # Start scheduler daemon
-python scripts/common/scheduler.py --daemon
+python services/scheduler.py --daemon
 
 # Start API server
-python scripts/common/pipeline_api.py
+python services/pipeline_api.py
 ```
 
 ---
@@ -171,13 +171,13 @@ track_run_cost("Malaysia", run_id, browser_hours=2.5, db_queries=1500)
 ### Developer Tools
 ```python
 # Replay a run
-python scripts/common/run_replay.py Malaysia run_id --step 2
+python services/run_replay.py Malaysia run_id --step 2
 
 # Generate documentation
-python scripts/common/doc_generator.py Malaysia
+python services/doc_generator.py Malaysia
 
 # Run tests
-python scripts/common/pipeline_tests.py Malaysia
+python services/pipeline_tests.py Malaysia
 
 # Rollback to previous run
 python core/run_rollback.py Malaysia run_id --confirm

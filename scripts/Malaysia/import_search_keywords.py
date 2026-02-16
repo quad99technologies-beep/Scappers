@@ -3,11 +3,11 @@
 Import Search Keywords CSV into my_input_products table
 =======================================================
 Upload user-provided search keywords for Quest3Plus bulk search.
+Primary method: Use GUI Input page to upload CSV (data goes to my_input_products).
+This script is for CLI import when you have a CSV file.
 
 Usage:
-    python import_search_keywords.py [path_to_products.csv]
-
-If no path provided, uses: input/Malaysia/products.csv
+    python import_search_keywords.py <path_to_csv>
 
 CSV Format Expected:
     product_name,registration_no (optional)
@@ -89,11 +89,14 @@ def import_search_keywords(csv_path: Path):
 
 def main():
     """Main entry point."""
-    # Determine CSV path
+    # Determine CSV path - require path or use default
     if len(sys.argv) > 1:
         csv_path = Path(sys.argv[1])
     else:
         csv_path = _repo_root / "input" / "Malaysia" / "products.csv"
+        print(f"[INFO] No path provided. Using default: {csv_path}")
+        print(f"[INFO] Primary: Upload via GUI Input page (no CSV needed).")
+        print(f"[INFO] Or: python import_search_keywords.py <path_to_csv>\n")
 
     print(f"\n{'='*60}")
     print(f"[STARTUP] Malaysia Search Keywords Import")

@@ -41,7 +41,7 @@ except ImportError:
 
 # Import Chrome manager for cleanup
 try:
-    from core.chrome_manager import cleanup_all_chrome_instances
+    from core.browser.chrome_manager import cleanup_all_chrome_instances
     _CHROME_MANAGER_AVAILABLE = True
 except ImportError:
     _CHROME_MANAGER_AVAILABLE = False
@@ -50,7 +50,7 @@ except ImportError:
 
 # Optional run ledger (metadata tracking)
 try:
-    from core.run_ledger import FileRunLedger, RunStatus
+    from core.progress.run_ledger import FileRunLedger, RunStatus
     _RUN_LEDGER_AVAILABLE = True
 except ImportError:
     FileRunLedger = None
@@ -65,7 +65,7 @@ except ImportError:
 
 # Optional pipeline checkpoint (for marking resumable state)
 try:
-    from core.pipeline_checkpoint import get_checkpoint_manager, recover_all_stale_checkpoints
+    from core.pipeline.pipeline_checkpoint import get_checkpoint_manager, recover_all_stale_checkpoints
     _CHECKPOINT_AVAILABLE = True
 except ImportError:
     _CHECKPOINT_AVAILABLE = False
@@ -76,7 +76,7 @@ except ImportError:
 
 # Optional run metrics tracking (network consumption and active time)
 try:
-    from core.run_metrics_integration import WorkflowMetricsIntegration
+    from core.progress.run_metrics_integration import WorkflowMetricsIntegration
     _METRICS_AVAILABLE = True
 except ImportError:
     _METRICS_AVAILABLE = False
@@ -129,7 +129,8 @@ class WorkflowRunner:
             # Migrated: get_path_manager() -> ConfigManager
             self.backup_dir = ConfigManager.get_backups_dir(scraper_name)  # Scraper-specific backups
             self.runs_dir = ConfigManager.get_runs_dir()
-            self.lock_file = pm.get_lock_file(scraper_name)
+            from core.pipeline.pipeline_start_lock import get_lock_paths
+            self.lock_file, _ = get_lock_paths(scraper_name, self.repo_root)
         else:
             # Fallback: use repo-relative paths (backward compatibility)
             self.backup_dir = self.repo_root / "output" / "backups"
@@ -385,7 +386,8 @@ class WorkflowRunner:
         lock_file = None
         if _PLATFORM_CONFIG_AVAILABLE:
             # Migrated: get_path_manager() -> ConfigManager
-            lock_file = pm.get_lock_file(scraper_name)
+            from core.pipeline.pipeline_start_lock import get_lock_paths
+            lock_file, _ = get_lock_paths(scraper_name, repo_root)
             # Also check old location as fallback
             old_lock_file = repo_root / f".{scraper_name}_run.lock"
             if not lock_file.exists() and old_lock_file.exists():
@@ -441,7 +443,7 @@ class WorkflowRunner:
                 # IMPORTANT: Clean up Chrome instances FIRST (scraper-specific) BEFORE killing main process
                 # This prevents killing Chrome instances that belong to other scrapers
                 try:
-                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    from core.browser.chrome_pid_tracker import terminate_scraper_pids
                     terminated_count = terminate_scraper_pids(scraper_name, repo_root, silent=True)
                     if terminated_count > 0:
                         # Wait a moment for Chrome processes to fully terminate before killing main process
@@ -616,7 +618,7 @@ class WorkflowRunner:
 
                     # Clean up Chrome instances before cleaning up lock file (scraper-specific only)
                     try:
-                        from core.chrome_pid_tracker import terminate_scraper_pids
+                        from core.browser.chrome_pid_tracker import terminate_scraper_pids
                         terminate_scraper_pids(scraper_name, repo_root, silent=True)
                     except Exception:
                         # Don't use general cleanup - it would kill all scrapers' Chrome instances
@@ -843,16 +845,12 @@ class WorkflowRunner:
             raise RuntimeError("Run ID not set. Call create_backup() first.")
         
         # Use PathManager if available, otherwise fall back to repo-relative paths
-        if _PLATFORM_CONFIG_AVAILABLE:
-            # Migrated: get_path_manager() -> ConfigManager
-            self.run_dir = pm.get_run_dir(self.scraper_name, self.run_id)
-        else:
-            # Fallback: use repo-relative paths
-            self.run_dir = self.runs_dir / self.run_id
-            self.run_dir.mkdir(parents=True, exist_ok=True)
-            (self.run_dir / "logs").mkdir(exist_ok=True)
-            (self.run_dir / "artifacts").mkdir(exist_ok=True)
-            (self.run_dir / "exports").mkdir(exist_ok=True)
+        # Create run directory structure
+        self.run_dir = self.runs_dir / self.run_id
+        self.run_dir.mkdir(parents=True, exist_ok=True)
+        (self.run_dir / "logs").mkdir(exist_ok=True)
+        (self.run_dir / "artifacts").mkdir(exist_ok=True)
+        (self.run_dir / "exports").mkdir(exist_ok=True)
         
         return self.run_dir
 
@@ -1138,7 +1136,7 @@ class WorkflowRunner:
                 # Clean up Chrome instances before releasing lock (scraper-specific only)
                 progress(f"[{self.scraper_name}] Cleaning up Chrome instances...")
                 try:
-                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    from core.browser.chrome_pid_tracker import terminate_scraper_pids
                     terminate_scraper_pids(self.scraper_name, self.repo_root, silent=True)
                 except Exception as e:
                     if logger:
@@ -1163,7 +1161,7 @@ class WorkflowRunner:
             finally:
                 # Clean up Chrome instances before releasing lock (scraper-specific only)
                 try:
-                    from core.chrome_pid_tracker import terminate_scraper_pids
+                    from core.browser.chrome_pid_tracker import terminate_scraper_pids
                     terminate_scraper_pids(self.scraper_name, self.repo_root, silent=True)
                 except Exception as e:
                     if logger:

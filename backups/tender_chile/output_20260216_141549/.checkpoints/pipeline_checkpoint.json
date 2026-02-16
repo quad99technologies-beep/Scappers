@@ -1,0 +1,45 @@
+{
+  "scraper": "Tender_Chile",
+  "last_run": "2026-02-16T14:15:49.934227",
+  "completed_steps": [
+    0
+  ],
+  "step_outputs": {
+    "step_0": {
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "completed_at": "2026-02-16T14:15:49.931947",
+      "output_files": [],
+      "duration_seconds": 3.3028924465179443
+    }
+  },
+  "metadata": {
+    "run_id": "Tender_Chile_20260216_141540"
+  },
+  "events": [
+    {
+      "timestamp": "2026-02-16T14:15:49.931974",
+      "event_type": "step_completed",
+      "status": "completed",
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "source": "checkpoint",
+      "details": {
+        "duration_seconds": 3.3028924465179443,
+        "output_count": 0
+      },
+      "sequence": 1
+    },
+    {
+      "timestamp": "2026-02-16T14:15:49.934197",
+      "event_type": "run_id_set",
+      "run_id": "Tender_Chile_20260216_141540",
+      "source": "metadata",
+      "details": {
+        "previous_run_id": null
+      },
+      "sequence": 2
+    }
+  ],
+  "event_seq": 2
+}

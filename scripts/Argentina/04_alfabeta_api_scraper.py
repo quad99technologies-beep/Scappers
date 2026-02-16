@@ -57,6 +57,20 @@ def _get_api_session() -> "requests.Session":
         _api_session = s
     return _api_session
 
+# Ensure Argentina directory is at the front of sys.path to prioritize local 'db' package
+# This fixes conflict with core/db which might be in sys.path
+import sys
+from pathlib import Path
+sys.path = [p for p in sys.path if not Path(p).name == 'core']
+_script_dir = Path(__file__).resolve().parent
+if str(_script_dir) in sys.path:
+    sys.path.remove(str(_script_dir))
+sys.path.insert(0, str(_script_dir))
+
+# Force re-import of db module if it was incorrectly loaded from core/db
+if 'db' in sys.modules:
+    del sys.modules['db']
+
 # ====== CONFIG ======
 from config_loader import (
     get_input_dir, get_output_dir, get_proxy_list,

@@ -16,15 +16,18 @@ import argparse
 import time
 from pathlib import Path
 
-# Add repo root to path
+# Add repo root and script dir to path (script dir first for config_loader/db)
 _repo_root = Path(__file__).resolve().parents[2]
-if str(_repo_root) not in sys.path:
-    sys.path.insert(0, str(_repo_root))
-
-# Add scripts/North Macedonia to path for imports
 _script_dir = Path(__file__).parent
 if str(_script_dir) not in sys.path:
     sys.path.insert(0, str(_script_dir))
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+# Clear conflicting db when run in same process as other scrapers (e.g. GUI)
+for mod in list(sys.modules.keys()):
+    if mod == "db" or mod.startswith("db."):
+        del sys.modules[mod]
 
 from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
 from config_loader import get_output_dir, getenv
@@ -53,10 +56,10 @@ except ImportError:
 # Import foundation contracts
 try:
     from core.pipeline.preflight_checks import PreflightChecker, CheckSeverity
-    from core.step_hooks import StepHookRegistry, StepMetrics
-    from core.alerting_integration import setup_alerting_hooks
+    from core.pipeline.step_hooks import StepHookRegistry, StepMetrics
+    from core.monitoring.alerting_integration import setup_alerting_hooks
     from core.data.data_quality_checks import DataQualityChecker
-    from core.audit_logger import audit_log
+    from core.monitoring.audit_logger import audit_log
     from core.monitoring.benchmarking import record_step_benchmark
     _FOUNDATION_AVAILABLE = True
 except ImportError:
@@ -362,7 +365,7 @@ def run_step(step_num: int, script_name: str, step_name: str, total_steps: int, 
         
         # MEMORY FIX: Periodic resource monitoring
         try:
-            from core.resource_monitor import periodic_resource_check
+            from core.monitoring.resource_monitor import periodic_resource_check
             resource_status = periodic_resource_check("NorthMacedonia", force=False)
             if resource_status.get("warnings"):
                 for warning in resource_status["warnings"]:

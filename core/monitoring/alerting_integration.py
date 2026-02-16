@@ -22,20 +22,20 @@ logger = logging.getLogger(__name__)
 
 # Import hooks and alerting contract
 try:
-    from core.step_hooks import StepHookRegistry, StepMetrics
+    from core.pipeline.step_hooks import StepHookRegistry, StepMetrics
     from core.monitoring.alerting_contract import AlertRuleRegistry, AlertChannel
     HOOKS_AVAILABLE = True
-except ImportError:
+except ImportError as e:
     HOOKS_AVAILABLE = False
-    logger.warning("Step hooks or alerting contract not available")
+    logger.warning(f"Step hooks or alerting contract not available: {e}")
 
 # Import Telegram notifier
 try:
     from core.utils.telegram_notifier import TelegramNotifier
     TELEGRAM_AVAILABLE = True
-except ImportError:
+except ImportError as e:
     TELEGRAM_AVAILABLE = False
-    logger.warning("Telegram notifier not available")
+    logger.warning(f"Telegram notifier not available: {e}")
 
 
 def _get_avg_duration_from_db(scraper_name: str, step_number: int) -> float:

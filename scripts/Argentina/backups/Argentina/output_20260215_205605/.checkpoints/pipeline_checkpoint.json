@@ -1,0 +1,22 @@
+{
+  "scraper": "Argentina",
+  "last_run": "2026-02-15T20:56:04.361161",
+  "completed_steps": [],
+  "step_outputs": {},
+  "metadata": {
+    "run_id": "Argentina_20260215_205602"
+  },
+  "events": [
+    {
+      "timestamp": "2026-02-15T20:56:04.361146",
+      "event_type": "run_id_set",
+      "run_id": "Argentina_20260215_205602",
+      "source": "metadata",
+      "details": {
+        "previous_run_id": null
+      },
+      "sequence": 1
+    }
+  ],
+  "event_seq": 1
+}

@@ -1,0 +1,85 @@
+{
+  "id": "e5e11072-b041-4be8-9d0a-ea20c14b609f",
+  "titolo": "DET. PRES/HTA 1794/2025 Classificazione di specialita medicinali ai sensi dell'art. 8, comma 10, della legge 24 dicembre 1993, n. 537 - MENVEO",
+  "ufficio": "PRES - UFFICIO DI PRESIDENZA",
+  "ufficioEmettitore": {
+    "id": 1,
+    "codice": "EX00833",
+    "descrizioneIt": "AGENZIA ITALIANA DEL FARMACO",
+    "descrizioneEn": "AGENZIA ITALIANA DEL FARMACO"
+  },
+  "idSchedaDocumento": "197285962",
+  "idSchedaDocumentoRettifica": null,
+  "tipiAtto": [
+    {
+      "id": 1047,
+      "codice": "C",
+      "descrizioneIt": "Modifica Classe di Rimborsabilità di un medicinale (classe C)",
+      "descrizioneEn": "-",
+      "version": 1
+    }
+  ],
+  "tipoTrasmissione": "REDAZIONE",
+  "tipoProvvedimento": {
+    "id": 1020,
+    "codice": "DECRETO DIRIGENZIALE",
+    "descrizioneIt": "Determina",
+    "descrizioneEn": "Decree",
+    "version": 1
+  },
+  "numeroRepertorio": "AIFA_PRES-1794-2025",
+  "numeroProtocollo": null,
+  "idDocumentoDocsPa": null,
+  "data": "2025-12-17T00:00:00Z",
+  "dataProtocollo": null,
+  "dataPubblicazione": "2025-12-24T15:14:35Z",
+  "dataEfficacia": "2025-12-31T00:00:00Z",
+  "datiFarmaco": [
+    {
+      "id": "5cbd74c7-c139-4226-ad84-e4e74c6c05cc",
+      "denominazione": "MENVEO",
+      "denominazioneAzienda": "GLAXOSMITHKLINE VACCINES S.R.L.",
+      "tipoFarmaco": {
+        "id": 1011,
+        "codice": "2",
+        "descrizioneIt": "MEDICINALE IMMUNOLOGICO",
+        "descrizioneEn": "IMMUNOLOGICAL MEDICINAL PRODUCT"
+      },
+      "aic6": "039766",
+      "aic9": null,
+      "tipiProcedura": [
+        {
+          "id": 1007,
+          "codice": "E",
+          "descrizioneIt": "CENTRALIZZATA",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "tipiAutorizzazione": [
+        {
+          "id": 1004,
+          "codice": "1",
+          "descrizioneIt": "AUTORIZZAZIONE",
+          "descrizioneEn": "-",
+          "version": 0
+        }
+      ],
+      "principiAttivi": [
+        "VACCINO MENINGITE CEREBROSPINALE A C"
+      ],
+      "atcs": [
+        "J07AH08"
+      ]
+    }
+  ],
+  "allegati": [
+    {
+      "id": 1239,
+      "nome": "filePrincipale",
+      "principale": true
+    }
+  ],
+  "fileNameDetermina": "filePrincipale",
+  "version": 0
+}

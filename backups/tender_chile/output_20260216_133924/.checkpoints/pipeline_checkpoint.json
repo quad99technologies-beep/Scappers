@@ -1,0 +1,22 @@
+{
+  "scraper": "Tender_Chile",
+  "last_run": "2026-02-16T13:39:24.718263",
+  "completed_steps": [],
+  "step_outputs": {},
+  "metadata": {
+    "run_id": "20260210_104939_ab4c97af"
+  },
+  "events": [
+    {
+      "timestamp": "2026-02-16T13:39:24.718220",
+      "event_type": "run_id_set",
+      "run_id": "20260210_104939_ab4c97af",
+      "source": "metadata",
+      "details": {
+        "previous_run_id": null
+      },
+      "sequence": 1
+    }
+  ],
+  "event_seq": 1
+}

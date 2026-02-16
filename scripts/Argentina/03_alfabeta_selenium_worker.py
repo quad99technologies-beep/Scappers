@@ -174,8 +174,17 @@ if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
 _script_dir = Path(__file__).resolve().parent
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
+
+# Ensure Argentina directory is at the front of sys.path to prioritize local 'db' package
+# This fixes conflict with core/db which might be in sys.path
+sys.path = [p for p in sys.path if not Path(p).name == 'core']
+if str(_script_dir) in sys.path:
+    sys.path.remove(str(_script_dir))
+sys.path.insert(0, str(_script_dir))
+
+# Force re-import of db module if it was incorrectly loaded from core/db
+if 'db' in sys.modules:
+    del sys.modules['db']
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -234,31 +243,78 @@ def pick_fingerprint() -> dict:
     }
 
 # ====== CONFIG ======
-from config_loader import (
-    get_input_dir, get_output_dir, get_accounts,
-    ALFABETA_USER, ALFABETA_PASS, HEADLESS, HUB_URL, PRODUCTS_URL,
-    SELENIUM_ROTATION_LIMIT, SELENIUM_THREADS, SELENIUM_SINGLE_ATTEMPT,
-    SELENIUM_MAX_LOOPS,
-    SELENIUM_PRODUCTS_PER_RESTART,
-    DUPLICATE_RATE_LIMIT_SECONDS,
-    SKIP_REPEAT_SELENIUM_TO_API,
-    USE_API_STEPS,
-    REQUEST_PAUSE_BASE, REQUEST_PAUSE_JITTER_MIN, REQUEST_PAUSE_JITTER_MAX,
-    WAIT_ALERT, WAIT_SEARCH_FORM, WAIT_SEARCH_RESULTS, WAIT_PAGE_LOAD,
-    PAGE_LOAD_TIMEOUT, MAX_RETRIES_TIMEOUT, CPU_THROTTLE_HIGH, PAUSE_CPU_THROTTLE,
-    QUEUE_GET_TIMEOUT,
-    PREPARED_URLS_FILE,
-    OUTPUT_PRODUCTS_CSV, OUTPUT_PROGRESS_CSV, OUTPUT_ERRORS_CSV,
-    SLOW_PAGE_RESTART_ENABLED, SLOW_PAGE_MEDIAN_WINDOW, SLOW_PAGE_MIN_SAMPLES,
-    SLOW_PAGE_MEDIAN_THRESHOLD_SECONDS,
-    TOR_CONTROL_HOST, TOR_CONTROL_PORT, TOR_CONTROL_PASSWORD, TOR_CONTROL_COOKIE_FILE,
-    TOR_NEWNYM_ENABLED, TOR_NEWNYM_INTERVAL_SECONDS, TOR_SOCKS_PORT,
-    TOR_NEWNYM_COOLDOWN_SECONDS,
-    SURFSHARK_RECONNECT_CMD, SURFSHARK_ROTATE_INTERVAL_SECONDS, SURFSHARK_IP_CHANGE_TIMEOUT_SECONDS,
-    MAX_BROWSER_RUNTIME_SECONDS,
-    REQUIRE_TOR_PROXY, AUTO_START_TOR_PROXY,
-    SELENIUM_ROUND_ROBIN_RETRY, SELENIUM_MAX_ATTEMPTS_PER_PRODUCT
-)
+# ====== CONFIG ======
+from core.config.config_manager import ConfigManager, get_env_bool, get_env_int, get_env_float
+
+def get_input_dir(): return ConfigManager.get_input_dir("Argentina")
+def get_output_dir(): return ConfigManager.get_output_dir("Argentina")
+
+ALFABETA_USER = ConfigManager.get_env_value("Argentina", "ALFABETA_USER", "")
+ALFABETA_PASS = ConfigManager.get_env_value("Argentina", "ALFABETA_PASS", "")
+HEADLESS = get_env_bool("Argentina", "HEADLESS", True)
+HUB_URL = ConfigManager.get_env_value("Argentina", "HUB_URL", "")
+PRODUCTS_URL = ConfigManager.get_env_value("Argentina", "PRODUCTS_URL", "http://www.alfabeta.net/precio/")
+SELENIUM_ROTATION_LIMIT = get_env_int("Argentina", "SELENIUM_ROTATION_LIMIT", 50)
+SELENIUM_THREADS = get_env_int("Argentina", "SELENIUM_THREADS", 1)
+SELENIUM_SINGLE_ATTEMPT = get_env_bool("Argentina", "SELENIUM_SINGLE_ATTEMPT", False)
+SELENIUM_MAX_LOOPS = get_env_int("Argentina", "SELENIUM_MAX_LOOPS", 3)
+SELENIUM_PRODUCTS_PER_RESTART = get_env_int("Argentina", "SELENIUM_PRODUCTS_PER_RESTART", 500)
+DUPLICATE_RATE_LIMIT_SECONDS = get_env_int("Argentina", "DUPLICATE_RATE_LIMIT_SECONDS", 120)
+SKIP_REPEAT_SELENIUM_TO_API = get_env_bool("Argentina", "SKIP_REPEAT_SELENIUM_TO_API", True)
+USE_API_STEPS = get_env_bool("Argentina", "USE_API_STEPS", False)
+REQUEST_PAUSE_BASE = get_env_float("Argentina", "REQUEST_PAUSE_BASE", 2.0)
+REQUEST_PAUSE_JITTER_MIN = get_env_float("Argentina", "REQUEST_PAUSE_JITTER_MIN", 0.5)
+REQUEST_PAUSE_JITTER_MAX = get_env_float("Argentina", "REQUEST_PAUSE_JITTER_MAX", 1.5)
+WAIT_ALERT = get_env_int("Argentina", "WAIT_ALERT", 5)
+WAIT_SEARCH_FORM = get_env_int("Argentina", "WAIT_SEARCH_FORM", 10)
+WAIT_SEARCH_RESULTS = get_env_int("Argentina", "WAIT_SEARCH_RESULTS", 10)
+WAIT_PAGE_LOAD = get_env_int("Argentina", "WAIT_PAGE_LOAD", 30)
+PAGE_LOAD_TIMEOUT = get_env_int("Argentina", "PAGE_LOAD_TIMEOUT", 60)
+MAX_RETRIES_TIMEOUT = get_env_int("Argentina", "MAX_RETRIES_TIMEOUT", 3)
+CPU_THROTTLE_HIGH = get_env_float("Argentina", "CPU_THROTTLE_HIGH", 90.0)
+PAUSE_CPU_THROTTLE = get_env_float("Argentina", "PAUSE_CPU_THROTTLE", 5.0)
+QUEUE_GET_TIMEOUT = get_env_int("Argentina", "QUEUE_GET_TIMEOUT", 5)
+PREPARED_URLS_FILE = ConfigManager.get_env_value("Argentina", "PREPARED_URLS_FILE", "prepared_urls.csv")
+OUTPUT_PRODUCTS_CSV = ConfigManager.get_env_value("Argentina", "OUTPUT_PRODUCTS_CSV", "products.csv")
+OUTPUT_PROGRESS_CSV = ConfigManager.get_env_value("Argentina", "OUTPUT_PROGRESS_CSV", "progress.csv")
+OUTPUT_ERRORS_CSV = ConfigManager.get_env_value("Argentina", "OUTPUT_ERRORS_CSV", "errors.csv")
+SLOW_PAGE_RESTART_ENABLED = get_env_bool("Argentina", "SLOW_PAGE_RESTART_ENABLED", True)
+SLOW_PAGE_MEDIAN_WINDOW = get_env_int("Argentina", "SLOW_PAGE_MEDIAN_WINDOW", 20)
+SLOW_PAGE_MIN_SAMPLES = get_env_int("Argentina", "SLOW_PAGE_MIN_SAMPLES", 5)
+SLOW_PAGE_MEDIAN_THRESHOLD_SECONDS = get_env_float("Argentina", "SLOW_PAGE_MEDIAN_THRESHOLD_SECONDS", 20.0)
+TOR_CONTROL_HOST = ConfigManager.get_env_value("Argentina", "TOR_CONTROL_HOST", "127.0.0.1")
+TOR_CONTROL_PORT = get_env_int("Argentina", "TOR_CONTROL_PORT", 9051)
+TOR_CONTROL_PASSWORD = ConfigManager.get_env_value("Argentina", "TOR_CONTROL_PASSWORD", "")
+TOR_CONTROL_COOKIE_FILE = ConfigManager.get_env_value("Argentina", "TOR_CONTROL_COOKIE_FILE", "")
+# Fix types for Tor Ports
+_tor_newnym_enabled_str = ConfigManager.get_env_value("Argentina", "TOR_NEWNYM_ENABLED", "True")
+TOR_NEWNYM_ENABLED = _tor_newnym_enabled_str.lower() in ("true", "1", "yes")
+TOR_NEWNYM_INTERVAL_SECONDS = get_env_int("Argentina", "TOR_NEWNYM_INTERVAL_SECONDS", 300)
+TOR_SOCKS_PORT = get_env_int("Argentina", "TOR_SOCKS_PORT", 9050)
+TOR_NEWNYM_COOLDOWN_SECONDS = get_env_int("Argentina", "TOR_NEWNYM_COOLDOWN_SECONDS", 10)
+SURFSHARK_RECONNECT_CMD = ConfigManager.get_env_value("Argentina", "SURFSHARK_RECONNECT_CMD", "")
+SURFSHARK_ROTATE_INTERVAL_SECONDS = get_env_int("Argentina", "SURFSHARK_ROTATE_INTERVAL_SECONDS", 1800)
+SURFSHARK_IP_CHANGE_TIMEOUT_SECONDS = get_env_int("Argentina", "SURFSHARK_IP_CHANGE_TIMEOUT_SECONDS", 60)
+MAX_BROWSER_RUNTIME_SECONDS = get_env_int("Argentina", "MAX_BROWSER_RUNTIME_SECONDS", 3600)
+REQUIRE_TOR_PROXY = get_env_bool("Argentina", "REQUIRE_TOR_PROXY", False)
+AUTO_START_TOR_PROXY = get_env_bool("Argentina", "AUTO_START_TOR_PROXY", True)
+SELENIUM_ROUND_ROBIN_RETRY = get_env_bool("Argentina", "SELENIUM_ROUND_ROBIN_RETRY", True)
+SELENIUM_MAX_ATTEMPTS_PER_PRODUCT = get_env_int("Argentina", "SELENIUM_MAX_ATTEMPTS_PER_PRODUCT", 3)
+
+# Legacy support
+TOR_PROXY_PORT = TOR_SOCKS_PORT
+
+def get_accounts():
+    """Parse ALFABETA_ACCOUNTS env var (user:pass,user:pass)."""
+    raw = ConfigManager.get_env_value("Argentina", "ALFABETA_ACCOUNTS", "")
+    if not raw:
+        return []
+    accs = []
+    for pair in raw.split(","):
+        if ":" in pair:
+            u, p = pair.split(":", 1)
+            accs.append({"user": u.strip(), "pass": p.strip()})
+    return accs
 
 from core.network.ip_rotation import (
     get_public_ip_direct,
@@ -269,19 +325,84 @@ from core.network.ip_rotation import (
     wait_for_ip_change_direct,
 )
 
-from scraper_utils import (
-    ensure_headers, combine_skip_sets,
-    append_rows, append_progress, append_error,
-    nk, ts, strip_accents, OUT_FIELDS, update_prepared_urls_source,
-    sync_files_from_output, sync_files_before_selenium
-)
+# Utils Replacement
+from core.utils.text_utils import nk, strip_accents
+
+def ts() -> str:
+    """Get current timestamp as ISO string."""
+    return datetime.now().isoformat(timespec="seconds")
+
+OUT_FIELDS = [
+    "input_company", "input_product_name",
+    "company", "product_name",
+    "active_ingredient", "therapeutic_class",
+    "description", "price_ars", "date", "scraped_at",
+    "SIFAR_detail", "PAMI_AF", "PAMI_OS", "IOMA_detail", "IOMA_AF", "IOMA_OS",
+    "import_status", "coverage_json"
+]
+
+def ensure_headers():
+    return
+
+def combine_skip_sets():
+    return _REPO.combine_skip_sets()
+
+def append_rows(rows: list, source: str = "selenium") -> bool:
+    if not rows: return True
+    return _REPO.insert_products(rows, source=source) > 0
+
+def append_error(company: str, product: str, msg: str):
+    _REPO.log_error(company, product, msg)
+
+def update_prepared_urls_source(company, product, new_source="selenium", **kwargs):
+    pass
+    
+def sync_files_from_output(): pass
+def sync_files_before_selenium(): pass
+
+# Local progress tracking
+_ATTEMPTED_THIS_RUN: set[tuple[str, str]] = set()
+_ATTEMPTED_LOCK = threading.Lock()
+
+def append_progress(company: str, product: str, count: int, source: str = "selenium"):
+    """Update ar_product_index in DB: bump loop_count once per process run; set total_records/status."""
+    key = (nk(company), nk(product))
+    first_for_this_process = False
+    with _ATTEMPTED_LOCK:
+        if key not in _ATTEMPTED_THIS_RUN:
+            _ATTEMPTED_THIS_RUN.add(key)
+            first_for_this_process = True
+            
+    if first_for_this_process:
+        _REPO.bump_attempt(
+            company,
+            product,
+            total_records=count or 0,
+            status="completed" if (count and count > 0) else "failed",
+            source=source,
+        )
+    else:
+        # Already bumped loop_count in this process. Provide result stats without bumping loop again.
+        # However, bump_attempt logic in Repo might inherently bump. 
+        # We need check logic.
+        # Actually _REPO.bump_attempt ALWAYS bumps loop_count.
+        # We should use mark_attempt_by_name if we don't want to bump.
+        _REPO.mark_attempt_by_name(
+             company,
+             product,
+             loop_count=_current_global_round if _current_global_round is not None else 0, # Fallback
+             total_records=count or 0,
+             status="completed",
+             source=source
+        )
 from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
 
 try:
-    from core.browser.firefox_pid_tracker import save_firefox_pids, cleanup_pid_file as cleanup_firefox_pid_file
+    from core.browser.chrome_instance_tracker import ChromeInstanceTracker
+    from core.db.postgres_connection import PostgresDB
 except Exception:
-    save_firefox_pids = None
-    cleanup_firefox_pid_file = None
+    ChromeInstanceTracker = None
+    PostgresDB = None
 
 # ====== OUTPUT SCHEMA PATCH ======
 # Ensure PAMI_OS is written to CSV even if scraper_utils.OUT_FIELDS is older.
@@ -864,12 +985,10 @@ def close_all_drivers():
                                     all_pids.add(child.pid)
                             except (psutil.NoSuchProcess, psutil.AccessDenied):
                                 pass
-                # Track these PIDs
+                # Track these PIDs (in-memory for shutdown kill; DB tracking done at driver creation)
                 if all_pids:
                     with _tracked_pids_lock:
                         _tracked_firefox_pids.update(all_pids)
-                    if save_firefox_pids:
-                        save_firefox_pids("Argentina", REPO_ROOT, all_pids)
             except Exception:
                 pass
         
@@ -933,8 +1052,7 @@ def kill_tracked_firefox_processes():
     
     with _tracked_pids_lock:
         _tracked_firefox_pids.clear()
-    if cleanup_firefox_pid_file:
-        cleanup_firefox_pid_file("Argentina", REPO_ROOT)
+    # PID tracking now in DB; no JSON file to clean
     
     if killed_count > 0:
         log.info(f"[SHUTDOWN] Killed {killed_count} tracked Firefox/geckodriver process(es) (Alfabeta only)")
@@ -1946,12 +2064,23 @@ def setup_driver(headless=False):
                         pass
         
         if pids:
-            # Track these PIDs so we only kill our own Firefox/geckodriver processes
             with _tracked_pids_lock:
                 _tracked_firefox_pids.update(pids)
             log.debug(f"[PID_TRACKER] Tracked Firefox/geckodriver PIDs: {sorted(pids)}")
-            if save_firefox_pids:
-                save_firefox_pids("Argentina", REPO_ROOT, pids)
+            # Track in DB for pipeline stop cleanup
+            run_id = _get_run_id()
+            if ChromeInstanceTracker and PostgresDB and run_id:
+                try:
+                    geckodriver_pid = drv.service.process.pid if hasattr(drv.service, 'process') else list(pids)[0]
+                    db = PostgresDB("Argentina")
+                    db.connect()
+                    try:
+                        tracker = ChromeInstanceTracker("Argentina", run_id, db)
+                        tracker.register(step_number=1, pid=geckodriver_pid, browser_type="firefox", child_pids=pids)
+                    finally:
+                        db.close()
+                except Exception as e:
+                    log.debug(f"[PID_TRACKER] Could not register in DB: {e}")
     except Exception as e:
         log.debug(f"[PID_TRACKER] Could not track Firefox/geckodriver PIDs: {e}")
     

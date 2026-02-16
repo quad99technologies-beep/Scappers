@@ -51,6 +51,7 @@ from config_loader import (
 from core.utils.logger import setup_standard_logger
 from core.config.retry_config import RetryConfig
 from core.progress.progress_tracker import StandardProgress
+from core.db.postgres_connection import PostgresDB
 
 URL = EAP_PRICES_URL
 
@@ -203,6 +204,51 @@ def has_pk_keyword(local_pack_description: str) -> bool:
     return bool(re.search(r"\bpk\b", local_pack_description or "", flags=re.IGNORECASE))
 
 
+def insert_eap_prices_to_db(df: pd.DataFrame) -> None:
+    """Insert EAP prices into co_eap_prices table."""
+    if df.empty:
+        logger.warning("[DB] No EAP prices to migrate - dataframe is empty")
+        return
+    
+    try:
+        db = PostgresDB("CanadaOntario")
+        db.connect()
+        logger.info("[DB] Connected to PostgreSQL database")
+        try:
+            run_id = get_run_id()
+            db_rows = []
+            for _, row in df.iterrows():
+                db_row = (
+                    run_id,
+                    row.get("DIN", ""),
+                    row.get("Trade name", ""),
+                    row.get("Strength", ""),
+                    row.get("Dosage form", ""),
+                    row.get("Ex Factory Wholesale Price"),
+                    "CAD",
+                    row.get("Effective Start Date", ""),
+                    EAP_PRICES_URL
+                )
+                db_rows.append(db_row)
+            
+            sql_query = """
+                INSERT INTO co_eap_prices 
+                (run_id, din, product_name, strength, dosage_form, eap_price, currency, effective_date, source_url)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """
+            
+            with db.cursor() as cur:
+                cur.executemany(sql_query, db_rows)
+            
+            logger.info(f"[DB] Migrated {len(db_rows)} EAP prices to co_eap_prices table")
+        except Exception as e:
+            logger.error(f"[DB] Failed to migrate EAP prices: {e}")
+        finally:
+            db.close()
+    except Exception as e:
+        logger.error(f"[DB] Connection failed: {e}")
+
+
 # ---------- scraper ----------
 
 def scrape_from_html(html: str, progress: Optional[StandardProgress] = None) -> pd.DataFrame:
@@ -327,12 +373,17 @@ def main():
     if df.empty:
         raise SystemExit("No rows extracted. The page structure may have changed.")
 
-    # Save
+    # Save to CSV
     output_dir = get_output_dir()
     output_path = Path(args.out) if args.out else (output_dir / EAP_PRICES_CSV_NAME)
     output_dir.mkdir(parents=True, exist_ok=True)
     df.to_csv(str(output_path), index=False, encoding="utf-8-sig")
     logger.info(f"[OK] Saved {len(df):,} rows -> {output_path}")
+    
+    # Save to DB
+    logger.info("[DB] Migrating EAP prices to co_eap_prices table...")
+    insert_eap_prices_to_db(df)
+    logger.info("[DB] EAP prices migration complete")
 
 
 if __name__ == "__main__":

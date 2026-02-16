@@ -1,0 +1,72 @@
+{
+  "status": "ok",
+  "mode": "annexe_split",
+  "results": {
+    "IV.1": {
+      "status": "ok",
+      "input": "D:\\quad99\\Scrappers\\output\\canada_quebec\\split_pdf\\annexe_iv1.pdf",
+      "pages_total": 16,
+      "pages_with_din": 9,
+      "pages_with_headers": 0,
+      "pages_rowshape_ok": 8,
+      "ratios": {
+        "headers_over_all_pages": 0.0,
+        "headers_over_din_pages": 0.0,
+        "rowshape_over_din_pages": 0.8889,
+        "flagged_over_din_pages": 1.0
+      },
+      "legend_detected": false,
+      "fit_to_run": false,
+      "fit_reasons": [
+        "Legend page not detected in first 3 pages",
+        "Too few DIN pages (9 < 10)",
+        "Low header detection (0%)",
+        "High flagged pages (100%)"
+      ],
+      "flagged_pages_count": 9
+    },
+    "IV.2": {
+      "status": "ok",
+      "input": "D:\\quad99\\Scrappers\\output\\canada_quebec\\split_pdf\\annexe_iv2.pdf",
+      "pages_total": 4,
+      "pages_with_din": 3,
+      "pages_with_headers": 0,
+      "pages_rowshape_ok": 3,
+      "ratios": {
+        "headers_over_all_pages": 0.0,
+        "headers_over_din_pages": 0.0,
+        "rowshape_over_din_pages": 1.0,
+        "flagged_over_din_pages": 1.0
+      },
+      "legend_detected": false,
+      "fit_to_run": false,
+      "fit_reasons": [
+        "Legend page not detected in first 3 pages",
+        "Too few DIN pages (3 < 10)",
+        "Low header detection (0%)",
+        "High flagged pages (100%)"
+      ],
+      "flagged_pages_count": 3
+    },
+    "V": {
+      "status": "ok",
+      "input": "D:\\quad99\\Scrappers\\output\\canada_quebec\\split_pdf\\annexe_v.pdf",
+      "pages_total": 542,
+      "pages_with_din": 460,
+      "pages_with_headers": 477,
+      "pages_rowshape_ok": 460,
+      "ratios": {
+        "headers_over_all_pages": 0.8801,
+        "headers_over_din_pages": 1.037,
+        "rowshape_over_din_pages": 1.0,
+        "flagged_over_din_pages": 1.0
+      },
+      "legend_detected": true,
+      "fit_to_run": false,
+      "fit_reasons": [
+        "High flagged pages (100%)"
+      ],
+      "flagged_pages_count": 460
+    }
+  }
+}

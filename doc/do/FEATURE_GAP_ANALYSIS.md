@@ -17,8 +17,8 @@
 - Automatic retry with exponential backoff
 
 **Current State:**
-- ✅ Basic scheduler exists (`scripts/common/scheduler.py`)
-- ✅ Worker module exists (`scripts/common/worker.py`) - PostgreSQL-based queue
+- ✅ Basic scheduler exists (`services/scheduler.py`)
+- ✅ Worker module exists (`services/worker.py`) - PostgreSQL-based queue
 - ⚠️ Uses PostgreSQL queue instead of Celery/RQ
 - ⚠️ May need testing/integration
 - ❌ No Celery/RQ integration (uses custom PostgreSQL queue)
@@ -203,8 +203,8 @@
 - SDK for integrations
 
 **Current State:**
-- ✅ Basic API (`scripts/common/pipeline_api.py` - Flask)
-- ✅ Webhook notifications (`scripts/common/webhook_notifications.py`)
+- ✅ Basic API (`services/pipeline_api.py` - Flask)
+- ✅ Webhook notifications (`services/webhook_notifications.py`)
 - ❌ No FastAPI gateway
 - ❌ No WebSocket support
 - ❌ No SDK
@@ -283,18 +283,18 @@
 ### High-Value Features
 - ✅ Audit Logging (`core/audit_logger.py`)
 - ✅ Performance Benchmarking (`core/benchmarking.py`)
-- ✅ Pipeline Scheduling (`scripts/common/scheduler.py`)
-- ✅ API Endpoints (`scripts/common/pipeline_api.py` - Flask)
+- ✅ Pipeline Scheduling (`services/scheduler.py`)
+- ✅ API Endpoints (`services/pipeline_api.py` - Flask)
 - ✅ Run Comparison Tool (`core/run_comparison.py`)
 - ✅ Anomaly Detection (`core/anomaly_detection.py`)
 - ✅ Export Delivery Tracking (`core/export_delivery_tracking.py`)
 - ✅ Trend Analysis (`core/trend_analysis.py`)
-- ✅ Webhook Notifications (`scripts/common/webhook_notifications.py`)
+- ✅ Webhook Notifications (`services/webhook_notifications.py`)
 - ✅ Cost Tracking (`core/cost_tracking.py`)
-- ✅ Backup & Archive (`scripts/common/backup_archive.py`)
-- ✅ Run Replay Tool (`scripts/common/run_replay.py`)
-- ✅ Documentation Generator (`scripts/common/doc_generator.py`)
-- ✅ Pipeline Testing Framework (`scripts/common/pipeline_tests.py`)
+- ✅ Backup & Archive (`services/backup_archive.py`)
+- ✅ Run Replay Tool (`services/run_replay.py`)
+- ✅ Documentation Generator (`services/doc_generator.py`)
+- ✅ Pipeline Testing Framework (`services/pipeline_tests.py`)
 - ✅ Run Rollback (`core/run_rollback.py`)
 - ✅ Dashboard Module (`core/dashboard.py`)
 

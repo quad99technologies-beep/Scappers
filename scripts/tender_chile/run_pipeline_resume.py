@@ -17,17 +17,33 @@ import time
 from pathlib import Path
 from datetime import datetime
 
-# Add repo root to path
+# Add repo root and script dir to path (script dir first for config_loader/db)
 _repo_root = Path(__file__).resolve().parents[2]
+_script_dir = Path(__file__).parent
+print(f"[DEBUG] _repo_root: {_repo_root}", flush=True)
+print(f"[DEBUG] _script_dir: {_script_dir}", flush=True)
+print(f"[DEBUG] sys.path before: {sys.path[:3]}...", flush=True)
+if str(_script_dir) in sys.path:
+    sys.path.remove(str(_script_dir))
+sys.path.insert(0, str(_script_dir))
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
+print(f"[DEBUG] sys.path after: {sys.path[:3]}...", flush=True)
+print(f"[DEBUG] core exists: {(_repo_root / 'core').exists()}", flush=True)
 
-# Add scripts/Tender- Chile to path for imports
-_script_dir = Path(__file__).parent
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
+# Clear conflicting db/config when run in same process as other scrapers (e.g. GUI)
+for mod in list(sys.modules.keys()):
+    if mod == "db" or mod.startswith("db."):
+        del sys.modules[mod]
+if "config_loader" in sys.modules:
+    del sys.modules["config_loader"]
 
-from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
+try:
+    from core.pipeline.pipeline_checkpoint import get_checkpoint_manager
+except ImportError as e:
+    print(f"[ERROR] Failed to import checkpoint manager: {e}", flush=True)
+    print(f"[ERROR] sys.path: {sys.path}", flush=True)
+    raise
 from config_loader import get_output_dir
 
 # Import startup recovery
@@ -62,13 +78,13 @@ except ImportError:
 # Import foundation contracts
 try:
     from core.pipeline.preflight_checks import PreflightChecker, CheckSeverity
-    from core.step_hooks import StepHookRegistry, StepMetrics
-    from core.alerting_integration import setup_alerting_hooks
+    from core.pipeline.step_hooks import StepHookRegistry, StepMetrics
+    from core.monitoring.alerting_integration import setup_alerting_hooks
     from core.data.data_quality_checks import DataQualityChecker
-    from core.audit_logger import audit_log
+    from core.monitoring.audit_logger import audit_log
     from core.monitoring.benchmarking import record_step_benchmark
     from core.monitoring.prometheus_exporter import init_prometheus_metrics
-    from scripts.common.frontier_integration import initialize_frontier_for_scraper
+    from services.frontier_integration import initialize_frontier_for_scraper
     _FOUNDATION_AVAILABLE = True
     _PROMETHEUS_AVAILABLE = True
     _FRONTIER_AVAILABLE = True
@@ -152,6 +168,11 @@ def get_db_resume_state(run_id: str) -> Dict[str, Any]:
     """
     if not run_id:
         return {"next_step": 0, "completed_steps": [], "stats": {}}
+    
+    # Ensure script dir is in path for db module import
+    _script_dir = Path(__file__).parent
+    if str(_script_dir) not in sys.path:
+        sys.path.insert(0, str(_script_dir))
     
     try:
         from core.db.connection import CountryDB
@@ -361,7 +382,7 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
         
         # MEMORY FIX: Periodic resource monitoring
         try:
-            from core.resource_monitor import periodic_resource_check
+            from core.monitoring.resource_monitor import periodic_resource_check
             resource_status = periodic_resource_check(SCRAPER_NAME, force=False)
             if resource_status.get("warnings"):
                 for warning in resource_status["warnings"]:
@@ -568,6 +589,11 @@ def main():
                 return run_id_file.read_text(encoding="utf-8").strip()
             raise RuntimeError("No run_id found. Run Step 0 first or set TENDER_CHILE_RUN_ID.")
 
+        # Ensure script dir is in path for db module import
+        _script_dir = Path(__file__).parent
+        if str(_script_dir) not in sys.path:
+            sys.path.insert(0, str(_script_dir))
+        
         from core.db.connection import CountryDB
         from db.repositories import ChileRepository
 

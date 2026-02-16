@@ -29,8 +29,14 @@ CREATE TABLE IF NOT EXISTS co_products (
     dosage_form TEXT,
     pack_size TEXT,
     unit_price REAL,
+    reimbursable_price REAL,
+    public_with_vat REAL,
+    copay REAL,
     interchangeability TEXT,
     benefit_status TEXT,
+    price_type TEXT,
+    limited_use TEXT,
+    therapeutic_notes TEXT,
     source_url TEXT,
     scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -204,9 +210,27 @@ CANADA_ONTARIO_SCHEMA_DDL = [
 ]
 
 
+def _migrate_co_products_columns(db) -> None:
+    """Add new columns to co_products if they don't exist (for existing deployments)."""
+    alters = [
+        "ALTER TABLE co_products ADD COLUMN reimbursable_price REAL",
+        "ALTER TABLE co_products ADD COLUMN public_with_vat REAL",
+        "ALTER TABLE co_products ADD COLUMN copay REAL",
+        "ALTER TABLE co_products ADD COLUMN price_type TEXT",
+        "ALTER TABLE co_products ADD COLUMN limited_use TEXT",
+        "ALTER TABLE co_products ADD COLUMN therapeutic_notes TEXT",
+    ]
+    for sql in alters:
+        try:
+            db.execute(sql)
+        except Exception:
+            pass  # Column may already exist
+
+
 def apply_canada_ontario_schema(db) -> None:
     """Apply all Canada Ontario-specific DDL to a CountryDB instance."""
     from core.db.models import apply_common_schema
     apply_common_schema(db)
     for ddl in CANADA_ONTARIO_SCHEMA_DDL:
         db.executescript(ddl)
+    _migrate_co_products_columns(db)

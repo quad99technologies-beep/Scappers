@@ -187,7 +187,7 @@ class Quest3Scraper(BaseScraper):
         if not rows:
             print(f"[BULK] No search keywords found in my_input_products table.", flush=True)
             print(f"[BULK] Please upload your search keywords:", flush=True)
-            print(f"[BULK]   python scripts/Malaysia/import_search_keywords.py input/Malaysia/products.csv", flush=True)
+            print(f"[BULK]   Upload via GUI Input page, or: python scripts/Malaysia/import_search_keywords.py <path_to_csv>", flush=True)
             print(f"[BULK] Skipping bulk search, proceeding to individual detail pages.", flush=True)
             return
 

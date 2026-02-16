@@ -24,7 +24,7 @@ This platform supports multiple scrapers for pharmaceutical data extraction:
 - **Shared Utilities** - Common code in `core/` to reduce duplication
 - **Platform Config** - Centralized path and config management
 - **Workflow Runner** - Shared workflow execution (`shared_workflow_runner.py`)
-- **Telegram Bot** - Notifications and remote control (`telegram_bot.py`)
+- **Telegram Bot** - Notifications and remote control (`tools/telegram_bot.py`)
 - **Comprehensive Documentation** - Organized docs in `doc/`
 
 ## Quick Start
@@ -95,7 +95,7 @@ Scrappers/
 ├── scraper_gui.py          # Main GUI application
 ├── platform_config.py      # Platform configuration
 ├── shared_workflow_runner.py  # Workflow execution
-├── telegram_bot.py         # Telegram bot
+├── tools/telegram_bot.py   # Telegram bot
 ├── setup_config.py         # Setup utilities
 ├── doctor.py               # Diagnostics tool
 ├── new.py                  # New scraper template
@@ -165,7 +165,7 @@ All scrapers use JSON configuration files in `config/` directory:
 ### Main Entry Points
 - `scraper_gui.py` - Main GUI for all scrapers
 - `shared_workflow_runner.py` - Workflow execution engine
-- `telegram_bot.py` - Telegram notifications and control
+- `tools/telegram_bot.py` - Telegram notifications and control
 - `platform_config.py` - Centralized configuration
 
 ### Utility Scripts

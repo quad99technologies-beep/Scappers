@@ -41,7 +41,7 @@ except ImportError:
     DB_AVAILABLE = False
     NetherlandsRepository = None
 
-from core.standalone_checkpoint import run_with_checkpoint
+from core.pipeline.standalone_checkpoint import run_with_checkpoint
 
 # Load environment variables from .env file
 load_env_file()
