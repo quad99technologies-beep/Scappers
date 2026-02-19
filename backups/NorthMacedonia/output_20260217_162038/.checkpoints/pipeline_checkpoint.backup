@@ -1,0 +1,33 @@
+{
+  "scraper": "NorthMacedonia",
+  "last_run": "2026-02-17T16:09:08.783602",
+  "completed_steps": [
+    0
+  ],
+  "step_outputs": {
+    "step_0": {
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "completed_at": "2026-02-17T16:09:08.783537",
+      "output_files": [],
+      "duration_seconds": 2.2116291522979736
+    }
+  },
+  "metadata": {},
+  "events": [
+    {
+      "timestamp": "2026-02-17T16:09:08.783559",
+      "event_type": "step_completed",
+      "status": "completed",
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "source": "checkpoint",
+      "details": {
+        "duration_seconds": 2.2116291522979736,
+        "output_count": 0
+      },
+      "sequence": 1
+    }
+  ],
+  "event_seq": 1
+}

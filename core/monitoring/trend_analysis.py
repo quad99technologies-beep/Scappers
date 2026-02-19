@@ -6,7 +6,7 @@ Multi-Run Trend Analysis
 Analyze trends across multiple runs.
 
 Usage:
-    from core.trend_analysis import analyze_trends
+    from core.monitoring.trend_analysis import analyze_trends
     
     trends = analyze_trends("Malaysia", days=30)
 """

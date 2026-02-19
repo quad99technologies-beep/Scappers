@@ -1,0 +1,32 @@
+{
+  "scraper": "Argentina",
+  "last_run": "2026-02-16T23:04:56.682046",
+  "completed_steps": [
+    0
+  ],
+  "step_outputs": {
+    "step_0": {
+      "step_number": 0,
+      "step_name": "Backup and Clean + DB Init",
+      "completed_at": "2026-02-16T23:04:56.682022",
+      "output_files": []
+    }
+  },
+  "metadata": {},
+  "events": [
+    {
+      "timestamp": "2026-02-16T23:04:56.682032",
+      "event_type": "step_completed",
+      "status": "completed",
+      "step_number": 0,
+      "step_name": "Backup and Clean + DB Init",
+      "source": "checkpoint",
+      "details": {
+        "duration_seconds": null,
+        "output_count": 0
+      },
+      "sequence": 1
+    }
+  ],
+  "event_seq": 1
+}

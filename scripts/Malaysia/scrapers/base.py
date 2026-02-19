@@ -20,6 +20,11 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Optional, Set
 
+# Add repo root to path for core imports (MUST be before any core imports)
+_repo_root = Path(__file__).resolve().parents[3]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
 from playwright.sync_api import sync_playwright, Browser, BrowserContext, Page, Playwright
 
 logger = logging.getLogger(__name__)

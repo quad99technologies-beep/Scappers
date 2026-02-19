@@ -216,6 +216,8 @@ ARGENTINA_SCHEMA_DDL = [
 
 def apply_argentina_schema(db) -> None:
     """Apply all Argentina-specific DDL to a CountryDB/PostgresDB instance."""
+    import logging
+    _log = logging.getLogger(__name__)
     from core.db.models import apply_common_schema
 
     apply_common_schema(db)
@@ -226,21 +228,21 @@ def apply_argentina_schema(db) -> None:
     for old_table in ("ar_ignore_list", "ar_oos_urls"):
         try:
             db.execute(f"DROP TABLE IF EXISTS {old_table} CASCADE")
-        except Exception:
-            pass
+        except Exception as e:
+            _log.warning(f"Migration: drop {old_table} failed: {e}")
 
     # Lightweight migrations (must use execute(), not executescript()) because executescript
     # naively splits on semicolons and cannot safely run procedural blocks.
     try:
         db.execute("ALTER TABLE ar_products ADD COLUMN IF NOT EXISTS record_hash TEXT")
-    except Exception:
-        pass
+    except Exception as e:
+        _log.warning(f"Migration: add record_hash column failed: {e}")
 
     # Add scrape_source column to ar_product_index (tracks which step scraped the product)
     try:
         db.execute("ALTER TABLE ar_product_index ADD COLUMN IF NOT EXISTS scrape_source TEXT")
-    except Exception:
-        pass
+    except Exception as e:
+        _log.warning(f"Migration: add scrape_source column failed: {e}")
 
     # Update ar_products source constraint to allow more granular sources
     try:
@@ -258,8 +260,8 @@ def apply_argentina_schema(db) -> None:
             END $$
             """
         )
-    except Exception:
-        pass
+    except Exception as e:
+        _log.warning(f"Migration: update source constraint failed: {e}")
 
     try:
         db.execute(
@@ -272,8 +274,8 @@ def apply_argentina_schema(db) -> None:
                  END
             """
         )
-    except Exception:
-        pass
+    except Exception as e:
+        _log.warning(f"Migration: alter ar_products price_ars type failed: {e}")
 
     try:
         db.execute(
@@ -286,8 +288,8 @@ def apply_argentina_schema(db) -> None:
                  END
             """
         )
-    except Exception:
-        pass
+    except Exception as e:
+        _log.warning(f"Migration: alter ar_products_translated price_ars type failed: {e}")
 
     # Drop any legacy UNIQUE constraints (previously UNIQUE(run_id, input_company, input_product_name, source))
     # so we can store multiple presentation rows per product.
@@ -308,8 +310,8 @@ def apply_argentina_schema(db) -> None:
             END $$
             """
         )
-    except Exception:
-        pass
+    except Exception as e:
+        _log.warning(f"Migration: drop legacy unique constraints failed: {e}")
 
     # Backfill hash for existing rows (best-effort).
     try:
@@ -333,8 +335,8 @@ def apply_argentina_schema(db) -> None:
              WHERE record_hash IS NULL OR record_hash = ''
             """
         )
-    except Exception:
-        pass
+    except Exception as e:
+        _log.warning(f"Migration: backfill record_hash failed: {e}")
 
     # If legacy runs produced duplicates, remove exact duplicates before enforcing uniqueness.
     try:
@@ -348,8 +350,8 @@ def apply_argentina_schema(db) -> None:
               AND a.record_hash = b.record_hash
             """
         )
-    except Exception:
-        pass
+    except Exception as e:
+        _log.warning(f"Migration: deduplicate ar_products failed: {e}")
 
     # Enforce uniqueness per scraped row (run_id + record_hash).
     try:

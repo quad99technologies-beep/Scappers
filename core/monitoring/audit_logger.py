@@ -6,7 +6,7 @@ Audit Logging
 Tracks who did what and when for compliance and debugging.
 
 Usage:
-    from core.audit_logger import audit_log
+    from core.monitoring.audit_logger import audit_log
     
     audit_log(
         action="run_started",

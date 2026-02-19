@@ -27,6 +27,41 @@ log = logging.getLogger("db_handler")
 
 # Schema Definitions
 SCHEMA_SQL = """
+-- Annexe III (Price Limit Products)
+CREATE TABLE IF NOT EXISTS {prefix}annexe_iii (
+    id SERIAL PRIMARY KEY,
+    run_id TEXT,
+    generic_name TEXT,
+    formulation TEXT,
+    din TEXT,
+    brand TEXT,
+    manufacturer TEXT,
+    format_str TEXT,
+    price TEXT,
+    unit_price TEXT,
+    page_num INTEGER,
+    annexe TEXT DEFAULT 'III',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(run_id, brand, formulation, manufacturer) 
+);
+
+-- Annexe IV (Exceptions - Primarily Text)
+CREATE TABLE IF NOT EXISTS {prefix}annexe_iv (
+    id SERIAL PRIMARY KEY,
+    run_id TEXT,
+    generic_name TEXT,
+    formulation TEXT,
+    din TEXT,
+    brand TEXT,
+    manufacturer TEXT,
+    format_str TEXT,
+    price TEXT,
+    unit_price TEXT,
+    page_num INTEGER,
+    annexe TEXT DEFAULT 'IV',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Annexe IV.1 (Exception Drugs - Text Heavy)
 CREATE TABLE IF NOT EXISTS {prefix}annexe_iv1 (
     id SERIAL PRIMARY KEY,
@@ -186,11 +221,14 @@ class DBHandler:
                 d.get("annexe", table_suffix.replace("annexe_", "").upper())
             ))
 
+        if table_suffix == "annexe_iii":
+            conflict_cols = "(run_id, brand, formulation, manufacturer)"
+        else:
+            conflict_cols = "(run_id, din, format_str, price)"
+
         placeholders = ",".join(["%s"] * len(columns))
-        # Updateupsert on Conflict
-        # We now conflict on (run_id, din, format_str, price)
-        # This allows multiple rows for same DIN but diff format/price
-        sql = f"INSERT INTO {table_name} ({','.join(columns)}) VALUES ({placeholders}) ON CONFLICT (run_id, din, format_str, price) DO UPDATE SET generic_name = EXCLUDED.generic_name, formulation = EXCLUDED.formulation, brand = EXCLUDED.brand, manufacturer = EXCLUDED.manufacturer, unit_price = EXCLUDED.unit_price, page_num = EXCLUDED.page_num"
+        # Update/upsert on Conflict
+        sql = f"INSERT INTO {table_name} ({','.join(columns)}) VALUES ({placeholders}) ON CONFLICT {conflict_cols} DO UPDATE SET generic_name = EXCLUDED.generic_name, formulation = EXCLUDED.formulation, brand = EXCLUDED.brand, manufacturer = EXCLUDED.manufacturer, unit_price = EXCLUDED.unit_price, page_num = EXCLUDED.page_num"
         
         log.info(f"Inserting {len(values_list)} rows into {table_name}")
         self.db.executemany(sql, values_list)
@@ -231,7 +269,7 @@ class DBHandler:
     def get_run_stats(self, run_id: str):
         """Get stats for verification."""
         stats = {}
-        for suffix in ["annexe_iv1", "annexe_iv2", "annexe_v"]:
+        for suffix in ["annexe_iii", "annexe_iv", "annexe_iv1", "annexe_iv2", "annexe_v"]:
              table = f"{self.prefix}{suffix}"
              with self.db.cursor() as cur:
                  cur.execute(f"SELECT COUNT(*) FROM {table} WHERE run_id = %s", (run_id,))

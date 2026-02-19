@@ -6,14 +6,23 @@ Centralises all DB access for the Argentina scraper so the pipeline can move
 away from CSV inputs/progress files. Mirrors the Malaysia repository pattern.
 """
 
+import sys
 from datetime import datetime
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
+from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Sequence
 
 import logging
 import hashlib
 import re
 from typing import Set, Tuple
+
+# Add repo root to path for core imports (MUST be before any core imports)
+_REPO_ROOT = Path(__file__).resolve().parents[3]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
+
+from core.db.base_repository import BaseRepository
 from core.utils.text_utils import nk
 
 try:
@@ -25,27 +34,11 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
-class ArgentinaRepository:
+class ArgentinaRepository(BaseRepository):
     """All Argentina-specific DB operations."""
 
-    def __init__(self, db, run_id: str):
-        self.db = db
-        self.run_id = run_id
-
-    def _db_log(self, message: str) -> None:
-        """Emit a [DB] activity log line for GUI activity panel."""
-        try:
-            print(f"[DB] {message}", flush=True)
-        except Exception:
-            pass
-
-    def _table(self, name: str) -> str:
-        """Get table name with Argentina prefix."""
-        return f"ar_{name}"
-
-    # ------------------------------------------------------------------ #
-    # Utility: clear step data                                           #
-    # ------------------------------------------------------------------ #
+    SCRAPER_NAME = "Argentina"
+    TABLE_PREFIX = "ar"
 
     _STEP_TABLE_MAP = {
         1: ("product_index",),  # Step 1: Get Product List
@@ -56,86 +49,8 @@ class ArgentinaRepository:
         6: ("export_reports",),  # Step 6: Generate Output
     }
 
-    def clear_step_data(self, step: int, include_downstream: bool = False) -> Dict[str, int]:
-        """
-        Delete data for the given step (and optionally downstream steps) for this run_id.
-
-        Args:
-            step: Pipeline step number (1-6)
-            include_downstream: If True, also clear tables for all later steps.
-
-        Returns:
-            Dict mapping full table name -> rows deleted.
-        """
-        if step not in self._STEP_TABLE_MAP:
-            raise ValueError(f"Unsupported step {step}; valid steps: {sorted(self._STEP_TABLE_MAP)}")
-
-        steps = [s for s in sorted(self._STEP_TABLE_MAP) if s == step or (include_downstream and s >= step)]
-        deleted: Dict[str, int] = {}
-        with self.db.cursor() as cur:
-            for s in steps:
-                for short_name in self._STEP_TABLE_MAP[s]:
-                    table = self._table(short_name)
-                    cur.execute(f"DELETE FROM {table} WHERE run_id = %s", (self.run_id,))
-                    deleted[table] = cur.rowcount
-        try:
-            self.db.commit()
-        except Exception:
-            # Connection class may autocommit; ignore if commit is unavailable.
-            pass
-
-        self._db_log(f"CLEAR | steps={steps} tables={','.join(deleted)} run_id={self.run_id}")
-        return deleted
-
-    # ------------------------------------------------------------------ #
-    # Run lifecycle                                                      #
-    # ------------------------------------------------------------------ #
-    def start_run(self, mode: str = "fresh") -> None:
-        from core.db.models import run_ledger_start
-
-        sql, params = run_ledger_start(self.run_id, "Argentina", mode=mode)
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"OK | run_ledger start | run_id={self.run_id} mode={mode}")
-
-    def finish_run(
-        self,
-        status: str,
-        items_scraped: int = 0,
-        items_exported: int = 0,
-        error_message: Optional[str] = None,
-    ) -> None:
-        from core.db.models import run_ledger_finish
-
-        sql, params = run_ledger_finish(
-            self.run_id,
-            status,
-            items_scraped=items_scraped,
-            items_exported=items_exported,
-            error_message=error_message,
-        )
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"FINISH | run_ledger updated | status={status} items={items_scraped}")
-
-    def ensure_run_in_ledger(self, mode: str = "resume") -> None:
-        """Ensure this run_id exists in run_ledger (insert if missing).
-        Use when resuming or when a step runs with a run_id that may not have been
-        inserted (e.g. step 0 was skipped or run_ledger was truncated)."""
-        from core.db.models import run_ledger_ensure_exists
-
-        sql, params = run_ledger_ensure_exists(self.run_id, "Argentina", mode=mode)
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"OK | run_ledger ensure | run_id={self.run_id}")
-
-    def resume_run(self) -> None:
-        from core.db.models import run_ledger_resume
-
-        sql, params = run_ledger_resume(self.run_id)
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"RESUME | run_ledger updated | run_id={self.run_id}")
+    def __init__(self, db, run_id: str):
+        super().__init__(db, run_id)
 
     # ------------------------------------------------------------------ #
     # Product index / queue (prepared URLs replacement)                  #
@@ -307,6 +222,62 @@ class ArgentinaRepository:
         with self.db.cursor(dict_cursor=True) as cur:
             cur.execute(sql, (self.run_id, max_loop, limit))
             return [dict(row) for row in cur.fetchall()]
+
+    def claim_pending_products(self, worker_id: str, max_loop: int = 5, limit: int = 10) -> List[Dict]:
+        """
+        Atomically fetch and lock pending products for distributed processing.
+        Uses SKIP LOCKED to prevent race conditions between workers.
+        Marks items as 'in_progress' and assigns worker_id.
+        """
+        sql = """
+            UPDATE ar_product_index
+            SET status = 'in_progress',
+                last_attempt_at = CURRENT_TIMESTAMP,
+                last_attempt_source = 'selenium',
+                error_message = NULL  -- Clear previous errors on retry
+            WHERE id IN (
+                SELECT id
+                FROM ar_product_index
+                WHERE run_id = %s
+                  AND total_records = 0
+                  AND loop_count < %s
+                  AND status IN ('pending', 'failed') -- Don't pick up 'in_progress' to avoid stealing from active workers
+                ORDER BY loop_count ASC, id ASC
+                LIMIT %s
+                FOR UPDATE SKIP LOCKED
+            )
+            RETURNING id, product, company, url, loop_count, total_records
+        """
+        try:
+            with self.db.cursor(dict_cursor=True) as cur:
+                cur.execute(sql, (self.run_id, max_loop, limit))
+                results = [dict(row) for row in cur.fetchall()]
+                self.db.commit()  # Commit the claim immediately
+                if results:
+                    self._db_log(f"CLAIMED | worker={worker_id} count={len(results)}")
+                return results
+        except Exception as e:
+            self.db.rollback()
+            logger.error(f"[CLAIM_ERROR] Failed to claim products: {e}")
+            return []
+
+    def reset_product_status(self, product_id: int, status: str = 'pending', error_msg: str = None):
+        """Reset product status (e.g. for requeue)."""
+        sql = """
+            UPDATE ar_product_index
+            SET status = %s,
+                worker_id = NULL,
+                error_message = %s,
+                last_attempt_at = CURRENT_TIMESTAMP
+            WHERE id = %s
+        """
+        try:
+            with self.db.cursor() as cur:
+                cur.execute(sql, (status, error_msg, product_id))
+            self.db.commit()
+        except Exception as e:
+            self.db.rollback()
+            logger.error(f"[RESET_ERROR] Failed to reset product {product_id}: {e}")
 
     def mark_attempt(
         self,

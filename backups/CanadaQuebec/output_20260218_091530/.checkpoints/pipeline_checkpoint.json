@@ -1,0 +1,40 @@
+{
+  "scraper": "CanadaQuebec",
+  "last_run": "2026-02-18T09:15:28.937648",
+  "completed_steps": [],
+  "step_outputs": {},
+  "metadata": {
+    "current_step": 0,
+    "current_step_name": "Backup and Clean",
+    "status": "running"
+  },
+  "events": [
+    {
+      "timestamp": "2026-02-18T09:15:28.937620",
+      "event_type": "status_changed",
+      "status": "running",
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "source": "metadata",
+      "details": {
+        "from": null,
+        "to": "running"
+      },
+      "sequence": 1
+    },
+    {
+      "timestamp": "2026-02-18T09:15:28.937638",
+      "event_type": "step_pointer_changed",
+      "status": "running",
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "source": "metadata",
+      "details": {
+        "previous_step_number": null,
+        "previous_step_name": null
+      },
+      "sequence": 2
+    }
+  ],
+  "event_seq": 2
+}

@@ -9,6 +9,18 @@ Processes products selected from ar_product_index where:
 import csv
 import os
 import re
+import sys
+from pathlib import Path
+
+# Add project root to sys.path to allow 'core' imports
+project_root = Path(__file__).resolve().parents[2]
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
+# Add script dir to sys.path to allow local imports
+script_dir = Path(__file__).resolve().parent
+if str(script_dir) not in sys.path:
+    sys.path.insert(0, str(script_dir))
 import json
 import time
 import logging
@@ -42,19 +54,22 @@ except ImportError:
 # across threads instead of opening a new socket per API call).
 # ---------------------------------------------------------------------------
 _api_session: "requests.Session | None" = None
+_api_session_lock = threading.Lock()
 
 def _get_api_session() -> "requests.Session":
     """Lazy-init a shared requests.Session with connection-pool and retry."""
     global _api_session
     if _api_session is None:
-        s = requests.Session()
-        retry = _Urllib3Retry(total=2, backoff_factor=0.3,
-                              status_forcelist=[429, 502, 503, 504])
-        adapter = HTTPAdapter(pool_connections=10, pool_maxsize=20,
-                              max_retries=retry)
-        s.mount("https://", adapter)
-        s.mount("http://", adapter)
-        _api_session = s
+        with _api_session_lock:
+            if _api_session is None:  # Double-check after acquiring lock
+                s = requests.Session()
+                retry = _Urllib3Retry(total=2, backoff_factor=0.3,
+                                      status_forcelist=[429, 502, 503, 504])
+                adapter = HTTPAdapter(pool_connections=10, pool_maxsize=20,
+                                      max_retries=retry)
+                s.mount("https://", adapter)
+                s.mount("http://", adapter)
+                _api_session = s
     return _api_session
 
 # Ensure Argentina directory is at the front of sys.path to prioritize local 'db' package
@@ -91,8 +106,15 @@ from scraper_utils import (
     CSV_LOCK, ERROR_LOCK
 )
 from core.db.connection import CountryDB
-from db.repositories import ArgentinaRepository
-from db.schema import apply_argentina_schema
+try:
+    from db.repositories import ArgentinaRepository
+except ImportError:
+    from scripts.Argentina.db.repositories import ArgentinaRepository
+
+try:
+    from db.schema import apply_argentina_schema
+except ImportError:
+    from scripts.Argentina.db.schema import apply_argentina_schema
 from core.db.models import generate_run_id
 
 # ====== PATHS ======

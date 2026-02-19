@@ -6,7 +6,6 @@ Processes products from ar_product_index (pending rows with URL).
 Rotates accounts every 50 searches or when captcha is detected.
 """
 
-import csv
 import re
 import json
 import time
@@ -19,6 +18,8 @@ import shutil
 import threading
 import signal
 import sys
+import os
+import socket
 import atexit
 import gc
 from pathlib import Path
@@ -199,9 +200,18 @@ import socket
 from webdriver_manager.firefox import GeckoDriverManager
 
 from core.db.connection import CountryDB
-from db.repositories import ArgentinaRepository
-from db.schema import apply_argentina_schema
+try:
+    from db.repositories import ArgentinaRepository
+except ImportError:
+    from scripts.Argentina.db.repositories import ArgentinaRepository
+
+try:
+    from db.schema import apply_argentina_schema
+except ImportError:
+    from scripts.Argentina.db.schema import apply_argentina_schema
 from core.db.models import generate_run_id
+from core.browser.driver_factory import create_firefox_driver
+from core.network.tor_manager import ensure_tor_proxy_running, is_port_open
 
 # ====== FINGERPRINT / SESSION ISOLATION ======
 UA_POOL = [
@@ -245,28 +255,48 @@ def pick_fingerprint() -> dict:
 # ====== CONFIG ======
 # ====== CONFIG ======
 from core.config.config_manager import ConfigManager, get_env_bool, get_env_int, get_env_float
+ConfigManager.load_env("Argentina")
 
 def get_input_dir(): return ConfigManager.get_input_dir("Argentina")
 def get_output_dir(): return ConfigManager.get_output_dir("Argentina")
 
-ALFABETA_USER = ConfigManager.get_env_value("Argentina", "ALFABETA_USER", "")
-ALFABETA_PASS = ConfigManager.get_env_value("Argentina", "ALFABETA_PASS", "")
-HEADLESS = get_env_bool("Argentina", "HEADLESS", True)
-HUB_URL = ConfigManager.get_env_value("Argentina", "HUB_URL", "")
-PRODUCTS_URL = ConfigManager.get_env_value("Argentina", "PRODUCTS_URL", "http://www.alfabeta.net/precio/")
-SELENIUM_ROTATION_LIMIT = get_env_int("Argentina", "SELENIUM_ROTATION_LIMIT", 50)
-SELENIUM_THREADS = get_env_int("Argentina", "SELENIUM_THREADS", 1)
-SELENIUM_SINGLE_ATTEMPT = get_env_bool("Argentina", "SELENIUM_SINGLE_ATTEMPT", False)
-SELENIUM_MAX_LOOPS = get_env_int("Argentina", "SELENIUM_MAX_LOOPS", 3)
-SELENIUM_PRODUCTS_PER_RESTART = get_env_int("Argentina", "SELENIUM_PRODUCTS_PER_RESTART", 500)
-DUPLICATE_RATE_LIMIT_SECONDS = get_env_int("Argentina", "DUPLICATE_RATE_LIMIT_SECONDS", 120)
-SKIP_REPEAT_SELENIUM_TO_API = get_env_bool("Argentina", "SKIP_REPEAT_SELENIUM_TO_API", True)
+from config_loader import (
+    ALFABETA_USER, ALFABETA_PASS, HEADLESS, MAX_ROWS,
+    PROXY_1, PROXY_2, PROXY_3,
+    SELENIUM_ROTATION_LIMIT, RATE_LIMIT_PRODUCTS, RATE_LIMIT_SECONDS,
+    DEFAULT_THREADS, MIN_THREADS, MAX_THREADS, SELENIUM_THREADS,
+    SELENIUM_SINGLE_ATTEMPT, SELENIUM_ROUND_ROBIN_RETRY,
+    SELENIUM_MAX_ATTEMPTS_PER_PRODUCT,
+    MAX_BROWSER_RUNTIME_SECONDS,
+    PAGE_LOAD_TIMEOUT, IMPLICIT_WAIT,
+    WAIT_SHORT, WAIT_LONG, WAIT_ALERT,
+    WAIT_SEARCH_FORM, WAIT_SEARCH_RESULTS,
+    PAUSE_BETWEEN_OPERATIONS, PAUSE_RETRY,
+    PAUSE_CPU_THROTTLE, PAUSE_HTML_LOAD,
+    PAUSE_SHORT, PAUSE_MEDIUM, PAUSE_AFTER_ALERT,
+    TOR_CONTROL_HOST, TOR_CONTROL_PORT, TOR_CONTROL_PASSWORD,
+    TOR_CONTROL_COOKIE_FILE, TOR_NEWNYM_ENABLED, TOR_NEWNYM_INTERVAL_SECONDS,
+    TOR_SOCKS_PORT, REQUIRE_TOR_PROXY,
+    SURFSHARK_RECONNECT_CMD, SURFSHARK_ROTATE_INTERVAL_SECONDS,
+    SURFSHARK_IP_CHANGE_TIMEOUT_SECONDS,
+    CPU_THROTTLE_HIGH, CPU_THROTTLE_MEDIUM,
+    PREPARED_URLS_FILE, OUTPUT_PRODUCTS_CSV, OUTPUT_PROGRESS_CSV, OUTPUT_ERRORS_CSV,
+    SELENIUM_PRODUCTS_PER_RESTART, DUPLICATE_RATE_LIMIT_SECONDS,
+    SKIP_REPEAT_SELENIUM_TO_API, PRODUCTS_URL
+)
+
+# The following variables are now imported from config_loader, so the direct ConfigManager calls are removed.
+# PRODUCTS_URL = ConfigManager.get_env_value("Argentina", "PRODUCTS_URL", "http://www.alfabeta.net/precio/")
+# SELENIUM_MAX_LOOPS = get_env_int("Argentina", "SELENIUM_MAX_LOOPS", 3)
+# SELENIUM_PRODUCTS_PER_RESTART = get_env_int("Argentina", "SELENIUM_PRODUCTS_PER_RESTART", 500)
+# DUPLICATE_RATE_LIMIT_SECONDS = get_env_int("Argentina", "DUPLICATE_RATE_LIMIT_SECONDS", 2)
+# SKIP_REPEAT_SELENIUM_TO_API = get_env_bool("Argentina", "SKIP_REPEAT_SELENIUM_TO_API", True)
 USE_API_STEPS = get_env_bool("Argentina", "USE_API_STEPS", False)
-REQUEST_PAUSE_BASE = get_env_float("Argentina", "REQUEST_PAUSE_BASE", 2.0)
-REQUEST_PAUSE_JITTER_MIN = get_env_float("Argentina", "REQUEST_PAUSE_JITTER_MIN", 0.5)
-REQUEST_PAUSE_JITTER_MAX = get_env_float("Argentina", "REQUEST_PAUSE_JITTER_MAX", 1.5)
-WAIT_ALERT = get_env_int("Argentina", "WAIT_ALERT", 5)
-WAIT_SEARCH_FORM = get_env_int("Argentina", "WAIT_SEARCH_FORM", 10)
+REQUEST_PAUSE_BASE = get_env_float("Argentina", "REQUEST_PAUSE_BASE", 0.20)  # 0.2s base delay (old fast setting)
+REQUEST_PAUSE_JITTER_MIN = get_env_float("Argentina", "REQUEST_PAUSE_JITTER_MIN", 0.05)
+REQUEST_PAUSE_JITTER_MAX = get_env_float("Argentina", "REQUEST_PAUSE_JITTER_MAX", 0.20)
+# WAIT_ALERT = get_env_int("Argentina", "WAIT_ALERT", 5) # Now imported
+# WAIT_SEARCH_FORM = get_env_int("Argentina", "WAIT_SEARCH_FORM", 10) # Now imported
 WAIT_SEARCH_RESULTS = get_env_int("Argentina", "WAIT_SEARCH_RESULTS", 10)
 WAIT_PAGE_LOAD = get_env_int("Argentina", "WAIT_PAGE_LOAD", 30)
 PAGE_LOAD_TIMEOUT = get_env_int("Argentina", "PAGE_LOAD_TIMEOUT", 60)
@@ -274,10 +304,6 @@ MAX_RETRIES_TIMEOUT = get_env_int("Argentina", "MAX_RETRIES_TIMEOUT", 3)
 CPU_THROTTLE_HIGH = get_env_float("Argentina", "CPU_THROTTLE_HIGH", 90.0)
 PAUSE_CPU_THROTTLE = get_env_float("Argentina", "PAUSE_CPU_THROTTLE", 5.0)
 QUEUE_GET_TIMEOUT = get_env_int("Argentina", "QUEUE_GET_TIMEOUT", 5)
-PREPARED_URLS_FILE = ConfigManager.get_env_value("Argentina", "PREPARED_URLS_FILE", "prepared_urls.csv")
-OUTPUT_PRODUCTS_CSV = ConfigManager.get_env_value("Argentina", "OUTPUT_PRODUCTS_CSV", "products.csv")
-OUTPUT_PROGRESS_CSV = ConfigManager.get_env_value("Argentina", "OUTPUT_PROGRESS_CSV", "progress.csv")
-OUTPUT_ERRORS_CSV = ConfigManager.get_env_value("Argentina", "OUTPUT_ERRORS_CSV", "errors.csv")
 SLOW_PAGE_RESTART_ENABLED = get_env_bool("Argentina", "SLOW_PAGE_RESTART_ENABLED", True)
 SLOW_PAGE_MEDIAN_WINDOW = get_env_int("Argentina", "SLOW_PAGE_MEDIAN_WINDOW", 20)
 SLOW_PAGE_MIN_SAMPLES = get_env_int("Argentina", "SLOW_PAGE_MIN_SAMPLES", 5)
@@ -307,13 +333,17 @@ TOR_PROXY_PORT = TOR_SOCKS_PORT
 def get_accounts():
     """Parse ALFABETA_ACCOUNTS env var (user:pass,user:pass)."""
     raw = ConfigManager.get_env_value("Argentina", "ALFABETA_ACCOUNTS", "")
-    if not raw:
-        return []
     accs = []
-    for pair in raw.split(","):
-        if ":" in pair:
-            u, p = pair.split(":", 1)
-            accs.append({"user": u.strip(), "pass": p.strip()})
+    if raw:
+        for pair in raw.split(","):
+            if ":" in pair:
+                u, p = pair.split(":", 1)
+                accs.append({"user": u.strip(), "pass": p.strip()})
+    
+    # Fallback to single account variables
+    if not accs and ALFABETA_USER and ALFABETA_PASS:
+        accs.append({"user": ALFABETA_USER, "pass": ALFABETA_PASS})
+        
     return accs
 
 from core.network.ip_rotation import (
@@ -1474,117 +1504,32 @@ def save_debug(driver, folder: Path, tag: str):
 # Prefer configured TOR_SOCKS_PORT (standalone Tor: 9050) when available.
 TOR_PROXY_PORT = int(TOR_SOCKS_PORT) if TOR_SOCKS_PORT else 0
 
+# Refactored Tor Utilities
+
 def check_tor_running(host="127.0.0.1", timeout=2):
-    """
-    Check if Tor SOCKS5 proxy is running and accepting connections.
-    Checks both port 9050 (Tor service) and 9150 (Tor Browser).
-    
-    Returns:
-        Tuple of (is_running: bool, port: int) - port is 9050 or 9150 if running, None otherwise
-    """
-    # Prefer configured TOR_SOCKS_PORT. Otherwise, infer likely SOCKS port from control port.
-    if TOR_SOCKS_PORT and TOR_SOCKS_PORT > 0:
-        ports_to_check = [TOR_SOCKS_PORT]
-    elif TOR_CONTROL_PORT == 9051:
-        ports_to_check = [9050, 9150]
-    elif TOR_CONTROL_PORT == 9151:
-        ports_to_check = [9150, 9050]
-    else:
-        ports_to_check = [9150, 9050]
-    
-    for port in ports_to_check:
-        try:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.settimeout(timeout)
-            result = sock.connect_ex((host, port))
-            sock.close()
-            if result == 0:
-                port_name = "Tor Browser" if port == 9150 else "Tor service"
-                log.info(f"[TOR_CHECK] {port_name} proxy is running on {host}:{port}")
-                return True, port
-        except Exception as e:
-            log.debug(f"[TOR_CHECK] Error checking port {port}: {e}")
-            continue
-    
-    log.warning(f"[TOR_CHECK] Tor proxy is not running on {host}:9050 or {host}:9150")
+    """Refactored to check standard ports."""
+    for port in [9150, 9050]:
+        if is_port_open(host, port):
+             return True, port
+    if TOR_PROXY_PORT and is_port_open(host, int(TOR_PROXY_PORT)):
+         return True, int(TOR_PROXY_PORT)
     return False, None
 
 def get_tor_newnym_counter() -> int:
     with _tor_newnym_lock:
         return _tor_newnym_counter
 
-def _increment_tor_newnym_counter() -> int:
-    with _tor_newnym_lock:
-        global _tor_newnym_counter
-        _tor_newnym_counter += 1
-        return _tor_newnym_counter
-
-def _resolve_tor_control_port() -> int:
-    if TOR_CONTROL_PORT and TOR_CONTROL_PORT > 0:
-        return TOR_CONTROL_PORT
-    return 9151 if TOR_PROXY_PORT == 9150 else 9051
-
-def _read_control_response(sock, timeout_seconds: float = 5.0) -> str:
-    sock.settimeout(timeout_seconds)
-    data = b""
-    end_time = time.monotonic() + timeout_seconds
-    while time.monotonic() < end_time:
-        try:
-            chunk = sock.recv(1024)
-        except socket.timeout:
-            break
-        if not chunk:
-            break
-        data += chunk
-        lines = data.split(b"\r\n")
-        for line in lines:
-            if not line:
-                continue
-            if line.startswith(b"250") or line.startswith(b"5"):
-                return line.decode("utf-8", "ignore")
-    if not data:
-        return ""
-    return data.decode("utf-8", "ignore").strip().splitlines()[-1]
-
-def _send_control_command(sock, command: str) -> str:
-    sock.sendall((command + "\r\n").encode("utf-8"))
-    return _read_control_response(sock)
-
-def _build_auth_command() -> str:
-    if TOR_CONTROL_COOKIE_FILE:
-        try:
-            cookie = Path(TOR_CONTROL_COOKIE_FILE).read_bytes()
-            return f"AUTHENTICATE {cookie.hex()}"
-        except Exception as e:
-            log.warning(f"[TOR_NEWNYM] Could not read control cookie: {e}")
-    if TOR_CONTROL_PASSWORD:
-        safe_pw = TOR_CONTROL_PASSWORD.replace("\\", "\\\\").replace('"', '\\"')
-        return f'AUTHENTICATE "{safe_pw}"'
-    return "AUTHENTICATE"
-
 def request_newnym() -> bool:
-    host = TOR_CONTROL_HOST or "127.0.0.1"
-    port = _resolve_tor_control_port()
-    if not port:
-        log.warning("[TOR_NEWNYM] Control port not configured; cannot request NEWNYM")
-        return False
-    try:
-        with socket.create_connection((host, port), timeout=5) as sock:
-            auth_cmd = _build_auth_command()
-            auth_resp = _send_control_command(sock, auth_cmd)
-            if not auth_resp.startswith("250"):
-                log.warning(f"[TOR_NEWNYM] AUTH failed: {auth_resp}")
-                return False
-            newnym_resp = _send_control_command(sock, "SIGNAL NEWNYM")
-            if not newnym_resp.startswith("250"):
-                log.warning(f"[TOR_NEWNYM] NEWNYM failed: {newnym_resp}")
-                return False
-    except Exception as e:
-        log.warning(f"[TOR_NEWNYM] Control connection failed: {e}")
-        return False
-    seq = _increment_tor_newnym_counter()
-    log.info(f"[TOR_NEWNYM] NEWNYM signaled (seq {seq})")
-    return True
+     host = TOR_CONTROL_HOST or "127.0.0.1"
+     port = int(TOR_CONTROL_PORT or 9051)
+     res = tor_signal_newnym(host, port, cookie_file=TOR_CONTROL_COOKIE_FILE, password=TOR_CONTROL_PASSWORD)
+     if res.ok:
+         with _tor_newnym_lock:
+             global _tor_newnym_counter
+             _tor_newnym_counter += 1
+         log.info(f"[TOR_NEWNYM] NEWNYM signaled")
+         return True
+     return False
 
 def _tor_newnym_loop():
     interval = max(10, int(TOR_NEWNYM_INTERVAL_SECONDS))
@@ -1594,8 +1539,7 @@ def _tor_newnym_loop():
         if now >= next_at:
             request_newnym()
             next_at = now + interval
-            continue
-        time.sleep(min(1.0, next_at - now))
+        time.sleep(min(1.0, max(0.1, next_at - now)))
 
 def start_tor_newnym_thread():
     global _tor_newnym_thread
@@ -1603,488 +1547,164 @@ def start_tor_newnym_thread():
         return
     if _tor_newnym_thread and _tor_newnym_thread.is_alive():
         return
-    control_port = _resolve_tor_control_port()
-    interval = max(10, int(TOR_NEWNYM_INTERVAL_SECONDS))
-    log.info(f"[TOR_NEWNYM] Auto NEWNYM enabled: every {interval}s via {TOR_CONTROL_HOST}:{control_port}")
-    _tor_newnym_thread = threading.Thread(
-        target=_tor_newnym_loop,
-        name="tor-newnym",
-        daemon=True,
-    )
+    log.info(f"[TOR_NEWNYM] Auto NEWNYM enabled: every {TOR_NEWNYM_INTERVAL_SECONDS}s")
+    _tor_newnym_thread = threading.Thread(target=_tor_newnym_loop, name="tor-newnym", daemon=True)
     _tor_newnym_thread.start()
 
-def _auto_start_tor_proxy() -> bool:
-    """
-    Best-effort auto-start for a standalone Tor daemon on 127.0.0.1:9050 (control 9051).
-    Reuses Tor Browser's tor.exe if present.
-    """
-    if not AUTO_START_TOR_PROXY:
-        return False
-
-    # Check if already running
-    tor_running, _ = check_tor_running()
-    if tor_running:
-        return True
-
-    home = Path.home()
-    tor_exe_candidates = [
-        home / "OneDrive" / "Desktop" / "Tor Browser" / "Browser" / "TorBrowser" / "Tor" / "tor.exe",
-        home / "Desktop" / "Tor Browser" / "Browser" / "TorBrowser" / "Tor" / "tor.exe",
-    ]
-    tor_exe = next((p for p in tor_exe_candidates if p.exists()), None)
-    if not tor_exe:
-        log.warning("[TOR_AUTO] tor.exe not found; cannot auto-start Tor proxy")
-        return False
-
-    torrc = Path("C:/TorProxy/torrc")
-    data_dir = Path("C:/TorProxy/data")
-    data_dir.mkdir(parents=True, exist_ok=True)
-    torrc.parent.mkdir(parents=True, exist_ok=True)
-
-    desired_torrc = (
-        "DataDirectory C:\\TorProxy\\data\n"
-        "SocksPort 9050\n"
-        "ControlPort 9051\n"
-        "CookieAuthentication 1\n"
-    )
-    try:
-        torrc.write_text(desired_torrc, encoding="ascii")
-    except Exception as e:
-        log.warning(f"[TOR_AUTO] Failed to write torrc: {e}")
-        return False
-
-    try:
-        log.info(f"[TOR_AUTO] Starting Tor proxy: {tor_exe} -f {torrc}")
-        subprocess.Popen(
-            [str(tor_exe), "-f", str(torrc)],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0),
-        )
-    except Exception as e:
-        log.warning(f"[TOR_AUTO] Failed to start Tor: {e}")
-        return False
-
-    # Wait for Tor to come up (best-effort)
-    deadline = time.time() + 90
-    while time.time() < deadline:
-        running, port = check_tor_running()
-        if running:
-            log.info(f"[TOR_AUTO] Tor proxy is now running on port {port}")
-            return True
-        time.sleep(1)
-    log.warning("[TOR_AUTO] Tor proxy did not come up within 90s")
-    return False
-
-def find_firefox_binary():
-    """
-    Find Firefox binary in common locations on Windows.
-    Checks for:
-    1. Regular Firefox installation
-    2. Tor Browser (which includes Firefox)
-    3. Environment variable FIREFOX_BINARY
-    """
-    from pathlib import Path
-    
-    # Check environment variable first
-    firefox_bin = os.getenv("FIREFOX_BINARY", "")
-    if firefox_bin and Path(firefox_bin).exists():
-        log.info(f"[FIREFOX] Using Firefox binary from FIREFOX_BINARY env: {firefox_bin}")
-        return str(Path(firefox_bin).resolve())
-    
-    # Common Firefox installation paths on Windows
-    userprofile = os.environ.get("USERPROFILE", "")
-    possible_paths = [
-        # Regular Firefox
-        Path(os.environ.get("ProgramFiles", "C:\\Program Files")) / "Mozilla Firefox" / "firefox.exe",
-        Path(os.environ.get("ProgramFiles(x86)", "C:\\Program Files (x86)")) / "Mozilla Firefox" / "firefox.exe",
-        Path(os.environ.get("LOCALAPPDATA", "")) / "Mozilla Firefox" / "firefox.exe",
-        # Tor Browser (includes Firefox) - Standard locations
-        Path(os.environ.get("ProgramFiles", "C:\\Program Files")) / "Tor Browser" / "Browser" / "firefox.exe",
-        Path(os.environ.get("ProgramFiles(x86)", "C:\\Program Files (x86)")) / "Tor Browser" / "Browser" / "firefox.exe",
-        Path(os.environ.get("LOCALAPPDATA", "")) / "Tor Browser" / "Browser" / "firefox.exe",
-        # Common user installation locations
-        Path(userprofile) / "AppData" / "Local" / "Mozilla Firefox" / "firefox.exe",
-        Path(userprofile) / "AppData" / "Local" / "Tor Browser" / "Browser" / "firefox.exe",
-        # Desktop location (common for portable installations)
-        Path(userprofile) / "Desktop" / "Tor Browser" / "Browser" / "firefox.exe",
-        Path(userprofile) / "OneDrive" / "Desktop" / "Tor Browser" / "Browser" / "firefox.exe",
-        # Downloads folder (common for portable installations)
-        Path(userprofile) / "Downloads" / "Tor Browser" / "Browser" / "firefox.exe",
-        Path(userprofile) / "OneDrive" / "Downloads" / "Tor Browser" / "Browser" / "firefox.exe",
-    ]
-    
-    for path in possible_paths:
-        if path.exists():
-            log.info(f"[FIREFOX] Found Firefox binary: {path}")
-            return str(path.resolve())
-    
-    # Last resort: try to find firefox.exe in PATH
-    import shutil
-    firefox_path = shutil.which("firefox")
-    if firefox_path:
-        log.info(f"[FIREFOX] Found Firefox in PATH: {firefox_path}")
-        return firefox_path
-    
-    return None
-
 def check_requirements():
-    """
-    Check all requirements before starting the scraper.
-    Returns True if all requirements are met, False otherwise.
-    Prints detailed error messages for missing requirements.
-    """
     global TOR_PROXY_PORT
+    log.info("[CHECK_REQ] Verifying requirements...")
     
-    print("\n" + "=" * 80)
-    print("[REQUIREMENTS] Checking prerequisites...")
-    print("=" * 80)
-    
-    all_ok = True
-    
-    # Check 1: Firefox/Tor Browser installation
-    print("\n[REQUIREMENTS] 1. Checking Firefox/Tor Browser installation...")
-    firefox_binary = find_firefox_binary()
-    if firefox_binary:
-        print(f"  [OK] Firefox/Tor Browser found: {firefox_binary}")
-        log.info(f"[REQUIREMENTS] Firefox/Tor Browser found: {firefox_binary}")
+    if AUTO_START_TOR_PROXY:
+         if ensure_tor_proxy_running(socks_port=TOR_SOCKS_PORT or 9050, control_port=TOR_CONTROL_PORT or 9051):
+             log.info("[CHECK_REQ] Tor proxy ensures running.")
+             if not TOR_PROXY_PORT:
+                 if is_port_open("127.0.0.1", 9150): TOR_PROXY_PORT = 9150
+                 elif is_port_open("127.0.0.1", 9050): TOR_PROXY_PORT = 9050
+         else:
+             if REQUIRE_TOR_PROXY:
+                 log.error("[CHECK_REQ] Failed to ensure Tor proxy.")
+                 return False
     else:
-        print("  [FAIL] Firefox/Tor Browser not found")
-        print("  [INFO] Please install Firefox or Tor Browser")
-        print("  [INFO] Firefox: https://www.mozilla.org/firefox/")
-        print("  [INFO] Tor Browser: https://www.torproject.org/download/")
-        print("  [INFO] Or set FIREFOX_BINARY environment variable")
-        log.error("[REQUIREMENTS] Firefox/Tor Browser not found")
-        all_ok = False
-    
-    # Check 2: Tor service running (only required if REQUIRE_TOR_PROXY=true)
-    print("\n[REQUIREMENTS] 2. Checking Tor proxy service...")
-    tor_running, tor_port = check_tor_running()
-    if tor_running:
-        port_name = "Tor Browser" if tor_port == 9150 else "Tor service"
-        print(f"  [OK] {port_name} proxy is running on localhost:{tor_port}")
-        log.info(f"[REQUIREMENTS] {port_name} proxy is running on port {tor_port}")
-        # Store the detected port for later use
-        TOR_PROXY_PORT = tor_port
-    else:
-        # Try to auto-start Tor
-        if AUTO_START_TOR_PROXY:
-            print("  [INFO] Tor proxy not running; attempting auto-start...")
-            log.info("[REQUIREMENTS] Tor proxy not running; attempting auto-start...")
-            if _auto_start_tor_proxy():
-                tor_running, tor_port = check_tor_running()
-                if tor_running:
-                    port_name = "Tor Browser" if tor_port == 9150 else "Tor service"
-                    print(f"  [OK] {port_name} proxy auto-started on localhost:{tor_port}")
-                    log.info(f"[REQUIREMENTS] {port_name} proxy auto-started on port {tor_port}")
-                    TOR_PROXY_PORT = tor_port
-            else:
-                print("  [WARN] Tor auto-start failed")
-                log.warning("[REQUIREMENTS] Tor auto-start failed")
+         if is_port_open("127.0.0.1", 9150): TOR_PROXY_PORT = 9150
+         elif is_port_open("127.0.0.1", 9050): TOR_PROXY_PORT = 9050
+         
+         if not TOR_PROXY_PORT and REQUIRE_TOR_PROXY:
+             log.error("[CHECK_REQ] Tor required but not found.")
+             return False
+
+    if TOR_PROXY_PORT:
+        log.info(f"[CHECK_REQ] Using Tor on port {TOR_PROXY_PORT}")
         
-        # If still not running after auto-start attempt
-        if not tor_running:
-            if REQUIRE_TOR_PROXY:
-                print("  [FAIL] Tor proxy is not running on localhost:9050 or localhost:9150")
-                print("  [INFO] Please start Tor before running the scraper:")
-                print("  [INFO]   Option 1: Start Tor Browser (uses port 9150)")
-                print("  [INFO]   Option 2: Start Tor service separately (uses port 9050)")
-                print("  [INFO]   The scraper will automatically detect which port Tor is using")
-                log.error("[REQUIREMENTS] Tor proxy is not running")
-                all_ok = False
-            else:
-                print("  [WARN] Tor proxy is not running; continuing with direct connection")
-                print("  [INFO] Set REQUIRE_TOR_PROXY=true to enforce Tor usage")
-                log.warning("[REQUIREMENTS] Tor proxy is not running; proceeding without Tor")
-                TOR_PROXY_PORT = 0
-    
-    # Check 3: Required Python packages (basic check)
-    print("\n[REQUIREMENTS] 3. Checking Python dependencies...")
-    missing_packages = []
-    try:
-        import selenium
-        print("  [OK] selenium package installed")
-    except ImportError:
-        print("  [FAIL] selenium package not found")
-        missing_packages.append("selenium")
-        all_ok = False
-    
-    try:
-        from webdriver_manager.firefox import GeckoDriverManager
-        print("  [OK] webdriver-manager package installed")
-    except ImportError:
-        print("  [FAIL] webdriver-manager package not found")
-        missing_packages.append("webdriver-manager")
-        all_ok = False
-    
-    if missing_packages:
-        print(f"  [INFO] Install missing packages: pip install {' '.join(missing_packages)}")
-        log.error(f"[REQUIREMENTS] Missing Python packages: {', '.join(missing_packages)}")
-    
-    # Summary
-    print("\n" + "=" * 80)
-    if all_ok:
-        print("[REQUIREMENTS] All requirements met! Starting scraper...")
-        log.info("[REQUIREMENTS] All requirements met")
-    else:
-        print("[REQUIREMENTS] Some requirements are missing. Please fix the issues above.")
-        log.error("[REQUIREMENTS] Requirements check failed")
-    print("=" * 80 + "\n")
-    
-    return all_ok
+    return True
+
+def get_tor_newnym_counter() -> int:
+    with _tor_newnym_lock:
+        return _tor_newnym_counter
+
+
 
 def setup_driver(headless=False):
-    
-    opts = webdriver.FirefoxOptions()
-    if headless:
-        opts.add_argument("--headless")
-    
-    # Create a temporary profile for isolation
-    profile, profile_dir = create_temp_profile()
+    tor_config = {}
+    if TOR_PROXY_PORT:
+        tor_config = {"enabled": True, "port": int(TOR_PROXY_PORT)}
+        
     fp = pick_fingerprint()
     
-    # Apply Geo Router and Proxy Pool integration
+    # Extra preferences to match original behavior
+    extra_prefs = {
+        "dom.serviceWorkers.enabled": False,
+        "dom.indexedDB.enabled": False,
+        "dom.storage.enabled": False,
+        "places.history.enabled": False,
+        "browser.formfill.enable": False,
+        "signon.rememberSignons": False,
+        "network.cookie.lifetimePolicy": 2,
+        "privacy.sanitize.sanitizeOnShutdown": True,
+        "privacy.clearOnShutdown.cookies": True,
+        "privacy.clearOnShutdown.cache": True,
+        "privacy.clearOnShutdown.offlineApps": True,
+        "privacy.clearOnShutdown.history": True,
+        "webgl.disabled": True,
+        "media.autoplay.default": 1,
+        "media.autoplay.blocking_policy": 2,
+        "media.peerconnection.enabled": False,
+        "dom.webdriver.enabled": False,
+        "general.useragent.override": fp["ua"],
+        "intl.accept_languages": fp["lang"],
+        "intl.timezone.override": fp["tz"],
+        # Additional stealth preferences
+        "dom.maxHardwareConcurrency": 4,
+        "dom.maxChromeScriptRunTime": 0,
+        "dom.max_script_run_time": 0,
+        "browser.cache.disk.enable": False,
+        "browser.sessionstore.resume_from_crash": False,
+        "browser.tabs.firefox-view": False,
+        "browser.startup.homepage": "about:blank",
+        "browser.startup.page": 0,
+    }
+    
+    # Geo integration
     try:
-        from core.utils.integration_helpers import get_geo_config_for_scraper, apply_proxy_to_selenium_options
+        from core.utils.integration_helpers import get_geo_config_for_scraper
         geo_config = get_geo_config_for_scraper("Argentina")
-        
-        if geo_config:
-            # Apply locale preference
-            if geo_config.get("locale"):
-                profile.set_preference("intl.accept_languages", geo_config["locale"])
-            
-            # Apply proxy if available (before Tor proxy config, so Tor takes precedence if enabled)
-            apply_proxy_to_selenium_options(opts, "Argentina")
-    except Exception as e:
-        log.debug(f"[GEO_ROUTER] Integration failed (non-fatal): {e}")
-    
-    profile.set_preference("browser.cache.disk.enable", False)
-    profile.set_preference("browser.cache.memory.enable", False)
-    profile.set_preference("browser.cache.offline.enable", False)
-    profile.set_preference("network.http.use-cache", False)
-    profile.set_preference("dom.serviceWorkers.enabled", False)
-    profile.set_preference("dom.indexedDB.enabled", False)
-    profile.set_preference("dom.storage.enabled", False)
-    profile.set_preference("places.history.enabled", False)
-    profile.set_preference("browser.formfill.enable", False)
-    profile.set_preference("signon.rememberSignons", False)
-    # Avoid persistence even within a long run (we also delete the profile directory on shutdown).
-    profile.set_preference("network.cookie.lifetimePolicy", 2)  # expire at end of session
-    profile.set_preference("privacy.sanitize.sanitizeOnShutdown", True)
-    profile.set_preference("privacy.clearOnShutdown.cookies", True)
-    profile.set_preference("privacy.clearOnShutdown.cache", True)
-    profile.set_preference("privacy.clearOnShutdown.offlineApps", True)
-    profile.set_preference("privacy.clearOnShutdown.history", True)
-    
-    # Block images and CSS for performance
-    profile.set_preference("permissions.default.image", 2)  # Block images
-    profile.set_preference("permissions.default.stylesheet", 2)  # Block CSS
-    profile.set_preference("browser.display.use_document_fonts", 0)
-    profile.set_preference("gfx.downloadable_fonts.enabled", False)
-    profile.set_preference("webgl.disabled", True)
-    profile.set_preference("media.autoplay.default", 1)
-    profile.set_preference("media.autoplay.blocking_policy", 2)
-    profile.set_preference("media.peerconnection.enabled", False)
-    profile.set_preference("media.peerconnection.ice.default_address_only", True)
-    profile.set_preference("media.peerconnection.ice.no_host", True)
-    profile.set_preference("media.peerconnection.ice.proxy_only", True)
-    # Reduce obvious webdriver signals (best-effort; some may be overridden by geckodriver).
-    profile.set_preference("dom.webdriver.enabled", False)
-    
-    # Disable speculative connections and prefetch
-    profile.set_preference("network.prefetch-next", False)
-    profile.set_preference("network.dns.disablePrefetch", True)
-    profile.set_preference("network.dns.disablePrefetchFromHTTPS", True)
-    profile.set_preference("network.predictor.enabled", False)
-    profile.set_preference("network.predictor.enable-prefetch", False)
-    profile.set_preference("network.http.speculative-parallel-limit", 0)
-    profile.set_preference("browser.urlbar.speculativeConnect.enabled", False)
-    
-    # Fingerprint variation (per browser instance)
-    profile.set_preference("general.useragent.override", fp["ua"])
-    profile.set_preference("intl.accept_languages", fp["lang"])
-    profile.set_preference("intl.timezone.override", fp["tz"])
-    
-    # Disable notifications and popups
-    profile.set_preference("dom.webnotifications.enabled", False)
-    profile.set_preference("dom.push.enabled", False)
-    
-    # Configure Tor SOCKS5 proxy (only if Tor is enabled)
-    socks_port = int(TOR_SOCKS_PORT or TOR_PROXY_PORT or 0)
-    if socks_port > 0:
-        profile.set_preference("network.proxy.type", 1)  # Manual proxy configuration
-        profile.set_preference("network.proxy.socks", "127.0.0.1")
-        profile.set_preference("network.proxy.socks_port", socks_port)
-        profile.set_preference("network.proxy.socks_version", 5)
-        profile.set_preference("network.proxy.socks_remote_dns", True)  # Route DNS through Tor
-        port_name = "Tor Browser" if socks_port == 9150 else "Tor service"
-        log.info(f"[TOR_CONFIG] Using Tor proxy on port {socks_port} ({port_name})")
-    else:
-        profile.set_preference("network.proxy.type", 0)  # Direct connection
-        log.info("[TOR_CONFIG] Tor proxy disabled; using direct connection")
-    
-    # Update preferences
-    opts.profile = profile
-    
-    # Set page load strategy to "eager" to avoid hanging on slow-loading resources
-    opts.set_capability("pageLoadStrategy", "eager")
-    
-    # Find and set Firefox binary path
-    firefox_binary = find_firefox_binary()
-    if firefox_binary:
-        # In Selenium 4, use binary_location instead of FirefoxBinary
-        opts.binary_location = firefox_binary
-        log.info(f"[FIREFOX] Using Firefox binary: {firefox_binary}")
-    else:
-        log.error("[FIREFOX] Firefox binary not found in common locations")
-        log.error("[FIREFOX] Please install Firefox or set FIREFOX_BINARY environment variable")
-        log.error("[FIREFOX] Example: set FIREFOX_BINARY=C:\\Program Files\\Mozilla Firefox\\firefox.exe")
-        raise RuntimeError(
-            "Firefox binary not found. Please:\n"
-            "1. Install Firefox from https://www.mozilla.org/firefox/\n"
-            "2. Or install Tor Browser (includes Firefox)\n"
-            "3. Or set FIREFOX_BINARY environment variable to Firefox executable path"
-        )
-    
-    # Check if shutdown was requested before creating new driver
-    if _shutdown_requested.is_set():
-        cleanup_temp_profile(profile_dir)
-        raise RuntimeError("Shutdown requested, cannot create new Firefox/Tor session")
-    
+        if geo_config and geo_config.get("locale"):
+             extra_prefs["intl.accept_languages"] = geo_config["locale"]
+    except Exception:
+        pass
+
     try:
-        drv = webdriver.Firefox(service=Service(_get_geckodriver_path()), options=opts)
+        drv = create_firefox_driver(headless=headless, tor_config=tor_config, extra_prefs=extra_prefs)
         
-        # Track Firefox instance using standardized ChromeInstanceTracker
+        # Capture profile dir if possible (best effort for cleanup)
+        if hasattr(drv, "capabilities") and "moz:profile" in drv.capabilities:
+             try:
+                 profile_dir = drv.capabilities["moz:profile"]
+                 with _temp_profile_lock:
+                     _temp_profile_dirs.add(str(profile_dir))
+                 drv._profile_dir = str(profile_dir)
+             except Exception:
+                 pass
+        
+        drv._fingerprint = fp
+        
+         # Set window size
+        try:
+            w, h = fp["viewport"]
+            w = int(w + random.randint(-8, 8))
+            h = int(h + random.randint(-8, 8))
+            drv.set_window_size(w, h)
+        except Exception:
+            pass
+            
+        # Register driver for cleanup
+        register_driver(drv)
+        
+        # PID Tracking logic (Step 3) - Standardized
         try:
             from core.browser.chrome_instance_tracker import ChromeInstanceTracker
-            from core.db.connection import CountryDB
-            
-            run_id = os.environ.get("ARGENTINA_RUN_ID") or ""
-            if not run_id:
-                run_id_file = Path(__file__).parent.parent / "output" / ".current_run_id"
-                if run_id_file.exists():
-                    run_id = run_id_file.read_text(encoding="utf-8").strip()
-            
-            if run_id:
-                db = CountryDB("Argentina")
-                tracker = ChromeInstanceTracker("Argentina", run_id, db)
-                # Get Firefox PID (geckodriver is parent, Firefox is child)
-                try:
-                    import psutil
-                    parent_pid = None
-                    firefox_pid = None
-                    
-                    # Get geckodriver PID (parent)
-                    if hasattr(drv.service, 'process') and drv.service.process:
-                        parent_pid = drv.service.process.pid
-                        # Find Firefox child process
-                        try:
-                            parent = psutil.Process(parent_pid)
-                            children = parent.children(recursive=True)
-                            for child in children:
-                                proc_name = (child.name() or '').lower()
-                                if 'firefox' in proc_name:
-                                    firefox_pid = child.pid
-                                    break
-                        except (psutil.NoSuchProcess, psutil.AccessDenied):
-                            pass
-                    
-                    # Fallback: find Firefox process by name (less reliable)
-                    if not firefox_pid:
-                        for proc in psutil.process_iter(['pid', 'name', 'ppid']):
+            run_id = os.environ.get("ARGENTINA_RUN_ID") or _get_run_id()
+            if run_id and ChromeInstanceTracker:
+                 db = CountryDB("Argentina")
+                 try:
+                     tracker = ChromeInstanceTracker("Argentina", run_id, db)
+                     # Attempt to identify PIDs
+                     parent_pid = None
+                     firefox_pid = None
+                     if hasattr(drv.service, 'process') and drv.service.process:
+                         parent_pid = drv.service.process.pid
+                         # Find child firefox
+                         if psutil:
                             try:
-                                proc_name = (proc.info['name'] or '').lower()
-                                if 'firefox' in proc_name:
-                                    # Prefer Firefox with matching parent PID
-                                    if parent_pid and proc.info.get('ppid') == parent_pid:
-                                        firefox_pid = proc.info['pid']
+                                parent = psutil.Process(parent_pid)
+                                for child in parent.children(recursive=True):
+                                    if 'firefox' in (child.name() or '').lower():
+                                        firefox_pid = child.pid
                                         break
-                                    elif not firefox_pid:  # Fallback to any Firefox
-                                        firefox_pid = proc.info['pid']
-                            except (psutil.NoSuchProcess, psutil.AccessDenied):
-                                continue
-                    
-                    if firefox_pid:
-                        thread_id = getattr(threading.current_thread(), 'worker_id', None)
-                        tracker.register(
-                            step_number=3,  # Step 3 is Selenium scraping
-                            pid=firefox_pid,
-                            thread_id=thread_id,
-                            browser_type="firefox",
-                            parent_pid=parent_pid,
-                            user_data_dir=str(profile_dir)
-                        )
-                except Exception as e:
-                    log.debug(f"Firefox instance tracking failed (non-fatal): {e}")
-                finally:
-                    db.close()
+                            except Exception:
+                                pass
+                     
+                     if firefox_pid:
+                         thread_id = getattr(threading.current_thread(), 'worker_id', None)
+                         tracker.register(
+                             step_number=3,
+                             pid=firefox_pid,
+                             thread_id=thread_id,
+                             browser_type="firefox",
+                             parent_pid=parent_pid,
+                             user_data_dir=getattr(drv, '_profile_dir', None)
+                         )
+                 except Exception as e:
+                     log.debug(f"[PID_TRACKER] Step 3 registration failed: {e}")
+                 finally:
+                     db.close()
         except Exception:
-            pass  # Tracking failure shouldn't break scraping
-    except Exception:
-        cleanup_temp_profile(profile_dir)
-        raise
-    drv.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
-    drv._profile_dir = str(profile_dir)
-    drv._fingerprint = fp
-    try:
-        w, h = fp["viewport"]
-        # Small jitter prevents a single fixed size across restarts.
-        w = int(w + random.randint(-8, 8))
-        h = int(h + random.randint(-8, 8))
-        drv.set_window_size(w, h)
-    except Exception:
-        pass
-    # Best-effort cleanup on startup (fresh profile already, but this keeps behavior consistent).
-    try:
-        clear_browser_storage(drv)
-    except Exception:
-        pass
-    
-    # Register driver for cleanup on shutdown
-    register_driver(drv)
-    
-    # Track Firefox/geckodriver process IDs for this pipeline run
-    try:
-        pids = set()
-        # Get geckodriver process ID
-        if hasattr(drv, 'service') and hasattr(drv.service, 'process'):
-            geckodriver_pid = drv.service.process.pid
-            if geckodriver_pid:
-                pids.add(geckodriver_pid)
-                log.debug(f"[PID_TRACKER] Found geckodriver PID: {geckodriver_pid}")
-                
-                # Get all descendant processes (Firefox instances)
-                if psutil:
-                    try:
-                        parent = psutil.Process(geckodriver_pid)
-                        for child in parent.children(recursive=True):
-                            pids.add(child.pid)
-                            log.debug(f"[PID_TRACKER] Found Firefox/Tor process PID: {child.pid}")
-                    except (psutil.NoSuchProcess, psutil.AccessDenied):
-                        pass
-        
-        if pids:
-            with _tracked_pids_lock:
-                _tracked_firefox_pids.update(pids)
-            log.debug(f"[PID_TRACKER] Tracked Firefox/geckodriver PIDs: {sorted(pids)}")
-            # Track in DB for pipeline stop cleanup
-            run_id = _get_run_id()
-            if ChromeInstanceTracker and PostgresDB and run_id:
-                try:
-                    geckodriver_pid = drv.service.process.pid if hasattr(drv.service, 'process') else list(pids)[0]
-                    db = PostgresDB("Argentina")
-                    db.connect()
-                    try:
-                        tracker = ChromeInstanceTracker("Argentina", run_id, db)
-                        tracker.register(step_number=1, pid=geckodriver_pid, browser_type="firefox", child_pids=pids)
-                    finally:
-                        db.close()
-                except Exception as e:
-                    log.debug(f"[PID_TRACKER] Could not register in DB: {e}")
+            pass
+            
+        return drv
     except Exception as e:
-        log.debug(f"[PID_TRACKER] Could not track Firefox/geckodriver PIDs: {e}")
-    
-    return drv
+        log.error(f"Failed to create driver: {e}")
+        raise
 
 def is_login_page(driver) -> bool:
     """Check if current page is a login page"""
@@ -2194,8 +1814,8 @@ def navigate_to_products_page(driver):
                 log.warning(f"[NAVIGATE] Navigation hung after {elapsed:.2f}s (timeout: {navigation_timeout}s)")
                 nav_retry_count += 1
                 if nav_retry_count < max_nav_retries:
-                    log.warning(f"[NAVIGATE] Waiting 120 seconds before retry {nav_retry_count + 1}/{max_nav_retries}...")
-                    time.sleep(120)  # Wait 2 minutes before retry
+                    log.warning(f"[NAVIGATE] Waiting 5 seconds before retry {nav_retry_count + 1}/{max_nav_retries}...")
+                    time.sleep(5)  # Minimal wait before retry
                     # Check connection before retrying
                     if not check_connection_with_retry(driver, PRODUCTS_URL, max_retries=1):
                         log.warning(f"[NAVIGATE] Connection check failed, will retry navigation anyway...")
@@ -2205,8 +1825,8 @@ def navigate_to_products_page(driver):
             if nav_retry_count >= max_nav_retries - 1:
                 raise  # Re-raise on last attempt
             nav_retry_count += 1
-            log.warning(f"[NAVIGATE] Navigation failed, waiting 120 seconds before retry {nav_retry_count + 1}/{max_nav_retries}...")
-            time.sleep(120)  # Wait 2 minutes before retry
+            log.warning(f"[NAVIGATE] Navigation failed, waiting 5 seconds before retry {nav_retry_count + 1}/{max_nav_retries}...")
+            time.sleep(5)  # Minimal wait before retry
             # Check connection before retrying
             if not check_connection_with_retry(driver, PRODUCTS_URL, max_retries=1):
                 log.warning(f"[NAVIGATE] Connection check failed, will retry navigation anyway...")
@@ -2214,8 +1834,8 @@ def navigate_to_products_page(driver):
             # Other errors - retry if not last attempt
             nav_retry_count += 1
             if nav_retry_count < max_nav_retries:
-                log.warning(f"[NAVIGATE] Navigation error: {e}, waiting 120 seconds before retry {nav_retry_count + 1}/{max_nav_retries}...")
-                time.sleep(120)  # Wait 2 minutes before retry
+                log.warning(f"[NAVIGATE] Navigation error: {e}, waiting 5 seconds before retry {nav_retry_count + 1}/{max_nav_retries}...")
+                time.sleep(5)  # Minimal wait before retry
                 # Check connection before retrying
                 if not check_connection_with_retry(driver, PRODUCTS_URL, max_retries=1):
                     log.warning(f"[NAVIGATE] Connection check failed, will retry navigation anyway...")
@@ -2296,10 +1916,12 @@ def navigate_to_products_page(driver):
 def is_products_search_url(url: str) -> bool:
     """
     True if `url` is the Alfabeta products search/listing page (base URL), not a product detail page.
+    Also returns True for search results pages (/precio/srv).
 
     Examples:
       - https://www.alfabeta.net/precio         -> True
       - https://www.alfabeta.net/precio?x=y     -> True
+      - https://www.alfabeta.net/precio/srv     -> True (search results)
       - https://www.alfabeta.net/precio/abc.html -> False
     """
     base = (PRODUCTS_URL or "").lower().rstrip("/")
@@ -2307,7 +1929,8 @@ def is_products_search_url(url: str) -> bool:
     if not base or not u.startswith(base):
         return False
     rest = u[len(base):]
-    return rest == "" or rest.startswith("?") or rest.startswith("#")
+    # Allow base URL, query params, hash, and /srv (search results)
+    return rest == "" or rest.startswith("?") or rest.startswith("#") or rest.startswith("/srv")
 
 def search_product_on_page(driver, product_term: str):
     """Search for product using the existing search form (no navigation - assumes already on products page)"""
@@ -2584,100 +2207,10 @@ def get_text_safe(root, css, retry_count=2):
             return None
     return None
 
-def collect_coverage(pres_el) -> Dict[str, Any]:
-    """Robust coverage parser: normalizes payer keys and reads innerHTML to catch AF/OS in <b> tags.
-    Checks element presence before fetching values with better stale element handling."""
-    cov: Dict[str, Any] = {}
-    
-    # Check if coverage table exists before accessing
-    try:
-        cob_elements = pres_el.find_elements(By.CSS_SELECTOR, "table.coberturas")
-        if not cob_elements:
-            return cov
-        
-        cob = cob_elements[0]
-        _ = cob.is_displayed()  # Verify element is accessible
-    except (StaleElementReferenceException, InvalidSessionIdException, WebDriverException):
-        return cov
-    except Exception:
-        return cov
-
-    current_payer = None
-    try:
-        tr_elements = cob.find_elements(By.CSS_SELECTOR, "tr")
-    except (StaleElementReferenceException, InvalidSessionIdException, WebDriverException):
-        return cov
-    except Exception:
-        return cov
-    
-    for tr in tr_elements:
-        try:
-            # Payer name (fallback to innerHTML) - check presence before fetching
-            payer_elements = tr.find_elements(By.CSS_SELECTOR, "td.obrasn")
-            if payer_elements:
-                try:
-                    payer_el = payer_elements[0]
-                    _ = payer_el.is_displayed()  # Check presence before fetching
-                    payer_text = normalize_ws(payer_el.get_attribute("innerText")) or normalize_ws(payer_el.get_attribute("innerHTML"))
-                    if payer_text:
-                        current_payer = strip_accents(payer_text).upper()
-                        cov.setdefault(current_payer, {})
-                except (StaleElementReferenceException, InvalidSessionIdException, WebDriverException):
-                    continue  # Skip this row if element is stale
-                except Exception:
-                    pass
-
-            # Detail/description - check presence before fetching
-            detail_elements = tr.find_elements(By.CSS_SELECTOR, "td.obrasd")
-            if detail_elements:
-                try:
-                    detail_el = detail_elements[0]
-                    _ = detail_el.is_displayed()  # Check presence before fetching
-                    detail = normalize_ws(detail_el.get_attribute("innerText"))
-                    if current_payer and detail:
-                        cov[current_payer]["detail"] = detail
-                except (StaleElementReferenceException, InvalidSessionIdException, WebDriverException):
-                    continue  # Skip this row if element is stale
-                except Exception:
-                    pass
-
-            # Amounts: check both left/right amount cells, use innerText first
-            for sel in ("td.importesi", "td.importesd"):
-                amount_elements = tr.find_elements(By.CSS_SELECTOR, sel)
-                if amount_elements:
-                    try:
-                        amount_el = amount_elements[0]
-                        _ = amount_el.is_displayed()  # Check presence before fetching
-                        txt = amount_el.get_attribute("innerText")
-                        if not txt:
-                            txt = amount_el.get_attribute("innerHTML")
-                            txt = re.sub(r'<[^>]*>', '', txt)
-                        for tag, amt in re.findall(r"(AF|OS)[^<]*?[\$]?([\d\.,]+)", txt or "", flags=re.I):
-                            val = ar_money_to_float(amt)
-                            if val is not None and current_payer:
-                                cov[current_payer][tag.upper()] = val
-                    except (StaleElementReferenceException, InvalidSessionIdException, WebDriverException):
-                        continue  # Skip this cell if element is stale
-                    except Exception:
-                        pass
-        except (StaleElementReferenceException, InvalidSessionIdException, WebDriverException):
-            continue  # Skip this row if it becomes stale
-        except Exception:
-            continue  # Skip this row on other errors
-    return cov
-
 def extract_rows(driver, in_company, in_product, max_retries=2):
     """
-    Extract product data from the loaded page with retry logic and better error handling.
-    
-    Args:
-        driver: Selenium WebDriver instance
-        in_company: Input company name
-        in_product: Input product name
-        max_retries: Maximum number of retry attempts if extraction fails
-    
-    Returns:
-        List of extracted row dictionaries
+    Extract product data from the loaded page using an optimized JS-based approach
+    to avoid slow Selenium round-trips and prevent freezing.
     """
     # Check shutdown before starting extraction
     if _shutdown_requested.is_set():
@@ -2685,134 +2218,132 @@ def extract_rows(driver, in_company, in_product, max_retries=2):
     
     for attempt in range(max_retries + 1):
         try:
-            # Ensure page is fully loaded before parsing
+            # Ensure page is fully loaded
             try:
-                # Wait for document ready state
                 WebDriverWait(driver, 10).until(
                     lambda d: d.execute_script("return document.readyState") == "complete"
                 )
-            except (InvalidSessionIdException, WebDriverException) as e:
-                log.error(f"[EXTRACT] Driver error during page load check: {e}")
-                raise  # Re-raise driver errors immediately
             except Exception as e:
                 if attempt < max_retries:
-                    log.warning(f"[EXTRACT] Document ready state check failed (attempt {attempt + 1}/{max_retries + 1}): {e}, retrying...")
+                    log.warning(f"[EXTRACT] Ready state check failed (attempt {attempt + 1}/{max_retries + 1}): {e}, retrying...")
                     continue
-                else:
-                    log.warning(f"[EXTRACT] Document ready state check failed after {max_retries + 1} attempts: {e}, continuing anyway")
-                    # Continue to extraction even if ready state check failed
-                    pass
+                log.warning(f"[EXTRACT] Document ready state check timed out, continuing anyway")
+
+            # Single JS script to extract everything at once
+            script = """
+            return (function() {
+                const results = {
+                    active: "",
+                    therap: "",
+                    comp: "",
+                    pname: "",
+                    pres: []
+                };
+                
+                // Header data
+                const activeEl = document.querySelector("tr.sproducto td.textoe i");
+                if (activeEl) results.active = activeEl.innerText.trim();
+                
+                const therapEl = document.querySelector("tr.sproducto td.textor i");
+                if (therapEl) results.therap = therapEl.innerText.trim();
+                
+                let compEl = document.querySelector("tr.lproducto td.textor .defecto");
+                if (!compEl) compEl = document.querySelector("td.textoe b");
+                if (compEl) results.comp = compEl.innerText.trim();
+                
+                const pnameEl = document.querySelector("tr.lproducto span.tproducto");
+                if (pnameEl) results.pname = pnameEl.innerText.trim();
+                
+                // Presentations
+                const presTables = document.querySelectorAll("td.dproducto > table.presentacion");
+                presTables.forEach(pTable => {
+                    const pData = {
+                        desc: "",
+                        price: "",
+                        datev: "",
+                        import_status: "",
+                        coverage: {}
+                    };
+                    
+                    const descEl = pTable.querySelector("td.tddesc");
+                    if (descEl) pData.desc = descEl.innerText.trim();
+                    
+                    const priceEl = pTable.querySelector("td.tdprecio");
+                    if (priceEl) pData.price = priceEl.innerText.trim();
+                    
+                    const datevEl = pTable.querySelector("td.tdfecha");
+                    if (datevEl) pData.datev = datevEl.innerText.trim();
+                    
+                    const importEl = pTable.querySelector("td.import");
+                    if (importEl) pData.import_status = importEl.innerText.trim();
+                    
+                    // Coverage
+                    const cobTable = pTable.querySelector("table.coberturas");
+                    if (cobTable) {
+                        let currentPayer = null;
+                        const trs = cobTable.querySelectorAll("tr");
+                        trs.forEach(tr => {
+                            const payerEl = tr.querySelector("td.obrasn");
+                            if (payerEl) {
+                                const pText = payerEl.innerText.trim();
+                                if (pText) {
+                                    // Strip accents and normalize
+                                    currentPayer = pText.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+                                    if (!pData.coverage[currentPayer]) pData.coverage[currentPayer] = {};
+                                }
+                            }
+                            
+                            const detailEl = tr.querySelector("td.obrasd");
+                            if (detailEl && currentPayer) {
+                                pData.coverage[currentPayer].detail = detailEl.innerText.trim();
+                            }
+                            
+                            const amountEls = tr.querySelectorAll("td.importesi, td.importesd");
+                            amountEls.forEach(ael => {
+                                const txt = ael.innerText.trim();
+                                if (txt && currentPayer) {
+                                    const matches = txt.matchAll(/(AF|OS)[^$]*?\$?\s*([\d\.,]+)/gi);
+                                    for (const match of matches) {
+                                        const tag = match[1].toUpperCase();
+                                        const amt = match[2];
+                                        pData.coverage[currentPayer][tag] = amt; 
+                                    }
+                                }
+                            });
+                        });
+                    }
+                    results.pres.push(pData);
+                });
+                
+                return results;
+            })();
+            """
             
-            # Check shutdown again after page load
-            if _shutdown_requested.is_set():
+            data = driver.execute_script(script)
+            if not data:
+                if attempt < max_retries:
+                    log.warning(f"[EXTRACT] No data returned from JS (attempt {attempt+1}), retrying...")
+                    continue
                 return []
-            
-            # Validate that we're on a product page before extracting
-            try:
-                # Check for key product page elements
-                product_elements = driver.find_elements(By.CSS_SELECTOR, "tr.lproducto span.tproducto, td.dproducto > table.presentacion")
-                if not product_elements and attempt < max_retries:
-                    log.warning(f"[EXTRACT] Product page elements not found (attempt {attempt + 1}/{max_retries + 1}), waiting and retrying...")
-                    if interruptible_sleep(2):
-                        return []
-                    continue
-            except (InvalidSessionIdException, WebDriverException) as e:
-                log.error(f"[EXTRACT] Driver error during page validation: {e}")
-                raise
-            except Exception as e:
-                if attempt < max_retries:
-                    log.warning(f"[EXTRACT] Page validation failed (attempt {attempt + 1}/{max_retries + 1}): {e}, retrying...")
-                    if interruptible_sleep(1):
-                        return []
-                    continue
-            
-            # Header/meta from the product page - get_text_safe now checks presence before fetching
-            try:
-                active = get_text_safe(driver, "tr.sproducto td.textoe i")
-                therap = get_text_safe(driver, "tr.sproducto td.textor i")
-                comp = get_text_safe(driver, "tr.lproducto td.textor .defecto") or \
-                       get_text_safe(driver, "td.textoe b")
-                pname = get_text_safe(driver, "tr.lproducto span.tproducto")
-            except (InvalidSessionIdException, WebDriverException) as e:
-                log.error(f"[EXTRACT] Driver error while extracting header data: {e}")
-                raise
-            except Exception as e:
-                log.warning(f"[EXTRACT] Error extracting header data: {e}")
-                active = None
-                therap = None
-                comp = None
-                pname = None
 
-            rows: List[Dict[str, Any]] = []
-            # Check if presentation elements exist before iterating
-            try:
-                pres = driver.find_elements(By.CSS_SELECTOR, "td.dproducto > table.presentacion")
-                log.info(f"[EXTRACT] Found {len(pres)} presentation table(s) for {in_company} | {in_product}")
-            except (InvalidSessionIdException, WebDriverException) as e:
-                log.error(f"[EXTRACT] Driver error while finding presentation tables: {e}")
-                raise
-            except Exception as e:
-                log.warning(f"[EXTRACT] Error finding presentation tables: {e}")
-                pres = []
+            active = data.get("active")
+            therap = data.get("therap")
+            comp = data.get("comp")
+            pname = data.get("pname")
             
-            # Extract data from each presentation table
-            for idx, p in enumerate(pres):
-                # Check shutdown during extraction loop
-                if _shutdown_requested.is_set():
-                    return []
-                
-                try:
-                    # Verify element is still accessible before processing
-                    _ = p.is_displayed()
-                except (StaleElementReferenceException, InvalidSessionIdException, WebDriverException) as e:
-                    log.warning(f"[EXTRACT] Element {idx} is stale or driver error: {e}, skipping...")
-                    continue
-                except Exception as e:
-                    log.warning(f"[EXTRACT] Element {idx} may be stale: {e}, skipping...")
-                    continue
-                
-                try:
-                    desc = get_text_safe(p, "td.tddesc")
-                    price = get_text_safe(p, "td.tdprecio")
-                    datev = get_text_safe(p, "td.tdfecha")
-                    import_status = get_text_safe(p, "td.import")
-                    cov = collect_coverage(p)
+            rows = []
+            for p in data.get("pres", []):
+                # Convert coverage amounts and format result
+                cov_raw = p.get("coverage", {})
+                cov_clean = {}
+                for payer, details in cov_raw.items():
+                    cov_clean[payer] = {"detail": details.get("detail")}
+                    for tag in ("AF", "OS"):
+                        if tag in details:
+                            val = ar_money_to_float(details[tag])
+                            if val is not None:
+                                cov_clean[payer][tag] = val
 
-                    rows.append({
-                        "input_company": in_company,
-                        "input_product_name": in_product,
-                        "company": comp,
-                        "product_name": pname,
-                        "active_ingredient": active,
-                        "therapeutic_class": therap,
-                        "description": desc,
-                        "price_ars": ar_money_to_float(price or ""),
-                        "date": parse_date(datev or ""),
-                        "scraped_at": ts(),
-                        "SIFAR_detail": (cov.get("SIFAR") or {}).get("detail"),
-                        "PAMI_AF": (cov.get("PAMI") or {}).get("AF"),
-                        "PAMI_OS": (cov.get("PAMI") or {}).get("OS"),
-                        "IOMA_detail": (cov.get("IOMA") or {}).get("detail"),
-                        "IOMA_AF": (cov.get("IOMA") or {}).get("AF"),
-                        "IOMA_OS": (cov.get("IOMA") or {}).get("OS"),
-                        "import_status": import_status,
-                        "coverage_json": json.dumps(cov, ensure_ascii=False)
-                    })
-                except (StaleElementReferenceException, InvalidSessionIdException, WebDriverException) as e:
-                    log.warning(f"[EXTRACT] Driver error while extracting row {idx}: {e}, skipping this row...")
-                    continue
-                except Exception as e:
-                    log.warning(f"[EXTRACT] Error extracting row {idx}: {e}, skipping this row...")
-                    continue
-
-            # If we got rows, return them (success)
-            if rows:
-                log.info(f"[EXTRACT] Successfully extracted {len(rows)} row(s) for {in_company} | {in_product}")
-                return rows
-            
-            # If no rows but we have product name, create fallback row
-            if pname or comp:
-                log.info(f"[EXTRACT] No presentation rows found but product info exists, creating fallback row for {in_company} | {in_product}")
                 rows.append({
                     "input_company": in_company,
                     "input_product_name": in_product,
@@ -2820,40 +2351,55 @@ def extract_rows(driver, in_company, in_product, max_retries=2):
                     "product_name": pname,
                     "active_ingredient": active,
                     "therapeutic_class": therap,
-                    "description": None,
-                    "price_ars": None,
-                    "date": None,
+                    "description": p.get("desc"),
+                    "price_ars": ar_money_to_float(p.get("price") or ""),
+                    "date": parse_date(p.get("datev") or ""),
                     "scraped_at": ts(),
-                    "SIFAR_detail": None, "PAMI_AF": None, "PAMI_OS": None, "IOMA_detail": None, "IOMA_AF": None, "IOMA_OS": None,
-                    "import_status": None,
-                    "coverage_json": "{}"
+                    "SIFAR_detail": (cov_clean.get("SIFAR") or {}).get("detail"),
+                    "PAMI_AF": (cov_clean.get("PAMI") or {}).get("AF"),
+                    "PAMI_OS": (cov_clean.get("PAMI") or {}).get("OS"),
+                    "IOMA_detail": (cov_clean.get("IOMA") or {}).get("detail"),
+                    "IOMA_AF": (cov_clean.get("IOMA") or {}).get("AF"),
+                    "IOMA_OS": (cov_clean.get("IOMA") or {}).get("OS"),
+                    "import_status": p.get("import_status"),
+                    "coverage_json": json.dumps(cov_clean, ensure_ascii=False)
                 })
+
+            if rows:
+                log.info(f"[EXTRACT] Successfully extracted {len(rows)} row(s) for {in_company} | {in_product} (using JS)")
                 return rows
             
-            # If we got here and no rows, retry if we have attempts left
+            if pname or comp:
+                log.info(f"[EXTRACT] Fallback row created for {in_company} | {in_product}")
+                return [{
+                    "input_company": in_company, "input_product_name": in_product,
+                    "company": comp, "product_name": pname,
+                    "active_ingredient": active, "therapeutic_class": therap,
+                    "description": None, "price_ars": None, "date": None, "scraped_at": ts(),
+                    "SIFAR_detail": None, "PAMI_AF": None, "PAMI_OS": None, "IOMA_detail": None, "IOMA_AF": None, "IOMA_OS": None,
+                    "import_status": None, "coverage_json": "{}"
+                }]
+            
             if attempt < max_retries:
-                log.warning(f"[EXTRACT] No data extracted (attempt {attempt + 1}/{max_retries + 1}) for {in_company} | {in_product}, retrying...")
-                if interruptible_sleep(2):
-                    return []
+                log.warning(f"[EXTRACT] No rows found (attempt {attempt+1}), retrying...")
+                if interruptible_sleep(2): return []
                 continue
             
-            # Final attempt failed - return empty list
-            log.warning(f"[EXTRACT] Failed to extract data after {max_retries + 1} attempts for {in_company} | {in_product}")
             return []
-            
-        except (InvalidSessionIdException, WebDriverException) as e:
-            # Driver errors should not be retried - they indicate session is dead
-            log.error(f"[EXTRACT] Driver error during extraction for {in_company} | {in_product}: {e}")
-            raise
+
         except Exception as e:
             if attempt < max_retries:
-                log.warning(f"[EXTRACT] Extraction error (attempt {attempt + 1}/{max_retries + 1}) for {in_company} | {in_product}: {e}, retrying...")
-                if interruptible_sleep(2):
-                    return []
+                log.warning(f"[EXTRACT] Error (attempt {attempt+1}): {e}, retrying...")
+                if interruptible_sleep(2): return []
                 continue
-            else:
-                log.error(f"[EXTRACT] Extraction failed after {max_retries + 1} attempts for {in_company} | {in_product}: {e}")
-                return []
+            log.error(f"[EXTRACT] Failed after {max_retries+1} attempts: {e}")
+            return []
+    return []
+
+# Legacy wrapper - no longer used by extract_rows but kept for compatibility
+def collect_coverage(pres_el) -> Dict[str, Any]:
+    return {}
+
     
     # Should never reach here, but return empty list as fallback
     return []
@@ -2865,8 +2411,8 @@ PRODUCTS_PER_RESTART = max(1, SELENIUM_PRODUCTS_PER_RESTART)
 SLOW_PAGE_WINDOW_SIZE = max(1, SLOW_PAGE_MEDIAN_WINDOW)
 SLOW_PAGE_MIN_SAMPLES_COUNT = max(1, min(SLOW_PAGE_MIN_SAMPLES, SLOW_PAGE_WINDOW_SIZE))
 SLOW_PAGE_THRESHOLD_SECONDS = max(0.0, SLOW_PAGE_MEDIAN_THRESHOLD_SECONDS)
-INSTANCE_RESTART_WAIT_SECONDS = 84  # Reduced by 30%
-LOGIN_CAPTCHA_WAIT_SECONDS = 126  # Reduced by 30%
+INSTANCE_RESTART_WAIT_SECONDS = 10  # Minimal wait for instance restart
+LOGIN_CAPTCHA_WAIT_SECONDS = 15   # Minimal wait for captcha/login
 
 # ====== CAPTCHA DETECTION ======
 
@@ -2919,20 +2465,76 @@ def duplicate_rate_limit_wait(thread_id: int):
     
     _duplicate_rate_limit_per_thread[thread_id] = time.time()
 
+# ====== DB QUEUE Class ======
+class DBQueue:
+    """Mimics queue.Queue but pulls from DB for distributed scraping"""
+    def __init__(self, repo, worker_id_prefix):
+        self.repo = repo
+        self.worker_id_prefix = worker_id_prefix
+    
+    def get(self, timeout=None):
+        import time
+        start_time = time.time()
+        while True:
+            # Generate a worker ID that includes thread ID
+            tid = threading.get_ident()
+            wid = f"{self.worker_id_prefix}-{tid}"
+            try:
+                # Claim 1 item
+                batch = self.repo.claim_pending_products(wid, limit=1)
+                if batch:
+                    return batch[0] # Return the dictionary row
+            except Exception as e:
+                log.error(f"[DBQueue] Claim failed: {e}")
+            
+            # Check shutdown
+            if _shutdown_requested.is_set():
+                raise Empty
+            
+            # Check timeout
+            if timeout is not None and (time.time() - start_time) > timeout:
+                raise Empty
+                
+            # Sleep before polling again
+            time.sleep(5)
+            
+    def task_done(self):
+        # DB status is updated explicitly by worker logic (success/fail)
+        pass
+        
+    def put(self, item):
+        # Requeue request
+        if isinstance(item, dict) and 'id' in item:
+            try:
+                # Reset to pending so it can be picked up again
+                self.repo.reset_product_status(item['id'], status='pending', error_msg='Requeued via DBQueue')
+                log.info(f"[DBQueue] Requeued product {item['id']} ({item.get('product')})")
+            except Exception as e:
+                 log.error(f"[DBQueue] Failed to requeue: {e}")
+        else:
+             # Legacy tuple (prod, comp) - log warning
+             log.warning(f"[DBQueue] Cannot requeue tuple item (need dict with ID): {item}")
+
+    def qsize(self):
+        return 999 # Fake size to keep loops happy
+
 # ====== MAIN ======
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--max-rows", type=int, default=0, help="Maximum number of rows to process (0 = unlimited)")
-    # Headless mode is always enforced for Argentina scraper
-    # Removed --no-headless option to ensure all browser instances are hidden
+    ap.add_argument("--no-headless", action="store_true", help="Show browser window for debugging")
     args = ap.parse_args()
     
-    # Force headless mode always (hide all browser instances)
-    args.headless = True
-    
-    # Log browser mode
-    log.info(f"[BROWSER] Running in HEADLESS mode (all browser instances hidden)")
+    # Allow visible mode for debugging if --no-headless is passed
+    if args.no_headless:
+        args.headless = False
+        log.info(f"[BROWSER] Running in VISIBLE mode (browser window shown)")
+    else:
+        # Use environment variable default (now set to False for debugging)
+        args.headless = HEADLESS
+        mode_str = "HEADLESS" if HEADLESS else "VISIBLE"
+        log.info(f"[BROWSER] Running in {mode_str} mode (from env/config)")
     
     # Check all requirements before starting
     if not check_requirements():
@@ -2987,84 +2589,29 @@ def main():
         log.error(traceback.format_exc())
         # Continue anyway - pre-sync failure shouldn't stop processing
     
-    # Load pending products from DB (no CSV)
-    log.info("[INPUT] Loading pending products from DB (ar_product_index)...")
-    try:
-        pending_rows = _REPO.get_pending_products(max_loop=int(SELENIUM_MAX_LOOPS), limit=200000)
-    except Exception as e:
-        log.error(f"[INPUT] Failed to load pending rows from DB: {e}")
-        return
+    # DISTRIBUTED MODE: Do NOT load products into a local queue.
+    # Workers will pull directly from DB using claim_pending_products.
+    
+    log.info("[STARTUP] Running in DISTRIBUTED/PULL mode.")
+    
+    # Start global rotation coordinator (Surfshark + Tor NEWNYM) for this node's threads.
+    num_threads = max(1, SELENIUM_THREADS)
+    log.info(f"[SELENIUM] Using {num_threads} browser instance(s)")
+    
+    # Use DBQueue for distributed pulling
+    import socket
+    worker_prefix = os.environ.get("WORKER_ID")
+    if not worker_prefix:
+        worker_prefix = f"{socket.gethostname()}-{os.getpid()}"
+    selenium_queue = DBQueue(_REPO, worker_prefix)
 
-    eligible_count = 0
-    seen_keys = set()
-    min_loop_of_pending = None
-    for row in pending_rows:
-        prod = (row.get("product") or "").strip()
-        comp = (row.get("company") or "").strip()
-        url = (row.get("url") or "").strip()
-        if not (prod and comp and url):
-            continue
-        key = (nk(comp), nk(prod))
-        if key in seen_keys:
-            continue
-        with _skip_lock:
-            if key in skip_set:
-                continue
-        # double-check DB for already scraped
-        from scraper_utils import is_product_already_scraped
-        if is_product_already_scraped(comp, prod):
-            continue
-        seen_keys.add(key)
-        eligible_count += 1
-        # Track min loop_count for round-robin: we must process all round-0 before advancing
-        lc = row.get("loop_count")
-        lc_val = int(lc) if lc is not None else 0
-        if min_loop_of_pending is None or lc_val < min_loop_of_pending:
-            min_loop_of_pending = lc_val
-    
-    log.info(f"[ELIGIBLE] Found {eligible_count} eligible rows for Selenium scraping")
-    
-    # Dynamic instance count: min(4, eligible_count)
-    if eligible_count == 0:
-        log.info(f"[ELIGIBLE] No eligible rows found. Selenium completed immediately{_pipeline_context_suffix()}.")
-        # Still sync files to ensure consistency (clean up progress file and update Productlist_with_urls.csv)
-        log.info("[SELENIUM] Syncing files to ensure consistency after Selenium step completion...")
-        try:
-            sync_files_from_output()
-        except Exception as e:
-            log.warning(f"[SELENIUM] Error syncing files: {e}")
-        log.info("=" * 80)
-        log.info(f"[SELENIUM] Selenium completed (no products to scrape){_pipeline_context_suffix()}.")
-        log.info("=" * 80)
-        print(f"[SELENIUM] Selenium completed successfully (no products to scrape){_pipeline_context_suffix()}", flush=True)
-        return 0
-    
-    num_threads = min(max(1, SELENIUM_THREADS), eligible_count)
-    log.info(f"[SELENIUM] Using {num_threads} browser instance(s) (min({max(1, SELENIUM_THREADS)}, {eligible_count}))")
-    
-    # Set total products for progress tracking
-    global _total_products
-    _total_products = eligible_count
-    
-    # Set total products for round-robin round tracking (with run_id for DB recovery on restart)
-    # Pass min_loop_of_pending so we start at round 0 for products with loop_count 0 (never skip rounds)
-    set_total_products_for_round_tracking(eligible_count, _RUN_ID, min_loop_of_pending)
-    
-    progress_msg = f"[PROGRESS] Products to scrape: {_total_products}"
-    print(progress_msg, flush=True)
-    log.info(progress_msg)
-    
-    # Main processing: read CSV row by row and process with multiple threads
-    # Use a queue to coordinate reading from CSV and processing
-    selenium_queue = Queue()
-    threads = []
-    
-    # Start global rotation coordinator (Surfshark + Tor NEWNYM).
     rotation = RotationCoordinator(num_threads)
     rotation_thread = threading.Thread(target=_rotation_loop, args=(rotation,), name="RotationCoordinator", daemon=True)
     rotation_thread.start()
 
     # Start worker threads
+    # We pass None as queue because workers will pull from DB
+    threads = []
     for thread_idx in range(num_threads):
         thread = threading.Thread(
             target=selenium_worker,
@@ -3076,99 +2623,14 @@ def main():
         thread.start()
         log.info(f"[SELENIUM] Started thread {thread_idx + 1}/{num_threads}")
     
-    # Queue items from DB
-    log.info("[DB_READER] Queueing pending products from DB...")
+    log.info("[SELENIUM] All worker threads started. Waiting for completion...")
 
-    selenium_count = 0
-    seen_keys = set()
-    for row in pending_rows:
-        prod = (row.get("product") or "").strip()
-        comp = (row.get("company") or "").strip()
-        url = (row.get("url") or "").strip()
-        if not (prod and comp and url):
-            continue
-        key = (nk(comp), nk(prod))
-        if key in seen_keys:
-            continue
-        with _skip_lock:
-            if key in skip_set:
-                continue
-        from scraper_utils import is_product_already_scraped
-        if is_product_already_scraped(comp, prod):
-            continue
-        seen_keys.add(key)
-        selenium_queue.put((prod, comp))
-        selenium_count += 1
-
-    log.info(f"[DB_READER] Queued {selenium_count} selenium products from DB")
-
-    # ROUND-ROBIN FIX: Do NOT put None sentinels yet. Requeued items go to end of queue.
-    # If we put Nones now, workers would exit before processing requeued items.
-    # Instead: wait for queue.join() (all work including requeues done), THEN put Nones.
-    def _put_nones_after_queue_drained():
-        try:
-            selenium_queue.join()  # Blocks until all task_done() called (incl. requeued items)
-            if not _shutdown_requested.is_set():
-                for _ in range(num_threads):
-                    selenium_queue.put(None)
-                log.info("[SELENIUM] All work done (incl. requeues), sent stop signals to workers")
-        except Exception as e:
-            log.warning(f"[SELENIUM] Error in queue-drain watcher: {e}")
-
-    drain_thread = threading.Thread(target=_put_nones_after_queue_drained, name="QueueDrainWatcher", daemon=False)
-    drain_thread.start()
-    log.info("[SELENIUM] All products queued. Waiting for queue to be processed (incl. requeued items)...")
-    
-    # Wait for queue to be processed (with periodic checks and timeout)
-    # This ensures all items in queue are processed, including any requeued items
-    # Note: Queue may contain None sentinels (one per thread), so we expect queue size to decrease
-    max_wait_time = 3600  # Maximum 1 hour total wait
-    check_interval = 5  # Check every 5 seconds
-    elapsed = 0
-    last_queue_size = selenium_queue.qsize()
-    stable_count = 0  # Count how many times queue size stayed the same
-    stable_threshold = 6  # Consider queue stable if size unchanged for 6 checks (30 seconds)
-    
-    while elapsed < max_wait_time and not _shutdown_requested.is_set():
-        current_queue_size = selenium_queue.qsize()
-        
-        # If queue size hasn't changed, increment stable count
-        if current_queue_size == last_queue_size:
-            stable_count += 1
-        else:
-            stable_count = 0  # Reset if size changed
-            last_queue_size = current_queue_size
-        
-        # If queue is empty or has only None sentinels (size <= num_threads), we're done
-        # Also break if queue size has been stable for a while (likely just None sentinels or processing done)
-        if current_queue_size <= num_threads:
-            log.info(f"[SELENIUM] Queue size ({current_queue_size}) indicates only sentinels remaining, waiting for threads...")
-            break
-        
-        if stable_count >= stable_threshold and current_queue_size <= num_threads * 2:
-            log.info(f"[SELENIUM] Queue size stable at {current_queue_size} for {stable_threshold * check_interval}s, likely done processing")
-            break
-        
-        time.sleep(check_interval)
-        elapsed += check_interval
-        
-        if elapsed % 30 == 0:  # Log every 30 seconds
-            log.info(f"[SELENIUM] Queue status: {current_queue_size} items remaining, elapsed: {elapsed}s")
-    
-    if not _shutdown_requested.is_set():
-        final_queue_size = selenium_queue.qsize()
-        if final_queue_size > num_threads:
-            log.warning(f"[SELENIUM] Queue still has {final_queue_size} items after {elapsed}s, waiting for threads to finish...")
-        else:
-            log.info(f"[SELENIUM] Queue appears empty (size: {final_queue_size}), waiting for threads to complete...")
     
     log.info("[SELENIUM] Waiting for all worker threads to complete...")
     
-    # Wait for drain thread (puts Nones after queue is empty) and worker threads
+    # Wait for worker threads
     try:
-        drain_thread.join(timeout=max_wait_time + 60)  # Drain thread blocks on queue.join()
-        if drain_thread.is_alive():
-            log.warning("[SELENIUM] Drain watcher thread still running (queue.join may be blocked)")
+        # We don't have drain_thread anymore
         for i, thread in enumerate(threads):
             # Use timeout to periodically check for shutdown
             while thread.is_alive():
@@ -3530,8 +2992,12 @@ def selenium_worker(selenium_queue: Queue, args, skip_set: set, rotation: Rotati
                     log.info(f"[SELENIUM_WORKER] Received stop signal (None), thread {thread_id} exiting")
                     selenium_queue.task_done()
                     break
-                # Format: (product, company)
-                in_product, in_company = item
+                # Format: (product, company) or Dict from DB
+                if isinstance(item, dict):
+                    in_product = item.get('product')
+                    in_company = item.get('company')
+                else:
+                    in_product, in_company = item
             except Empty:
                 # Check shutdown when queue is empty
                 if _shutdown_requested.is_set():

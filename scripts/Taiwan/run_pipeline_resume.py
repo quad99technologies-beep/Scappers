@@ -45,6 +45,19 @@ def configure_realtime_output() -> None:
         pass
 
 
+def _get_or_create_run_id() -> str:
+    """Get run_id from .current_run_id or create a new one."""
+    run_id_file = Path(__file__).parent / ".current_run_id"
+    if run_id_file.exists():
+        rid = run_id_file.read_text(encoding="utf-8").strip()
+        if rid:
+            return rid
+    
+    new_rid = f"tw_{time.strftime('%Y%m%d_%H%M%S')}"
+    run_id_file.write_text(new_rid, encoding="utf-8")
+    return new_rid
+
+
 def run_step(step_num: int, script_name: str, step_name: str, total_steps: int, output_files: list = None) -> bool:
     """Run a pipeline step and mark it complete if successful."""
     print(f"\n{'='*80}")
@@ -64,6 +77,10 @@ def run_step(step_num: int, script_name: str, step_name: str, total_steps: int, 
         print(f"ERROR: Script not found: {script_path}")
         return False
 
+    run_id = _get_or_create_run_id()
+    env = os.environ.copy()
+    env["TW_RUN_ID"] = run_id
+
     start_time = time.time()
     duration_seconds = None
 
@@ -73,7 +90,8 @@ def run_step(step_num: int, script_name: str, step_name: str, total_steps: int, 
         subprocess.run(
             [sys.executable, "-u", str(script_path)],
             check=True,
-            capture_output=False
+            capture_output=False,
+            env=env
         )
         duration_seconds = time.time() - start_time
 
@@ -117,6 +135,10 @@ def main() -> None:
 
     if args.fresh:
         cp.clear_checkpoint()
+        # Delete run id file for fresh run
+        run_id_file = Path(__file__).parent / ".current_run_id"
+        if run_id_file.exists():
+            run_id_file.unlink()
         start_step = 0
         print("Starting fresh run (checkpoint cleared)")
     elif args.step is not None:
@@ -130,15 +152,10 @@ def main() -> None:
         else:
             print("Starting fresh run (no checkpoint found)")
 
-    output_dir = get_output_dir()
-    exports_dir = get_central_output_dir()
-    codes_file = getenv("SCRIPT_01_OUT_CODES", "taiwan_drug_code_urls.csv")
-    details_file = getenv("SCRIPT_02_OUT_DETAILS", "taiwan_drug_code_details.csv")
-
     steps = [
         (0, "00_backup_and_clean.py", "Backup and Clean", None),
-        (1, "01_taiwan_collect_drug_code_urls.py.py", "Collect Drug Code URLs", [str(output_dir / codes_file)]),
-        (2, "02_taiwan_extract_drug_code_details.py", "Extract Drug Code Details", [str(exports_dir / details_file)]),
+        (1, "01_taiwan_collect_drug_code_urls.py.py", "Collect Drug Code URLs", None),
+        (2, "02_taiwan_extract_drug_code_details.py", "Extract Drug Code Details", None),
     ]
     total_steps = len(steps)
 

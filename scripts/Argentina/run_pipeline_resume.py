@@ -257,7 +257,10 @@ def _mark_run_ledger_active_if_resume(start_step: int) -> None:
         return
     try:
         from core.db.connection import CountryDB
-        from db.repositories import ArgentinaRepository
+        try:
+            from db.repositories import ArgentinaRepository
+        except ImportError:
+            from scripts.Argentina.db.repositories import ArgentinaRepository
 
         with CountryDB("Argentina") as db:
             repo = ArgentinaRepository(db, run_id)
@@ -461,17 +464,17 @@ def _get_step_row_counts(step_num: int, run_id: str) -> int:
                 
                 # Step 3: Selenium Product Search - count scraped products from this step
                 elif step_num == 3:
-                    cur.execute("SELECT COUNT(*) FROM ar_scrape_log WHERE run_id = %s AND source = 'selenium_product'", (run_id,))
+                    cur.execute("SELECT COUNT(*) FROM ar_products WHERE run_id = %s AND (source = 'selenium' OR source = 'selenium_product')", (run_id,))
                     return cur.fetchone()[0] or 0
                 
                 # Step 4: Selenium Company Search - count scraped products from this step
                 elif step_num == 4:
-                    cur.execute("SELECT COUNT(*) FROM ar_scrape_log WHERE run_id = %s AND source = 'selenium_company'", (run_id,))
+                    cur.execute("SELECT COUNT(*) FROM ar_products WHERE run_id = %s AND source = 'selenium_company'", (run_id,))
                     return cur.fetchone()[0] or 0
                 
                 # Step 5: API Scraper - count scraped products from API
                 elif step_num == 5:
-                    cur.execute("SELECT COUNT(*) FROM ar_scrape_log WHERE run_id = %s AND source = 'api'", (run_id,))
+                    cur.execute("SELECT COUNT(*) FROM ar_products WHERE run_id = %s AND source = 'api'", (run_id,))
                     return cur.fetchone()[0] or 0
                 
                 # Step 6: Translate Using Dictionary - count translated rows
@@ -486,7 +489,7 @@ def _get_step_row_counts(step_num: int, run_id: str) -> int:
                 
                 # Step 8: Scrape No-Data - count retry attempts
                 elif step_num == 8:
-                    cur.execute("SELECT COUNT(*) FROM ar_scrape_log WHERE run_id = %s AND source = 'step7'", (run_id,))
+                    cur.execute("SELECT COUNT(*) FROM ar_products WHERE run_id = %s AND source = 'step7'", (run_id,))
                     return cur.fetchone()[0] or 0
                 
                 # Step 9: Refresh Export - same as step 7 (re-export)
@@ -738,8 +741,12 @@ def run_step(step_num: int, script_name: str, step_name: str, output_files: list
                 run_id = _read_run_id()
                 if run_id:
                     from core.db.connection import CountryDB
-                    from db.schema import apply_argentina_schema
-                    from db.repositories import ArgentinaRepository
+                    try:
+                        from db.schema import apply_argentina_schema
+                        from db.repositories import ArgentinaRepository
+                    except ImportError:
+                        from scripts.Argentina.db.schema import apply_argentina_schema
+                        from scripts.Argentina.db.repositories import ArgentinaRepository
                     from scraper_utils import combine_skip_sets, is_product_already_scraped, nk
                     os.environ["ARGENTINA_RUN_ID"] = run_id
                     db = CountryDB("Argentina")
@@ -1108,7 +1115,10 @@ def main():
             raise RuntimeError("No run_id found. Run Step 0 first or set ARGENTINA_RUN_ID.")
 
         from core.db.connection import CountryDB
-        from db.repositories import ArgentinaRepository
+        try:
+            from db.repositories import ArgentinaRepository
+        except ImportError:
+            from scripts.Argentina.db.repositories import ArgentinaRepository
 
         run_id = _resolve_run_id()
         db = CountryDB("Argentina")
@@ -1228,7 +1238,10 @@ def main():
                     run_id = _read_run_id()
                     if run_id:
                         from core.db.connection import CountryDB
-                        from db.schema import apply_argentina_schema
+                        try:
+                            from db.schema import apply_argentina_schema
+                        except ImportError:
+                            from scripts.Argentina.db.schema import apply_argentina_schema
                         db = CountryDB("Argentina")
                         apply_argentina_schema(db)
                         with db.cursor() as cur:
@@ -1348,7 +1361,10 @@ def main():
     if start_step == 0:
         try:
             from core.db.connection import CountryDB
-            from db.repositories import ArgentinaRepository
+            try:
+                from db.repositories import ArgentinaRepository
+            except ImportError:
+                from scripts.Argentina.db.repositories import ArgentinaRepository
             run_id = _read_run_id()
             if run_id:
                 with CountryDB("Argentina") as db:

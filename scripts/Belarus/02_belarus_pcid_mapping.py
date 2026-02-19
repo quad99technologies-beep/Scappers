@@ -59,29 +59,6 @@ except ImportError:
     HAS_DB = False
 
 
-def load_pcid_mapping():
-    """Load PCID mapping from input folder"""
-    pcid_path = Path(PCID_MAPPING_CSV)
-    if not pcid_path.exists():
-        print(f"[WARN] PCID mapping file not found: {pcid_path}")
-        return {}
-    
-    try:
-        df = pd.read_csv(pcid_path)
-        # Create mapping from WHO ATC Code to PCID
-        mapping = {}
-        for _, row in df.iterrows():
-            atc_code = str(row.get("WHO ATC Code", "")).strip().upper()
-            pcid = str(row.get("PCID", "")).strip()
-            if atc_code and pcid and pcid.upper() != "DUPLICATE":
-                if atc_code not in mapping:
-                    mapping[atc_code] = pcid
-        return mapping
-    except Exception as e:
-        print(f"[WARN] Error loading PCID mapping: {e}")
-        return {}
-
-
 def norm(s):
     if s is None:
         return ""
@@ -167,9 +144,58 @@ def _rceth_row_to_template(row: dict) -> dict:
     }
 
 
+def load_pcid_mapping_from_db(db):
+    """Load PCID mapping from global 'pcid_mapping' table (Single Source of Truth)."""
+    mapping = {}
+    try:
+        with db.cursor() as cur:
+            # Query global table for Belarus mappings
+            # We map from 'who_atc_code' (stored in generic_name or custom field if schema allows)
+            # Standard schema: pcid, local_pack_code, presentation, generic_name, local_pack_description
+            # For Belarus, we appear to map via ATC Code.
+            # Let's assume the GUI importer puts ATC Code in 'generic_name' or similar, 
+            # OR we match on multiple fields.
+            #
+            # However, the previous script used a simple CSV with "WHO ATC Code" -> "PCID".
+            # If the global table is used, we need to ensure the columns align.
+            # 
+            # Strategy:
+            # 1. Fetch all rows for 'Belarus'
+            # 2. Construct mapping dictionary based on available columns that represent the ATC code.
+            #    In the global schema, 'generic_name' is often used for the primary match key if not specific.
+            #    Let's check what the standard import does.
+            
+            cur.execute("""
+                SELECT generic_name, pcid 
+                FROM pcid_mapping 
+                WHERE source_country = 'Belarus'
+            """)
+            
+            rows = cur.fetchall()
+            if not rows:
+                print("[WARN] No PCID mapping data found in DB for 'Belarus'")
+                return {}
+
+            count = 0
+            for row in rows:
+                atc_code = str(row[0]).strip().upper() # Assuming generic_name holds ATC for Belarus based on usage
+                pcid = str(row[1]).strip()
+                
+                if atc_code and pcid and pcid.upper() != "DUPLICATE":
+                    if atc_code not in mapping:
+                        mapping[atc_code] = pcid
+                        count += 1
+            
+            print(f"[INFO] Loaded {count} PCID mappings from database")
+            return mapping
+            
+    except Exception as e:
+        print(f"[ERROR] Failed to load PCID mapping from DB: {e}")
+        return {}
+
+
 def main():
-    print("[INFO] Starting Belarus PCID mapping...")
-    print(f"[VERIFY] PCID mapping CSV path: {PCID_MAPPING_CSV}")
+    print("[INFO] Starting Belarus PCID mapping (DB-Only Mode)...")
 
     if not HAS_DB:
         print("[ERROR] Database support not available. Cannot run PCID mapping.")
@@ -216,9 +242,8 @@ def main():
     raw = pd.DataFrame([_rceth_row_to_template(r) for r in rceth_rows])
     print(f"[INFO] Loaded {len(raw)} rows from database (by_rceth_data)")
     
-    # Load PCID mapping
-    pcid_mapping = load_pcid_mapping()
-    print(f"[INFO] Loaded {len(pcid_mapping)} PCID mappings")
+    # Load PCID mapping from DB
+    pcid_mapping = load_pcid_mapping_from_db(db)
     
     # Create lookup dict from scrape
     raw["__k"] = raw.apply(build_scrape_key, axis=1)

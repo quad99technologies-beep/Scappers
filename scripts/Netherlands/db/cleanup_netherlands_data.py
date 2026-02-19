@@ -40,15 +40,10 @@ def cleanup_netherlands():
         
         # 3. List of Netherlands-specific tables (names starting with nl_)
         nl_tables = [
-            "nl_costs",
             "nl_packs",
             "nl_collected_urls",
-            "nl_details",
-            "nl_consolidated",
             "nl_chrome_instances",
             "nl_search_combinations",
-            "nl_products",
-            "nl_reimbursement",
             "nl_step_progress",
             "nl_export_reports",
             "nl_errors"

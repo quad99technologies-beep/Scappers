@@ -3,7 +3,7 @@ import shutil
 import socket
 import logging
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Callable, Optional, Tuple
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium import webdriver
@@ -179,7 +179,7 @@ def create_chrome_driver(headless: bool = True, proxy_args: dict = {}, extra_opt
         
     return driver
 
-def create_firefox_driver(headless: bool = True, tor_config: dict = {}) -> webdriver.Firefox:
+def create_firefox_driver(headless: bool = True, tor_config: dict = {}, extra_prefs: dict = {}) -> webdriver.Firefox:
     """Create a Firefox WebDriver instance, optionally with Tor proxy support."""
     options = FirefoxOptions()
     if headless:
@@ -192,7 +192,8 @@ def create_firefox_driver(headless: bool = True, tor_config: dict = {}) -> webdr
     profile.set_preference("dom.push.enabled", False)
     profile.set_preference("permissions.default.desktop-notification", 2)
 
-    # Disable images, CSS, and fonts for speed
+    # Disable images, CSS, and fonts for speed (default)
+    # can be overridden by extra_prefs
     profile.set_preference("permissions.default.image", 2)
     profile.set_preference("permissions.default.stylesheet", 2)
     profile.set_preference("browser.display.use_document_fonts", 0)
@@ -207,6 +208,10 @@ def create_firefox_driver(headless: bool = True, tor_config: dict = {}) -> webdr
         profile.set_preference("network.proxy.socks_version", 5)
         profile.set_preference("network.proxy.socks_remote_dns", True)
         log.info(f"[TOR_CONFIG] Using Tor proxy on port {port}")
+    
+    # Apply extra preferences
+    for key, value in extra_prefs.items():
+        profile.set_preference(key, value)
     
     options.profile = profile
     options.page_load_strategy = "eager"

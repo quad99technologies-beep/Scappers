@@ -8,28 +8,26 @@ _repo_root = Path(__file__).resolve().parents[2]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
-from core.config.scraper_config import ScraperConfig
+from core.config.scraper_config_factory import create_config
 
 SCRAPER_ID = "Taiwan"
-_cfg = ScraperConfig(SCRAPER_ID)
+config = create_config(SCRAPER_ID)
 
-# Re-export for scripts that import from config_loader
-get_repo_root = _cfg.get_repo_root
-getenv = _cfg.getenv
-getenv_int = _cfg.getenv_int
-getenv_float = _cfg.getenv_float
-getenv_bool = _cfg.getenv_bool
-getenv_list = _cfg.getenv_list
-get_base_dir = _cfg.get_repo_root
-get_input_dir = _cfg.get_input_dir
-get_output_dir = _cfg.get_output_dir
-get_backup_dir = _cfg.get_backup_dir
-get_central_output_dir = _cfg.get_central_output_dir
+# --- Path Accessors ---
+def get_repo_root() -> Path: return config.get_repo_root()
+def get_base_dir() -> Path: return config.get_base_dir()
+def get_central_output_dir() -> Path: return config.get_central_output_dir()
+def get_input_dir(subpath=None) -> Path: return config.get_input_dir(subpath)
+def get_output_dir(subpath=None) -> Path: return config.get_output_dir(subpath)
+def get_backup_dir() -> Path: return config.get_backup_dir()
 
-
-def load_env_file() -> None:
-    """Load environment variables. Must be called before getenv()."""
-    _cfg.load_env()
+# --- Environment Accessors ---
+def load_env_file() -> None: pass  # no-op, already loaded on import
+def getenv(key: str, default: str = "") -> str: return config.getenv(key, default)
+def getenv_int(key: str, default: int = 0) -> int: return config.getenv_int(key, default)
+def getenv_float(key: str, default: float = 0.0) -> float: return config.getenv_float(key, default)
+def getenv_bool(key: str, default: bool = False) -> bool: return config.getenv_bool(key, default)
+def getenv_list(key: str, default: list = None) -> list: return config.getenv_list(key, default or [])
 
 
 if __name__ == "__main__":

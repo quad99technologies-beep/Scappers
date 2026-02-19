@@ -11,8 +11,27 @@ def parse_date(s: str) -> Optional[str]:
         y += 2000
         try:
             return datetime(y, mn, d).date().isoformat()
-        except:
+        except (ValueError, OverflowError):
             return None
+            
+    # Support DD.MM.YYYY
+    m = re.search(r"\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b", s)
+    if m:
+        d, mn, y = map(int, m.groups())
+        try:
+            return datetime(y, mn, d).date().isoformat()
+        except (ValueError, OverflowError):
+            return None
+
+    # Support YYYY.MM.DD
+    m = re.search(r"\b(\d{4})\.(\d{1,2})\.(\d{1,2})\b", s)
+    if m:
+        y, mn, d = map(int, m.groups())
+        try:
+            return datetime(y, mn, d).date().isoformat()
+        except (ValueError, OverflowError):
+            return None
+
     return None
 
 def russia_extract_date(cell_text: str) -> str:

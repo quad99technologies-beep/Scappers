@@ -25,8 +25,8 @@ try:
     # Try to add scripts directory for config_loader
     sys.path.insert(0, str(repo_root / "scripts"))
     
-    from core.chrome_manager import kill_orphaned_chrome_processes
-    from core.resource_monitor import check_memory_leak, log_resource_status
+    from core.browser.chrome_manager import kill_orphaned_chrome_processes
+    from core.monitoring.resource_monitor import check_memory_leak, log_resource_status
     print("  [OK] Core modules (chrome_manager, resource_monitor) import successfully")
 except ImportError as e:
     print(f"  [FAIL] Core module import failed: {e}")
@@ -34,14 +34,14 @@ except ImportError as e:
 
 # Test core.tor_manager separately (needs config_loader from scripts)
 try:
-    from core.tor_manager import check_tor_running
+    from core.network.tor_manager import check_tor_running
     print("  [OK] Core tor_manager imports successfully")
 except ImportError as e:
     print(f"  [WARN] tor_manager import warning (needs config_loader): {e}")
 
 # Test core.browser_session
 try:
-    from core.browser_session import BrowserSession
+    from core.browser.browser_session import BrowserSession
     print("  [OK] Core browser_session imports successfully")
 except ImportError as e:
     print(f"  [WARN] browser_session import warning: {e}")

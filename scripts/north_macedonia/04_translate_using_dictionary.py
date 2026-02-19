@@ -31,7 +31,7 @@ import unicodedata
 from pathlib import Path
 from typing import Dict, Optional, Tuple
 
-# Setup paths
+# Setup paths (MUST be before any core imports)
 SCRIPT_DIR = Path(__file__).resolve().parent
 _repo_root = Path(__file__).resolve().parents[2]
 
@@ -40,9 +40,19 @@ if str(_repo_root) not in sys.path:
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
+from core.monitoring.audit_logger import audit_log
+
+# Fix for module shadowing: Remove any conflicting 'db' module from sys.modules
+# to ensure 'from db ...' resolves to the local db directory.
+if "db" in sys.modules:
+    del sys.modules["db"]
+
 from config_loader import load_env_file, get_output_dir
 from core.db.connection import CountryDB
-from db.repositories import NorthMacedoniaRepository
+try:
+    from db.repositories import NorthMacedoniaRepository
+except (ImportError, ModuleNotFoundError):
+    from scripts.north_macedonia.db.repositories import NorthMacedoniaRepository
 
 load_env_file()
 
@@ -423,6 +433,8 @@ def main():
     global _google_translate_cache
     _google_translate_cache = repo.get_translation_cache(source_lang='mk', target_lang='en')
     log.info(f"Loaded {len(_google_translate_cache)} cached translations from DB")
+    
+    audit_log("RUN_STARTED", scraper_name="NorthMacedonia", run_id=run_id, details={"step": "04_translation"})
 
     # Load dictionary
     log.info("Loading dictionary...")
@@ -638,6 +650,12 @@ def main():
     log.info(f"  Google fallback: {translation_stats['google_fallback']} (only for missing terms)")
     log.info(f"  Saved to dictionary: {translation_stats['saved_to_dict']} (will be reused in next run)")
     log.info(f"  Untranslated: {translation_stats['no_translation']}")
+    
+    audit_log("RUN_COMPLETED", scraper_name="NorthMacedonia", run_id=run_id, details={
+        "products_total": total,
+        "products_updated": updated_count, 
+        "stats": translation_stats
+    })
     log.info("="*60)
 
 

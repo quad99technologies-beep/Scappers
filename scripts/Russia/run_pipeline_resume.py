@@ -141,7 +141,10 @@ def _current_run_has_translated_data() -> bool:
         return False
     try:
         from core.db.connection import CountryDB
-        from db.repositories import RussiaRepository
+        try:
+            from db.repositories import RussiaRepository
+        except ImportError:
+            from scripts.Russia.db.repositories import RussiaRepository
         db = CountryDB("Russia")
         repo = RussiaRepository(db, run_id)
         return len(repo.get_translated_products()) > 0
@@ -211,7 +214,10 @@ def _get_run_id_for_step(step_num: int) -> str:
     if step_num in (3, 4, 5):
         try:
             from core.db.connection import CountryDB
-            from db.repositories import RussiaRepository
+            try:
+                from db.repositories import RussiaRepository
+            except ImportError:
+                from scripts.Russia.db.repositories import RussiaRepository
             db = CountryDB("Russia")
             repo = RussiaRepository(db, "")
             run_id = repo.get_latest_run_id()
@@ -243,7 +249,10 @@ def _ensure_resume_run_id(start_step: int) -> None:
         # Try to get the run with most data from DB
         try:
             from core.db.connection import CountryDB
-            from db.repositories import RussiaRepository
+            try:
+                from db.repositories import RussiaRepository
+            except ImportError:
+                from scripts.Russia.db.repositories import RussiaRepository
             db = CountryDB("Russia")
             repo = RussiaRepository(db, "")
             run_id = repo.get_latest_run_id()
@@ -625,9 +634,26 @@ def main():
                 return run_id_file.read_text(encoding="utf-8").strip()
             raise RuntimeError("No run_id found. Run Step 0 first or set RUSSIA_RUN_ID.")
 
-        from core.db.connection import CountryDB
-        from db.repositories import RussiaRepository
+        if str(_script_dir) not in sys.path:
+            sys.path.insert(0, str(_script_dir))
+            
+        try:
+            # Try absolute import first (if running as package)
+            from scripts.Russia.db.repositories import RussiaRepository
+        except ImportError:
+            try:
+                # Try relative-style import (if running from script dir)
+                import db.repositories as repo_mod
+                RussiaRepository = repo_mod.RussiaRepository
+            except ImportError:
+                # Last resort: try adding 'db' directory directly to path
+                db_dir = str(_script_dir / "db")
+                if db_dir not in sys.path:
+                    sys.path.append(db_dir)
+                import repositories
+                RussiaRepository = repositories.RussiaRepository
 
+        from core.db.connection import CountryDB
         run_id = _resolve_run_id()
         db = CountryDB("Russia")
         repo = RussiaRepository(db, run_id)

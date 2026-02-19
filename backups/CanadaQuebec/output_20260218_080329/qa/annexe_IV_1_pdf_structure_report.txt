@@ -1,0 +1,28 @@
+Input: D:\quad99\Scrappers\output\CanadaQuebec\split_pdf\annexe_iv1.pdf
+Total pages: 16
+Legend detected: False
+Pages with DIN: 9
+Pages with headers: 0
+Pages with row shape OK: 8
+Header ratio (all pages): 0.00%
+Header ratio (DIN pages): 0.00%
+Row shape ratio (DIN pages): 88.89%
+Flagged ratio (DIN pages): 100.00%
+Fit to run: False
+
+Fit reasons:
+- Legend page not detected in first 3 pages
+- Too few DIN pages (9 < 10)
+- Low header detection (0%)
+- High flagged pages (100%)
+
+Flagged pages (9):
+- Page 1: Header calibration weak
+- Page 3: Few prices detected for DIN rows, Header calibration weak
+- Page 4: Header calibration weak
+- Page 6: Header calibration weak
+- Page 7: Header calibration weak
+- Page 9: Header calibration weak, Manufacturer pack leaks (3)
+- Page 10: Header calibration weak, Manufacturer pack leaks (2)
+- Page 12: Header calibration weak, Manufacturer pack leaks (5)
+- Page 16: Header calibration weak, Manufacturer pack leaks (2)

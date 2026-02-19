@@ -1,0 +1,7 @@
+2026-02-18 09:40:39,293 - INFO - Extracting Page 1 (881 chars)...
+2026-02-18 09:40:39,498 - INFO - Extracting Page 2 (1222 chars)...
+2026-02-18 09:40:55,282 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-18 09:40:55,317 - INFO - Page 1: Extracted 13 rows.
+2026-02-18 09:41:14,383 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-18 09:41:14,384 - INFO - Page 2: Extracted 28 rows.
+2026-02-18 09:41:14,384 - INFO - Inserting 41 rows into ca_qc_annexe_v

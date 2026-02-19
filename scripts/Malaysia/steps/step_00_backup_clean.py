@@ -118,8 +118,10 @@ def main() -> None:
 
     # Generate or reuse run_id
     run_id = os.environ.get("MALAYSIA_RUN_ID")
+    is_resumed = False
     if run_id:
         print(f"[OK] Resuming run_id from env: {run_id}", flush=True)
+        is_resumed = True
     else:
         run_id = generate_run_id()
         os.environ["MALAYSIA_RUN_ID"] = run_id
@@ -133,8 +135,17 @@ def main() -> None:
     # Register run in DB
     from db.repositories import MalaysiaRepository
     repo = MalaysiaRepository(db, run_id)
-    repo.start_run(mode="fresh")
-    print(f"[OK] Run registered in run_ledger", flush=True)
+    
+    if is_resumed:
+        # If we are resuming, ensure the run exists in the ledger (or update its status)
+        # using mode="resume" or preserving the original mode if complex logic were added.
+        # Here we just ensure it exists and set status to running.
+        repo.ensure_run_in_ledger(mode="resume")
+        print(f"[OK] Run resumed/ensured in run_ledger", flush=True)
+    else:
+        # New run, so we start it as fresh
+        repo.start_run(mode="fresh")
+        print(f"[OK] Run registered in run_ledger", flush=True)
 
     print()
     print("=" * 80)

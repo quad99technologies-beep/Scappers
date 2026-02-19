@@ -46,6 +46,7 @@ from typing import Any, Dict, List, Optional
 
 from core.pipeline.pipeline_start_lock import (
     claim_pipeline_start_lock,
+    get_lock_paths,
     release_pipeline_lock,
     update_pipeline_lock,
 )
@@ -53,7 +54,7 @@ from core.pipeline.pipeline_start_lock import (
 # ---------------------------------------------------------------------------
 # Path wiring
 # ---------------------------------------------------------------------------
-REPO_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
@@ -714,8 +715,8 @@ if app:
                 run_id_file = output_dir / ".current_run_id"
                 if run_id_file.exists():
                     existing_run_id = run_id_file.read_text(encoding="utf-8").strip()
-                    lock_file = pm.get_lock_file(key)
-                    if not lock_file.exists():
+                    new_lock, _old_lock = get_lock_paths(key, repo_root=REPO_ROOT)
+                    if not new_lock.exists():
                         existing_run_id = None
             except Exception:
                 pass
@@ -1192,45 +1193,90 @@ if app:
 # Embedded server support (for GUI integration)
 # ---------------------------------------------------------------------------
 
-_embedded_server_thread: Optional[threading.Thread] = None
-_embedded_uvicorn_server = None
+_embedded_server_process: Optional[subprocess.Popen] = None
+_embedded_server_port: int = 8000
 
 
 def start_embedded(host: str = "0.0.0.0", port: int = 8000) -> bool:
-    """Start the API server in a background thread (called from GUI)."""
-    global _embedded_server_thread, _embedded_uvicorn_server
+    """Start the API server in a subprocess (called from GUI).
+    
+    Uses subprocess instead of thread to avoid Windows asyncio issues.
+    """
+    global _embedded_server_process, _embedded_server_port
 
     if not _FASTAPI_AVAILABLE:
         logger.error("Cannot start embedded API: FastAPI not installed")
         return False
 
-    if _embedded_server_thread and _embedded_server_thread.is_alive():
+    if _embedded_server_process and _embedded_server_process.poll() is None:
         logger.warning("Embedded API server is already running")
         return False
 
-    config = uvicorn.Config(app, host=host, port=port, log_level="info")
-    _embedded_uvicorn_server = uvicorn.Server(config)
-
-    def _run():
-        logger.info(f"Embedded API server starting on {host}:{port}")
-        _embedded_uvicorn_server.run()
-        logger.info("Embedded API server stopped")
-
-    _embedded_server_thread = threading.Thread(target=_run, daemon=True, name="api-server")
-    _embedded_server_thread.start()
-    logger.info(f"Embedded API server started on http://{host}:{port}/docs")
-    return True
+    _embedded_server_port = port
+    
+    # Start uvicorn as a subprocess - more reliable on Windows
+    # Use absolute path to ensure imports work correctly
+    api_server_path = Path(__file__).resolve()
+    
+    cmd = [
+        sys.executable, "-m", "uvicorn",
+        "--app-dir", str(REPO_ROOT),
+        "services.api_server:app",
+        "--host", host,
+        "--port", str(port),
+        "--log-level", "info",
+    ]
+    
+    # Set up environment with proper PYTHONPATH
+    env = os.environ.copy()
+    if "PYTHONPATH" in env:
+        env["PYTHONPATH"] = str(REPO_ROOT) + os.pathsep + env["PYTHONPATH"]
+    else:
+        env["PYTHONPATH"] = str(REPO_ROOT)
+    
+    try:
+        # On Windows, use CREATE_NEW_PROCESS_GROUP to avoid signal issues
+        # and close_fds to prevent handle inheritance
+        kwargs = {}
+        if sys.platform == "win32":
+            kwargs["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
+            kwargs["close_fds"] = True
+        
+        # Note: On Windows, piping stdout can cause issues with subprocess
+        # imports, so we let output go directly to console
+        _embedded_server_process = subprocess.Popen(
+            cmd,
+            cwd=str(REPO_ROOT),
+            env=env,
+            **kwargs
+        )
+        
+        logger.info(f"Embedded API server started on http://{host}:{port}/docs")
+        return True
+    except Exception as exc:
+        logger.error(f"Failed to start embedded API server: {exc}")
+        return False
 
 
 def stop_embedded() -> bool:
     """Stop the embedded API server."""
-    global _embedded_server_thread, _embedded_uvicorn_server
+    global _embedded_server_process
 
-    if _embedded_uvicorn_server:
-        _embedded_uvicorn_server.should_exit = True
+    if _embedded_server_process and _embedded_server_process.poll() is None:
         logger.info("Embedded API server shutting down...")
+        _embedded_server_process.terminate()
+        try:
+            _embedded_server_process.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            _embedded_server_process.kill()
+            _embedded_server_process.wait(timeout=2)
         return True
     return False
+
+
+def is_embedded_running() -> bool:
+    """Check if the embedded API server is running."""
+    return _embedded_server_process is not None and _embedded_server_process.poll() is None
 
 
 # ---------------------------------------------------------------------------
@@ -1262,7 +1308,7 @@ def main():
 """)
 
     uvicorn.run(
-        "scripts.common.api_server:app",
+        "services.api_server:app",
         host=args.host,
         port=args.port,
         reload=args.reload,

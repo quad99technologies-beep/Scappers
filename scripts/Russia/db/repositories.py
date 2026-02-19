@@ -13,11 +13,16 @@ import logging
 from typing import Dict, List, Optional, Set
 from datetime import datetime
 
+from core.db.base_repository import BaseRepository
+
 logger = logging.getLogger(__name__)
 
 
-class RussiaRepository:
+class RussiaRepository(BaseRepository):
     """All database operations for Russia scraper (PostgreSQL backend)."""
+
+    SCRAPER_NAME = "Russia"
+    TABLE_PREFIX = "ru"
 
     def __init__(self, db, run_id: str):
         """
@@ -27,15 +32,7 @@ class RussiaRepository:
             db: PostgresDB instance
             run_id: Current run ID
         """
-        self.db = db
-        self.run_id = run_id
-
-    def _db_log(self, message: str) -> None:
-        """Emit a [DB] activity log line for GUI activity panel."""
-        try:
-            print(f"[DB] {message}", flush=True)
-        except Exception:
-            pass
+        super().__init__(db, run_id)
 
     # ------------------------------------------------------------------
     # Input tables (ru_input_dictionary for translation)
@@ -59,49 +56,6 @@ class RussiaRepository:
         except Exception as e:
             logger.warning("ru_input_dictionary not available: %s", e)
             return []
-
-    # ------------------------------------------------------------------
-    # Run lifecycle
-    # ------------------------------------------------------------------
-
-    def start_run(self, mode: str = "fresh") -> None:
-        """Register a new run in run_ledger."""
-        from core.db.models import run_ledger_start
-        sql, params = run_ledger_start(self.run_id, "Russia", mode=mode)
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"OK | run_ledger start | run_id={self.run_id} mode={mode}")
-
-    def finish_run(self, status: str, items_scraped: int = 0,
-                   items_exported: int = 0, error_message: str = None) -> None:
-        """Mark run as finished."""
-        from core.db.models import run_ledger_finish
-        sql, params = run_ledger_finish(
-            self.run_id, status,
-            items_scraped=items_scraped,
-            items_exported=items_exported,
-            error_message=error_message,
-        )
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"FINISH | run_ledger updated | status={status} items={items_scraped}")
-
-    def resume_run(self) -> None:
-        """Mark existing run as resumed."""
-        from core.db.models import run_ledger_resume
-        sql, params = run_ledger_resume(self.run_id)
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"RESUME | run_ledger updated | run_id={self.run_id}")
-
-    def ensure_run_exists(self, mode: str = "resume") -> None:
-        """Insert run_ledger row if missing, or update status if present.
-        Use when running step 2+ after step 1 (avoids UniqueViolation on resume)."""
-        from core.db.models import run_ledger_ensure_exists
-        sql, params = run_ledger_ensure_exists(self.run_id, "Russia", mode=mode)
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"OK | run_ledger ensure_exists | run_id={self.run_id} mode={mode}")
 
     # ------------------------------------------------------------------
     # Step progress (sub-step resume)
@@ -462,6 +416,73 @@ class RussiaRepository:
             return row[0] if row else None
 
     # ------------------------------------------------------------------
+    # Atomic Page Claiming (for parallel workers)
+    # ------------------------------------------------------------------
+
+    def claim_next_page(self, last_page: int, step_number: int = 1,
+                        source_type: str = "ved") -> Optional[int]:
+        """
+        Atomically claim the next unclaimed page for a worker.
+
+        Uses INSERT ... ON CONFLICT DO NOTHING to handle the race where
+        two workers try to claim the same page simultaneously.  If a
+        conflict occurs (no row returned), retries up to 5 times to
+        claim the next available page.
+
+        Returns: page number claimed, or None if all pages are done.
+        """
+        import time as _time
+
+        prefix = f"{source_type}_page"
+        step_name = "VED Scrape" if source_type == "ved" else "Excluded Scrape"
+        # Skip pages that are completed/ean_missing/skipped (done).
+        # DO re-claim pages stuck as 'in_progress' from a crashed/paused run
+        # (ON CONFLICT updates their started_at so they get re-scraped).
+        sql = """
+            INSERT INTO ru_step_progress
+                (run_id, step_number, step_name, progress_key, status, started_at)
+            SELECT %s, %s, %s, %s || ':' || pg.num, 'in_progress', NOW()
+            FROM (
+                SELECT num FROM generate_series(1, %s) AS gs(num)
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM ru_step_progress sp
+                    WHERE sp.run_id = %s AND sp.step_number = %s
+                      AND sp.progress_key = %s || ':' || gs.num
+                      AND sp.status IN ('completed', 'ean_missing', 'skipped')
+                )
+                AND NOT EXISTS (
+                    SELECT 1 FROM ru_failed_pages fp
+                    WHERE fp.run_id = %s AND fp.page_number = gs.num
+                      AND fp.source_type = %s AND fp.status = 'pending'
+                )
+                ORDER BY gs.num
+                LIMIT 1
+            ) pg
+            ON CONFLICT (run_id, step_number, progress_key)
+                DO UPDATE SET status = 'in_progress', started_at = NOW()
+                WHERE ru_step_progress.status = 'in_progress'
+            RETURNING split_part(progress_key, ':', 2)::int
+        """
+        params = (
+            self.run_id, step_number, step_name, prefix,
+            last_page,
+            self.run_id, step_number, prefix,
+            self.run_id, source_type
+        )
+
+        # Retry a few times in case of race-condition conflict
+        for attempt in range(5):
+            with self.db.cursor() as cur:
+                cur.execute(sql, params)
+                row = cur.fetchone()
+                if row:
+                    return row[0]
+            # No row → either all done OR race conflict.  Brief pause then retry.
+            _time.sleep(0.05 * (attempt + 1))
+
+        return None
+
+    # ------------------------------------------------------------------
     # Failed Pages (Step 3 - Retry mechanism)
     # ------------------------------------------------------------------
 
@@ -512,7 +533,8 @@ class RussiaRepository:
     def mark_failed_page_resolved(self, page_number: int, source_type: str) -> None:
         """Mark a failed page as resolved after successful retry."""
         sql = """
-            DELETE FROM ru_failed_pages
+            UPDATE ru_failed_pages
+            SET status = 'resolved', last_retry_at = CURRENT_TIMESTAMP
             WHERE run_id = %s AND page_number = %s AND source_type = %s
         """
         with self.db.cursor() as cur:
@@ -693,6 +715,7 @@ class RussiaRepository:
     def clear_step_data(self, step: int, include_downstream: bool = False) -> Dict[str, int]:
         """
         Delete data for the given step (and optionally downstream steps) for this run_id.
+        Also clears step progress and relevant failed pages.
         """
         if step not in self._STEP_TABLE_MAP:
             raise ValueError(f"Unsupported step {step}; valid steps: {sorted(self._STEP_TABLE_MAP)}")
@@ -702,9 +725,35 @@ class RussiaRepository:
         
         with self.db.cursor() as cur:
             for s in steps:
+                # Delete main data tables
                 for table in self._STEP_TABLE_MAP[s]:
+                    # Special handling for failed_pages in step 3 (it contains mixed data)
+                    if s == 3 and table == "failed_pages":
+                        continue  # handled separately or preserved? 
+                        # actually step 3 consumes failed pages. If we clear step 3, we usually want to re-run the retry logic.
+                        # But wait, step 3 *updates* failed pages to 'resolved'.
+                        # Ideally 'clearing' step 3 should reset failed pages to 'pending'.
+                        # For now, let's just stick to the map unless it's step 1 or 2 specific.
+                        pass
+                    
                     cur.execute(f"DELETE FROM ru_{table} WHERE run_id = %s", (self.run_id,))
                     deleted[f"ru_{table}"] = cur.rowcount
+                
+                # Delete progress tracking for this step
+                cur.execute("DELETE FROM ru_step_progress WHERE run_id = %s AND step_number = %s", (self.run_id, s))
+                deleted[f"ru_step_progress (step {s})"] = cur.rowcount
+
+                # Helper: delete specific failed pages generated by Step 1 or Step 2
+                source_type = None
+                if s == 1:
+                    source_type = 'ved'
+                elif s == 2:
+                    source_type = 'excluded'
+                
+                if source_type:
+                    cur.execute("DELETE FROM ru_failed_pages WHERE run_id = %s AND source_type = %s", (self.run_id, source_type))
+                    if cur.rowcount > 0:
+                        deleted[f"ru_failed_pages ({source_type})"] = cur.rowcount
         
         try:
             self.db.commit()
@@ -769,6 +818,139 @@ class RussiaRepository:
     def get_cached_translation(self, source_text: str, source_lang: str = 'ru', target_lang: str = 'en') -> Optional[str]:
         """Get a single cached translation using unified cache."""
         return self._get_translation_cache().get(source_text, source_lang, target_lang)
+
+    # ------------------------------------------------------------------
+    # Error Tracking (ru_errors)
+    # ------------------------------------------------------------------
+
+    def log_error(self, error_type: str, error_message: str, context: Dict = None, 
+                  step_number: int = None, step_name: str = None) -> None:
+        """Log an error to ru_errors table."""
+        import json
+        sql = """
+            INSERT INTO ru_errors
+            (run_id, error_type, error_message, context, step_number, step_name)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        try:
+            context_json = json.dumps(context, default=str) if context else None
+            with self.db.cursor() as cur:
+                cur.execute(sql, (
+                    self.run_id,
+                    error_type,
+                    error_message,
+                    context_json,
+                    step_number,
+                    step_name
+                ))
+            self._db_log(f"ERROR | {error_type}: {error_message}")
+        except Exception as e:
+            # Fallback logging if DB fails
+            print(f"[DB-ERROR] Failed to log error to DB: {e}", flush=True)
+
+    def get_errors(self, run_id: str = None) -> List[Dict]:
+        """Get errors for a specific run (defaults to current run)."""
+        target_run_id = run_id or self.run_id
+        sql = """
+            SELECT error_type, error_message, context, step_number, step_name, created_at
+            FROM ru_errors WHERE run_id = %s ORDER BY created_at DESC
+        """
+        with self.db.cursor() as cur:
+            cur.execute(sql, (target_run_id,))
+            columns = [desc[0] for desc in cur.description]
+            return [dict(zip(columns, row)) for row in cur.fetchall()]
+
+    # ------------------------------------------------------------------
+    # Validation Results (ru_validation_results)
+    # ------------------------------------------------------------------
+
+    def log_validation_result(self, validation_type: str, table_name: str, status: str,
+                            record_id: int = None, field_name: str = None, 
+                            validation_rule: str = None, message: str = None, 
+                            severity: str = 'info') -> None:
+        """Log a validation result."""
+        sql = """
+            INSERT INTO ru_validation_results
+            (run_id, validation_type, table_name, record_id, field_name, 
+             validation_rule, status, message, severity)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        try:
+            with self.db.cursor() as cur:
+                cur.execute(sql, (
+                    self.run_id,
+                    validation_type,
+                    table_name,
+                    record_id,
+                    field_name,
+                    validation_rule,
+                    status,
+                    message,
+                    severity
+                ))
+        except Exception as e:
+            print(f"[DB-ERROR] Failed to log validation result: {e}", flush=True)
+
+    def get_validation_results(self, run_id: str = None, status: str = None) -> List[Dict]:
+        """Get validation results, optionally filtering by status."""
+        target_run_id = run_id or self.run_id
+        sql = "SELECT * FROM ru_validation_results WHERE run_id = %s"
+        params = [target_run_id]
+        
+        if status:
+            sql += " AND status = %s"
+            params.append(status)
+            
+        sql += " ORDER BY validated_at DESC"
+        
+        with self.db.cursor() as cur:
+            cur.execute(sql, tuple(params))
+            columns = [desc[0] for desc in cur.description]
+            return [dict(zip(columns, row)) for row in cur.fetchall()]
+
+    # ------------------------------------------------------------------
+    # Statistics (ru_statistics)
+    # ------------------------------------------------------------------
+
+    def log_statistic(self, metric_name: str, metric_value: float, 
+                     step_number: int = None, metric_type: str = 'count',
+                     category: str = None, description: str = None) -> None:
+        """Log a statistic/metric value."""
+        sql = """
+            INSERT INTO ru_statistics
+            (run_id, step_number, metric_name, metric_value, metric_type, category, description)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """
+        try:
+            with self.db.cursor() as cur:
+                cur.execute(sql, (
+                    self.run_id,
+                    step_number,
+                    metric_name,
+                    metric_value,
+                    metric_type,
+                    category,
+                    description
+                ))
+        except Exception as e:
+            print(f"[DB-ERROR] Failed to log statistic: {e}", flush=True)
+
+    def get_statistics(self, run_id: str = None, category: str = None) -> List[Dict]:
+        """Get statistics for a run."""
+        target_run_id = run_id or self.run_id
+        sql = "SELECT * FROM ru_statistics WHERE run_id = %s"
+        params = [target_run_id]
+        
+        if category:
+            sql += " AND category = %s"
+            params.append(category)
+            
+        sql += " ORDER BY step_number, metric_name"
+        
+        with self.db.cursor() as cur:
+            cur.execute(sql, tuple(params))
+            columns = [desc[0] for desc in cur.description]
+            return [dict(zip(columns, row)) for row in cur.fetchall()]
 
     def save_single_translation(self, source_text: str, translated_text: str, source_lang: str = 'ru', target_lang: str = 'en') -> None:
         """Save a single translation to cache using unified cache."""

@@ -1,0 +1,44 @@
+{
+  "scraper": "CanadaOntario",
+  "last_run": "2026-02-18T10:08:02.151352",
+  "completed_steps": [],
+  "step_outputs": {},
+  "metadata": {
+    "steps": [
+      {
+        "id": 0,
+        "name": "Backup and Clean",
+        "script": "00_backup_and_clean.py",
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": 1,
+        "name": "Extract Product Details",
+        "script": "01_extract_product_details.py",
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": 2,
+        "name": "Extract EAP Prices",
+        "script": "02_ontario_eap_prices.py",
+        "inputs": [],
+        "outputs": [
+          "D:\\quad99\\Scrappers\\output\\CanadaOntario\\ontario_eap_prices.csv"
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Generate Final Output",
+        "script": "03_GenerateOutput.py",
+        "inputs": [],
+        "outputs": [
+          "D:\\quad99\\Scrappers\\exports\\CanadaOntario\\canadaontarioreport_18022026.csv"
+        ]
+      }
+    ]
+  },
+  "events": [],
+  "event_seq": 0
+}

@@ -13,7 +13,13 @@ import threading
 import logging
 import psutil
 from datetime import datetime
+from pathlib import Path
 from typing import Set, Optional
+
+# Add repo root to path for core imports (MUST be before any core imports)
+_repo_root = Path(__file__).resolve().parents[2]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
 
 # Core Imports
 from core.browser.chrome_manager import (

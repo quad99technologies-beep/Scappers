@@ -65,9 +65,9 @@ API_SKU_MRP = f"{REST_BASE}/skuMrpNew"
 API_OTHER_BRANDS = f"{REST_BASE}/otherBrandPriceNew"
 API_MED_DTLS = f"{REST_BASE}/medDtlsNew"
 
-# India: claim batch size must be India-specific (avoid global CLAIM_BATCH_SIZE causing massive pre-claiming).
-# Default is 1 to prevent "claiming like crazy" before finishing the first batch.
-CLAIM_BATCH_SIZE = int(os.getenv("INDIA_CLAIM_BATCH", "1"))
+# India: claim batch size — bigger = less idle time between batches.
+# Safe because workers claim atomically and only hold one batch at a time.
+CLAIM_BATCH_SIZE = int(os.getenv("INDIA_CLAIM_BATCH", "10"))
 MAX_RETRIES = int(os.getenv("MAX_RETRIES", "3"))
 LOOKUP_RETRIES = int(os.getenv("INDIA_LOOKUP_RETRIES", "3"))
 MIN_API_MAP_SIZE = int(os.getenv("INDIA_MIN_API_MAP_SIZE", "1000"))
@@ -93,10 +93,19 @@ COMPLETION_THRESHOLD_PCT = float(os.getenv("INDIA_COMPLETION_THRESHOLD_PCT", "99
 CIRCUIT_BREAKER_THRESHOLD = int(os.getenv("INDIA_CIRCUIT_BREAKER_THRESHOLD", "10"))  # consecutive failures
 CIRCUIT_BREAKER_COOLDOWN_SECONDS = int(os.getenv("INDIA_CIRCUIT_BREAKER_COOLDOWN", "120"))  # wait before retry
 
-# Throttling: avoid hammering NPPA and crashing the platform (tune via env if needed)
-INDIA_DOWNLOAD_DELAY = float(os.getenv("INDIA_DOWNLOAD_DELAY", "1.0"))
-INDIA_CONCURRENT_REQUESTS = int(os.getenv("INDIA_CONCURRENT_REQUESTS", "2"))
-AUTOTHROTTLE_ENABLED = os.getenv("INDIA_AUTOTHROTTLE", "true").lower() in ("true", "1", "yes")
+# Throttling: NPPA is a plain REST JSON API — no anti-bot, no JS challenge.
+# Aggressive defaults are safe; tune via env if the server starts 429-ing.
+# ── Speed tuning guide ────────────────────────────────────────────────────────
+#   INDIA_DOWNLOAD_DELAY=0.05       (near-zero: NPPA is API, not browser)
+#   INDIA_CONCURRENT_REQUESTS=16    (16 in-flight per worker — saturate the pipe)
+#   INDIA_AUTOTHROTTLE=false        (disable: we control delay manually)
+#   INDIA_CLAIM_BATCH=10            (bigger batch = less inter-batch idle time)
+#   --workers 5                     (5 parallel Scrapy processes)
+# Combined, 5 workers × 16 concurrent × 0.05s delay ≈ 60–100 formulations/min.
+# ─────────────────────────────────────────────────────────────────────────────
+INDIA_DOWNLOAD_DELAY = float(os.getenv("INDIA_DOWNLOAD_DELAY", "0.05"))
+INDIA_CONCURRENT_REQUESTS = int(os.getenv("INDIA_CONCURRENT_REQUESTS", "16"))
+AUTOTHROTTLE_ENABLED = os.getenv("INDIA_AUTOTHROTTLE", "false").lower() in ("true", "1", "yes")
 
 # Selenium dropdown interaction (Step 2): use browser automation to interact with dropdown
 USE_SELENIUM_DROPDOWN = os.getenv("INDIA_USE_SELENIUM_DROPDOWN", "false").lower() in ("true", "1", "yes")
@@ -606,10 +615,12 @@ class IndiaNPPASpider(Spider):
     allowed_domains = ["nppaipdms.gov.in"]
 
     custom_settings = {
-        # Throttling: avoid hammering NPPA (reduces platform crash / 429 risk)
+        # Speed: NPPA is plain REST JSON — push concurrency hard
         "DOWNLOAD_DELAY": INDIA_DOWNLOAD_DELAY,
+        "RANDOMIZE_DOWNLOAD_DELAY": False,  # Don't add random jitter to API calls
         "CONCURRENT_REQUESTS": INDIA_CONCURRENT_REQUESTS,
         "CONCURRENT_REQUESTS_PER_DOMAIN": INDIA_CONCURRENT_REQUESTS,
+        "DOWNLOAD_TIMEOUT": 30,  # 30s per request (don't wait forever)
         "AUTOTHROTTLE_ENABLED": AUTOTHROTTLE_ENABLED,
         "AUTOTHROTTLE_START_DELAY": 1.0,
         "AUTOTHROTTLE_MAX_DELAY": 10.0,
@@ -626,13 +637,14 @@ class IndiaNPPASpider(Spider):
         "ITEM_PIPELINES": {},
         "DOWNLOADER_MIDDLEWARES": {
             "scrapy.downloadermiddlewares.useragent.UserAgentMiddleware": None,
-            "pharma.middlewares.OTelDownloaderMiddleware": 50,
             "pharma.middlewares.RandomUserAgentMiddleware": 90,
             "pharma.middlewares.BrowserHeadersMiddleware": 95,
-            "pharma.middlewares.HumanizeDownloaderMiddleware": None,  # DISABLED for API
-            "pharma.middlewares.AntiBotDownloaderMiddleware": 110,
-            "pharma.middlewares.ProxyRotationMiddleware": 120,
-            "pharma.middlewares.PlatformFetcherMiddleware": 130,
+            "pharma.middlewares.HumanizeDownloaderMiddleware": None,  # DISABLED: API, not browser
+            "pharma.middlewares.AntiBotDownloaderMiddleware": None,  # DISABLED: NPPA has no anti-bot
+            "pharma.middlewares.ProxyRotationMiddleware": None,  # DISABLED: no proxy needed
+            "pharma.middlewares.PlatformFetcherMiddleware": None,  # DISABLED: sync requests.Session() blocked async downloader
+            "pharma.middlewares.OTelDownloaderMiddleware": None,  # DISABLED: tracing overhead not needed
+            "pharma.middlewares.PlatformDBLoggingMiddleware": None,  # DISABLED: not needed for NPPA
         },
     }
 
@@ -677,6 +689,11 @@ class IndiaNPPASpider(Spider):
         
         # Completion timeout tracking: track when we first detected stuck items
         self._stuck_items_detected_at: Optional[float] = None
+
+        # Selenium fallback: persistent driver shared across formulations within this worker.
+        # Avoids the per-formulation Chrome spawn/quit overhead (which is very slow).
+        # Only used when USE_SELENIUM_DROPDOWN=true AND API map lookup returns no match.
+        self._selenium_driver = None
 
         # Circuit breaker: track consecutive API failures to detect server outages
         self._consecutive_failures = 0
@@ -866,51 +883,51 @@ class IndiaNPPASpider(Spider):
             self.logger.info("[W%d] Claimed %d formulations", self.worker_id, len(batch))
             print(f"[DB] W{self.worker_id} | CLAIM | {len(batch)} formulations from queue", flush=True)
 
-            # Step 2: for each claimed formulation, check in search box (exact match in list) before get API
-            # Use Selenium dropdown interaction if enabled, otherwise use API map matching
+            # Step 2: for each claimed formulation, resolve formulation ID.
+            #
+            # Priority:
+            #   1. API map lookup (Scrapy-fetched at startup — instant, no browser)
+            #   2. Selenium fallback (optional — only when API map misses AND
+            #      USE_SELENIUM_DROPDOWN=true; uses a persistent driver so Chrome
+            #      starts once per worker, not once per formulation)
             actionable: List[tuple[str, str]] = []
             for formulation in batch:
                 fid = None
                 matched_api_name = None
-                
-                if USE_SELENIUM_DROPDOWN:
-                    # Use Selenium to interact with dropdown: go to website, enter, wait for dropdown,
-                    # scroll down, click exact match, get API link
+
+                # --- Primary: API map (fast, no browser) ---
+                try:
+                    match = _search_box_exact_match(self.formulation_map, formulation)
+                    if match:
+                        fid, matched_api_name = match
+                except Exception as exc:
+                    self.logger.warning("[W%d] API map check failed for '%s': %s",
+                                        self.worker_id, formulation, exc)
+                    self._requeue_as_pending_for_retry(formulation)
+                    continue
+
+                # --- Fallback: Selenium dropdown (optional, persistent driver) ---
+                if not fid and USE_SELENIUM_DROPDOWN and SELENIUM_AVAILABLE:
                     try:
-                        self.logger.info("[W%d] Using Selenium dropdown search for '%s'", self.worker_id, formulation)
-                        match = _selenium_dropdown_search(
-                            formulation,
-                            headless=SELENIUM_HEADLESS,
-                            timeout=SELENIUM_DROPDOWN_TIMEOUT
-                        )
+                        self.logger.info("[W%d] API map miss → Selenium fallback for '%s'",
+                                         self.worker_id, formulation)
+                        match = self._selenium_fallback_lookup(formulation)
                         if match:
                             fid, matched_api_name = match
                             self.logger.info(
-                                "[W%d] Selenium found match: '%s' -> fid %s (matched: '%s')",
-                                self.worker_id, formulation, fid, matched_api_name
+                                "[W%d] Selenium fallback found '%s' → fid %s",
+                                self.worker_id, formulation, fid,
                             )
                         else:
-                            self.logger.warning("[W%d] Selenium dropdown search found no match for '%s'", self.worker_id, formulation)
+                            self.logger.warning(
+                                "[W%d] Selenium fallback: no match for '%s'",
+                                self.worker_id, formulation,
+                            )
                     except Exception as exc:
-                        self.logger.warning("[W%d] Selenium dropdown search failed for '%s': %s", self.worker_id, formulation, exc)
-                        # Fall back to API map matching if Selenium fails
-                        try:
-                            match = _search_box_exact_match(self.formulation_map, formulation)
-                            if match:
-                                fid, matched_api_name = match
-                                self.logger.info("[W%d] Fallback to API map: found '%s' -> fid %s", self.worker_id, formulation, fid)
-                        except Exception as fallback_exc:
-                            self.logger.warning("[W%d] Fallback API map check also failed: %s", self.worker_id, fallback_exc)
-                else:
-                    # Use API map matching (original approach)
-                    try:
-                        match = _search_box_exact_match(self.formulation_map, formulation)
-                        if match:
-                            fid, matched_api_name = match
-                    except Exception as exc:
-                        self.logger.warning("[W%d] Search-box check failed for '%s': %s", self.worker_id, formulation, exc)
-                        self._requeue_as_pending_for_retry(formulation)
-                        continue
+                        self.logger.warning(
+                            "[W%d] Selenium fallback error for '%s': %s",
+                            self.worker_id, formulation, exc,
+                        )
                 
                 if not fid:
                     # Not in formulation list — retry once in case API list was still loading
@@ -1282,7 +1299,11 @@ class IndiaNPPASpider(Spider):
             yield from self._claim_and_process()
 
     def _detail_done(self, formulation: str):
-        """Decrement pending counter for a formulation; flush DB writes + mark complete when all details done."""
+        """Decrement pending counter for a formulation; flush DB writes + mark complete when all details done.
+
+        Returns True when the pipeline needs more work (batch empty or half-empty),
+        triggering ``yield from self._claim_and_process()`` in the caller.
+        """
         info = self._pending_details.get(formulation)
         if not info:
             return False  # already completed or not tracked
@@ -1294,8 +1315,10 @@ class IndiaNPPASpider(Spider):
             self._mark_formulation(formulation, "completed", medicines=info["sku_count"])
             del self._pending_details[formulation]
             self._batch_pending_formulations -= 1
+            # PERFORMANCE FIX: Log performance stats periodically
+            self._log_performance_if_needed()
             if self._batch_pending_formulations <= 0:
-                return True  # all formulations in batch done — claim next
+                return True  # batch fully done — claim next batch
         return False
 
     def _detail_error(self, failure):
@@ -1347,6 +1370,202 @@ class IndiaNPPASpider(Spider):
         self.logger.error("[W%d] Formulation list request failed: %s", self.worker_id, msg)
         # Close spider if we can't get formulation list
         raise scrapy.exceptions.CloseSpider(f"formulation_list_failed: {msg}")
+
+    # ------------------------------------------------------------------
+    # Selenium fallback: persistent driver (optional, API map miss only)
+    # ------------------------------------------------------------------
+
+    def _get_selenium_driver(self):
+        """Return the persistent Selenium driver, creating it if needed.
+
+        The driver stays alive for the lifetime of this worker so we pay
+        the Chrome startup cost only once per worker (not once per formulation).
+        Returns None if Selenium is not available or driver creation fails.
+        """
+        if not SELENIUM_AVAILABLE:
+            return None
+
+        # Health-check existing driver
+        if self._selenium_driver is not None:
+            try:
+                _ = self._selenium_driver.current_url  # raises if dead
+                return self._selenium_driver
+            except Exception:
+                self.logger.warning("[W%d] Selenium driver died, restarting", self.worker_id)
+                try:
+                    self._selenium_driver.quit()
+                except Exception:
+                    pass
+                self._selenium_driver = None
+
+        try:
+            from selenium.webdriver.chrome.options import Options as _Opts
+            opts = _Opts()
+            if SELENIUM_HEADLESS:
+                opts.add_argument("--headless=new")
+            opts.add_argument("--no-sandbox")
+            opts.add_argument("--disable-dev-shm-usage")
+            opts.add_argument("--disable-gpu")
+            opts.add_argument("--window-size=1920,1080")
+            opts.add_argument("--disable-blink-features=AutomationControlled")
+            opts.add_experimental_option("excludeSwitches", ["enable-automation"])
+            opts.add_experimental_option("useAutomationExtension", False)
+            from selenium import webdriver as _wd
+            driver = _wd.Chrome(options=opts)
+            driver.set_page_load_timeout(SELENIUM_DROPDOWN_TIMEOUT)
+            self._selenium_driver = driver
+            self.logger.info("[W%d] Persistent Selenium driver created", self.worker_id)
+            return driver
+        except Exception as exc:
+            self.logger.error("[W%d] Could not create Selenium driver: %s", self.worker_id, exc)
+            return None
+
+    def _selenium_fallback_lookup(self, formulation: str) -> Optional[Tuple[str, str]]:
+        """Selenium fallback: find formulation ID via the NPPA search dropdown.
+
+        Uses the *persistent* driver so Chrome is not spawned/quit per formulation.
+        Only called when API map lookup returns no match and USE_SELENIUM_DROPDOWN=true.
+        Returns (formulation_id, matched_api_name) or None.
+        """
+        driver = self._get_selenium_driver()
+        if driver is None:
+            return None
+
+        try:
+            from selenium.webdriver.common.by import By
+            from selenium.webdriver.support.ui import WebDriverWait
+            from selenium.webdriver.support import expected_conditions as EC
+            from selenium.common.exceptions import TimeoutException
+            wait = WebDriverWait(driver, SELENIUM_DROPDOWN_TIMEOUT)
+
+            # Navigate to the search page (reuse if already there)
+            if SEARCH_URL not in driver.current_url:
+                driver.get(SEARCH_URL)
+                time.sleep(2)
+
+            # Find search input
+            search_selectors = [
+                "#formulationName", "#searchFormulation",
+                "input[name*='formulation']", "input[name*='Formulation']",
+                "input[type='text'][placeholder*='formulation']",
+                "input[type='text'][placeholder*='Formulation']",
+                "#formulation", ".formulation-input",
+            ]
+            search_input = None
+            for sel in search_selectors:
+                try:
+                    search_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, sel)))
+                    break
+                except TimeoutException:
+                    continue
+
+            if not search_input:
+                self.logger.warning("[W%d] [SELENIUM] Could not find search input", self.worker_id)
+                return None
+
+            # Clear + type formulation name
+            search_input.clear()
+            search_input.send_keys(formulation)
+            time.sleep(1)
+
+            # Wait for dropdown
+            dropdown_selectors = [
+                ".ui-autocomplete", ".dropdown-menu", ".autocomplete",
+                "#ui-id-1", "ul[role='listbox']", "ul.ui-autocomplete",
+                ".formulation-dropdown",
+            ]
+            dropdown = None
+            for sel in dropdown_selectors:
+                try:
+                    dropdown = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, sel)))
+                    break
+                except TimeoutException:
+                    continue
+
+            if not dropdown:
+                self.logger.warning("[W%d] [SELENIUM] Dropdown did not appear for '%s'", self.worker_id, formulation)
+                return None
+
+            driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", dropdown)
+            time.sleep(0.3)
+
+            # Look for exact match in options
+            option_elements = dropdown.find_elements(By.CSS_SELECTOR, "li, .dropdown-item, [role='option']")
+            if not option_elements:
+                option_elements = driver.find_elements(By.CSS_SELECTOR,
+                    "li.ui-menu-item, .ui-menu-item, li[role='option']")
+
+            formulation_variants = _exact_match_variants(formulation)
+            matched_option = None
+            matched_text = None
+            for opt in option_elements:
+                try:
+                    opt_text = opt.text.strip()
+                    if not opt_text:
+                        try:
+                            opt_text = opt.find_element(By.TAG_NAME, "a").text.strip()
+                        except Exception:
+                            continue
+                    if normalize_name(opt_text) in formulation_variants:
+                        matched_option = opt
+                        matched_text = opt_text
+                        break
+                except Exception:
+                    continue
+
+            if not matched_option:
+                self.logger.warning("[W%d] [SELENIUM] No exact dropdown match for '%s'", self.worker_id, formulation)
+                return None
+
+            driver.execute_script("arguments[0].scrollIntoView({block:'center'});", matched_option)
+            time.sleep(0.2)
+            try:
+                matched_option.click()
+            except Exception:
+                driver.execute_script("arguments[0].click();", matched_option)
+            time.sleep(1)
+
+            # Extract formulation ID from hidden field / URL / JS
+            fid = None
+            for sel in ["#formulationId", "input[name='formulationId']",
+                        "[data-formulation-id]", "[data-id]"]:
+                try:
+                    el = driver.find_element(By.CSS_SELECTOR, sel)
+                    fid = (el.get_attribute("value") or
+                           el.get_attribute("data-formulation-id") or
+                           el.get_attribute("data-id"))
+                    if fid:
+                        break
+                except Exception:
+                    continue
+
+            if not fid:
+                import re as _re
+                m = _re.search(r'formulationId[=:](\d+)', driver.current_url)
+                if m:
+                    fid = m.group(1)
+
+            if not fid:
+                try:
+                    fid = driver.execute_script(
+                        "return window.formulationId || document.formulationId;")
+                except Exception:
+                    pass
+
+            if fid:
+                return (str(fid), matched_text)
+            return None
+
+        except Exception as exc:
+            self.logger.error("[W%d] [SELENIUM] Fallback lookup error for '%s': %s",
+                              self.worker_id, formulation, exc)
+            # Kill the driver so it gets recreated next time (avoids stuck state)
+            try:
+                self._selenium_driver.quit()
+            except Exception:
+                pass
+            self._selenium_driver = None
+            return None
 
     def _formulation_error(self, failure):
         """Handle request failure for a formulation."""
@@ -1844,7 +2063,17 @@ class IndiaNPPASpider(Spider):
                 pass  # psutil not available, skip silently
 
     def closed(self, reason):
-        """Finalize: flush remaining writes, close DB."""
+        """Finalize: flush remaining writes, close DB, quit Selenium driver."""
+        # Quit the persistent Selenium driver if one was created for this worker
+        if self._selenium_driver is not None:
+            try:
+                self._selenium_driver.quit()
+                self.logger.info("[W%d] Selenium fallback driver closed", self.worker_id)
+            except Exception as exc:
+                self.logger.debug("[W%d] Error closing Selenium driver: %s", self.worker_id, exc)
+            finally:
+                self._selenium_driver = None
+
         if self.db:
             # Flush any remaining buffered writes
             for formulation in list(self._write_buffer.keys()):

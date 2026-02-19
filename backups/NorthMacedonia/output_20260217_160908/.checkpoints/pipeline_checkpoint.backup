@@ -1,0 +1,117 @@
+{
+  "scraper": "NorthMacedonia",
+  "last_run": "2026-02-16T19:42:39.538701",
+  "completed_steps": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "step_outputs": {
+    "step_0": {
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "completed_at": "2026-02-16T19:32:22.180921",
+      "output_files": [],
+      "duration_seconds": 1.8215785026550293
+    },
+    "step_1": {
+      "step_number": 1,
+      "step_name": "Collect URLs (Selenium)",
+      "completed_at": "2026-02-16T19:42:07.350485",
+      "output_files": [],
+      "duration_seconds": 575.082985162735
+    },
+    "step_2": {
+      "step_number": 2,
+      "step_name": "Extract Drug Register Data",
+      "completed_at": "2026-02-16T19:42:18.436665",
+      "output_files": [],
+      "duration_seconds": 0.9698789119720459
+    },
+    "step_3": {
+      "step_number": 3,
+      "step_name": "Translate Using Dictionary",
+      "completed_at": "2026-02-16T19:42:29.056368",
+      "output_files": [],
+      "duration_seconds": 0.6171770095825195
+    },
+    "step_4": {
+      "step_number": 4,
+      "step_name": "Statistics & Data Validation",
+      "completed_at": "2026-02-16T19:42:39.538667",
+      "output_files": [],
+      "duration_seconds": 0.322537899017334
+    }
+  },
+  "metadata": {},
+  "events": [
+    {
+      "timestamp": "2026-02-16T19:32:22.180930",
+      "event_type": "step_completed",
+      "status": "completed",
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "source": "checkpoint",
+      "details": {
+        "duration_seconds": 1.8215785026550293,
+        "output_count": 0
+      },
+      "sequence": 1
+    },
+    {
+      "timestamp": "2026-02-16T19:42:07.350505",
+      "event_type": "step_completed",
+      "status": "completed",
+      "step_number": 1,
+      "step_name": "Collect URLs (Selenium)",
+      "source": "checkpoint",
+      "details": {
+        "duration_seconds": 575.082985162735,
+        "output_count": 0
+      },
+      "sequence": 2
+    },
+    {
+      "timestamp": "2026-02-16T19:42:18.436678",
+      "event_type": "step_completed",
+      "status": "completed",
+      "step_number": 2,
+      "step_name": "Extract Drug Register Data",
+      "source": "checkpoint",
+      "details": {
+        "duration_seconds": 0.9698789119720459,
+        "output_count": 0
+      },
+      "sequence": 3
+    },
+    {
+      "timestamp": "2026-02-16T19:42:29.056377",
+      "event_type": "step_completed",
+      "status": "completed",
+      "step_number": 3,
+      "step_name": "Translate Using Dictionary",
+      "source": "checkpoint",
+      "details": {
+        "duration_seconds": 0.6171770095825195,
+        "output_count": 0
+      },
+      "sequence": 4
+    },
+    {
+      "timestamp": "2026-02-16T19:42:39.538679",
+      "event_type": "step_completed",
+      "status": "completed",
+      "step_number": 4,
+      "step_name": "Statistics & Data Validation",
+      "source": "checkpoint",
+      "details": {
+        "duration_seconds": 0.322537899017334,
+        "output_count": 0
+      },
+      "sequence": 5
+    }
+  ],
+  "event_seq": 5
+}

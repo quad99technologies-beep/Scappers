@@ -14,8 +14,14 @@ CREATE TABLE IF NOT EXISTS co_products (
     dosage_form TEXT,
     pack_size TEXT,
     unit_price REAL,
+    reimbursable_price REAL,
+    public_with_vat REAL,
+    copay REAL,
     interchangeability TEXT,
     benefit_status TEXT,
+    price_type TEXT,
+    limited_use TEXT,
+    therapeutic_notes TEXT,
     source_url TEXT,
     scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

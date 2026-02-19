@@ -281,7 +281,7 @@ def integrate_with_workflow_runner(runner_class: Any) -> Any:
     
     Usage:
         from shared_workflow_runner import WorkflowRunner
-        from core.run_metrics_integration import integrate_with_workflow_runner
+        from core.progress.run_metrics_integration import integrate_with_workflow_runner
         
         MetricsTrackingRunner = integrate_with_workflow_runner(WorkflowRunner)
         runner = MetricsTrackingRunner("Malaysia", scraper_root, repo_root)
@@ -447,6 +447,7 @@ def print_run_metrics(run_id: str) -> None:
 
 if __name__ == "__main__":
     # Test the integration
+    import sys
     import time
     
     print("Run Metrics Integration Test")

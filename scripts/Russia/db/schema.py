@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS ru_failed_pages (
     error_message TEXT,
     retry_count INTEGER DEFAULT 0,
     last_retry_at TIMESTAMP,
-    status TEXT CHECK(status IN ('pending', 'retrying', 'failed_permanently')),
+    status TEXT CHECK(status IN ('pending', 'retrying', 'failed_permanently', 'resolved')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(run_id, page_number, source_type)
 );

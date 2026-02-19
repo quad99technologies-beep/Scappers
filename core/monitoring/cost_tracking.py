@@ -6,7 +6,7 @@ Cost Tracking
 Track resource usage and estimate costs.
 
 Usage:
-    from core.cost_tracking import track_run_cost
+    from core.monitoring.cost_tracking import track_run_cost
     
     track_run_cost(
         scraper_name="Malaysia",

@@ -53,14 +53,14 @@ SCRIPT_ID = "Netherlands"
 # Pipeline steps: (step_num, script, display_name)
 PIPELINE_STEPS = [
     (0, "00_backup_and_clean.py", "Backup and Clean"),
-    (1, "scraper.py", "Hybrid Scraper (URL Collection + Product Scraping + Consolidation)"),
+    (1, "scraper.py", "Hybrid Scraper (URL Collection + Product Scraping)"),
 ]
 TOTAL_STEPS = len(PIPELINE_STEPS)
 VALID_STEPS = [step_num for step_num, _, _ in PIPELINE_STEPS]
 
 STEP_DESCRIPTIONS = {
     0: "Preparing: Backing up previous results and cleaning output directory",
-    1: "Scraping: Collecting URLs, extracting product details, and consolidating data",
+    1: "Scraping: Collecting URLs and extracting product details",
 }
 
 
@@ -91,7 +91,10 @@ def _get_latest_run_id_from_db() -> str:
     """
     try:
         from core.db.postgres_connection import get_db
-        from db.repositories import NetherlandsRepository
+        try:
+            from db.repositories import NetherlandsRepository
+        except ImportError:
+            from scripts.Netherlands.db.repositories import NetherlandsRepository
 
         db = get_db("Netherlands")
         run_id = NetherlandsRepository.get_latest_incomplete_run(db)
@@ -161,7 +164,10 @@ def _mark_run_ledger_active(run_id: str) -> None:
         return
     try:
         from core.db.postgres_connection import get_db
-        from db.repositories import NetherlandsRepository
+        try:
+            from db.repositories import NetherlandsRepository
+        except ImportError:
+            from scripts.Netherlands.db.repositories import NetherlandsRepository
 
         db = get_db("Netherlands")
         # Stop any other resume runs so only one remains resumable
@@ -280,7 +286,10 @@ def _log_step_progress(step_num: int, step_name: str, status: str, error_message
         return
     try:
         from core.db.postgres_connection import get_db
-        from db.repositories import NetherlandsRepository
+        try:
+            from db.repositories import NetherlandsRepository
+        except ImportError:
+            from scripts.Netherlands.db.repositories import NetherlandsRepository
 
         db = get_db("Netherlands")
         repo = NetherlandsRepository(db, run_id)

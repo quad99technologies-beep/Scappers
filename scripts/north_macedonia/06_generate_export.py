@@ -36,6 +36,11 @@ if str(_repo_root) not in sys.path:
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
+# Fix for module shadowing: Remove any conflicting 'db' module from sys.modules
+# to ensure 'from db ...' resolves to the local db directory.
+if "db" in sys.modules:
+    del sys.modules["db"]
+
 from config_loader import load_env_file, get_output_dir
 from core.db.connection import CountryDB
 

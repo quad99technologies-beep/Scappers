@@ -22,6 +22,11 @@ _repo_root = Path(__file__).resolve().parents[2]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
+# Add script directory to path FIRST to prioritize local db module over core/db
+_script_dir = Path(__file__).resolve().parent
+if str(_script_dir) not in sys.path:
+    sys.path.insert(0, str(_script_dir))
+
 from core.utils.shared_utils import run_backup_and_clean
 from core.config.config_manager import ConfigManager
 
@@ -77,25 +82,39 @@ def init_database():
     drop_backup_tables()
     
     try:
+        # Fix for module shadowing: Ensure local directory is first in path
+        _current_dir = str(Path(__file__).resolve().parent)
+        if _current_dir not in sys.path:
+            sys.path.insert(0, _current_dir)
+        
+        # Force re-import of db module if it was incorrectly loaded
+        if "db" in sys.modules:
+            del sys.modules["db"]
+        
+        # Import from local db module explicitly
+        try:
+            from db.schema import apply_north_macedonia_schema
+        except ImportError:
+            # Fallback: try importing from scripts.north_macedonia.db
+            from scripts.north_macedonia.db.schema import apply_north_macedonia_schema
+            
         # Try new database layer first
         try:
             from core.db import get_db
-            from db import apply_north_macedonia_schema
             
             db = get_db("NorthMacedonia")
             apply_north_macedonia_schema(db)
             print("[DB] Schema applied successfully using new database layer")
-        except ImportError as e:
+        except (ImportError, AttributeError) as e:
             # Fallback to old CountryDB if available
             try:
                 from core.db.connection import CountryDB
-                from db import apply_north_macedonia_schema
                 
                 db = CountryDB("NorthMacedonia")
                 apply_north_macedonia_schema(db)
                 print("[DB] Schema applied successfully using CountryDB")
-            except ImportError:
-                print(f"[DB] Could not import database modules: {e}")
+            except (ImportError, AttributeError) as e2:
+                print(f"[DB] Could not import database modules: {e} | {e2}")
                 return False
         
         # Generate and store run_id

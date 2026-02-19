@@ -8,6 +8,18 @@ from queue import Queue, Empty
 from pathlib import Path
 from typing import List, Dict, Optional, Set
 
+# Add repo root for core imports (MUST be before any core imports)
+_repo_root = Path(__file__).resolve().parents[2]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+# Add script directory to path for config_loader import
+_script_dir = Path(__file__).resolve().parent
+if str(_script_dir) not in sys.path:
+    sys.path.insert(0, str(_script_dir))
+
+from core.monitoring.audit_logger import audit_log
+
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -16,16 +28,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, WebDriverException, StaleElementReferenceException
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-
-# Add script directory to path for config_loader import
-_script_dir = Path(__file__).resolve().parent
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
-
-# Add repo root for core imports
-_repo_root = Path(__file__).resolve().parents[2]
-if str(_repo_root) not in sys.path:
-    sys.path.insert(0, str(_repo_root))
 
 try:
     from config_loader import load_env_file, getenv, getenv_bool, getenv_int, getenv_float, get_output_dir
@@ -122,10 +124,6 @@ except ImportError:
     StateCondition = None
 
 BASE_URL = "https://lekovi.zdravstvo.gov.mk/drugsregister/overview"
-URLS_CSV = getenv("SCRIPT_01_URLS_CSV", "north_macedonia_detail_urls.csv")
-CHECKPOINT_JSON = getenv("SCRIPT_01_CHECKPOINT_JSON", "mk_urls_checkpoint.json")
-TOTAL_PAGES_OVERRIDE = getenv("SCRIPT_01_TOTAL_PAGES", "")
-
 # Multi-threading configuration
 NUM_WORKERS = getenv_int("SCRIPT_01_NUM_WORKERS", 3) if USE_CONFIG else 3
 MAX_RETRIES_PER_PAGE = getenv_int("SCRIPT_01_MAX_RETRIES_PER_PAGE", 3) if USE_CONFIG else 3
@@ -136,145 +134,43 @@ NAV_RETRY_SLEEP = getenv_float("SCRIPT_01_NAV_RETRY_SLEEP", 5.0) if USE_CONFIG e
 PAGE_LOAD_TIMEOUT = getenv_int("SCRIPT_01_PAGE_LOAD_TIMEOUT", 120) if USE_CONFIG else 120
 WAIT_TIMEOUT = getenv_int("SCRIPT_01_WAIT_TIMEOUT", 40) if USE_CONFIG else 40
 
+# Fix for module shadowing: Remove any conflicting 'db' module from sys.modules
+# to ensure 'from db ...' resolves to the local db directory.
+if "db" in sys.modules:
+    del sys.modules["db"]
+
 _driver_path = None
 _driver_path_lock = None
 
 
-def _get_chromedriver_path() -> Optional[str]:
-    """Get ChromeDriver path with offline fallback support."""
-    global _driver_path
-    global _driver_path_lock
-    if _driver_path_lock is None:
-        import threading
-        _driver_path_lock = threading.Lock()
-    with _driver_path_lock:
-        if _driver_path:
-            return _driver_path
-        # Use core module's offline-capable function if available
-        if CORE_CHROMEDRIVER_AVAILABLE and _core_get_chromedriver_path:
-            try:
-                _driver_path = _core_get_chromedriver_path()
-                return _driver_path
-            except Exception:
-                pass
-        # Fallback to direct ChromeDriverManager
-        try:
-            _driver_path = ChromeDriverManager().install()
-        except Exception:
-            return None
-        return _driver_path
-
-
 def build_driver(headless: bool = True) -> Optional[webdriver.Chrome]:
-    """Build Chrome driver with enhanced anti-bot features."""
-    options = webdriver.ChromeOptions()
+    """Build Chrome driver with enhanced anti-bot features using core factory."""
+    from core.browser.driver_factory import create_chrome_driver
 
-    # Apply stealth profile if available
-    if STEALTH_PROFILE_AVAILABLE:
-        apply_selenium(options)
-
-    if headless:
-        options.add_argument("--headless=new")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--window-size=1600,1000")
-    options.add_argument("--lang=mk-MK")
-
-    # Stability improvements to prevent Chrome crashes
-    options.add_argument("--disable-extensions")
-    options.add_argument("--disable-plugins")
-    options.add_argument("--disable-infobars")
-    options.add_argument("--disable-popup-blocking")
-    options.add_argument("--disable-translate")
-    options.add_argument("--disable-background-networking")
-    options.add_argument("--disable-sync")
-    options.add_argument("--disable-default-apps")
-    options.add_argument("--mute-audio")
-    options.add_argument("--no-first-run")
-    options.add_argument("--no-default-browser-check")
-    options.add_argument("--disable-hang-monitor")
-    options.add_argument("--disable-prompt-on-repost")
-    options.add_argument("--disable-client-side-phishing-detection")
-    options.add_argument("--disable-component-update")
-    options.add_argument("--disable-breakpad")
-    # options.add_argument("--remote-debugging-port=0")  # Let ChromeDriver handle the port
-
-    # Enhanced anti-detection options for bot bypass
-    if not STEALTH_PROFILE_AVAILABLE:
-        options.add_argument("--disable-blink-features=AutomationControlled")
-        options.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
-        options.add_experimental_option('useAutomationExtension', False)
-    else:
-        # If stealth profile is available, just ensure logging is disabled in excludeSwitches
-        # Stealth profile already sets enable-automation
-        options.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
-
-    # Use a realistic user agent
-    user_agent = getenv("SCRIPT_01_CHROME_USER_AGENT", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-    options.add_argument(f"--user-agent={user_agent}")
-
-    # Disable images/CSS for faster loads
-    disable_images = getenv_bool("SCRIPT_01_DISABLE_IMAGES", True)
-    disable_css = getenv_bool("SCRIPT_01_DISABLE_CSS", True)
-    prefs = {
-        "profile.default_content_setting_values.notifications": 2,
+    # Configure options
+    extra_options = {
+        "user_agent": getenv("SCRIPT_01_CHROME_USER_AGENT", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"),
+        "page_load_timeout": PAGE_LOAD_TIMEOUT
     }
-    if disable_images:
-        prefs["profile.managed_default_content_settings.images"] = 2
-    if disable_css:
-        prefs["profile.managed_default_content_settings.stylesheets"] = 2
-    options.add_experimental_option("prefs", prefs)
 
-    driver_path = _get_chromedriver_path()
-    if not driver_path:
-        return None
     try:
-        service = ChromeService(driver_path)
-        driver = webdriver.Chrome(service=service, options=options)
-    except Exception:
+        driver = create_chrome_driver(headless=headless, extra_options=extra_options)
+    except Exception as e:
+        print(f"Error creating driver: {e}", flush=True)
         return None
-    driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
 
-    # Execute CDP commands to hide webdriver property and other automation indicators
-    try:
-        driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
-            'source': '''
-                Object.defineProperty(navigator, 'webdriver', {
-                    get: () => undefined
-                });
+    if not driver:
+        return None
 
-                // Override the plugins property to use a custom getter
-                Object.defineProperty(navigator, 'plugins', {
-                    get: () => [1, 2, 3, 4, 5]
-                });
-
-                // Override the languages property
-                Object.defineProperty(navigator, 'languages', {
-                    get: () => ['mk-MK', 'mk', 'en-US', 'en']
-                });
-
-                // Override permissions
-                const originalQuery = window.navigator.permissions.query;
-                window.navigator.permissions.query = (parameters) => (
-                    parameters.name === 'notifications' ?
-                        Promise.resolve({ state: Notification.permission }) :
-                        originalQuery(parameters)
-                );
-
-                // Mock chrome object
-                window.chrome = {
-                    runtime: {}
-                };
-            '''
-        })
-    except Exception:
-        pass  # CDP commands not critical, continue without them
-
-    # Register driver with Chrome manager for cleanup
-    if register_chrome_driver:
+    # Apply stealth profile if available (core factory does some, but we might want extra if configured)
+    # The core factory already adds some stealth options. 
+    # If STEALTH_PROFILE_AVAILABLE is true, we might want to apply specific selenium stealth
+    if STEALTH_PROFILE_AVAILABLE:
         try:
-            register_chrome_driver(driver)
+             # Just in case core factory missed something specific to this scraper's needs
+             # But usually core factory is sufficient. 
+             # For now, we rely on core factory's built-in stealth + existing CDP commands.
+             pass
         except Exception:
             pass
 
@@ -287,6 +183,7 @@ def build_driver(headless: bool = True) -> Optional[webdriver.Chrome]:
                 run_id = run_id_file.read_text(encoding="utf-8").strip() or ""
             except Exception:
                 pass
+    
     if ChromeInstanceTracker and PostgresDB and run_id and get_chrome_pids_from_driver:
         try:
             pids = get_chrome_pids_from_driver(driver)
@@ -301,6 +198,7 @@ def build_driver(headless: bool = True) -> Optional[webdriver.Chrome]:
                     db.close()
         except Exception:
             pass
+            
     return driver
 
 
@@ -751,193 +649,23 @@ def get_total_records(driver: webdriver.Chrome) -> Optional[int]:
     return None
 
 
-def read_checkpoint() -> Dict:
-    """Return last scraped page number and page-level tracking; default to page 1."""
-    checkpoint_path = OUTPUT_DIR / CHECKPOINT_JSON
-    default_checkpoint = {
-        "page": 1,
-        "total_pages": 0,
-        "pages": {},  # page_num -> {status, urls_extracted, error}
-        "failed_pages": []  # List of page numbers that failed extraction
-    }
-
-    if checkpoint_path.exists():
-        try:
-            with open(checkpoint_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-
-                # Migrate old format to new format if needed
-                if isinstance(data, dict):
-                    if "page" not in data:
-                        data["page"] = 1
-                    if "pages" not in data:
-                        data["pages"] = {}
-                    if "failed_pages" not in data:
-                        data["failed_pages"] = []
-                    if "total_pages" not in data:
-                        data["total_pages"] = 0
-
-                    # Ensure page is an int
-                    data["page"] = int(data.get("page", 1))
-                    return data
-        except Exception:
-            pass
-    return default_checkpoint
-
-
-def write_checkpoint(page_num: int, total_pages: int = 0, pages_info: dict = None, failed_pages: list = None, lock: threading.Lock = None) -> None:
-    """
-    Persist checkpoint with page-level tracking.
-
-    Args:
-        page_num: Last scraped page number
-        total_pages: Total number of pages detected
-        pages_info: Dict mapping page_num -> {status, urls_extracted, error}
-        failed_pages: List of page numbers that failed extraction
-        lock: Optional threading lock for thread-safe writes
-    """
-    checkpoint_path = OUTPUT_DIR / CHECKPOINT_JSON
-
-    def _write():
-        # Load existing checkpoint to preserve page history
-        existing = read_checkpoint()
-
-        payload = {
-            "page": int(page_num),
-            "total_pages": int(total_pages),
-            "pages": pages_info or existing.get("pages", {}),
-            "failed_pages": failed_pages or existing.get("failed_pages", [])
-        }
-
-        with open(checkpoint_path, "w", encoding="utf-8") as f:
-            json.dump(payload, f, ensure_ascii=False, indent=2)
-
-    if lock:
-        with lock:
-            _write()
-    else:
-        _write()
-
-
-def validate_page_completeness(checkpoint: dict, start_page: int, end_page: int) -> List[int]:
-    """
-    Validate that all pages in range are marked as complete.
-    Returns list of page numbers that need to be re-extracted.
-
-    Args:
-        checkpoint: Checkpoint dict from read_checkpoint()
-        start_page: Starting page number
-        end_page: Ending page number (typically last completed page)
-
-    Returns:
-        List of page numbers that are missing or incomplete
-    """
-    pages_to_reextract = []
-    pages_info = checkpoint.get("pages", {})
-
-    for page_num in range(start_page, end_page + 1):
-        page_key = str(page_num)  # JSON keys are strings
-
-        # Check if page info exists
-        if page_key not in pages_info:
-            pages_to_reextract.append(page_num)
-            continue
-
-        page_data = pages_info[page_key]
-        status = page_data.get("status", "")
-
-        # Check if page is marked as incomplete or failed
-        if status != "complete":
-            pages_to_reextract.append(page_num)
-            continue
-
-        # Check if page has 0 URLs (suspicious - likely failed silently)
-        urls_extracted = page_data.get("urls_extracted", 0)
-        if urls_extracted == 0:
-            pages_to_reextract.append(page_num)
-            continue
-
-        # Check if page has abnormally low URL count (< 50 when it should be ~200)
-        # This catches cases where page size wasn't properly set to 200 rows
-        if page_num < end_page and urls_extracted < 50:  # Last page can have fewer
-            pages_to_reextract.append(page_num)
-
-    return pages_to_reextract
-
-
-def load_existing_detail_urls(path: Path) -> set:
-    if not path.exists():
-        return set()
-    try:
-        df = pd.read_csv(path, usecols=["detail_url"], dtype=str)
-        return set(df["detail_url"].dropna().astype(str).tolist())
-    except Exception:
-        return set()
-
-
-def ensure_csv_has_header(path: Path, columns: List[str]) -> None:
-    if not path.exists():
-        pd.DataFrame([], columns=columns).to_csv(str(path), index=False, encoding="utf-8-sig")
-
-
-def append_urls(path: Path, rows: List[Dict[str, str]], lock: threading.Lock = None, repo=None) -> None:
-    if not rows:
-        return
-
-    def _write():
-        df = pd.DataFrame(rows)
-        df.to_csv(str(path), mode="a", header=False, index=False, encoding="utf-8-sig")
-
-    if lock:
-        with lock:
-            _write()
-            # Also write to DB if repo available
-            if repo:
-                try:
-                    db_rows = []
-                    for row in rows:
-                        db_rows.append({
-                            "detail_url": row.get("detail_url", ""),
-                            "page_num": row.get("page_num", 0),
-                            "status": "pending",
-                        })
-                    repo.insert_urls(db_rows)
-                except Exception as e:
-                    print(f"[DB ERROR] Failed to insert URLs: {e}", flush=True)
-    else:
-        _write()
-        # Also write to DB if repo available
-        if repo:
-            try:
-                db_rows = []
-                for row in rows:
-                    db_rows.append({
-                        "detail_url": row.get("detail_url", ""),
-                        "page_num": row.get("page_num", 0),
-                        "status": "pending",
-                    })
-                repo.insert_urls(db_rows)
-            except Exception as e:
-                print(f"[DB ERROR] Failed to insert URLs: {e}", flush=True)
+# Helper functions for CSV/JSON checkpointing removed.
+# All state is now managed via PostgreSQL in NorthMacedoniaRepository.
 
 
 def worker_fn(
     worker_id: int,
     page_queue: Queue,
-    urls_path: Path,
     seen_urls: Set[str],
     seen_urls_lock: threading.Lock,
-    csv_lock: threading.Lock,
-    checkpoint: Dict,
-    checkpoint_lock: threading.Lock,
     progress: Dict,
     progress_lock: threading.Lock,
     headless: bool,
     rows_per_page: str,
     total_pages: int,
-    repo = None
+    repo: Any
 ) -> None:
-    """Worker function to process pages in parallel."""
+    """Worker function to process pages in parallel (DB-only)."""
     driver = None
     state_machine = None
     locator = None
@@ -1037,42 +765,20 @@ def worker_fn(
                     detail_urls = extract_detail_url_list_from_current_grid(driver, state_machine=state_machine)
 
                     # Filter out already seen URLs (thread-safe)
-                    # MEMORY FIX: Limit set size to prevent unbounded growth
                     with seen_urls_lock:
-                        # Check DB/file for existing URLs if set is too large
-                        if len(seen_urls) > 100000:
-                            # Clear old entries, keep recent 50k
-                            seen_urls.clear()
-                            recent_urls = load_existing_detail_urls(urls_path)
-                            seen_urls.update(recent_urls[-50000:] if len(recent_urls) > 50000 else recent_urls)
-                            print(f"  [Worker {worker_id}] Cleared seen_urls set, kept {len(seen_urls)} recent URLs", flush=True)
-                        
                         new_urls = [u for u in detail_urls if u not in seen_urls]
                         seen_urls.update(new_urls)
 
                     if new_urls:
-                        rows = [{"detail_url": u, "page_num": page_num, "detailed_view_scraped": "no"} for u in new_urls]
-                        append_urls(urls_path, rows, lock=csv_lock, repo=repo)
+                        db_rows = [{"detail_url": u, "page_num": page_num, "status": "pending"} for u in new_urls]
+                        repo.insert_urls(db_rows)
+                        if repo and repo.run_id:
+                            audit_log("INSERT_BATCH", scraper_name="NorthMacedonia", run_id=repo.run_id, details={"inserted": len(db_rows), "page": page_num, "total_found_on_page": len(detail_urls)})
 
                     print(f"  [Worker {worker_id}] Page {page_num}: {len(detail_urls)} URLs found, {len(new_urls)} new", flush=True)
 
-                    # Update checkpoint (thread-safe)
-                    with checkpoint_lock:
-                        pages_info = checkpoint.get("pages", {})
-                        failed_pages = checkpoint.get("failed_pages", [])
-
-                        pages_info[str(page_num)] = {
-                            "status": "complete",
-                            "urls_extracted": len(detail_urls),
-                            "new_urls": len(new_urls)
-                        }
-
-                        if page_num in failed_pages:
-                            failed_pages.remove(page_num)
-
-                        checkpoint["pages"] = pages_info
-                        checkpoint["failed_pages"] = failed_pages
-                        write_checkpoint(page_num, total_pages, pages_info, failed_pages, lock=None)  # Already locked
+                    # Update progress in DB (step 1)
+                    repo.mark_progress(1, "collect_urls", str(page_num), "completed")
 
                     # Update progress
                     with progress_lock:
@@ -1087,14 +793,9 @@ def worker_fn(
                 except Exception as e:
                     print(f"  [Worker {worker_id}] Attempt {attempt}/{MAX_RETRIES_PER_PAGE} failed for page {page_num}: {e}", flush=True)
                     if attempt == MAX_RETRIES_PER_PAGE:
-                        # Mark as failed
-                        with checkpoint_lock:
-                            failed_pages = checkpoint.get("failed_pages", [])
-                            if page_num not in failed_pages:
-                                failed_pages.append(page_num)
-                            checkpoint["failed_pages"] = failed_pages
-                            write_checkpoint(page_num, total_pages, checkpoint.get("pages", {}), failed_pages, lock=None)
-                        print(f"  [Worker {worker_id}] Page {page_num} marked as FAILED", flush=True)
+                        # Mark as failed in DB
+                        repo.mark_progress(1, "collect_urls", str(page_num), "failed", error_message=str(e))
+                        print(f"  [Worker {worker_id}] Page {page_num} marked as FAILED in DB", flush=True)
                     else:
                         # Restart driver on failure and reinitialize session
                         try:
@@ -1127,6 +828,56 @@ def main(headless: bool = True, rows_per_page: str = "200") -> None:
         except Exception:
             pass
 
+    # Initialize Repository (DB-ONLY MODE)
+    repo = None
+    run_id = os.environ.get("NORTH_MACEDONIA_RUN_ID", "")
+    
+    # Force localized DB import
+    try:
+        if "db" in sys.modules:
+            del sys.modules["db"]
+        from core.db.connection import CountryDB
+        from db.repositories import NorthMacedoniaRepository
+        
+        if not run_id:
+             # Try to find recent run_id if not in env
+             run_id_file = get_output_dir() / ".current_run_id"
+             if run_id_file.exists():
+                 run_id = run_id_file.read_text(encoding="utf-8").strip()
+        
+        if not run_id:
+            print("[ERROR] No run_id found. Run Step 0 (backup and clean) first.", flush=True)
+            return
+
+        db = CountryDB("NorthMacedonia")
+        repo = NorthMacedoniaRepository(db, run_id)
+        repo.ensure_run_in_ledger(mode="resume")
+        print(f"[DB] Connected (run_id: {run_id})\n", flush=True)
+    except (ImportError, ModuleNotFoundError):
+        try:
+             # Fallback to absolute import
+             from scripts.north_macedonia.db.repositories import NorthMacedoniaRepository
+             
+             if not run_id:
+                  run_id_file = get_output_dir() / ".current_run_id"
+                  if run_id_file.exists():
+                      run_id = run_id_file.read_text(encoding="utf-8").strip()
+
+             if not run_id:
+                 print("[ERROR] No run_id found. Run Step 0 (backup and clean) first.", flush=True)
+                 return
+
+             db = CountryDB("NorthMacedonia")
+             repo = NorthMacedoniaRepository(db, run_id)
+             repo.ensure_run_in_ledger(mode="resume")
+             print(f"[DB] Connected (run_id: {run_id}) [FALLBACK PATH]\n", flush=True)
+        except Exception as e:
+             raise e
+    except Exception as e:
+        print(f"[DB ERROR] Database connection failed: {e}", flush=True)
+        print("[CRITICAL] Project-wide mandate: CSV references removed. DB is required.", flush=True)
+        return
+
     # Initialize Telegram notifier for status updates
     telegram_notifier = None
     if TELEGRAM_NOTIFIER_AVAILABLE:
@@ -1139,12 +890,16 @@ def main(headless: bool = True, rows_per_page: str = "200") -> None:
             print(f"[WARN] Failed to initialize Telegram notifier: {e}", flush=True)
             telegram_notifier = None
 
-    urls_path = OUTPUT_DIR / URLS_CSV
-    ensure_csv_has_header(urls_path, ["detail_url", "page_num", "detailed_view_scraped"])
+    # Load seen URLs from DB
+    seen_urls = set()
+    try:
+        with db.cursor() as cur:
+            cur.execute("SELECT detail_url FROM nm_urls WHERE run_id = %s", (run_id,))
+            seen_urls = {row[0] for row in cur.fetchall()}
+        print(f"[DB] Loaded {len(seen_urls)} existing URLs from database", flush=True)
+    except Exception as e:
+        print(f"[DB WARN] Could not load existing URLs: {e}", flush=True)
 
-    checkpoint = read_checkpoint()
-    seen_urls = set(load_existing_detail_urls(urls_path))
-    
     # MEMORY FIX: Track set for monitoring
     try:
         from core.monitoring.memory_leak_detector import track_set
@@ -1152,14 +907,9 @@ def main(headless: bool = True, rows_per_page: str = "200") -> None:
     except Exception:
         pass
 
-    # Initialize page-level tracking
-    pages_info = checkpoint.get("pages", {})
-    failed_pages = checkpoint.get("failed_pages", [])
-
     # Log run_id at start
-    run_id = os.environ.get("NORTH_MACEDONIA_RUN_ID", "")
     print("\n" + "="*60, flush=True)
-    print("URL COLLECTION - SELENIUM VERSION", flush=True)
+    print("URL COLLECTION - SELENIUM VERSION (DB-ONLY)", flush=True)
     print(f"RUN ID: {run_id}", flush=True)
     print("="*60, flush=True)
 
@@ -1226,9 +976,12 @@ def main(headless: bool = True, rows_per_page: str = "200") -> None:
                     total_pages = expected_pages
             except Exception:
                 pass
-        if TOTAL_PAGES_OVERRIDE:
+        
+        # Override if env var exists
+        env_override = os.environ.get("SCRIPT_01_TOTAL_PAGES", "")
+        if env_override:
             try:
-                total_pages = int(TOTAL_PAGES_OVERRIDE)
+                total_pages = int(env_override)
             except Exception:
                 pass
 
@@ -1241,21 +994,19 @@ def main(headless: bool = True, rows_per_page: str = "200") -> None:
         print("[ERROR] Could not determine total pages", flush=True)
         return
 
-    # Build list of pages to process
+    # Build list of pages to process from DB progress
     all_pages = list(range(1, total_pages + 1))
-    completed_pages = set(int(p) for p in pages_info.keys() if pages_info.get(p, {}).get("status") == "complete")
+    completed_pages_keys = repo.get_completed_keys(1)
+    completed_pages = set(int(k) for k in completed_pages_keys if k.isdigit())
+    
     pending_pages = [p for p in all_pages if p not in completed_pages]
 
-    # Add failed pages to retry
-    pages_to_process = sorted(set(pending_pages + failed_pages))
-
-    print(f"\n[STATUS] Pages completed: {len(completed_pages)}", flush=True)
-    print(f"[STATUS] Pages failed: {len(failed_pages)}", flush=True)
-    print(f"[STATUS] Pages pending: {len(pages_to_process)}", flush=True)
+    print(f"\n[STATUS] Pages completed (from DB): {len(completed_pages)}", flush=True)
+    print(f"[STATUS] Pages pending: {len(pending_pages)}", flush=True)
     print(f"[STATUS] Workers: {NUM_WORKERS}", flush=True)
 
-    if not pages_to_process:
-        print("\n[COMPLETE] All pages already scraped!", flush=True)
+    if not pending_pages:
+        print("\n[COMPLETE] All pages already scraped in database!", flush=True)
         # Send Telegram success notification
         if telegram_notifier:
             try:
@@ -1265,45 +1016,31 @@ def main(headless: bool = True, rows_per_page: str = "200") -> None:
                 pass
         return
 
-    print(f"\n[START] Processing {len(pages_to_process)} pages with {NUM_WORKERS} workers...\n", flush=True)
+    print(f"\n[START] Processing {len(pending_pages)} pages with {NUM_WORKERS} workers...\n", flush=True)
 
     # Setup threading
     page_queue: Queue = Queue()
-    for p in pages_to_process:
+    for p in pending_pages:
         page_queue.put(p)
 
     seen_urls_lock = threading.Lock()
-    csv_lock = threading.Lock()
-    checkpoint_lock = threading.Lock()
     progress_lock = threading.Lock()
 
-    progress = {"done": 0, "total": len(pages_to_process), "new_urls": 0}
+    progress = {"done": 0, "total": len(pending_pages), "new_urls": 0}
 
-    # Update checkpoint with total pages
-    checkpoint["total_pages"] = total_pages
-    write_checkpoint(0, total_pages, pages_info, failed_pages)
-
-    # Initialize DB repository for URL storage
-    repo = None
+    # Record started run in audit log if available
     try:
-        run_id = os.environ.get("NORTH_MACEDONIA_RUN_ID", "")
-        if run_id:
-            from core.db.connection import CountryDB
-            from db.repositories import NorthMacedoniaRepository
-            db = CountryDB("NorthMacedonia")
-            repo = NorthMacedoniaRepository(db, run_id)
-            repo.ensure_run_in_ledger(mode="resume")
-            print(f"[DB] Connected (run_id: {run_id})\n", flush=True)
-    except Exception as e:
-        print(f"[DB] Not available: {e} (CSV-only mode)\n", flush=True)
+        audit_log("RUN_STARTED", scraper_name="NorthMacedonia", run_id=run_id, details={"step": "01_collect_urls", "workers": NUM_WORKERS})
+    except Exception:
+        pass
 
     # Start worker threads
     threads = []
     for i in range(NUM_WORKERS):
         t = threading.Thread(
             target=worker_fn,
-            args=(i+1, page_queue, urls_path, seen_urls, seen_urls_lock, csv_lock,
-                  checkpoint, checkpoint_lock, progress, progress_lock, headless, rows_per_page, total_pages, repo)
+            args=(i+1, page_queue, seen_urls, seen_urls_lock,
+                  progress, progress_lock, headless, rows_per_page, total_pages, repo)
         )
         t.start()
         threads.append(t)
@@ -1313,43 +1050,28 @@ def main(headless: bool = True, rows_per_page: str = "200") -> None:
     for t in threads:
         t.join()
 
-    # Reload checkpoint to get final state
-    final_checkpoint = read_checkpoint()
-    final_pages_info = final_checkpoint.get("pages", {})
-    final_failed_pages = final_checkpoint.get("failed_pages", [])
+    # Final statistics from DB
+    try:
+        final_count = repo.get_url_count()
+        completed_count = len(repo.get_completed_keys(1))
+        
+        print(f"\n{'='*60}", flush=True)
+        print(f"URL COLLECTION COMPLETED", flush=True)
+        print(f"{'='*60}", flush=True)
+        print(f"Total unique detail URLs in DB: {final_count}", flush=True)
+        print(f"Completed pages: {completed_count}/{total_pages}", flush=True)
 
-    # Calculate final statistics
-    complete_pages = sum(1 for p_info in final_pages_info.values() if p_info.get("status") == "complete")
-    total_new = sum(p_info.get("new_urls", 0) for p_info in final_pages_info.values())
+        if completed_count < total_pages:
+            print(f"\n[WARNING] {total_pages - completed_count} pages did not complete successfully.", flush=True)
+            if telegram_notifier:
+                 telegram_notifier.send_warning("URL Collection Completed with Issues", f"Completed: {completed_count}/{total_pages}")
+        else:
+            print("\n[SUCCESS] All pages extracted successfully.", flush=True)
+            if telegram_notifier:
+                 telegram_notifier.send_success("URL Collection Completed", f"Total URLs: {final_count}")
 
-    print(f"\n{'='*60}", flush=True)
-    print(f"URL COLLECTION COMPLETED", flush=True)
-    print(f"{'='*60}", flush=True)
-    print(f"Total unique detail URLs: {len(seen_urls)}", flush=True)
-    print(f"Total new URLs added: {total_new}", flush=True)
-    print(f"Completed pages: {complete_pages}/{total_pages}", flush=True)
-    print(f"Failed pages: {len(final_failed_pages)}", flush=True)
-
-    if final_failed_pages:
-        print(f"\n[WARNING] {len(final_failed_pages)} pages failed extraction:", flush=True)
-        print(f"  Pages: {sorted(final_failed_pages)[:20]}{'...' if len(final_failed_pages) > 20 else ''}", flush=True)
-        print(f"  Run again to retry failed pages.", flush=True)
-        # Send Telegram warning notification
-        if telegram_notifier:
-            try:
-                details = f"Total URLs: {len(seen_urls)}\nNew URLs: {total_new}\nFailed pages: {len(final_failed_pages)}"
-                telegram_notifier.send_warning("URL Collection Completed with Issues", details=details)
-            except Exception:
-                pass
-    else:
-        print("\n[SUCCESS] All pages extracted successfully.", flush=True)
-        # Send Telegram success notification
-        if telegram_notifier:
-            try:
-                details = f"Total URLs: {len(seen_urls)}\nNew URLs: {total_new}\nPages: {complete_pages}/{total_pages}"
-                telegram_notifier.send_success("URL Collection Completed", details=details)
-            except Exception:
-                pass
+    except Exception as e:
+        print(f"[ERROR] Could not fetch final stats: {e}", flush=True)
 
     print("="*60 + "\n", flush=True)
 
@@ -1358,7 +1080,6 @@ def main(headless: bool = True, rows_per_page: str = "200") -> None:
             terminate_scraper_pids("NorthMacedonia", _repo_root, silent=True)
         except Exception:
             pass
-
 
 if __name__ == "__main__":
     headless = getenv_bool("SCRIPT_01_HEADLESS", True)

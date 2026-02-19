@@ -24,11 +24,21 @@ from typing import Dict, List, Optional, Set, Any
 from datetime import datetime
 from contextlib import contextmanager
 
+from core.db.base_repository import BaseRepository
+
 logger = logging.getLogger(__name__)
 
 
-class NetherlandsRepository:
+class NetherlandsRepository(BaseRepository):
     """All database operations for Netherlands scraper (PostgreSQL backend)."""
+
+    SCRAPER_NAME = "Netherlands"
+    TABLE_PREFIX = "nl"
+
+    _STEP_TABLE_MAP = {
+        1: ("collected_urls",),
+        2: ("packs",),
+    }
 
     def __init__(self, db, run_id: str):
         """
@@ -38,12 +48,7 @@ class NetherlandsRepository:
             db: PostgresDB instance
             run_id: Current run ID
         """
-        self.db = db
-        self.run_id = run_id
-
-    def _table(self, name: str) -> str:
-        """Get table name with Netherlands prefix."""
-        return f"nl_{name}"
+        super().__init__(db, run_id)
 
     def _db_log(self, message: str) -> None:
         """Emit a [DB] activity log line for GUI activity panel."""
@@ -55,298 +60,12 @@ class NetherlandsRepository:
         except Exception:
             pass
 
-    # ------------------------------------------------------------------
-    # Transaction support
-    # ------------------------------------------------------------------
+    # Progress methods (is_progress_completed, get_completed_keys, mark_progress) 
+    # are inherited from BaseRepository.
 
-    @contextmanager
-    def transaction(self):
-        """Context manager for explicit transactions."""
-        try:
-            yield
-            self.db.commit()
-        except Exception:
-            self.db.rollback()
-            raise
 
-    # ------------------------------------------------------------------
-    # Utility: clear step data
-    # ------------------------------------------------------------------
 
-    _STEP_TABLE_MAP = {
-        1: ("collected_urls", "packs"),
-        2: ("details", "costs"),
-        3: ("consolidated",),
-    }
 
-    def clear_step_data(self, step: int, include_downstream: bool = False) -> Dict[str, int]:
-        """
-        Delete data for the given step (and optionally downstream steps) for this run_id.
-
-        Args:
-            step: Pipeline step number (1-2)
-            include_downstream: If True, also clear tables for all later steps.
-
-        Returns:
-            Dict mapping full table name -> rows deleted.
-        """
-        if step not in self._STEP_TABLE_MAP:
-            raise ValueError(f"Unsupported step {step}; valid steps: {sorted(self._STEP_TABLE_MAP)}")
-
-        steps = [s for s in sorted(self._STEP_TABLE_MAP) if s == step or (include_downstream and s >= step)]
-        deleted: Dict[str, int] = {}
-        with self.db.cursor() as cur:
-            for s in steps:
-                for short_name in self._STEP_TABLE_MAP[s]:
-                    table = self._table(short_name)
-                    cur.execute(f"DELETE FROM {table} WHERE run_id = %s", (self.run_id,))
-                    deleted[table] = cur.rowcount
-        try:
-            self.db.commit()
-        except Exception:
-            pass
-
-        self._db_log(f"CLEAR | steps={steps} tables={','.join(deleted)} run_id={self.run_id}")
-        return deleted
-
-    # ------------------------------------------------------------------
-    # Run lifecycle
-    # ------------------------------------------------------------------
-
-    def start_run(self, mode: str = "fresh") -> None:
-        """Register a new run in run_ledger."""
-        from core.db.models import run_ledger_start
-        sql, params = run_ledger_start(self.run_id, "Netherlands", mode=mode)
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"OK | run_ledger start | run_id={self.run_id} mode={mode}")
-
-    def finish_run(self, status: str, items_scraped: int = 0,
-                   items_exported: int = 0, error_message: str = None) -> None:
-        """Mark run as finished."""
-        from core.db.models import run_ledger_finish
-        sql, params = run_ledger_finish(
-            self.run_id, status,
-            items_scraped=items_scraped,
-            items_exported=items_exported,
-            error_message=error_message,
-        )
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"FINISH | run_ledger updated | status={status} items={items_scraped}")
-
-    def ensure_run_in_ledger(self, mode: str = "resume") -> None:
-        """Ensure this run_id exists in run_ledger (insert if missing)."""
-        from core.db.models import run_ledger_ensure_exists
-        sql, params = run_ledger_ensure_exists(self.run_id, "Netherlands", mode=mode)
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"OK | run_ledger ensure | run_id={self.run_id}")
-
-    def resume_run(self) -> None:
-        """Mark existing run as resumed."""
-        from core.db.models import run_ledger_resume
-        sql, params = run_ledger_resume(self.run_id)
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"RESUME | run_ledger updated | run_id={self.run_id}")
-
-    # ------------------------------------------------------------------
-    # Step progress (sub-step resume)
-    # ------------------------------------------------------------------
-
-    def mark_progress(self, step_number: int, step_name: str,
-                      progress_key: str, status: str,
-                      error_message: str = None) -> None:
-        """Mark a sub-step progress item."""
-        now = datetime.now().isoformat()
-        table = self._table("step_progress")
-
-        sql = f"""
-            INSERT INTO {table}
-            (run_id, step_number, step_name, progress_key, status,
-             error_message, started_at, completed_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-            ON CONFLICT (run_id, step_number, progress_key) DO UPDATE SET
-                step_name = EXCLUDED.step_name,
-                status = EXCLUDED.status,
-                error_message = EXCLUDED.error_message,
-                started_at = CASE
-                    WHEN EXCLUDED.status = 'in_progress' THEN EXCLUDED.started_at
-                    ELSE COALESCE({table}.started_at, EXCLUDED.started_at)
-                END,
-                completed_at = CASE
-                    WHEN EXCLUDED.status IN ('completed', 'failed', 'skipped') THEN EXCLUDED.completed_at
-                    WHEN EXCLUDED.status = 'in_progress' THEN NULL
-                    ELSE {table}.completed_at
-                END
-        """
-
-        with self.db.cursor() as cur:
-            cur.execute(sql, (
-                self.run_id, step_number, step_name, progress_key, status,
-                error_message,
-                now if status == "in_progress" else None,
-                now if status in ("completed", "failed", "skipped") else None,
-            ))
-
-    def is_progress_completed(self, step_number: int, progress_key: str) -> bool:
-        """Check if a sub-step item is completed."""
-        table = self._table("step_progress")
-
-        with self.db.cursor() as cur:
-            cur.execute(f"""
-                SELECT status FROM {table}
-                WHERE run_id = %s AND step_number = %s AND progress_key = %s
-            """, (self.run_id, step_number, progress_key))
-            row = cur.fetchone()
-            if row is None:
-                return False
-            status = row[0] if isinstance(row, tuple) else row["status"]
-            return status == "completed"
-
-    def get_completed_keys(self, step_number: int) -> Set[str]:
-        """Get all completed progress keys for a step."""
-        table = self._table("step_progress")
-
-        with self.db.cursor() as cur:
-            cur.execute(f"""
-                SELECT progress_key FROM {table}
-                WHERE run_id = %s AND step_number = %s AND status = 'completed'
-            """, (self.run_id, step_number))
-            rows = cur.fetchall()
-            return {row[0] if isinstance(row, tuple) else row["progress_key"] for row in rows}
-
-    # ------------------------------------------------------------------
-    # Products (Step 1)
-    # ------------------------------------------------------------------
-
-    def insert_products(self, products: List[Dict]) -> int:
-        """Bulk insert product data from FarmacotherapeutischKompas."""
-        if not products:
-            return 0
-
-        table = self._table("products")
-        count = 0
-
-        sql = f"""
-            INSERT INTO {table}
-            (run_id, product_url, product_name, brand_name, generic_name,
-             atc_code, dosage_form, strength, pack_size, manufacturer,
-             source_prefix)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            ON CONFLICT (run_id, product_url) DO UPDATE SET
-                product_name = EXCLUDED.product_name,
-                brand_name = EXCLUDED.brand_name,
-                generic_name = EXCLUDED.generic_name,
-                atc_code = EXCLUDED.atc_code,
-                dosage_form = EXCLUDED.dosage_form,
-                strength = EXCLUDED.strength,
-                pack_size = EXCLUDED.pack_size,
-                manufacturer = EXCLUDED.manufacturer,
-                source_prefix = EXCLUDED.source_prefix
-        """
-
-        with self.db.cursor() as cur:
-            for product in products:
-                cur.execute(sql, (
-                    self.run_id,
-                    product.get("product_url"),
-                    product.get("product_name"),
-                    product.get("brand_name"),
-                    product.get("generic_name"),
-                    product.get("atc_code"),
-                    product.get("dosage_form"),
-                    product.get("strength"),
-                    product.get("pack_size"),
-                    product.get("manufacturer"),
-                    product.get("source_prefix"),
-                ))
-                count += 1
-
-        logger.info("Inserted %d product entries", count)
-        self._db_log(f"OK | nl_products inserted={count} | run_id={self.run_id}")
-        return count
-
-    def get_products_count(self) -> int:
-        """Get total product entries for this run."""
-        table = self._table("products")
-        with self.db.cursor() as cur:
-            cur.execute(f"SELECT COUNT(*) FROM {table} WHERE run_id = %s", (self.run_id,))
-            row = cur.fetchone()
-            return row[0] if isinstance(row, tuple) else row["count"]
-
-    def get_all_products(self) -> List[Dict]:
-        """Get all product entries as list of dicts."""
-        table = self._table("products")
-        with self.db.cursor(dict_cursor=True) as cur:
-            cur.execute(f"SELECT * FROM {table} WHERE run_id = %s", (self.run_id,))
-            return [dict(row) for row in cur.fetchall()]
-
-    # ------------------------------------------------------------------
-    # Reimbursement (Step 2)
-    # ------------------------------------------------------------------
-
-    def insert_reimbursement(self, data: List[Dict]) -> int:
-        """Bulk insert reimbursement pricing data."""
-        if not data:
-            return 0
-
-        table = self._table("reimbursement")
-        count = 0
-
-        sql = f"""
-            INSERT INTO {table}
-            (run_id, product_url, product_name, reimbursement_price,
-             pharmacy_purchase_price, list_price, supplement, currency,
-             reimbursement_status, indication, source_url)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            ON CONFLICT (run_id, product_url, product_name) DO UPDATE SET
-                reimbursement_price = EXCLUDED.reimbursement_price,
-                pharmacy_purchase_price = EXCLUDED.pharmacy_purchase_price,
-                list_price = EXCLUDED.list_price,
-                supplement = EXCLUDED.supplement,
-                currency = EXCLUDED.currency,
-                reimbursement_status = EXCLUDED.reimbursement_status,
-                indication = EXCLUDED.indication,
-                source_url = EXCLUDED.source_url
-        """
-
-        with self.db.cursor() as cur:
-            for item in data:
-                cur.execute(sql, (
-                    self.run_id,
-                    item.get("product_url"),
-                    item.get("product_name"),
-                    item.get("reimbursement_price"),
-                    item.get("pharmacy_purchase_price"),
-                    item.get("list_price"),
-                    item.get("supplement"),
-                    item.get("currency", "EUR"),
-                    item.get("reimbursement_status"),
-                    item.get("indication"),
-                    item.get("source_url"),
-                ))
-                count += 1
-
-        logger.info("Inserted %d reimbursement entries", count)
-        self._db_log(f"OK | nl_reimbursement inserted={count} | run_id={self.run_id}")
-        return count
-
-    def get_reimbursement_count(self) -> int:
-        """Get total reimbursement entries for this run."""
-        table = self._table("reimbursement")
-        with self.db.cursor() as cur:
-            cur.execute(f"SELECT COUNT(*) FROM {table} WHERE run_id = %s", (self.run_id,))
-            row = cur.fetchone()
-            return row[0] if isinstance(row, tuple) else row["count"]
-
-    def get_all_reimbursement(self) -> List[Dict]:
-        """Get all reimbursement entries as list of dicts."""
-        table = self._table("reimbursement")
-        with self.db.cursor(dict_cursor=True) as cur:
-            cur.execute(f"SELECT * FROM {table} WHERE run_id = %s", (self.run_id,))
-            return [dict(row) for row in cur.fetchall()]
 
     # ------------------------------------------------------------------
     # Export report tracking
@@ -453,19 +172,17 @@ class NetherlandsRepository:
                     SELECT
                         (SELECT COUNT(*) FROM nl_collected_urls WHERE run_id = %s) as urls_collected,
                         (SELECT COUNT(*) FROM nl_packs WHERE run_id = %s) as products_scraped,
-                        (SELECT COUNT(*) FROM nl_consolidated WHERE run_id = %s) as consolidated,
                         (SELECT status FROM run_ledger WHERE run_id = %s) as status,
                         (SELECT started_at FROM run_ledger WHERE run_id = %s) as started_at
-                """, (run_id, run_id, run_id, run_id, run_id))
+                """, (run_id, run_id, run_id, run_id))
                 row = cur.fetchone()
                 if row:
                     return {
                         'run_id': run_id,
                         'urls_collected': row[0] or 0,
                         'products_scraped': row[1] or 0,
-                        'consolidated': row[2] or 0,
-                        'status': row[3] or 'unknown',
-                        'started_at': row[4]
+                        'status': row[2] or 'unknown',
+                        'started_at': row[3]
                     }
         except Exception as e:
             print(f"[DB] Could not get run progress: {e}")
@@ -478,11 +195,9 @@ class NetherlandsRepository:
         """
         empty = {
             'urls_collected': 0, 'urls_scraped': 0, 'urls_failed': 0,
-            'urls_pending': 0, 'packs_total': 0, 'details_total': 0,
-            'costs_total': 0, 'consolidated_total': 0, 'error_count': 0,
+            'urls_pending': 0, 'packs_total': 0, 'error_count': 0,
             'prefixes_completed': 0,
-            'collected_urls_count': 0, 'packs_count': 0, 'details_count': 0,
-            'costs_count': 0, 'consolidated_count': 0, 'exports_count': 0,
+            'collected_urls_count': 0, 'packs_count': 0, 'exports_count': 0,
             'run_exists': False,
         }
 
@@ -494,9 +209,6 @@ class NetherlandsRepository:
                     (SELECT COUNT(*) FROM nl_collected_urls WHERE run_id = %s AND packs_scraped = 'failed') as urls_failed,
                     (SELECT COUNT(*) FROM nl_collected_urls WHERE run_id = %s AND packs_scraped = 'pending') as urls_pending,
                     (SELECT COUNT(*) FROM nl_packs WHERE run_id = %s) as packs_total,
-                    (SELECT COUNT(*) FROM nl_details WHERE run_id = %s) as details_total,
-                    (SELECT COUNT(*) FROM nl_costs WHERE run_id = %s) as costs_total,
-                    (SELECT COUNT(*) FROM nl_consolidated WHERE run_id = %s) as consolidated_total,
                     (SELECT COUNT(*) FROM nl_errors WHERE run_id = %s) as error_count,
                     (SELECT COUNT(DISTINCT progress_key) FROM nl_step_progress
                      WHERE run_id = %s AND step_number = 1 AND status = 'completed') as prefixes_completed,
@@ -504,7 +216,7 @@ class NetherlandsRepository:
                     (SELECT 1 FROM run_ledger WHERE run_id = %s LIMIT 1) as run_exists
             """
             with self.db.cursor() as cur:
-                cur.execute(sql, (self.run_id,) * 12)
+                cur.execute(sql, (self.run_id,) * 9)
                 row = cur.fetchone()
                 if row is None:
                     return empty
@@ -515,19 +227,13 @@ class NetherlandsRepository:
                     'urls_failed': row[2] or 0,
                     'urls_pending': row[3] or 0,
                     'packs_total': row[4] or 0,
-                    'details_total': row[5] or 0,
-                    'costs_total': row[6] or 0,
-                    'consolidated_total': row[7] or 0,
-                    'error_count': row[8] or 0,
-                    'prefixes_completed': row[9] or 0,
+                    'error_count': row[5] or 0,
+                    'prefixes_completed': row[6] or 0,
                     # New names (for pipeline runner)
                     'collected_urls_count': row[0] or 0,
                     'packs_count': row[4] or 0,
-                    'details_count': row[5] or 0,
-                    'costs_count': row[6] or 0,
-                    'consolidated_count': row[7] or 0,
-                    'exports_count': row[10] or 0,
-                    'run_exists': row[11] is not None,
+                    'exports_count': row[7] or 0,
+                    'run_exists': row[8] is not None,
                 }
         except Exception as e:
             self._db_log(f"WARN | get_run_stats failed: {e}")
@@ -601,10 +307,7 @@ class NetherlandsRepository:
                 ))
                 count += 1
 
-                # Commit in batches
-                if count % batch_size == 0:
-                    self.db.commit()
-
+        # Single atomic commit - all or nothing
         self.db.commit()
         self._db_log(f"OK | nl_collected_urls inserted={count} | run_id={self.run_id}")
         return count
@@ -982,277 +685,7 @@ class NetherlandsRepository:
             ]
             return [dict(zip(columns, row)) for row in rows]
 
-    # ==================================================================
-    # DETAILS (Step 2a) - replaces details.csv
-    # ==================================================================
 
-    def insert_details(self, details: List[Dict]) -> int:
-        """
-        Insert product details from farmacotherapeutischkompas.nl.
-
-        Args:
-            details: List of detail records
-
-        Returns:
-            Number of rows inserted
-        """
-        if not details:
-            return 0
-
-        table = self._table("details")
-        count = 0
-
-        sql = f"""
-            INSERT INTO {table}
-            (run_id, detail_url, product_name, product_type, manufacturer,
-             administration_form, strengths_raw)
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
-            ON CONFLICT (run_id, detail_url) DO UPDATE SET
-                product_name = EXCLUDED.product_name,
-                product_type = EXCLUDED.product_type,
-                manufacturer = EXCLUDED.manufacturer,
-                administration_form = EXCLUDED.administration_form,
-                strengths_raw = EXCLUDED.strengths_raw
-        """
-
-        with self.db.cursor() as cur:
-            for detail in details:
-                cur.execute(sql, (
-                    self.run_id,
-                    detail.get("detail_url", ""),
-                    detail.get("product_name", ""),
-                    detail.get("product_type", ""),
-                    detail.get("manufacturer", ""),
-                    detail.get("administration_form", ""),
-                    detail.get("strengths_raw", ""),
-                ))
-                count += 1
-
-        self.db.commit()
-        self._db_log(f"OK | nl_details inserted={count} | run_id={self.run_id}")
-        return count
-
-    def get_details_count(self) -> int:
-        """Get total detail entries for this run."""
-        table = self._table("details")
-        with self.db.cursor() as cur:
-            cur.execute(f"SELECT COUNT(*) FROM {table} WHERE run_id = %s", (self.run_id,))
-            row = cur.fetchone()
-            return row[0] if isinstance(row, tuple) else row.get("count", 0)
-
-    def get_scraped_detail_urls(self) -> Set[str]:
-        """Get set of detail URLs that have been scraped."""
-        table = self._table("details")
-        with self.db.cursor() as cur:
-            cur.execute(f"""
-                SELECT detail_url FROM {table}
-                WHERE run_id = %s
-            """, (self.run_id,))
-            rows = cur.fetchall()
-            return {row[0] for row in rows if row[0]}
-
-    def get_all_details(self) -> List[Dict]:
-        """Get all detail entries as list of dicts."""
-        table = self._table("details")
-        with self.db.cursor() as cur:
-            cur.execute(f"""
-                SELECT id, detail_url, product_name, product_type, manufacturer,
-                       administration_form, strengths_raw
-                FROM {table}
-                WHERE run_id = %s
-            """, (self.run_id,))
-            rows = cur.fetchall()
-            columns = [
-                "id", "detail_url", "product_name", "product_type", "manufacturer",
-                "administration_form", "strengths_raw"
-            ]
-            return [dict(zip(columns, row)) for row in rows]
-
-    # ==================================================================
-    # COSTS (Step 2b) - replaces costs.csv
-    # ==================================================================
-
-    def insert_costs(self, costs: List[Dict], detail_url: str = None) -> int:
-        """
-        Insert cost/pricing data from farmacotherapeutischkompas.nl.
-
-        Args:
-            costs: List of cost records
-            detail_url: Optional detail URL to associate with all costs
-
-        Returns:
-            Number of rows inserted
-        """
-        if not costs:
-            return 0
-
-        table = self._table("costs")
-        count = 0
-
-        sql = f"""
-            INSERT INTO {table}
-            (run_id, detail_url, brand_full, brand_name, pack_presentation, ddd_text,
-             currency, price_per_day, price_per_week, price_per_month, price_per_six_months,
-             reimbursed_per_day, extra_payment_per_day, table_type, unit_type, unit_amount)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        """
-
-        with self.db.cursor() as cur:
-            for cost in costs:
-                url = cost.get("detail_url", detail_url) or ""
-                cur.execute(sql, (
-                    self.run_id,
-                    url,
-                    cost.get("brand_full", ""),
-                    cost.get("brand_name", ""),
-                    cost.get("pack_presentation", ""),
-                    cost.get("ddd_text", ""),
-                    cost.get("currency", "EUR"),
-                    self._parse_decimal(cost.get("price_per_day")),
-                    self._parse_decimal(cost.get("price_per_week")),
-                    self._parse_decimal(cost.get("price_per_month")),
-                    self._parse_decimal(cost.get("price_per_six_months")),
-                    self._parse_decimal(cost.get("reimbursed_per_day")),
-                    self._parse_decimal(cost.get("extra_payment_per_day")),
-                    cost.get("table_type", ""),
-                    cost.get("unit_type", ""),
-                    cost.get("unit_amount", ""),
-                ))
-                count += 1
-
-        self.db.commit()
-        self._db_log(f"OK | nl_costs inserted={count} | run_id={self.run_id}")
-        return count
-
-    def get_costs_count(self) -> int:
-        """Get total cost entries for this run."""
-        table = self._table("costs")
-        with self.db.cursor() as cur:
-            cur.execute(f"SELECT COUNT(*) FROM {table} WHERE run_id = %s", (self.run_id,))
-            row = cur.fetchone()
-            return row[0] if isinstance(row, tuple) else row.get("count", 0)
-
-    def get_all_costs(self) -> List[Dict]:
-        """Get all cost entries as list of dicts."""
-        table = self._table("costs")
-        with self.db.cursor() as cur:
-            cur.execute(f"""
-                SELECT id, detail_url, brand_full, brand_name, pack_presentation, ddd_text,
-                       currency, price_per_day, price_per_week, price_per_month,
-                       price_per_six_months, reimbursed_per_day, extra_payment_per_day,
-                       table_type, unit_type, unit_amount
-                FROM {table}
-                WHERE run_id = %s
-            """, (self.run_id,))
-            rows = cur.fetchall()
-            columns = [
-                "id", "detail_url", "brand_full", "brand_name", "pack_presentation",
-                "ddd_text", "currency", "price_per_day", "price_per_week", "price_per_month",
-                "price_per_six_months", "reimbursed_per_day", "extra_payment_per_day",
-                "table_type", "unit_type", "unit_amount"
-            ]
-            return [dict(zip(columns, row)) for row in rows]
-
-    # ==================================================================
-    # CONSOLIDATION (Step 3) - replaces consolidated_products.csv
-    # ==================================================================
-
-    def consolidate_data(self) -> int:
-        """
-        Consolidate details and costs data using DB-side JOIN.
-        Inserts merged data into nl_consolidated table.
-
-        Returns:
-            Number of rows inserted
-        """
-        consolidated_table = self._table("consolidated")
-        details_table = self._table("details")
-        costs_table = self._table("costs")
-
-        # Clear existing consolidated data for this run
-        with self.db.cursor() as cur:
-            cur.execute(f"DELETE FROM {consolidated_table} WHERE run_id = %s", (self.run_id,))
-
-        # Insert consolidated data via JOIN
-        sql = f"""
-            INSERT INTO {consolidated_table}
-            (run_id, detail_url, product_name, brand_name, manufacturer,
-             administration_form, strengths_raw, pack_presentation, currency,
-             price_per_day, reimbursed_per_day, extra_payment_per_day, ddd_text,
-             table_type, unit_type, unit_amount)
-            SELECT
-                d.run_id,
-                d.detail_url,
-                d.product_name,
-                c.brand_name,
-                d.manufacturer,
-                d.administration_form,
-                d.strengths_raw,
-                c.pack_presentation,
-                c.currency,
-                c.price_per_day,
-                c.reimbursed_per_day,
-                c.extra_payment_per_day,
-                c.ddd_text,
-                c.table_type,
-                c.unit_type,
-                c.unit_amount
-            FROM {details_table} d
-            LEFT JOIN {costs_table} c ON d.detail_url = c.detail_url AND d.run_id = c.run_id
-            WHERE d.run_id = %s
-            ON CONFLICT (run_id, detail_url, brand_name) DO UPDATE SET
-                product_name = EXCLUDED.product_name,
-                manufacturer = EXCLUDED.manufacturer,
-                administration_form = EXCLUDED.administration_form,
-                strengths_raw = EXCLUDED.strengths_raw,
-                pack_presentation = EXCLUDED.pack_presentation,
-                currency = EXCLUDED.currency,
-                price_per_day = EXCLUDED.price_per_day,
-                reimbursed_per_day = EXCLUDED.reimbursed_per_day,
-                extra_payment_per_day = EXCLUDED.extra_payment_per_day,
-                ddd_text = EXCLUDED.ddd_text,
-                table_type = EXCLUDED.table_type,
-                unit_type = EXCLUDED.unit_type,
-                unit_amount = EXCLUDED.unit_amount
-        """
-
-        with self.db.cursor() as cur:
-            cur.execute(sql, (self.run_id,))
-            count = cur.rowcount
-
-        self.db.commit()
-        self._db_log(f"OK | nl_consolidated merged={count} | run_id={self.run_id}")
-        return count
-
-    def get_consolidated_count(self) -> int:
-        """Get total consolidated entries for this run."""
-        table = self._table("consolidated")
-        with self.db.cursor() as cur:
-            cur.execute(f"SELECT COUNT(*) FROM {table} WHERE run_id = %s", (self.run_id,))
-            row = cur.fetchone()
-            return row[0] if isinstance(row, tuple) else row.get("count", 0)
-
-    def get_consolidated_data(self) -> List[Dict]:
-        """Get all consolidated entries as list of dicts."""
-        table = self._table("consolidated")
-        with self.db.cursor() as cur:
-            cur.execute(f"""
-                SELECT id, detail_url, product_name, brand_name, manufacturer,
-                       administration_form, strengths_raw, pack_presentation, currency,
-                       price_per_day, reimbursed_per_day, extra_payment_per_day,
-                       ddd_text, table_type, unit_type, unit_amount
-                FROM {table}
-                WHERE run_id = %s
-                ORDER BY id
-            """, (self.run_id,))
-            rows = cur.fetchall()
-            columns = [
-                "id", "detail_url", "product_name", "brand_name", "manufacturer",
-                "administration_form", "strengths_raw", "pack_presentation", "currency",
-                "price_per_day", "reimbursed_per_day", "extra_payment_per_day",
-                "ddd_text", "table_type", "unit_type", "unit_amount"
-            ]
-            return [dict(zip(columns, row)) for row in rows]
 
     # ==================================================================
     # CHROME INSTANCE TRACKING
@@ -1633,77 +1066,7 @@ class NetherlandsRepository:
 
     def export_costs_csv(self, output_path: Path) -> int:
         """Export costs to CSV file."""
-        table = self._table("costs")
 
-        with self.db.cursor() as cur:
-            cur.execute(f"""
-                SELECT detail_url, brand_full, brand_name, pack_presentation, ddd_text,
-                       currency, price_per_day, price_per_week, price_per_month,
-                       price_per_six_months, reimbursed_per_day, extra_payment_per_day,
-                       table_type, unit_type, unit_amount
-                FROM {table}
-                WHERE run_id = %s
-                ORDER BY id
-            """, (self.run_id,))
-            rows = cur.fetchall()
-
-        if not rows:
-            return 0
-
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        fieldnames = [
-            "detail_url", "brand_full", "brand_name", "pack_presentation", "ddd_text",
-            "currency", "price_per_day", "price_per_week", "price_per_month",
-            "price_per_six_months", "reimbursed_per_day", "extra_payment_per_day",
-            "table_type", "unit_type", "unit_amount"
-        ]
-
-        with open(output_path, 'w', newline='', encoding='utf-8') as f:
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
-            writer.writeheader()
-            for row in rows:
-                writer.writerow(dict(zip(fieldnames, row)))
-
-        self.log_export_report('costs', len(rows), 'csv')
-        self._db_log(f"EXPORT | costs -> {output_path} | rows={len(rows)}")
-        return len(rows)
-
-    def export_consolidated_csv(self, output_path: Path) -> int:
-        """Export consolidated data to CSV file."""
-        table = self._table("consolidated")
-
-        with self.db.cursor() as cur:
-            cur.execute(f"""
-                SELECT detail_url, product_name, brand_name, manufacturer,
-                       administration_form, strengths_raw, pack_presentation, currency,
-                       price_per_day, reimbursed_per_day, extra_payment_per_day,
-                       ddd_text, table_type, unit_type, unit_amount
-                FROM {table}
-                WHERE run_id = %s
-                ORDER BY id
-            """, (self.run_id,))
-            rows = cur.fetchall()
-
-        if not rows:
-            return 0
-
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        fieldnames = [
-            "detail_url", "product_name", "brand_name", "manufacturer",
-            "administration_form", "strengths_raw", "pack_presentation", "currency",
-            "price_per_day", "reimbursed_per_day", "extra_payment_per_day",
-            "ddd_text", "table_type", "unit_type", "unit_amount"
-        ]
-
-        with open(output_path, 'w', newline='', encoding='utf-8') as f:
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
-            writer.writeheader()
-            for row in rows:
-                writer.writerow(dict(zip(fieldnames, row)))
-
-        self.log_export_report('consolidated', len(rows), 'csv')
-        self._db_log(f"EXPORT | consolidated -> {output_path} | rows={len(rows)}")
-        return len(rows)
 
     def export_final_report(self, output_path: Path) -> int:
         """
@@ -2128,3 +1491,324 @@ class NetherlandsRepository:
                 }
                 for row in rows
             ]
+
+    # ==================================================================
+    # FK REIMBURSEMENT URLs (Step 2) - nl_fk_urls
+    # ==================================================================
+
+    def insert_fk_urls(self, urls: List[Dict], batch_size: int = 500) -> int:
+        """
+        Bulk insert FK detail URLs.
+
+        Args:
+            urls: List of dicts with keys: url, generic_slug (optional)
+            batch_size: Number of records per batch
+
+        Returns:
+            Number of rows inserted
+        """
+        if not urls:
+            return 0
+
+        table = self._table("fk_urls")
+        count = 0
+
+        sql = f"""
+            INSERT INTO {table} (run_id, url, generic_slug)
+            VALUES (%s, %s, %s)
+            ON CONFLICT (run_id, url) DO UPDATE SET
+                generic_slug = COALESCE(EXCLUDED.generic_slug, {table}.generic_slug)
+        """
+
+        with self.db.cursor() as cur:
+            for u in urls:
+                cur.execute(sql, (
+                    self.run_id,
+                    u.get("url", ""),
+                    u.get("generic_slug", ""),
+                ))
+                count += 1
+                if count % batch_size == 0:
+                    self.db.commit()
+
+        self.db.commit()
+        self._db_log(f"OK | nl_fk_urls inserted={count} | run_id={self.run_id}")
+        return count
+
+    def get_fk_url_count(self) -> int:
+        """Get total FK URLs for this run."""
+        table = self._table("fk_urls")
+        with self.db.cursor() as cur:
+            cur.execute(f"SELECT COUNT(*) FROM {table} WHERE run_id = %s", (self.run_id,))
+            row = cur.fetchone()
+            return row[0] if row else 0
+
+    def get_pending_fk_urls(self, limit: int = 10000) -> List[Dict]:
+        """Get FK URLs with status='pending' for scraping."""
+        table = self._table("fk_urls")
+        with self.db.cursor() as cur:
+            cur.execute(f"""
+                SELECT id, url, generic_slug
+                FROM {table}
+                WHERE run_id = %s AND status = 'pending'
+                ORDER BY id
+                LIMIT %s
+            """, (self.run_id, limit))
+            rows = cur.fetchall()
+            return [{"id": r[0], "url": r[1], "generic_slug": r[2]} for r in rows]
+
+    def get_retryable_fk_urls(self, max_retries: int = 3) -> List[Dict]:
+        """Get failed FK URLs where retry_count < max_retries."""
+        table = self._table("fk_urls")
+        with self.db.cursor() as cur:
+            cur.execute(f"""
+                SELECT id, url, generic_slug
+                FROM {table}
+                WHERE run_id = %s AND status = 'failed' AND retry_count < %s
+                ORDER BY id
+            """, (self.run_id, max_retries))
+            rows = cur.fetchall()
+            return [{"id": r[0], "url": r[1], "generic_slug": r[2]} for r in rows]
+
+    def mark_fk_url_status(self, url_id: int, status: str, error: str = None) -> None:
+        """Mark FK URL as success/failed. Increments retry_count on failure."""
+        table = self._table("fk_urls")
+        now = datetime.now()
+
+        with self.db.cursor() as cur:
+            if status == 'failed':
+                cur.execute(f"""
+                    UPDATE {table}
+                    SET status = %s, error_message = %s, scraped_at = %s,
+                        retry_count = retry_count + 1
+                    WHERE id = %s
+                """, (status, (error or "")[:500], now, url_id))
+            else:
+                cur.execute(f"""
+                    UPDATE {table}
+                    SET status = %s, error_message = NULL, scraped_at = %s
+                    WHERE id = %s
+                """, (status, now, url_id))
+        self.db.commit()
+
+    def get_fk_url_stats(self) -> Dict:
+        """Return {total, pending, success, failed} counts."""
+        table = self._table("fk_urls")
+        with self.db.cursor() as cur:
+            cur.execute(f"""
+                SELECT
+                    COUNT(*) as total,
+                    SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
+                    SUM(CASE WHEN status = 'success' THEN 1 ELSE 0 END) as success,
+                    SUM(CASE WHEN status = 'failed' THEN 1 ELSE 0 END) as failed
+                FROM {table}
+                WHERE run_id = %s
+            """, (self.run_id,))
+            row = cur.fetchone()
+            if not row:
+                return {"total": 0, "pending": 0, "success": 0, "failed": 0}
+            return {
+                "total": row[0] or 0,
+                "pending": row[1] or 0,
+                "success": row[2] or 0,
+                "failed": row[3] or 0,
+            }
+
+    # ==================================================================
+    # FK REIMBURSEMENT DATA (Step 3) - nl_fk_reimbursement
+    # ==================================================================
+
+    def insert_fk_reimbursement_batch(self, rows: List[Dict], batch_size: int = 200) -> int:
+        """
+        Bulk insert reimbursement rows. ON CONFLICT DO UPDATE for re-scrape.
+
+        Returns:
+            Number of rows inserted/updated
+        """
+        if not rows:
+            return 0
+
+        table = self._table("fk_reimbursement")
+        count = 0
+
+        sql = f"""
+            INSERT INTO {table}
+            (run_id, fk_url_id, generic_name, brand_name, manufacturer, dosage_form,
+             strength, patient_population, indication_nl, reimbursement_status,
+             reimbursable_text, route_of_administration, pack_details, binding,
+             reimbursement_body, source_url)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (run_id, source_url, COALESCE(brand_name,''), COALESCE(strength,''), COALESCE(patient_population,''))
+            DO UPDATE SET
+                fk_url_id = EXCLUDED.fk_url_id,
+                generic_name = EXCLUDED.generic_name,
+                manufacturer = EXCLUDED.manufacturer,
+                dosage_form = EXCLUDED.dosage_form,
+                indication_nl = EXCLUDED.indication_nl,
+                reimbursement_status = EXCLUDED.reimbursement_status,
+                reimbursable_text = EXCLUDED.reimbursable_text,
+                route_of_administration = EXCLUDED.route_of_administration,
+                pack_details = EXCLUDED.pack_details
+        """
+
+        with self.db.cursor() as cur:
+            for r in rows:
+                cur.execute(sql, (
+                    self.run_id,
+                    r.get("fk_url_id"),
+                    r.get("generic_name", ""),
+                    r.get("brand_name", ""),
+                    r.get("manufacturer", ""),
+                    r.get("dosage_form", ""),
+                    r.get("strength", ""),
+                    r.get("patient_population", ""),
+                    r.get("indication_nl", ""),
+                    r.get("reimbursement_status", ""),
+                    r.get("reimbursable_text", ""),
+                    r.get("route_of_administration", ""),
+                    r.get("pack_details", ""),
+                    r.get("binding", "NO"),
+                    r.get("reimbursement_body", "MINISTRY OF HEALTH"),
+                    r.get("source_url", ""),
+                ))
+                count += 1
+                if count % batch_size == 0:
+                    self.db.commit()
+
+        self.db.commit()
+        self._db_log(f"OK | nl_fk_reimbursement inserted={count} | run_id={self.run_id}")
+        return count
+
+    def get_fk_reimbursement_count(self) -> int:
+        """Get total reimbursement rows for this run."""
+        table = self._table("fk_reimbursement")
+        with self.db.cursor() as cur:
+            cur.execute(f"SELECT COUNT(*) FROM {table} WHERE run_id = %s", (self.run_id,))
+            row = cur.fetchone()
+            return row[0] if row else 0
+
+    def get_untranslated_fk_rows(self, limit: int = 50000) -> List[Dict]:
+        """Get rows where translation_status='pending' and indication_nl is not empty."""
+        table = self._table("fk_reimbursement")
+        with self.db.cursor() as cur:
+            cur.execute(f"""
+                SELECT id, indication_nl
+                FROM {table}
+                WHERE run_id = %s AND translation_status = 'pending'
+                ORDER BY id
+                LIMIT %s
+            """, (self.run_id, limit))
+            rows = cur.fetchall()
+            return [{"id": r[0], "indication_nl": r[1] or ""} for r in rows]
+
+    def update_fk_translations_batch(self, updates: List[Dict], batch_size: int = 200) -> int:
+        """Batch update translations. Each dict: {id, indication_en, status}."""
+        if not updates:
+            return 0
+
+        table = self._table("fk_reimbursement")
+        count = 0
+
+        with self.db.cursor() as cur:
+            for u in updates:
+                cur.execute(f"""
+                    UPDATE {table}
+                    SET indication_en = %s, translation_status = %s
+                    WHERE id = %s
+                """, (u.get("indication_en", ""), u.get("status", "translated"), u["id"]))
+                count += 1
+                if count % batch_size == 0:
+                    self.db.commit()
+
+        self.db.commit()
+        return count
+
+    def get_all_fk_reimbursement_for_export(self) -> List[Dict]:
+        """Get all reimbursement rows for CSV export."""
+        table = self._table("fk_reimbursement")
+        with self.db.cursor() as cur:
+            cur.execute(f"""
+                SELECT id, generic_name, brand_name, manufacturer, dosage_form, strength,
+                       patient_population, indication_nl, indication_en,
+                       reimbursement_status, reimbursable_text, route_of_administration,
+                       pack_details, binding, reimbursement_body, reimbursement_date,
+                       source_url
+                FROM {table}
+                WHERE run_id = %s
+                ORDER BY id
+            """, (self.run_id,))
+            rows = cur.fetchall()
+            columns = [
+                "id", "generic_name", "brand_name", "manufacturer", "dosage_form",
+                "strength", "patient_population", "indication_nl", "indication_en",
+                "reimbursement_status", "reimbursable_text", "route_of_administration",
+                "pack_details", "binding", "reimbursement_body", "reimbursement_date",
+                "source_url",
+            ]
+            return [dict(zip(columns, r)) for r in rows]
+
+    # ==================================================================
+    # FK DICTIONARY (Step 4) - nl_fk_dictionary
+    # ==================================================================
+
+    def load_fk_dictionary(self) -> Dict[str, str]:
+        """Load entire nl_fk_dictionary as {lowercase_source: translated_term}."""
+        result = {}
+        try:
+            with self.db.cursor() as cur:
+                cur.execute("SELECT source_term, translated_term FROM nl_fk_dictionary")
+                rows = cur.fetchall()
+                for r in rows:
+                    if r[0] and r[1]:
+                        result[r[0].lower().strip()] = r[1]
+        except Exception as e:
+            logger.warning(f"Failed to load FK dictionary: {e}")
+        return result
+
+    def seed_fk_dictionary(self, entries: List[Dict]) -> int:
+        """Seed dictionary from hardcoded list. ON CONFLICT DO NOTHING."""
+        if not entries:
+            return 0
+
+        count = 0
+        with self.db.cursor() as cur:
+            for e in entries:
+                cur.execute("""
+                    INSERT INTO nl_fk_dictionary (source_term, translated_term, category)
+                    VALUES (%s, %s, %s)
+                    ON CONFLICT (source_term, source_lang, target_lang) DO NOTHING
+                """, (
+                    e.get("source_term", "").lower().strip(),
+                    e.get("translated_term", ""),
+                    e.get("category", "hardcoded_seed"),
+                ))
+                count += 1
+
+        self.db.commit()
+        self._db_log(f"OK | nl_fk_dictionary seeded={count}")
+        return count
+
+    def upsert_fk_dictionary_batch(self, entries: List[Dict]) -> int:
+        """
+        Batch insert new translations. ON CONFLICT DO NOTHING.
+        Per MEMORY.md pattern: called every 50 entries.
+        """
+        if not entries:
+            return 0
+
+        count = 0
+        with self.db.cursor() as cur:
+            for e in entries:
+                cur.execute("""
+                    INSERT INTO nl_fk_dictionary (source_term, translated_term, category)
+                    VALUES (%s, %s, %s)
+                    ON CONFLICT (source_term, source_lang, target_lang) DO NOTHING
+                """, (
+                    e.get("source_term", "").lower().strip(),
+                    e.get("translated_term", ""),
+                    e.get("category", "google_auto"),
+                ))
+                count += 1
+
+        self.db.commit()
+        return count

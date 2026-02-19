@@ -17,8 +17,8 @@ from datetime import datetime
 
 # Import foundation contracts
 from core.pipeline.preflight_checks import PreflightChecker, CheckSeverity
-from core.step_hooks import StepHookRegistry, StepMetrics
-from core.alerting_integration import setup_alerting_hooks
+from core.pipeline.step_hooks import StepHookRegistry, StepMetrics
+from core.monitoring.alerting_integration import setup_alerting_hooks
 from core.data.data_quality_checks import DataQualityChecker
 from core.utils.step_progress_logger import (
     log_step_progress,

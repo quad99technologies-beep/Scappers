@@ -1,0 +1,11 @@
+{
+  "task_id": "canada_ontario_pipeline",
+  "current": 1,
+  "total": 4,
+  "unit": "steps",
+  "pct": 25.0,
+  "rate_per_sec": 0.4296,
+  "eta_seconds": 6,
+  "message": "starting Extract Product Details",
+  "updated_at": "2026-02-18T09:07:26.669028+00:00"
+}

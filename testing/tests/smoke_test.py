@@ -113,7 +113,7 @@ def test_config_manager():
     print("=" * 60)
     
     try:
-        from core.config_manager import ConfigManager
+        from core.config.config_manager import ConfigManager
         
         # Test path resolution
         app_root = ConfigManager.get_app_root()

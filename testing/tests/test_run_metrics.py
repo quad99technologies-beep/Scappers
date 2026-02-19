@@ -178,7 +178,7 @@ def test_integration():
     print("=" * 60)
     
     try:
-        from core.run_metrics_integration import WorkflowMetricsIntegration
+        from core.progress.run_metrics_integration import WorkflowMetricsIntegration
     except ImportError as e:
         print(f"FAIL: Could not import WorkflowMetricsIntegration: {e}")
         return False

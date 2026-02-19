@@ -611,7 +611,10 @@ def main():
             raise RuntimeError("No run_id found. Run Step 0 first or set MALAYSIA_RUN_ID.")
 
         from core.db.connection import CountryDB
-        from db.repositories import MalaysiaRepository
+        try:
+            from db.repositories import MalaysiaRepository
+        except ImportError:
+            from scripts.Malaysia.db.repositories import MalaysiaRepository
 
         run_id = _resolve_run_id()
         db = CountryDB("Malaysia")

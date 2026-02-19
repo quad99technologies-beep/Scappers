@@ -11,6 +11,18 @@ Updates ar_product_index.url for every row.
 import logging
 from pathlib import Path
 from typing import List, Dict, Tuple
+import sys
+import os
+
+# Add project root to sys.path to allow 'core' imports
+project_root = Path(__file__).resolve().parents[2]
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
+# Add script dir to sys.path to allow local imports
+script_dir = Path(__file__).resolve().parent
+if str(script_dir) not in sys.path:
+    sys.path.insert(0, str(script_dir))
 
 from config_loader import (
     get_output_dir,
@@ -43,8 +55,16 @@ sys.path.insert(0, str(_script_dir))
 if 'db' in sys.modules:
     del sys.modules['db']
 
-from db.repositories import ArgentinaRepository
-from db.schema import apply_argentina_schema
+try:
+    from db.repositories import ArgentinaRepository
+except ImportError:
+    from scripts.Argentina.db.repositories import ArgentinaRepository
+
+try:
+    from db.schema import apply_argentina_schema
+except ImportError:
+    from scripts.Argentina.db.schema import apply_argentina_schema
+
 from core.db.models import generate_run_id
 import os
 
@@ -71,8 +91,17 @@ _RUN_ID = _get_run_id()
 _REPO = ArgentinaRepository(_DB, _RUN_ID)
 
 from core.db.connection import CountryDB
-from db.repositories import ArgentinaRepository
-from db.schema import apply_argentina_schema
+
+try:
+    from db.repositories import ArgentinaRepository
+except ImportError:
+    from scripts.Argentina.db.repositories import ArgentinaRepository
+
+try:
+    from db.schema import apply_argentina_schema
+except ImportError:
+    from scripts.Argentina.db.schema import apply_argentina_schema
+
 from core.db.models import generate_run_id
 import os
 

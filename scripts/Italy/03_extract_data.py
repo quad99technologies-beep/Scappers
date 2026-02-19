@@ -1,10 +1,26 @@
 
+import sys
+import os
 import pdfplumber
 import re
-import os
 import json
 import logging
 import concurrent.futures
+from pathlib import Path
+
+# Add repo root to path for core imports
+_repo_root = Path(__file__).resolve().parents[2]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+# Italy-specific imports
+_script_dir = Path(__file__).parent
+if str(_script_dir) not in sys.path:
+    sys.path.insert(0, str(_script_dir))
+
+from core.db.connection import CountryDB
+from db.repositories import ItalyRepository
+from config_loader import load_env_file
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -12,34 +28,19 @@ logger = logging.getLogger(__name__)
 
 # Configuration
 PDF_DIR = r"d:\quad99\Scrappers\data\Italy\pdfs"
-DETERMINAS_LIST = r"d:\quad99\Scrappers\data\Italy\determinas_list.jsonl"
-OUTPUT_FILE = r"d:\quad99\Scrappers\data\Italy\extracted_data.jsonl"
-
-def load_metadata(filepath):
-    """Load metadata from the list file to map ID to Dates/Context."""
-    meta = {}
-    if os.path.exists(filepath):
-        with open(filepath, 'r', encoding='utf-8') as f:
-            for line in f:
-                if line.strip():
-                    item = json.loads(line)
-                    meta[item.get("id")] = item
-    return meta
-
-METADATA = load_metadata(DETERMINAS_LIST)
 
 def clean_text(text):
     if not text: return ""
     return re.sub(r'\s+', ' ', text).strip()
 
-def parse_pdf(pdf_path):
+def parse_pdf(pdf_path, metadata_lookup):
     extracted_items = []
     filename = os.path.basename(pdf_path)
     # Extract item_id from filename (format: id_attachid_name.pdf)
     parts = filename.split('_')
     item_id = parts[0] if len(parts) > 0 else None
     
-    current_meta = METADATA.get(item_id, {})
+    current_meta = metadata_lookup.get(item_id, {})
     
     try:
         with pdfplumber.open(pdf_path) as pdf:
@@ -47,35 +48,15 @@ def parse_pdf(pdf_path):
             for page in pdf.pages:
                 full_text += page.extract_text() + "\n"
                 
-            # Parsing Logic
-            # 1. Identify "Confezione" blocks
-            # Pattern: "Confezione" followed by description, then "AIC n." ... "Prezzo"
-            
-            # Helper to find blocks
-            # We look for AIC n. first as anchor?
-            
-            # Improved Regex Strategy:
-            # Look for segments like:
-            # Confezione <Description>
-            # AIC n. <Code>
-            # ...
-            # Prezzo ex-factory ... <Price>
-            # Prezzo al pubblico ... <Price>
-            
             # Normalize text for regex
-            text = full_text.replace("\n", "  ") # Double space to preserve some boundaries?
+            text = full_text.replace("\n", "  ")
             
             # Find all AICs
-            # AIC n. 052594013
             aic_matches = list(re.finditer(r"AIC\s+n\.?\s*(\d{6,})", text, re.IGNORECASE))
             
             for match in aic_matches:
                 aic = match.group(1)
                 start_index = match.start()
-                
-                # Context window around AIC
-                # Look backwards for "Confezione" or Product Name
-                # Look forwards for Prices
                 
                 context_start = max(0, start_index - 500)
                 context_end = min(len(text), start_index + 1000)
@@ -84,44 +65,31 @@ def parse_pdf(pdf_path):
                 item = {
                     "source_pdf": filename,
                     "determina_id": item_id,
-                    "determina_date": current_meta.get("dataPubblicazione"),
                     "aic": aic,
                     "product_name": None,
                     "pack_description": None,
                     "price_ex_factory": None,
                     "price_public": None,
-                    "company": None # Hard to extract reliably without more anchors
+                    "company": None
                 }
                 
                 # Extract Price Ex Factory
-                # Prezzo ex-factory (IVA esclusa) € 6,37
                 ex_factory_match = re.search(r"Prezzo\s+ex[- ]?factory.*?(?:€|EUR)\s*([\d,.]+)", context, re.IGNORECASE)
                 if ex_factory_match:
                     item["price_ex_factory"] = ex_factory_match.group(1).replace(",", ".").replace("€", "").strip()
 
                 # Extract Price Public
-                # Prezzo al pubblico (IVA inclusa) € 10,52
                 public_match = re.search(r"Prezzo\s+al\s+pubblico.*?(?:€|EUR)\s*([\d,.]+)", context, re.IGNORECASE)
                 if public_match:
                     item["price_public"] = public_match.group(1).replace(",", ".").replace("€", "").strip()
                 
                 # Extract Product Name / Pack Description
-                # Usually precedes AIC. Look for "Confezione"
-                # "Confezione AUGMENTIN “875 mg/125 mg ...” 12 bustine ..."
-                
-                # We can search backwards from AIC for "Confezione"
                 pre_aic_text = text[max(0, start_index - 300):start_index]
                 confezione_match = re.search(r"Confezione\s+(.*)", pre_aic_text, re.IGNORECASE)
                 if confezione_match:
                     conf_text = confezione_match.group(1).strip()
-                    # Improve clean up
-                    # It might capture "AUGMENTIN ... AIC n." -> handled by start_index limit
-                    # Basic extraction
                     item["pack_description"] = clean_text(conf_text)
-                    
-                    # Try to extract Product Name (first word or capitalized string?)
-                    # "AUGMENTIN"
-                    item["product_name"] = conf_text.split(" ")[0] # Naive
+                    item["product_name"] = conf_text.split(" ")[0]
                     
                 extracted_items.append(item)
                 
@@ -131,13 +99,31 @@ def parse_pdf(pdf_path):
     return extracted_items
 
 def main():
+    load_env_file()
+    run_id = os.environ.get("ITALY_RUN_ID")
+    if not run_id:
+        logger.error("ITALY_RUN_ID not found in environment.")
+        sys.exit(1)
+
+    db = CountryDB("Italy")
+    repo = ItalyRepository(db, run_id)
+    
+    # Load metadata from DB
+    determinas = repo.get_determinas()
+    metadata_lookup = {d.get("determina_id"): d for d in determinas}
+    
+    if not os.path.exists(PDF_DIR):
+        logger.error(f"PDF directory not found: {PDF_DIR}")
+        db.close()
+        return
+
     files = [os.path.join(PDF_DIR, f) for f in os.listdir(PDF_DIR) if f.endswith(".pdf")]
     logger.info(f"Found {len(files)} PDFs to process.")
     
     all_extracted = []
     
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-        future_to_file = {executor.submit(parse_pdf, f): f for f in files}
+        future_to_file = {executor.submit(parse_pdf, f, metadata_lookup): f for f in files}
         
         for i, future in enumerate(concurrent.futures.as_completed(future_to_file)):
             try:
@@ -151,12 +137,12 @@ def main():
                 
     logger.info(f"Extraction complete. Found {len(all_extracted)} items.")
     
-    # Save results
-    with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-        for item in all_extracted:
-            f.write(json.dumps(item, ensure_ascii=False) + "\n")
+    # Save results to DB
+    if all_extracted:
+        repo.insert_products(all_extracted)
+        logger.info(f"Saved {len(all_extracted)} products to database.")
     
-    logger.info(f"Saved to {OUTPUT_FILE}")
+    db.close()
 
 if __name__ == "__main__":
     main()

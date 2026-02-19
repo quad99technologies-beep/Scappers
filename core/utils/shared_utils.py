@@ -209,8 +209,8 @@ def backup_output_folder(
                         if item_resolved == excl_dir or item_resolved.startswith(excl_dir + os.sep):
                             ignored.append(name)
                             break
-                except:
-                    pass
+                except Exception as e:
+                    logging.getLogger(__name__).debug(f"Backup ignore check failed for {name}: {e}")
             return ignored
         
         shutil.copytree(output_dir, backup_folder, ignore=ignore_backup_dirs, dirs_exist_ok=True)
@@ -284,8 +284,8 @@ def run_backup_and_clean(
         ConfigManager.ensure_dirs()
         try:
             ConfigManager.load_env(scraper_id)
-        except Exception:
-            pass
+        except Exception as e:
+            logging.getLogger(__name__).debug(f"load_env({scraper_id}) failed (may be expected): {e}")
         output_dir = ConfigManager.get_output_dir(scraper_id)
         backup_dir = ConfigManager.get_backups_dir(scraper_id)
         central_output_dir = ConfigManager.get_exports_dir(scraper_id)

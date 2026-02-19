@@ -448,7 +448,10 @@ def main():
             raise RuntimeError("No run_id found. Run Step 0 first or set NORTH_MACEDONIA_RUN_ID.")
 
         from core.db.connection import CountryDB
-        from db.repositories import NorthMacedoniaRepository
+        try:
+            from db.repositories import NorthMacedoniaRepository
+        except ImportError:
+            from scripts.north_macedonia.db.repositories import NorthMacedoniaRepository
 
         run_id = _resolve_run_id()
         db = CountryDB("NorthMacedonia")

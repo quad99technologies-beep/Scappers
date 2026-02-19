@@ -56,13 +56,16 @@ from selenium.common.exceptions import TimeoutException
 
 SCRAPER_NAME = "Taiwan"
 
-OUTPUT_DIR = get_output_dir()
-EXPORTS_DIR = get_central_output_dir()
-IN_CODES = OUTPUT_DIR / getenv("SCRIPT_02_IN_CODES", "taiwan_drug_code_urls.csv")
-OUT_DETAILS = EXPORTS_DIR / getenv("SCRIPT_02_OUT_DETAILS", "taiwan_drug_code_details.csv")
+# DB imports
+try:
+    from core.db.connection import CountryDB
+    from db.schema import apply_taiwan_schema
+    from db.repositories import TaiwanRepository
+    HAS_DB = True
+except ImportError:
+    HAS_DB = False
 
-SEEN_LICIDS = OUTPUT_DIR / getenv("SCRIPT_02_SEEN_LICIDS", "seen_licids.txt")
-SEEN_COMPANIES = OUTPUT_DIR / getenv("SCRIPT_02_SEEN_COMPANIES", "seen_companies.txt")
+SCRAPER_NAME = "Taiwan"
 
 WAIT_TIMEOUT = 30
 PAGE_LOAD_TIMEOUT = 60
@@ -107,16 +110,6 @@ def percent(current: int, total: int) -> float:
     return round((current / total) * 100, 1)
 
 
-def _get_run_id() -> Optional[str]:
-    """Get run_id from .current_run_id for DB tracking."""
-    run_id_file = OUTPUT_DIR / ".current_run_id"
-    if run_id_file.exists():
-        try:
-            return run_id_file.read_text(encoding="utf-8").strip() or None
-        except Exception:
-            pass
-    return None
-
 def ensure_driver() -> webdriver.Chrome:
     opts = webdriver.ChromeOptions()
     opts.add_argument("--start-maximized")
@@ -125,83 +118,24 @@ def ensure_driver() -> webdriver.Chrome:
         opts.add_argument("--headless=new")
     driver = webdriver.Chrome(options=opts)
     driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
-    run_id = _get_run_id()
-    if ChromeInstanceTracker and PostgresDB and run_id and get_chrome_pids_from_driver:
+    
+    # Try to register with ChromeInstanceTracker (only if DB/RunID available)
+    run_id = os.environ.get("TW_RUN_ID")
+    if ChromeInstanceTracker and run_id:
         try:
-            pids = get_chrome_pids_from_driver(driver)
-            if pids:
-                pid = driver.service.process.pid if hasattr(driver.service, 'process') else list(pids)[0]
-                db = PostgresDB(SCRAPER_NAME)
-                db.connect()
-                try:
-                    tracker = ChromeInstanceTracker(SCRAPER_NAME, run_id, db)
-                    tracker.register(step_number=1, pid=pid, browser_type="chrome", child_pids=pids)
-                finally:
-                    db.close()
+            from core.db.connection import CountryDB
+            db = CountryDB("Taiwan") 
+            db.connect()
+            tracker = ChromeInstanceTracker("Taiwan", run_id, db)
+            pid = driver.service.process.pid if hasattr(driver.service, 'process') else None
+            if pid:
+                pids = get_chrome_pids_from_driver(driver) if get_chrome_pids_from_driver else {pid}
+                tracker.register(step_number=2, pid=pid, browser_type="chrome", child_pids=pids)
+            db.close()
         except Exception:
             pass
+
     return driver
-
-
-def ensure_out_header():
-    if OUT_DETAILS.exists():
-        return
-    with open(OUT_DETAILS, "w", newline="", encoding="utf-8") as f:
-        w = csv.writer(f)
-        w.writerow([
-            "Drug Code",
-            "licId URL",
-            # Certificate
-            "Valid Date (ROC)",
-            "Valid Date (AD)",
-            "Original certificate date / issuance date (ROC)",
-            "Types of licenses",
-            "Customs clearance document number",
-            "Chinese Product Name",
-            "English product name",
-            "Indications",
-            "Dosage form",
-            "Package",
-            "Drug Category",
-            "ATC code",
-            "Principal Components (Brief Description)",
-            "Restricted items",
-            # Applicant
-            "Drug Company Name",
-            "Drugstore address",
-            # Manufacturer
-            "Manufacturer code",
-            "Factory",
-            "Manufacturer Name",
-            "Manufacturing plant address",
-            "Manufacturing plant company address",
-            "Country of manufacture",
-            "process",
-        ])
-
-
-def load_csv_codes() -> List[Tuple[str, str]]:
-    rows = []
-    with open(IN_CODES, "r", encoding="utf-8") as f:
-        r = csv.DictReader(f)
-        for row in r:
-            code = (row.get("Drug Code") or "").strip()
-            url = (row.get("Drug Code URL") or "").strip()
-            if code and url:
-                rows.append((code, url))
-    return rows
-
-
-def load_seen(path: str) -> Set[str]:
-    if not Path(path).exists():
-        return set()
-    with open(path, "r", encoding="utf-8") as f:
-        return set(x.strip() for x in f if x.strip())
-
-
-def append_seen(path: str, value: str):
-    with open(path, "a", encoding="utf-8") as f:
-        f.write(value + "\n")
 
 
 def roc_to_ad(roc: str) -> str:
@@ -310,124 +244,114 @@ def scrape_license(driver, wait, url: str) -> Dict[str, str]:
 
 def main():
     configure_realtime_output()
-    if terminate_scraper_pids:
-        try:
-            terminate_scraper_pids(SCRAPER_NAME, _repo_root, silent=True)
-        except Exception:
-            pass
+    
+    if not HAS_DB:
+        print("[ERROR] Database support not available. Cannot run Taiwan extractor.")
+        sys.exit(1)
 
-    if not IN_CODES.exists():
-        raise FileNotFoundError(f"Missing {IN_CODES}. Run script 01 first.")
+    # Resolve run_id
+    run_id = os.environ.get("TW_RUN_ID", "").strip()
+    if not run_id:
+        print("[ERROR] No TW_RUN_ID. Set it or run pipeline from step 0.")
+        sys.exit(1)
 
-    ensure_out_header()
+    # Initialize database
+    db = CountryDB("Taiwan")
+    db.connect()
+    apply_taiwan_schema(db)
+    repo = TaiwanRepository(db, run_id)
+    repo.start_run(mode="resume")
 
-    seen_licids = load_seen(SEEN_LICIDS)
-    seen_companies = load_seen(SEEN_COMPANIES)
-
-    rows = load_csv_codes()
-    total_rows = len(rows)
-    if total_rows:
+    # Load tasks (drug codes from step 1)
+    tasks = repo.get_all_drug_codes()
+    total_tasks = len(tasks)
+    
+    # Get completed details to skip
+    completed_codes = repo.get_completed_keys(step_number=2)
+    
+    if total_tasks:
         print(
-            f"[PROGRESS] Extracting details: 0/{total_rows} (0.0%) - Starting",
+            f"[PROGRESS] Extracting details: {len(completed_codes)}/{total_tasks} ({percent(len(completed_codes), total_tasks)}%)",
             flush=True,
         )
     else:
-        print("[INFO] No rows found in input codes file.", flush=True)
+        print("[INFO] No drug codes found in database for this run.", flush=True)
+        return
 
     driver = ensure_driver()
     wait = WebDriverWait(driver, WAIT_TIMEOUT)
 
     try:
-        for idx, (drug_code, url) in enumerate(rows, 1):
-            # licId is the query param value
-            licid = ""
-            m = re.search(r"[?&]licId=([^&]+)", url)
-            if m:
-                licid = m.group(1)
-
-            if licid and licid in seen_licids:
-                progress_pct = percent(idx, total_rows)
-                print(
-                    f"[PROGRESS] Extracting details: {idx}/{total_rows} ({progress_pct}%) - "
-                    f"Skipped {drug_code} (licId {licid})",
-                    flush=True,
-                )
+        for idx, task in enumerate(tasks, 1):
+            drug_code = task.get("drug_code")
+            url = task.get("drug_code_url")
+            
+            if drug_code in completed_codes:
                 continue
 
-            progress_pct = percent(idx, total_rows)
+            repo.mark_progress(2, "extract_details", drug_code, "in_progress")
+            
+            progress_pct = percent(idx, total_tasks)
             print(
-                f"[PROGRESS] Extracting details: {idx}/{total_rows} ({progress_pct}%) - "
-                f"{drug_code} (licId {licid or 'unknown'})",
+                f"[PROGRESS] Extracting details: {idx}/{total_tasks} ({progress_pct}%) - {drug_code}",
                 flush=True,
             )
 
-            details = scrape_license(driver, wait, url)
-            company = (details.get("Drug Company Name") or "").strip()
+            details_data = scrape_license(driver, wait, url)
+            if not details_data:
+                repo.mark_progress(2, "extract_details", drug_code, "failed", error_message="Scraping failed")
+                continue
 
-            # Dedup company: if already processed, blank out company-level fields
-            if company and company in seen_companies:
-                # Keep Drug Code / URL / dates, but avoid repeating heavy company fields
-                # (You asked: don’t scrape same company name again)
-                details["Drugstore address"] = ""
-                details["Manufacturer code"] = ""
-                details["Factory"] = ""
-                details["Manufacturer Name"] = ""
-                details["Manufacturing plant address"] = ""
-                details["Manufacturing plant company address"] = ""
-                details["Country of manufacture"] = ""
-                details["process"] = ""
-                print(f"[DETAIL] Dedup company details: {company}", flush=True)
-            else:
-                if company:
-                    seen_companies.add(company)
-                    append_seen(SEEN_COMPANIES, company)
-                    print(f"[DETAIL] New company captured: {company}", flush=True)
-
-            with open(OUT_DETAILS, "a", newline="", encoding="utf-8") as f:
-                w = csv.writer(f)
-                w.writerow([
-                    drug_code,
-                    url,
-                    details.get("Valid Date (ROC)", ""),
-                    details.get("Valid Date (AD)", ""),
-                    details.get("Original certificate date / issuance date (ROC)", ""),
-                    details.get("Types of licenses", ""),
-                    details.get("Customs clearance document number", ""),
-                    details.get("Chinese Product Name", ""),
-                    details.get("English product name", ""),
-                    details.get("Indications", ""),
-                    details.get("Dosage form", ""),
-                    details.get("Package", ""),
-                    details.get("Drug Category", ""),
-                    details.get("ATC code", ""),
-                    details.get("Principal Components (Brief Description)", ""),
-                    details.get("Restricted items", ""),
-                    details.get("Drug Company Name", ""),
-                    details.get("Drugstore address", ""),
-                    details.get("Manufacturer code", ""),
-                    details.get("Factory", ""),
-                    details.get("Manufacturer Name", ""),
-                    details.get("Manufacturing plant address", ""),
-                    details.get("Manufacturing plant company address", ""),
-                    details.get("Country of manufacture", ""),
-                    details.get("process", ""),
-                ])
-
-            if licid:
-                seen_licids.add(licid)
-                append_seen(SEEN_LICIDS, licid)
+            # Save to DB
+            db_detail = {
+                "drug_code": drug_code,
+                "lic_id_url": url,
+                "valid_date_roc": details_data.get("Valid Date (ROC)"),
+                "valid_date_ad": details_data.get("Valid Date (AD)"),
+                "original_certificate_date": details_data.get("Original certificate date / issuance date (ROC)"),
+                "license_type": details_data.get("Types of licenses"),
+                "customs_doc_number": details_data.get("Customs clearance document number"),
+                "chinese_product_name": details_data.get("Chinese Product Name"),
+                "english_product_name": details_data.get("English product name"),
+                "indications": details_data.get("Indications"),
+                "dosage_form": details_data.get("Dosage form"),
+                "package": details_data.get("Package"),
+                "drug_category": details_data.get("Drug Category"),
+                "atc_code": details_data.get("ATC code"),
+                "principal_components": details_data.get("Principal Components (Brief Description)"),
+                "restricted_items": details_data.get("Restricted items"),
+                "drug_company_name": details_data.get("Drug Company Name"),
+                "drugstore_address": details_data.get("Drugstore address"),
+                "manufacturer_code": details_data.get("Manufacturer code"),
+                "factory": details_data.get("Factory"),
+                "manufacturer_name": details_data.get("Manufacturer Name"),
+                "manufacturing_plant_address": details_data.get("Manufacturing plant address"),
+                "manufacturing_plant_company_address": details_data.get("Manufacturing plant company address"),
+                "country_of_manufacture": details_data.get("Country of manufacture"),
+                "process_description": details_data.get("process"),
+            }
+            
+            repo.insert_drug_details([db_detail])
+            repo.mark_progress(2, "extract_details", drug_code, "completed")
 
             time.sleep(SLEEP)
 
-        print("DONE:", OUT_DETAILS, flush=True)
+        print("\n[DONE] Detail extraction complete.")
 
+    except KeyboardInterrupt:
+        print("\n[STOP] Interrupted by user.")
+    except Exception as e:
+        print(f"\n[FATAL] {e}", flush=True)
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
     finally:
-        driver.quit()
-        if terminate_scraper_pids:
-            try:
-                terminate_scraper_pids(SCRAPER_NAME, _repo_root, silent=True)
-            except Exception:
-                pass
+        try:
+            driver.quit()
+        except Exception:
+            pass
+        if db:
+            db.close()
 
 
 if __name__ == "__main__":

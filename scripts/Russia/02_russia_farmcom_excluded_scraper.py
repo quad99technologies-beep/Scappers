@@ -144,6 +144,10 @@ _active_drivers: List[webdriver.Chrome] = []
 _run_id: Optional[str] = None
 _repo: Optional[RussiaRepository] = None
 
+def _get_run_id() -> Optional[str]:
+    """Helper to get current run ID from global state or environment."""
+    return _run_id or os.getenv("RUSSIA_RUN_ID")
+
 # =============================================================================
 # SIGNAL HANDLERS
 # =============================================================================
@@ -169,72 +173,72 @@ signal.signal(signal.SIGTERM, signal_handler)
 # CHROME MANAGEMENT
 # =============================================================================
 
-def cleanup_all_chrome():
-    print(f"[CLEANUP] Cleaning up {len(_active_drivers)} Chrome instance(s)...", flush=True)
-    for driver in _active_drivers[:]:
-        try:
-            unregister_chrome_driver(driver)
-        except Exception:
-            pass
-        try:
-            driver.quit()
-        except Exception:
-            pass
-    _active_drivers.clear()
-    print("[CLEANUP] Done", flush=True)
+# CHROME MANAGEMENT
+# =============================================================================
 
-atexit.register(cleanup_all_chrome)
+from core.browser.chrome_manager import cleanup_all_chrome_instances as cleanup_all_chrome
 
-def _get_run_id() -> Optional[str]:
-    """Get run_id from .current_run_id or env for DB tracking."""
-    run_id = os.environ.get("RUSSIA_RUN_ID", "").strip()
-    if run_id:
-        return run_id
-    run_id_file = get_output_dir() / ".current_run_id"
-    if run_id_file.exists():
-        try:
-            return run_id_file.read_text(encoding="utf-8").strip() or None
-        except Exception:
-            pass
-    return None
-
-def track_driver(driver: webdriver.Chrome):
+def _create_driver() -> webdriver.Chrome:
+    """Internal factory: creates driver with core factory + DB tracking."""
+    # 1. Cleanup orphans
+    from core.browser.chrome_manager import kill_orphaned_chrome_processes
+    kill_orphaned_chrome_processes()
+    
+    # 2. Config
+    from core.browser.driver_factory import create_chrome_driver
+    ua = getenv("SCRIPT_02_CHROME_USER_AGENT")
+    extra_opts = {'page_load_timeout': PAGE_LOAD_TIMEOUT}
+    if ua: extra_opts['user_agent'] = ua
+    
+    # 3. Create
+    # HEADLESS is global var in this script (imported/defined)
+    driver = create_chrome_driver(headless=HEADLESS, extra_options=extra_opts)
+    
+    # 4. Track
     _active_drivers.append(driver)
     register_chrome_driver(driver)
+    
+    # DB Logging
     run_id = _get_run_id()
-    if ChromeInstanceTracker and run_id and hasattr(driver, "service") and hasattr(driver.service, "process"):
+    if ChromeInstanceTracker and run_id and hasattr(driver, "service"):
         try:
             pid = driver.service.process.pid
             if pid:
                 pids = get_chrome_pids_from_driver(driver) if get_chrome_pids_from_driver else {pid}
-                db = CountryDB("Russia")
-                db.connect()
-                try:
-                    tracker = ChromeInstanceTracker("Russia", run_id, db)
-                    tracker.register(step_number=1, pid=pid, browser_type="chrome", child_pids=pids)
-                finally:
-                    db.close()
+                with CountryDB("Russia") as db:
+                     tracker = ChromeInstanceTracker("Russia", run_id, db)
+                     tracker.register(step_number=2, pid=pid, browser_type="chrome", child_pids=pids)
+        except Exception as e:
+            print(f"[WARN] DB tracking failed: {e}")
+            
+    print(f"[DRIVER] Created new instance (Total: {len(_active_drivers)})", flush=True)
+    return driver
+
+
+def _restart_driver(driver: webdriver.Chrome) -> webdriver.Chrome:
+    """Restart driver with DB untracking and core restart logic."""
+    print("[DRIVER] Restarting Chrome...", flush=True)
+    from core.browser.driver_factory import restart_driver as core_restart_driver
+    
+    # Untrack in DB
+    if driver in _active_drivers:
+        _active_drivers.remove(driver)
+    
+    run_id = _get_run_id()
+    if ChromeInstanceTracker and run_id and hasattr(driver, "service"):
+        try:
+            pid = driver.service.process.pid
+            if pid:
+                with CountryDB("Russia") as db:
+                    ChromeInstanceTracker("Russia", run_id, db).mark_terminated_by_pid(pid, "restart")
         except Exception:
             pass
+            
+    unregister_chrome_driver(driver)
+    
+    # Core restart
+    return core_restart_driver(driver, _create_driver)
 
-def untrack_driver(driver: webdriver.Chrome):
-    """Remove driver from tracking"""
-    try:
-        if driver in _active_drivers:
-            _active_drivers.remove(driver)
-        unregister_chrome_driver(driver)
-    except Exception:
-        pass
-
-def restart_driver(driver: webdriver.Chrome) -> webdriver.Chrome:
-    """Restart driver with cleanup"""
-    print("[DRIVER] Restarting Chrome...", flush=True)
-    untrack_driver(driver)
-    try:
-        driver.quit()
-    except Exception:
-        pass
-    return make_driver()
 
 def is_tab_crash(exc: Exception) -> bool:
     msg = str(exc).lower()
@@ -244,6 +248,7 @@ def is_tab_crash(exc: Exception) -> bool:
         or "disconnected" in msg
         or "chrome not reachable" in msg
     )
+
 
 def safe_get(driver: webdriver.Chrome, url: str, wait: bool = True) -> webdriver.Chrome:
     """Navigate with retry and crash recovery."""
@@ -257,7 +262,7 @@ def safe_get(driver: webdriver.Chrome, url: str, wait: bool = True) -> webdriver
         except WebDriverException as exc:
             last_exc = exc
             if is_tab_crash(exc) and NAV_RESTART_DRIVER:
-                driver = restart_driver(driver)
+                driver = _restart_driver(driver)
             if attempt < NAV_RETRIES:
                 time.sleep(NAV_RETRY_SLEEP)
             else:
@@ -266,40 +271,12 @@ def safe_get(driver: webdriver.Chrome, url: str, wait: bool = True) -> webdriver
         raise last_exc
     return driver
 
+
 def go_to_page(driver: webdriver.Chrome, page_num: int) -> webdriver.Chrome:
     sep = "&" if "?" in BASE_URL else "?"
     url = f"{BASE_URL}{sep}reg_id={REGION_VALUE}&page={page_num}"
     return safe_get(driver, url, wait=True)
 
-def make_driver() -> webdriver.Chrome:
-    opts = ChromeOptions()
-    
-    if HEADLESS:
-        opts.add_argument("--headless=new")
-    
-    if CHROME_NO_SANDBOX:
-        opts.add_argument(CHROME_NO_SANDBOX)
-    if CHROME_DISABLE_DEV_SHM:
-        opts.add_argument(CHROME_DISABLE_DEV_SHM)
-    
-    opts.add_argument("--disable-gpu")
-    opts.add_argument("--window-size=1600,1000")
-    opts.add_argument("--disable-extensions")
-    opts.add_argument("--disable-plugins")
-    opts.add_argument("--disable-images")
-    
-    opts.add_experimental_option("excludeSwitches", ["enable-automation"])
-    opts.add_experimental_option('useAutomationExtension', False)
-    
-    prefs = {"profile.managed_default_content_settings.images": 2}
-    opts.add_experimental_option("prefs", prefs)
-    
-    service = ChromeService(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=opts)
-    driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
-    
-    track_driver(driver)
-    return driver
 
 # =============================================================================
 # NAVIGATION
@@ -449,7 +426,7 @@ def select_region_and_search(driver: webdriver.Chrome) -> webdriver.Chrome:
     # Restart driver and try again
     if NAV_RESTART_DRIVER:
         print(f"  [NAV] Restarting driver and retrying...", flush=True)
-        driver = restart_driver(driver)
+        driver = _restart_driver(driver)
         return select_region_and_search(driver)
     
     raise RuntimeError("Region selection failed after all retries")
@@ -719,6 +696,21 @@ def get_last_page(driver: webdriver.Chrome) -> int:
 
 def get_resume_page(repo: RussiaRepository, current_run_id: str = None) -> int:
     """Get page to resume from - finds run with most completed pages"""
+    
+    # 1. Check current run first (if provided)
+    if current_run_id:
+        completed = repo.get_completed_keys_for_run(2, current_run_id)
+        pages = []
+        for key in completed:
+            if key.startswith("excluded_page:"):
+                try:
+                    pages.append(int(key.split(":")[1]))
+                except ValueError:
+                    pass
+        if pages:
+            return max(pages) + 1
+
+    # 2. If current run has no progress, check other runs (find best previous run)
     # Get all run_ids with their completed page counts for step 2 (excluded)
     run_pages = repo.get_all_run_completed_pages(2, current_run_id)
     
@@ -823,7 +815,7 @@ def main():
     except Exception:
         pass
     
-    driver = make_driver()
+    driver = _create_driver()
     
     try:
         print(f"[NAV] Navigating to {BASE_URL}...", flush=True)
@@ -884,7 +876,7 @@ def main():
                     print(f"  [ERROR] Multi-tab batch failed: {e}", flush=True)
                     if isinstance(e, WebDriverException) and is_tab_crash(e):
                         print("  [WARN] Tab crash detected. Falling back to sequential mode.", flush=True)
-                        driver = restart_driver(driver)
+                        driver = _restart_driver(driver)
                         effective_multi_tab = 1
                     else:
                         try:
@@ -928,6 +920,14 @@ def main():
             if batch_end % PROGRESS_INTERVAL == 0:
                 print(f"[PROGRESS] Page {batch_end}/{last_page} | Total: {total_scraped}", flush=True)
                 gc.collect()
+                
+                # Proactive restart to prevent memory leaks/crashes
+                if effective_multi_tab > 1:
+                    print(f"[DRIVER] Periodic restart to release memory (page {batch_end})...", flush=True)
+                    try:
+                        driver = _restart_driver(driver)
+                    except Exception as e:
+                        print(f"  [WARN] Driver restart failed: {e}. Continuing with current driver.", flush=True)
             
             if page_num <= last_page and effective_multi_tab <= 1:
                 print(f"[BATCH] Navigating to page {page_num} for next batch...", flush=True)

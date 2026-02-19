@@ -20,7 +20,7 @@ PRODUCTS_DDL = """
 CREATE TABLE IF NOT EXISTS co_products (
     id SERIAL PRIMARY KEY,
     run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
-    product_name TEXT,
+    local_pack_description TEXT,
     generic_name TEXT,
     manufacturer TEXT,
     manufacturer_code TEXT,
@@ -198,6 +198,25 @@ CREATE INDEX IF NOT EXISTS idx_co_errors_step ON co_errors(step_number);
 CREATE INDEX IF NOT EXISTS idx_co_errors_type ON co_errors(error_type);
 """
 
+SEARCH_SUMMARY_DDL = """
+CREATE TABLE IF NOT EXISTS co_search_summary (
+    id SERIAL PRIMARY KEY,
+    run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
+    search_key TEXT NOT NULL,
+    search_type TEXT NOT NULL,
+    expected_count INTEGER,
+    parsed_count INTEGER,
+    unique_count INTEGER,
+    duplicate_count INTEGER DEFAULT 0,
+    status TEXT DEFAULT 'PASS',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(run_id, search_key, search_type)
+);
+CREATE INDEX IF NOT EXISTS idx_co_search_summary_run ON co_search_summary(run_id);
+CREATE INDEX IF NOT EXISTS idx_co_search_summary_key ON co_search_summary(search_key);
+CREATE INDEX IF NOT EXISTS idx_co_search_summary_type ON co_search_summary(search_type);
+"""
+
 CANADA_ONTARIO_SCHEMA_DDL = [
     PRODUCTS_DDL,
     MANUFACTURERS_DDL,
@@ -207,6 +226,7 @@ CANADA_ONTARIO_SCHEMA_DDL = [
     STEP_PROGRESS_DDL,
     EXPORT_REPORTS_DDL,
     ERRORS_DDL,
+    SEARCH_SUMMARY_DDL,
 ]
 
 

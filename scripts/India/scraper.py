@@ -7,10 +7,16 @@ Wraps Scrapy pipeline in BaseScraper structure for uniformity and observability.
 import sys
 import os
 import subprocess
+from pathlib import Path
 
 # ---- Path wiring ----
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
+_repo_root = Path(__file__).resolve().parents[2]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+_script_dir = Path(__file__).resolve().parent
+if str(_script_dir) not in sys.path:
+    sys.path.insert(0, str(_script_dir))
 
 from core.pipeline.base_scraper import BaseScraper
 

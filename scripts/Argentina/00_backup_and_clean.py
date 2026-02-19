@@ -35,8 +35,15 @@ sys.path.insert(0, str(_script_dir))
 if 'db' in sys.modules:
     del sys.modules['db']
 
-from db.schema import apply_argentina_schema
-from db.repositories import ArgentinaRepository
+try:
+    from db.schema import apply_argentina_schema
+except ImportError:
+    from scripts.Argentina.db.schema import apply_argentina_schema
+
+try:
+    from db.repositories import ArgentinaRepository
+except ImportError:
+    from scripts.Argentina.db.repositories import ArgentinaRepository
 
 from config_loader import (
     get_output_dir,
@@ -100,8 +107,8 @@ def main() -> None:
     print(f"[OK] run_id = {run_id} (saved to {run_id_file})")
 
     repo = ArgentinaRepository(db, run_id)
-    repo.start_run(mode="fresh")
-    print("[OK] run_ledger entry created")
+    repo.ensure_run_in_ledger(mode="fresh")
+    print("[OK] run_ledger entry created/updated")
 
     # Reference data (dictionary, PCID, ignore list) is not loaded from CSV here.
     # Use only manually uploaded data (e.g. via GUI); pipeline does not seed from CSV.

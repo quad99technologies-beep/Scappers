@@ -220,10 +220,7 @@ class NetherlandsScraper(BaseScraper):
             url_pairs = [(item['url'], item['id']) for item in pending_items]
             await self.scrape_products_concurrent(url_pairs)
             
-        # 3. Consolidate
-        self.logger.info("Phase 3: Consolidation")
-        count = self.repo.consolidate_data()
-        self.logger.info(f"Consolidated {count} records")
+
         
         self.logger.info("Scraping finished")
 

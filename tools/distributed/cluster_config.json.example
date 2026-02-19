@@ -1,0 +1,24 @@
+{
+    "nodes": [
+        {
+            "host": "192.168.1.101",
+            "user": "admin",
+            "key_path": "C:\\Users\\User\\.ssh\\id_rsa",
+            "python_path": "/usr/local/bin/python3",
+            "repo_path": "/Users/admin/quad99/Scrappers",
+            "workers": 2
+        },
+        {
+            "host": "192.168.1.102",
+            "user": "admin",
+            "password": "secret_password",
+            "python_path": "/usr/local/bin/python3",
+            "repo_path": "/Users/admin/quad99/Scrappers",
+            "workers": 4
+        }
+    ],
+    "env_vars": {
+        "HEADLESS": "true",
+        "DB_HOST": "192.168.1.100" 
+    }
+}

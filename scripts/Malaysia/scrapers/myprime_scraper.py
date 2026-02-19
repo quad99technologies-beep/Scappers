@@ -11,9 +11,18 @@ Saves to DB (products table).
 """
 
 import logging
-import time
 import sys
+import time
+from pathlib import Path
 from typing import Dict, List, Tuple
+
+# Add repo root to path for core imports (MUST be before any core imports)
+_repo_root = Path(__file__).resolve().parents[3]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+from core.monitoring.audit_logger import audit_log
+
 
 from playwright.sync_api import Page
 
@@ -40,8 +49,22 @@ class MyPriMeScraper(BaseScraper):
         Execute the full MyPriMe scrape.
         Returns number of products scraped.
         """
+        # Ensure Malaysia root is in path for db import
+        import sys
+        from pathlib import Path
+        malaysia_dir = str(Path(__file__).resolve().parents[2])
+        if malaysia_dir not in sys.path:
+             sys.path.insert(0, malaysia_dir)
+        
+        # Ensure no accidental core/db import
+        if 'db' in sys.modules and 'db.repositories' not in sys.modules:
+             del sys.modules['db']
+        
         from db.repositories import MalaysiaRepository
         repo = MalaysiaRepository(self.db, self.run_id)
+
+        
+        audit_log("RUN_STARTED", scraper_name="Malaysia", run_id=self.run_id, details={"step": "01_scrape", "url": self.url})
 
         headless_str = self.config.get("SCRIPT_01_HEADLESS", "false")
         headless = str(headless_str).lower() == "true"
@@ -71,6 +94,7 @@ class MyPriMeScraper(BaseScraper):
             # Click "View All"
             print("Clicking 'View All' to load all products...", flush=True)
             self._click_view_all(page)
+            audit_log("ACTION", scraper_name="Malaysia", run_id=self.run_id, details={"action": "CLICK_VIEW_ALL"})
             self.pause(1.0, 2.0)
 
             # Wait for table to stabilize
@@ -86,12 +110,14 @@ class MyPriMeScraper(BaseScraper):
             print(f"Extracting {row_count:,} rows...", flush=True)
             products, stats = self._extract_table(page)
             raw_count = len(products)
+            audit_log("FETCH_COMPLETE", scraper_name="Malaysia", run_id=self.run_id, details={"count": raw_count, "stats": stats})
             # No dedup: keep all extracted rows
             dup_count = 0
 
             # Save to DB
             print(f"Saving {len(products):,} products to database...", flush=True)
             count = repo.insert_products(products)
+            audit_log("INSERT_COMPLETE", scraper_name="Malaysia", run_id=self.run_id, details={"inserted": count, "total_extracted": len(products)})
 
             db_count = repo.get_product_count()
             source_rows = stats.get("source_rows", 0)

@@ -4,16 +4,29 @@ Delegates to ArgentinaRepository and Core Utils.
 """
 
 import logging
+import sys
 import threading
 from datetime import datetime
 from pathlib import Path
 from typing import Set, Tuple, Optional, Any
 
+# Add repo root to path for core imports (MUST be before any core imports)
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
+
 # Core Imports
 from core.utils.text_utils import nk, strip_accents
 from core.db.connection import CountryDB
-from db.repositories import ArgentinaRepository
-from db.schema import apply_argentina_schema
+try:
+    from db.repositories import ArgentinaRepository
+except ImportError:
+    from scripts.Argentina.db.repositories import ArgentinaRepository
+
+try:
+    from db.schema import apply_argentina_schema
+except ImportError:
+    from scripts.Argentina.db.schema import apply_argentina_schema
 from core.db.models import generate_run_id
 
 # Config Imports (Facade)
@@ -49,8 +62,8 @@ def _get_run_id() -> str:
             txt = _RUN_ID_FILE.read_text(encoding="utf-8").strip()
             if txt:
                 return txt
-        except Exception:
-            pass
+        except Exception as e:
+            log.warning(f"Could not read run_id file {_RUN_ID_FILE}: {e}")
     rid = generate_run_id()
     os.environ["ARGENTINA_RUN_ID"] = rid
     _RUN_ID_FILE.write_text(rid, encoding="utf-8")

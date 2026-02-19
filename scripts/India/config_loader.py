@@ -1,100 +1,43 @@
 """
-Configuration Loader for India NPPA Pharma Sahi Daam Scraper (Platform Config Integration)
+Configuration Loader for India NPPA Pharma Sahi Daam Scraper (Facade for Core ConfigManager)
 
-Loads configuration from config/India.env.json with fallback to .env.
+This module provides centralized config and path management for India scraper.
+It acts as a facade, delegating all logic to core.config.config_manager.ConfigManager.
 """
-import os
 import sys
 from pathlib import Path
 
-_resolved_file = Path(__file__).resolve()
-_script_dir = _resolved_file.parent
-_parents = _resolved_file.parents
-if len(_parents) >= 3:
-    _repo_root = _parents[2]
-else:
-    _repo_root = _parents[-1]
-
+_script_dir = Path(__file__).resolve().parent
+_repo_root = _script_dir.parents[1]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
+from core.config.scraper_config_factory import create_config
+
 SCRAPER_ID = "India"
+config = create_config(SCRAPER_ID)
 
-_LOCAL_INPUT_BASE = _script_dir / "input" / SCRAPER_ID
-_LOCAL_OUTPUT_BASE = _script_dir / "output" / SCRAPER_ID
+# --- Path Accessors ---
+def get_repo_root() -> Path: return config.get_repo_root()
+def get_base_dir() -> Path: return config.get_base_dir()
+def get_central_output_dir() -> Path: return config.get_central_output_dir()
+def get_input_dir(subpath=None) -> Path: return config.get_input_dir(subpath)
+def get_output_dir(subpath=None) -> Path: return config.get_output_dir(subpath)
+def get_backup_dir() -> Path: return config.get_backup_dir()
 
-def _ensure_dir(base: Path, fallback: Path) -> Path:
-    try:
-        base.mkdir(parents=True, exist_ok=True)
-        return base
-    except OSError:
-        fallback.mkdir(parents=True, exist_ok=True)
-        return fallback
+def get_download_dir() -> Path:
+    """Get the download directory for browser downloads."""
+    base = get_output_dir("downloads")
+    base.mkdir(parents=True, exist_ok=True)
+    return base
 
-try:
-    from core.config.config_manager import ConfigManager, get_config_resolver
-    _PLATFORM_CONFIG_AVAILABLE = True
-except ImportError:
-    _PLATFORM_CONFIG_AVAILABLE = False
-    get_path_manager = None
-    get_config_resolver = None
-
-
-def get_repo_root() -> Path:
-    return _repo_root
-
-
-def load_env_file() -> None:
-    try:
-        from core.config.config_manager import ConfigManager
-        ConfigManager.ensure_dirs()
-        ConfigManager.load_env(SCRAPER_ID)
-    except (ImportError, FileNotFoundError, ValueError):
-        try:
-            from dotenv import load_dotenv
-            config_dir = get_repo_root() / "config"
-            env_file = config_dir / f"{SCRAPER_ID}.env"
-            if env_file.exists():
-                load_dotenv(env_file, override=True)
-            platform_env = config_dir / "platform.env"
-            if platform_env.exists():
-                load_dotenv(platform_env, override=False)
-        except ImportError:
-            pass
-
-
-def getenv(key: str, default: str = None):
-    env_val = os.getenv(key)
-    if env_val is not None and env_val != "":
-        return env_val
-    if _PLATFORM_CONFIG_AVAILABLE:
-        try:
-            val = ConfigManager.get_config_value(SCRAPER_ID, key, None)
-            return str(val) if val is not None else (default if default is not None else "")
-        except Exception:
-            pass
-    return os.getenv(key, default)
-
-
-def getenv_int(key: str, default: int = 0) -> int:
-    try:
-        return int(getenv(key, str(default)))
-    except (TypeError, ValueError):
-        return default
-
-
-def getenv_float(key: str, default: float = 0.0) -> float:
-    try:
-        return float(getenv(key, str(default)))
-    except (TypeError, ValueError):
-        return default
-
-
-def getenv_bool(key: str, default: bool = False) -> bool:
-    value = getenv(key, str(default))
-    if isinstance(value, bool):
-        return value
-    return str(value).lower() in ("true", "1", "yes", "on")
+# --- Environment Accessors ---
+def load_env_file() -> None: pass  # no-op, already loaded on import
+def getenv(key: str, default: str = "") -> str: return config.getenv(key, default)
+def getenv_int(key: str, default: int = 0) -> int: return config.getenv_int(key, default)
+def getenv_float(key: str, default: float = 0.0) -> float: return config.getenv_float(key, default)
+def getenv_bool(key: str, default: bool = False) -> bool: return config.getenv_bool(key, default)
+def getenv_list(key: str, default: list = None) -> list: return config.getenv_list(key, default or [])
 
 
 def check_vpn_connection() -> bool:
@@ -106,23 +49,23 @@ def check_vpn_connection() -> bool:
     vpn_check_enabled = getenv_bool("VPN_CHECK_ENABLED", False)
     vpn_check_host = getenv("VPN_CHECK_HOST", "8.8.8.8")
     vpn_check_port = getenv_int("VPN_CHECK_PORT", 53)
-    
+
     if not vpn_check_enabled:
         return True
-    
+
     if not vpn_required:
         print("[VPN] VPN not required, skipping check", flush=True)
         return True
-    
+
     print(f"[VPN] Checking connection to {vpn_check_host}:{vpn_check_port}...", flush=True)
-    
+
     try:
         import socket
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(5)
         result = sock.connect_ex((vpn_check_host, vpn_check_port))
         sock.close()
-        
+
         if result == 0:
             print("[VPN] Connection check passed", flush=True)
             return True
@@ -134,90 +77,11 @@ def check_vpn_connection() -> bool:
         return False
 
 
-def getenv_list(key: str, default: list = None) -> list:
-    if default is None:
-        default = []
-    if _PLATFORM_CONFIG_AVAILABLE:
-        try:
-            value = ConfigManager.get_config_value(SCRAPER_ID, key, default)
-        except Exception:
-            value = os.getenv(key, None)
-    else:
-        value = os.getenv(key)
-        if value is None:
-            return default
-        if isinstance(value, str):
-            try:
-                import json
-                value = json.loads(value)
-            except Exception:
-                value = [v.strip() for v in value.split(",") if v.strip()]
-    if isinstance(value, list):
-        return value
-    if isinstance(value, str):
-        try:
-            import json
-            return json.loads(value)
-        except Exception:
-            return [v.strip() for v in value.split(",") if v.strip()]
-    return default if value is None else [value]
-
-
-def get_output_dir(subpath: str = None) -> Path:
-    output_dir_str = getenv("OUTPUT_DIR", "")
-    if output_dir_str and Path(output_dir_str).is_absolute():
-        base = Path(output_dir_str)
-    else:
-        if _PLATFORM_CONFIG_AVAILABLE:
-            # Migrated: get_path_manager() -> ConfigManager
-            base = ConfigManager.get_output_dir(SCRAPER_ID)
-        else:
-            base = get_repo_root() / "output" / SCRAPER_ID
-    base = _ensure_dir(base, _LOCAL_OUTPUT_BASE)
-    if subpath:
-        result = base / subpath
-        result.mkdir(parents=True, exist_ok=True)
-        return result
-    return base
-
-
-def get_input_dir(subpath: str = None) -> Path:
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        base = ConfigManager.get_input_dir(SCRAPER_ID)
-    else:
-        base = get_repo_root() / "input" / SCRAPER_ID
-    base = _ensure_dir(base, _LOCAL_INPUT_BASE)
-    if subpath:
-        result = base / subpath
-        result.mkdir(parents=True, exist_ok=True)
-        return result
-    return base
-
-
-def get_backup_dir() -> Path:
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        return ConfigManager.get_backups_dir(SCRAPER_ID)
-    base = get_repo_root() / "backups" / SCRAPER_ID
-    base.mkdir(parents=True, exist_ok=True)
-    return base
-
-
-def get_download_dir() -> Path:
-    """Get the download directory for browser downloads."""
-    base = get_output_dir("downloads")
-    base.mkdir(parents=True, exist_ok=True)
-    return base
-
-
-def get_central_output_dir() -> Path:
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        exports_dir = ConfigManager.get_exports_dir(SCRAPER_ID)
-        exports_dir.mkdir(parents=True, exist_ok=True)
-        return exports_dir
-    repo_root = get_repo_root()
-    central_output = repo_root / "output"
-    central_output.mkdir(parents=True, exist_ok=True)
-    return central_output
+# --- Diagnostic ---
+if __name__ == "__main__":
+    print("=" * 60)
+    print("India Config Loader - Diagnostic (Facade)")
+    print("=" * 60)
+    print(f"Scraper ID: {SCRAPER_ID}")
+    print(f"Input Dir: {get_input_dir()}")
+    print(f"Output Dir: {get_output_dir()}")

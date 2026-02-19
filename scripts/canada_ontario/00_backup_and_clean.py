@@ -12,8 +12,11 @@ from pathlib import Path
 import sys
 import os
 
-# Add repo root to path for shared utilities
-_repo_root = Path(__file__).resolve().parents[2]
+# Add repo root and script dir to path
+_script_dir = Path(__file__).resolve().parent
+_repo_root = _script_dir.parents[1]
+if str(_script_dir) not in sys.path:
+    sys.path.insert(0, str(_script_dir))
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
@@ -50,12 +53,19 @@ def init_database():
         db = PostgresDB("CanadaOntario")
         db.connect()
         
-        # Apply schema
-        repo_root = Path(__file__).resolve().parents[2]
-        schema_path = repo_root / "sql" / "schemas" / "postgres" / "canada_ontario.sql"
-        if schema_path.exists():
-            registry = SchemaRegistry(db)
-            registry.apply_schema(schema_path)
+        # Apply schema using local schema definition (robust import)
+        import importlib.util
+        schema_file = SCRIPT_DIR / "db" / "schema.py"
+        if not schema_file.exists():
+            print(f"[DB] Error: Local schema file not found at {schema_file}")
+            return False
+            
+        spec = importlib.util.spec_from_file_location("co_db_schema", str(schema_file))
+        co_db_schema = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(co_db_schema)
+        apply_canada_ontario_schema = co_db_schema.apply_canada_ontario_schema
+        
+        apply_canada_ontario_schema(db)
         
         # Truncate tables for fresh run
         # Use CASCADE to handle foreign keys if any
@@ -88,6 +98,15 @@ def init_database():
         
         # Set environment variable for child processes
         os.environ["CANADA_ONTARIO_RUN_ID"] = run_id
+
+        # Insert into run_ledger to satisfy FK constraints
+        try:
+            from core.db.models import run_ledger_start
+            sql, params = run_ledger_start(run_id, "CanadaOntario", mode="fresh")
+            db.execute(sql, params)
+            print(f"[DB] Registered run {run_id} in run_ledger")
+        except Exception as e:
+            print(f"[DB] Warning: Failed to register run in ledger: {e}")
         
         print(f"[DB] Schema applied and tables cleaned. Run ID: {run_id}")
         return True

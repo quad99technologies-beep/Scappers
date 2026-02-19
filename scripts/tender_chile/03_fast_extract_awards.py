@@ -17,7 +17,6 @@ Old Selenium version: archive/03_extract_tender_awards_selenium.py.bak
 from __future__ import annotations
 
 import asyncio
-import csv
 import os
 import re
 import sys
@@ -60,8 +59,6 @@ except ImportError:
     _TOR_GETENV = None
 
 # ---- Constants ----
-SUPPLIER_OUTPUT_FILENAME = "mercadopublico_supplier_rows.csv"
-LOT_SUMMARY_OUTPUT_FILENAME = "mercadopublico_lot_summary.csv"
 MAX_WORKERS = getenv_int("SCRIPT_03_WORKERS", 8) if _CONFIG_LOADER_AVAILABLE else int(os.getenv("SCRIPT_03_WORKERS", "8"))
 MAX_REQ_PER_MIN = getenv_int("MAX_REQ_PER_MIN", 200) if _CONFIG_LOADER_AVAILABLE else int(os.getenv("MAX_REQ_PER_MIN", "200"))
 BATCH_SIZE = 50
@@ -507,27 +504,7 @@ async def async_main():
         print("[WARN] Award pages may need JavaScript — use Selenium fallback")
         sys.exit(1)
 
-    # CSV exports
-    supplier_fields = list(all_supplier_rows[0].keys())
-    summary_fields = list(all_lot_summary_rows[0].keys()) if all_lot_summary_rows else []
-
-    supplier_csv = output_dir / SUPPLIER_OUTPUT_FILENAME
-    lot_summary_csv = output_dir / LOT_SUMMARY_OUTPUT_FILENAME
-
-    with open(supplier_csv, "w", newline="", encoding="utf-8-sig") as f:
-        w = csv.DictWriter(f, fieldnames=supplier_fields)
-        w.writeheader()
-        w.writerows(all_supplier_rows)
-
-    if all_lot_summary_rows:
-        with open(lot_summary_csv, "w", newline="", encoding="utf-8-sig") as f:
-            w = csv.DictWriter(f, fieldnames=summary_fields)
-            w.writeheader()
-            w.writerows(all_lot_summary_rows)
-
     print(f"\n{'='*80}")
-    print(f"[OK] Supplier rows: {len(all_supplier_rows)} -> {supplier_csv}")
-    print(f"[OK] Lot summary: {len(all_lot_summary_rows)} -> {lot_summary_csv}")
     print(f"[OK] Awards in DB: {total_awards_saved}")
     print(f"{'='*80}")
 

@@ -176,7 +176,10 @@ def get_db_resume_state(run_id: str) -> Dict[str, Any]:
     
     try:
         from core.db.connection import CountryDB
-        from db.repositories import ChileRepository
+        try:
+            from db.repositories import ChileRepository
+        except ImportError:
+            from scripts.tender_chile.db.repositories import ChileRepository
         
         db = CountryDB("Tender_Chile")
         db.connect()
@@ -595,7 +598,10 @@ def main():
             sys.path.insert(0, str(_script_dir))
         
         from core.db.connection import CountryDB
-        from db.repositories import ChileRepository
+        try:
+            from db.repositories import ChileRepository
+        except ImportError:
+            from scripts.tender_chile.db.repositories import ChileRepository
 
         run_id = _resolve_run_id()
         db = CountryDB("Tender_Chile")

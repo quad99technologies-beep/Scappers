@@ -198,35 +198,38 @@ class CrawlFrontier:
         Returns:
             FrontierURL or None if queue empty
         """
-        while True:
+        max_attempts = self.redis.zcard(self.queue_key) + 1 if self.redis.exists(self.queue_key) else 1
+        for _ in range(max(max_attempts, 1)):
             # Get highest priority item
             items = self.redis.zrange(self.queue_key, 0, 0, withscores=True)
-            
+
             if not items:
                 return None
-            
+
             item_data = items[0][0]
             entry = FrontierURL.from_dict(json.loads(item_data))
-            
+
             # Remove from queue
             self.redis.zrem(self.queue_key, item_data)
-            
+
             # Check politeness
             if respect_politeness:
                 if not self._can_crawl_domain(entry.domain):
                     # Put back with lower priority and try next
                     self._delay_url(entry)
                     continue
-            
+
             # Mark as active
             entry.status = URLStatus.CRAWLING
             entry.started_at = datetime.utcnow()
             self.redis.hset(self.active_key, entry.url_hash, json.dumps(entry.to_dict()))
-            
+
             # Record domain access time
             self._record_domain_access(entry.domain)
-            
+
             return entry
+
+        return None  # All URLs delayed due to politeness
     
     def get_next_batch(self, size: int = 10, respect_politeness: bool = True) -> List[FrontierURL]:
         """Get batch of URLs to crawl"""

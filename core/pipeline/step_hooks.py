@@ -7,7 +7,7 @@ Standardizes step lifecycle hooks so dashboards/alerts/schedulers can attach
 without modifying step logic.
 
 Usage:
-    from core.step_hooks import StepHookRegistry, StepMetrics
+    from core.pipeline.step_hooks import StepHookRegistry, StepMetrics
     
     # Register a hook
     def my_dashboard_hook(metrics: StepMetrics):

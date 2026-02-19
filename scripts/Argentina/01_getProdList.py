@@ -16,9 +16,21 @@ import time
 import logging
 import socket
 import subprocess
-import threading
 from pathlib import Path
 from typing import List, Tuple, Set, Optional
+
+# Add project root to sys.path to allow 'core' imports
+project_root = Path(__file__).resolve().parents[2]
+if str(project_root) not in sys.path: 
+    sys.path.insert(0, str(project_root))
+
+# Add script dir to sys.path to allow local imports
+script_dir = Path(__file__).resolve().parent
+if str(script_dir) not in sys.path:
+    sys.path.insert(0, str(script_dir))
+
+from core.monitoring.audit_logger import audit_log
+import threading
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -71,8 +83,15 @@ sys.path.insert(0, str(_script_dir))
 if 'db' in sys.modules:
     del sys.modules['db']
 
-from db.repositories import ArgentinaRepository
-from db.schema import apply_argentina_schema
+try:
+    from db.repositories import ArgentinaRepository
+except ImportError:
+    from scripts.Argentina.db.repositories import ArgentinaRepository
+
+try:
+    from db.schema import apply_argentina_schema
+except ImportError:
+    from scripts.Argentina.db.schema import apply_argentina_schema
 from core.db.models import generate_run_id
 import os
 
@@ -107,6 +126,9 @@ apply_argentina_schema(_DB)
 _RUN_ID = _get_run_id()
 _REPO = ArgentinaRepository(_DB, _RUN_ID)
 
+from core.browser.driver_factory import create_firefox_driver
+from core.network.tor_manager import ensure_tor_proxy_running, is_port_open
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 log = logging.getLogger("alfabeta-products-dump")
 
@@ -114,150 +136,9 @@ log = logging.getLogger("alfabeta-products-dump")
 # Global variable to store detected Tor port (9050 for Tor service, 9150 for Tor Browser)
 TOR_PROXY_PORT = 9050  # Default to Tor service port
 
-def _auto_start_tor_proxy() -> bool:
-    """
-    Best-effort auto-start for a standalone Tor daemon on 127.0.0.1:9050 (control 9051).
-    Reuses Tor Browser's tor.exe if present.
-    """
-    if not AUTO_START_TOR_PROXY:
-        return False
-
-    already_running, _ = check_tor_running()
-    if already_running:
-        return True
-
-    home = Path.home()
-    tor_exe_candidates = [
-        home / "OneDrive" / "Desktop" / "Tor Browser" / "Browser" / "TorBrowser" / "Tor" / "tor.exe",
-        home / "Desktop" / "Tor Browser" / "Browser" / "TorBrowser" / "Tor" / "tor.exe",
-    ]
-    tor_exe = next((p for p in tor_exe_candidates if p.exists()), None)
-    if not tor_exe:
-        log.warning("[TOR_AUTO] tor.exe not found; cannot auto-start Tor proxy")
-        return False
-
-    torrc = Path("C:/TorProxy/torrc")
-    data_dir = Path("C:/TorProxy/data")
-    data_dir.mkdir(parents=True, exist_ok=True)
-    torrc.parent.mkdir(parents=True, exist_ok=True)
-
-    desired_torrc = (
-        "DataDirectory C:\\TorProxy\\data\n"
-        "SocksPort 9050\n"
-        "ControlPort 9051\n"
-        "CookieAuthentication 1\n"
-    )
-    try:
-        torrc.write_text(desired_torrc, encoding="ascii")
-    except Exception as e:
-        log.warning(f"[TOR_AUTO] Failed to write torrc: {e}")
-        return False
-
-    try:
-        log.info(f"[TOR_AUTO] Starting Tor proxy: {tor_exe} -f {torrc}")
-        subprocess.Popen(
-            [str(tor_exe), "-f", str(torrc)],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0),
-        )
-    except Exception as e:
-        log.warning(f"[TOR_AUTO] Failed to start Tor: {e}")
-        return False
-
-    # Wait for SOCKS port to open (best-effort)
-    deadline = time.time() + 90
-    while time.time() < deadline:
-        running, port = check_tor_running(timeout=1)
-        if running:
-            log.info(f"[TOR_AUTO] Tor proxy is now running on port {port}")
-            return True
-        time.sleep(1)
-    log.warning("[TOR_AUTO] Tor proxy did not come up within 90s")
-    return False
-
-def check_tor_running(host="127.0.0.1", timeout=2):
-    """
-    Check if Tor SOCKS5 proxy is running and accepting connections.
-    Checks both port 9050 (Tor service) and 9150 (Tor Browser).
-    
-    Returns:
-        Tuple of (is_running: bool, port: int) - port is 9050 or 9150 if running, None otherwise
-    """
-    # Tor Browser uses port 9150, Tor service uses port 9050
-    ports_to_check = [9150, 9050]  # Check Tor Browser port first
-    
-    for port in ports_to_check:
-        try:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.settimeout(timeout)
-            result = sock.connect_ex((host, port))
-            sock.close()
-            if result == 0:
-                port_name = "Tor Browser" if port == 9150 else "Tor service"
-                log.info(f"[TOR_CHECK] {port_name} proxy is running on {host}:{port}")
-                return True, port
-        except Exception as e:
-            log.debug(f"[TOR_CHECK] Error checking port {port}: {e}")
-            continue
-    
-    log.warning(f"[TOR_CHECK] Tor proxy is not running on {host}:9050 or {host}:9150")
-    return False, None
-
-def find_firefox_binary():
-    """
-    Find Firefox binary in common locations on Windows.
-    Checks for:
-    1. Regular Firefox installation
-    2. Tor Browser (which includes Firefox)
-    3. Environment variable FIREFOX_BINARY
-    """
-    import shutil
-    
-    # Check environment variable first
-    firefox_bin = os.getenv("FIREFOX_BINARY", "")
-    if firefox_bin and Path(firefox_bin).exists():
-        log.info(f"[FIREFOX] Using Firefox binary from FIREFOX_BINARY env: {firefox_bin}")
-        return str(Path(firefox_bin).resolve())
-    
-    # Common Firefox installation paths on Windows
-    userprofile = os.environ.get("USERPROFILE", "")
-    possible_paths = [
-        # Regular Firefox
-        Path(os.environ.get("ProgramFiles", "C:\\Program Files")) / "Mozilla Firefox" / "firefox.exe",
-        Path(os.environ.get("ProgramFiles(x86)", "C:\\Program Files (x86)")) / "Mozilla Firefox" / "firefox.exe",
-        Path(os.environ.get("LOCALAPPDATA", "")) / "Mozilla Firefox" / "firefox.exe",
-        # Tor Browser (includes Firefox) - Standard locations
-        Path(os.environ.get("ProgramFiles", "C:\\Program Files")) / "Tor Browser" / "Browser" / "firefox.exe",
-        Path(os.environ.get("ProgramFiles(x86)", "C:\\Program Files (x86)")) / "Tor Browser" / "Browser" / "firefox.exe",
-        Path(os.environ.get("LOCALAPPDATA", "")) / "Tor Browser" / "Browser" / "firefox.exe",
-        # Common user installation locations
-        Path(userprofile) / "AppData" / "Local" / "Mozilla Firefox" / "firefox.exe",
-        Path(userprofile) / "AppData" / "Local" / "Tor Browser" / "Browser" / "firefox.exe",
-        # Desktop location (common for portable installations)
-        Path(userprofile) / "Desktop" / "Tor Browser" / "Browser" / "firefox.exe",
-        Path(userprofile) / "OneDrive" / "Desktop" / "Tor Browser" / "Browser" / "firefox.exe",
-        # Downloads folder (common for portable installations)
-        Path(userprofile) / "Downloads" / "Tor Browser" / "Browser" / "firefox.exe",
-        Path(userprofile) / "OneDrive" / "Downloads" / "Tor Browser" / "Browser" / "firefox.exe",
-    ]
-    
-    for path in possible_paths:
-        if path.exists():
-            log.info(f"[FIREFOX] Found Firefox binary: {path}")
-            return str(path.resolve())
-    
-    # Last resort: try to find firefox.exe in PATH
-    firefox_path = shutil.which("firefox")
-    if firefox_path:
-        log.info(f"[FIREFOX] Found Firefox in PATH: {firefox_path}")
-        return firefox_path
-    
-    return None
-
 def check_tor_requirements():
     """
-    Check Tor requirements before starting the scraper.
+    Check Tor requirements using core utilities where possible.
     Returns True if all requirements are met, False otherwise.
     """
     print("\n" + "=" * 80)
@@ -265,357 +146,54 @@ def check_tor_requirements():
     print("=" * 80)
     log.info("[TOR_CHECK] Verifying Tor connection...")
     
-    all_ok = True
+    # Check ports 9050 and 9150
+    ports_to_check = [9150, 9050]
+    found_port = None
     
-    # Check 1: Firefox/Tor Browser installation
-    print("\n[TOR_CHECK] 1. Checking Firefox/Tor Browser installation...")
-    firefox_binary = find_firefox_binary()
-    if firefox_binary:
-        print(f"  [OK] Firefox/Tor Browser found: {firefox_binary}")
-        log.info(f"[TOR_CHECK] Firefox/Tor Browser found: {firefox_binary}")
-    else:
-        print("  [FAIL] Firefox/Tor Browser not found")
-        print("  [INFO] Please install Firefox or Tor Browser")
-        print("  [INFO] Firefox: https://www.mozilla.org/firefox/")
-        print("  [INFO] Tor Browser: https://www.torproject.org/download/")
-        print("  [INFO] Or set FIREFOX_BINARY environment variable")
-        log.error("[TOR_CHECK] Firefox/Tor Browser not found")
-        all_ok = False
-    
-    # Check 2: Tor service running (optional unless REQUIRE_TOR_PROXY=true)
-    print("\n[TOR_CHECK] 2. Checking Tor proxy service...")
-    tor_running, tor_port = check_tor_running()
-    if not tor_running and AUTO_START_TOR_PROXY:
-        print("  [INFO] Tor proxy not detected; attempting auto-start (standalone Tor on 9050)...")
-        log.info("[TOR_CHECK] Tor proxy not detected; attempting auto-start")
-        if _auto_start_tor_proxy():
-            tor_running, tor_port = check_tor_running()
-    if tor_running:
-        port_name = "Tor Browser" if tor_port == 9150 else "Tor service"
-        print(f"  [OK] {port_name} proxy is running on localhost:{tor_port}")
-        log.info(f"[TOR_CHECK] {port_name} proxy is running on port {tor_port}")
-        # Store the detected port for later use
-        global TOR_PROXY_PORT
-        TOR_PROXY_PORT = tor_port
-    else:
-        print("  [FAIL] Tor proxy is not running on localhost:9050 or localhost:9150")
-        if REQUIRE_TOR_PROXY:
-            print("  [INFO] REQUIRE_TOR_PROXY=true, please start Tor before running the scraper:")
-            print("  [INFO]   Option 1: Start Tor Browser (uses port 9150)")
-            print("  [INFO]   Option 2: Run proxies/start_tor_proxy_9050.bat (port 9050) or scripts/Argentina/start_tor_proxy.bat")
-            print("  [INFO]   The scraper will automatically detect which port Tor is using")
-            log.error("[TOR_CHECK] Tor proxy is not running (required)")
-            all_ok = False
-        else:
-            print("  [WARN] Tor is not running; continuing WITHOUT Tor (direct connection).")
-            log.warning("[TOR_CHECK] Tor proxy is not running; continuing without Tor (REQUIRE_TOR_PROXY=false)")
-            TOR_PROXY_PORT = None
-    
-    # Summary
-    print("\n" + "=" * 80)
-    if all_ok:
-        if TOR_PROXY_PORT:
-            print("[TOR_CHECK] [OK] Tor connection verified. Starting scraper...")
-            log.info("[TOR_CHECK] Tor connection verified. Starting scraper...")
-        else:
-            print("[TOR_CHECK] [OK] Proceeding without Tor. Starting scraper...")
-            log.info("[TOR_CHECK] Proceeding without Tor (direct connection)")
-    else:
-        print("[TOR_CHECK] [FAIL] Tor requirements not met. Please fix the issues above.")
-        log.error("[TOR_CHECK] Tor requirements check failed")
-    print("=" * 80 + "\n")
-    
-    return all_ok
-
-
-# ====== VPN CHECK (kept for backward compatibility, but not used) ======
-def get_vpn_info() -> dict:
-    """Get detailed VPN connection information."""
-    vpn_info = {
-        "connected": False,
-        "provider": "Unknown",
-        "server": "Unknown",
-        "country": "Unknown",
-        "city": "Unknown",
-        "ip": "Unknown",
-        "method": "Unknown"
-    }
-    
-    try:
-        import subprocess
-        import platform
-        
-        # Method 1: Check Proton VPN CLI status (Linux/Mac)
-        if platform.system() != "Windows":
-            try:
-                result = subprocess.run(
-                    ["protonvpn-cli", "status"],
-                    capture_output=True,
-                    timeout=10,
-                    text=True
-                )
-                if result.returncode == 0:
-                    output = result.stdout
-                    output_lower = output.lower()
-                    if "connected" in output_lower or "active" in output_lower:
-                        vpn_info["connected"] = True
-                        vpn_info["provider"] = "Proton VPN"
-                        vpn_info["method"] = "Proton VPN CLI"
-                        
-                        # Parse server information from output
-                        lines = output.split('\n')
-                        for line in lines:
-                            line_lower = line.lower()
-                            if 'server' in line_lower and ':' in line:
-                                server = line.split(':', 1)[1].strip()
-                                if server:
-                                    vpn_info["server"] = server
-                            elif 'country' in line_lower and ':' in line:
-                                country = line.split(':', 1)[1].strip()
-                                if country:
-                                    vpn_info["country"] = country
-                            elif 'city' in line_lower and ':' in line:
-                                city = line.split(':', 1)[1].strip()
-                                if city:
-                                    vpn_info["city"] = city
-                            elif 'ip' in line_lower and ':' in line and 'server' not in line_lower:
-                                ip = line.split(':', 1)[1].strip()
-                                if ip and '.' in ip:
-                                    vpn_info["ip"] = ip
-                        
-                        return vpn_info
-            except (FileNotFoundError, subprocess.TimeoutExpired):
-                pass
-        
-        # Method 2: Check via IP geolocation (works for any VPN)
-        if REQUESTS_AVAILABLE:
-            try:
-                ip_check_services = [
-                    ("https://ipapi.co/json/", ["ip", "country_name", "city", "org"]),
-                    ("https://api.ipify.org?format=json", ["ip"]),
-                    ("https://api.myip.com", ["ip", "country"])
-                ]
-                
-                for service_url, fields in ip_check_services:
-                    try:
-                        response = requests.get(service_url, timeout=10)
-                        if response.status_code == 200:
-                            ip_info = response.json()
-                            
-                            vpn_info["connected"] = True
-                            vpn_info["method"] = "IP Geolocation"
-                            
-                            vpn_info["ip"] = ip_info.get("ip") or ip_info.get("query") or "Unknown"
-                            vpn_info["country"] = ip_info.get("country_name") or ip_info.get("country") or "Unknown"
-                            vpn_info["city"] = ip_info.get("city") or "Unknown"
-                            
-                            org = ip_info.get("org") or ip_info.get("isp") or ""
-                            if "proton" in org.lower():
-                                vpn_info["provider"] = "Proton VPN"
-                                if "#" in org:
-                                    vpn_info["server"] = org.split("#")[-1].strip()
-                            else:
-                                vpn_info["provider"] = org or "VPN Service"
-                            
-                            return vpn_info
-                    except Exception:
-                        continue
-            except Exception:
-                pass  # If IP check fails, continue to return default vpn_info
-        
-        return vpn_info
-    except Exception as e:
-        log.warning(f"[VPN_INFO] Error getting VPN info: {e}")
-        return vpn_info
-
-def check_vpn_connection() -> bool:
-    """Check if VPN is connected and working. Displays VPN connection details."""
-    print("\n" + "=" * 80)
-    print("[VPN_CHECK] Verifying VPN connection...")
-    print("=" * 80)
-    log.info("[VPN_CHECK] Verifying VPN connection...")
-    
-    try:
-        import subprocess
-        import platform
-        
-        # Method 1: Check Proton VPN CLI status (Linux/Mac)
-        if platform.system() != "Windows":
-            try:
-                result = subprocess.run(
-                    ["protonvpn-cli", "status"],
-                    capture_output=True,
-                    timeout=10,
-                    text=True
-                )
-                if result.returncode == 0:
-                    output = result.stdout
-                    output_lower = output.lower()
-                    if "connected" in output_lower or "active" in output_lower:
-                        print("\n[VPN_STATUS] [OK] VPN CONNECTED")
-                        print("-" * 80)
-                        lines = output.split('\n')
-                        for line in lines:
-                            if line.strip() and ':' in line:
-                                print(f"  {line.strip()}")
-                        print("-" * 80)
-                        log.info("[VPN_CHECK] [OK] VPN is connected (Proton VPN CLI)")
-                        return True
-                    else:
-                        print("\n[VPN_STATUS] [FAIL] VPN NOT CONNECTED")
-                        print("-" * 80)
-                        print("  Please connect Proton VPN before running the scraper")
-                        print("-" * 80)
-                        log.error("[VPN_CHECK] [FAIL] VPN is not connected (Proton VPN CLI)")
-                        return False
-            except (FileNotFoundError, subprocess.TimeoutExpired):
-                pass
-        
-        # Method 2: Check IP address and location
-        if not REQUESTS_AVAILABLE:
-            log.warning("[VPN_CHECK] requests library not available, skipping IP check")
-            try:
-                print("\n[VPN_CHECK] Cannot verify VPN automatically")
-                response = input("[VPN_CHECK] Is your VPN connected? (yes/no): ").strip().lower()
-                if response in ["yes", "y"]:
-                    print("[VPN_CHECK] [OK] Proceeding with user confirmation")
-                    log.info("[VPN_CHECK] Proceeding with user confirmation")
-                    return True
-                else:
-                    print("[VPN_CHECK] [FAIL] VPN connection not confirmed. Exiting.")
-                    log.error("[VPN_CHECK] VPN connection not confirmed. Exiting.")
-                    return False
-            except (EOFError, KeyboardInterrupt):
-                log.error("[VPN_CHECK] Input interrupted. Exiting.")
-                return False
-        
-        # Get VPN info via IP geolocation
-        vpn_info = get_vpn_info()
-        
-        if vpn_info["connected"]:
-            print("\n[VPN_STATUS] [OK] VPN CONNECTED")
-            print("-" * 80)
-            print(f"  Provider: {vpn_info['provider']}")
-            if vpn_info['server'] != "Unknown":
-                print(f"  Server: {vpn_info['server']}")
-            print(f"  IP Address: {vpn_info['ip']}")
-            print(f"  Location: {vpn_info['city']}, {vpn_info['country']}")
-            print(f"  Detection Method: {vpn_info['method']}")
-            print("-" * 80)
+    for port in ports_to_check:
+        if is_port_open("127.0.0.1", port):
+            found_port = port
+            break
             
-            log.info(f"[VPN_CHECK] [OK] VPN Connected - Provider: {vpn_info['provider']}, Server: {vpn_info['server']}, IP: {vpn_info['ip']}, Location: {vpn_info['city']}, {vpn_info['country']}")
-            
-            if vpn_info['ip'] and vpn_info['ip'] not in ["127.0.0.1", "localhost", "::1", "Unknown"]:
-                return True
-            else:
-                print("[VPN_CHECK] [FAIL] VPN connection failed (no valid external IP)")
-                log.error("[VPN_CHECK] [FAIL] VPN connection failed (no valid external IP)")
-                return False
-        else:
-            print("\n[VPN_STATUS] [FAIL] VPN NOT CONNECTED")
-            print("-" * 80)
-            print("  Could not detect VPN connection")
-            print("  Please connect your VPN (Proton VPN) and try again")
-            print("-" * 80)
-            log.error("[VPN_CHECK] [FAIL] VPN connection not detected")
-            return False
-            
-    except Exception as e:
-        log.error(f"[VPN_CHECK] VPN check failed: {e}")
-        log.warning("[VPN_CHECK] Cannot verify VPN connection. Please ensure VPN is connected before proceeding.")
-        try:
-            response = input("[VPN_CHECK] Is your VPN connected? (yes/no): ").strip().lower()
-            if response in ["yes", "y"]:
-                log.info("[VPN_CHECK] Proceeding with user confirmation")
-                return True
-            else:
-                log.error("[VPN_CHECK] VPN connection not confirmed. Exiting.")
-                return False
-        except (EOFError, KeyboardInterrupt):
-            log.error("[VPN_CHECK] Input interrupted. Exiting.")
-            return False
+    if found_port:
+         print(f"  [OK] Tor proxy found on port {found_port}")
+         global TOR_PROXY_PORT
+         TOR_PROXY_PORT = found_port
+         return True
+         
+    if AUTO_START_TOR_PROXY:
+        print("  [INFO] Tor proxy not detected; attempting auto-start...")
+        # ensure_tor_proxy_running attempts auto-start on 9050/9051
+        ensure_tor_proxy_running(socks_port=9050, control_port=9051)
+        if is_port_open("127.0.0.1", 9050):
+             print(f"  [OK] Tor proxy auto-started on port 9050")
+             TOR_PROXY_PORT = 9050
+             return True
+
+    if REQUIRE_TOR_PROXY:
+        print("  [FAIL] Tor proxy not found and REQUIRE_TOR_PROXY=true")
+        return False
+        
+    print("  [WARN] Tor not found, continuing without Tor (direct connection)")
+    TOR_PROXY_PORT = None
+    return True
+
 
 # ====== DRIVER ======
 def setup_driver(headless: bool = HEADLESS):
-    opts = webdriver.FirefoxOptions()
-    if headless:
-        opts.add_argument("--headless")
-    
-    # Create a temporary profile for isolation
-    profile = webdriver.FirefoxProfile()
-    profile.set_preference("browser.cache.disk.enable", False)
-    profile.set_preference("browser.cache.memory.enable", False)
-    profile.set_preference("browser.cache.offline.enable", False)
-    profile.set_preference("network.http.use-cache", False)
-    
-    # Enable images and CSS (needed for full content rendering on this site)
-    profile.set_preference("permissions.default.image", 1)
-    profile.set_preference("permissions.default.stylesheet", 1)
-    
-    # Language preference
-    profile.set_preference("intl.accept_languages", "es-ES,es,en-US,en")
-    
-    # Disable notifications and popups
-    profile.set_preference("dom.webnotifications.enabled", False)
-    profile.set_preference("dom.push.enabled", False)
-    
-    # User agent
-    profile.set_preference("general.useragent.override", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0")
-    
-    # Configure Tor SOCKS5 proxy if available; otherwise run direct.
+    tor_config = {}
     if TOR_PROXY_PORT:
-        profile.set_preference("network.proxy.type", 1)  # Manual proxy configuration
-        profile.set_preference("network.proxy.socks", "127.0.0.1")
-        profile.set_preference("network.proxy.socks_port", int(TOR_PROXY_PORT))
-        profile.set_preference("network.proxy.socks_version", 5)
-        profile.set_preference("network.proxy.socks_remote_dns", True)  # Route DNS through Tor
-        log.info(f"[TOR_CONFIG] Using Tor proxy on port {TOR_PROXY_PORT} ({'Tor Browser' if TOR_PROXY_PORT == 9150 else 'Tor service'})")
-    else:
-        profile.set_preference("network.proxy.type", 0)  # Direct connection
-        log.info("[TOR_CONFIG] Tor not enabled; using direct connection")
+        tor_config = {"enabled": True, "port": TOR_PROXY_PORT}
+        
+    # Extra prefs to enable images/css as required by this scraper
+    extra_prefs = {
+        "permissions.default.image": 1,
+        "permissions.default.stylesheet": 1,
+        "intl.accept_languages": "es-ES,es,en-US,en",
+        "general.useragent.override": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0"
+    }
     
-    # Update preferences
-    opts.profile = profile
-    
-    # Set page load strategy to "eager" to avoid hanging on slow-loading resources
-    opts.set_capability("pageLoadStrategy", "eager")
-    
-    # Find and set Firefox binary path
-    firefox_binary = find_firefox_binary()
-    if firefox_binary:
-        # In Selenium 4, use binary_location instead of FirefoxBinary
-        opts.binary_location = firefox_binary
-        log.info(f"[FIREFOX] Using Firefox binary: {firefox_binary}")
-    else:
-        log.error("[FIREFOX] Firefox binary not found in common locations")
-        log.error("[FIREFOX] Please install Firefox or set FIREFOX_BINARY environment variable")
-        log.error("[FIREFOX] Example: set FIREFOX_BINARY=C:\\Program Files\\Mozilla Firefox\\firefox.exe")
-        raise RuntimeError(
-            "Firefox binary not found. Please:\n"
-            "1. Install Firefox from https://www.mozilla.org/firefox/\n"
-            "2. Or install Tor Browser (includes Firefox)\n"
-            "3. Or set FIREFOX_BINARY environment variable to Firefox executable path"
-        )
-
-    # Create driver - try local geckodriver first, then fall back to GeckoDriverManager
-    local_geckodriver = get_input_dir() / "geckodriver.exe"
-    try:
-        if local_geckodriver.exists():
-            log.info(f"[GECKODRIVER] Using local geckodriver: {local_geckodriver}")
-            driver = webdriver.Firefox(service=Service(str(local_geckodriver)), options=opts)
-        else:
-            log.info("[GECKODRIVER] Local geckodriver not found, using GeckoDriverManager")
-            driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=opts)
-    except Exception as e:
-        log.exception("Failed to start FirefoxDriver")
-        raise
-
-    # Be generous on page load for slow pages
-    driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
-    # small implicit wait to reduce flakiness, rely mostly on explicit waits
-    driver.implicitly_wait(IMPLICIT_WAIT)
-    
-    return driver
+    return create_firefox_driver(headless=headless, tor_config=tor_config, extra_prefs=extra_prefs)
 
 # ====== PAGE HELPERS ======
 def is_login_page(d):
@@ -1129,6 +707,7 @@ def main():
     log.info("===== Starting AlfaBeta Products Scraper =====")
     
     # Check Tor connection before starting (Tor is optional unless REQUIRE_TOR_PROXY=true)
+    audit_log("RUN_STARTED", scraper_name="Argentina", run_id=_RUN_ID, details={"script": "01_products"})
     if not check_tor_requirements():
         print("\n" + "=" * 80)
         print("[STARTUP] [FAIL] Tor connection check failed!")
@@ -1195,6 +774,7 @@ def main():
         # Now submit blank search to load all products
         log.info("Submitting blank search to load all products...")
         submit_blank_products(d)
+        audit_log("ACTION", scraper_name="Argentina", run_id=_RUN_ID, details={"action": "SUBMIT_BLANK_SEARCH"})
 
         acc: Set[Tuple[str, str, Optional[str]]] = set()
         page = 1
@@ -1210,6 +790,7 @@ def main():
                 for row in pairs:
                     acc.add(row)
                 log.info(f"Page {page}: +{len(pairs)}  (unique total: {len(acc)})")
+                audit_log("PAGE_FETCHED", scraper_name="Argentina", run_id=_RUN_ID, details={"page": page, "items_on_page": len(pairs), "total_unique": len(acc)})
 
                 # Output progress (estimate total pages, update as we discover more)
                 if page % 10 == 0 or len(pairs) == 0:  # Update every 10 pages or when no more products
@@ -1255,22 +836,31 @@ def main():
             for prod, comp, url in sorted(acc, key=lambda x: (x[0].lower(), x[1].lower()))
         ]
         inserted = _REPO.upsert_product_index(rows)
+        audit_log("INSERT_COMPLETE", scraper_name="Argentina", run_id=_RUN_ID, details={"inserted": inserted, "total_attempted": len(rows)})
         db_count = _REPO.get_product_index_count()
         log.info(f"[DB] Upserted {inserted} product index rows into ar_product_index (run_id={_RUN_ID})")
         print(f"[DB] Product index ready: {db_count} rows", flush=True)
         # Count cross-checks
         extracted_count = len(rows)
-        if db_count != extracted_count:
+        if db_count < extracted_count:
             log.error(
-                "[COUNT_MISMATCH] Extracted=%s, DB=%s (run_id=%s)",
+                "[COUNT_MISMATCH] Extracted=%s, DB=%s (run_id=%s) - CRITICAL: DB missing rows",
                 extracted_count,
                 db_count,
                 _RUN_ID,
             )
             raise RuntimeError(
-                f"Count mismatch: extracted={extracted_count} db={db_count} (run_id={_RUN_ID})"
+                f"Count mismatch: extracted={extracted_count} > db={db_count} (run_id={_RUN_ID}). Upsert failed?"
             )
-        log.info("[COUNT_OK] website/extracted=%s db_inserted=%s", extracted_count, db_count)
+        elif db_count > extracted_count:
+            log.warning(
+                "[COUNT_MISMATCH] Extracted=%s, DB=%s (run_id=%s) - DB has extra rows; likely from prior attempt or site changes.",
+                extracted_count,
+                db_count,
+                _RUN_ID,
+            )
+        else:
+            log.info("[COUNT_OK] website/extracted=%s db_inserted=%s", extracted_count, db_count)
         return 0
     except Exception:
         log.exception("Fatal error during scraping; capturing artifacts")

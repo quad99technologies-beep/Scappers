@@ -29,7 +29,7 @@ from abc import ABC, abstractmethod
 
 # Import platform config system
 try:
-    from core.config_manager import ConfigManager
+    from core.config.config_manager import ConfigManager
     _PLATFORM_CONFIG_AVAILABLE = True
 except ImportError:
     # Fallback if platform_config not available (backward compatibility)
@@ -524,7 +524,7 @@ class WorkflowRunner:
                     # Pause metrics tracking for the run
                     if run_id_to_pause and _METRICS_AVAILABLE:
                         try:
-                            from core.run_metrics_integration import WorkflowMetricsIntegration
+                            from core.progress.run_metrics_integration import WorkflowMetricsIntegration
                             metrics_integration = WorkflowMetricsIntegration()
                             metrics = metrics_integration.on_run_pause(run_id_to_pause)
                             if metrics:
@@ -656,7 +656,7 @@ class WorkflowRunner:
                     # Pause metrics tracking for the run
                     if run_id_to_pause_unix and _METRICS_AVAILABLE:
                         try:
-                            from core.run_metrics_integration import WorkflowMetricsIntegration
+                            from core.progress.run_metrics_integration import WorkflowMetricsIntegration
                             metrics_integration = WorkflowMetricsIntegration()
                             metrics = metrics_integration.on_run_pause(run_id_to_pause_unix)
                             if metrics:
@@ -792,7 +792,7 @@ class WorkflowRunner:
             if _PLATFORM_CONFIG_AVAILABLE:
                 # Migrated: get_path_manager() -> ConfigManager
                 # Use exports directory for final reports (scraper-specific)
-                from core.config_manager import ConfigManager
+                from core.config.config_manager import ConfigManager
                 central_output_dir = ConfigManager.get_exports_dir(self.scraper_name)
                 
                 # Scraper-specific final output patterns

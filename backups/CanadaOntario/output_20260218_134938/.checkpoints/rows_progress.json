@@ -1,0 +1,11 @@
+{
+  "task_id": "canada_ontario_rows_a",
+  "current": 51,
+  "total": 829,
+  "unit": "rows",
+  "pct": 6.15,
+  "rate_per_sec": 3.7136,
+  "eta_seconds": 209,
+  "message": "letter=a",
+  "updated_at": "2026-02-18T08:15:17.349551+00:00"
+}

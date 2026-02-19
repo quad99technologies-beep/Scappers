@@ -19,7 +19,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT))
 
 from core.db.postgres_connection import get_db
-from core.run_comparison import get_run_metrics
+from core.progress.run_comparison import get_run_metrics
 
 
 def replay_step(scraper_name: str, original_run_id: str, step_number: int):

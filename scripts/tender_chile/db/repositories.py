@@ -9,41 +9,27 @@ Provides methods for:
 - Run lifecycle management
 """
 
+import sys
+from pathlib import Path
+
+# Add repo root to path for core imports (MUST be before any core imports)
+_repo_root = Path(__file__).resolve().parents[3]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
 import logging
-from typing import Dict, List, Optional, Set
-from datetime import datetime
+from typing import Dict, List, Optional
+
+from core.db.base_repository import BaseRepository
 
 logger = logging.getLogger(__name__)
 
 
-class ChileRepository:
+class ChileRepository(BaseRepository):
     """All database operations for Tender Chile scraper (PostgreSQL backend)."""
 
-    def __init__(self, db, run_id: str):
-        """
-        Initialize repository.
-
-        Args:
-            db: PostgresDB instance
-            run_id: Current run ID
-        """
-        self.db = db
-        self.run_id = run_id
-
-    def _table(self, name: str) -> str:
-        """Get table name with Chile prefix."""
-        return f"tc_{name}"
-
-    def _db_log(self, message: str) -> None:
-        """Emit a [DB] activity log line for GUI activity panel."""
-        try:
-            print(f"[DB] {message}", flush=True)
-        except Exception:
-            pass
-
-    # ------------------------------------------------------------------
-    # Utility: clear step data
-    # ------------------------------------------------------------------
+    SCRAPER_NAME = "Tender_Chile"
+    TABLE_PREFIX = "tc"
 
     _STEP_TABLE_MAP = {
         1: ("tender_redirects",),
@@ -52,143 +38,10 @@ class ChileRepository:
         4: ("final_output",),
     }
 
-    def clear_step_data(self, step: int, include_downstream: bool = False) -> Dict[str, int]:
-        """
-        Delete data for the given step (and optionally downstream steps) for this run_id.
+    def __init__(self, db, run_id: str):
+        super().__init__(db, run_id)
 
-        Args:
-            step: Pipeline step number (1-4)
-            include_downstream: If True, also clear tables for all later steps.
-
-        Returns:
-            Dict mapping full table name -> rows deleted.
-        """
-        if step not in self._STEP_TABLE_MAP:
-            raise ValueError(f"Unsupported step {step}; valid steps: {sorted(self._STEP_TABLE_MAP)}")
-
-        steps = [s for s in sorted(self._STEP_TABLE_MAP) if s == step or (include_downstream and s >= step)]
-        deleted: Dict[str, int] = {}
-        with self.db.cursor() as cur:
-            for s in steps:
-                for short_name in self._STEP_TABLE_MAP[s]:
-                    table = self._table(short_name)
-                    cur.execute(f"DELETE FROM {table} WHERE run_id = %s", (self.run_id,))
-                    deleted[table] = cur.rowcount
-        try:
-            self.db.commit()
-        except Exception:
-            pass
-
-        self._db_log(f"CLEAR | steps={steps} tables={','.join(deleted)} run_id={self.run_id}")
-        return deleted
-
-    # ------------------------------------------------------------------
-    # Run lifecycle
-    # ------------------------------------------------------------------
-
-    def start_run(self, mode: str = "fresh") -> None:
-        """Register a new run in run_ledger."""
-        from core.db.models import run_ledger_start
-        sql, params = run_ledger_start(self.run_id, "Tender_Chile", mode=mode)
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"OK | run_ledger start | run_id={self.run_id} mode={mode}")
-
-    def finish_run(self, status: str, items_scraped: int = 0,
-                   items_exported: int = 0, error_message: str = None) -> None:
-        """Mark run as finished."""
-        from core.db.models import run_ledger_finish
-        sql, params = run_ledger_finish(
-            self.run_id, status,
-            items_scraped=items_scraped,
-            items_exported=items_exported,
-            error_message=error_message,
-        )
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"FINISH | run_ledger updated | status={status} items={items_scraped}")
-
-    def ensure_run_in_ledger(self, mode: str = "resume") -> None:
-        """Ensure this run_id exists in run_ledger (insert if missing)."""
-        from core.db.models import run_ledger_ensure_exists
-        sql, params = run_ledger_ensure_exists(self.run_id, "Tender_Chile", mode=mode)
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"OK | run_ledger ensure | run_id={self.run_id}")
-
-    def resume_run(self) -> None:
-        """Mark existing run as resumed."""
-        from core.db.models import run_ledger_resume
-        sql, params = run_ledger_resume(self.run_id)
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self._db_log(f"RESUME | run_ledger updated | run_id={self.run_id}")
-
-    # ------------------------------------------------------------------
-    # Step progress (sub-step resume)
-    # ------------------------------------------------------------------
-
-    def mark_progress(self, step_number: int, step_name: str,
-                      progress_key: str, status: str,
-                      error_message: str = None) -> None:
-        """Mark a sub-step progress item."""
-        now = datetime.now().isoformat()
-        table = self._table("step_progress")
-
-        sql = f"""
-            INSERT INTO {table}
-            (run_id, step_number, step_name, progress_key, status,
-             error_message, started_at, completed_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-            ON CONFLICT (run_id, step_number, progress_key) DO UPDATE SET
-                step_name = EXCLUDED.step_name,
-                status = EXCLUDED.status,
-                error_message = EXCLUDED.error_message,
-                started_at = CASE
-                    WHEN EXCLUDED.status = 'in_progress' THEN EXCLUDED.started_at
-                    ELSE COALESCE({table}.started_at, EXCLUDED.started_at)
-                END,
-                completed_at = CASE
-                    WHEN EXCLUDED.status IN ('completed', 'failed', 'skipped') THEN EXCLUDED.completed_at
-                    WHEN EXCLUDED.status = 'in_progress' THEN NULL
-                    ELSE {table}.completed_at
-                END
-        """
-
-        with self.db.cursor() as cur:
-            cur.execute(sql, (
-                self.run_id, step_number, step_name, progress_key, status,
-                error_message,
-                now if status == "in_progress" else None,
-                now if status in ("completed", "failed", "skipped") else None,
-            ))
-
-    def is_progress_completed(self, step_number: int, progress_key: str) -> bool:
-        """Check if a sub-step item is completed."""
-        table = self._table("step_progress")
-
-        with self.db.cursor() as cur:
-            cur.execute(f"""
-                SELECT status FROM {table}
-                WHERE run_id = %s AND step_number = %s AND progress_key = %s
-            """, (self.run_id, step_number, progress_key))
-            row = cur.fetchone()
-            if row is None:
-                return False
-            status = row[0] if isinstance(row, tuple) else row["status"]
-            return status == "completed"
-
-    def get_completed_keys(self, step_number: int) -> Set[str]:
-        """Get all completed progress keys for a step."""
-        table = self._table("step_progress")
-
-        with self.db.cursor() as cur:
-            cur.execute(f"""
-                SELECT progress_key FROM {table}
-                WHERE run_id = %s AND step_number = %s AND status = 'completed'
-            """, (self.run_id, step_number))
-            rows = cur.fetchall()
-            return {row[0] if isinstance(row, tuple) else row["progress_key"] for row in rows}
+    # Progress, lifecycle, and clear_step_data methods inherited from BaseRepository
 
     # ------------------------------------------------------------------
     # Tender Redirects (Step 1)

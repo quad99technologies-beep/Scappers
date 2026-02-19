@@ -11,6 +11,14 @@ Tables:
 - tc_final_output: Final merged tender output (EVERSANA format)
 """
 
+import sys
+from pathlib import Path
+
+# Add repo root to path for core imports (MUST be before any core imports)
+_repo_root = Path(__file__).resolve().parents[3]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
 # PostgreSQL uses SERIAL instead of AUTOINCREMENT
 # PostgreSQL uses CURRENT_TIMESTAMP instead of datetime('now')
 # PostgreSQL uses ON CONFLICT DO UPDATE/NOTHING instead of ON CONFLICT REPLACE
@@ -59,12 +67,22 @@ CREATE TABLE IF NOT EXISTS tc_tender_awards (
     tender_id TEXT NOT NULL,
     lot_number TEXT,
     lot_title TEXT,
+    un_classification_code TEXT,
+    buyer_specifications TEXT,
+    lot_quantity TEXT,
     supplier_name TEXT,
     supplier_rut TEXT,
+    supplier_specifications TEXT,
+    unit_price_offer REAL,
+    awarded_quantity REAL,
+    total_net_awarded REAL,
     award_amount REAL,
     award_date TEXT,
     award_status TEXT,
+    is_awarded BOOLEAN,
+    awarded_unit_price REAL,
     source_url TEXT,
+    source_tender_url TEXT,
     scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX IF NOT EXISTS idx_tc_awards_run ON tc_tender_awards(run_id);

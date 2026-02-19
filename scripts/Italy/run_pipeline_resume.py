@@ -20,7 +20,11 @@ if str(_repo_root) not in sys.path:
 
 from config_loader import get_output_dir
 from core.db.connection import CountryDB
-from db.repositories import ItalyRepository
+
+try:
+    from db.repositories import ItalyRepository
+except ImportError:
+    from scripts.Italy.db.repositories import ItalyRepository
 
 def _read_run_id() -> str:
     run_id = os.environ.get("ITALY_RUN_ID")

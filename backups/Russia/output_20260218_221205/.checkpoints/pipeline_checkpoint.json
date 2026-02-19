@@ -1,0 +1,53 @@
+{
+  "scraper": "Russia",
+  "last_run": "2026-02-18T22:12:03.785380",
+  "completed_steps": [],
+  "step_outputs": {},
+  "metadata": {
+    "run_id": "20260218_163734_1c20fa93",
+    "current_step": 0,
+    "current_step_name": "Backup and Clean",
+    "status": "running"
+  },
+  "events": [
+    {
+      "timestamp": "2026-02-18T22:12:03.682311",
+      "event_type": "run_id_set",
+      "run_id": "20260218_163734_1c20fa93",
+      "source": "metadata",
+      "details": {
+        "previous_run_id": null
+      },
+      "sequence": 1
+    },
+    {
+      "timestamp": "2026-02-18T22:12:03.785356",
+      "event_type": "status_changed",
+      "run_id": "20260218_163734_1c20fa93",
+      "status": "running",
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "source": "metadata",
+      "details": {
+        "from": null,
+        "to": "running"
+      },
+      "sequence": 2
+    },
+    {
+      "timestamp": "2026-02-18T22:12:03.785373",
+      "event_type": "step_pointer_changed",
+      "run_id": "20260218_163734_1c20fa93",
+      "status": "running",
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "source": "metadata",
+      "details": {
+        "previous_step_number": null,
+        "previous_step_name": null
+      },
+      "sequence": 3
+    }
+  ],
+  "event_seq": 3
+}

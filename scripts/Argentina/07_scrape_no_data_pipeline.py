@@ -28,6 +28,20 @@ It will respect ARGENTINA_RUN_ID from env / output/.current_run_id.
 
 from __future__ import annotations
 
+import sys
+import os
+from pathlib import Path
+
+# Add project root to sys.path to allow 'core' imports
+project_root = Path(__file__).resolve().parents[2]
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
+# Add script dir to sys.path to allow local imports
+script_dir = Path(__file__).resolve().parent
+if str(script_dir) not in sys.path:
+    sys.path.insert(0, str(script_dir))
+
 import os
 import sys
 import re

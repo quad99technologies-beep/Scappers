@@ -1,0 +1,46 @@
+{
+  "scraper": "CanadaOntario",
+  "last_run": "2026-02-18T10:05:03.137394",
+  "completed_steps": [
+    0
+  ],
+  "step_outputs": {
+    "step_0": {
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "completed_at": "2026-02-18T09:58:56.649589",
+      "output_files": [],
+      "duration_seconds": 2.037876399999732
+    }
+  },
+  "metadata": {
+    "completed_letters": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "e",
+      "f",
+      "g",
+      "h"
+    ],
+    "completed_letters_count": 8,
+    "last_letter": "h"
+  },
+  "events": [
+    {
+      "timestamp": "2026-02-18T09:58:56.649608",
+      "event_type": "step_completed",
+      "status": "completed",
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "source": "checkpoint",
+      "details": {
+        "duration_seconds": 2.037876399999732,
+        "output_count": 0
+      },
+      "sequence": 1
+    }
+  ],
+  "event_seq": 1
+}

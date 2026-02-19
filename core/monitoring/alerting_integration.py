@@ -7,7 +7,7 @@ Integrates alerting contract with step hooks and Telegram notifier.
 Automatically evaluates alert rules and sends notifications.
 
 Usage:
-    from core.alerting_integration import setup_alerting_hooks
+    from core.monitoring.alerting_integration import setup_alerting_hooks
     
     # Register alerting hooks (call once at startup)
     setup_alerting_hooks()
@@ -69,7 +69,8 @@ def _get_avg_duration_from_db(scraper_name: str, step_number: int) -> float:
                 """, (step_number, scraper_name))
                 row = cur.fetchone()
                 return row[0] if row and row[0] else 0.0
-    except Exception:
+    except Exception as e:
+        logger.warning(f"Failed to fetch avg duration for {scraper_name} step {step_number}: {e}")
         return 0.0
 
 

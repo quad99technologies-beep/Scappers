@@ -2,11 +2,11 @@
   "Argentina": {
     "scraper_name": "Argentina",
     "network_type": "Tor",
-    "ip_address": "185.220.101.174",
-    "exit_ip": "185.220.101.174",
+    "ip_address": "109.70.100.7",
+    "exit_ip": "109.70.100.7",
     "port": 9050,
     "status": "active",
-    "last_updated": 1771224471.5130537
+    "last_updated": 1771403512.830984
   },
   "Russia": {
     "scraper_name": "Russia",
@@ -15,7 +15,7 @@
     "exit_ip": null,
     "port": null,
     "status": "active",
-    "last_updated": 1771250245.8428965
+    "last_updated": 1771462451.6299474
   },
   "Malaysia": {
     "scraper_name": "Malaysia",
@@ -24,16 +24,16 @@
     "exit_ip": null,
     "port": null,
     "status": "active",
-    "last_updated": 1771250852.1773174
+    "last_updated": 1771396087.1684546
   },
   "India": {
     "scraper_name": "India",
     "network_type": "Direct",
-    "ip_address": "103.100.222.44",
+    "ip_address": "103.100.222.33",
     "exit_ip": null,
     "port": null,
     "status": "active",
-    "last_updated": 1771250721.5895746
+    "last_updated": 1771462672.2570767
   },
   "Belarus": {
     "scraper_name": "Belarus",
@@ -42,7 +42,7 @@
     "exit_ip": null,
     "port": null,
     "status": "tor_configured_but_not_running",
-    "last_updated": 1771230921.7727056
+    "last_updated": 1771411996.5330358
   },
   "CanadaQuebec": {
     "scraper_name": "CanadaQuebec",
@@ -51,16 +51,16 @@
     "exit_ip": null,
     "port": null,
     "status": "active",
-    "last_updated": 1771250850.5362382
+    "last_updated": 1771393390.8988805
   },
   "Netherlands": {
     "scraper_name": "Netherlands",
     "network_type": "Tor",
-    "ip_address": "192.42.116.179",
-    "exit_ip": "192.42.116.179",
+    "ip_address": "45.84.107.55",
+    "exit_ip": "45.84.107.55",
     "port": 9050,
     "status": "active",
-    "last_updated": 1771250485.9436197
+    "last_updated": 1771391760.9578862
   },
   "Taiwan": {
     "scraper_name": "Taiwan",
@@ -78,7 +78,7 @@
     "exit_ip": null,
     "port": null,
     "status": "active",
-    "last_updated": 1771250846.0976756
+    "last_updated": 1771411318.5776649
   },
   "Tender_Chile": {
     "scraper_name": "Tender_Chile",
@@ -92,11 +92,11 @@
   "NorthMacedonia": {
     "scraper_name": "NorthMacedonia",
     "network_type": "Tor",
-    "ip_address": "192.42.116.179",
-    "exit_ip": "192.42.116.179",
+    "ip_address": "203.55.81.1",
+    "exit_ip": "203.55.81.1",
     "port": 9050,
     "status": "active",
-    "last_updated": 1771250751.8292465
+    "last_updated": 1771400348.4501147
   },
   "Italy": {
     "scraper_name": "Italy",

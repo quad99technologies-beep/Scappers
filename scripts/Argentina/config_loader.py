@@ -14,64 +14,32 @@ _repo_root = _script_dir.parents[1]  # scripts/Argentina -> scripts -> Scrappers
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
-from core.config.config_manager import ConfigManager, get_env_bool as _get_bool, get_env_int as _get_int, get_env_float as _get_float
+from core.config.scraper_config_factory import create_config
+from core.config.config_manager import ConfigManager
 
 SCRAPER_ID = "Argentina"
-
-# Initialize Environment
-ConfigManager.ensure_dirs()
-ConfigManager.load_env(SCRAPER_ID)
+config = create_config(SCRAPER_ID)
 
 # --- Path Accessors ---
-
-def get_repo_root() -> Path:
-    return ConfigManager.get_app_root()
-
-def get_base_dir() -> Path:
-    return ConfigManager.get_app_root()
-
-def get_input_dir(subpath: str = None) -> Path:
-    base = ConfigManager.get_input_dir(SCRAPER_ID)
-    if subpath:
-        return base / subpath
-    return base
-
-def get_output_dir(subpath: str = None) -> Path:
-    base = ConfigManager.get_output_dir(SCRAPER_ID)
-    if subpath:
-        return base / subpath
-    return base
-
-def get_backup_dir() -> Path:
-    return ConfigManager.get_backups_dir(SCRAPER_ID)
-
-def get_logs_dir() -> Path:
-    return ConfigManager.get_logs_dir()
-
-def get_central_output_dir() -> Path:
-    return ConfigManager.get_exports_dir(SCRAPER_ID)
+def get_repo_root() -> Path: return config.get_repo_root()
+def get_base_dir() -> Path: return config.get_base_dir()
+def get_input_dir(subpath=None) -> Path: return config.get_input_dir(subpath)
+def get_output_dir(subpath=None) -> Path: return config.get_output_dir(subpath)
+def get_backup_dir() -> Path: return config.get_backup_dir()
+def get_central_output_dir() -> Path: return config.get_central_output_dir()
+def get_logs_dir() -> Path: return config.get_output_dir("logs")
 
 # --- Environment Accessors ---
-
-def getenv(key: str, default: str = None) -> str:
-    # Use ConfigManager's get_env_value which searches OS env then loaded env
-    val = ConfigManager.get_env_value(SCRAPER_ID, key, default)
-    return val if val is not None else ""
-
-def getenv_int(key: str, default: int = 0) -> int:
-    return _get_int(SCRAPER_ID, key, default)
-
-def getenv_float(key: str, default: float = 0.0) -> float:
-    return _get_float(SCRAPER_ID, key, default)
-
-def getenv_bool(key: str, default: bool = False) -> bool:
-    return _get_bool(SCRAPER_ID, key, default)
+def getenv(key: str, default: str = "") -> str: return config.getenv(key, default)
+def getenv_int(key: str, default: int = 0) -> int: return config.getenv_int(key, default)
+def getenv_float(key: str, default: float = 0.0) -> float: return config.getenv_float(key, default)
+def getenv_bool(key: str, default: bool = False) -> bool: return config.getenv_bool(key, default)
 
 # --- Configuration Constants ---
 
 ALFABETA_USER = getenv("ALFABETA_USER", "")
 ALFABETA_PASS = getenv("ALFABETA_PASS", "")
-HEADLESS = getenv_bool("HEADLESS", True)
+HEADLESS = getenv_bool("HEADLESS", False)
 MAX_ROWS = getenv_int("MAX_ROWS", 0)
 
 # Proxy
@@ -240,3 +208,7 @@ def validate_config() -> list:
     if not accounts:
         issues.append("No AlfaBeta credentials.")
     return issues
+
+def load_env_file() -> None:
+    """Wrapper for ConfigManager.load_env for backward compatibility."""
+    ConfigManager.load_env(SCRAPER_ID)

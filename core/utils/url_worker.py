@@ -200,8 +200,8 @@ class DistributedURLWorker:
         if self.driver:
             try:
                 self.driver.quit()
-            except:
-                pass
+            except Exception as e:
+                logger.warning(f"Worker {self.worker_id} driver quit failed: {e}")
         
         # Final stats
         try:

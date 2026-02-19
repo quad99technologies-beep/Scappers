@@ -16,115 +16,26 @@ _repo_root = _script_dir.parents[1]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
-from core.config.config_manager import ConfigManager, get_env_bool as _get_bool, get_env_int as _get_int, get_env_float as _get_float
+from core.config.scraper_config_factory import create_config
 
 SCRAPER_ID = "Belarus"
-
-def _load_legacy_json_config():
-    """Load legacy JSON config into os.environ so ConfigManager picks it up."""
-    try:
-        config_dir = ConfigManager.get_config_dir()
-        json_file = config_dir / f"{SCRAPER_ID}.env.json"
-        
-        if json_file.exists():
-            with open(json_file, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-            
-            # Load "config" section
-            if "config" in data and isinstance(data["config"], dict):
-                for k, v in data["config"].items():
-                    if k.startswith("_"): continue
-                    # Set in os.environ if not already set (keep existing env vars as overrides)
-                    # For lists/dicts, we can't easily put in env, so we skip or serialize
-                    if k not in os.environ:
-                        if isinstance(v, (bool, int, float)):
-                            os.environ[k] = str(v).lower() if isinstance(v, bool) else str(v)
-                        elif isinstance(v, str):
-                            os.environ[k] = v
-                        elif isinstance(v, (list, dict)):
-                            pass # Handled by specific accessors if needed
-                            
-            # Load "scraper" section id
-            if "scraper" in data and "id" in data["scraper"]:
-                if "SCRAPER_ID" not in os.environ:
-                    os.environ["SCRAPER_ID"] = data["scraper"]["id"]
-    except Exception as e:
-        print(f"Warning: Error loading legacy JSON config: {e}")
-
-# Initialize
-ConfigManager.ensure_dirs()
-ConfigManager.load_env(SCRAPER_ID)
-_load_legacy_json_config()
+config = create_config(SCRAPER_ID)
 
 # --- Path Accessors ---
-
-def get_repo_root() -> Path:
-    return ConfigManager.get_app_root()
-
-def get_base_dir() -> Path:
-    return ConfigManager.get_app_root()
-
-def get_central_output_dir() -> Path:
-    return ConfigManager.get_exports_dir(SCRAPER_ID)
-
-def get_input_dir(subpath: str = None) -> Path:
-    base = ConfigManager.get_input_dir(SCRAPER_ID)
-    if subpath:
-        return base / subpath
-    return base
-
-def get_output_dir(subpath: str = None) -> Path:
-    base = ConfigManager.get_output_dir(SCRAPER_ID)
-    if subpath:
-        return base / subpath
-    return base
-
-def get_backup_dir() -> Path:
-    return ConfigManager.get_backups_dir(SCRAPER_ID)
+def get_repo_root() -> Path: return config.get_repo_root()
+def get_base_dir() -> Path: return config.get_base_dir()
+def get_central_output_dir() -> Path: return config.get_central_output_dir()
+def get_input_dir(subpath=None) -> Path: return config.get_input_dir(subpath)
+def get_output_dir(subpath=None) -> Path: return config.get_output_dir(subpath)
+def get_backup_dir() -> Path: return config.get_backup_dir()
 
 # --- Environment Accessors ---
-
-def load_env_file():
-    """No-op, already loaded on import."""
-    pass
-
-def getenv(key: str, default: str = None) -> str:
-    val = ConfigManager.get_env_value(SCRAPER_ID, key, default)
-    return val if val is not None else ""
-
-def getenv_int(key: str, default: int = 0) -> int:
-    return _get_int(SCRAPER_ID, key, default)
-
-def getenv_float(key: str, default: float = 0.0) -> float:
-    return _get_float(SCRAPER_ID, key, default)
-
-def getenv_bool(key: str, default: bool = False) -> bool:
-    return _get_bool(SCRAPER_ID, key, default)
-
-def getenv_list(key: str, default: list = None) -> list:
-    if default is None: default = []
-    
-    # Check JSON file directly for complex types
-    try:
-        config_dir = ConfigManager.get_config_dir()
-        json_file = config_dir / f"{SCRAPER_ID}.env.json"
-        if json_file.exists():
-            with open(json_file, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-            if "config" in data and isinstance(data["config"], dict) and key in data["config"]:
-                val = data["config"][key]
-                if isinstance(val, list): return val
-    except Exception:
-        pass
-
-    # Fallback to env var (comma sep)
-    val = getenv(key)
-    if not val: return default
-    
-    try:
-        return json.loads(val)
-    except (json.JSONDecodeError, ValueError):
-        return [v.strip() for v in val.split(",") if v.strip()]
+def load_env_file(): pass
+def getenv(key: str, default: str = "") -> str: return config.getenv(key, default)
+def getenv_int(key: str, default: int = 0) -> int: return config.getenv_int(key, default)
+def getenv_float(key: str, default: float = 0.0) -> float: return config.getenv_float(key, default)
+def getenv_bool(key: str, default: bool = False) -> bool: return config.getenv_bool(key, default)
+def getenv_list(key: str, default: list = None) -> list: return config.getenv_list(key, default)
 
 def require_env(key: str) -> str:
     val = getenv(key)

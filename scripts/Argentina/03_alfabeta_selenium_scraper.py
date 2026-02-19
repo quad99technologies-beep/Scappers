@@ -12,7 +12,6 @@ Behavior:
 - RETRY = per-attempt retries (e.g. on timeout); see MAX_RETRIES_TIMEOUT in config.
 """
 
-import csv
 import logging
 import os
 import subprocess
@@ -23,6 +22,11 @@ from pathlib import Path
 
 # Add script directory to path for config_loader import
 _script_dir = Path(__file__).resolve().parent
+
+# Add repo root to path for shared imports
+_repo_root = _script_dir.parents[1]  # scripts/Argentina -> scripts -> Scrappers (Repo Root)
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
 
 # Ensure Argentina directory is at the front of sys.path to prioritize local 'db' package
 # This fixes conflict with core/db which might be in sys.path
@@ -35,23 +39,28 @@ sys.path.insert(0, str(_script_dir))
 if 'db' in sys.modules:
     del sys.modules['db']
 
-# Force re-import of db module if it was incorrectly loaded from core/db
-if 'db' in sys.modules:
-    del sys.modules['db']
-
 from core.config.config_manager import ConfigManager, get_env_bool, get_env_int
 from core.db.connection import CountryDB
-from db.repositories import ArgentinaRepository
-from db.schema import apply_argentina_schema
+try:
+    from db.repositories import ArgentinaRepository
+except ImportError:
+    from scripts.Argentina.db.repositories import ArgentinaRepository
+
+try:
+    from db.schema import apply_argentina_schema
+except ImportError:
+    from scripts.Argentina.db.schema import apply_argentina_schema
 from core.db.models import generate_run_id
 from core.utils.text_utils import nk
 from core.network.tor_manager import ensure_tor_proxy_running
 
 # Load Config
-PREPARED_URLS_FILE = ConfigManager.get_env_value("Argentina", "PREPARED_URLS_FILE", "prepared_urls.csv")
-SELENIUM_MAX_LOOPS = get_env_int("Argentina", "SELENIUM_MAX_LOOPS", 3)
-SELENIUM_MAX_RUNS = get_env_int("Argentina", "SELENIUM_MAX_RUNS", 1)
-SELENIUM_ROUNDS = get_env_int("Argentina", "SELENIUM_ROUNDS", 1)
+SELENIUM_MAX_LOOPS = get_env_int("Argentina", "SELENIUM_MAX_LOOPS", 0)
+SELENIUM_MAX_RUNS = get_env_int("Argentina", "SELENIUM_MAX_RUNS", 8)
+SELENIUM_ROUNDS = get_env_int("Argentina", "SELENIUM_ROUNDS", 8)
+if SELENIUM_MAX_LOOPS <= 0:
+    SELENIUM_MAX_LOOPS = SELENIUM_MAX_RUNS
+
 ROUND_PAUSE_SECONDS = get_env_int("Argentina", "ROUND_PAUSE_SECONDS", 0)
 TOR_CONTROL_HOST = ConfigManager.get_env_value("Argentina", "TOR_CONTROL_HOST", "127.0.0.1")
 TOR_CONTROL_PORT = get_env_int("Argentina", "TOR_CONTROL_PORT", 9051)
@@ -77,8 +86,8 @@ def _get_run_id() -> str:
             txt = _RUN_ID_FILE.read_text(encoding="utf-8").strip()
             if txt:
                 return txt
-        except Exception:
-            pass
+        except Exception as e:
+            log.warning(f"Could not read run_id file {_RUN_ID_FILE}: {e}")
     rid = generate_run_id()
     os.environ["ARGENTINA_RUN_ID"] = rid
     _RUN_ID_FILE.write_text(rid, encoding="utf-8")
@@ -98,7 +107,7 @@ def _pipeline_prefix() -> str:
     return ""
 
 
-def _count_eligible(prepared_urls_path: Path, debug: bool = False) -> tuple[int, dict]:
+def _count_eligible(debug: bool = False) -> tuple[int, dict]:
     """DB-backed eligible count matching worker eligibility logic.
     
     Returns:
@@ -250,9 +259,6 @@ def reset_failed_products_for_retry():
 def main() -> int:
     ensure_tor_proxy_running()
 
-    output_dir = get_output_dir()
-    prepared_urls_path = output_dir / PREPARED_URLS_FILE
-
     max_loops = int(SELENIUM_MAX_LOOPS)
     print("ARGENTINA SELENIUM SCRAPER - LOOP vs RETRY (see doc/Argentina/LOOP_VS_RETRY.md)")
     print(f"[CONFIG]   Max loops (full passes; after each pass only total_records=0 re-checked): {max_loops}")
@@ -265,7 +271,7 @@ def main() -> int:
     reset_failed_products_for_retry()
 
     for pass_num in range(1, max_loops + 1):
-        eligible, debug_info = _count_eligible(prepared_urls_path, debug=(pass_num == 1))
+        eligible, debug_info = _count_eligible(debug=(pass_num == 1))
         print(f"\n{'='*80}")
         print(f"{_pipeline_prefix()}SELENIUM SCRAPING - LOOP {pass_num} OF {max_loops} (only total_records=0 re-checked)")
         print(f"{'='*80}")
@@ -313,7 +319,7 @@ if __name__ == "__main__":
         # Only mark step complete if there are no more eligible products to scrape
         # Check if there are still products that need selenium scraping
         try:
-            eligible, debug_info = _count_eligible(_OUTPUT_DIR / PREPARED_URLS_FILE)
+            eligible, debug_info = _count_eligible()
             if eligible > 0:
                 log.warning(f"[CHECKPOINT] Step 3 completed but {eligible} products still eligible for Selenium scraping. "
                            f"Not marking step complete. Breakdown: pending={debug_info['pending_from_db']}, "

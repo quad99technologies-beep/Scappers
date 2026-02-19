@@ -5,12 +5,8 @@ Netherlands-specific database schema (PostgreSQL).
 Tables:
 - nl_collected_urls: URLs collected from medicijnkosten.nl (Step 1a)
 - nl_packs: Pack/pricing data from medicijnkosten.nl (Step 1b)
-- nl_details: Product details from farmacotherapeutischkompas.nl (Step 2a)
-- nl_costs: Cost/pricing data from farmacotherapeutischkompas.nl (Step 2b)
-- nl_consolidated: Merged data from details + costs (Step 3)
-- nl_chrome_instances: Chrome/browser instance tracking
-- nl_products: Product data (legacy, kept for compatibility)
-- nl_reimbursement: Reimbursement pricing data (legacy)
+- nl_chrome_instances: Chrome/browser instance tracking (Infrastructure)
+- nl_search_combinations: Search combinations tracking (Step 1a helper)
 - nl_step_progress: Sub-step resume tracking (all steps)
 - nl_export_reports: Generated export/report tracking
 - nl_errors: Error tracking with extended fields
@@ -87,79 +83,6 @@ CREATE INDEX IF NOT EXISTS idx_nl_packs_code ON nl_packs(local_pack_code);
 CREATE INDEX IF NOT EXISTS idx_nl_packs_url ON nl_packs(source_url);
 """
 
-DETAILS_DDL = """
--- nl_details: Replaces details.csv (Step 2a - farmacotherapeutischkompas.nl)
-CREATE TABLE IF NOT EXISTS nl_details (
-    id SERIAL PRIMARY KEY,
-    run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
-    detail_url TEXT NOT NULL,
-    product_name TEXT,
-    product_type TEXT,
-    manufacturer TEXT,
-    administration_form TEXT,
-    strengths_raw TEXT,
-    scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(run_id, detail_url)
-);
-CREATE INDEX IF NOT EXISTS idx_nl_details_run ON nl_details(run_id);
-CREATE INDEX IF NOT EXISTS idx_nl_details_url ON nl_details(detail_url);
-"""
-
-COSTS_DDL = """
--- nl_costs: Replaces costs.csv (Step 2b - price data from kompas)
-CREATE TABLE IF NOT EXISTS nl_costs (
-    id SERIAL PRIMARY KEY,
-    run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
-    detail_id INTEGER REFERENCES nl_details(id),
-    detail_url TEXT NOT NULL,
-    brand_full TEXT,
-    brand_name TEXT,
-    pack_presentation TEXT,
-    ddd_text TEXT,
-    currency TEXT DEFAULT 'EUR',
-    price_per_day NUMERIC(12,4),
-    price_per_week NUMERIC(12,4),
-    price_per_month NUMERIC(12,4),
-    price_per_six_months NUMERIC(12,4),
-    reimbursed_per_day NUMERIC(12,4),
-    extra_payment_per_day NUMERIC(12,4),
-    table_type TEXT,
-    unit_type TEXT,
-    unit_amount TEXT,
-    scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-CREATE INDEX IF NOT EXISTS idx_nl_costs_run ON nl_costs(run_id);
-CREATE INDEX IF NOT EXISTS idx_nl_costs_detail ON nl_costs(detail_id);
-CREATE INDEX IF NOT EXISTS idx_nl_costs_url ON nl_costs(detail_url);
-"""
-
-CONSOLIDATED_DDL = """
--- nl_consolidated: Merged data from details + costs (Step 3 output)
-CREATE TABLE IF NOT EXISTS nl_consolidated (
-    id SERIAL PRIMARY KEY,
-    run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
-    detail_url TEXT,
-    product_name TEXT,
-    brand_name TEXT,
-    manufacturer TEXT,
-    administration_form TEXT,
-    strengths_raw TEXT,
-    pack_presentation TEXT,
-    currency TEXT DEFAULT 'EUR',
-    price_per_day NUMERIC(12,4),
-    reimbursed_per_day NUMERIC(12,4),
-    extra_payment_per_day NUMERIC(12,4),
-    ddd_text TEXT,
-    table_type TEXT,
-    unit_type TEXT,
-    unit_amount TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(run_id, detail_url, brand_name)
-);
-CREATE INDEX IF NOT EXISTS idx_nl_consolidated_run ON nl_consolidated(run_id);
-CREATE INDEX IF NOT EXISTS idx_nl_consolidated_url ON nl_consolidated(detail_url);
-"""
-
 CHROME_INSTANCES_DDL = """
 -- nl_chrome_instances: Track Chrome/browser instances for cleanup
 CREATE TABLE IF NOT EXISTS nl_chrome_instances (
@@ -181,53 +104,8 @@ CREATE INDEX IF NOT EXISTS idx_nl_chrome_step ON nl_chrome_instances(run_id, ste
 """
 
 # =============================================================================
-# LEGACY TABLES (kept for compatibility)
+# TRACKING TABLES
 # =============================================================================
-
-PRODUCTS_DDL = """
-CREATE TABLE IF NOT EXISTS nl_products (
-    id SERIAL PRIMARY KEY,
-    run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
-    product_url TEXT,
-    product_name TEXT,
-    brand_name TEXT,
-    generic_name TEXT,
-    atc_code TEXT,
-    dosage_form TEXT,
-    strength TEXT,
-    pack_size TEXT,
-    manufacturer TEXT,
-    source_prefix TEXT,
-    scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(run_id, product_url)
-);
-CREATE INDEX IF NOT EXISTS idx_nl_products_run ON nl_products(run_id);
-CREATE INDEX IF NOT EXISTS idx_nl_products_atc ON nl_products(atc_code);
-CREATE INDEX IF NOT EXISTS idx_nl_products_generic ON nl_products(generic_name);
-CREATE INDEX IF NOT EXISTS idx_nl_products_url ON nl_products(product_url);
-"""
-
-REIMBURSEMENT_DDL = """
-CREATE TABLE IF NOT EXISTS nl_reimbursement (
-    id SERIAL PRIMARY KEY,
-    run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
-    product_url TEXT,
-    product_name TEXT,
-    reimbursement_price REAL,
-    pharmacy_purchase_price REAL,
-    list_price REAL,
-    supplement REAL,
-    currency TEXT DEFAULT 'EUR',
-    reimbursement_status TEXT,
-    indication TEXT,
-    source_url TEXT,
-    scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(run_id, product_url, product_name)
-);
-CREATE INDEX IF NOT EXISTS idx_nl_reimbursement_run ON nl_reimbursement(run_id);
-CREATE INDEX IF NOT EXISTS idx_nl_reimbursement_url ON nl_reimbursement(product_url);
-CREATE INDEX IF NOT EXISTS idx_nl_reimbursement_status ON nl_reimbursement(reimbursement_status);
-"""
 
 STEP_PROGRESS_DDL = """
 CREATE TABLE IF NOT EXISTS nl_step_progress (
@@ -280,11 +158,79 @@ CREATE INDEX IF NOT EXISTS idx_nl_errors_step ON nl_errors(step_number);
 CREATE INDEX IF NOT EXISTS idx_nl_errors_type ON nl_errors(error_type);
 """
 
-# Migration DDL for existing nl_errors tables (add new columns)
+# Migration DDL for existing nl_errors tables (add new columns if missing)
 ERRORS_MIGRATION_DDL = """
 ALTER TABLE nl_errors ADD COLUMN IF NOT EXISTS stack_trace TEXT;
 ALTER TABLE nl_errors ADD COLUMN IF NOT EXISTS url TEXT;
 ALTER TABLE nl_errors ADD COLUMN IF NOT EXISTS thread_id INTEGER;
+"""
+
+# =============================================================================
+# FK REIMBURSEMENT TABLES (Steps 2-5) - Farmacotherapeutisch Kompas
+# =============================================================================
+
+FK_URLS_DDL = """
+-- nl_fk_urls: Detail URLs from farmacotherapeutischkompas.nl (Step 2)
+CREATE TABLE IF NOT EXISTS nl_fk_urls (
+    id SERIAL PRIMARY KEY,
+    run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
+    url TEXT NOT NULL,
+    generic_slug TEXT,
+    status TEXT DEFAULT 'pending' CHECK(status IN ('pending', 'success', 'failed', 'skipped')),
+    error_message TEXT,
+    retry_count INTEGER DEFAULT 0,
+    scraped_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(run_id, url)
+);
+CREATE INDEX IF NOT EXISTS idx_nl_fk_urls_run ON nl_fk_urls(run_id);
+CREATE INDEX IF NOT EXISTS idx_nl_fk_urls_status ON nl_fk_urls(run_id, status);
+"""
+
+FK_REIMBURSEMENT_DDL = """
+-- nl_fk_reimbursement: Parsed reimbursement rows from FK detail pages (Step 3)
+CREATE TABLE IF NOT EXISTS nl_fk_reimbursement (
+    id SERIAL PRIMARY KEY,
+    run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
+    fk_url_id INTEGER REFERENCES nl_fk_urls(id),
+    generic_name TEXT,
+    brand_name TEXT,
+    manufacturer TEXT,
+    dosage_form TEXT,
+    strength TEXT,
+    patient_population TEXT,
+    indication_nl TEXT,
+    indication_en TEXT,
+    reimbursement_status TEXT,
+    reimbursable_text TEXT,
+    route_of_administration TEXT,
+    pack_details TEXT,
+    binding TEXT DEFAULT 'NO',
+    reimbursement_body TEXT DEFAULT 'MINISTRY OF HEALTH',
+    reimbursement_date TEXT,
+    source_url TEXT NOT NULL,
+    translation_status TEXT DEFAULT 'pending' CHECK(translation_status IN ('pending', 'translated', 'no_dutch', 'failed')),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(run_id, source_url, COALESCE(brand_name,''), COALESCE(strength,''), COALESCE(patient_population,''))
+);
+CREATE INDEX IF NOT EXISTS idx_nl_fk_reimb_run ON nl_fk_reimbursement(run_id);
+CREATE INDEX IF NOT EXISTS idx_nl_fk_reimb_url ON nl_fk_reimbursement(fk_url_id);
+CREATE INDEX IF NOT EXISTS idx_nl_fk_reimb_translation ON nl_fk_reimbursement(run_id, translation_status);
+"""
+
+FK_DICTIONARY_DDL = """
+-- nl_fk_dictionary: Dutch->English translation dictionary (Step 4)
+CREATE TABLE IF NOT EXISTS nl_fk_dictionary (
+    id SERIAL PRIMARY KEY,
+    source_term TEXT NOT NULL,
+    translated_term TEXT NOT NULL,
+    source_lang TEXT DEFAULT 'nl',
+    target_lang TEXT DEFAULT 'en',
+    category TEXT DEFAULT 'manual',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(source_term, source_lang, target_lang)
+);
+CREATE INDEX IF NOT EXISTS idx_nl_fk_dict_term ON nl_fk_dictionary(source_term);
 """
 
 SEARCH_COMBINATIONS_DDL = """
@@ -325,23 +271,23 @@ CREATE INDEX IF NOT EXISTS idx_nl_combinations_vorm ON nl_search_combinations(vo
 CREATE INDEX IF NOT EXISTS idx_nl_combinations_sterkte ON nl_search_combinations(sterkte);
 """
 
-# All DDL statements in order (new tables first, then legacy, then migrations)
+# All DDL statements in order
 NETHERLANDS_SCHEMA_DDL = [
-    # New DB-first tables
+    # Main tables (medicijnkosten.nl pricing)
     COLLECTED_URLS_DDL,
     PACKS_DDL,
-    DETAILS_DDL,
-    COSTS_DDL,
-    CONSOLIDATED_DDL,
+
+    # Infrastructure & Helper tables
     CHROME_INSTANCES_DDL,
-    SEARCH_COMBINATIONS_DDL,  # NEW: vorm/sterkte combinations tracking
-    # Legacy tables (kept for compatibility)
-    PRODUCTS_DDL,
-    REIMBURSEMENT_DDL,
-    # Common tracking tables
+    SEARCH_COMBINATIONS_DDL,
     STEP_PROGRESS_DDL,
     EXPORT_REPORTS_DDL,
     ERRORS_DDL,
+
+    # FK Reimbursement tables (farmacotherapeutischkompas.nl)
+    FK_URLS_DDL,
+    FK_REIMBURSEMENT_DDL,
+    FK_DICTIONARY_DDL,
 ]
 
 # Migration DDL for existing databases

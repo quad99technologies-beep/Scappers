@@ -126,7 +126,7 @@ def main():
     
     # Test URLWorkQueue
     try:
-        from core.url_work_queue import URLWorkQueue
+        from core.pipeline.url_work_queue import URLWorkQueue
         db_config = {'host': 'localhost', 'port': 5432, 'database': 'test', 'user': 'test', 'password': ''}
         # Don't actually connect, just verify class can be instantiated
         print("+ PASS: URLWorkQueue class can be instantiated")
@@ -136,7 +136,7 @@ def main():
     
     # Test ScraperOrchestrator
     try:
-        from core.scraper_orchestrator import ScraperOrchestrator
+        from core.pipeline.scraper_orchestrator import ScraperOrchestrator
         # Instantiate without db connection
         print("+ PASS: ScraperOrchestrator class can be instantiated")
         instantiation_passed += 1

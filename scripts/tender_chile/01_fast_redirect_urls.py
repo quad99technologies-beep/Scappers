@@ -17,7 +17,6 @@ Old Selenium version: archive/01_get_redirect_urls_selenium.py.bak
 from __future__ import annotations
 
 import asyncio
-import csv
 import os
 import re
 import sys
@@ -61,9 +60,6 @@ except ImportError:
 MAX_TENDERS = getenv_int("MAX_TENDERS", 6000) if _CONFIG else int(os.getenv("MAX_TENDERS", "6000"))
 MAX_WORKERS = getenv_int("SCRIPT_01_WORKERS", 10) if _CONFIG else int(os.getenv("SCRIPT_01_WORKERS", "10"))
 MAX_REQ_PER_MIN = getenv_int("MAX_REQ_PER_MIN", 200) if _CONFIG else int(os.getenv("MAX_REQ_PER_MIN", "200"))
-OUTPUT_FILENAME = "tender_redirect_urls.csv"
-REQUIRED_OUTPUT_COLUMNS = ["original_url", "redirect_url", "qs_parameter", "tender_details_url", "tender_award_url"]
-
 
 def get_output_dir() -> Path:
     if _CONFIG:
@@ -313,15 +309,7 @@ async def async_main():
         traceback.print_exc()
         raise
 
-    # CSV export
-    out_path = output_dir / OUTPUT_FILENAME
-    with open(out_path, "w", encoding="utf-8-sig", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=REQUIRED_OUTPUT_COLUMNS)
-        w.writeheader()
-        w.writerows([{k: r.get(k, "") for k in REQUIRED_OUTPUT_COLUMNS} for r in out_rows])
-
     print(f"[OK] {len(out_rows)} tender URLs processed")
-    print(f"[OK] CSV: {out_path}")
 
 
 def main():

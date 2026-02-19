@@ -28,6 +28,11 @@ from datetime import datetime
 from typing import Optional, Tuple, List, Dict
 from pathlib import Path
 
+# Add repo root to path for core imports (MUST be before any core imports)
+_repo_root = Path(__file__).resolve().parents[2]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
@@ -64,11 +69,7 @@ REQUEST_JITTER_MAX = getenv_float("EAP_REQUEST_JITTER_MAX", 0.6)
 ENABLE_PROGRESS_BAR = getenv_bool("EAP_ENABLE_PROGRESS_BAR", True)
 PROXIES = get_proxy_config()
 
-USER_AGENTS = [
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15",
-]
+from scraper_utils import USER_AGENTS, build_headers as _shared_build_headers  # noqa: E402
 
 run_id = get_run_id()
 run_dir = get_run_dir(run_id)
@@ -87,6 +88,19 @@ REIMBURSABLE_NOTES = (
 )
 COPAYMENT_VALUE = 0.00
 
+# Module-level DB connection and repository — shared to avoid per-call connections.
+try:
+    from db.repositories import CanadaOntarioRepository
+    from db.schema import apply_canada_ontario_schema
+except ImportError:
+    from scripts.canada_ontario.db.repositories import CanadaOntarioRepository
+    from scripts.canada_ontario.db.schema import apply_canada_ontario_schema
+
+_DB = PostgresDB("CanadaOntario")
+_DB.connect()
+apply_canada_ontario_schema(_DB)
+_REPO = CanadaOntarioRepository(_DB, run_id)
+
 
 # ---------- helpers ----------
 
@@ -97,13 +111,7 @@ def jitter_sleep() -> None:
 
 
 def build_headers() -> dict:
-    return {
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language": "en-US,en;q=0.8",
-        "Cache-Control": "no-cache",
-        "Pragma": "no-cache",
-        "User-Agent": random.choice(USER_AGENTS),
-    }
+    return _shared_build_headers()
 
 
 def fetch_html(url: str, timeout: int = 60) -> str:
@@ -205,48 +213,29 @@ def has_pk_keyword(local_pack_description: str) -> bool:
 
 
 def insert_eap_prices_to_db(df: pd.DataFrame) -> None:
-    """Insert EAP prices into co_eap_prices table."""
+    """Insert EAP prices via CanadaOntarioRepository."""
     if df.empty:
         logger.warning("[DB] No EAP prices to migrate - dataframe is empty")
         return
-    
     try:
-        db = PostgresDB("CanadaOntario")
-        db.connect()
-        logger.info("[DB] Connected to PostgreSQL database")
-        try:
-            run_id = get_run_id()
-            db_rows = []
-            for _, row in df.iterrows():
-                db_row = (
-                    run_id,
-                    row.get("DIN", ""),
-                    row.get("Trade name", ""),
-                    row.get("Strength", ""),
-                    row.get("Dosage form", ""),
-                    row.get("Ex Factory Wholesale Price"),
-                    "CAD",
-                    row.get("Effective Start Date", ""),
-                    EAP_PRICES_URL
-                )
-                db_rows.append(db_row)
-            
-            sql_query = """
-                INSERT INTO co_eap_prices 
-                (run_id, din, product_name, strength, dosage_form, eap_price, currency, effective_date, source_url)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """
-            
-            with db.cursor() as cur:
-                cur.executemany(sql_query, db_rows)
-            
-            logger.info(f"[DB] Migrated {len(db_rows)} EAP prices to co_eap_prices table")
-        except Exception as e:
-            logger.error(f"[DB] Failed to migrate EAP prices: {e}")
-        finally:
-            db.close()
+        prices = [
+            {
+                "din": row.get("DIN", ""),
+                "product_name": row.get("Trade name", ""),
+                "generic_name": "",
+                "strength": row.get("Strength", ""),
+                "dosage_form": row.get("Dosage form", ""),
+                "eap_price": row.get("Ex Factory Wholesale Price"),
+                "currency": "CAD",
+                "effective_date": row.get("Effective Start Date", ""),
+                "source_url": EAP_PRICES_URL,
+            }
+            for _, row in df.iterrows()
+        ]
+        count = _REPO.insert_eap_prices(prices)
+        logger.debug(f"Inserted {count} EAP prices via repository")
     except Exception as e:
-        logger.error(f"[DB] Connection failed: {e}")
+        logger.error(f"[DB] Failed to insert EAP prices: {e}")
 
 
 # ---------- scraper ----------
@@ -373,17 +362,22 @@ def main():
     if df.empty:
         raise SystemExit("No rows extracted. The page structure may have changed.")
 
-    # Save to CSV
+    # Save to CSV only if not DB_ONLY
+    db_only = getenv_bool("DB_ONLY", True)
     output_dir = get_output_dir()
     output_path = Path(args.out) if args.out else (output_dir / EAP_PRICES_CSV_NAME)
     output_dir.mkdir(parents=True, exist_ok=True)
-    df.to_csv(str(output_path), index=False, encoding="utf-8-sig")
-    logger.info(f"[OK] Saved {len(df):,} rows -> {output_path}")
+    
+    if not db_only:
+        df.to_csv(str(output_path), index=False, encoding="utf-8-sig")
+        logger.info(f"OK: Saved {len(df):,} rows -> {output_path}")
+    else:
+        logger.info("[SKIP] CSV output skipped (DB_ONLY=True)")
     
     # Save to DB
     logger.info("[DB] Migrating EAP prices to co_eap_prices table...")
     insert_eap_prices_to_db(df)
-    logger.info("[DB] EAP prices migration complete")
+    logger.info("EAP prices migration complete")
 
 
 if __name__ == "__main__":

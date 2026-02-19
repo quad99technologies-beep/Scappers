@@ -4,51 +4,32 @@
 Italy database repository - all DB access in one place.
 """
 
+import sys
+from pathlib import Path
+
+# Add repo root to path for core imports (MUST be before any core imports)
+_repo_root = Path(__file__).resolve().parents[3]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
 import logging
 from typing import Dict, List, Optional, Set
-from datetime import datetime
+
 import json
 
 logger = logging.getLogger(__name__)
 
-class ItalyRepository:
+from core.db.base_repository import BaseRepository
+
+
+class ItalyRepository(BaseRepository):
     """All database operations for Italy scraper (PostgreSQL backend)."""
 
+    SCRAPER_NAME = "Italy"
+    TABLE_PREFIX = "it"
 
     def __init__(self, db, run_id: str):
-        self.db = db
-        self.run_id = run_id
-
-    def _db_log(self, message: str) -> None:
-        try:
-            print(f"[DB] {message}", flush=True)
-        except Exception:
-            pass
-
-    def _table(self, name: str) -> str:
-        return f"it_{name}"
-
-
-    def start_run(self, mode: str = "fresh") -> None:
-        """Register a new run in run_ledger."""
-        try:
-            from core.db.models import run_ledger_start
-            sql, params = run_ledger_start(self.run_id, "Italy", mode=mode)
-            with self.db.cursor() as cur:
-                cur.execute(sql, params)
-            self._db_log(f"Started run {self.run_id}")
-        except Exception as e:
-            logger.warning(f"Could not register run in ledger: {e}")
-
-    def ensure_run_in_ledger(self, mode: str = "resume") -> None:
-        """Ensure this run_id exists in run_ledger."""
-        try:
-            from core.db.models import run_ledger_ensure_exists
-            sql, params = run_ledger_ensure_exists(self.run_id, "Italy", mode=mode)
-            with self.db.cursor() as cur:
-                cur.execute(sql, params)
-        except Exception as e:
-            logger.warning(f"Could not ensure run in ledger: {e}")
+        super().__init__(db, run_id)
 
 
     # ------------------------------------------------------------------
@@ -144,27 +125,9 @@ class ItalyRepository:
     # Progress
     # ------------------------------------------------------------------
 
-    def mark_progress(self, step_number: int, step_name: str, progress_key: str, status: str, error_message: str = None) -> None:
-        table = self._table("step_progress")
-        now = datetime.now().isoformat()
-        with self.db.cursor() as cur:
-             cur.execute(f"""
-                INSERT INTO {table} (run_id, step_number, step_name, progress_key, status, error_message, started_at, completed_at)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-                ON CONFLICT (run_id, step_number, progress_key) DO UPDATE SET
-                    status = EXCLUDED.status,
-                    error_message = EXCLUDED.error_message,
-                    completed_at = CASE WHEN EXCLUDED.status IN ('completed', 'failed') THEN %s ELSE {table}.completed_at END
-            """, (self.run_id, step_number, step_name, progress_key, status, error_message, now, now, now))
+    # mark_progress, is_progress_completed, get_completed_keys inherited from BaseRepository
 
-    def is_progress_completed(self, step_number: int, progress_key: str) -> bool:
-        table = self._table("step_progress")
-        with self.db.cursor() as cur:
-            cur.execute(f"SELECT status FROM {table} WHERE run_id = %s AND step_number = %s AND progress_key = %s", 
-            (self.run_id, step_number, progress_key))
-            row = cur.fetchone()
-            return row and row[0] == 'completed'
-            
+
 
     def clear_step_data(self, step: int) -> None:
         with self.db.cursor() as cur:

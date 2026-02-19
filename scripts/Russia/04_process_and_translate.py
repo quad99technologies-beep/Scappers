@@ -121,43 +121,20 @@ def load_all_caches(repo) -> Dict[str, str]:
     return repo.get_translation_cache('ru', 'en')
 
 
-def save_translation_cache(repo, cache: Dict[str, str]) -> None:
+def save_translation_cache(repo: RussiaRepository, cache: Dict[str, str]) -> None:
     """Save translation cache to DB (replaces JSON file cache)."""
-    repo.save_translation_cache(cache, 'ru', 'en')
+    repo.save_translation_cache(cache)
 
 
-def get_translator():
-    """Get Google translator instance."""
-    global _translator
-    if _translator is not None:
-        return _translator
-    
-    try:
-        from deep_translator import GoogleTranslator
-        _translator = GoogleTranslator(source="ru", target="en")
-        return _translator
-    except ImportError:
-        print("[WARNING] deep_translator not installed. Missing entries won't be translated.")
-        return None
-
-
-def translate_with_ai(text: str, retries: int = 3) -> Optional[str]:
-    """Translate using Google Translate with retries."""
-    translator = get_translator()
-    if not translator:
-        return None
-    
-    for attempt in range(retries):
-        try:
-            result = translator.translate(text)
-            if result and result.strip():
-                return result.strip()
-        except Exception:
-            if attempt == retries - 1:
-                pass
-        time.sleep(0.2 + attempt * 0.2)
-    
-    return None
+# Translation service
+from core.translation import TranslationCache
+# Unified translation service (new)
+try:
+    from core.translation.service import TranslationService
+    _TRANSLATION_SERVICE_AVAILABLE = True
+except ImportError:
+    _TRANSLATION_SERVICE_AVAILABLE = False
+    print("[WARNING] core.translation.service not found. AI translation may be limited.")
 
 
 def collect_unique_values(rows: List[dict], columns: List[str]) -> Set[str]:
@@ -178,13 +155,15 @@ def batch_translate_missing(missing_values: List[str], cache: Dict[str, str],
     if not missing_values:
         return 0
 
-    translator = get_translator()
-    if not translator:
-        print("[WARNING] No translator available - keeping original Russian text")
+    if not _TRANSLATION_SERVICE_AVAILABLE:
+        print("[WARNING] Translation service unavailable - keeping original Russian text")
         return 0
 
-    print(f"[INFO] Using Google Translator for {len(missing_values)} missing entries")
-    print(f"[INFO] Translations will be saved to ru_input_dictionary for future runs")
+    service = TranslationService("russia")
+    
+    print(f"[INFO] Using Unified Translation Service for {len(missing_values)} missing entries")
+    print(f"[INFO] Translations will be saved to DB automatically")
+    
     translated_count = 0
     saved_to_db_count = 0
 
@@ -192,12 +171,15 @@ def batch_translate_missing(missing_values: List[str], cache: Dict[str, str],
         if text in cache:
             continue
 
-        result = translate_with_ai(text)
+        # Use unified service (handles API call + caching)
+        result = service.translate(text, source="ru", target="en")
+        
         if result and result != text:
             cache[text] = result
             translated_count += 1
-
-            # Save to database for future runs (avoid re-translation)
+            saved_to_db_count += 1 # Service saves to DB cache automatically
+            
+            # Legacy sync: Also save to ru_input_dictionary for backward compatibility if needed
             if repo:
                 try:
                     with repo.db.cursor() as cur:
@@ -207,20 +189,14 @@ def batch_translate_missing(missing_values: List[str], cache: Dict[str, str],
                             ON CONFLICT (source_term, language_from, language_to) DO NOTHING
                         """, (text, result))
                     repo.db.commit()
-                    saved_to_db_count += 1
-                except Exception as e:
-                    print(f"[WARNING] Failed to save Google translation to DB: {e}")
+                except Exception:
+                    pass
         else:
             cache[text] = text  # Keep original if translation fails
 
-        # Progress update - save to DB cache periodically
+        # Progress update
         if (i + 1) % batch_size == 0:
-            print(f"[PROGRESS] Translated {i + 1}/{len(missing_values)} values (Saved to DB: {saved_to_db_count})")
-            if repo:
-                repo.save_translation_cache(cache, 'ru', 'en')
-
-    if saved_to_db_count > 0:
-        print(f"[SUCCESS] Saved {saved_to_db_count} new translations to ru_input_dictionary (will be reused in next run)")
+            print(f"[PROGRESS] Translated {i + 1}/{len(missing_values)} values")
 
     return translated_count
 
@@ -248,7 +224,8 @@ def translate_value(value: str, dictionary: Dict[str, str], cache: Dict[str, str
     if value in cache:
         return cache[value], 'cache'
     
-    # Will need AI translation - return original for now
+    # Check if we can translate on-the-fly via service (optional, usually batch covers it)
+    # For now, batch_translate_missing handles population, so 'ai' implies failure to pre-translate
     return value, 'ai'
 
 

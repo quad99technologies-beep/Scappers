@@ -9,11 +9,24 @@ import os
 import sys
 from pathlib import Path
 
-from core.bootstrap.environment import setup_scraper_environment
-REPO_ROOT = setup_scraper_environment(__file__)
+REPO_ROOT = Path(__file__).resolve().parents[3]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 
-# Top level fix removed - we handle it inside main()
+_malaysia_dir = Path(__file__).resolve().parents[1]  # scripts/Malaysia (Fixed: was parents[2])
+if str(_malaysia_dir) not in sys.path:
+    sys.path.insert(0, str(_malaysia_dir))
+
+_script_dir = Path(__file__).resolve().parents[0] # scripts/Malaysia/steps (Fixed: was parents[1])
+if str(_script_dir) not in sys.path:
+    # Insert at 0 again to be sure
+    sys.path.insert(0, str(_script_dir))
+
+# Ensure no other 'db' package conflicts (e.g. from core)
+sys.path = [p for p in sys.path if not Path(p).name == 'core']
+if 'db' in sys.modules:
+    del sys.modules['db']
 
 sys.stdout.reconfigure(line_buffering=True) if hasattr(sys.stdout, 'reconfigure') else None
 os.environ.setdefault('PYTHONUNBUFFERED', '1')
@@ -22,7 +35,27 @@ from config_loader import load_env_file, get_output_dir
 load_env_file()
 
 
+
 def _get_run_id() -> str:
+    import sys
+    from pathlib import Path
+    
+    # Remove any path ending in 'core' to avoid conflicts
+    sys.path = [p for p in sys.path if not Path(p).name == 'core']
+    
+    # Ensure local db is prioritized
+    # This logic mirrors what is used in Step 2 for consistency
+    _step_parent = Path(__file__).resolve().parent # steps/
+    malaysia_dir = str(_step_parent.parent) # scripts/Malaysia
+    
+    if malaysia_dir in sys.path:
+        sys.path.remove(malaysia_dir)
+    sys.path.insert(0, malaysia_dir)
+    
+    # Clear potentially wrong cached modules
+    if 'db' in sys.modules and 'db.repositories' not in sys.modules:
+        del sys.modules['db']
+
     run_id = os.environ.get("MALAYSIA_RUN_ID")
     if not run_id:
         run_id_file = get_output_dir() / ".current_run_id"

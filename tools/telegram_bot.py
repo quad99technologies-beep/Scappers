@@ -153,7 +153,7 @@ def resolve_scraper_name(raw_name: Optional[str]) -> Optional[str]:
 def _get_path_manager():
     try:
         from core.config.config_manager import ConfigManager
-        return get_path_manager()
+        return ConfigManager
     except Exception:
         return None
 
@@ -729,7 +729,7 @@ def launch_pipeline(scraper_name: str, fresh: bool = False) -> Tuple[int, Path]:
         try:
             pm = _get_path_manager()
             if pm:
-                output_dir = ConfigManager.get_output_dir(scraper_name)
+                output_dir = pm.get_output_dir(scraper_name)
                 run_id_file = output_dir / ".current_run_id"
                 if run_id_file.exists():
                     existing_run_id = run_id_file.read_text(encoding='utf-8').strip()

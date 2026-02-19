@@ -39,7 +39,7 @@ try:
     from core.monitoring.prometheus_exporter import init_prometheus_metrics
 except ImportError:
     try:
-        from core.prometheus_exporter import init_prometheus_metrics
+        from core.monitoring.prometheus_exporter import init_prometheus_metrics
     except ImportError:
         def init_prometheus_metrics(port=9090): return False
 
@@ -48,7 +48,7 @@ try:
     from core.browser.chrome_manager import cleanup_all_chrome_instances
 except ImportError:
     try:
-        from core.chrome_manager import cleanup_all_chrome_instances
+        from core.browser.chrome_manager import cleanup_all_chrome_instances
     except ImportError:
         def cleanup_all_chrome_instances(silent=False):
             pass
@@ -4579,30 +4579,22 @@ To view detailed healing logs, check the scraper console output or logs.
                 if table in SHARED_TABLES:
                     filter_sql, filter_params = self._get_shared_table_filter(table, scraper_name)
 
+                # OPTIMIZATION: Query run_ledger instead of scanning large data tables for run_ids.
+                # Scanning tables like ru_ved_products (millions of rows) for DISTINCT run_id is too slow
+                # and causes the GUI dropdowns to desync or hang.
+                # We assume run_ledger is the source of truth for available runs.
+                
+                sql = "SELECT run_id FROM run_ledger WHERE scraper_name = %s"
+                params = [scraper_name]
+                
                 if status_filter != "All":
-                    cur = db.execute(
-                        "SELECT run_id FROM run_ledger WHERE scraper_name = %s AND status = %s ORDER BY run_id DESC",
-                        (scraper_name, status_filter),
-                    )
-                    filtered_run_ids = {row[0] for row in cur.fetchall()}
-                    if filter_sql:
-                        cur = db.execute(
-                            f"SELECT DISTINCT run_id FROM \"{table}\" WHERE {filter_sql} ORDER BY run_id DESC",
-                            filter_params,
-                        )
-                    else:
-                        cur = db.execute(f"SELECT DISTINCT run_id FROM \"{table}\" ORDER BY run_id DESC")
-                    table_run_ids = [row[0] for row in cur.fetchall()]
-                    runs = [rid for rid in table_run_ids if rid in filtered_run_ids]
-                else:
-                    if filter_sql:
-                        cur = db.execute(
-                            f"SELECT DISTINCT run_id FROM \"{table}\" WHERE {filter_sql} ORDER BY run_id DESC",
-                            filter_params,
-                        )
-                    else:
-                        cur = db.execute(f"SELECT DISTINCT run_id FROM \"{table}\" ORDER BY run_id DESC")
-                    runs = [row[0] for row in cur.fetchall()]
+                    sql += " AND status = %s"
+                    params.append(status_filter)
+                
+                sql += " ORDER BY run_id DESC"
+                
+                cur = db.execute(sql, tuple(params))
+                runs = [row[0] for row in cur.fetchall()]
 
                 runs.insert(0, "(All)")
                 selected_run = current_run if current_run in runs else "(All)"
@@ -7619,7 +7611,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
                         # Development mode - use "python" command
                         python_cmd = "python"
                     
-                    cmd = [python_cmd, str(script_path)] + extra_args
+                    cmd = [python_cmd, "-u", str(script_path)] + extra_args
                     process = subprocess.Popen(cmd, **subprocess_kw)
 
                 # Finalize lock file with child PID (lock was atomically claimed before start)
@@ -9594,7 +9586,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             
             # Also check ChromeManager as fallback (for in-process drivers)
             try:
-                from core.chrome_manager import get_chrome_driver_count
+                from core.browser.chrome_manager import get_chrome_driver_count
                 manager_count = get_chrome_driver_count()
                 # Use the higher count (PID tracking is more accurate for multi-process scenarios)
                 if manager_count > active_count:
@@ -9614,7 +9606,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
                 
                 # Also check ChromeManager
                 try:
-                    from core.chrome_manager import get_chrome_driver_count
+                    from core.browser.chrome_manager import get_chrome_driver_count
                     manager_count = get_chrome_driver_count()
                     if manager_count > count:
                         count = manager_count
@@ -9626,7 +9618,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
             except Exception:
                 # Last resort: check ChromeManager only
                 try:
-                    from core.chrome_manager import get_chrome_driver_count
+                    from core.browser.chrome_manager import get_chrome_driver_count
                     manager_count = get_chrome_driver_count()
                     if hasattr(self, 'chrome_count_label'):
                         self.chrome_count_label.config(text=f"Chrome Instances: {manager_count} (manager)")
@@ -9636,7 +9628,7 @@ Provide a clear, concise explanation suitable for users who want to understand w
         except Exception as e:
             # Try ChromeManager as fallback even on error
             try:
-                from core.chrome_manager import get_chrome_driver_count
+                from core.browser.chrome_manager import get_chrome_driver_count
                 manager_count = get_chrome_driver_count()
                 if hasattr(self, 'chrome_count_label'):
                     self.chrome_count_label.config(text=f"Chrome Instances: {manager_count} (manager)")

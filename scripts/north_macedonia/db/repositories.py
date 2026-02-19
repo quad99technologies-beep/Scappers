@@ -21,160 +21,22 @@ from typing import Dict, List, Optional, Set, Any, Tuple
 from datetime import datetime
 from contextlib import contextmanager
 
+from core.db.base_repository import BaseRepository
+
 logger = logging.getLogger(__name__)
 
 
-class NorthMacedoniaRepository:
+class NorthMacedoniaRepository(BaseRepository):
     """All database operations for North Macedonia scraper (PostgreSQL backend)."""
 
+    SCRAPER_NAME = "NorthMacedonia"
+    TABLE_PREFIX = "nm"
+
     def __init__(self, db, run_id: str):
-        """
-        Initialize repository.
+        super().__init__(db, run_id)
 
-        Args:
-            db: PostgresDB instance
-            run_id: Current run ID
-        """
-        self.db = db
-        self.run_id = run_id
-
-    def _table(self, name: str) -> str:
-        """Get table name with North Macedonia prefix."""
-        return f"nm_{name}"
-
-    def _db_log(self, message: str) -> None:
-        """Emit a [DB] activity log line for GUI activity panel."""
-        try:
-            print(f"[DB] {message}", flush=True)
-        except Exception:
-            pass
-
-    # ------------------------------------------------------------------
-    # Transaction support
-    # ------------------------------------------------------------------
-
-    @contextmanager
-    def transaction(self):
-        """Context manager for explicit transactions."""
-        try:
-            yield
-            self.db.commit()
-        except Exception:
-            self.db.rollback()
-            raise
-
-    # ------------------------------------------------------------------
-    # Run lifecycle
-    # ------------------------------------------------------------------
-
-    def start_run(self, mode: str = "fresh") -> None:
-        """Register a new run in run_ledger."""
-        from core.db.models import run_ledger_start
-        sql, params = run_ledger_start(self.run_id, "NorthMacedonia", mode=mode)
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self.db.commit()
-        self._db_log(f"OK | run_ledger start | run_id={self.run_id} mode={mode}")
-
-    def finish_run(self, status: str, items_scraped: int = 0,
-                   items_exported: int = 0, error_message: str = None) -> None:
-        """Mark run as finished."""
-        from core.db.models import run_ledger_finish
-        sql, params = run_ledger_finish(
-            self.run_id, status,
-            items_scraped=items_scraped,
-            items_exported=items_exported,
-            error_message=error_message,
-        )
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self.db.commit()
-        self._db_log(f"FINISH | run_ledger updated | status={status} items={items_scraped}")
-
-    def ensure_run_in_ledger(self, mode: str = "resume") -> None:
-        """Ensure this run_id exists in run_ledger (insert if missing)."""
-        from core.db.models import run_ledger_ensure_exists
-        sql, params = run_ledger_ensure_exists(self.run_id, "NorthMacedonia", mode=mode)
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self.db.commit()
-        self._db_log(f"OK | run_ledger ensure | run_id={self.run_id}")
-
-    def resume_run(self) -> None:
-        """Mark existing run as resumed."""
-        from core.db.models import run_ledger_resume
-        sql, params = run_ledger_resume(self.run_id)
-        with self.db.cursor() as cur:
-            cur.execute(sql, params)
-        self.db.commit()
-        self._db_log(f"RESUME | run_ledger updated | run_id={self.run_id}")
-
-    # ------------------------------------------------------------------
-    # Step progress (sub-step resume)
-    # ------------------------------------------------------------------
-
-    def mark_progress(self, step_number: int, step_name: str,
-                      progress_key: str, status: str,
-                      error_message: str = None) -> None:
-        """Mark a sub-step progress item."""
-        now = datetime.now().isoformat()
-        table = self._table("step_progress")
-
-        sql = f"""
-            INSERT INTO {table}
-            (run_id, step_number, step_name, progress_key, status,
-             error_message, started_at, completed_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-            ON CONFLICT (run_id, step_number, progress_key) DO UPDATE SET
-                step_name = EXCLUDED.step_name,
-                status = EXCLUDED.status,
-                error_message = EXCLUDED.error_message,
-                started_at = CASE
-                    WHEN EXCLUDED.status = 'in_progress' THEN EXCLUDED.started_at
-                    ELSE COALESCE({table}.started_at, EXCLUDED.started_at)
-                END,
-                completed_at = CASE
-                    WHEN EXCLUDED.status IN ('completed', 'failed', 'skipped') THEN EXCLUDED.completed_at
-                    WHEN EXCLUDED.status = 'in_progress' THEN NULL
-                    ELSE {table}.completed_at
-                END
-        """
-
-        with self.db.cursor() as cur:
-            cur.execute(sql, (
-                self.run_id, step_number, step_name, progress_key, status,
-                error_message,
-                now if status == "in_progress" else None,
-                now if status in ("completed", "failed", "skipped") else None,
-            ))
-        self.db.commit()
-
-    def is_progress_completed(self, step_number: int, progress_key: str) -> bool:
-        """Check if a sub-step item is completed."""
-        table = self._table("step_progress")
-
-        with self.db.cursor() as cur:
-            cur.execute(f"""
-                SELECT status FROM {table}
-                WHERE run_id = %s AND step_number = %s AND progress_key = %s
-            """, (self.run_id, step_number, progress_key))
-            row = cur.fetchone()
-            if row is None:
-                return False
-            status = row[0] if isinstance(row, tuple) else row["status"]
-            return status == "completed"
-
-    def get_completed_keys(self, step_number: int) -> Set[str]:
-        """Get all completed progress keys for a step."""
-        table = self._table("step_progress")
-
-        with self.db.cursor() as cur:
-            cur.execute(f"""
-                SELECT progress_key FROM {table}
-                WHERE run_id = %s AND step_number = %s AND status = 'completed'
-            """, (self.run_id, step_number))
-            rows = cur.fetchall()
-            return {row[0] if isinstance(row, tuple) else row["progress_key"] for row in rows}
+    # Progress methods (mark_progress, is_progress_completed, get_completed_keys)
+    # are inherited from BaseRepository.
 
     # ==================================================================
     # URLS (Step 1) - replaces north_macedonia_detail_urls.csv
@@ -1021,6 +883,29 @@ class NorthMacedoniaRepository:
             self.db.commit()
         except Exception as e:
             print(f"[WARNING] Failed to save translation: {e}")
+
+    # ==================================================================
+    # HTTP REQUEST LOGGING
+    # ==================================================================
+
+    def log_request(self, url: str, method: str = "GET",
+                    status_code: int = None, response_bytes: int = None,
+                    elapsed_ms: float = None, error: str = None) -> None:
+        """Log an HTTP request to the shared http_requests table."""
+        try:
+            sql = """
+                INSERT INTO http_requests
+                (run_id, url, method, status_code, response_bytes, elapsed_ms, error)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """
+            with self.db.cursor() as cur:
+                cur.execute(sql, (
+                    self.run_id, url, method, status_code, response_bytes,
+                    elapsed_ms, error
+                ))
+            self.db.commit()
+        except Exception:
+            pass
 
     # ==================================================================
     # CLEAR DATA (for fresh runs)

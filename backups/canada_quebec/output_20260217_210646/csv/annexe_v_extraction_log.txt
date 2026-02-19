@@ -1,0 +1,73 @@
+2026-02-17 21:00:42,922 - INFO - ================================================================================
+2026-02-17 21:00:42,922 - INFO - ANNEXE V EXTRACTION STARTED
+2026-02-17 21:00:42,922 - INFO - Start time: 2026-02-17 21:00:42
+2026-02-17 21:00:42,922 - INFO - Input PDF: D:\quad99\Scrappers\output\canada_quebec\split_pdf\annexe_v.pdf
+2026-02-17 21:00:42,922 - INFO - Output CSV: D:\quad99\Scrappers\output\canada_quebec\csv\annexe_v_extracted.csv
+2026-02-17 21:00:42,922 - INFO - Start page (1-indexed): 110
+2026-02-17 21:00:42,922 - INFO - Max rows limit: 2000
+2026-02-17 21:00:42,922 - INFO - ================================================================================
+2026-02-17 21:00:43,150 - INFO - Total pages in PDF: 542
+2026-02-17 21:00:43,323 - INFO - Page 110/542 processed | rows: 42
+2026-02-17 21:00:43,444 - INFO - Page 111/542 processed | rows: 70
+2026-02-17 21:00:43,598 - INFO - Page 112/542 processed | rows: 114
+2026-02-17 21:00:43,728 - INFO - Page 113/542 processed | rows: 135
+2026-02-17 21:00:43,870 - INFO - Page 114/542 processed | rows: 159
+2026-02-17 21:00:43,981 - INFO - Page 115/542 processed | rows: 187
+2026-02-17 21:00:44,101 - INFO - Page 116/542 processed | rows: 230
+2026-02-17 21:00:44,235 - INFO - Page 117/542 processed | rows: 275
+2026-02-17 21:00:44,402 - INFO - Page 118/542 processed | rows: 298
+2026-02-17 21:00:44,542 - INFO - Page 119/542 processed | rows: 321
+2026-02-17 21:00:44,713 - INFO - Page 120/542 processed | rows: 356
+2026-02-17 21:00:44,884 - INFO - Page 121/542 processed | rows: 399
+2026-02-17 21:00:45,058 - INFO - Page 122/542 processed | rows: 416
+2026-02-17 21:00:45,216 - INFO - Page 123/542 processed | rows: 430
+2026-02-17 21:00:45,417 - INFO - Page 124/542 processed | rows: 460
+2026-02-17 21:00:45,623 - INFO - Page 125/542 processed | rows: 493
+2026-02-17 21:00:45,780 - INFO - Page 126/542 processed | rows: 528
+2026-02-17 21:00:45,964 - INFO - Page 127/542 processed | rows: 566
+2026-02-17 21:00:46,094 - INFO - Page 128/542 processed | rows: 600
+2026-02-17 21:00:46,219 - INFO - Page 129/542 processed | rows: 634
+2026-02-17 21:00:46,360 - INFO - Page 130/542 processed | rows: 681
+2026-02-17 21:00:46,495 - INFO - Page 131/542 processed | rows: 709
+2026-02-17 21:00:46,586 - INFO - Page 132/542 processed | rows: 732
+2026-02-17 21:00:46,669 - INFO - Page 133/542 processed | rows: 762
+2026-02-17 21:00:46,777 - INFO - Page 134/542 processed | rows: 792
+2026-02-17 21:00:46,915 - INFO - Page 135/542 processed | rows: 835
+2026-02-17 21:00:47,069 - INFO - Page 136/542 processed | rows: 867
+2026-02-17 21:00:47,182 - INFO - Page 137/542 processed | rows: 904
+2026-02-17 21:00:47,327 - INFO - Page 138/542 processed | rows: 952
+2026-02-17 21:00:47,462 - INFO - Page 139/542 processed | rows: 987
+2026-02-17 21:00:47,627 - INFO - Page 140/542 processed | rows: 1,023
+2026-02-17 21:00:47,771 - INFO - Page 141/542 processed | rows: 1,065
+2026-02-17 21:00:47,899 - INFO - Page 142/542 processed | rows: 1,101
+2026-02-17 21:00:48,023 - INFO - Page 143/542 processed | rows: 1,145
+2026-02-17 21:00:48,118 - INFO - Page 144/542 processed | rows: 1,180
+2026-02-17 21:00:48,249 - INFO - Page 145/542 processed | rows: 1,226
+2026-02-17 21:00:48,356 - INFO - Page 146/542 processed | rows: 1,262
+2026-02-17 21:00:48,482 - INFO - Page 147/542 processed | rows: 1,306
+2026-02-17 21:00:48,608 - INFO - Page 148/542 processed | rows: 1,337
+2026-02-17 21:00:48,733 - INFO - Page 149/542 processed | rows: 1,382
+2026-02-17 21:00:48,838 - INFO - Page 150/542 processed | rows: 1,418
+2026-02-17 21:00:48,974 - INFO - Page 151/542 processed | rows: 1,455
+2026-02-17 21:00:49,316 - INFO - Page 155/542 processed | rows: 1,480
+2026-02-17 21:00:49,454 - INFO - Page 156/542 processed | rows: 1,530
+2026-02-17 21:00:49,591 - INFO - Page 157/542 processed | rows: 1,554
+2026-02-17 21:00:49,715 - INFO - Page 158/542 processed | rows: 1,577
+2026-02-17 21:00:49,851 - INFO - Page 159/542 processed | rows: 1,608
+2026-02-17 21:00:50,014 - INFO - Page 160/542 processed | rows: 1,622
+2026-02-17 21:00:50,157 - INFO - Page 161/542 processed | rows: 1,639
+2026-02-17 21:00:50,290 - INFO - Page 162/542 processed | rows: 1,658
+2026-02-17 21:00:50,411 - INFO - Page 163/542 processed | rows: 1,681
+2026-02-17 21:00:50,538 - INFO - Page 164/542 processed | rows: 1,704
+2026-02-17 21:00:50,690 - INFO - Page 165/542 processed | rows: 1,728
+2026-02-17 21:00:50,813 - INFO - Page 166/542 processed | rows: 1,750
+2026-02-17 21:00:50,935 - INFO - Page 167/542 processed | rows: 1,767
+2026-02-17 21:00:51,068 - INFO - Page 168/542 processed | rows: 1,791
+2026-02-17 21:00:51,189 - INFO - Page 169/542 processed | rows: 1,808
+2026-02-17 21:00:51,303 - INFO - Page 170/542 processed | rows: 1,823
+2026-02-17 21:00:51,418 - INFO - Page 171/542 processed | rows: 1,840
+2026-02-17 21:00:51,546 - INFO - Page 172/542 processed | rows: 1,863
+2026-02-17 21:00:51,620 - INFO - Page 173/542 processed | rows: 1,888
+2026-02-17 21:00:51,701 - INFO - Page 174/542 processed | rows: 1,917
+2026-02-17 21:00:51,774 - INFO - Page 175/542 processed | rows: 1,942
+2026-02-17 21:00:51,882 - INFO - Page 176/542 processed | rows: 1,981

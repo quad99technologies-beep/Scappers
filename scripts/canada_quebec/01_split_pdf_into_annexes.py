@@ -186,28 +186,49 @@ def main() -> Dict[str, Any]:
         return {"status": "error", "message": "PDF has 0 pages"}
 
     # Find start pages for each ANNEXE inside the PDF (robust, text-based)
+    # Start searching after TOC (Page 20)
+    SEARCH_START_OFFSET = 20
+    
+    def find_annexe_iii_page(reader: PdfReader) -> Optional[int]:
+        for i in range(SEARCH_START_OFFSET, len(reader.pages)):
+            text = extract_page_text(reader, i)
+            t = strip_accents(text).lower()
+            if "annexe iii" in t and "grossiste" in t:
+                return i
+        return None
+
+    def find_annexe_iv_page(reader: PdfReader, start_after: int = 0) -> Optional[int]:
+        for i in range(max(SEARCH_START_OFFSET, start_after), len(reader.pages)):
+            text = extract_page_text(reader, i)
+            t = strip_accents(text).lower()
+            # Look for Annexe IV specifically (Exception Drugs)
+            if "annexe iv" in t and "annexe iv.1" not in t and ("medicaments d" in t or "indications" in t):
+                return i
+        return None
+
+    iii_start = find_annexe_iii_page(reader)
+    iv_start = find_annexe_iv_page(reader, start_after=iii_start + 1 if iii_start is not None else 0)
     iv1_start = find_annexe_iv1_page(reader)
     iv2_start = find_first_annexe_iv2_page(reader, start_after=iv1_start + 1)
     v_start = find_first_annexe_v_page(reader, start_after=iv2_start + 1 if iv2_start is not None else iv1_start + 1)
 
     if iv1_start is None:
         return {"status": "error", "message": "Could not find 'ANNEXE IV.1' in the PDF"}
-    if iv2_start is None:
-        return {"status": "error", "message": "Could not find 'ANNEXE IV.2' in the PDF (after ANNEXE IV.1)"}
-    if v_start is None:
-        return {"status": "error", "message": "Could not find 'ANNEXE V' in the PDF (after ANNEXE IV.2)"}
-
-    # Ensure ordering is sane
-    if not (iv1_start < iv2_start < v_start):
-        return {
-            "status": "error",
-            "message": "ANNEXE boundaries are not in expected order (IV.1 < IV.2 < V).",
-            "iv1_start": iv1_start,
-            "iv2_start": iv2_start,
-            "v_start": v_start,
-        }
-
+    
     # Build page ranges (inclusive)
+    # We'll extract III and IV if found
+    annexes_metadata = {}
+    
+    if iii_start is not None:
+        iii_end = iv_start - 1 if iv_start is not None else iv1_start - 1
+        iii_pdf = extract_pdf_section(reader, iii_start, iii_end, "annexe_iii.pdf")
+        annexes_metadata["III"] = {"start_page": iii_start, "end_page": iii_end, "output_file": str(iii_pdf)}
+
+    if iv_start is not None:
+        iv_end = iv1_start - 1
+        iv_pdf = extract_pdf_section(reader, iv_start, iv_end, "annexe_iv.pdf")
+        annexes_metadata["IV"] = {"start_page": iv_start, "end_page": iv_end, "output_file": str(iv_pdf)}
+
     iv1_range = (iv1_start, iv2_start - 1)
     iv2_range = (iv2_start, v_start - 1)
     v_range = (v_start, total_pages - 1)
@@ -217,16 +238,18 @@ def main() -> Dict[str, Any]:
     iv2_pdf = extract_pdf_section(reader, iv2_range[0], iv2_range[1], ANNEXE_IV2_PDF_NAME)
     v_pdf = extract_pdf_section(reader, v_range[0], v_range[1], ANNEXE_V_PDF_NAME)
 
+    annexes_metadata.update({
+        "IV.1": {"start_page": iv1_range[0], "end_page": iv1_range[1], "output_file": str(iv1_pdf)},
+        "IV.2": {"start_page": iv2_range[0], "end_page": iv2_range[1], "output_file": str(iv2_pdf)},
+        "V": {"start_page": v_range[0], "end_page": v_range[1], "output_file": str(v_pdf)},
+    })
+
     # Write metadata / audit index
     metadata_path = OUTPUT_DIR / INDEX_JSON_NAME
     metadata = {
         "input": str(pdf_path),
         "total_pages": total_pages,
-        "annexes": {
-            "IV.1": {"start_page": iv1_range[0], "end_page": iv1_range[1], "output_file": str(iv1_pdf)},
-            "IV.2": {"start_page": iv2_range[0], "end_page": iv2_range[1], "output_file": str(iv2_pdf)},
-            "V": {"start_page": v_range[0], "end_page": v_range[1], "output_file": str(v_pdf)},
-        },
+        "annexes": annexes_metadata,
     }
     with open(metadata_path, "w", encoding="utf-8", errors="replace") as f:
         json.dump(metadata, f, ensure_ascii=False, indent=2)
@@ -236,11 +259,7 @@ def main() -> Dict[str, Any]:
         "status": "ok",
         "input": str(pdf_path),
         "total_pages": total_pages,
-        "annexe_files": {
-            "IV.1": str(iv1_pdf),
-            "IV.2": str(iv2_pdf),
-            "V": str(v_pdf),
-        },
+        "annexe_files": {k: v["output_file"] for k, v in annexes_metadata.items()},
         "index_json": str(metadata_path),
     }
 

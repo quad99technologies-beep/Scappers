@@ -1,251 +1,39 @@
 """
-Configuration Loader for Canada Ontario Scraper (Platform Config Integration)
+Configuration Loader for Canada Ontario Scraper (Facade for Core ConfigManager)
 
 This module provides centralized config and path management for Canada Ontario scraper.
-Integrates with platform_config.py to read from config/CanadaOntario.env.json.
-
-Precedence (highest to lowest):
-1. Runtime overrides
-2. Environment variables (OS-level)
-3. Platform config (config/CanadaOntario.env.json)
-4. Hardcoded defaults
+It acts as a facade, delegating all logic to core.config.config_manager.ConfigManager.
 """
 import sys
 from pathlib import Path
 from typing import Optional
 
-# Add repo root to path for platform_config import
-# Now: scripts/Canada Ontario/config_loader.py -> parents[2] = repo root
-_repo_root = Path(__file__).resolve().parents[2]
+_script_dir = Path(__file__).resolve().parent
+_repo_root = _script_dir.parents[1]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
-_CONFIG_MANAGER_AVAILABLE = False
+from core.config.scraper_config_factory import create_config
 
-
-def get_repo_root() -> Path:
-    """Get repository root directory (parent of scraper directories)."""
-    if _CONFIG_MANAGER_AVAILABLE:
-        return ConfigManager.get_app_root()
-    return _repo_root
-
-
-def get_central_output_dir() -> Path:
-    """Get central exports directory for final reports - uses exports/CanadaOntario/"""
-    # Migrated: get_path_manager() -> ConfigManager
-    exports_dir = ConfigManager.get_exports_dir(SCRAPER_ID)  # Scraper-specific exports
-    exports_dir.mkdir(parents=True, exist_ok=True)
-    return exports_dir
-
-try:
-    from core.config.config_manager import ConfigManager
-    _PLATFORM_CONFIG_AVAILABLE = True
-except ImportError:
-    _PLATFORM_CONFIG_AVAILABLE = False
-    PathManager = None
-    ConfigResolver = None
-    def get_path_manager():  # type: ignore[override]
-        if _CONFIG_MANAGER_AVAILABLE:
-            class _FallbackPathManager:
-                @staticmethod
-                def get_platform_root() -> Path:
-                    return ConfigManager.get_app_root()
-
-                @staticmethod
-                def get_config_dir() -> Path:
-                    return ConfigManager.get_config_dir()
-
-                @staticmethod
-                def get_input_dir(scraper_id: str) -> Path:
-                    return ConfigManager.get_input_dir(scraper_id)
-
-                @staticmethod
-                def get_output_dir(scraper_id: Optional[str] = None) -> Path:
-                    return ConfigManager.get_output_dir(scraper_id)
-
-                @staticmethod
-                def get_backups_dir(scraper_id: Optional[str] = None) -> Path:
-                    return ConfigManager.get_backups_dir(scraper_id)
-
-                @staticmethod
-                def get_exports_dir(scraper_id: Optional[str] = None) -> Path:
-                    return ConfigManager.get_exports_dir(scraper_id)
-
-                @staticmethod
-                def get_runs_dir() -> Path:
-                    return ConfigManager.get_runs_dir()
-
-                @staticmethod
-                def get_run_dir(scraper_id: str, run_id: str) -> Path:
-                    run_dir = ConfigManager.get_runs_dir() / run_id
-                    (run_dir / "logs").mkdir(parents=True, exist_ok=True)
-                    (run_dir / "artifacts").mkdir(parents=True, exist_ok=True)
-                    (run_dir / "exports").mkdir(parents=True, exist_ok=True)
-                    return run_dir
-
-                @staticmethod
-                def get_sessions_dir() -> Path:
-                    return ConfigManager.get_sessions_dir()
-
-                @staticmethod
-                def get_logs_dir() -> Path:
-                    return ConfigManager.get_logs_dir()
-
-                @staticmethod
-                def get_cache_dir() -> Path:
-                    return ConfigManager.get_cache_dir()
-
-            return _FallbackPathManager
-        raise RuntimeError("PathManager unavailable and ConfigManager not loaded")
-
-try:
-    from core.config.config_manager import ConfigManager
-    _CONFIG_MANAGER_AVAILABLE = True
-except Exception:
-    _CONFIG_MANAGER_AVAILABLE = False
-    ConfigManager = None
-
-# Scraper ID for this scraper
 SCRAPER_ID = "CanadaOntario"
+config = create_config(SCRAPER_ID)
 
+# --- Path Accessors ---
+def get_repo_root() -> Path: return config.get_repo_root()
+def get_base_dir() -> Path: return config.get_base_dir()
+def get_central_output_dir() -> Path: return config.get_central_output_dir()
+def get_input_dir(subpath=None) -> Path: return config.get_input_dir(subpath)
+def get_output_dir(subpath=None) -> Path: return config.get_output_dir(subpath)
+def get_backup_dir() -> Path: return config.get_backup_dir()
+def get_logs_dir() -> Path: return config.get_output_dir("logs")
 
-def _ensure_env_loaded() -> None:
-    if not _CONFIG_MANAGER_AVAILABLE:
-        return
-    try:
-        ConfigManager.load_env(SCRAPER_ID)
-    except FileNotFoundError:
-        ConfigManager.ensure_dirs()
-
-
-def getenv(key: str, default: str = None) -> str:
-    """
-    Get environment variable with fallback to default.
-    Integrates with platform_config if available.
-    Checks both 'config' and 'secrets' sections.
-
-    Args:
-        key: Environment variable name
-        default: Default value if not found
-
-    Returns:
-        Environment variable value or default (always as string)
-    """
-    _ensure_env_loaded()
-    if _CONFIG_MANAGER_AVAILABLE:
-        value = ConfigManager.get_env_value(SCRAPER_ID, key, default if default is not None else "")
-        if value not in ("", None):
-            return value
-    if _PLATFORM_CONFIG_AVAILABLE:
-        try:
-            val = ConfigManager.get_config_value(SCRAPER_ID, key, None)
-            if val is not None:
-                return str(val)
-        except Exception:
-            pass
-    return default if default is not None else ""
-
-
-def getenv_int(key: str, default: int = 0) -> int:
-    """Get environment variable as integer."""
-    try:
-        val = getenv(key, str(default))
-        return int(val)
-    except (ValueError, TypeError):
-        return default
-
-
-def getenv_float(key: str, default: float = 0.0) -> float:
-    """Get environment variable as float."""
-    try:
-        val = getenv(key, str(default))
-        return float(val)
-    except (ValueError, TypeError):
-        return default
-
-
-def getenv_bool(key: str, default: bool = False) -> bool:
-    """Get environment variable as boolean."""
-    val = getenv(key, "")
-    
-    # Handle case where val might already be a boolean (from JSON config)
-    if isinstance(val, bool):
-        return val
-    
-    # Convert to string and process
-    val_str = str(val).strip().lower()
-    if val_str in ("1", "true", "yes", "on"):
-        return True
-    elif val_str in ("0", "false", "no", "off", ""):
-        return False
-    return default
-
-
-def get_base_dir() -> Path:
-    """
-    Get base directory for Canada Ontario scraper.
-
-    With platform_config: Returns platform root
-    Legacy mode: Returns parent of scripts folder
-    """
-    # Migrated: get_path_manager() -> ConfigManager
-    return ConfigManager.get_app_root()
-
-
-def get_input_dir(subpath: str = None) -> Path:
-    """
-    Get input directory - uses Documents/ScraperPlatform/input/CanadaOntario/
-
-    Args:
-        subpath: Optional subdirectory under input/
-    """
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        base = ConfigManager.get_input_dir(SCRAPER_ID)  # Scraper-specific input
-        base.mkdir(parents=True, exist_ok=True)
-
-    if subpath:
-        return base / subpath
-    return base
-
-
-def get_output_dir(subpath: str = None) -> Path:
-    """
-    Get output directory - uses Documents/ScraperPlatform/output/CanadaOntario/
-    
-    Scraper-specific output directory for organized file management.
-
-    Args:
-        subpath: Optional subdirectory under output/
-    """
-    # First check if OUTPUT_DIR is explicitly set (absolute path or environment variable)
-    output_dir_str = getenv("OUTPUT_DIR", "")
-    if output_dir_str and Path(output_dir_str).is_absolute():
-        base = Path(output_dir_str)
-    else:
-        # Migrated: get_path_manager() -> ConfigManager
-        base = ConfigManager.get_output_dir(SCRAPER_ID)  # Scraper-specific output
-        base.mkdir(parents=True, exist_ok=True)
-
-    if subpath:
-        result = base / subpath
-        result.mkdir(parents=True, exist_ok=True)
-        return result
-    return base
-
-
-def get_backup_dir() -> Path:
-    """Get backup directory - uses Documents/ScraperPlatform/output/backups/CanadaOntario/"""
-    # Migrated: get_path_manager() -> ConfigManager
-    backup_dir = ConfigManager.get_backups_dir(SCRAPER_ID)  # Scraper-specific backups
-    backup_dir.mkdir(parents=True, exist_ok=True)
-    return backup_dir
-
-
-def get_logs_dir() -> Path:
-    """Get logs directory."""
-    # Migrated: get_path_manager() -> ConfigManager
-    return ConfigManager.get_logs_dir()
+# --- Environment Accessors ---
+def load_env_file() -> None: pass  # no-op, already loaded on import
+def getenv(key: str, default: str = "") -> str: return config.getenv(key, default)
+def getenv_int(key: str, default: int = 0) -> int: return config.getenv_int(key, default)
+def getenv_float(key: str, default: float = 0.0) -> float: return config.getenv_float(key, default)
+def getenv_bool(key: str, default: bool = False) -> bool: return config.getenv_bool(key, default)
+def getenv_list(key: str, default: list = None) -> list: return config.getenv_list(key, default or [])
 
 
 def get_run_id() -> str:
@@ -254,15 +42,23 @@ def get_run_id() -> str:
     run_id = getenv("CANADA_ONTARIO_RUN_ID", "") or getenv("RUN_ID", "")
     if run_id:
         return run_id
+    # Fallback: read from .current_run_id file written by step 0
+    try:
+        run_id_file = get_output_dir() / ".current_run_id"
+        if run_id_file.exists():
+            file_run_id = run_id_file.read_text(encoding="utf-8").strip()
+            if file_run_id:
+                return file_run_id
+    except Exception:
+        pass
     from datetime import datetime
     return datetime.utcnow().strftime("%Y%m%d_%H%M%S")
 
 
 def get_run_dir(run_id: Optional[str] = None) -> Path:
     """Get run directory for the current run."""
-    # Migrated: get_path_manager() -> ConfigManager
+    from core.config.config_manager import ConfigManager
     run_id = run_id or get_run_id()
-    # Manual construction as ConfigManager does not have get_run_dir
     run_dir = ConfigManager.get_runs_dir() / run_id
     (run_dir / "logs").mkdir(parents=True, exist_ok=True)
     (run_dir / "artifacts").mkdir(parents=True, exist_ok=True)
@@ -297,15 +93,14 @@ STATIC_REGION = getenv("STATIC_REGION", "NORTH AMERICA")
 
 # Diagnostic function
 if __name__ == "__main__":
-    from core.utils.logger import setup_standard_logger
-    logger = setup_standard_logger("canada_ontario_config", scraper_name="CanadaOntario")
-    logger.info("Canada Ontario Config Loader - Diagnostic")
-    logger.info("Platform Config Available: %s", _PLATFORM_CONFIG_AVAILABLE)
-    logger.info("Scraper ID: %s", SCRAPER_ID)
-    logger.info("Base Dir: %s", get_base_dir())
-    logger.info("Input Dir: %s", get_input_dir())
-    logger.info("Output Dir: %s", get_output_dir())
-    logger.info("Backup Dir: %s", get_backup_dir())
+    print("=" * 60)
+    print("Canada Ontario Config Loader - Diagnostic (Facade)")
+    print("=" * 60)
+    print(f"Scraper ID: {SCRAPER_ID}")
+    print(f"Base Dir: {get_base_dir()}")
+    print(f"Input Dir: {get_input_dir()}")
+    print(f"Output Dir: {get_output_dir()}")
+    print(f"Backup Dir: {get_backup_dir()}")
 
 # Validation configs
 MAX_BAD_ROW_RATIO = getenv_float("MAX_BAD_ROW_RATIO", 0.3)

@@ -1,0 +1,22 @@
+{
+  "scraper": "Malaysia",
+  "last_run": "2026-02-17T20:16:56.424446",
+  "completed_steps": [],
+  "step_outputs": {},
+  "metadata": {
+    "run_id": "Malaysia_20260216_051417"
+  },
+  "events": [
+    {
+      "timestamp": "2026-02-17T20:16:56.424415",
+      "event_type": "run_id_set",
+      "run_id": "Malaysia_20260216_051417",
+      "source": "metadata",
+      "details": {
+        "previous_run_id": null
+      },
+      "sequence": 1
+    }
+  ],
+  "event_seq": 1
+}

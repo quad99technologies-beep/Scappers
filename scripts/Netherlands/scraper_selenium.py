@@ -9,10 +9,15 @@ import os
 from pathlib import Path
 
 # ---- Path wiring ----
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
+_repo_root = Path(__file__).resolve().parents[2]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
 
-_REPO_ROOT = Path(__file__).resolve().parents[2]
+_script_dir = Path(__file__).resolve().parent
+if str(_script_dir) not in sys.path:
+    sys.path.insert(0, str(_script_dir))
+
+_REPO_ROOT = _repo_root
 
 import asyncio
 import re
@@ -200,10 +205,7 @@ class NetherlandsSeleniumScraper(BaseScraper):
             url_pairs = [(item['url'], item['id']) for item in pending_items]
             await self.scrape_products_concurrent(url_pairs, proxy_url)
             
-        # 3. Consolidate
-        self.logger.info("Phase 3: Consolidation")
-        count = self.repo.consolidate_data()
-        self.logger.info(f"Consolidated {count} records")
+
         
         self.logger.info("Scraping finished")
 

@@ -632,157 +632,191 @@ def find_and_click_product(driver, product_name: str, company_name: str) -> bool
 # ar_money_to_float and parse_date imported from core
 
 
-def collect_coverage(pres_el) -> Dict[str, Any]:
-    """Extract coverage info (SIFAR, PAMI, IOMA) from presentation element."""
-    cov: Dict[str, Any] = {}
-    try:
-        cob_elements = pres_el.find_elements(By.CSS_SELECTOR, "table.coberturas")
-        if not cob_elements:
-            return cov
-        
-        cob = cob_elements[0]
-        
-        # Get all rows in coverage table
-        rows = cob.find_elements(By.CSS_SELECTOR, "tr")
-        for row in rows:
+def extract_product_rows(driver, input_company: str, input_product: str, max_retries=2) -> List[Dict]:
+    """
+    Extract product data from the loaded page using an optimized JS-based approach
+    to avoid slow Selenium round-trips and prevent freezing.
+    """
+    for attempt in range(max_retries + 1):
+        try:
+            # Ensure page is fully loaded
             try:
-                cells = row.find_elements(By.TAG_NAME, "td")
-                if len(cells) >= 2:
-                    payer_text = normalize_ws(cells[0].text or "").upper()
-                    detail_text = normalize_ws(cells[1].text or "")
+                WebDriverWait(driver, 10).until(
+                    lambda d: d.execute_script("return document.readyState") == "complete"
+                )
+            except Exception:
+                pass
+
+            # Single JS script to extract everything at once
+            script = """
+            return (function() {
+                const results = {
+                    active: "",
+                    therap: "",
+                    comp: "",
+                    pname: "",
+                    pres: []
+                };
+                
+                // Header data
+                const activeEl = document.querySelector("tr.sproducto td.textoe i");
+                if (activeEl) results.active = activeEl.innerText.trim();
+                
+                const therapEl = document.querySelector("tr.sproducto td.textor i");
+                if (therapEl) results.therap = therapEl.innerText.trim();
+                
+                let compEl = document.querySelector("tr.lproducto td.textor .defecto");
+                if (!compEl) compEl = document.querySelector("td.textoe b");
+                if (compEl) results.comp = compEl.innerText.trim();
+                
+                const pnameEl = document.querySelector("tr.lproducto span.tproducto");
+                if (pnameEl) results.pname = pnameEl.innerText.trim();
+                
+                // Presentations
+                const presTables = document.querySelectorAll("td.dproducto > table.presentacion");
+                presTables.forEach(pTable => {
+                    const pData = {
+                        desc: "",
+                        price: "",
+                        datev: "",
+                        import_status: "",
+                        coverage: {}
+                    };
                     
-                    # Normalize payer names
-                    if "SIFAR" in payer_text:
-                        cov["SIFAR"] = {"detail": detail_text}
-                    elif "PAMI" in payer_text:
-                        pami_data = {"detail": detail_text}
-                        # Try to extract AF/OS values
-                        try:
-                            af_elem = cells[1].find_elements(By.CSS_SELECTOR, "b")
-                            if af_elem:
-                                af_text = normalize_ws(af_elem[0].text or "")
-                                if af_text:
-                                    pami_data["AF"] = af_text
-                        except:
-                            pass
-                        cov["PAMI"] = pami_data
-                    elif "IOMA" in payer_text:
-                        ioma_data = {"detail": detail_text}
-                        try:
-                            af_elem = cells[1].find_elements(By.CSS_SELECTOR, "b")
-                            if af_elem:
-                                af_text = normalize_ws(af_elem[0].text or "")
-                                if af_text:
-                                    ioma_data["AF"] = af_text
-                        except:
-                            pass
-                        cov["IOMA"] = ioma_data
-            except:
-                continue
-    except Exception as e:
-        log.debug(f"[COVERAGE] Error extracting coverage: {e}")
-    
-    return cov
+                    const descEl = pTable.querySelector("td.tddesc");
+                    if (descEl) pData.desc = descEl.innerText.trim();
+                    
+                    const priceEl = pTable.querySelector("td.tdprecio");
+                    if (priceEl) pData.price = priceEl.innerText.trim();
+                    
+                    const datevEl = pTable.querySelector("td.tdfecha");
+                    if (datevEl) pData.datev = datevEl.innerText.trim();
+                    
+                    const importEl = pTable.querySelector("td.import");
+                    if (importEl) pData.import_status = importEl.innerText.trim();
+                    
+                    // Coverage
+                    const cobTable = pTable.querySelector("table.coberturas");
+                    if (cobTable) {
+                        let currentPayer = null;
+                        const trs = cobTable.querySelectorAll("tr");
+                        trs.forEach(tr => {
+                            const payerEl = tr.querySelector("td.obrasn");
+                            if (payerEl) {
+                                const pText = payerEl.innerText.trim();
+                                if (pText) {
+                                    // Strip accents and normalize
+                                    currentPayer = pText.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+                                    if (!pData.coverage[currentPayer]) pData.coverage[currentPayer] = {};
+                                }
+                            }
+                            
+                            const detailEl = tr.querySelector("td.obrasd");
+                            if (detailEl && currentPayer) {
+                                pData.coverage[currentPayer].detail = detailEl.innerText.trim();
+                            }
+                            
+                            const amountEls = tr.querySelectorAll("td.importesi, td.importesd");
+                            amountEls.forEach(ael => {
+                                const txt = ael.innerText.trim();
+                                if (txt && currentPayer) {
+                                    const matches = txt.matchAll(/(AF|OS)[^$]*?\$?\s*([\d\.,]+)/gi);
+                                    for (const match of matches) {
+                                        const tag = match[1].toUpperCase();
+                                        const amt = match[2];
+                                        pData.coverage[currentPayer][tag] = amt; 
+                                    }
+                                }
+                            });
+                        });
+                    }
+                    results.pres.push(pData);
+                });
+                
+                return results;
+            })();
+            """
+            
+            data = driver.execute_script(script)
+            if not data:
+                if attempt < max_retries: continue
+                return []
 
+            active = data.get("active")
+            therap = data.get("therap")
+            comp = data.get("comp")
+            pname = data.get("pname")
+            
+            rows = []
+            ts_now = time.strftime("%Y-%m-%d %H:%M:%S")
 
-def extract_product_rows(driver, input_company: str, input_product: str) -> List[Dict]:
-    """
-    Extract product data from the product detail page.
-    Uses same CSS selectors as main selenium worker (03_alfabeta_selenium_worker.py).
-    """
-    rows = []
-    
-    try:
-        # Header/meta from the product page - same selectors as main worker
-        active = get_text_safe(driver, "tr.sproducto td.textoe i")
-        therap = get_text_safe(driver, "tr.sproducto td.textor i")
-        comp = get_text_safe(driver, "tr.lproducto td.textor .defecto") or \
-               get_text_safe(driver, "td.textoe b")
-        pname = get_text_safe(driver, "tr.lproducto span.tproducto")
-        
-        log.info(f"[EXTRACT] Product: {pname}, Company: {comp}, Active: {active}, Therapeutic: {therap}")
-        
-        # Get presentations (multiple rows per product)
-        presentations = driver.find_elements(By.CSS_SELECTOR, "td.dproducto > table.presentacion")
-        log.info(f"[EXTRACT] Found {len(presentations)} presentation table(s)")
-        
-        for idx, pres in enumerate(presentations):
-            try:
-                # Verify element is still accessible
-                try:
-                    _ = pres.is_displayed()
-                except StaleElementReferenceException:
-                    log.warning(f"[EXTRACT] Presentation {idx} is stale, skipping...")
-                    continue
-                
-                # Extract data using same selectors as main worker
-                desc = get_text_safe(pres, "td.tddesc")
-                price = get_text_safe(pres, "td.tdprecio")
-                datev = get_text_safe(pres, "td.tdfecha")
-                import_status = get_text_safe(pres, "td.import")
-                cov = collect_coverage(pres)
-                
-                ts_now = time.strftime("%Y-%m-%d %H:%M:%S")
-                
-                row = {
+            for p in data.get("pres", []):
+                # Convert coverage amounts and format result
+                cov_raw = p.get("coverage", {})
+                cov_clean = {}
+                for payer, details in cov_raw.items():
+                    cov_clean[payer] = {"detail": details.get("detail")}
+                    for tag in ("AF", "OS"):
+                        if tag in details:
+                            val = ar_money_to_float(details[tag])
+                            if val is not None:
+                                cov_clean[payer][tag] = val
+
+                rows.append({
                     "input_company": input_company,
                     "input_product_name": input_product,
                     "company": comp,
                     "product_name": pname,
                     "active_ingredient": active,
                     "therapeutic_class": therap,
-                    "description": desc,
-                    "price_ars": ar_money_to_float(price or ""),
-                    "date": parse_date(datev or ""),
+                    "description": p.get("desc"),
+                    "price_ars": ar_money_to_float(p.get("price") or ""),
+                    "date": parse_date(p.get("datev") or ""),
                     "scraped_at": ts_now,
-                    "SIFAR_detail": (cov.get("SIFAR") or {}).get("detail"),
-                    "PAMI_AF": (cov.get("PAMI") or {}).get("AF"),
-                    "PAMI_OS": (cov.get("PAMI") or {}).get("OS"),
-                    "IOMA_detail": (cov.get("IOMA") or {}).get("detail"),
-                    "IOMA_AF": (cov.get("IOMA") or {}).get("AF"),
-                    "IOMA_OS": (cov.get("IOMA") or {}).get("OS"),
-                    "import_status": import_status,
-                    "coverage_json": json.dumps(cov, ensure_ascii=False) if cov else "{}",
-                    "source": "selenium_company",  # Mark as company search source
-                }
-                rows.append(row)
-                log.debug(f"[EXTRACT] Row {idx}: {desc} | {price} | {datev}")
-                
-            except Exception as e:
-                log.warning(f"[EXTRACT] Error extracting presentation {idx}: {e}")
+                    "SIFAR_detail": (cov_clean.get("SIFAR") or {}).get("detail"),
+                    "PAMI_AF": (cov_clean.get("PAMI") or {}).get("AF"),
+                    "PAMI_OS": (cov_clean.get("PAMI") or {}).get("OS"),
+                    "IOMA_detail": (cov_clean.get("IOMA") or {}).get("detail"),
+                    "IOMA_AF": (cov_clean.get("IOMA") or {}).get("AF"),
+                    "IOMA_OS": (cov_clean.get("IOMA") or {}).get("OS"),
+                    "import_status": p.get("import_status"),
+                    "coverage_json": json.dumps(cov_clean, ensure_ascii=False),
+                    "source": "selenium_company"
+                })
+
+            if rows:
+                log.info(f"[EXTRACT] Extracted {len(rows)} presentations for {input_company} | {input_product} (using JS)")
+                return rows
+            
+            if pname or comp:
+                log.info(f"[EXTRACT] Fallback row created for {input_company} | {input_product}")
+                return [{
+                    "input_company": input_company, "input_product_name": input_product,
+                    "company": comp, "product_name": pname,
+                    "active_ingredient": active, "therapeutic_class": therap,
+                    "description": None, "price_ars": None, "date": None, "scraped_at": ts_now,
+                    "SIFAR_detail": None, "PAMI_AF": None, "PAMI_OS": None, "IOMA_detail": None, "IOMA_AF": None, "IOMA_OS": None,
+                    "import_status": None, "coverage_json": "{}", "source": "selenium_company"
+                }]
+            
+            if attempt < max_retries:
+                time.sleep(2)
                 continue
-        
-        if rows:
-            log.info(f"[EXTRACT] Extracted {len(rows)} presentations for {input_company} | {input_product}")
-        elif pname or comp:
-            # Create fallback row if we have product info but no presentations
-            log.info(f"[EXTRACT] No presentations found, creating fallback row for {input_company} | {input_product}")
-            rows.append({
-                "input_company": input_company,
-                "input_product_name": input_product,
-                "company": comp,
-                "product_name": pname,
-                "active_ingredient": active,
-                "therapeutic_class": therap,
-                "description": None,
-                "price_ars": None,
-                "date": None,
-                "scraped_at": time.strftime("%Y-%m-%d %H:%M:%S"),
-                "SIFAR_detail": None, "PAMI_AF": None, "PAMI_OS": None,
-                "IOMA_detail": None, "IOMA_AF": None, "IOMA_OS": None,
-                "import_status": None,
-                "coverage_json": "{}",
-                "source": "selenium_company",
-            })
-        else:
-            log.warning(f"[EXTRACT] No data found for {input_company} | {input_product}")
-        
-    except Exception as e:
-        log.error(f"[EXTRACT] Error extracting product data: {e}")
-        import traceback
-        log.error(traceback.format_exc())
-    
-    return rows
+            
+            return []
+
+        except Exception as e:
+            if attempt < max_retries:
+                log.warning(f"[EXTRACT] Error (attempt {attempt+1}): {e}, retrying...")
+                time.sleep(2)
+                continue
+            log.error(f"[EXTRACT] Failed after {max_retries+1} attempts: {e}")
+            return []
+    return []
+
+def collect_coverage(pres_el) -> Dict[str, Any]:
+    return {}
+
 
 
 def get_zero_record_products(repo: ArgentinaRepository, limit: int = 1000) -> List[Tuple[str, str]]:

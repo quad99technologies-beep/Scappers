@@ -90,20 +90,46 @@ def main() -> None:
     from config_loader import require_env, getenv_float, getenv_list
 
     # ── 1. Load PCID reference ──────────────────────────────────────────
-    # DB-FIRST ARCHITECTURE: Check if PCID reference data exists in DB
-    print("[STEP 5] Checking PCID reference data...", flush=True)
+    # DATA SOURCE: Load from global 'pcid_mapping' table (populated via UI Input Tab)
+    print("[STEP 5] Loading PCID reference from global 'pcid_mapping'...", flush=True)
+    with db.cursor() as cur:
+        # Clear local reference table
+        cur.execute("DELETE FROM my_pcid_reference")
+        
+        # Copy from global source to local reference
+        # Mapping: 
+        #   pcid -> pcid
+        #   local_pack_code -> local_pack_code
+        #   presentation -> presentation
+        #   generic_name -> generic_name
+        #   local_pack_description -> description
+        #   (package_number, product_group not present in global table, left null)
+        cur.execute("""
+            INSERT INTO my_pcid_reference 
+            (pcid, local_pack_code, presentation, generic_name, description)
+            SELECT 
+                pcid, 
+                local_pack_code, 
+                presentation, 
+                generic_name, 
+                local_pack_description
+            FROM pcid_mapping 
+            WHERE source_country = 'Malaysia'
+        """)
+        loaded_count = cur.rowcount
+        print(f"  -> Loaded {loaded_count:,} rows from global source", flush=True)
 
+    # Check if loaded (legacy check)
     with db.cursor() as cur:
         cur.execute("SELECT COUNT(*) FROM my_pcid_reference")
         pcid_count = cur.fetchone()[0]
 
     if pcid_count == 0:
-        print(f"  [WARNING] No PCID reference data found in my_pcid_reference table")
-        print(f"  [WARNING] Please run: python scripts/Malaysia/import_pcid_mapping.py")
-        print(f"  [WARNING] This will load PCID mapping from: input/Malaysia/PCID Mapping - Malaysia.csv")
-        raise RuntimeError("PCID reference data not loaded. Run import_pcid_mapping.py first.")
-
-    print(f"  -> Found {pcid_count:,} PCID reference rows in database", flush=True)
+        print(f"  [WARNING] No PCID data found for Malaysia in global 'pcid_mapping' table")
+        print(f"  [WARNING] Proceeding without PCID mapping (all items will be unmapped).")
+    else:
+        print(f"  -> Verified {pcid_count:,} PCID reference rows in database", flush=True)
+    
     print(f"[PROGRESS] Loading data: PCID mapping ready (1/2)", flush=True)
 
     # ── 2. Generate PCID mappings via SQL JOIN ──────────────────────────

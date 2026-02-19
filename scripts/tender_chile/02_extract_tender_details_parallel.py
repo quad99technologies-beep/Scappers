@@ -12,7 +12,6 @@ import sys
 import time
 import json
 import re
-import csv
 import unicodedata
 from pathlib import Path
 from typing import Dict, List, Any, Optional
@@ -33,11 +32,6 @@ try:
     load_env_file()
 except Exception:
     pass
-
-# Output paths
-OUTPUT_DIR = Path(_repo_root) / "output" / "Tender_Chile"
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-OUTPUT_FILE = OUTPUT_DIR / "tender_details.csv"
 
 # Config
 MAX_TENDERS = getenv_int("MAX_TENDERS", 6000)
@@ -284,13 +278,6 @@ def main():
         db.commit()
         total_saved += count
         print(f"[DB] Final batch saved: {count} tenders (total: {total_saved})")
-    
-    # Save to CSV
-    if all_rows:
-        import pandas as pd
-        df = pd.DataFrame(all_rows)
-        df.to_csv(OUTPUT_FILE, index=False, encoding="utf-8-sig")
-        print(f"[OK] Saved {len(df)} rows to {OUTPUT_FILE}")
     
     db.close()
     elapsed = time.time() - start_time

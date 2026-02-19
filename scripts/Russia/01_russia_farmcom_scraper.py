@@ -24,14 +24,25 @@ import json
 import atexit
 import signal
 import gc
-# Add repo root and script dir to path (script dir first to avoid loading another scraper's db)
+import threading
 from pathlib import Path
-_repo_root = Path(__file__).resolve().parents[2]
-_script_dir = Path(__file__).parent
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
+
+# --- CORE PATH FIX ---
+# We need to ensure local imports (like 'db') are resolved from the script's directory (scripts/Russia/db)
+# and NOT from core/db or other locations.
+_script_dir = Path(__file__).resolve().parent
+_repo_root = _script_dir.parents[1]  # D:/quad99/Scrappers
+
+# 1. Force script dir to be absolute index 0
+if str(_script_dir) in sys.path:
+    sys.path.remove(str(_script_dir))
+sys.path.insert(0, str(_script_dir))
+
+# 2. Add repo root for core imports, but AFTER script dir
 if str(_repo_root) not in sys.path:
-    sys.path.insert(0, str(_repo_root))
+    sys.path.insert(1, str(_repo_root))
+
+# ---------------------
 
 from core.control.lifecycle import register_shutdown_handler
 from core.parsing.price_parser import parse_price
@@ -44,6 +55,7 @@ from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from typing import Set, Dict, List, Optional
+from core.monitoring.audit_logger import audit_log
 
 # Force unbuffered output
 sys.stdout.reconfigure(line_buffering=True) if hasattr(sys.stdout, 'reconfigure') else None
@@ -64,9 +76,35 @@ load_env_file()
 # DB imports
 from core.db.connection import CountryDB
 from core.db.models import generate_run_id, run_ledger_start, run_ledger_finish
-from db.schema import apply_russia_schema
-from db.repositories import RussiaRepository
+# --- CRITICAL PATH FIX: Re-assert local script dir priority ---
+# config_loader.py or other imports may have pushed 'core' or 'repo_root' to the top.
+# We MUST ensure that 'db' imports resolve to the LOCAL scripts/Russia/db, not core/db.
+_local_dir = str(Path(__file__).resolve().parent)
+if _local_dir in sys.path: 
+    sys.path.remove(_local_dir)
+sys.path.insert(0, _local_dir)
 
+# Check and Unload if 'db' was already loaded from the wrong place (e.g. core)
+if "db" in sys.modules:
+    _db_file = getattr(sys.modules["db"], "__file__", "")
+    if "core" in _db_file or (_local_dir not in _db_file and "site-packages" not in _db_file):
+        del sys.modules["db"]
+        # Also clean up submodules
+        for _k in list(sys.modules.keys()):
+            if _k.startswith("db."):
+                del sys.modules[_k]
+# ----------------------------------------------------------------
+
+try:
+    import db
+    # print(f"[DEBUG] 'db' module loaded from: {getattr(db, '__file__', 'unknown')}", flush=True)
+    from db.schema import apply_russia_schema
+    from db.repositories import RussiaRepository
+except ImportError as e:
+    print(f"[ERROR] Failed to import db.schema or db.repositories: {e}", flush=True)
+    print(f"[DEBUG] sys.path[0]: {sys.path[0]}", flush=True)
+    print(f"[DEBUG] db file: {getattr(sys.modules.get('db'), '__file__', 'not loaded')}", flush=True)
+    raise
 # Selenium imports
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -208,6 +246,7 @@ except ImportError:
 
 _shutdown_requested = False
 _active_drivers: List[webdriver.Chrome] = []
+_drivers_lock = threading.Lock()
 _run_id: Optional[str] = None
 _repo: Optional[RussiaRepository] = None
 
@@ -246,131 +285,98 @@ from core.browser.chrome_manager import cleanup_all_chrome_instances
 cleanup_all_chrome = cleanup_all_chrome_instances
 atexit.register(cleanup_all_chrome_instances)
 
-def track_driver(driver: webdriver.Chrome):
-    """Track driver for cleanup"""
-    _active_drivers.append(driver)
-    register_chrome_driver(driver)
-    
-    # Track PIDs in DB for pipeline stop cleanup
-    if ChromeInstanceTracker and _run_id:
-        try:
-            if hasattr(driver, "service") and hasattr(driver.service, "process"):
-                pid = driver.service.process.pid
-                if pid:
-                    pids = get_chrome_pids_from_driver(driver) if get_chrome_pids_from_driver else {pid}
-                    try:
-                        db = CountryDB("Russia")
-                        db.connect()
-                        tracker = ChromeInstanceTracker("Russia", _run_id, db)
-                        tracker.register(step_number=1, pid=pid, browser_type="chrome", child_pids=pids)
-                        db.close()
-                    except Exception as e:
-                        print(f"[WARN] Failed to register chrome instance: {e}")
-        except Exception:
-            pass
-    
-    print(f"[DRIVER] Now tracking {len(_active_drivers)} Chrome instance(s)", flush=True)
-
-def untrack_driver(driver: webdriver.Chrome):
-    """Untrack driver and mark terminated"""
-    if driver in _active_drivers:
-        _active_drivers.remove(driver)
-        
-    # Mark terminated in DB
-    if ChromeInstanceTracker and _run_id and hasattr(driver, "service") and hasattr(driver.service, "process"):
-        try:
-            pid = driver.service.process.pid
-            if pid:
-                try:
-                    db = CountryDB("Russia")
-                    db.connect()
-                    tracker = ChromeInstanceTracker("Russia", _run_id, db)
-                    tracker.mark_terminated_by_pid(pid, "untrack_driver")
-                    db.close()
-                except Exception:
-                    pass
-        except Exception:
-            pass
-
-    try:
-        unregister_chrome_driver(driver)
-    except Exception:
-        pass
-    print(f"[DRIVER] Now tracking {len(_active_drivers)} Chrome instance(s)", flush=True)
-
 # =============================================================================
 # DRIVER MANAGEMENT
 # =============================================================================
 
 def get_chromedriver_path() -> str:
     """Get ChromeDriver path with offline fallback"""
+    # (Existing implementation kept for compatibility if needed, or remove if unused)
+    # Since core has get_chromedriver_path now, we should preferably use that if available.
+    # But let's keep the local one as fallback or remove it if core one is imported.
+    # core.browser.chrome_manager has get_chromedriver_path.
+    try:
+        from core.browser.chrome_manager import get_chromedriver_path as core_get_path
+        return core_get_path()
+    except ImportError:
+        pass
+
     import glob
-    
     home = Path.home()
     wdm_cache_dir = home / ".wdm" / "drivers" / "chromedriver"
-    
-    # Try cached driver first
     if wdm_cache_dir.exists():
-        patterns = [
-            str(wdm_cache_dir / "**" / "chromedriver.exe"),
-            str(wdm_cache_dir / "**" / "chromedriver"),
-        ]
-        for pattern in patterns:
-            matches = glob.glob(pattern, recursive=True)
+        patterns = [str(wdm_cache_dir / "**" / "chromedriver.exe"), str(wdm_cache_dir / "**" / "chromedriver")]
+        for p in patterns:
+            matches = glob.glob(p, recursive=True)
             if matches:
-                matches.sort(key=lambda x: os.path.getmtime(x), reverse=True)
-                return matches[0]
-    
-    # Try to download
+                return sorted(matches, key=os.path.getmtime, reverse=True)[0]
     try:
         return ChromeDriverManager().install()
     except Exception:
         pass
-    
-    # System chromedriver
-    chromedriver_in_path = shutil.which("chromedriver")
-    if chromedriver_in_path:
-        return chromedriver_in_path
-    
-    raise RuntimeError("ChromeDriver not found")
+    return shutil.which("chromedriver") or ""
 
 
-def make_driver() -> webdriver.Chrome:
-    """Build Chrome driver with full anti-detection"""
-    # Kill any orphaned Chrome processes first
-    kill_orphaned_chrome_processes()
+def _create_driver() -> webdriver.Chrome:
+    """Internal factory: creates driver with core factory + DB tracking."""
+    # 1. Cleanup orphans — SKIP when other workers' drivers are alive
+    #    (kill_orphaned_chrome_processes kills ALL chrome, including sibling workers)
+    with _drivers_lock:
+        has_siblings = len(_active_drivers) > 0
+    if not has_siblings:
+        kill_orphaned_chrome_processes()
     
-    # User agent from config
+    # 2. Config
     ua = getenv("SCRIPT_01_CHROME_USER_AGENT")
-    extra_opts = {}
-    if ua:
-        extra_opts['user_agent'] = ua
-    extra_opts['page_load_timeout'] = PAGE_LOAD_TIMEOUT
-
-    # Use core factory
-    driver = create_chrome_driver(
-        headless=HEADLESS, 
-        extra_options=extra_opts
-    )
+    extra_opts = {'page_load_timeout': PAGE_LOAD_TIMEOUT}
+    if ua: extra_opts['user_agent'] = ua
     
-    # Apply specific Russia scraper settings if needed (mostly covered by factory)
-    # The factory handles:
-    # - --headless=new
-    # - --no-sandbox, --disable-dev-shm-usage, etc.
-    # - --disable-blink-features=AutomationControlled
-    # - user-agent
-    # - page_load_timeout
-    # - CDP anti-detection
+    # 3. Create
+    driver = create_chrome_driver(headless=HEADLESS, extra_options=extra_opts)
     
-    track_driver(driver)
+    # 4. Track (thread-safe)
+    with _drivers_lock:
+        _active_drivers.append(driver)
+    register_chrome_driver(driver)
+    
+    # DB Logging
+    if ChromeInstanceTracker and _run_id and hasattr(driver, "service"):
+        try:
+            pid = driver.service.process.pid
+            if pid:
+                pids = get_chrome_pids_from_driver(driver) if get_chrome_pids_from_driver else {pid}
+                with CountryDB("Russia") as db:
+                     tracker = ChromeInstanceTracker("Russia", _run_id, db)
+                     tracker.register(step_number=1, pid=pid, browser_type="chrome", child_pids=pids)
+        except Exception as e:
+            print(f"[WARN] DB tracking failed: {e}")
+            
+    print(f"[DRIVER] Created new instance (Total: {len(_active_drivers)})", flush=True)
     return driver
 
 
-def restart_driver(driver: webdriver.Chrome) -> webdriver.Chrome:
-    """Restart driver with cleanup"""
+def _restart_driver(driver: webdriver.Chrome) -> webdriver.Chrome:
+    """Restart driver with DB untracking and core restart logic."""
     print("[DRIVER] Restarting Chrome...", flush=True)
-    untrack_driver(driver)
-    return core_restart_driver(driver, make_driver)
+    
+    # Untrack in DB (thread-safe)
+    with _drivers_lock:
+        if driver in _active_drivers:
+            _active_drivers.remove(driver)
+    
+    if ChromeInstanceTracker and _run_id and hasattr(driver, "service"):
+        try:
+            pid = driver.service.process.pid
+            if pid:
+                with CountryDB("Russia") as db:
+                    ChromeInstanceTracker("Russia", _run_id, db).mark_terminated_by_pid(pid, "restart")
+        except Exception:
+            pass
+            
+    unregister_chrome_driver(driver)
+    
+    # Core restart
+    return core_restart_driver(driver, _create_driver)
 
 
 # =============================================================================
@@ -406,7 +412,7 @@ def navigate_with_retry(driver: webdriver.Chrome, url: str, label: str) -> webdr
     # Try driver restart
     if NAV_RESTART_DRIVER:
         print(f"  [WARN] {label} failed; restarting Chrome...", flush=True)
-        driver = restart_driver(driver)
+        driver = _restart_driver(driver)
         
         for attempt in range(1, NAV_RETRIES + 1):
             try:
@@ -479,7 +485,7 @@ def select_region_and_search(driver: webdriver.Chrome) -> webdriver.Chrome:
     # Restart driver and try again
     if NAV_RESTART_DRIVER:
         print(f"  [NAV] Restarting driver and retrying...", flush=True)
-        driver = restart_driver(driver)
+        driver = _restart_driver(driver)
         return select_region_and_search(driver)
     
     raise RuntimeError("Region selection failed after all retries")
@@ -907,12 +913,14 @@ def scrape_page_with_ean_validation(driver: webdriver.Chrome, page_num: int, rep
         if len(batch) >= DB_BATCH_SIZE:
             repo.insert_ved_products_bulk(batch)
             scraped += len(batch)
+            audit_log("INSERT_BATCH", scraper_name="Russia", run_id=_run_id, details={"inserted": len(batch), "page": page_num})
             batch = []
     
     # Insert remaining
     if batch:
         repo.insert_ved_products_bulk(batch)
         scraped += len(batch)
+        audit_log("INSERT_BATCH", scraper_name="Russia", run_id=_run_id, details={"inserted": len(batch), "page": page_num})
     
     return scraped, skipped, missing_ean_count, rows_found, ean_found, True
 
@@ -1141,6 +1149,131 @@ def get_existing_item_ids_all_runs(repo: RussiaRepository) -> Set[str]:
 
 
 # =============================================================================
+# PARALLEL WORKER (each worker = 1 Chrome instance, claims pages from DB)
+# =============================================================================
+
+def worker_loop(worker_id: int, last_page: int, existing_ids: Set[str], run_id: str):
+    """
+    Worker thread: creates its own Chrome driver, claims pages one-by-one
+    from the DB, scrapes each, and marks completion.
+    """
+    global _shutdown_requested
+
+    tag = f"[W{worker_id}]"
+    print(f"{tag} Starting Chrome instance...", flush=True)
+
+    # Each worker gets its own DB connection + repo
+    worker_db = CountryDB("Russia")
+    worker_repo = RussiaRepository(worker_db, run_id)
+
+    driver = None
+    pages_done = 0
+    total_scraped = 0
+    consecutive_failures = 0
+    MAX_CONSECUTIVE_FAILURES = 5
+
+    try:
+        driver = _create_driver()
+        driver = select_region_and_search(driver)
+        print(f"{tag} Chrome ready, starting page claims...", flush=True)
+
+        while not _shutdown_requested:
+            # Claim next available page atomically
+            page_num = worker_repo.claim_next_page(last_page, step_number=1, source_type="ved")
+            if page_num is None:
+                print(f"{tag} No more pages to claim. Done.", flush=True)
+                break
+
+            print(f"{tag} Claimed page {page_num}/{last_page}", flush=True)
+
+            # Navigate to page
+            page_url = f"{BASE_URL}?page={page_num}&reg_id={REGION_VALUE}"
+            success = False
+
+            for attempt in range(1, MAX_RETRIES_PER_PAGE + 1):
+                try:
+                    driver.get(page_url)
+                    wait_for_table(driver)
+                    scraped, skipped, missing_ean = scrape_page(
+                        driver, page_num, worker_repo, existing_ids, last_page
+                    )
+                    total_scraped += scraped
+                    pages_done += 1
+                    consecutive_failures = 0
+                    success = True
+
+                    ean_info = f", EAN missing: {missing_ean}" if (FETCH_EAN and missing_ean > 0) else ""
+                    print(f"{tag} Page {page_num}: scraped {scraped}{ean_info} (total: {pages_done} pages)", flush=True)
+                    break
+
+                except (TimeoutException, WebDriverException) as e:
+                    if attempt < MAX_RETRIES_PER_PAGE:
+                        print(f"{tag} Page {page_num} attempt {attempt} failed: {e}. Retrying...", flush=True)
+                        time.sleep(2)
+                        try:
+                            driver.refresh()
+                            time.sleep(2)
+                        except Exception:
+                            pass
+                    else:
+                        print(f"{tag} Page {page_num} failed after {MAX_RETRIES_PER_PAGE} attempts: {e}", flush=True)
+                        try:
+                            worker_repo.record_failed_page(page_num, "ved", str(e))
+                        except Exception:
+                            pass
+                        consecutive_failures += 1
+
+                except Exception as e:
+                    print(f"{tag} Page {page_num} error: {e}", flush=True)
+                    try:
+                        worker_repo.record_failed_page(page_num, "ved", str(e))
+                    except Exception:
+                        pass
+                    consecutive_failures += 1
+                    break
+
+            # Restart Chrome if too many consecutive failures
+            if consecutive_failures >= MAX_CONSECUTIVE_FAILURES:
+                print(f"{tag} {consecutive_failures} consecutive failures, restarting Chrome...", flush=True)
+                try:
+                    driver = _restart_driver(driver)
+                    driver = select_region_and_search(driver)
+                    consecutive_failures = 0
+                except Exception as e:
+                    print(f"{tag} Driver restart failed: {e}. Exiting worker.", flush=True)
+                    break
+
+            # Periodic memory check
+            if pages_done > 0 and pages_done % MEMORY_CHECK_INTERVAL == 0:
+                mem_mb = get_memory_usage_mb()
+                print(f"{tag} Memory: {mem_mb:.1f}MB after {pages_done} pages", flush=True)
+                force_cleanup()
+                if check_memory_limit():
+                    print(f"{tag} Memory limit hit, restarting Chrome...", flush=True)
+                    driver = _restart_driver(driver)
+                    driver = select_region_and_search(driver)
+
+            # Small sleep between pages
+            if SLEEP_BETWEEN_PAGES > 0:
+                time.sleep(SLEEP_BETWEEN_PAGES)
+
+    except Exception as e:
+        print(f"{tag} Fatal error: {e}", flush=True)
+    finally:
+        # Clean up this worker's Chrome
+        if driver:
+            try:
+                with _drivers_lock:
+                    if driver in _active_drivers:
+                        _active_drivers.remove(driver)
+                unregister_chrome_driver(driver)
+                driver.quit()
+            except Exception:
+                pass
+        print(f"{tag} Finished. Scraped {total_scraped} items across {pages_done} pages.", flush=True)
+
+
+# =============================================================================
 # MAIN ENTRY POINT
 # =============================================================================
 
@@ -1254,10 +1387,8 @@ def main():
         print(f"[INIT] Warning: could not save run_id to file: {e}", flush=True)
     
     _repo = RussiaRepository(db, _run_id)
-    
-    # No deduplication - insert all scraped records as-is (existing_ids kept for API compatibility, unused)
-    existing_ids = set()
-    
+    audit_log("RUN_STARTED", scraper_name="Russia", run_id=_run_id, details={"region": REGION_VALUE, "max_pages": MAX_PAGES})
+
     # Start or resume run based on whether it's a fresh run
     if fresh_run:
         print(f"[INIT] Starting fresh run (--fresh flag)", flush=True)
@@ -1284,219 +1415,291 @@ def main():
             print(f"[INIT] Starting fresh run", flush=True)
             _repo.start_run("fresh")
     
-    # Initialize driver
+    # Initialize first driver (always needed to discover last_page)
     print("[INIT] Starting Chrome...", flush=True)
-    driver = make_driver()
-    
+    driver = _create_driver()
+
     try:
         # Navigate and select region
         print(f"[NAV] Navigating to {BASE_URL}...", flush=True)
         driver = select_region_and_search(driver)
-        
+        audit_log("ACTION", scraper_name="Russia", run_id=_run_id, details={"action": "REGION_SELECTED", "region": REGION_VALUE})
+
         # Get total pages
         last_page = get_last_page(driver)
         if MAX_PAGES > 0:
             last_page = min(last_page, MAX_PAGES)
         print(f"[INFO] Total pages to scrape: {last_page}", flush=True)
-        
+
         # Show how many pages are already done
         completed = len(_repo.get_completed_keys(1))
         print(f"[INFO] {completed} pages already completed, {last_page - completed} pages remaining", flush=True)
-        
-        # BATCH SIZE: number of pages per batch (from env or default 10)
-        BATCH_SIZE = MULTI_TAB_BATCH if MULTI_TAB_BATCH > 0 else 10
 
-        # Main scraping loop - dynamically get pages to scrape
-        total_scraped = 0
-        total_skipped = 0
+        # No deduplication - existing_ids kept for API compatibility
+        existing_ids = set()
+
         global _operation_count
-        initial_retry_mode = retry_pages is not None  # --start/--end: do not finish_run (leave run resumable)
+        initial_retry_mode = retry_pages is not None
 
-        # Safety counters to prevent infinite loops (defensive programming)
-        empty_batch_count = 0
-        total_iteration_count = 0
-        consecutive_timeout_batches = 0
-        MAX_TIMEOUT_BATCHES = 3  # Restart driver after 3 consecutive batches with timeouts
+        # =====================================================================
+        # PARALLEL MODE: NUM_WORKERS > 1 and not retry mode
+        # =====================================================================
+        if NUM_WORKERS > 1 and not initial_retry_mode:
+            print(f"\n[PARALLEL] Launching {NUM_WORKERS} Chrome workers...", flush=True)
 
-        while True:
-            # Check shutdown signal
-            if _shutdown_requested:
-                print("[SHUTDOWN] Stopping gracefully...", flush=True)
-                break
+            # Close the discovery driver — workers create their own
+            try:
+                with _drivers_lock:
+                    if driver in _active_drivers:
+                        _active_drivers.remove(driver)
+                unregister_chrome_driver(driver)
+                driver.quit()
+            except Exception:
+                pass
+            driver = None
 
-            # Safety limit: Check total iterations
-            if MAX_TOTAL_ITERATIONS > 0 and total_iteration_count >= MAX_TOTAL_ITERATIONS:
-                print(f"[SAFETY EXIT] Reached maximum total iterations ({MAX_TOTAL_ITERATIONS}), exiting to prevent infinite loop", flush=True)
-                break
+            # Spawn worker threads
+            threads = []
+            for i in range(NUM_WORKERS):
+                t = threading.Thread(
+                    target=worker_loop,
+                    args=(i + 1, last_page, existing_ids, _run_id),
+                    name=f"Worker-{i + 1}",
+                    daemon=False,
+                )
+                t.start()
+                threads.append(t)
+                time.sleep(2)  # Stagger Chrome starts to avoid port conflicts
 
-            total_iteration_count += 1
+            print(f"[PARALLEL] All {NUM_WORKERS} workers running. Waiting for completion...", flush=True)
 
-            # Retry mode (--start N --end M): scrape only that range once then exit
-            was_retry_batch = False
-            if retry_pages is not None:
-                pages_to_scrape = retry_pages
-                retry_pages = None
-                was_retry_batch = True
-                print(f"[RETRY] Scraping only requested pages: {pages_to_scrape}", flush=True)
-            else:
-                pages_to_scrape = get_next_pages_to_scrape(_repo, last_page, BATCH_SIZE)
+            # Wait for all workers
+            for t in threads:
+                t.join()
 
-            if not pages_to_scrape:
-                empty_batch_count += 1
-                if empty_batch_count >= MAX_EMPTY_BATCH_ITERATIONS:
-                    print(f"[SAFETY EXIT] get_next_pages_to_scrape() returned empty {empty_batch_count} times, exiting to prevent infinite loop", flush=True)
-                    print("[COMPLETE] All pages have been scraped!")
-                    break
-                else:
-                    print(f"[WARNING] get_next_pages_to_scrape() returned empty (attempt {empty_batch_count}/{MAX_EMPTY_BATCH_ITERATIONS})", flush=True)
-                    time.sleep(1)  # Brief pause before retrying
-                    continue
+            print(f"[PARALLEL] All workers finished.", flush=True)
 
-            # Reset empty counter on successful batch
+            # Get actual scraped count from DB (workers wrote directly to DB)
+            parallel_total = _repo.get_ved_product_count()
+            _repo.finish_run("completed", items_scraped=parallel_total)
+            print(f"\n[COMPLETE] Scraped {parallel_total} items across {NUM_WORKERS} workers (no deduplication)", flush=True)
+
+        # =====================================================================
+        # SINGLE MODE: Legacy multi-tab batch loop (NUM_WORKERS <= 1 or retry)
+        # =====================================================================
+        else:
+            # BATCH SIZE: number of pages per batch (from env or default 10)
+            BATCH_SIZE = MULTI_TAB_BATCH if MULTI_TAB_BATCH > 0 else 10
+
+            # Main scraping loop - dynamically get pages to scrape
+            total_scraped = 0
+            total_skipped = 0
+
+            # Safety counters to prevent infinite loops (defensive programming)
             empty_batch_count = 0
-            
-            print(f"[BATCH] Loading {len(pages_to_scrape)} pages in parallel: {pages_to_scrape}", flush=True)
-            
-            batch_scraped = 0
-            batch_skipped = 0
-            
-            # Open multiple tabs and load all pages simultaneously
-            handles = []
-            base_url = f"{BASE_URL}?reg_id={REGION_VALUE}"
-            
-            # Ensure we have enough tabs
-            while len(driver.window_handles) < len(pages_to_scrape):
-                driver.execute_script("window.open('');")
-            
-            handles = driver.window_handles[:len(pages_to_scrape)]
+            total_iteration_count = 0
+            consecutive_timeout_batches = 0
+            MAX_TIMEOUT_BATCHES = 3  # Restart driver after 3 consecutive batches with timeouts
 
-            # Track failed page loads
-            failed_loads = []
-
-            # Load all pages simultaneously (kick off loads)
-            for i, page_num in enumerate(pages_to_scrape):
-                try:
-                    driver.switch_to.window(handles[i])
-                    page_url = f"{BASE_URL}?page={page_num}&reg_id={REGION_VALUE}"
-                    driver.get(page_url)  # Start loading (non-blocking)
-                    # Small delay to prevent overwhelming browser
-                    if i < len(pages_to_scrape) - 1:
-                        time.sleep(0.1)
-                except TimeoutException as e:
-                    print(f"  [WARN] Page {page_num} timed out during load: {e}", flush=True)
-                    failed_loads.append(page_num)
-                except WebDriverException as e:
-                    print(f"  [WARN] Page {page_num} failed to load: {e}", flush=True)
-                    failed_loads.append(page_num)
-            
-            # Now wait for all pages to load and scrape each one
-            for i, page_num in enumerate(pages_to_scrape):
+            while True:
+                # Check shutdown signal
                 if _shutdown_requested:
+                    print("[SHUTDOWN] Stopping gracefully...", flush=True)
                     break
 
-                # Skip pages that failed to load
-                if page_num in failed_loads:
-                    print(f"  [SKIP] Page {page_num} skipped due to load failure", flush=True)
-                    continue
+                # Safety limit: Check total iterations
+                if MAX_TOTAL_ITERATIONS > 0 and total_iteration_count >= MAX_TOTAL_ITERATIONS:
+                    print(f"[SAFETY EXIT] Reached maximum total iterations ({MAX_TOTAL_ITERATIONS}), exiting to prevent infinite loop", flush=True)
+                    break
 
-                driver.switch_to.window(handles[i])
+                total_iteration_count += 1
 
-                try:
-                    wait_for_table(driver)
-                    print(f"[PAGE {page_num}/{last_page}] Scraping (tab {i+1}/{len(pages_to_scrape)})...", flush=True)
+                # Retry mode (--start N --end M): scrape only that range once then exit
+                was_retry_batch = False
+                if retry_pages is not None:
+                    pages_to_scrape = retry_pages
+                    retry_pages = None
+                    was_retry_batch = True
+                    print(f"[RETRY] Scraping only requested pages: {pages_to_scrape}", flush=True)
+                else:
+                    pages_to_scrape = get_next_pages_to_scrape(_repo, last_page, BATCH_SIZE)
 
-                    scraped, skipped, missing_ean = scrape_page(driver, page_num, _repo, existing_ids, last_page)
-                    batch_scraped += scraped
-                    batch_skipped += skipped
-                    total_scraped += scraped
-                    total_skipped += skipped
-                    _operation_count += 1
+                if not pages_to_scrape:
+                    empty_batch_count += 1
+                    if empty_batch_count >= MAX_EMPTY_BATCH_ITERATIONS:
+                        print(f"[SAFETY EXIT] get_next_pages_to_scrape() returned empty {empty_batch_count} times, exiting to prevent infinite loop", flush=True)
+                        print("[COMPLETE] All pages have been scraped!")
+                        break
+                    else:
+                        print(f"[WARNING] get_next_pages_to_scrape() returned empty (attempt {empty_batch_count}/{MAX_EMPTY_BATCH_ITERATIONS})", flush=True)
+                        time.sleep(1)  # Brief pause before retrying
+                        continue
 
-                    ean_status = f", Missing EAN: {missing_ean}" if (FETCH_EAN and missing_ean > 0) else ""
-                    print(f"  [OK] Page {page_num}: Scraped {scraped}{ean_status}", flush=True)
+                # Reset empty counter on successful batch
+                empty_batch_count = 0
 
-                except Exception as e:
-                    print(f"  [ERROR] Page {page_num} failed: {e}", flush=True)
-                    continue
-            
-            # Close extra tabs and keep only one for next batch
-            while len(driver.window_handles) > 1:
-                driver.switch_to.window(driver.window_handles[-1])
-                driver.close()
-            driver.switch_to.window(driver.window_handles[0])
+                print(f"[BATCH] Loading {len(pages_to_scrape)} pages in parallel: {pages_to_scrape}", flush=True)
 
-            # Report failed loads and track consecutive timeouts
-            if failed_loads:
-                print(f"[BATCH COMPLETE] Scraped {batch_scraped}, Skipped {batch_skipped}, Failed loads: {len(failed_loads)}, Total: {total_scraped}", flush=True)
-                print(f"  [INFO] Failed page loads will be retried in next run: {failed_loads}", flush=True)
-                consecutive_timeout_batches += 1
+                batch_scraped = 0
+                batch_skipped = 0
 
-                # Restart driver if too many consecutive timeout batches
-                if consecutive_timeout_batches >= MAX_TIMEOUT_BATCHES:
-                    print(f"[DRIVER] {consecutive_timeout_batches} consecutive batches with timeouts. Restarting Chrome to recover...", flush=True)
-                    driver = restart_driver(driver)
-                    consecutive_timeout_batches = 0
-                    # Re-navigate to the site after restart
-                    driver = navigate_to_site(driver)
-                    existing_ids = _repo.get_existing_item_ids(1)
-            else:
-                print(f"[BATCH COMPLETE] Scraped {batch_scraped}, Skipped {batch_skipped}, Total: {total_scraped}", flush=True)
-                consecutive_timeout_batches = 0  # Reset counter on successful batch
+                # Open multiple tabs and load all pages simultaneously
+                handles = []
+                base_url = f"{BASE_URL}?reg_id={REGION_VALUE}"
 
-            if was_retry_batch:
-                print("[RETRY] Requested page(s) done.", flush=True)
-                break
-            
-            # Progress logging
-            mem_mb = get_memory_usage_mb()
-            completed_count = len(_repo.get_completed_keys(1))
-            print(f"[PROGRESS] {completed_count}/{last_page} pages completed | Total scraped: {total_scraped} | Memory: {mem_mb:.1f}MB", flush=True)
-            
-            # MEMORY FIX: Periodic resource monitoring and cleanup
-            if _operation_count % MEMORY_CHECK_INTERVAL == 0:
-                try:
-                    from core.monitoring.resource_monitor import periodic_resource_check, log_resource_status
-                    resource_status = periodic_resource_check("Russia", force=True)
-                    if resource_status.get("warnings"):
-                        for warning in resource_status["warnings"]:
-                            print(f"[RESOURCE WARNING] {warning}", flush=True)
-                except Exception:
-                    pass
-                
-                force_cleanup()
-                
-                # Check memory limit and restart Chrome if needed
-                if check_memory_limit():
-                    print(f"[MEMORY] Memory limit exceeded, restarting Chrome...", flush=True)
+                # Ensure we have enough tabs
+                while len(driver.window_handles) < len(pages_to_scrape):
+                    driver.execute_script("window.open('');")
+
+                handles = driver.window_handles[:len(pages_to_scrape)]
+
+                # Track failed page loads
+                failed_loads = []
+
+                # Load all pages simultaneously (kick off loads)
+                for i, page_num in enumerate(pages_to_scrape):
                     try:
-                        driver.quit()
+                        driver.switch_to.window(handles[i])
+                        page_url = f"{BASE_URL}?page={page_num}&reg_id={REGION_VALUE}"
+                        driver.get(page_url)  # Start loading (non-blocking)
+                        # Small delay to prevent overwhelming browser
+                        if i < len(pages_to_scrape) - 1:
+                            time.sleep(0.1)
+                    except TimeoutException as e:
+                        print(f"  [WARN] Page {page_num} timed out during load: {e}", flush=True)
+                        failed_loads.append(page_num)
+                    except WebDriverException as e:
+                        print(f"  [WARN] Page {page_num} failed to load: {e}", flush=True)
+                        failed_loads.append(page_num)
+
+                # Now wait for all pages to load and scrape each one
+                for i, page_num in enumerate(pages_to_scrape):
+                    if _shutdown_requested:
+                        break
+
+                    # Skip pages that failed to load
+                    if page_num in failed_loads:
+                        print(f"  [SKIP] Page {page_num} skipped due to load failure", flush=True)
+                        continue
+
+                    driver.switch_to.window(handles[i])
+
+                    # Retry logic for page processing
+                    MAX_PAGE_RETRIES = 3
+                    for attempt in range(1, MAX_PAGE_RETRIES + 1):
+                        try:
+                            wait_for_table(driver)
+                            print(f"[PAGE {page_num}/{last_page}] Scraping (tab {i+1}/{len(pages_to_scrape)})...", flush=True)
+
+                            scraped, skipped, missing_ean = scrape_page(driver, page_num, _repo, existing_ids, last_page)
+                            batch_scraped += scraped
+                            batch_skipped += skipped
+                            total_scraped += scraped
+                            total_skipped += skipped
+                            audit_log("PAGE_FETCHED", scraper_name="Russia", run_id=_run_id, details={"page": page_num, "scraped": scraped, "skipped": skipped, "missing_ean": missing_ean})
+                            _operation_count += 1
+
+                            ean_status = f", Missing EAN: {missing_ean}" if (FETCH_EAN and missing_ean > 0) else ""
+                            print(f"  [OK] Page {page_num}: Scraped {scraped}{ean_status}", flush=True)
+                            break  # Success, exit retry loop
+
+                        except Exception as e:
+                            error_msg = str(e)
+                            if attempt < MAX_PAGE_RETRIES:
+                                print(f"  [WARN] Page {page_num} failed (attempt {attempt}/{MAX_PAGE_RETRIES}): {e}. Retrying...", flush=True)
+                                time.sleep(2)
+                                # Try to refresh the page if it looks like a network or load error
+                                if "Connection" in error_msg or "reset" in error_msg.lower() or "Timeout" in error_msg:
+                                    try:
+                                        print(f"  [INFO] Refreshing page {page_num}...", flush=True)
+                                        driver.refresh()
+                                        time.sleep(2)
+                                    except Exception:
+                                        pass
+                            else:
+                                print(f"  [ERROR] Page {page_num} failed after {MAX_PAGE_RETRIES} attempts: {e}", flush=True)
+                                try:
+                                    _repo.record_failed_page(page_num, "ved", f"Failed after {MAX_PAGE_RETRIES} attempts: {e}")
+                                except Exception as rec_err:
+                                    print(f"  [WARN] Could not record failed page {page_num}: {rec_err}", flush=True)
+                                continue
+
+                # Close extra tabs and keep only one for next batch
+                while len(driver.window_handles) > 1:
+                    driver.switch_to.window(driver.window_handles[-1])
+                    driver.close()
+                driver.switch_to.window(driver.window_handles[0])
+
+                # Report failed loads and track consecutive timeouts
+                if failed_loads:
+                    print(f"[BATCH COMPLETE] Scraped {batch_scraped}, Skipped {batch_skipped}, Failed loads: {len(failed_loads)}, Total: {total_scraped}", flush=True)
+                    print(f"  [INFO] Failed page loads will be retried in next run: {failed_loads}", flush=True)
+                    consecutive_timeout_batches += 1
+
+                    # Restart driver if too many consecutive timeout batches
+                    if consecutive_timeout_batches >= MAX_TIMEOUT_BATCHES:
+                        print(f"[DRIVER] {consecutive_timeout_batches} consecutive batches with timeouts. Restarting Chrome to recover...", flush=True)
+                        driver = _restart_driver(driver)
+                        consecutive_timeout_batches = 0
+                        # Re-navigate to the site after restart
+                        driver = select_region_and_search(driver)
+                        existing_ids = _repo.get_all_existing_item_ids()
+                else:
+                    print(f"[BATCH COMPLETE] Scraped {batch_scraped}, Skipped {batch_skipped}, Total: {total_scraped}", flush=True)
+                    consecutive_timeout_batches = 0  # Reset counter on successful batch
+
+                if was_retry_batch:
+                    print("[RETRY] Requested page(s) done.", flush=True)
+                    break
+
+                # Progress logging
+                mem_mb = get_memory_usage_mb()
+                completed_count = len(_repo.get_completed_keys(1))
+                print(f"[PROGRESS] {completed_count}/{last_page} pages completed | Total scraped: {total_scraped} | Memory: {mem_mb:.1f}MB", flush=True)
+
+                # MEMORY FIX: Periodic resource monitoring and cleanup
+                if _operation_count % MEMORY_CHECK_INTERVAL == 0:
+                    try:
+                        from core.monitoring.resource_monitor import periodic_resource_check, log_resource_status
+                        resource_status = periodic_resource_check("Russia", force=True)
+                        if resource_status.get("warnings"):
+                            for warning in resource_status["warnings"]:
+                                print(f"[RESOURCE WARNING] {warning}", flush=True)
                     except Exception:
                         pass
-                    driver = make_driver()
-                    print(f"[MEMORY] Chrome restarted successfully", flush=True)
-        
-        # Mark run as complete (skip when retry mode so we do not overwrite run item count)
-        if not initial_retry_mode:
-            _repo.finish_run("completed", items_scraped=total_scraped)
-        print(f"\n[COMPLETE] Scraped {total_scraped} items (no deduplication)", flush=True)
-        
-        # VALIDATION REPORT
+
+                    force_cleanup()
+
+                    # Check memory limit and restart Chrome if needed
+                    if check_memory_limit():
+                        print(f"[MEMORY] Memory limit exceeded, restarting Chrome...", flush=True)
+                        driver = _restart_driver(driver)
+                        driver = select_region_and_search(driver)
+                        print(f"[MEMORY] Chrome restarted and session re-initialized", flush=True)
+
+            # Mark run as complete (skip when retry mode so we do not overwrite run item count)
+            if not initial_retry_mode:
+                _repo.finish_run("completed", items_scraped=total_scraped)
+            print(f"\n[COMPLETE] Scraped {total_scraped} items (no deduplication)", flush=True)
+
+        # =====================================================================
+        # VALIDATION REPORT (runs for both parallel and single mode)
+        # =====================================================================
         print("\n" + "="*80)
         print("VED SCRAPER VALIDATION REPORT")
         print("="*80)
-        
+
         # Get count from DB for this run
         db_count = _repo.get_ved_product_count()
-        
+
         # Calculate total records from step progress metrics (includes previous sessions when resuming)
         completed_pages = _repo.get_completed_keys(1)
         total_rows_from_metrics = 0
         for key in completed_pages:
             if key.startswith("ved_page:"):
-                # Get the rows_inserted metric from step_progress
                 try:
                     sql = """
-                        SELECT COALESCE(rows_inserted, 0) FROM ru_step_progress 
+                        SELECT COALESCE(rows_inserted, 0) FROM ru_step_progress
                         WHERE run_id = %s AND progress_key = %s
                     """
                     with _repo.db.cursor() as cur:
@@ -1506,36 +1709,34 @@ def main():
                             total_rows_from_metrics += row[0]
                 except Exception:
                     pass
-        
-        # If we have metrics from step_progress, use that; otherwise fall back to current session count
+
         if total_rows_from_metrics > 0:
             records_scraped_display = total_rows_from_metrics
             print(f"Records scraped from website (all sessions): {records_scraped_display}")
-            print(f"Records scraped this session: {total_scraped}")
         else:
-            records_scraped_display = total_scraped
+            records_scraped_display = db_count
             print(f"Records scraped from website: {records_scraped_display}")
-        
+
         print(f"Records in database (ru_ved_products): {db_count}")
-        
+
         if records_scraped_display == db_count:
             print(f"[VALIDATION PASSED] Counts match: {records_scraped_display} = {db_count}")
         else:
             print(f"[VALIDATION WARNING] Count mismatch: Scraped={records_scraped_display}, DB={db_count}")
             print(f"  Difference: {abs(records_scraped_display - db_count)}")
-        
+
         # Check for failed pages
         failed_pages = _repo.get_failed_pages("ved")
         if failed_pages:
             print(f"[WARNING] {len(failed_pages)} pages need retry (failed or missing EAN)")
-        
+
         print("="*80)
-        
+
     except Exception as e:
         print(f"\n[FATAL] Scraper failed: {e}", flush=True)
         _repo.finish_run("failed", items_scraped=0, error_message=str(e))
         raise
-    
+
     finally:
         cleanup_all_chrome()
 

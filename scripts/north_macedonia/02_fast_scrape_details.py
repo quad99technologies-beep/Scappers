@@ -20,20 +20,7 @@ import csv
 from pathlib import Path
 from typing import Dict, List, Optional
 
-import httpx
-from lxml import html as lxml_html
-
-# Optional translation (only used if values still Macedonian)
-try:
-    from googletrans import Translator  # type: ignore
-    _translator = Translator()
-except Exception:
-    _translator = None
-
-
-# -----------------------------
-# CONFIG
-# -----------------------------
+# Add repo root for core imports (MUST be before any core imports)
 SCRIPT_DIR = Path(__file__).resolve().parent
 _repo_root = Path(__file__).resolve().parents[2]
 
@@ -41,6 +28,32 @@ if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
+
+from core.monitoring.audit_logger import audit_log
+
+import logging
+import httpx
+from lxml import html as lxml_html
+
+logger = logging.getLogger(__name__)
+
+# Optional translation (only used if values still Macedonian)
+try:
+    from googletrans import Translator  # type: ignore
+    _translator = Translator()
+except Exception:
+    logger.warning("googletrans not available; translations will be skipped")
+    _translator = None
+
+
+# -----------------------------
+# CONFIG
+# -----------------------------
+
+# Fix for module shadowing: Remove any conflicting 'db' module from sys.modules
+# to ensure 'from db ...' resolves to the local db directory.
+if "db" in sys.modules:
+    del sys.modules["db"]
 
 try:
     from config_loader import load_env_file, get_output_dir, getenv, getenv_bool, getenv_int, getenv_float
@@ -61,8 +74,6 @@ except Exception:
         try: return float(os.getenv(key, str(default)))
         except: return default
 
-URLS_CSV = getenv("SCRIPT_01_URLS_CSV", "north_macedonia_detail_urls.csv")
-OUT_CSV = getenv("SCRIPT_02_OUTPUT_CSV", "north_macedonia_drug_register.csv")
 MAX_WORKERS = getenv_int("SCRIPT_02_DETAIL_WORKERS", 15)
 SLEEP_BETWEEN = getenv_float("SCRIPT_02_SLEEP_BETWEEN_DETAILS", 0.15)
 BATCH_SIZE = 100
@@ -123,7 +134,8 @@ def translate_to_en(text: str) -> str:
         return text
     try:
         return normalize_ws(_translator.translate(text, src="mk", dest="en").text)
-    except Exception:
+    except Exception as e:
+        logger.warning(f"[NM] Translation failed for {text!r}: {e}")
         return text
 
 
@@ -143,15 +155,7 @@ def get_by_any_contains(data: Dict[str, str], *needles: str) -> str:
     return ""
 
 
-def load_already_scraped_urls(path: Path) -> set:
-    if not path.exists():
-        return set()
-    try:
-        with open(path, "r", encoding="utf-8-sig") as f:
-            reader = csv.DictReader(f)
-            return {row["detail_url"] for row in reader if row.get("detail_url")}
-    except Exception:
-        return set()
+# Unused CSV loader removed.
 
 
 # -----------------------------
@@ -243,6 +247,8 @@ async def scrape_details_concurrent(urls: List[str], repo=None) -> int:
     """
     if not repo:
         raise ValueError("Repository is required for DB-first architecture. Pass NorthMacedoniaRepository instance.")
+    
+    audit_log("RUN_STARTED", scraper_name="NorthMacedonia", run_id=repo.run_id, details={"step": "02_details", "urls": len(urls)})
 
     print(f"\n[SCRAPER] Starting httpx scraping with {MAX_WORKERS} workers", flush=True)
     print(f"[SCRAPER] Total URLs to scrape: {len(urls)}", flush=True)
@@ -281,13 +287,23 @@ async def scrape_details_concurrent(urls: List[str], repo=None) -> int:
                 result = None
                 error_msg = None
                 for attempt in range(2):
+                    start_ts = time.time()
                     try:
                         resp = await client.get(url)
+                        elapsed = (time.time() - start_ts) * 1000
+                        await asyncio.to_thread(repo.log_request, url, "GET", resp.status_code, len(resp.content), elapsed)
+
                         resp.raise_for_status()
                         # Translation is sync (googletrans), run in thread
                         result = await asyncio.to_thread(extract_from_html, resp.text, url)
                         break
                     except Exception as e:
+                        elapsed = (time.time() - start_ts) * 1000
+                        status_code = 0
+                        if hasattr(e, 'response') and e.response:
+                             status_code = e.response.status_code
+                        await asyncio.to_thread(repo.log_request, url, "GET", status_code, 0, elapsed, str(e))
+
                         error_msg = str(e).split(chr(10))[0][:200]
                         if attempt == 0:
                             await asyncio.sleep(2)
@@ -362,6 +378,7 @@ async def scrape_details_concurrent(urls: List[str], repo=None) -> int:
 
                             # Insert drug records
                             repo.insert_drug_register_batch(db_records)
+                            audit_log("INSERT_BATCH", scraper_name="NorthMacedonia", run_id=repo.run_id, details={"inserted": len(db_records)})
 
                             # Mark URLs as scraped AFTER successful insert
                             if batch_urls:
@@ -421,6 +438,7 @@ async def scrape_details_concurrent(urls: List[str], repo=None) -> int:
 
                 # Insert drug records
                 repo.insert_drug_register_batch(db_records)
+                audit_log("INSERT_BATCH", scraper_name="NorthMacedonia", run_id=repo.run_id, details={"inserted": len(db_records)})
 
                 # Mark URLs as scraped AFTER successful insert
                 if batch_urls:
@@ -466,6 +484,18 @@ async def async_main():
             db = CountryDB("NorthMacedonia")
             repo = NorthMacedoniaRepository(db, run_id)
             repo.ensure_run_in_ledger(mode="resume")
+    except (ImportError, ModuleNotFoundError):
+        # Fallback to absolute paths
+        try:
+            from core.db.connection import CountryDB
+            from scripts.north_macedonia.db.repositories import NorthMacedoniaRepository
+            db = CountryDB("NorthMacedonia")
+            repo = NorthMacedoniaRepository(db, run_id)
+            repo.ensure_run_in_ledger(mode="resume")
+            print("[INFO] Used fallback import path for NorthMacedoniaRepository")
+        except Exception as e:
+            print(f"[DB ERROR] Fallback import failed: {e}")
+            raise e
 
             # Load ALL URLs from DB (pending + scraped)
             with db.cursor() as cur:

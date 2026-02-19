@@ -1,293 +1,47 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Configuration Loader (Platform Config Integration)
+Configuration Loader for Canada Quebec Scraper (Facade for Core ConfigManager)
 
-This module wraps platform_config.py for centralized path management.
-All configuration is loaded from config/CanadaQuebec.env.json.
-
-Precedence (highest to lowest):
-1. Runtime overrides (function parameters)
-2. Environment variables (OS-level)
-3. Platform config (config/CanadaQuebec.env.json)
-4. Hardcoded defaults
+This module provides centralized config and path management for Canada Quebec scraper.
+It acts as a facade, delegating all logic to core.config.config_manager.ConfigManager.
 """
 
-import os
 import sys
 from pathlib import Path
 
-# Add repo root to path for platform_config import
-# Now: scripts/CanadaQuebec/config_loader.py -> parents[2] = repo root
-_repo_root = Path(__file__).resolve().parents[2]
+_script_dir = Path(__file__).resolve().parent
+_repo_root = _script_dir.parents[1]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
+from core.config.scraper_config_factory import create_config
 
-def get_repo_root() -> Path:
-    """Get repository root directory (parent of scraper directories)."""
-    return _repo_root
+SCRAPER_ID = "CanadaQuebec"
+config = create_config(SCRAPER_ID)
 
+# --- Path Accessors ---
+def get_repo_root() -> Path: return config.get_repo_root()
+def get_base_dir() -> Path: return config.get_base_dir()
+def get_central_output_dir() -> Path: return config.get_central_output_dir()
+def get_input_dir() -> Path: return config.get_input_dir()
+def get_output_dir() -> Path: return config.get_output_dir()
+def get_backup_dir() -> Path: return config.get_backup_dir()
 
-def get_central_output_dir() -> Path:
-    """Get central exports directory for final reports - uses Documents/ScraperPlatform/output/exports/CanadaQuebec/"""
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        exports_dir = ConfigManager.get_exports_dir(SCRAPER_ID)  # Scraper-specific exports
-        exports_dir.mkdir(parents=True, exist_ok=True)
-        return exports_dir
-    else:
-        # Fallback: use env config or default
-        repo_root = get_repo_root()
-        fallback_dir = get_env("LEGACY_CENTRAL_OUTPUT_DIR", "output")
-        if Path(fallback_dir).is_absolute():
-            central_output = Path(fallback_dir)
-        else:
-            central_output = repo_root / fallback_dir
-        central_output.mkdir(parents=True, exist_ok=True)
-        return central_output
+# --- Environment Accessors ---
+def load_env_file() -> None: pass  # no-op, already loaded on import
+def get_env(key: str, default: str = "") -> str: return config.getenv(key, default)
+def get_env_int(key: str, default: int = 0) -> int: return config.getenv_int(key, default)
+def get_env_float(key: str, default: float = 0.0) -> float: return config.getenv_float(key, default)
+def get_env_bool(key: str, default: bool = False) -> bool: return config.getenv_bool(key, default)
+def get_env_list(key: str, default: list = None) -> list: return config.getenv_list(key, default or [])
 
-try:
-    from core.config.config_manager import ConfigManager
-    _PLATFORM_CONFIG_AVAILABLE = True
-except ImportError:
-    _PLATFORM_CONFIG_AVAILABLE = False
-    PathManager = None
-    ConfigResolver = None
-
-# Load SCRAPER_ID from env/config (for platform paths)
-# Try to load from scraper.id in JSON, fallback to directory name
-def _load_scraper_id() -> str:
-    """Load SCRAPER_ID from config file for platform paths."""
-    default_id = Path(__file__).resolve().parent.name  # "CanadaQuebec"
-    try:
-        config_file = _repo_root / "config" / f"{default_id}.env.json"
-        if config_file.exists():
-            import json
-            with open(config_file, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                # Use scraper.id from top level (e.g., "CanadaQuebec")
-                scraper_id = data.get("scraper", {}).get("id")
-                if scraper_id:
-                    return str(scraper_id)
-    except Exception:
-        pass
-    return default_id  # Fallback to directory name
-
-# Scraper ID for this scraper (loaded from env/config)
-SCRAPER_ID = _load_scraper_id()
-
-
-def get_env(key: str, default: str) -> str:
-    """Get environment variable with default value."""
-    if _PLATFORM_CONFIG_AVAILABLE:
-        try:
-            val = ConfigManager.get_config_value(SCRAPER_ID, key, default)
-            # Convert to string in case JSON config returns boolean/int/float
-            return str(val) if val is not None else default
-        except Exception:
-            return os.getenv(key, default)
-    return os.getenv(key, default)
-
-
-def get_env_int(key: str, default: int) -> int:
-    """Get environment variable as integer with default value."""
-    if _PLATFORM_CONFIG_AVAILABLE:
-        try:
-            val = ConfigManager.get_config_value(SCRAPER_ID, key, str(default))
-            return int(val)
-        except (ValueError, TypeError, Exception):
-            return default
-    try:
-        return int(os.getenv(key, str(default)))
-    except (ValueError, TypeError):
-        return default
-
-
-def get_env_float(key: str, default: float) -> float:
-    """Get environment variable as float with default value."""
-    if _PLATFORM_CONFIG_AVAILABLE:
-        try:
-            val = ConfigManager.get_config_value(SCRAPER_ID, key, str(default))
-            return float(val)
-        except (ValueError, TypeError, Exception):
-            return default
-    try:
-        return float(os.getenv(key, str(default)))
-    except (ValueError, TypeError):
-        return default
-
-
-def get_env_bool(key: str, default: bool) -> bool:
-    """Get environment variable as boolean with default value."""
-    if _PLATFORM_CONFIG_AVAILABLE:
-        try:
-            val = ConfigManager.get_config_value(SCRAPER_ID, key, "")
-        except Exception:
-            val = os.getenv(key, "")
-    else:
-        val = os.getenv(key, "")
-    
-    # Handle case where val might already be a boolean (from JSON config)
-    if isinstance(val, bool):
-        return val
-    
-    # Convert to string and process
-    val_str = str(val).strip().lower()
-    if val_str in ("1", "true", "yes", "on"):
-        return True
-    elif val_str in ("0", "false", "no", "off", ""):
-        return False
-    return default
-
-
-# Standardized function names (for consistency with Argentina/Malaysia)
-# These are aliases to maintain backward compatibility
-def getenv(key: str, default: str = None) -> str:
-    """Alias for get_env - standardized name for consistency."""
-    return get_env(key, default if default is not None else "")
-
-
-def getenv_int(key: str, default: int = 0) -> int:
-    """Alias for get_env_int - standardized name for consistency."""
-    return get_env_int(key, default)
-
-
-def getenv_float(key: str, default: float = 0.0) -> float:
-    """Alias for get_env_float - standardized name for consistency."""
-    return get_env_float(key, default)
-
-
-def getenv_bool(key: str, default: bool = False) -> bool:
-    """Alias for get_env_bool - standardized name for consistency."""
-    return get_env_bool(key, default)
-
-
-def getenv_list(key: str, default: list = None) -> list:
-    """Get environment variable as list (handles JSON arrays)."""
-    if default is None:
-        default = []
-    if _PLATFORM_CONFIG_AVAILABLE:
-        try:
-            value = ConfigManager.get_config_value(SCRAPER_ID, key, default)
-        except Exception:
-            value = os.getenv(key, None)
-    else:
-        # Try to read from JSON config file directly
-        try:
-            config_file = _repo_root / "config" / f"{SCRAPER_ID}.env.json"
-            if config_file.exists():
-                import json
-                with open(config_file, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    value = data.get("config", {}).get(key, default)
-                if value is not None:
-                    # If it's already a list, return it
-                    if isinstance(value, list):
-                        return value
-                    # If it's a string, try to parse as JSON array
-                    if isinstance(value, str):
-                        try:
-                            return json.loads(value)
-                        except:
-                            # If not JSON, split by comma
-                            return [item.strip() for item in value.split(",") if item.strip()]
-        except Exception:
-            pass
-        value = os.getenv(key)
-        if value is None:
-            return default
-        # Try to parse as JSON array
-        try:
-            return json.loads(value)
-        except:
-            # If not JSON, split by comma
-            return [item.strip() for item in value.split(",") if item.strip()]
-    
-    # Handle the value from config resolver
-    if value is None:
-        return default
-    if isinstance(value, list):
-        return value
-    if isinstance(value, str):
-        try:
-            import json
-            return json.loads(value)
-        except:
-            return [item.strip() for item in value.split(",") if item.strip()]
-    return default
-
-
-def get_base_dir() -> Path:
-    """
-    Get base directory.
-
-    With platform_config: Returns scraper-specific directory under platform root
-    Legacy mode: Returns parent of scripts folder
-    """
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Use platform paths
-        # Migrated: get_path_manager() -> ConfigManager
-        platform_root = ConfigManager.get_app_root()
-
-        # Check if BASE_DIR is explicitly set in config
-        base_dir_str = get_env("BASE_DIR", "")
-        if base_dir_str:
-            return Path(base_dir_str).resolve()
-
-        # Default: platform root
-        return platform_root
-    else:
-        # Legacy: relative to script location
-        base_dir_str = get_env("BASE_DIR", "")
-        if base_dir_str:
-            return Path(base_dir_str).resolve()
-        return Path(__file__).resolve().parents[1]
-
-
-def get_input_dir() -> Path:
-    """Get input directory - uses Documents/ScraperPlatform/input/CanadaQuebec/"""
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        input_dir = ConfigManager.get_input_dir(SCRAPER_ID)
-        input_dir.mkdir(parents=True, exist_ok=True)
-        return input_dir
-    else:
-        # Legacy mode
-        base = get_base_dir()
-        input_subdir = get_env("INPUT_DIR", "input")
-        if Path(input_subdir).is_absolute():
-            return Path(input_subdir)
-        return base / input_subdir
-
-
-def get_output_dir() -> Path:
-    """
-    Get output directory - uses Documents/ScraperPlatform/output/CanadaQuebec/
-    
-    Scraper-specific output directory for organized file management.
-    """
-    # First check if OUTPUT_DIR is explicitly set (absolute path or environment variable)
-    output_dir_str = get_env("OUTPUT_DIR", "")
-    if output_dir_str and Path(output_dir_str).is_absolute():
-        return Path(output_dir_str)
-    
-    # Use scraper-specific platform output directory
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        platform_output = ConfigManager.get_output_dir(SCRAPER_ID)  # Scraper-specific output
-        platform_output.mkdir(parents=True, exist_ok=True)
-        return platform_output
-    else:
-        # Fallback: use env config or default
-        repo_root = get_repo_root()
-        fallback_dir = get_env("LEGACY_OUTPUT_DIR", "output")
-        if Path(fallback_dir).is_absolute():
-            repo_output = Path(fallback_dir)
-        else:
-            repo_output = repo_root / fallback_dir
-        repo_output.mkdir(parents=True, exist_ok=True)
-        return repo_output
+# Standardized aliases
+def getenv(key: str, default: str = "") -> str: return get_env(key, default)
+def getenv_int(key: str, default: int = 0) -> int: return get_env_int(key, default)
+def getenv_float(key: str, default: float = 0.0) -> float: return get_env_float(key, default)
+def getenv_bool(key: str, default: bool = False) -> bool: return get_env_bool(key, default)
+def getenv_list(key: str, default: list = None) -> list: return get_env_list(key, default or [])
 
 
 def get_split_pdf_dir() -> Path:
@@ -323,22 +77,6 @@ def get_qa_output_dir() -> Path:
     return result
 
 
-def get_backup_dir() -> Path:
-    """Get backup directory - uses Documents/ScraperPlatform/output/backups/CanadaQuebec/"""
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        backup_dir = ConfigManager.get_backups_dir(SCRAPER_ID)  # Scraper-specific backups
-        backup_dir.mkdir(parents=True, exist_ok=True)
-        return backup_dir
-    else:
-        # Legacy mode
-        base = get_base_dir()
-        backup_subdir = get_env("BACKUP_DIR", "backups")
-        if Path(backup_subdir).is_absolute():
-            return Path(backup_subdir)
-        return base / backup_subdir
-
-
 # File names
 DEFAULT_INPUT_PDF_NAME = get_env("DEFAULT_INPUT_PDF_NAME", "liste-med.pdf")
 ANNEXE_IV1_PDF_NAME = get_env("ANNEXE_IV1_PDF_NAME", "annexe_iv1.pdf")
@@ -364,7 +102,25 @@ FINAL_COLUMNS_STR = get_env("FINAL_COLUMNS",
 FINAL_COLUMNS = [col.strip() for col in FINAL_COLUMNS_STR.split(",") if col.strip()]
 
 # API Configuration (secrets)
-OPENAI_API_KEY = get_env("OPENAI_API_KEY", "").strip()  # Strip whitespace to ensure clean key
+# API Configuration (secrets)
+def _load_secret(key, default=""):
+    # 1. Try environment/standard config first
+    val = get_env(key, "").strip()
+    if val: return val
+    
+    # 2. Fallback: Try loading from secrets section of .env.json
+    try:
+        import json
+        json_path = get_repo_root() / "config" / f"{SCRAPER_ID}.env.json"
+        if json_path.exists():
+            with open(json_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            return data.get("secrets", {}).get(key, default).strip()
+    except Exception:
+        pass
+    return default
+
+OPENAI_API_KEY = _load_secret("OPENAI_API_KEY")
 OPENAI_MODEL = get_env("OPENAI_MODEL", "gpt-4o-mini")
 OPENAI_TEMPERATURE = get_env_float("OPENAI_TEMPERATURE", 0.0)
 
@@ -412,7 +168,7 @@ except (ValueError, AttributeError):
     }
 
 # Database configuration
-DB_ENABLED = True # get_env_bool("DB_ENABLED", False)
+DB_ENABLED = get_env_bool("DB_ENABLED", False)
 DB_HOST = get_env("DB_HOST", "localhost")
 DB_PORT = get_env_int("DB_PORT", 5432)
 DB_NAME = get_env("DB_NAME", "scraper_db")
@@ -422,13 +178,16 @@ DB_PASSWORD = get_env("DB_PASSWORD", "")
 # This is for database records (different format)
 SCRAPER_ID_DB = get_env("SCRAPER_ID", "canada_quebec_ramq")
 
+# AI & Transformation Mode
+# Options: HEURISTIC (Regex only), AI_REFINEMENT (Regex + Gemini)
+CLEANING_MODE = get_env("CLEANING_MODE", "AI_REFINEMENT").upper()
+
 
 # Diagnostic function
 if __name__ == "__main__":
     print("=" * 60)
     print("CanadaQuebec Config Loader - Diagnostic")
     print("=" * 60)
-    print(f"Platform Config Available: {_PLATFORM_CONFIG_AVAILABLE}")
     print(f"Scraper ID: {SCRAPER_ID}")
     print()
     print("Paths:")

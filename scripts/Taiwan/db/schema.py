@@ -10,6 +10,14 @@ Tables:
 - tw_errors: Error logging
 """
 
+import sys
+from pathlib import Path
+
+# Add repo root to path for core imports (MUST be before any core imports)
+_repo_root = Path(__file__).resolve().parents[3]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
 # PostgreSQL uses SERIAL instead of AUTOINCREMENT
 # PostgreSQL uses CURRENT_TIMESTAMP instead of datetime('now')
 # PostgreSQL uses ON CONFLICT DO UPDATE/NOTHING instead of ON CONFLICT REPLACE

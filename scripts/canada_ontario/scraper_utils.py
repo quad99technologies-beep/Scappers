@@ -1,12 +1,15 @@
 """
 Shared utilities for Canada Ontario scraper scripts.
-Contains common functions for memory management, resource cleanup, and progress tracking.
+Contains common functions for memory management, resource cleanup and progress tracking,
+as well as shared HTTP helpers and data-parsing utilities used across all pipeline steps.
 """
 
 import os
 import gc
+import re
 import sys
 import time
+import random
 import psutil
 import signal
 import atexit
@@ -15,6 +18,61 @@ import logging
 from pathlib import Path
 from datetime import datetime
 from typing import Optional, Set, Tuple
+
+# =============================================================================
+# SHARED HTTP HELPERS
+# =============================================================================
+
+# Canonical User-Agent pool — single source of truth for all steps.
+USER_AGENTS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+]
+
+
+def build_headers() -> dict:
+    """Return a randomised set of HTTP headers for web requests."""
+    return {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.8",
+        "Cache-Control": "no-cache",
+        "Pragma": "no-cache",
+        "User-Agent": random.choice(USER_AGENTS),
+    }
+
+
+# =============================================================================
+# CANONICAL FLOAT PARSER
+# =============================================================================
+
+def parse_float(value: Optional[object]) -> Optional[float]:
+    """
+    Parse a value to float.
+
+    - Handles int/float pass-through directly.
+    - Strips currency symbols, commas and other non-numeric chars from strings.
+    - Returns None for empty, None or obviously invalid input.
+
+    Unified implementation — replaces divergent parse_float() definitions
+    previously in step 01 (regex-based) and step 03 (direct float()).
+    """
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    s = str(value).strip()
+    if not s or s.lower() in {"n/a", "na", ""}:
+        return None
+    s = re.sub(r"[^\d.]+", "", s)
+    if not s:
+        return None
+    try:
+        return float(s)
+    except (ValueError, TypeError):
+        return None
 
 # =============================================================================
 # LOGGING SETUP

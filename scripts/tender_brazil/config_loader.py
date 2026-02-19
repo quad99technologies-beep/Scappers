@@ -1,117 +1,44 @@
 """
-Configuration Loader for Tender Brazil Scraper (Platform Config Integration)
+Configuration Loader for Tender Brazil Scraper (Facade for Core ConfigManager)
 
-Loads configuration from config/Tender_Brazil.env.json with fallback to .env.
+This module provides centralized config and path management for Tender Brazil scraper.
+It acts as a facade, delegating all logic to core.config.config_manager.ConfigManager.
 """
-import os
 import sys
 from pathlib import Path
 
-_repo_root = Path(__file__).resolve().parents[2]
+_script_dir = Path(__file__).resolve().parent
+_repo_root = _script_dir.parents[1]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
+from core.config.scraper_config_factory import create_config
+
 SCRAPER_ID = "Tender_Brazil"
+config = create_config(SCRAPER_ID)
 
-try:
-    from core.config.config_manager import ConfigManager, get_config_resolver
-    _PLATFORM_CONFIG_AVAILABLE = True
-except ImportError:
-    _PLATFORM_CONFIG_AVAILABLE = False
-    get_path_manager = None
-    get_config_resolver = None
+# --- Path Accessors ---
+def get_repo_root() -> Path: return config.get_repo_root()
+def get_base_dir() -> Path: return config.get_base_dir()
+def get_central_output_dir() -> Path: return config.get_central_output_dir()
+def get_input_dir(subpath=None) -> Path: return config.get_input_dir(subpath)
+def get_output_dir(subpath=None) -> Path: return config.get_output_dir(subpath)
+def get_backup_dir() -> Path: return config.get_backup_dir()
+def get_logs_dir() -> Path: return config.get_output_dir("logs")
 
+# --- Environment Accessors ---
+def load_env_file() -> None: pass  # no-op, already loaded on import
+def getenv(key: str, default: str = "") -> str: return config.getenv(key, default)
+def getenv_int(key: str, default: int = 0) -> int: return config.getenv_int(key, default)
+def getenv_float(key: str, default: float = 0.0) -> float: return config.getenv_float(key, default)
+def getenv_bool(key: str, default: bool = False) -> bool: return config.getenv_bool(key, default)
+def getenv_list(key: str, default: list = None) -> list: return config.getenv_list(key, default or [])
 
-def get_repo_root() -> Path:
-    return _repo_root
-
-
-def load_env_file() -> None:
-    try:
-        from core.config.config_manager import ConfigManager
-        ConfigManager.ensure_dirs()
-        ConfigManager.load_env(SCRAPER_ID)
-    except (ImportError, FileNotFoundError, ValueError):
-        try:
-            from dotenv import load_dotenv
-            config_dir = get_repo_root() / "config"
-            env_file = config_dir / f"{SCRAPER_ID}.env"
-            if env_file.exists():
-                load_dotenv(env_file, override=True)
-            platform_env = config_dir / "platform.env"
-            if platform_env.exists():
-                load_dotenv(platform_env, override=False)
-        except ImportError:
-            pass
-
-
-def getenv(key: str, default: str = None):
-    if _PLATFORM_CONFIG_AVAILABLE:
-        try:
-            val = ConfigManager.get_config_value(SCRAPER_ID, key, None)
-            return str(val) if val is not None else (default if default is not None else "")
-        except Exception:
-            pass
-    return os.getenv(key, default)
-
-
-def getenv_int(key: str, default: int = 0) -> int:
-    try:
-        return int(getenv(key, str(default)))
-    except (TypeError, ValueError):
-        return default
-
-
-def getenv_float(key: str, default: float = 0.0) -> float:
-    try:
-        return float(getenv(key, str(default)))
-    except (TypeError, ValueError):
-        return default
-
-
-def getenv_bool(key: str, default: bool = False) -> bool:
-    value = getenv(key, str(default))
-    if isinstance(value, bool):
-        return value
-    return str(value).lower() in ("true", "1", "yes", "on")
-
-
-def get_output_dir(subpath: str = None) -> Path:
-    output_dir_str = getenv("OUTPUT_DIR", "")
-    if output_dir_str and Path(output_dir_str).is_absolute():
-        base = Path(output_dir_str)
-    else:
-        if _PLATFORM_CONFIG_AVAILABLE:
-            # Migrated: get_path_manager() -> ConfigManager
-            base = ConfigManager.get_output_dir(SCRAPER_ID)
-            base.mkdir(parents=True, exist_ok=True)
-        else:
-            base = get_repo_root() / "output" / SCRAPER_ID
-            base.mkdir(parents=True, exist_ok=True)
-    if subpath:
-        result = base / subpath
-        result.mkdir(parents=True, exist_ok=True)
-        return result
-    return base
-
-
-def get_input_dir(subpath: str = None) -> Path:
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        base = ConfigManager.get_input_dir(SCRAPER_ID)
-        base.mkdir(parents=True, exist_ok=True)
-    else:
-        base = get_repo_root() / "input" / SCRAPER_ID
-        base.mkdir(parents=True, exist_ok=True)
-    if subpath:
-        return base / subpath
-    return base
-
-
-def get_backup_dir() -> Path:
-    if _PLATFORM_CONFIG_AVAILABLE:
-        # Migrated: get_path_manager() -> ConfigManager
-        return ConfigManager.get_backups_dir(SCRAPER_ID)
-    base = get_repo_root() / "backups" / SCRAPER_ID
-    base.mkdir(parents=True, exist_ok=True)
-    return base
+# --- Diagnostic ---
+if __name__ == "__main__":
+    print("=" * 60)
+    print("Tender Brazil Config Loader - Diagnostic (Facade)")
+    print("=" * 60)
+    print(f"Scraper ID: {SCRAPER_ID}")
+    print(f"Input Dir: {get_input_dir()}")
+    print(f"Output Dir: {get_output_dir()}")

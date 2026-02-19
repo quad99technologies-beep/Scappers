@@ -8,7 +8,7 @@ This contract ensures all countries use the shared pcid_mapping table
 and prevents drift.
 
 Usage:
-    from core.pcid_mapping_contract import get_pcid_mapping
+    from core.data.pcid_mapping_contract import get_pcid_mapping
     
     # This is the ONLY way to access PCID mappings
     pcid = get_pcid_mapping("Malaysia")

@@ -6,6 +6,11 @@ import os
 import sys
 from pathlib import Path
 
+# Add repo root to path for core imports (MUST be before any core imports)
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
+
 _SCRIPT_DIR = Path(__file__).resolve().parent
 # Ensure Argentina directory is at the front of sys.path to prioritize local 'db' package
 # This fixes conflict with core/db which might be in sys.path

@@ -26,19 +26,22 @@ def run_step(script_name):
         sys.exit(1)
 
 def transform_to_excel():
-    input_file = os.path.join(DATA_DIR, "extracted_data.jsonl")
-    if not os.path.exists(input_file):
-        logger.error("No extracted data found.")
+    run_id = os.environ.get("ITALY_RUN_ID")
+    if not run_id:
+        logger.error("ITALY_RUN_ID not found.")
         return
 
-    data = []
-    with open(input_file, 'r', encoding='utf-8') as f:
-        for line in f:
-            if line.strip():
-                data.append(json.loads(line))
+    from core.db.connection import CountryDB
+    from db.repositories import ItalyRepository
+    
+    db = CountryDB("Italy")
+    repo = ItalyRepository(db, run_id)
+    
+    data = repo.get_products_for_export()
+    db.close()
     
     if not data:
-        logger.warning("No data extracted.")
+        logger.warning("No data found for export in database.")
         return
 
     # Transform to required schema

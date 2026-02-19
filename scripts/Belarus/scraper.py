@@ -24,6 +24,9 @@ class BelarusScraper(BaseScraper):
         steps = [
             ("00_backup_and_clean.py", "Backup and Clean", True),
             ("01_belarus_rceth_extract.py", "Extract RCETH", True),
+            ("02_belarus_pcid_mapping.py", "PCID Mapping", True),
+            ("04_belarus_process_and_translate.py", "Process and Translate", True),
+            ("03_belarus_format_for_export.py", "Format English Export Slate", True),
         ]
         
         base_dir = os.path.dirname(os.path.abspath(__file__))

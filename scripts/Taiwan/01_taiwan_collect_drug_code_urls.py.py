@@ -68,11 +68,14 @@ START_URL = "https://info.nhi.gov.tw/INAE3000/INAE3000S01"
 
 SCRAPER_NAME = "Taiwan"
 
-OUTPUT_DIR = get_output_dir()
-INPUT_PREFIXES = get_input_dir() / getenv("SCRIPT_01_ATC_PREFIX_FILE", "ATC_L3_L4_Prefixes.csv")
-OUT_CODES = OUTPUT_DIR / getenv("SCRIPT_01_OUT_CODES", "taiwan_drug_code_urls.csv")
-SEEN_CODES = OUTPUT_DIR / getenv("SCRIPT_01_SEEN_CODES", "seen_drug_codes.txt")
-PROGRESS = OUTPUT_DIR / getenv("SCRIPT_01_PROGRESS_FILE", "taiwan_progress_prefix.txt")
+# DB imports
+try:
+    from core.db.connection import CountryDB
+    from db.schema import apply_taiwan_schema
+    from db.repositories import TaiwanRepository
+    HAS_DB = True
+except ImportError:
+    HAS_DB = False
 
 WAIT_TIMEOUT = 30
 PAGE_LOAD_TIMEOUT = 60
@@ -203,19 +206,13 @@ def ensure_driver() -> webdriver.Chrome:
         opts.add_argument("--headless=new")
     driver = webdriver.Chrome(options=opts)
     driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
-    driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
     
     # Try to register with ChromeInstanceTracker (only if DB/RunID available)
-    if ChromeInstanceTracker and getenv("RUN_ID"):
+    run_id = getenv("TW_RUN_ID")
+    if ChromeInstanceTracker and run_id:
         try:
             from core.db.connection import CountryDB
-            run_id = getenv("RUN_ID")
-            # We assume CountryDB works for Taiwan if configured, 
-            # otherwise this block fails gracefully
             db = CountryDB("Taiwan") 
-            # Note: ChromeInstanceTracker expects a db object that has cursor() context
-            # CountryDB usually needs .connect() or context manager.
-            # We'll just try/except pass.
             db.connect()
             tracker = ChromeInstanceTracker("Taiwan", run_id, db)
             pid = driver.service.process.pid if hasattr(driver.service, 'process') else None
@@ -255,9 +252,11 @@ def load_prefixes() -> List[str]:
                 db.close()
         except Exception as e:
             print(f"[WARN] Could not load from input table {input_table}: {e}")
+    
     # 2. Fallback to CSV file
-    if INPUT_PREFIXES.exists():
-        with open(INPUT_PREFIXES, "r", encoding="utf-8-sig") as f:
+    input_file = get_input_dir() / getenv("SCRIPT_01_ATC_PREFIX_FILE", "ATC_L3_L4_Prefixes.csv")
+    if input_file.exists():
+        with open(input_file, "r", encoding="utf-8-sig") as f:
             reader = csv.reader(f)
             rows = list(reader)
         prefixes = []
@@ -270,71 +269,6 @@ def load_prefixes() -> List[str]:
         if prefixes:
             return prefixes
     return [p.upper() for p in iter_prefixes_aa_zz()]
-
-
-def read_progress() -> Dict[str, Any]:
-    default_state = {"prefixes": {}, "last_prefix": ""}
-    if not PROGRESS.exists():
-        return default_state
-    raw = PROGRESS.read_text(encoding="utf-8").strip()
-    if not raw:
-        return default_state
-    try:
-        data = json.loads(raw)
-    except json.JSONDecodeError:
-        data = raw
-    if isinstance(data, str):
-        return {"prefixes": {data: {"page": 1, "done": False}}, "last_prefix": data}
-    if isinstance(data, dict):
-        if "prefixes" in data and isinstance(data["prefixes"], dict):
-            data.setdefault("last_prefix", "")
-            return data
-        prefixes = {}
-        last_prefix = ""
-        for key, value in data.items():
-            if key == "last_prefix" and isinstance(value, str):
-                last_prefix = value
-                continue
-            if isinstance(value, dict):
-                page = int(value.get("page", 1))
-                done = bool(value.get("done", False))
-                prefixes[key] = {"page": page, "done": done}
-            elif isinstance(value, int):
-                prefixes[key] = {"page": value, "done": False}
-        return {"prefixes": prefixes, "last_prefix": last_prefix}
-    return default_state
-
-
-def write_progress(state: Dict[str, Any]) -> None:
-    PROGRESS.write_text(json.dumps(state, ensure_ascii=True, indent=2), encoding="utf-8")
-
-
-def load_seen() -> Set[str]:
-    if not SEEN_CODES.exists():
-        return set()
-    with open(SEEN_CODES, "r", encoding="utf-8") as f:
-        return set(x.strip() for x in f if x.strip())
-
-
-def append_seen(code: str):
-    with open(SEEN_CODES, "a", encoding="utf-8") as f:
-        f.write(code + "\n")
-
-
-def ensure_out_header():
-    if OUT_CODES.exists():
-        with open(OUT_CODES, "r", encoding="utf-8") as f:
-            reader = csv.reader(f)
-            header = next(reader, [])
-        if header == OUTPUT_COLUMNS:
-            return
-        raise RuntimeError(
-            f"{OUT_CODES} has an unexpected header. "
-            f"Delete it (and {SEEN_CODES}, {PROGRESS}) to regenerate with full details."
-        )
-    with open(OUT_CODES, "w", newline="", encoding="utf-8") as f:
-        w = csv.writer(f)
-        w.writerow(OUTPUT_COLUMNS)
 
 
 def normalize_text(value: str) -> str:
@@ -714,24 +648,32 @@ def extract_drug_code_rows(driver) -> List[Dict[str, str]]:
 
 def main():
     configure_realtime_output()
-    if terminate_scraper_pids:
-        try:
-            terminate_scraper_pids(SCRAPER_NAME, _repo_root, silent=True)
-        except Exception:
-            pass
+    
+    if not HAS_DB:
+        print("[ERROR] Database support not available. Cannot run Taiwan collector.")
+        sys.exit(1)
 
-    ensure_out_header()
-    seen = load_seen()
-    progress = read_progress()
-    progress_prefixes = progress.setdefault("prefixes", {})
+    # Resolve run_id
+    run_id = os.environ.get("TW_RUN_ID", "").strip()
+    if not run_id:
+        print("[ERROR] No TW_RUN_ID. Set it or run pipeline from step 0.")
+        sys.exit(1)
 
+    # Initialize database
+    db = CountryDB("Taiwan")
+    db.connect()
+    apply_taiwan_schema(db)
+    repo = TaiwanRepository(db, run_id)
+    repo.start_run(mode="resume")
+
+    # Load seen codes and completed progress from DB
+    completed_prefixes = repo.get_completed_keys(step_number=1)
+    
+    # Load prefixes to process
     prefixes = load_prefixes()
-    last_prefix = (progress.get("last_prefix") or "").upper()
-    if last_prefix and last_prefix in prefixes:
-        prefixes = prefixes[prefixes.index(last_prefix):]
-
     total_prefixes = len(prefixes)
-    processed_prefixes = 0
+    processed_prefixes = len(completed_prefixes)
+    
     if total_prefixes:
         emit_prefix_progress(processed_prefixes, total_prefixes, "Starting")
     else:
@@ -742,31 +684,25 @@ def main():
 
     try:
         for i, prefix in enumerate(prefixes, 1):
-            restart_attempts = 0
-            prefix_state = progress_prefixes.get(prefix) or progress_prefixes.get(prefix.lower()) or {}
-            if prefix_state.get("done"):
-                processed_prefixes += 1
-                emit_prefix_progress(
-                    processed_prefixes,
-                    total_prefixes,
-                    f"Skipped prefix {prefix} (already done)",
-                )
+            if prefix in completed_prefixes:
                 continue
-            start_page = max(1, int(prefix_state.get("page", 1)))
-
-            prefix_position = processed_prefixes + 1
+            
+            # Start/Resume behavior for this prefix
+            # In DB, we also track current page if needed
+            start_page = 1 # Simple resume: always start prefix from page 1 unless we add page tracking
+            
+            prefix_position = i
             print(
                 f"[ATC] Searching prefix: {prefix} "
-                f"({prefix_position}/{total_prefixes}) starting at page {start_page}",
+                f"({prefix_position}/{total_prefixes})",
                 flush=True,
             )
-            progress["last_prefix"] = prefix
-            write_progress(progress)
+            
+            repo.mark_progress(1, "collect_urls", prefix, "in_progress")
 
             try:
                 if not start_prefix_search(driver, wait, prefix):
-                    progress_prefixes[prefix] = {"page": start_page, "done": True}
-                    write_progress(progress)
+                    repo.mark_progress(1, "collect_urls", prefix, "completed")
                     processed_prefixes += 1
                     emit_prefix_progress(
                         processed_prefixes,
@@ -775,9 +711,7 @@ def main():
                     )
                     continue
             except (InvalidSessionIdException, WebDriverException):
-                restart_attempts += 1
-                if restart_attempts > 3:
-                    raise
+                # Browser crash
                 try:
                     driver.quit()
                 except Exception:
@@ -790,8 +724,7 @@ def main():
                     prefix_position,
                 )
                 if not ok:
-                    progress_prefixes[prefix] = {"page": start_page, "done": True}
-                    write_progress(progress)
+                    repo.mark_progress(1, "collect_urls", prefix, "completed")
                     processed_prefixes += 1
                     emit_prefix_progress(
                         processed_prefixes,
@@ -800,16 +733,8 @@ def main():
                     )
                     continue
 
-            total_pages = get_total_pages(driver)
-            emit_prefix_progress(
-                processed_prefixes,
-                total_prefixes,
-                f"Prefix {prefix} ({prefix_position}/{total_prefixes}) start page {start_page}",
-            )
-
             if has_no_results(driver):
-                progress_prefixes[prefix] = {"page": start_page, "done": True}
-                write_progress(progress)
+                repo.mark_progress(1, "collect_urls", prefix, "completed")
                 processed_prefixes += 1
                 emit_prefix_progress(
                     processed_prefixes,
@@ -818,149 +743,82 @@ def main():
                 )
                 continue
 
-            if start_page > 1:
-                def _on_advance(page: int) -> None:
-                    emit_prefix_progress(
-                        processed_prefixes,
-                        total_prefixes,
-                        f"Prefix {prefix} ({prefix_position}/{total_prefixes}) advancing page {page}/{start_page}",
-                        current_page=page,
-                        target_page=start_page,
-                    )
+            current_page = 1
+            total_pages = get_total_pages(driver)
 
-                if not advance_to_page(driver, wait, start_page, on_advance=_on_advance):
-                    progress_prefixes[prefix] = {"page": start_page, "done": True}
-                    write_progress(progress)
-                    processed_prefixes += 1
-                    emit_prefix_progress(
-                        processed_prefixes,
-                        total_prefixes,
-                        f"Prefix {prefix} advance failed at page {start_page}; marking done",
-                    )
-                    continue
-
-            current_page = get_current_page(driver)
             while True:
-                if current_page < start_page:
-                    def _on_advance(page: int) -> None:
-                        emit_prefix_progress(
-                            processed_prefixes,
-                            total_prefixes,
-                            f"Prefix {prefix} ({prefix_position}/{total_prefixes}) advancing page {page}/{start_page}",
-                            current_page=page,
-                            target_page=start_page,
-                        )
+                rows = extract_drug_code_rows(driver)
+                
+                # Transform to DB format
+                db_rows = []
+                for r in rows:
+                    db_rows.append({
+                        "drug_code": r.get("Drug Code"),
+                        "drug_code_url": r.get("Drug Code URL"),
+                        "lic_id": r.get("licId"),
+                        "name_en": r.get("Name of the drug"),
+                        "name_zh": r.get("Name of drug (Chinese)"),
+                        "ingredient_content": r.get("Ingredient name/ingredient content"),
+                        "gauge_quantity": r.get("Gauge quantity"),
+                        "single_compound": r.get("Single compound"),
+                        "price": r.get("Price"),
+                        "effective_date": r.get("Effective date"),
+                        "effective_start_date": r.get("Effective start date"),
+                        "effective_end_date": r.get("Effective end date"),
+                        "pharmacists": r.get("Pharmacists"),
+                        "dosage_form": r.get("dosage form"),
+                        "classification": r.get("Classification of medicines"),
+                        "taxonomy_group": r.get("Taxonomy group name"),
+                        "atc_code": r.get("ATC code"),
+                        "page_number": current_page
+                    })
+                
+                # Insert to DB
+                repo.insert_drug_codes(db_rows)
 
-                    if not advance_to_page(driver, wait, start_page, on_advance=_on_advance):
-                        progress_prefixes[prefix] = {"page": start_page, "done": True}
-                        write_progress(progress)
-                        processed_prefixes += 1
-                        emit_prefix_progress(
-                            processed_prefixes,
-                            total_prefixes,
-                            f"Prefix {prefix} advance failed at page {start_page}; marking done",
-                        )
-                        break
-                    current_page = get_current_page(driver)
+                emit_prefix_progress(
+                    processed_prefixes,
+                    total_prefixes,
+                    format_page_detail(
+                        prefix, prefix_position, total_prefixes,
+                        current_page, total_pages, len(rows), len(rows), 0
+                    ),
+                    current_page=current_page,
+                    total_pages=total_pages,
+                )
 
-                try:
-                    rows = extract_drug_code_rows(driver)
-                    if not rows and has_no_results(driver):
-                        progress_prefixes[prefix] = {"page": current_page, "done": True}
-                        write_progress(progress)
-                        processed_prefixes += 1
-                        emit_prefix_progress(
-                            processed_prefixes,
-                            total_prefixes,
-                            f"Prefix {prefix} has no results; marking done",
-                        )
-                        break
-                    page_rows = len(rows)
-                    new_rows = 0
-                    seen_rows = 0
-                    if rows:
-                        with open(OUT_CODES, "a", newline="", encoding="utf-8") as f:
-                            w = csv.writer(f)
-                            for row in rows:
-                                code = row.get("Drug Code", "")
-                                if not code or code in seen:
-                                    seen_rows += 1
-                                    continue
-                                w.writerow([row.get(col, "") for col in OUTPUT_COLUMNS])
-                                seen.add(code)
-                                append_seen(code)
-                                new_rows += 1
+                if not click_next_page(driver, wait):
+                    break
+                
+                current_page = get_current_page(driver)
+                # Fail-safe to avoid infinite loops
+                if current_page > 1000:
+                    break
 
-                    total_pages = max(total_pages, get_total_pages(driver))
-                    emit_prefix_progress(
-                        processed_prefixes,
-                        total_prefixes,
-                        format_page_detail(
-                            prefix,
-                            prefix_position,
-                            total_prefixes,
-                            current_page,
-                            total_pages,
-                            page_rows,
-                            new_rows,
-                            seen_rows,
-                        ),
-                        current_page=current_page,
-                        total_pages=total_pages,
-                    )
+            repo.mark_progress(1, "collect_urls", prefix, "completed")
+            processed_prefixes += 1
+            emit_prefix_progress(
+                processed_prefixes,
+                total_prefixes,
+                f"Prefix {prefix} completed",
+            )
 
-                    progress_prefixes[prefix] = {"page": current_page + 1, "done": False}
-                    write_progress(progress)
-
-                    if not click_next_page(driver, wait):
-                        progress_prefixes[prefix] = {"page": current_page, "done": True}
-                        write_progress(progress)
-                        processed_prefixes += 1
-                        emit_prefix_progress(
-                            processed_prefixes,
-                            total_prefixes,
-                            f"Completed prefix {prefix}",
-                        )
-                        break
-                    current_page = get_current_page(driver)
-                except (InvalidSessionIdException, WebDriverException):
-                    restart_attempts += 1
-                    if restart_attempts > 3:
-                        raise
-                    try:
-                        driver.quit()
-                    except Exception:
-                        pass
-                    driver, wait, ok = restart_prefix_session(
-                        prefix,
-                        current_page,
-                        processed_prefixes,
-                        total_prefixes,
-                        prefix_position,
-                    )
-                    if not ok:
-                        progress_prefixes[prefix] = {"page": current_page, "done": True}
-                        write_progress(progress)
-                        processed_prefixes += 1
-                        emit_prefix_progress(
-                            processed_prefixes,
-                            total_prefixes,
-                            f"Prefix {prefix} restart failed; marking done",
-                        )
-                        break
-                    current_page = get_current_page(driver)
-
-            time.sleep(SLEEP)
-
-        print("DONE: Collected unique Drug Code URLs:", OUT_CODES, flush=True)
-
+    except KeyboardInterrupt:
+        print("\n[STOP] Interrupted by user. Progress saved in database.")
+    except Exception as e:
+        print(f"\n[FATAL] {e}", flush=True)
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
     finally:
-        driver.quit()
-        if terminate_scraper_pids:
-            try:
-                terminate_scraper_pids(SCRAPER_NAME, _repo_root, silent=True)
-            except Exception:
-                pass
+        try:
+            driver.quit()
+        except Exception:
+            pass
+        if db:
+            db.close()
+
+    print("\n[DONE] URL Collection Complete.")
 
 
 if __name__ == "__main__":

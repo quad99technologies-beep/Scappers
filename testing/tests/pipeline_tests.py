@@ -21,7 +21,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT))
 
 from core.db.postgres_connection import get_db
-from core.preflight_checks import PreflightChecker
+from core.pipeline.preflight_checks import PreflightChecker
 
 
 def test_step_0_db_init(scraper_name: str) -> Dict[str, Any]:

@@ -94,17 +94,27 @@ def format_pricing_data_from_db(
         for product in ved_products:
             item_id = product.get("item_id", "")
             trans = translated_by_item.get(item_id, {})
+            
+            # Helper to sanitize strings for CSV (remove tabs, newlines, rogue separators)
+            def clean(val):
+                if val is None: return ""
+                s = str(val).strip()
+                # Replace tabs, newlines, and carriage returns with spaces
+                s = s.replace("\t", " ").replace("\n", " ").replace("\r", " ")
+                # Remove common rogue characters that break some CSV parsers if unquoted
+                return s
+
             output_row = {
                 "PCID": "",
                 "Country": "Russia",
-                "Company": trans.get("manufacturer_country_en", "").strip(),
-                "Product Group": trans.get("tn_en", "").strip(),
-                "Generic Name": trans.get("inn_en", "").strip(),
-                "Start Date": trans.get("start_date_text", product.get("start_date_text", "") or "").strip(),
+                "Company": clean(trans.get("manufacturer_country_en") or product.get("manufacturer_country") or ""),
+                "Product Group": clean(trans.get("tn_en") or product.get("tn") or ""),
+                "Generic Name": clean(trans.get("inn_en") or product.get("inn") or ""),
+                "Start Date": clean(trans.get("start_date_text") or product.get("start_date_text") or ""),
                 "Currency": "RUB",
-                "Ex-Factory Wholesale Price": (trans.get("registered_price_rub") or product.get("registered_price_rub") or "").strip(),
-                "Local Pack Description": trans.get("release_form_en", "").strip(),
-                "LOCAL_PACK_CODE": (trans.get("ean") or product.get("ean") or "").strip(),
+                "Ex-Factory Wholesale Price": clean(trans.get("registered_price_rub") or product.get("registered_price_rub") or ""),
+                "Local Pack Description": clean(trans.get("release_form_en") or product.get("release_form") or ""),
+                "LOCAL_PACK_CODE": clean(trans.get("ean") or product.get("ean") or ""),
             }
             writer.writerow(output_row)
     return len(ved_products)
@@ -145,17 +155,25 @@ def format_discontinued_list_from_db(
         for product in excluded_products:
             item_id = product.get("item_id", "")
             trans = translated_by_item.get(item_id, {})
+
+            # Helper to sanitize strings for CSV
+            def clean(val):
+                if val is None: return ""
+                s = str(val).strip()
+                s = s.replace("\t", " ").replace("\n", " ").replace("\r", " ")
+                return s
+
             output_row = {
                 "PCID": "",
                 "Country": "Russia",
-                "Product Group": trans.get("tn_en", "").strip(),
-                "Generic Name": trans.get("inn_en", "").strip(),
-                "Start Date": trans.get("start_date_text", product.get("start_date_text", "") or "").strip(),
+                "Product Group": clean(trans.get("tn_en") or product.get("tn") or ""),
+                "Generic Name": clean(trans.get("inn_en") or product.get("inn") or ""),
+                "Start Date": clean(trans.get("start_date_text") or product.get("start_date_text") or ""),
                 "End Date": "",
                 "Currency": "RUB",
-                "Ex-Factory Wholesale Price": (trans.get("registered_price_rub") or product.get("registered_price_rub") or "").strip(),
-                "Local Pack Description": trans.get("release_form_en", "").strip(),
-                "LOCAL_PACK_CODE": (trans.get("ean") or product.get("ean") or "").strip(),
+                "Ex-Factory Wholesale Price": clean(trans.get("registered_price_rub") or product.get("registered_price_rub") or ""),
+                "Local Pack Description": clean(trans.get("release_form_en") or product.get("release_form") or ""),
+                "LOCAL_PACK_CODE": clean(trans.get("ean") or product.get("ean") or ""),
             }
             writer.writerow(output_row)
     return len(excluded_products)

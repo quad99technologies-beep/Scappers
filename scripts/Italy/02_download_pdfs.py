@@ -1,17 +1,32 @@
 
+import sys
+import os
 import requests
 import json
 import time
-import os
 import logging
 import concurrent.futures
+from pathlib import Path
+
+# Add repo root to path for core imports
+_repo_root = Path(__file__).resolve().parents[2]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
+# Italy-specific imports
+_script_dir = Path(__file__).parent
+if str(_script_dir) not in sys.path:
+    sys.path.insert(0, str(_script_dir))
+
+from core.db.connection import CountryDB
+from db.repositories import ItalyRepository
+from config_loader import load_env_file, get_output_dir
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 # Configuration
-INPUT_FILE = r"d:\quad99\Scrappers\data\Italy\determinas_list.jsonl"
 PDF_DIR = r"d:\quad99\Scrappers\data\Italy\pdfs"
 DETAILS_DIR = r"d:\quad99\Scrappers\data\Italy\details"
 DETAIL_URL_BASE = "https://trovanorme.aifa.gov.it/tnf-service/determina/tnf/pubblicate/"
@@ -22,17 +37,6 @@ HEADERS = {
     "Accept": "application/json, text/plain, */*",
     "Referer": "https://trovanorme.aifa.gov.it/",
 }
-
-def load_items(filepath):
-    """Load items from JSONL file."""
-    items = []
-    if not os.path.exists(filepath):
-        return items
-    with open(filepath, 'r', encoding='utf-8') as f:
-        for line in f:
-            if line.strip():
-                items.append(json.loads(line))
-    return items
 
 def fetch_detail(item_id):
     """Fetch detail metadata to find attachment IDs."""
@@ -76,7 +80,8 @@ def download_pdf(attachment_id, filename):
         return False
 
 def process_item(item):
-    item_id = item.get("id")
+    # item is now a dict from DB
+    item_id = item.get("determina_id")
     if not item_id:
         return
     
@@ -100,11 +105,6 @@ def process_item(item):
     for att in attachments:
         att_id = att.get("id")
         att_name = att.get("nome", "unknown")
-        is_main = att.get("principale", False)
-        
-        # We probably want the main file or all? 
-        # The user example showed "norma.pdf" which seems to be the main text.
-        # "filePrincipale" often points to the main PDF.
         
         # Filename strategy: {item_id}_{att_id}_{name}.pdf
         safe_name = "".join([c for c in att_name if c.isalnum() or c in (' ', '.', '_', '-')]).strip()
@@ -113,14 +113,27 @@ def process_item(item):
         download_pdf(att_id, filename)
 
 def main():
+    load_env_file()
+    run_id = os.environ.get("ITALY_RUN_ID")
+    if not run_id:
+        logger.error("ITALY_RUN_ID not found in environment.")
+        sys.exit(1)
+
+    db = CountryDB("Italy")
+    repo = ItalyRepository(db, run_id)
+
     os.makedirs(PDF_DIR, exist_ok=True)
     os.makedirs(DETAILS_DIR, exist_ok=True)
     
-    items = load_items(INPUT_FILE)
-    logger.info(f"Loaded {len(items)} items to process.")
+    # Read from DB instead of JSONL
+    items = repo.get_determinas()
+    logger.info(f"Loaded {len(items)} items from database to process.")
     
-    # Sequential for safety first, or threaded? 
-    # Threaded is better for network I/O.
+    if not items:
+        logger.warning("No items found in database for this run.")
+        db.close()
+        return
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         futures = [executor.submit(process_item, item) for item in items]
         
@@ -129,6 +142,7 @@ def main():
                 logger.info(f"Processed {i}/{len(items)} items.")
                 
     logger.info("Download complete.")
+    db.close()
 
 if __name__ == "__main__":
     main()

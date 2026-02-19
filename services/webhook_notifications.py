@@ -6,7 +6,7 @@ Webhook Notifications
 Send webhooks on pipeline events.
 
 Usage:
-    from core.webhook_notifications import send_webhook
+    from services.webhook_notifications import send_webhook
     
     send_webhook(
         event="pipeline.completed",

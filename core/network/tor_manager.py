@@ -4,7 +4,7 @@ import socket
 import logging
 import subprocess
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Tuple
 
 log = logging.getLogger(__name__)
 
@@ -78,8 +78,9 @@ def auto_start_tor_proxy(control_host="127.0.0.1", control_port=9051, socks_port
     try:
         data_dir.mkdir(parents=True, exist_ok=True)
         torrc.parent.mkdir(parents=True, exist_ok=True)
-    except Exception:
-        pass
+    except Exception as e:
+        log.warning(f"[TOR_AUTO] Failed to create Tor directories: {e}")
+        return False
 
     auth_line = "CookieAuthentication 1\n" if cookie_authentication else "CookieAuthentication 0\n"
     desired_torrc = (
@@ -133,3 +134,67 @@ def ensure_tor_proxy_running(control_host="127.0.0.1", control_port=9051, socks_
             return
     
     log.warning(f"[TOR] Control port {control_host}:{control_port} not reachable; start Tor Browser/tor.exe if required")
+
+
+def check_tor_running(host: str = "127.0.0.1", socks_port: int = 9050, control_port: int = 9051) -> Tuple[bool, Optional[int]]:
+    """
+    Check if Tor is running.
+    Returns (is_running, detected_port)
+    """
+    # Check SOCKS ports
+    for port in [socks_port, 9150, 9050]:
+        if is_port_open(host, port):
+            return True, port
+    
+    # Check control port as fallback
+    if is_port_open(host, control_port):
+        return True, None
+    
+    return False, None
+
+
+def request_tor_newnym(
+    host: str = "127.0.0.1",
+    control_port: int = 9051,
+    cookie_file: Optional[str] = None,
+    password: str = "",
+    cooldown_seconds: int = 10,
+) -> bool:
+    """
+    Send SIGNAL NEWNYM to Tor to request a new identity/circuit.
+    Returns True if successful, False otherwise.
+    """
+    try:
+        with socket.create_connection((host, control_port), timeout=5) as s:
+            # Authenticate
+            if cookie_file:
+                try:
+                    cookie = Path(cookie_file).read_bytes()
+                    auth_cmd = f"AUTHENTICATE {cookie.hex()}\r\n"
+                except Exception:
+                    auth_cmd = "AUTHENTICATE\r\n"
+            elif password:
+                auth_cmd = f'AUTHENTICATE "{password}"\r\n'
+            else:
+                auth_cmd = "AUTHENTICATE\r\n"
+            
+            s.sendall(auth_cmd.encode("utf-8"))
+            resp = s.recv(4096).decode("utf-8", "ignore")
+            if not resp.startswith("250"):
+                log.warning(f"[TOR_NEWNYM] Authentication failed: {resp.strip()}")
+                return False
+            
+            # Send NEWNYM signal
+            s.sendall(b"SIGNAL NEWNYM\r\n")
+            resp = s.recv(4096).decode("utf-8", "ignore")
+            if not resp.startswith("250"):
+                log.warning(f"[TOR_NEWNYM] SIGNAL NEWNYM failed: {resp.strip()}")
+                return False
+        
+        # Wait for circuit to build
+        time.sleep(max(0, int(cooldown_seconds)))
+        log.info("[TOR_NEWNYM] New identity requested successfully")
+        return True
+    except Exception as e:
+        log.warning(f"[TOR_NEWNYM] Failed to request new identity: {e}")
+        return False
