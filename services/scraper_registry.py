@@ -96,10 +96,14 @@ SCRAPER_CONFIGS: Dict[str, Dict[str, Any]] = {
         "steps": [
             {"name": "00 - Backup and Clean", "script": "00_backup_and_clean.py", "desc": "Backup output folder and clean for fresh run"},
             {"name": "01 - Hybrid Scraper", "script": "scraper.py", "desc": "Collect URLs, scrape product packs, and consolidate in one step"},
+            {"name": "02 - FK URL Collection", "script": "02_fk_collect_urls.py", "desc": "Collect detail URLs from Farmacotherapeutisch Kompas listing"},
+            {"name": "03 - FK Reimbursement Scraping", "script": "03_fk_scrape_reimbursement.py", "desc": "Scrape reimbursement data from FK detail pages (httpx async)"},
+            {"name": "04 - FK Translation", "script": "04_fk_translate.py", "desc": "Translate Dutch indication text to English (dictionary + Google)"},
+            {"name": "05 - FK Export", "script": "05_fk_generate_export.py", "desc": "Generate PCID-mapped reimbursement CSV export"},
         ],
         "pipeline_bat": "run_pipeline.bat",
         "pipeline_script": "run_pipeline_resume.py",
-        "run_id_env_var": "NETHERLANDS_RUN_ID",
+        "run_id_env_var": "NL_RUN_ID",
         "db_prefix": "nl",
     },
     "Belarus": {

@@ -29,11 +29,11 @@
   "India": {
     "scraper_name": "India",
     "network_type": "Direct",
-    "ip_address": "103.100.222.33",
+    "ip_address": "103.100.222.44",
     "exit_ip": null,
     "port": null,
     "status": "active",
-    "last_updated": 1771462672.2570767
+    "last_updated": 1771462972.616728
   },
   "Belarus": {
     "scraper_name": "Belarus",

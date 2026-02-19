@@ -54,13 +54,21 @@ SCRIPT_ID = "Netherlands"
 PIPELINE_STEPS = [
     (0, "00_backup_and_clean.py", "Backup and Clean"),
     (1, "scraper.py", "Hybrid Scraper (URL Collection + Product Scraping)"),
+    (2, "02_fk_collect_urls.py", "FK URL Collection"),
+    (3, "03_fk_scrape_reimbursement.py", "FK Reimbursement Scraping"),
+    (4, "04_fk_translate.py", "FK Translation (Dutch -> English)"),
+    (5, "05_fk_generate_export.py", "FK Export Generation"),
 ]
 TOTAL_STEPS = len(PIPELINE_STEPS)
 VALID_STEPS = [step_num for step_num, _, _ in PIPELINE_STEPS]
 
 STEP_DESCRIPTIONS = {
     0: "Preparing: Backing up previous results and cleaning output directory",
-    1: "Scraping: Collecting URLs and extracting product details",
+    1: "Scraping: Collecting URLs and extracting product details (medicijnkosten.nl)",
+    2: "FK: Collecting detail URLs from Farmacotherapeutisch Kompas",
+    3: "FK: Scraping reimbursement data from detail pages",
+    4: "FK: Translating Dutch indication text to English",
+    5: "FK: Generating reimbursement CSV export",
 }
 
 
@@ -222,22 +230,50 @@ def _get_db_step_status(run_id: str) -> dict:
             """, (run_id, run_id, run_id, run_id, run_id))
             row = cur.fetchone()
             if row:
-                return {
+                result = {
                     'urls_collected': row[0] or 0,
                     'urls_success': row[1] or 0,
                     'urls_failed': row[2] or 0,
                     'urls_pending': row[3] or 0,
                     'packs_count': row[4] or 0,
                 }
+            else:
+                result = {
+                    'urls_collected': 0, 'urls_success': 0, 'urls_failed': 0,
+                    'urls_pending': 0, 'packs_count': 0,
+                }
+
+            # FK tables (may not exist yet on older schemas)
+            try:
+                cur.execute("""
+                    SELECT
+                        (SELECT COUNT(*) FROM nl_fk_urls WHERE run_id = %s) as fk_urls,
+                        (SELECT COUNT(*) FROM nl_fk_urls WHERE run_id = %s AND status = 'success') as fk_urls_success,
+                        (SELECT COUNT(*) FROM nl_fk_urls WHERE run_id = %s AND status = 'pending') as fk_urls_pending,
+                        (SELECT COUNT(*) FROM nl_fk_reimbursement WHERE run_id = %s) as fk_reimb,
+                        (SELECT COUNT(*) FROM nl_fk_reimbursement WHERE run_id = %s AND translation_status = 'translated') as fk_translated
+                """, (run_id, run_id, run_id, run_id, run_id))
+                fk_row = cur.fetchone()
+                if fk_row:
+                    result['fk_urls'] = fk_row[0] or 0
+                    result['fk_urls_success'] = fk_row[1] or 0
+                    result['fk_urls_pending'] = fk_row[2] or 0
+                    result['fk_reimb'] = fk_row[3] or 0
+                    result['fk_translated'] = fk_row[4] or 0
+            except Exception:
+                # FK tables may not exist yet
+                result.update({'fk_urls': 0, 'fk_urls_success': 0, 'fk_urls_pending': 0,
+                               'fk_reimb': 0, 'fk_translated': 0})
+
+            return result
     except Exception as e:
         print(f"[DB CHECK] Warning: Could not check DB status: {e}", flush=True)
 
     return {
-        'urls_collected': 0,
-        'urls_success': 0,
-        'urls_failed': 0,
-        'urls_pending': 0,
-        'packs_count': 0,
+        'urls_collected': 0, 'urls_success': 0, 'urls_failed': 0,
+        'urls_pending': 0, 'packs_count': 0,
+        'fk_urls': 0, 'fk_urls_success': 0, 'fk_urls_pending': 0,
+        'fk_reimb': 0, 'fk_translated': 0,
     }
 
 
@@ -271,6 +307,29 @@ def _is_step_complete(step_num: int, db_status: dict) -> bool:
         # Legacy fallback for older runs where URL status wasn't updated reliably
         packs_ratio = packs / urls if urls > 0 else 0
         return packs_ratio >= 0.95
+
+    # FK Steps
+    if step_num == 2:
+        fk_urls = db_status.get('fk_urls', 0)
+        return fk_urls > 100  # Expect ~4000, but 100+ means collection ran
+
+    if step_num == 3:
+        fk_urls = db_status.get('fk_urls', 0)
+        fk_urls_success = db_status.get('fk_urls_success', 0)
+        fk_urls_pending = db_status.get('fk_urls_pending', 0)
+        if fk_urls == 0:
+            return False
+        return fk_urls_pending == 0 and fk_urls_success > 0
+
+    if step_num == 4:
+        fk_reimb = db_status.get('fk_reimb', 0)
+        fk_translated = db_status.get('fk_translated', 0)
+        if fk_reimb == 0:
+            return False
+        return fk_translated / fk_reimb >= 0.95 if fk_reimb > 0 else False
+
+    if step_num == 5:
+        return False  # Always re-run export (fast, idempotent)
 
     return False
 
@@ -483,20 +542,31 @@ def main():
             else:
                 print("[RESUME] Checkpoint completed steps: none", flush=True)
 
-            # Primary resume source: checkpoint step completion markers
-            if 1 in checkpoint_completed_steps:
-                print("[RESUME] All steps already complete per checkpoint! Use --fresh to start over.", flush=True)
-                sys.exit(0)
+            # Find the last completed step (check all steps)
+            last_completed = -1
+            for sn, _, sname in PIPELINE_STEPS:
+                if sn in checkpoint_completed_steps:
+                    last_completed = sn
+                elif _is_step_complete(sn, db_status):
+                    last_completed = sn
+                    if sn not in checkpoint_completed_steps:
+                        try:
+                            cp.mark_step_complete(sn, sname, output_files=[], duration_seconds=None)
+                        except Exception:
+                            pass
+                else:
+                    break
 
-            # Secondary resume source: DB completion heuristic
-            if _is_step_complete(1, db_status):
-                if 1 not in checkpoint_completed_steps:
-                    try:
-                        cp.mark_step_complete(1, PIPELINE_STEPS[1][2], output_files=[], duration_seconds=None)
-                    except Exception:
-                        pass
+            max_step = PIPELINE_STEPS[-1][0]
+            if last_completed >= max_step:
                 print("[RESUME] All steps already complete! Use --fresh to start over.", flush=True)
                 sys.exit(0)
+
+            # Determine start_step
+            if last_completed >= 0:
+                start_step = last_completed + 1
+                skip_step_zero = True
+                print(f"[RESUME] Steps 0-{last_completed} complete. Resuming from step {start_step}.", flush=True)
             elif success > 0 or failed > 0 or pending > 0 or packs > 0:
                 start_step = 1
                 skip_step_zero = True
@@ -505,12 +575,10 @@ def main():
                     flush=True,
                 )
             elif urls > 0:
-                # Step 1 has partial data — resume it (scraper handles internal resume)
                 start_step = 1
                 skip_step_zero = True
                 print(f"[RESUME] Step 1 partial ({urls} URLs present). Resuming step 1.", flush=True)
             else:
-                # No data at all — but we still have a run_id, skip step 0 to preserve it
                 start_step = 1
                 skip_step_zero = True
                 print(f"[RESUME] Run exists but no data yet. Resuming from step 1.", flush=True)

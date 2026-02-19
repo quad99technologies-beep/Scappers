@@ -49,10 +49,6 @@ from core.parsing.price_parser import parse_price
 from core.network.proxy_checker import check_vpn_connection as core_check_vpn
 from core.browser.driver_factory import create_chrome_driver, restart_driver as core_restart_driver
 from core.browser.chrome_manager import register_chrome_driver, unregister_chrome_driver
-import gc
-from queue import Queue, Empty
-from dataclasses import dataclass
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from typing import Set, Dict, List, Optional
 from core.monitoring.audit_logger import audit_log
@@ -1175,6 +1171,8 @@ def worker_loop(worker_id: int, last_page: int, existing_ids: Set[str], run_id: 
     try:
         driver = _create_driver()
         driver = select_region_and_search(driver)
+        audit_log("ACTION", scraper_name="Russia", run_id=run_id,
+                  details={"action": "WORKER_STARTED", "worker": worker_id, "region": REGION_VALUE})
         print(f"{tag} Chrome ready, starting page claims...", flush=True)
 
         while not _shutdown_requested:
@@ -1188,7 +1186,6 @@ def worker_loop(worker_id: int, last_page: int, existing_ids: Set[str], run_id: 
 
             # Navigate to page
             page_url = f"{BASE_URL}?page={page_num}&reg_id={REGION_VALUE}"
-            success = False
 
             for attempt in range(1, MAX_RETRIES_PER_PAGE + 1):
                 try:
@@ -1200,7 +1197,10 @@ def worker_loop(worker_id: int, last_page: int, existing_ids: Set[str], run_id: 
                     total_scraped += scraped
                     pages_done += 1
                     consecutive_failures = 0
-                    success = True
+                    audit_log("PAGE_FETCHED", scraper_name="Russia", run_id=run_id,
+                              details={"page": page_num, "scraped": scraped,
+                                       "skipped": skipped, "missing_ean": missing_ean,
+                                       "worker": worker_id})
 
                     ean_info = f", EAN missing: {missing_ean}" if (FETCH_EAN and missing_ean > 0) else ""
                     print(f"{tag} Page {page_num}: scraped {scraped}{ean_info} (total: {pages_done} pages)", flush=True)
@@ -1219,16 +1219,16 @@ def worker_loop(worker_id: int, last_page: int, existing_ids: Set[str], run_id: 
                         print(f"{tag} Page {page_num} failed after {MAX_RETRIES_PER_PAGE} attempts: {e}", flush=True)
                         try:
                             worker_repo.record_failed_page(page_num, "ved", str(e))
-                        except Exception:
-                            pass
+                        except Exception as rec_err:
+                            print(f"{tag} Could not record failed page {page_num}: {rec_err}", flush=True)
                         consecutive_failures += 1
 
                 except Exception as e:
                     print(f"{tag} Page {page_num} error: {e}", flush=True)
                     try:
                         worker_repo.record_failed_page(page_num, "ved", str(e))
-                    except Exception:
-                        pass
+                    except Exception as rec_err:
+                        print(f"{tag} Could not record failed page {page_num}: {rec_err}", flush=True)
                     consecutive_failures += 1
                     break
 
@@ -1260,7 +1260,19 @@ def worker_loop(worker_id: int, last_page: int, existing_ids: Set[str], run_id: 
     except Exception as e:
         print(f"{tag} Fatal error: {e}", flush=True)
     finally:
-        # Clean up this worker's Chrome
+        # Mark Chrome instance as terminated in chrome_instances table
+        if driver and ChromeInstanceTracker and run_id:
+            try:
+                pid = driver.service.process.pid if hasattr(driver, "service") else None
+                if pid:
+                    with CountryDB("Russia") as tracker_db:
+                        ChromeInstanceTracker("Russia", run_id, tracker_db).mark_terminated_by_pid(
+                            pid, f"worker_{worker_id}_done"
+                        )
+            except Exception:
+                pass
+
+        # Clean up this worker's Chrome driver
         if driver:
             try:
                 with _drivers_lock:
@@ -1270,6 +1282,16 @@ def worker_loop(worker_id: int, last_page: int, existing_ids: Set[str], run_id: 
                 driver.quit()
             except Exception:
                 pass
+
+        # Return DB connection to pool
+        try:
+            worker_db.close()
+        except Exception:
+            pass
+
+        audit_log("ACTION", scraper_name="Russia", run_id=run_id,
+                  details={"action": "WORKER_FINISHED", "worker": worker_id,
+                           "pages": pages_done, "scraped": total_scraped})
         print(f"{tag} Finished. Scraped {total_scraped} items across {pages_done} pages.", flush=True)
 
 
@@ -1449,6 +1471,17 @@ def main():
 
             # Close the discovery driver — workers create their own
             try:
+                # Mark terminated in chrome_instances table
+                if ChromeInstanceTracker and _run_id and hasattr(driver, "service"):
+                    try:
+                        pid = driver.service.process.pid
+                        if pid:
+                            with CountryDB("Russia") as tracker_db:
+                                ChromeInstanceTracker("Russia", _run_id, tracker_db).mark_terminated_by_pid(
+                                    pid, "discovery_driver_closed"
+                                )
+                    except Exception:
+                        pass
                 with _drivers_lock:
                     if driver in _active_drivers:
                         _active_drivers.remove(driver)
