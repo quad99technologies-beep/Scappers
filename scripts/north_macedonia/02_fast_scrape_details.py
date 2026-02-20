@@ -45,6 +45,10 @@ except Exception:
     logger.warning("googletrans not available; translations will be skipped")
     _translator = None
 
+# Semaphore: cap concurrent Google Translate calls to avoid WinError 10035
+# (WSAEWOULDBLOCK — Windows non-blocking socket exhaustion with many workers)
+_translate_sem: asyncio.Semaphore = asyncio.Semaphore(3)
+
 
 # -----------------------------
 # CONFIG
@@ -132,11 +136,28 @@ def translate_to_en(text: str) -> str:
         return text
     if _translator is None:
         return text
-    try:
-        return normalize_ws(_translator.translate(text, src="mk", dest="en").text)
-    except Exception as e:
-        logger.warning(f"[NM] Translation failed for {text!r}: {e}")
-        return text
+
+    # Retry with backoff for WSAEWOULDBLOCK (WinError 10035)
+    # which occurs when too many concurrent calls saturate the socket pool.
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            result = _translator.translate(text, src="mk", dest="en")
+            return normalize_ws(result.text)
+        except OSError as e:
+            if getattr(e, 'winerror', None) == 10035 or getattr(e, 'errno', None) == 10035:
+                # WSAEWOULDBLOCK — back off and retry
+                sleep_s = 0.5 * (2 ** attempt)  # 0.5s, 1s, 2s
+                if attempt < max_retries - 1:
+                    time.sleep(sleep_s)
+                    continue
+            logger.debug(f"[NM] Translation failed for {text!r}: {e}")
+            return text
+        except Exception as e:
+            logger.debug(f"[NM] Translation failed for {text!r}: {e}")
+            return text
+    logger.debug(f"[NM] Translation gave up after {max_retries} retries for {text!r}")
+    return text
 
 
 def make_local_pack_description(formulation, fill_size, strength, composition):
@@ -231,7 +252,7 @@ def extract_from_html(html_text: str, url: str) -> Optional[Dict[str, str]]:
 # -----------------------------
 # CONCURRENT SCRAPER
 # -----------------------------
-async def scrape_details_concurrent(urls: List[str], repo=None) -> int:
+async def scrape_details_concurrent(urls: List[str], repo=None, url_to_id=None) -> int:
     """
     Scrape drug detail pages using httpx + lxml (no browser).
 
@@ -313,6 +334,10 @@ async def scrape_details_concurrent(urls: List[str], repo=None) -> int:
                             failed += 1
 
                 if result:
+                    # Link back to source URL record
+                    if url_to_id and url in url_to_id:
+                        result["url_id"] = url_to_id[url]
+
                     async with buffer_lock:
                         buffer.append(result)
                         completed += 1
@@ -367,6 +392,7 @@ async def scrape_details_concurrent(urls: List[str], repo=None) -> int:
                                     "manufacturer": row.get("Marketing Authority / Company Name", ""),
                                     "marketing_authorisation_holder": row.get("Marketing Authority / Company Name", ""),
                                     "atc_code": row.get("WHO ATC Code", ""),
+                                    "url_id": row.get("url_id"),
                                     "source_url": row.get("detail_url", ""),
                                     "public_price": row.get("Public with VAT Price", ""),
                                     "pharmacy_price": row.get("Pharmacy Purchase Price", ""),
@@ -427,6 +453,7 @@ async def scrape_details_concurrent(urls: List[str], repo=None) -> int:
                         "manufacturer": row.get("Marketing Authority / Company Name", ""),
                         "marketing_authorisation_holder": row.get("Marketing Authority / Company Name", ""),
                         "atc_code": row.get("WHO ATC Code", ""),
+                        "url_id": row.get("url_id"),
                         "source_url": row.get("detail_url", ""),
                         "public_price": row.get("Public with VAT Price", ""),
                         "pharmacy_price": row.get("Pharmacy Purchase Price", ""),
@@ -472,18 +499,33 @@ async def scrape_details_concurrent(urls: List[str], repo=None) -> int:
 async def async_main():
     # Optional DB integration (load from DB if available, otherwise fallback to CSV)
     repo = None
-    run_id = os.environ.get("NORTH_MACEDONIA_RUN_ID", "")
+    run_id = os.environ.get("NORTH_MACEDONIA_RUN_ID", "").strip()
     all_urls = []
     already_scraped = set()
 
+    # Fallback: read run_id from .current_run_id file if env var not set
+    if not run_id:
+        try:
+            from config_loader import get_output_dir as _god
+            _rid_file = _god() / ".current_run_id"
+        except ImportError:
+            _rid_file = Path(__file__).resolve().parents[2] / "output" / "NorthMacedonia" / ".current_run_id"
+        if _rid_file.exists():
+            run_id = _rid_file.read_text(encoding="utf-8").strip()
+            if run_id:
+                print(f"[DB] Loaded run_id from file: {run_id}", flush=True)
+
+    if not run_id:
+        print("[ERROR] No run_id found. Run Step 0 (backup and clean) first.", flush=True)
+        return
+
     # Try DB first
     try:
-        if run_id:
-            from core.db.connection import CountryDB
-            from db.repositories import NorthMacedoniaRepository
-            db = CountryDB("NorthMacedonia")
-            repo = NorthMacedoniaRepository(db, run_id)
-            repo.ensure_run_in_ledger(mode="resume")
+        from core.db.connection import CountryDB
+        from db.repositories import NorthMacedoniaRepository
+        db = CountryDB("NorthMacedonia")
+        repo = NorthMacedoniaRepository(db, run_id)
+        repo.ensure_run_in_ledger(mode="resume")
     except (ImportError, ModuleNotFoundError):
         # Fallback to absolute paths
         try:
@@ -497,31 +539,40 @@ async def async_main():
             print(f"[DB ERROR] Fallback import failed: {e}")
             raise e
 
-            # Load ALL URLs from DB (pending + scraped)
+
+    except Exception as e:
+        print(f"[DB ERROR] Could not load from database: {e}")
+        print(f"[DB ERROR] Database connection is required. CSV fallback removed for DB-first architecture.")
+        raise RuntimeError(f"Database connection failed. Run Step 0 first to initialize schema, then Step 1 to collect URLs. Error: {e}")
+
+    # Load ALL URLs from nm_urls (pending + scraped) for this run
+    url_to_id = {}
+    if repo is not None:
+        try:
             with db.cursor() as cur:
                 cur.execute("""
-                    SELECT detail_url, status
+                    SELECT id, detail_url, status
                     FROM nm_urls
                     WHERE run_id = %s
                     ORDER BY id
                 """, (run_id,))
                 rows = cur.fetchall()
                 for row in rows:
-                    url = row[0] if isinstance(row, tuple) else row["detail_url"]
-                    status = row[1] if isinstance(row, tuple) else row["status"]
+                    uid    = row[0] if isinstance(row, tuple) else row["id"]
+                    url    = row[1] if isinstance(row, tuple) else row["detail_url"]
+                    status = row[2] if isinstance(row, tuple) else row["status"]
+                    
                     all_urls.append(url)
-                    if status == 'scraped':
+                    url_to_id[url] = uid
+                    if status == "scraped":
                         already_scraped.add(url)
-
-            print(f"[DB] Connected (run_id: {run_id})")
-            print(f"[DB] Loaded {len(all_urls)} URLs from database")
-            print(f"[DB] Already scraped: {len(already_scraped)} URLs")
-    except Exception as e:
-        print(f"[DB ERROR] Could not load from database: {e}")
-        print(f"[DB ERROR] Database connection is required. CSV fallback removed for DB-first architecture.")
-        raise RuntimeError(f"Database connection failed. Run Step 0 first to initialize schema, then Step 1 to collect URLs. Error: {e}")
+            print(f"[DB] Loaded {len(all_urls)} URLs ({len(already_scraped)} already scraped)", flush=True)
+        except Exception as e:
+            print(f"[DB ERROR] Could not load URLs from nm_urls: {e}")
+            raise RuntimeError(f"Failed to load URLs from database: {e}")
 
     todo_urls = [u for u in all_urls if u not in already_scraped]
+
 
     print(f"\n{'='*60}")
     print(f"[STARTUP] North Macedonia Fast Detail Scraper (httpx + lxml)")
@@ -537,7 +588,7 @@ async def async_main():
         print("[INFO] No new URLs to scrape. All URLs already processed in database.")
         return
 
-    scraped = await scrape_details_concurrent(todo_urls, repo)
+    scraped = await scrape_details_concurrent(todo_urls, repo, url_to_id=url_to_id)
 
     total = len(already_scraped) + scraped
     print(f"\n[DONE] Total rows in output: {total}")

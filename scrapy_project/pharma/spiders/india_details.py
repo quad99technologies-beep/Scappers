@@ -689,6 +689,9 @@ class IndiaNPPASpider(Spider):
         
         # Completion timeout tracking: track when we first detected stuck items
         self._stuck_items_detected_at: Optional[float] = None
+        # Idle poll counter: track consecutive empty-claim polls to detect truly stuck items
+        self._idle_poll_count = 0
+        self._idle_last_remaining = -1
 
         # Selenium fallback: persistent driver shared across formulations within this worker.
         # Avoids the per-formulation Chrome spawn/quit overhead (which is very slow).
@@ -830,22 +833,37 @@ class IndiaNPPASpider(Spider):
                 # True completion: all formulations are in terminal states
                 if non_terminal <= 0:
                     self.logger.info(
-                        "[W%d] ✅ List completed! All formulations processed: %d/%d done "
+                        "[W%d] List completed! All formulations processed: %d/%d done "
                         "(completed=%d, zero_records=%d, failed=%d). Exiting.",
                         self.worker_id, done, total, completed, zero_rec, failed
                     )
                     print(f"[DB] W{self.worker_id} | COMPLETE | All {total} formulations processed | completed={completed} zero={zero_rec} failed={failed}", flush=True)
                     return
 
-                # No pending/in_progress left (but may have non-terminal states from other workers)
-                if remaining <= 0:
-                    self.logger.info(
-                        "[W%d] No more pending/in_progress formulations (remaining=%d, non-terminal=%d). "
-                        "Waiting for other workers to finish...",
-                        self.worker_id, remaining, non_terminal
-                    )
-                    # Still wait a bit in case other workers are finishing
+                completion_pct = (done / total * 100) if total > 0 else 0
+
+                # Check if OTHER workers are still actively processing
+                # (in_progress items exist but not claimable = another worker owns them)
+                in_progress = status_counts.get('in_progress', 0)
+                pending_only = status_counts.get('pending', 0)
+
+                if in_progress > 0 and pending_only == 0:
+                    # Other workers own the remaining items — THIS worker has no work.
+                    # Wait briefly in case items complete, then exit.
+                    self._idle_poll_count += 1
+                    if self._idle_poll_count >= 6:  # ~30 seconds
+                        self.logger.info(
+                            "[W%d] No work for this worker (%d items in_progress by others, "
+                            "%.1f%% done). Exiting cleanly.",
+                            self.worker_id, in_progress, completion_pct,
+                        )
+                        return
                     poll_s = float(os.getenv("INDIA_QUEUE_POLL_SECONDS", "5"))
+                    self.logger.info(
+                        "[W%d] Waiting for %d in_progress items (owned by other workers). "
+                        "Poll %d/6, %.1f%% done",
+                        self.worker_id, in_progress, self._idle_poll_count, completion_pct,
+                    )
                     try:
                         from twisted.internet import reactor
                         from twisted.internet.task import deferLater
@@ -854,34 +872,42 @@ class IndiaNPPASpider(Spider):
                         return
                     continue
 
-                # Has remaining but not claimable (backoff/requeue)
-                # Check if we're near completion and items are stuck
-                completion_pct = (done / total * 100) if total > 0 else 0
-                stuck_count = self._check_and_recover_stuck_items(completion_pct, total, done)
-                
-                poll_s = float(os.getenv("INDIA_QUEUE_POLL_SECONDS", "5"))
-                if stuck_count > 0:
+                if pending_only > 0 and remaining > 0:
+                    # Items are pending but not claimable (backoff timer).
+                    # Wait a bit for backoff to expire.
+                    self._idle_poll_count += 1
+                    if self._idle_poll_count >= 10:  # ~50 seconds
+                        self.logger.warning(
+                            "[W%d] %d pending items not claimable after %d polls. Exiting.",
+                            self.worker_id, pending_only, self._idle_poll_count,
+                        )
+                        return
+                    poll_s = float(os.getenv("INDIA_QUEUE_POLL_SECONDS", "5"))
                     self.logger.info(
-                        "[W%d] Recovered %d stuck item(s) near completion. Retrying claim...",
-                        self.worker_id, stuck_count
+                        "[W%d] %d pending (backoff), %d in_progress. Poll %d/10, %.1f%% done",
+                        self.worker_id, pending_only, in_progress,
+                        self._idle_poll_count, completion_pct,
                     )
-                    # Immediately retry claim after recovering stuck items
+                    try:
+                        from twisted.internet import reactor
+                        from twisted.internet.task import deferLater
+                        yield deferLater(reactor, poll_s, lambda: None)
+                    except Exception:
+                        return
                     continue
-                
-                self.logger.info(
-                    "[W%d] No claimable formulations right now (remaining=%d, non-terminal=%d, done=%d/%d, %.1f%%). Waiting %.1fs",
-                    self.worker_id, remaining, non_terminal, done, total, completion_pct, poll_s,
+
+                # Fallback: nothing pending, nothing in_progress, but non_terminal > 0
+                # (shouldn't happen, but be safe)
+                self.logger.warning(
+                    "[W%d] Unexpected state: remaining=%d non_terminal=%d pending=%d "
+                    "in_progress=%d. Exiting.",
+                    self.worker_id, remaining, non_terminal, pending_only, in_progress,
                 )
-                try:
-                    from twisted.internet import reactor
-                    from twisted.internet.task import deferLater
-                    yield deferLater(reactor, poll_s, lambda: None)
-                except Exception:
-                    return
-                continue
+                return
 
             self.logger.info("[W%d] Claimed %d formulations", self.worker_id, len(batch))
             print(f"[DB] W{self.worker_id} | CLAIM | {len(batch)} formulations from queue", flush=True)
+            self._idle_poll_count = 0  # Reset idle counter on successful claim
 
             # Step 2: for each claimed formulation, resolve formulation ID.
             #

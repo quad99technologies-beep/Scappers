@@ -72,6 +72,37 @@ CREATE INDEX IF NOT EXISTS idx_req_run ON http_requests(run_id);
 CREATE INDEX IF NOT EXISTS idx_req_url ON http_requests(url);
 """
 
+SCRAPER_RUN_STATISTICS_DDL = """
+CREATE TABLE IF NOT EXISTS scraper_run_statistics (
+    id SERIAL PRIMARY KEY,
+    scraper_name TEXT NOT NULL,
+    run_id TEXT NOT NULL REFERENCES run_ledger(run_id) ON DELETE CASCADE,
+    stats_json JSONB NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(scraper_name, run_id)
+);
+CREATE INDEX IF NOT EXISTS idx_srs_scraper ON scraper_run_statistics(scraper_name);
+CREATE INDEX IF NOT EXISTS idx_srs_run ON scraper_run_statistics(run_id);
+"""
+
+SCRAPER_STEP_STATISTICS_DDL = """
+CREATE TABLE IF NOT EXISTS scraper_step_statistics (
+    id SERIAL PRIMARY KEY,
+    scraper_name TEXT NOT NULL,
+    run_id TEXT NOT NULL REFERENCES run_ledger(run_id) ON DELETE CASCADE,
+    step_number INTEGER NOT NULL,
+    step_name TEXT,
+    status TEXT,
+    error_message TEXT,
+    stats_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+    recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(scraper_name, run_id, step_number)
+);
+CREATE INDEX IF NOT EXISTS idx_sss_scraper ON scraper_step_statistics(scraper_name);
+CREATE INDEX IF NOT EXISTS idx_sss_run ON scraper_step_statistics(run_id);
+CREATE INDEX IF NOT EXISTS idx_sss_step ON scraper_step_statistics(scraper_name, step_number);
+"""
+
 SCRAPED_ITEMS_DDL = """
 CREATE TABLE IF NOT EXISTS scraped_items (
     id SERIAL PRIMARY KEY,
@@ -111,6 +142,8 @@ ALL_COMMON_DDL = [
     SCRAPED_ITEMS_DDL,
     INPUT_UPLOADS_DDL,
     INPUT_UPLOADS_MIGRATE_DDL,
+    SCRAPER_RUN_STATISTICS_DDL,
+    SCRAPER_STEP_STATISTICS_DDL,
 ]
 
 
@@ -192,6 +225,22 @@ def run_ledger_ensure_exists(run_id: str, scraper_name: str, mode: str = "resume
         ON CONFLICT (run_id) DO UPDATE SET
             status = 'running',
             mode = EXCLUDED.mode
+    """
+    return sql, (run_id, scraper_name, mode)
+
+
+def run_ledger_insert_if_missing(run_id: str, scraper_name: str, mode: str = "resume") -> Tuple[str, tuple]:
+    """
+    Return (sql, params) to insert a run_ledger row if it doesn't exist.
+
+    Unlike run_ledger_ensure_exists(), this will NOT mutate an existing run's status/mode.
+    Useful as a best-effort guard for FK-backed tracking tables (http_requests, chrome_instances)
+    when a caller forgot to start the run explicitly.
+    """
+    sql = """
+        INSERT INTO run_ledger (run_id, scraper_name, started_at, status, mode)
+        VALUES (%s, %s, CURRENT_TIMESTAMP, 'running', %s)
+        ON CONFLICT (run_id) DO NOTHING
     """
     return sql, (run_id, scraper_name, mode)
 

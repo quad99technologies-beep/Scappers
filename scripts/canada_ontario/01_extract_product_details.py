@@ -266,12 +266,19 @@ def track_http_request(url: str, method: str = "GET", status_code: int = None,
     if not HTTP_TRACKING_AVAILABLE or not run_id:
         return
     try:
-        with _DB.cursor() as cur:
-            cur.execute("""
-                INSERT INTO http_requests
-                (run_id, url, method, status_code, response_bytes, elapsed_ms, error)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-            """, (run_id, url, method, status_code, response_bytes, elapsed_ms, error))
+        from core.db.tracking import log_http_request
+
+        log_http_request(
+            _DB,
+            run_id,
+            "CanadaOntario",
+            url,
+            method=method,
+            status_code=status_code,
+            response_bytes=response_bytes,
+            elapsed_ms=elapsed_ms,
+            error=error,
+        )
         logger.debug(f"[HTTP_TRACKING] Tracked: {method} {url} -> {status_code}")
     except Exception as e:
         # Non-blocking: tracking failure shouldn't break scraping

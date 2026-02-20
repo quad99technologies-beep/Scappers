@@ -122,7 +122,6 @@ def init_database():
             from core.db.models import generate_run_id
             run_id = generate_run_id()
         except ImportError:
-            # Fallback to timestamp-based run_id
             from datetime import datetime
             run_id = f"NorthMacedonia_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         
@@ -134,6 +133,24 @@ def init_database():
         os.environ["NORTH_MACEDONIA_RUN_ID"] = run_id
         
         print(f"[DB] Run ID: {run_id}")
+
+        # Register run_id in run_ledger BEFORE any downstream step uses it
+        # (all nm_* tables have FK run_id → run_ledger)
+        try:
+            import importlib.util as _ilu
+            _repo_file = Path(__file__).resolve().parent / "db" / "repositories.py"
+            _spec = _ilu.spec_from_file_location("nm_repositories", _repo_file)
+            _mod = _ilu.module_from_spec(_spec)
+            _spec.loader.exec_module(_mod)
+            NorthMacedoniaRepository = _mod.NorthMacedoniaRepository
+            repo = NorthMacedoniaRepository(db, run_id)
+            repo.start_run(mode="fresh")
+            print(f"[DB] Run ID registered in run_ledger: {run_id}")
+        except Exception as e:
+            # Non-fatal: downstream scripts will call ensure_run_in_ledger()
+            print(f"[DB] Warning: Could not register run in ledger (non-fatal): {e}")
+
+
         return True
     except Exception as e:
         import traceback

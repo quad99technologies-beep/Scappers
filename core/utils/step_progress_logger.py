@@ -14,6 +14,86 @@ from pathlib import Path
 logger = logging.getLogger(__name__)
 
 
+def _unique_in_order(items):
+    seen = set()
+    out = []
+    for it in items:
+        if not it or it in seen:
+            continue
+        seen.add(it)
+        out.append(it)
+    return out
+
+
+def _resolve_step_progress_table(cur, scraper_name: str) -> Optional[str]:
+    """
+    Resolve the correct *_step_progress table for a scraper.
+
+    Tries multiple prefix sources to avoid drift across configs/schemas.
+    """
+    candidates = []
+
+    try:
+        from core.db.postgres_connection import COUNTRY_PREFIX_MAP
+
+        prefix = COUNTRY_PREFIX_MAP.get(scraper_name)
+        if prefix:
+            candidates.append(f"{prefix.rstrip('_')}_step_progress")
+    except Exception:
+        pass
+
+    try:
+        from services.scraper_registry import get_scraper_config
+
+        cfg = get_scraper_config(scraper_name)
+        if cfg and cfg.get("db_prefix"):
+            candidates.append(f"{cfg['db_prefix']}_step_progress")
+    except Exception:
+        pass
+
+    # Known historical mismatches / legacy names
+    if scraper_name in ("CanadaQuebec", "Canada Quebec"):
+        candidates.append("cq_step_progress")
+    if scraper_name in ("Tender_Brazil", "Tender Brazil", "Tender-Brazil", "Tender - Brazil"):
+        candidates.append("br_step_progress")
+
+    candidates.append(f"{scraper_name.lower()[:2]}_step_progress")
+
+    for table_name in _unique_in_order(candidates):
+        try:
+            cur.execute(
+                """
+                SELECT EXISTS (
+                    SELECT FROM information_schema.tables
+                    WHERE table_schema = 'public' AND table_name = %s
+                )
+                """,
+                (table_name,),
+            )
+            if cur.fetchone()[0]:
+                return table_name
+        except Exception:
+            continue
+
+    # Last resort: if there is only one step_progress table in the schema, use it.
+    try:
+        cur.execute(
+            """
+            SELECT table_name
+            FROM information_schema.tables
+            WHERE table_schema = 'public' AND table_name LIKE %s
+            """,
+            ("%\\_step_progress",),
+        )
+        rows = [r[0] for r in cur.fetchall()]
+        if len(rows) == 1:
+            return rows[0]
+    except Exception:
+        pass
+
+    return None
+
+
 def log_step_progress(
     scraper_name: str,
     run_id: str,
@@ -59,97 +139,140 @@ def log_step_progress(
     
     try:
         from core.db.connection import CountryDB
-        
-        # Map scraper names to table prefixes
-        table_prefix_map = {
-            "Argentina": "ar",
-            "Malaysia": "my",
-            "Russia": "ru",
-            "Belarus": "by",
-            "NorthMacedonia": "nm",
-            "CanadaOntario": "co",
-            "Tender_Chile": "tc",
-            "India": "in",  # India uses different schema but we'll handle it
-        }
-        
-        prefix = table_prefix_map.get(scraper_name, scraper_name.lower()[:2])
-        table_name = f"{prefix}_step_progress"
-        
+
         with CountryDB(scraper_name) as db:
             with db.cursor() as cur:
+                # Ensure run_ledger FK row exists (best-effort).
+                try:
+                    from core.db.tracking import ensure_run_ledger_row
+
+                    ensure_run_ledger_row(db, run_id, scraper_name, mode="resume")
+                except Exception:
+                    pass
+
+                table_name = _resolve_step_progress_table(cur, scraper_name)
+
                 # Check if table exists
-                cur.execute("""
-                    SELECT EXISTS (
-                        SELECT FROM information_schema.tables 
-                        WHERE table_schema = 'public' 
-                        AND table_name = %s
-                    )
-                """, (table_name,))
-                table_exists = cur.fetchone()[0]
-                
+                table_exists = bool(table_name)
                 if not table_exists:
-                    logger.debug(f"Table {table_name} does not exist for {scraper_name}, skipping step progress logging")
-                    return False
+                    logger.debug(
+                        f"No step_progress table found for {scraper_name}, skipping step progress logging"
+                    )
                 
                 # Check if enhanced columns exist
-                cur.execute("""
-                    SELECT column_name 
-                    FROM information_schema.columns 
-                    WHERE table_schema = 'public' 
-                    AND table_name = %s
-                    AND column_name IN ('duration_seconds', 'rows_read', 'log_file_path')
-                """, (table_name,))
-                enhanced_columns = {row[0] for row in cur.fetchall()}
-                has_enhanced = len(enhanced_columns) >= 3
+                has_enhanced = False
+                if table_exists:
+                    cur.execute("""
+                        SELECT column_name 
+                        FROM information_schema.columns 
+                        WHERE table_schema = 'public' 
+                        AND table_name = %s
+                        AND column_name IN ('duration_seconds', 'rows_read', 'log_file_path')
+                    """, (table_name,))
+                    enhanced_columns = {row[0] for row in cur.fetchall()}
+                    has_enhanced = len(enhanced_columns) >= 3
                 
-                if has_enhanced:
-                    # Use enhanced columns
-                    cur.execute(f"""
-                        INSERT INTO {table_name}
-                            (run_id, step_number, step_name, progress_key, status, error_message,
-                             duration_seconds, rows_read, rows_processed, rows_inserted, rows_updated, rows_rejected,
-                             browser_instances_spawned, log_file_path,
-                             started_at, completed_at)
-                        VALUES
-                            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-                             CASE WHEN %s = 'in_progress' THEN CURRENT_TIMESTAMP ELSE NULL END,
-                             CASE WHEN %s IN ('completed','failed','skipped') THEN CURRENT_TIMESTAMP ELSE NULL END)
-                        ON CONFLICT (run_id, step_number, progress_key) DO UPDATE SET
-                            step_name = EXCLUDED.step_name,
-                            status = EXCLUDED.status,
-                            error_message = EXCLUDED.error_message,
-                            duration_seconds = EXCLUDED.duration_seconds,
-                            rows_read = EXCLUDED.rows_read,
-                            rows_processed = EXCLUDED.rows_processed,
-                            rows_inserted = EXCLUDED.rows_inserted,
-                            rows_updated = EXCLUDED.rows_updated,
-                            rows_rejected = EXCLUDED.rows_rejected,
-                            browser_instances_spawned = EXCLUDED.browser_instances_spawned,
-                            log_file_path = EXCLUDED.log_file_path,
-                            started_at = COALESCE({table_name}.started_at, EXCLUDED.started_at),
-                            completed_at = EXCLUDED.completed_at
-                    """, (
-                        run_id, step_num, step_name, progress_key, status, error_message,
-                        duration_seconds, rows_read, rows_processed, rows_inserted, rows_updated, rows_rejected,
-                        browser_instances_spawned, log_file_path,
-                        status, status
-                    ))
-                else:
-                    # Fallback to basic columns (backward compatibility)
-                    cur.execute(f"""
-                        INSERT INTO {table_name}
-                            (run_id, step_number, step_name, progress_key, status, error_message, started_at, completed_at)
-                        VALUES
-                            (%s, %s, %s, %s, %s, %s,
-                             CASE WHEN %s = 'in_progress' THEN CURRENT_TIMESTAMP ELSE NULL END,
-                             CASE WHEN %s IN ('completed','failed','skipped') THEN CURRENT_TIMESTAMP ELSE NULL END)
-                        ON CONFLICT (run_id, step_number, progress_key) DO UPDATE SET
-                            step_name = EXCLUDED.step_name,
-                            status = EXCLUDED.status,
-                            error_message = EXCLUDED.error_message,
-                            started_at = COALESCE({table_name}.started_at, EXCLUDED.started_at),
-                            completed_at = EXCLUDED.completed_at
-                    """, (run_id, step_num, step_name, progress_key, status, error_message, status, status))
+                started_at = None
+                completed_at = None
+                computed_duration = duration_seconds
+
+                if table_exists:
+                    if has_enhanced:
+                        # Use enhanced columns
+                        cur.execute(f"""
+                            INSERT INTO {table_name}
+                                (run_id, step_number, step_name, progress_key, status, error_message,
+                                 duration_seconds, rows_read, rows_processed, rows_inserted, rows_updated, rows_rejected,
+                                 browser_instances_spawned, log_file_path,
+                                 started_at, completed_at)
+                            VALUES
+                                (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                                 CASE WHEN %s = 'in_progress' THEN CURRENT_TIMESTAMP ELSE NULL END,
+                                 CASE WHEN %s IN ('completed','failed','skipped') THEN CURRENT_TIMESTAMP ELSE NULL END)
+                            ON CONFLICT (run_id, step_number, progress_key) DO UPDATE SET
+                                step_name = EXCLUDED.step_name,
+                                status = EXCLUDED.status,
+                                error_message = EXCLUDED.error_message,
+                                duration_seconds = EXCLUDED.duration_seconds,
+                                rows_read = EXCLUDED.rows_read,
+                                rows_processed = EXCLUDED.rows_processed,
+                                rows_inserted = EXCLUDED.rows_inserted,
+                                rows_updated = EXCLUDED.rows_updated,
+                                rows_rejected = EXCLUDED.rows_rejected,
+                                browser_instances_spawned = EXCLUDED.browser_instances_spawned,
+                                log_file_path = EXCLUDED.log_file_path,
+                                started_at = COALESCE({table_name}.started_at, EXCLUDED.started_at),
+                                completed_at = EXCLUDED.completed_at
+                        """, (
+                            run_id, step_num, step_name, progress_key, status, error_message,
+                            duration_seconds, rows_read, rows_processed, rows_inserted, rows_updated, rows_rejected,
+                            browser_instances_spawned, log_file_path,
+                            status, status
+                        ))
+                    else:
+                        # Fallback to basic columns (backward compatibility)
+                        cur.execute(f"""
+                            INSERT INTO {table_name}
+                                (run_id, step_number, step_name, progress_key, status, error_message, started_at, completed_at)
+                            VALUES
+                                (%s, %s, %s, %s, %s, %s,
+                                 CASE WHEN %s = 'in_progress' THEN CURRENT_TIMESTAMP ELSE NULL END,
+                                 CASE WHEN %s IN ('completed','failed','skipped') THEN CURRENT_TIMESTAMP ELSE NULL END)
+                            ON CONFLICT (run_id, step_number, progress_key) DO UPDATE SET
+                                step_name = EXCLUDED.step_name,
+                                status = EXCLUDED.status,
+                                error_message = EXCLUDED.error_message,
+                                started_at = COALESCE({table_name}.started_at, EXCLUDED.started_at),
+                                completed_at = EXCLUDED.completed_at
+                        """, (run_id, step_num, step_name, progress_key, status, error_message, status, status))
+
+                    # Compute duration from timestamps if not provided.
+                    if computed_duration is None and status in ("completed", "failed", "skipped"):
+                        try:
+                            cur.execute(
+                                f"""
+                                SELECT started_at, completed_at
+                                FROM {table_name}
+                                WHERE run_id = %s AND step_number = %s AND progress_key = %s
+                                """,
+                                (run_id, step_num, progress_key),
+                            )
+                            row = cur.fetchone()
+                            if row:
+                                started_at, completed_at = row[0], row[1]
+                                if started_at and completed_at:
+                                    computed_duration = (completed_at - started_at).total_seconds()
+                        except Exception:
+                            pass
+
+                # Record per-step stats snapshot (shared table, best-effort).
+                try:
+                    from core.statistics.step_statistics import upsert_step_statistics
+
+                    upsert_step_statistics(
+                        db,
+                        scraper_name=scraper_name,
+                        run_id=run_id,
+                        step_number=step_num,
+                        step_name=step_name,
+                        status=status,
+                        error_message=error_message,
+                        stats={
+                            "progress_key": progress_key,
+                            "duration_seconds": computed_duration,
+                            "rows_read": rows_read,
+                            "rows_processed": rows_processed,
+                            "rows_inserted": rows_inserted,
+                            "rows_updated": rows_updated,
+                            "rows_rejected": rows_rejected,
+                            "browser_instances_spawned": browser_instances_spawned,
+                            "log_file_path": log_file_path,
+                            "started_at": started_at.isoformat() if started_at else None,
+                            "completed_at": completed_at.isoformat() if completed_at else None,
+                        },
+                    )
+                except Exception:
+                    pass
 
                 # Mirror step transitions into checkpoint timeline so API/GUI can
                 # reconstruct exact per-step state changes even across restarts.
@@ -167,7 +290,7 @@ def log_step_progress(
                         message=error_message if status == "failed" else None,
                         details={
                             "progress_key": progress_key,
-                            "duration_seconds": duration_seconds,
+                            "duration_seconds": computed_duration,
                             "rows_read": rows_read,
                             "rows_processed": rows_processed,
                             "rows_inserted": rows_inserted,
@@ -181,7 +304,7 @@ def log_step_progress(
                     # Non-blocking: timeline enrichment should never affect pipeline.
                     pass
 
-                return True
+                return bool(table_exists)
     except Exception as e:
         # Non-blocking: progress logging should not break pipeline execution
         logger.debug(f"Could not log step progress for {scraper_name}: {e}")

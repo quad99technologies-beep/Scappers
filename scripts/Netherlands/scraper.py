@@ -39,7 +39,7 @@ from lxml import html
 from playwright.async_api import async_playwright
 
 from core.pipeline.base_scraper import BaseScraper
-from db.repositories import NetherlandsRepository
+from db import NetherlandsRepository, apply_netherlands_schema
 
 # Text helpers
 from core.utils.text_utils import normalize_ws
@@ -134,12 +134,16 @@ class NetherlandsScraper(BaseScraper):
         self.max_workers = int(self.config.get("MAX_WORKERS", self.config.get("CONCURRENT_WORKERS", "5")))
         self.page_delay = float(self.config.get("PAGE_DELAY", "1.0"))
         
+        # Ensure schema tables exist
+        apply_netherlands_schema(self.db)
+        
         # Repo
         self.repo = NetherlandsRepository(self.db, self.run_id)
         
         # Ensure new columns exist
         try:
             with self.db.cursor() as cur:
+                # Add columns to nl_search_combinations if missing (migration)
                 cur.execute("ALTER TABLE nl_search_combinations ADD COLUMN IF NOT EXISTS urls_inserted INTEGER DEFAULT 0;")
                 cur.execute("ALTER TABLE nl_search_combinations ADD COLUMN IF NOT EXISTS products_found INTEGER DEFAULT 0;")
                 cur.execute("ALTER TABLE nl_search_combinations ADD COLUMN IF NOT EXISTS urls_discovered INTEGER DEFAULT 0;")
@@ -592,6 +596,18 @@ class NetherlandsScraper(BaseScraper):
                 if ppp_vat is None:
                     ppp_vat = parse_euro_amount(price_node.text_content())
 
+                # FIX: Fallback for Unit Price if 0 or None
+                if unit_price is None or unit_price == 0:
+                    txt = price_node.text_content()
+                    # Matches: "Gemiddelde prijs per... € 2,14" or similar
+                    m = re.search(r"Gemiddelde prijs per.*?[€â‚¬]\s*(\d+[.,]\d+)", txt, re.IGNORECASE)
+                    if m:
+                        u_str = m.group(1).replace(".", "").replace(",", ".")
+                        try:
+                            unit_price = float(u_str)
+                        except ValueError:
+                            pass
+
                 message_divs = price_node.xpath('.//div[contains(@class,"pat-message")]')
                 message_texts = [clean_single_line(div.text_content()) for div in message_divs]
                 message_texts = [t for t in message_texts if t]
@@ -606,6 +622,13 @@ class NetherlandsScraper(BaseScraper):
                     reimbursable_rate = "100%"
                 elif has_warning:
                     reimbursable_status = "Partially reimbursed"
+                
+                # FIX: Force Partial if "pay yourself" text is found
+                # Dutch: "U betaalt zelf ... bij" or "extra kosten" or "bijbetalen"
+                if "betaalt zelf" in full_text or "additional" in full_text or "bijbetalen" in full_text:
+                    if reimbursable_status in ["Unknown", "Fully reimbursed"]: # Consider overriding fully reimbursed if warning is severe
+                        reimbursable_status = "Partially reimbursed"
+
 
                 warning_divs = price_node.xpath('.//div[contains(@class,"pat-message") and contains(@class,"warning")]')
                 for wdiv in warning_divs:

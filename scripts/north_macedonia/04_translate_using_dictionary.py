@@ -73,17 +73,8 @@ try:
 except Exception as e:
     log.info(f"deep_translator not available; Google translation disabled: {e}")
 
-# Cache for Google Translate results - now uses unified core.translation cache
-# This persists across restarts unlike the old in-memory dict
-_translation_cache = None
-
-def _get_translation_cache():
-    """Lazy initialization of unified translation cache."""
-    global _translation_cache
-    if _translation_cache is None:
-        from core.translation import get_cache
-        _translation_cache = get_cache("north_macedonia")
-    return _translation_cache
+# In-memory Google Translate cache (persisted to DB via repo at end of run)
+_google_translate_cache: dict = {}
 
 # Configuration
 SKIP_GOOGLE_TRANSLATE_DELAY = os.environ.get("SKIP_GOOGLE_TRANSLATE_DELAY", "").lower() in ("1", "true", "yes")
@@ -256,13 +247,11 @@ def batch_translate_missing_terms(
     for i, term in enumerate(sorted(missing_terms), 1):
         norm_term = normalize_text(term)
         
-        # Skip if already in cache or dictionary
-        cache = _get_translation_cache()
-        cached = cache.get(term, "mk", "en")  # Use original term for cache lookup
+        # Skip if already in in-memory cache or dictionary
+        cached = _google_translate_cache.get(term)
         if cached:
-            translated = cached
-            mk_to_en[norm_term] = translated
-            new_translations[norm_term] = translated
+            mk_to_en[norm_term] = cached
+            new_translations[norm_term] = cached
             if stats is not None:
                 stats['google_fallback'] = stats.get('google_fallback', 0) + 1
             continue
@@ -272,8 +261,8 @@ def batch_translate_missing_terms(
             if translated and translated.strip():
                 translated = translated.strip()
                 
-                # Cache the result (persist to DB)
-                cache.set(term, translated, "mk", "en")
+                # Store in in-memory cache (flushed to DB at end of run)
+                _google_translate_cache[term] = translated
                 
                 # Add to dictionaries
                 mk_to_en[norm_term] = translated
@@ -341,17 +330,15 @@ def translate_text(
     # Try Google Translate ONLY for terms missing from dictionary
     # Note: In optimized mode, terms should already be pre-translated in batch
     if use_google and _google_translator:
-        # Check cache first
-        cache = _get_translation_cache()
-        cached = cache.get(text, "mk", "en")
+        # Check in-memory cache first
+        cached = _google_translate_cache.get(text)
         if cached:
-            translated = cached
-            mk_to_en[norm_text] = translated
+            mk_to_en[norm_text] = cached
             if new_dict_entries is not None:
-                new_dict_entries.append((text, translated))
+                new_dict_entries.append((text, cached))
             if stats is not None:
                 stats['google_fallback'] = stats.get('google_fallback', 0) + 1
-            return translated
+            return cached
         
         # Fallback to individual translation (should be rare after batch pre-translation)
         try:
@@ -359,8 +346,8 @@ def translate_text(
             if translated and translated.strip():
                 translated = translated.strip()
 
-                # Add to cache (persist to DB) and in-memory dictionary for this run
-                cache.set(text, translated, "mk", "en")
+                # Store in in-memory cache (flushed to DB at end of run)
+                _google_translate_cache[text] = translated
                 mk_to_en[norm_text] = translated
 
                 # Add to batch for DB insert later (avoids individual commits)
@@ -429,7 +416,7 @@ def main():
 
     log.info(f"Run ID: {run_id}")
 
-    # Load translation cache from DB
+    # Load translation cache from DB into in-memory dict
     global _google_translate_cache
     _google_translate_cache = repo.get_translation_cache(source_lang='mk', target_lang='en')
     log.info(f"Loaded {len(_google_translate_cache)} cached translations from DB")
@@ -636,7 +623,7 @@ def main():
         translation_stats['saved_to_dict'] += len(new_dict_entries)
         new_dict_entries.clear()
 
-    # Save translation cache to DB for future runs
+    # Save in-memory translation cache to DB for future runs
     if _google_translate_cache:
         repo.save_translation_cache(_google_translate_cache, source_lang='mk', target_lang='en')
         log.info(f"Saved {len(_google_translate_cache)} translations to DB cache")

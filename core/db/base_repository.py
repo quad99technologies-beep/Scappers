@@ -170,6 +170,49 @@ class BaseRepository:
             ))
         self.db.commit()
 
+        # Mirror into shared per-step statistics table (best-effort).
+        try:
+            started_at = None
+            completed_at = None
+            duration_seconds = None
+            try:
+                with self.db.cursor() as cur:
+                    cur.execute(
+                        f"""
+                        SELECT started_at, completed_at
+                        FROM {table}
+                        WHERE run_id = %s AND step_number = %s AND progress_key = %s
+                        """,
+                        (self.run_id, step_number, progress_key),
+                    )
+                    row = cur.fetchone()
+                    if row:
+                        started_at, completed_at = row[0], row[1]
+                        if started_at and completed_at:
+                            duration_seconds = (completed_at - started_at).total_seconds()
+            except Exception:
+                pass
+
+            from core.statistics.step_statistics import upsert_step_statistics
+
+            upsert_step_statistics(
+                self.db,
+                scraper_name=self.SCRAPER_NAME,
+                run_id=self.run_id,
+                step_number=step_number,
+                step_name=step_name,
+                status=status,
+                error_message=error_message,
+                stats={
+                    "progress_key": progress_key,
+                    "duration_seconds": duration_seconds,
+                    "started_at": started_at.isoformat() if started_at else None,
+                    "completed_at": completed_at.isoformat() if completed_at else None,
+                },
+            )
+        except Exception:
+            pass
+
     def is_progress_completed(self, step_number: int, progress_key: str) -> bool:
         """Check if a sub-step item is completed."""
         table = self._table("step_progress")

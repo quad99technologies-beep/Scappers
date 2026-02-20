@@ -287,26 +287,55 @@ def get_active_pids_from_db(
         db.connect()
         try:
             with db.cursor() as cur:
+                has_all_pids = False
+                try:
+                    cur.execute(
+                        """
+                        SELECT 1
+                        FROM information_schema.columns
+                        WHERE table_name = 'chrome_instances' AND column_name = 'all_pids'
+                        LIMIT 1
+                        """
+                    )
+                    has_all_pids = cur.fetchone() is not None
+                except Exception:
+                    has_all_pids = False
+
                 types_filter = ""
                 params = [run_id, scraper_name]
                 if browser_types:
                     placeholders = ", ".join(["%s"] * len(browser_types))
                     types_filter = f" AND browser_type IN ({placeholders})"
                     params.extend(browser_types)
-                cur.execute(f"""
-                    SELECT pid, all_pids FROM chrome_instances
-                    WHERE run_id = %s AND scraper_name = %s AND terminated_at IS NULL
-                    {types_filter}
-                """, params)
-                for row in cur.fetchall():
-                    driver_pid, all_pids_val = row[0], row[1]
-                    if all_pids_val and len(all_pids_val) > 0:
-                        try:
-                            pids.update(int(p) for p in all_pids_val)
-                        except (TypeError, ValueError):
+                if has_all_pids:
+                    cur.execute(
+                        f"""
+                        SELECT pid, all_pids FROM chrome_instances
+                        WHERE run_id = %s AND scraper_name = %s AND terminated_at IS NULL
+                        {types_filter}
+                        """,
+                        params,
+                    )
+                    for row in cur.fetchall():
+                        driver_pid, all_pids_val = row[0], row[1]
+                        if all_pids_val and len(all_pids_val) > 0:
+                            try:
+                                pids.update(int(p) for p in all_pids_val)
+                            except (TypeError, ValueError):
+                                pids.add(driver_pid)
+                        else:
                             pids.add(driver_pid)
-                    else:
-                        pids.add(driver_pid)
+                else:
+                    cur.execute(
+                        f"""
+                        SELECT pid FROM chrome_instances
+                        WHERE run_id = %s AND scraper_name = %s AND terminated_at IS NULL
+                        {types_filter}
+                        """,
+                        params,
+                    )
+                    for row in cur.fetchall():
+                        pids.add(int(row[0]))
         finally:
             if hasattr(db, "close"):
                 db.close()

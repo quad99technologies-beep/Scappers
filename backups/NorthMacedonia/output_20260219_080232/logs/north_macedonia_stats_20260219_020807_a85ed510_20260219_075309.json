@@ -1,0 +1,269 @@
+{
+  "urls": {
+    "total": 4103,
+    "scraped": 0,
+    "failed": 0,
+    "pending": 4103,
+    "coverage_pct": 0.0
+  },
+  "drug_register": {
+    "total": 0,
+    "with_atc_code": 0,
+    "with_price": 0,
+    "with_generic": 0,
+    "with_ean": 0,
+    "distinct_companies": 0,
+    "atc_coverage_pct": 0,
+    "price_coverage_pct": 0,
+    "generic_coverage_pct": 0,
+    "ean_coverage_pct": 0
+  },
+  "pcid_mapping": {
+    "total": 0,
+    "matched": 0,
+    "not_matched": 0,
+    "match_pct": 0
+  },
+  "pcid_reference": {
+    "total": 0
+  },
+  "exports": {
+    "total": 0
+  },
+  "final_output": {
+    "total": 0
+  },
+  "errors": {
+    "total": 0
+  },
+  "steps": [
+    {
+      "step": 0,
+      "name": "Backup and Clean",
+      "status": "completed",
+      "error": null,
+      "started": null,
+      "completed": "2026-02-19 07:38:07.879465"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:39:32.023253",
+      "completed": "2026-02-19 07:39:32.023253"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:40:06.457200",
+      "completed": "2026-02-19 07:40:06.457200"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:41:32.938858",
+      "completed": "2026-02-19 07:41:32.938858"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:42:06.960192",
+      "completed": "2026-02-19 07:42:06.960192"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:42:41.819275",
+      "completed": "2026-02-19 07:42:41.819275"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:43:14.663915",
+      "completed": "2026-02-19 07:43:14.663915"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:44:34.197050",
+      "completed": "2026-02-19 07:44:34.197050"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:45:12.324604",
+      "completed": "2026-02-19 07:45:12.324604"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:45:47.869757",
+      "completed": "2026-02-19 07:45:47.869757"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:46:22.345799",
+      "completed": "2026-02-19 07:46:22.345799"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:46:57.373854",
+      "completed": "2026-02-19 07:46:57.373854"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:47:31.639622",
+      "completed": "2026-02-19 07:47:31.639622"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:48:07.042760",
+      "completed": "2026-02-19 07:48:07.042760"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:48:42.438507",
+      "completed": "2026-02-19 07:48:42.438507"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:49:18.534093",
+      "completed": "2026-02-19 07:49:18.534093"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:49:54.036501",
+      "completed": "2026-02-19 07:49:54.036501"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:50:28.306943",
+      "completed": "2026-02-19 07:50:28.306943"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:51:02.478414",
+      "completed": "2026-02-19 07:51:02.478414"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:51:36.289116",
+      "completed": "2026-02-19 07:51:36.289116"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:52:10.232621",
+      "completed": "2026-02-19 07:52:10.232621"
+    },
+    {
+      "step": 1,
+      "name": "collect_urls",
+      "status": "completed",
+      "error": null,
+      "started": "2026-02-19 07:52:28.569373",
+      "completed": "2026-02-19 07:52:28.569373"
+    },
+    {
+      "step": 1,
+      "name": "Collect URLs (Selenium)",
+      "status": "completed",
+      "error": null,
+      "started": null,
+      "completed": "2026-02-19 07:52:33.194048"
+    },
+    {
+      "step": 2,
+      "name": "Extract Drug Register Data",
+      "status": "completed",
+      "error": null,
+      "started": null,
+      "completed": "2026-02-19 07:52:46.655587"
+    },
+    {
+      "step": 3,
+      "name": "Translate Using Dictionary",
+      "status": "completed",
+      "error": null,
+      "started": null,
+      "completed": "2026-02-19 07:52:59.042144"
+    }
+  ],
+  "validation_items": [
+    {
+      "type": "coverage",
+      "table": "nm_urls",
+      "rule": "url_scrape_rate",
+      "status": "fail",
+      "message": "Only 0.0% URLs scraped (0/4103)",
+      "severity": "high"
+    },
+    {
+      "type": "coverage",
+      "table": "nm_drug_register",
+      "rule": "drug_register_populated",
+      "status": "fail",
+      "message": "No drug register data \u2014 run Step 2 first.",
+      "severity": "critical"
+    },
+    {
+      "type": "pcid",
+      "table": "pcid_mapping",
+      "rule": "pcid_reference_loaded",
+      "status": "warning",
+      "message": "No PCID reference data loaded \u2014 import via GUI Input tab.",
+      "severity": "low"
+    }
+  ],
+  "run_id": "20260219_020807_a85ed510",
+  "generated_at": "20260219_075309"
+}

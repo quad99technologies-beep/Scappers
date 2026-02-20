@@ -57,12 +57,12 @@ except ImportError:
 try:
     from core.browser.chrome_pid_tracker import get_chrome_pids_from_driver, terminate_scraper_pids
     from core.browser.chrome_instance_tracker import ChromeInstanceTracker
-    from core.db.postgres_connection import PostgresDB
+    from core.db.connection import CountryDB
 except ImportError:
     get_chrome_pids_from_driver = None
     terminate_scraper_pids = None
     ChromeInstanceTracker = None
-    PostgresDB = None
+    CountryDB = None
 
 try:
     from core.browser.chrome_manager import get_chromedriver_path as _core_get_chromedriver_path, register_chrome_driver, unregister_chrome_driver
@@ -184,20 +184,20 @@ def build_driver(headless: bool = True) -> Optional[webdriver.Chrome]:
             except Exception:
                 pass
     
-    if ChromeInstanceTracker and PostgresDB and run_id and get_chrome_pids_from_driver:
+    if ChromeInstanceTracker and CountryDB and run_id and get_chrome_pids_from_driver:
         try:
             pids = get_chrome_pids_from_driver(driver)
             if pids:
                 driver_pid = driver.service.process.pid if hasattr(driver.service, 'process') else list(pids)[0]
-                db = PostgresDB("NorthMacedonia")
+                db = CountryDB("NorthMacedonia")
                 db.connect()
                 try:
                     tracker = ChromeInstanceTracker("NorthMacedonia", run_id, db)
                     tracker.register(step_number=1, pid=driver_pid, browser_type="chrome", child_pids=pids)
                 finally:
                     db.close()
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"Warning: Could not register Chrome instance: {e}", flush=True)
             
     return driver
 
@@ -675,6 +675,8 @@ def worker_fn(
         if driver is None:
             print(f"[Worker {worker_id}] Failed to create driver", flush=True)
             return
+        # Brief warm-up so Chrome is fully ready before hitting the site
+        time.sleep(2)
 
         # Initialize state machine for this worker
         if STATE_MACHINE_AVAILABLE:
@@ -685,24 +687,53 @@ def worker_fn(
 
         print(f"[Worker {worker_id}] Started", flush=True)
 
-        # Initialize session: go to base URL and set rows per page first
-        print(f"  [Worker {worker_id}] Initializing session with page size {rows_per_page}...", flush=True)
-        try:
-            driver = navigate_with_retries(driver, BASE_URL, wait_grid_loaded, f"worker {worker_id} init", headless=headless, state_machine=state_machine)
-            set_rows_per_page(driver, rows_per_page)
-            wait_grid_loaded(driver, 30)
+        # Initialize session: go to base URL and set rows per page first.
+        # Retry with a fresh driver if the connection is reset (HTTP 10054).
+        SESSION_INIT_RETRIES = 3
+        session_ok = False
+        for _init_attempt in range(1, SESSION_INIT_RETRIES + 1):
+            print(f"  [Worker {worker_id}] Initializing session (attempt {_init_attempt}/{SESSION_INIT_RETRIES}) with page size {rows_per_page}...", flush=True)
+            try:
+                driver = navigate_with_retries(
+                    driver, BASE_URL, wait_grid_loaded,
+                    f"worker {worker_id} init",
+                    headless=headless, state_machine=state_machine
+                )
+                set_rows_per_page(driver, rows_per_page)
+                wait_grid_loaded(driver, 30)
 
-            # Verify page size was set
-            for _ in range(10):
-                current_val = get_rows_per_page_value(driver)
-                if current_val == rows_per_page:
+                # Verify page size was applied
+                for _ in range(5):
+                    if get_rows_per_page_value(driver) == rows_per_page:
+                        break
+                    pause(0.3, 0.5)
+                    wait_grid_loaded(driver, 15)
+
+                print(f"  [Worker {worker_id}] Session initialized. Page size: {get_rows_per_page_value(driver)}", flush=True)
+                session_ok = True
+                break
+            except Exception as e:
+                print(f"  [Worker {worker_id}] Session init failed (attempt {_init_attempt}): {e}", flush=True)
+                if _init_attempt < SESSION_INIT_RETRIES:
+                    print(f"  [Worker {worker_id}] Restarting driver and retrying in 10s...", flush=True)
+                    time.sleep(10)
+                    driver = restart_driver(driver, headless=headless)
+                    if STATE_MACHINE_AVAILABLE and driver:
+                        import logging as _logging
+                        _logger = _logging.getLogger(f"worker_{worker_id}")
+                        locator = SmartLocator(driver, _logger)
+                        state_machine = NavigationStateMachine(locator, _logger)
+
+        if not session_ok:
+            print(f"[Worker {worker_id}] Could not initialize session after {SESSION_INIT_RETRIES} attempts — worker exiting.", flush=True)
+            # Re-queue all pending pages back so other workers can handle them
+            while True:
+                try:
+                    _p = page_queue.get_nowait()
+                    page_queue.task_done()
+                except Exception:
                     break
-                pause(0.3, 0.5)
-                wait_grid_loaded(driver, 20)
-
-            print(f"  [Worker {worker_id}] Session initialized, page size: {get_rows_per_page_value(driver)}", flush=True)
-        except Exception as e:
-            print(f"  [Worker {worker_id}] Failed to initialize session: {e}", flush=True)
+            return
 
         while True:
             try:
@@ -714,7 +745,22 @@ def worker_fn(
                 page_queue.task_done()
                 continue
 
+            # Verify driver session is still alive before processing the page
+            if not is_session_valid(driver):
+                print(f"  [Worker {worker_id}] Dead session detected before page {page_num} — restarting driver...", flush=True)
+                driver = restart_driver(driver, headless=headless)
+                if driver:
+                    try:
+                        driver = navigate_with_retries(driver, BASE_URL, wait_grid_loaded, f"worker {worker_id} session-recover", headless=headless)
+                        set_rows_per_page(driver, rows_per_page)
+                        wait_grid_loaded(driver, 30)
+                    except Exception as _e:
+                        print(f"  [Worker {worker_id}] Session recovery failed: {_e} — skipping page {page_num}", flush=True)
+                        page_queue.task_done()
+                        continue
+
             print(f"\n[Worker {worker_id}] Processing page {page_num}", flush=True)
+
 
             success = False
             for attempt in range(1, MAX_RETRIES_PER_PAGE + 1):

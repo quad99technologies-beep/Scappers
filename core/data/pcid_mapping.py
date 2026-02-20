@@ -29,6 +29,9 @@ class PCIDMappingRow:
     generic_name: str
     local_pack_description: str
     local_pack_code: Optional[str] = None
+    atc_code: Optional[str] = None
+    strength: Optional[str] = None
+    fill_size: Optional[str] = None
     
     def is_oos(self) -> bool:
         """Check if this is an OOS (Out of Scope) product"""
@@ -79,7 +82,8 @@ class PCIDMapping:
         with db.cursor(dict_cursor=True) as cur:
             cur.execute("""
                 SELECT pcid, company, local_product_name, generic_name, 
-                       local_pack_description, local_pack_code
+                       local_pack_description, local_pack_code,
+                       atc_code, strength, fill_size
                 FROM pcid_mapping
                 WHERE source_country = %s
             """, (self.country,))
@@ -92,6 +96,9 @@ class PCIDMapping:
                     generic_name=row.get("generic_name", ""),
                     local_pack_description=row.get("local_pack_description", ""),
                     local_pack_code=row.get("local_pack_code"),
+                    atc_code=row.get("atc_code"),
+                    strength=row.get("strength"),
+                    fill_size=row.get("fill_size"),
                 ))
         
         logger.info(f"[PCID] Loaded {len(rows)} mappings for {self.country}")
@@ -211,25 +218,79 @@ def reload_pcid_mapping_from_csv(country: str, csv_path: str, db=None) -> int:
     
     # Read CSV and insert into database
     with open(csv_file, 'r', encoding='utf-8-sig', newline='') as f:
-        reader = csv.DictReader(f)
+        # 1. Normalize headers (strip whitespace and lower case)
+        reader = csv.reader(f)
+        try:
+            original_headers = next(reader)
+        except StopIteration:
+            return 0  # Empty file
+
+        # Map lower-case stripped header -> original header
+        # This allows us to look up by lower case name
+        header_map = {h.strip().lower(): h.strip() for h in original_headers}
         
-        with db.cursor() as cur:
-            for row in reader:
-                # Map CSV columns to database columns
-                pcid = row.get('PCID', '').strip()
-                company = row.get('Company', '').strip()
-                product = row.get('Local Product Name', '').strip()
-                generic = row.get('Generic Name', '').strip()
-                pack_desc = row.get('Local Pack Description', '').strip()
-                pack_code = row.get('LOCAL_PACK_CODE', '').strip() or None
+        # Use content-based headers for the DictReader
+        # DictReader uses the *next* row if fieldnames is None, but we already consumed it.
+        # So we pass the *original* headers (stripped) as fieldnames so it maps correctly to the subsequent rows.
+        clean_headers = [h.strip() for h in original_headers]
+        dict_reader = csv.DictReader(f, fieldnames=clean_headers)
+
+        def get_val(row_dict, *keys):
+            """Try multiple case-insensitive keys"""
+            for key in keys:
+                # 1. Try exact match from normalized headers
+                if key in row_dict:
+                    val = row_dict[key]
+                    if val and val.strip():
+                        return val.strip()
                 
-                if company and product:  # Only insert if we have minimum data
+                # 2. Try looking up via lower-case map
+                key_lower = key.lower()
+                if key_lower in header_map:
+                    real_key = header_map[key_lower]
+                    if real_key in row_dict:
+                        val = row_dict[real_key]
+                        if val and val.strip():
+                            return val.strip()
+            return None
+
+        with db.cursor() as cur:
+            for row in dict_reader:
+                # Map CSV columns to database columns with fuzzy matching
+                pcid = get_val(row, 'PCID', 'pcid') or ""
+                company = get_val(row, 'Company', 'company')
+                product = get_val(row, 'Local Product Name', 'local product name', 'product', 'trade name') or ""
+                generic = get_val(row, 'Generic Name', 'generic name', 'inn') or ""
+                
+                # Description often varies
+                pack_desc = get_val(row, 'Local Pack Description', 'local pack description', 'dosage form', 'presentation') or ""
+                
+                # New columns for North Macedonia
+                pack_code = get_val(row, 'LOCAL_PACK_CODE', 'Local Pack Code', 'local_pack_code')
+                atc_code = get_val(row, 'WHO ATC Code', 'ATC Code', 'atc code', 'atc')
+                strength = get_val(row, 'Strength', 'Strength Size', 'strength size')
+                fill_size = get_val(row, 'Fill Size', 'fill size')
+                
+                # Check for minimum data required to be useful
+                if product or pcid:
                     cur.execute("""
                         INSERT INTO pcid_mapping 
                         (pcid, company, local_product_name, generic_name, 
-                         local_pack_description, local_pack_code, source_country)
-                        VALUES (%s, %s, %s, %s, %s, %s, %s)
-                    """, (pcid, company, product, generic, pack_desc, pack_code, country))
+                         local_pack_description, local_pack_code, source_country,
+                         atc_code, strength, fill_size)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    """, (
+                        pcid, 
+                        company,
+                        product, 
+                        generic, 
+                        pack_desc, 
+                        pack_code, 
+                        country,
+                        atc_code, 
+                        strength, 
+                        fill_size
+                    ))
                     rows_loaded += 1
     
     logger.info(f"[PCID] Reloaded {rows_loaded} mappings for {country} from {csv_path}")

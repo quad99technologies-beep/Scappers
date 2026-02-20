@@ -65,6 +65,18 @@ class MalaysiaExporter:
         except Exception:
             pass
 
+        # Export OOS rows
+        oos_path = self._export_oos()
+        paths["oos"] = oos_path
+        try:
+            self.repo.log_export_report(
+                report_type="pcid_oos",
+                file_path=str(oos_path),
+                row_count=self.repo.get_oos_count(),
+            )
+        except Exception:
+            pass
+
         # Export PCID rows with no matching local data
         no_data_path = self._export_pcid_no_data()
         paths["pcid_no_data"] = no_data_path
@@ -126,6 +138,18 @@ class MalaysiaExporter:
 
         df.to_csv(out_path, index=False, encoding="utf-8-sig")
         print(f"[OK] Wrote {len(df):,} NOT MAPPED rows to: {out_path}", flush=True)
+        return out_path
+
+    def _export_oos(self) -> Path:
+        """Export rows with OOS PCID."""
+        rows = self.repo.get_pcid_oos_rows()
+        df = self._rows_to_dataframe(rows)
+
+        filename = f"malaysia_pcid_oos_{self.date_str}.csv"
+        out_path = self.exports_dir / filename
+
+        df.to_csv(out_path, index=False, encoding="utf-8-sig")
+        print(f"[OK] Wrote {len(df):,} OOS rows to: {out_path}", flush=True)
         return out_path
 
     def _export_pcid_no_data(self) -> Path:

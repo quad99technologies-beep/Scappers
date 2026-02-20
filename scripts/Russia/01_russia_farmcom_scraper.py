@@ -572,14 +572,14 @@ def click_all_barcodes(driver: webdriver.Chrome, is_last_page: bool = False) -> 
             
             # Small delay every 5 clicks to let async requests process
             if (idx + 1) % 5 == 0:
-                time.sleep(0.3)
+                time.sleep(0.5)
                 
         except Exception as e:
             error_msg = str(e).lower()
             # Check if Chrome session is invalid
             if 'invalid session id' in error_msg or 'session deleted' in error_msg or 'no such window' in error_msg:
                 print(f"  [WARN] Chrome session closed during barcode clicking. Stopping.", flush=True)
-                break  # Stop trying to click more barcodes
+                raise WebDriverException("Chrome session crashed during barcode clicking") from e
             failed += 1
             if failed <= 3:
                 print(f"  [DEBUG] Barcode click {idx} failed: {e}", flush=True)
@@ -891,6 +891,9 @@ def scrape_page_with_ean_validation(driver: webdriver.Chrome, page_num: int, rep
     missing_ean_count = 0
     batch = []
     
+    # Prevent duplicates: Clear old data for this page before inserting new data
+    repo.delete_ved_products_for_page(page_num)
+    
     # STRICT: No deduplication - insert all scraped records as-is
     for data in rows:
         if _shutdown_requested:
@@ -943,8 +946,6 @@ def scrape_page(driver: webdriver.Chrome, page_num: int, repo: RussiaRepository,
             repo.record_failed_page(page_num, "ved", f"URL verification failed: {current_url}")
             return 0, 0, 0
     
-    # Get initial DB count for this page
-    initial_count = repo.get_ved_product_count_for_page(page_num)
     
     try:
         # MEMORY FIX: Pass repo for DB-backed deduplication
@@ -954,13 +955,16 @@ def scrape_page(driver: webdriver.Chrome, page_num: int, repo: RussiaRepository,
         
         # Get final DB count for this page
         final_count = repo.get_ved_product_count_for_page(page_num)
-        inserted = final_count - initial_count
         
-        # Verify data integrity - if we expected to insert rows but DB count didn't change, something went wrong
-        if scraped > 0 and inserted == 0:
-            print(f"  [WARN] Page {page_num}: Scraped {scraped} rows but DB count unchanged. Data may have been lost!")
+        # Since we deleted old data before inserting, inserted count is exactly scraped count
+        # (assuming no database errors). Verify this matches DB count.
+        inserted = scraped
+        
+        # Verify data integrity
+        if scraped > 0 and final_count != scraped:
+            print(f"  [WARN] Page {page_num}: Scraped {scraped} rows but DB has {final_count}. Data mismatch!")
             # Don't mark as completed - this page needs to be retried
-            repo.record_failed_page(page_num, "ved", f"Data loss detected: scraped={scraped}, inserted={inserted}")
+            repo.record_failed_page(page_num, "ved", f"Data mismatch: scraped={scraped}, db_count={final_count}")
             return scraped, skipped, missing_ean_count
         
         # Build metrics dictionary for structured storage
@@ -970,7 +974,7 @@ def scrape_page(driver: webdriver.Chrome, page_num: int, repo: RussiaRepository,
             'rows_scraped': scraped,
             'rows_inserted': inserted,
             'ean_missing': missing_ean_count,
-            'db_count_before': initial_count,
+            'db_count_before': 0,
             'db_count_after': final_count,
         }
         
@@ -1074,6 +1078,11 @@ def get_resume_page_and_run_id(repo: RussiaRepository, exclude_run_id: str = Non
     print(f"  [DEBUG] Found {len(run_pages)} previous runs with completed pages", flush=True)
     
     if not run_pages:
+        # Fallback: Try to find the latest run even if no pages were completed
+        latest_run_id = repo.get_latest_run_id_excluding(exclude_run_id)
+        if latest_run_id:
+            print(f"  [DEBUG] Found existing run with 0 completed pages: {latest_run_id}", flush=True)
+            return 1, latest_run_id
         return 1, None
     
     best_run_id = None
@@ -1207,6 +1216,19 @@ def worker_loop(worker_id: int, last_page: int, existing_ids: Set[str], run_id: 
                     break
 
                 except (TimeoutException, WebDriverException) as e:
+                    error_msg = str(e).lower()
+                    if "invalid session id" in error_msg or "session deleted" in error_msg:
+                        print(f"{tag} Critical driver crash for page {page_num}: {e}. Restarting driver immediately...", flush=True)
+                        try:
+                            # Force restart driver
+                            driver = _restart_driver(driver)
+                            driver = select_region_and_search(driver)
+                            time.sleep(2)
+                            continue  # Try next attempt immediately
+                        except Exception as restart_err:
+                            print(f"{tag} Failed to recover driver: {restart_err}. Exiting worker.", flush=True)
+                            break
+
                     if attempt < MAX_RETRIES_PER_PAGE:
                         print(f"{tag} Page {page_num} attempt {attempt} failed: {e}. Retrying...", flush=True)
                         time.sleep(2)
@@ -1390,9 +1412,9 @@ def main():
             # No pipeline run_id - fall back to best run from DB
             lookup_repo = RussiaRepository(db, "_lookup")
             resume_page, best_run_id = get_resume_page_and_run_id(lookup_repo, exclude_run_id=None)
-            if resume_page > 1 and best_run_id:
+            if best_run_id:
                 _run_id = best_run_id
-                print(f"[INIT] Resuming: using best run from DB {_run_id}", flush=True)
+                print(f"[INIT] Resuming: using run from DB {_run_id}", flush=True)
             else:
                 _run_id = generate_run_id()
                 print(f"[INIT] Fresh run: new run_id {_run_id}", flush=True)

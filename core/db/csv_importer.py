@@ -23,6 +23,7 @@ Usage:
 """
 
 import csv
+import copy
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -315,9 +316,36 @@ class CSVImporter:
 
         return result
 
+    @staticmethod
+    def get_import_configs(country: str) -> List[Dict[str, Any]]:
+        """Get full import config for a country (including PCID mapping with overrides)."""
+        configs = []
+        
+        # 1. Country specific tables
+        if country in INPUT_TABLE_REGISTRY:
+            country_configs = copy.deepcopy(INPUT_TABLE_REGISTRY[country])
+            configs.extend(country_configs)
+            
+        # 2. PCID Mapping (shared but customizable)
+        pcid_config = copy.deepcopy(PCID_MAPPING_CONFIG)
+        
+        # Apply country-specific overrides for PCID mapping
+        if country in ["NorthMacedonia", "North Macedonia"]:
+            pcid_config["column_map"].update({
+                "WHO ATC Code": "atc_code",
+                "ATC Code": "atc_code",
+                "Strength": "strength",
+                "Strength Size": "strength",
+                "Fill Size": "fill_size",
+                "Local Pack Code": "local_pack_code",
+            })
+            
+        configs.append(pcid_config)
+        return configs
+
     def get_schema_info(self, country: str) -> List[Dict[str, Any]]:
         """Get schema info for all input tables of a country."""
-        configs = INPUT_TABLE_REGISTRY.get(country, [])
+        configs = self.get_import_configs(country)
         info = []
         for cfg in configs:
             info.append({
@@ -327,14 +355,6 @@ class CSVImporter:
                 "db_columns": list(set(cfg["column_map"].values())),
                 "required": cfg.get("required", []),
             })
-        # Add PCID mapping
-        info.append({
-            "table": PCID_MAPPING_CONFIG["table"],
-            "display": PCID_MAPPING_CONFIG["display"],
-            "expected_csv_columns": list(PCID_MAPPING_CONFIG["column_map"].keys()),
-            "db_columns": list(set(PCID_MAPPING_CONFIG["column_map"].values())),
-            "required": PCID_MAPPING_CONFIG.get("required", []),
-        })
         return info
 
     def export_table_csv(self, table: str, output_path: Path, country: str = "") -> str:

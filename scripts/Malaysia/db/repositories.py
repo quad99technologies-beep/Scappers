@@ -389,13 +389,24 @@ class MalaysiaRepository(BaseRepository):
 
     
     def _build_lookup_key_expr(self, table_alias: str, columns: Optional[List[str]]) -> str:
-        """Build normalized lookup key SQL expression for a table alias."""
+        """Build normalized lookup key SQL expression for a table alias.
+
+        Each column is normalized individually (strip non-alphanumeric, uppercase)
+        then joined with CHR(0) separator to prevent boundary collisions
+        (e.g. 'AB'||'CD' vs 'A'||'BCD' both becoming 'ABCD').
+        """
         cols = columns or []
         if not cols:
             cols = ["registration_no"]
-        parts = [f"COALESCE({table_alias}.{col}, '')" for col in cols]
-        concat_expr = " || ".join(parts) if len(parts) > 1 else parts[0]
-        return f"UPPER(REGEXP_REPLACE({concat_expr}, '[^A-Za-z0-9]', '', 'g'))"
+        normalized_parts = [
+            f"UPPER(REGEXP_REPLACE(COALESCE({table_alias}.{col}, ''), '[^A-Za-z0-9]', '', 'g'))"
+            for col in cols
+        ]
+        if len(normalized_parts) > 1:
+            # Join with NUL separator between normalized parts
+            joined = (" || CHR(0) || ").join(normalized_parts)
+            return f"({joined})"
+        return normalized_parts[0]
 
     def generate_pcid_mappings(
         self,
@@ -504,12 +515,13 @@ class MalaysiaRepository(BaseRepository):
         return count
 
     def get_mapped_count(self) -> int:
-        """Count rows that have a PCID mapping."""
+        """Count rows that have a valid PCID mapping (excludes OOS)."""
         table = self._table("pcid_mappings")
         with self.db.cursor() as cur:
             cur.execute(f"""
                 SELECT COUNT(*) FROM {table}
                 WHERE run_id = %s AND pcid IS NOT NULL AND pcid != ''
+                  AND UPPER(pcid) != 'OOS'
             """, (self.run_id,))
             row = cur.fetchone()
             return row[0] if isinstance(row, tuple) else row["count"]
@@ -525,13 +537,25 @@ class MalaysiaRepository(BaseRepository):
             row = cur.fetchone()
             return row[0] if isinstance(row, tuple) else row["count"]
 
+    def get_oos_count(self) -> int:
+        """Count rows with OOS PCID."""
+        table = self._table("pcid_mappings")
+        with self.db.cursor() as cur:
+            cur.execute(f"""
+                SELECT COUNT(*) FROM {table}
+                WHERE run_id = %s AND UPPER(pcid) = 'OOS'
+            """, (self.run_id,))
+            row = cur.fetchone()
+            return row[0] if isinstance(row, tuple) else row["count"]
+
     def get_pcid_mapped_rows(self) -> List[Dict]:
-        """Get all rows with PCID mapping as list of dicts."""
+        """Get all rows with valid PCID mapping (excludes OOS)."""
         table = self._table("pcid_mappings")
         with self.db.cursor(dict_cursor=True) as cur:
             cur.execute(f"""
                 SELECT * FROM {table}
                 WHERE run_id = %s AND pcid IS NOT NULL AND pcid != ''
+                  AND UPPER(pcid) != 'OOS'
                 ORDER BY local_pack_code
             """, (self.run_id,))
             return [dict(row) for row in cur.fetchall()]
@@ -543,6 +567,17 @@ class MalaysiaRepository(BaseRepository):
             cur.execute(f"""
                 SELECT * FROM {table}
                 WHERE run_id = %s AND (pcid IS NULL OR pcid = '')
+                ORDER BY local_pack_code
+            """, (self.run_id,))
+            return [dict(row) for row in cur.fetchall()]
+
+    def get_pcid_oos_rows(self) -> List[Dict]:
+        """Get all rows with OOS PCID mapping."""
+        table = self._table("pcid_mappings")
+        with self.db.cursor(dict_cursor=True) as cur:
+            cur.execute(f"""
+                SELECT * FROM {table}
+                WHERE run_id = %s AND UPPER(pcid) = 'OOS'
                 ORDER BY local_pack_code
             """, (self.run_id,))
             return [dict(row) for row in cur.fetchall()]
@@ -618,14 +653,23 @@ class MalaysiaRepository(BaseRepository):
     def log_request(self, url: str, method: str = "GET",
                     status_code: int = None, response_bytes: int = None,
                     elapsed_ms: float = None, error: str = None) -> None:
-        """Log an HTTP request."""
-        with self.db.cursor() as cur:
-            cur.execute("""
-                INSERT INTO http_requests
-                (run_id, url, method, status_code, response_bytes, elapsed_ms, error)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-            """, (self.run_id, url, method, status_code, response_bytes,
-                  elapsed_ms, error))
+        """Log an HTTP request (best-effort)."""
+        try:
+            from core.db.tracking import log_http_request
+
+            log_http_request(
+                self.db,
+                self.run_id,
+                self.SCRAPER_NAME,
+                url,
+                method=method,
+                status_code=status_code,
+                response_bytes=response_bytes,
+                elapsed_ms=elapsed_ms,
+                error=error,
+            )
+        except Exception:
+            pass
 
     # ------------------------------------------------------------------
     # Stats / reporting helpers

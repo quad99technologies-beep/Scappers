@@ -5,11 +5,15 @@ Netherlands-specific database schema (PostgreSQL).
 Tables:
 - nl_collected_urls: URLs collected from medicijnkosten.nl (Step 1a)
 - nl_packs: Pack/pricing data from medicijnkosten.nl (Step 1b)
-- nl_chrome_instances: Chrome/browser instance tracking (Infrastructure)
 - nl_search_combinations: Search combinations tracking (Step 1a helper)
 - nl_step_progress: Sub-step resume tracking (all steps)
 - nl_export_reports: Generated export/report tracking
 - nl_errors: Error tracking with extended fields
+- nl_fk_urls: URL list from farmacotherapeutischkompas.nl (Step 2)
+- nl_fk_reimbursement: Reimbursement rows from FK pages (Step 3)
+- nl_fk_dictionary: Dutch→English translation dictionary (Step 4)
+
+Note: Chrome instance tracking uses the SHARED chrome_instances table (no nl_ prefix).
 """
 
 # PostgreSQL uses SERIAL instead of AUTOINCREMENT
@@ -83,25 +87,9 @@ CREATE INDEX IF NOT EXISTS idx_nl_packs_code ON nl_packs(local_pack_code);
 CREATE INDEX IF NOT EXISTS idx_nl_packs_url ON nl_packs(source_url);
 """
 
-CHROME_INSTANCES_DDL = """
--- nl_chrome_instances: Track Chrome/browser instances for cleanup
-CREATE TABLE IF NOT EXISTS nl_chrome_instances (
-    id SERIAL PRIMARY KEY,
-    run_id TEXT NOT NULL REFERENCES run_ledger(run_id),
-    step_number INTEGER NOT NULL,
-    thread_id INTEGER,
-    browser_type TEXT DEFAULT 'chrome' CHECK(browser_type IN ('chrome', 'chromium', 'firefox')),
-    pid INTEGER NOT NULL,
-    parent_pid INTEGER,
-    user_data_dir TEXT,
-    started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    terminated_at TIMESTAMP,
-    termination_reason TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_nl_chrome_run ON nl_chrome_instances(run_id);
-CREATE INDEX IF NOT EXISTS idx_nl_chrome_active ON nl_chrome_instances(run_id, terminated_at) WHERE terminated_at IS NULL;
-CREATE INDEX IF NOT EXISTS idx_nl_chrome_step ON nl_chrome_instances(run_id, step_number);
-"""
+# NOTE: Chrome instance tracking uses the SHARED 'chrome_instances' table
+# (created by apply_common_schema via core/db/models.py).
+# The NetherlandsRepository.register_chrome_instance() writes to that shared table.
 
 # =============================================================================
 # TRACKING TABLES
@@ -210,9 +198,13 @@ CREATE TABLE IF NOT EXISTS nl_fk_reimbursement (
     reimbursement_date TEXT,
     source_url TEXT NOT NULL,
     translation_status TEXT DEFAULT 'pending' CHECK(translation_status IN ('pending', 'translated', 'no_dutch', 'failed')),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(run_id, source_url, COALESCE(brand_name,''), COALESCE(strength,''), COALESCE(patient_population,''))
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+-- NOTE: COALESCE in inline UNIQUE is not valid in PostgreSQL.
+-- Use a partial expression index instead:
+CREATE UNIQUE INDEX IF NOT EXISTS idx_nl_fk_reimb_unique
+    ON nl_fk_reimbursement(run_id, source_url,
+        COALESCE(brand_name,''), COALESCE(strength,''), COALESCE(patient_population,''));
 CREATE INDEX IF NOT EXISTS idx_nl_fk_reimb_run ON nl_fk_reimbursement(run_id);
 CREATE INDEX IF NOT EXISTS idx_nl_fk_reimb_url ON nl_fk_reimbursement(fk_url_id);
 CREATE INDEX IF NOT EXISTS idx_nl_fk_reimb_translation ON nl_fk_reimbursement(run_id, translation_status);
@@ -278,7 +270,7 @@ NETHERLANDS_SCHEMA_DDL = [
     PACKS_DDL,
 
     # Infrastructure & Helper tables
-    CHROME_INSTANCES_DDL,
+    # NOTE: Chrome instances use SHARED chrome_instances table — no nl_ DDL needed here
     SEARCH_COMBINATIONS_DDL,
     STEP_PROGRESS_DDL,
     EXPORT_REPORTS_DDL,

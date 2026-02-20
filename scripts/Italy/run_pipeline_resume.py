@@ -26,57 +26,98 @@ try:
 except ImportError:
     from scripts.Italy.db.repositories import ItalyRepository
 
-def _read_run_id() -> str:
-    run_id = os.environ.get("ITALY_RUN_ID")
+RUN_ID_FILE = Path(__file__).parent / ".last_run"
+CURRENT_RUN_ID_FILE = get_output_dir() / ".current_run_id"
 
-    if run_id:
-        return run_id
-    # Generate new one if fresh
-    return f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+def _read_run_id(fresh: bool = False) -> str:
+    # 1. Check Env
+    env_id = os.environ.get("ITALY_RUN_ID", "").strip()
+    if env_id:
+        # Update file if env provided
+        RUN_ID_FILE.write_text(env_id)
+        try:
+            CURRENT_RUN_ID_FILE.parent.mkdir(parents=True, exist_ok=True)
+            CURRENT_RUN_ID_FILE.write_text(env_id, encoding="utf-8")
+        except Exception:
+            pass
+        return env_id
 
-def run_step(step_num: int, script_name: str, step_name: str):
+    # 2. Fresh requested?
+    if fresh:
+        new_id = f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        RUN_ID_FILE.write_text(new_id)
+        try:
+            CURRENT_RUN_ID_FILE.parent.mkdir(parents=True, exist_ok=True)
+            CURRENT_RUN_ID_FILE.write_text(new_id, encoding="utf-8")
+        except Exception:
+            pass
+        return new_id
+
+    # 3. Check File
+    if RUN_ID_FILE.exists():
+        last_id = RUN_ID_FILE.read_text().strip()
+        if last_id:
+            try:
+                CURRENT_RUN_ID_FILE.parent.mkdir(parents=True, exist_ok=True)
+                CURRENT_RUN_ID_FILE.write_text(last_id, encoding="utf-8")
+            except Exception:
+                pass
+            return last_id
+
+    # 4. Fallback new
+    new_id = f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+    RUN_ID_FILE.write_text(new_id)
+    try:
+        CURRENT_RUN_ID_FILE.parent.mkdir(parents=True, exist_ok=True)
+        CURRENT_RUN_ID_FILE.write_text(new_id, encoding="utf-8")
+    except Exception:
+        pass
+    return new_id
+
+
+def run_step(step_num: int, script_name: str, step_name: str, run_id: str):
     print(f"\n{'='*80}")
     print(f"Step {step_num}: {step_name}")
     print(f"{'='*80}")
-    
+
     script_path = Path(__file__).parent / script_name
-    
+
     env = os.environ.copy()
-    if "ITALY_RUN_ID" not in env:
-        env["ITALY_RUN_ID"] = _read_run_id()
-        
+    env["ITALY_RUN_ID"] = run_id
+
+    # Use check=False so we can handle return code manually
     process = subprocess.run(
         [sys.executable, "-u", str(script_path)],
         env=env,
         check=False
     )
-    
+
     if process.returncode != 0:
         print(f"Step {step_num} failed with code {process.returncode}")
         return False
     return True
 
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--fresh", action="store_true", help="Start fresh run")
+    parser.add_argument("--fresh", action="store_true", help="Start fresh run (generates new ID)")
     parser.add_argument("--step", type=int, default=0, help="Start from step N")
     args = parser.parse_args()
-    
 
-    if args.fresh:
-        os.environ["ITALY_RUN_ID"] = f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-    
-    # Register Run
-    run_id = _read_run_id()
+    # Get or create Run ID
+    run_id = _read_run_id(fresh=args.fresh)
+    print(f"Target Run ID: {run_id}")
+
     try:
         with CountryDB("Italy") as db:
             repo = ItalyRepository(db, run_id)
             if args.fresh:
-                repo.start_run()
+                # Cleanup old data for this run_id if it existed (rare collision)
+                repo.ensure_run_in_ledger(mode="fresh")
             else:
-                repo.ensure_run_in_ledger()
+                repo.ensure_run_in_ledger(mode="resume")
     except Exception as e:
-        print(f"Warning: Could not register run: {e}")
+        print(f"Warning: Could not register run in ledger: {e}")
 
     start_step = args.step
 
@@ -92,7 +133,7 @@ def main():
     for num, script, name in steps:
         if num < start_step:
             continue
-        if not run_step(num, script, name):
+        if not run_step(num, script, name, run_id):
             break
 
 if __name__ == "__main__":

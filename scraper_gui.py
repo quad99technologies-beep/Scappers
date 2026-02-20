@@ -3042,23 +3042,29 @@ To view detailed healing logs, check the scraper console output or logs.
             return
 
         try:
-            from core.db.csv_importer import INPUT_TABLE_REGISTRY, PCID_MAPPING_CONFIG
+            from core.db.csv_importer import CSVImporter
         except ImportError:
             self.input_info_var.set("Error: core.db.csv_importer not found")
             return
 
-        # Build table list: country-specific + PCID mapping (if applicable)
-        tables = []
-        configs = INPUT_TABLE_REGISTRY.get(country, [])
-        for cfg in configs:
-            tables.append(cfg["display"])
+        # Get full configs (including PCID mapping with overrides)
+        all_configs = CSVImporter.get_import_configs(country)
         
-        # Only add PCID mapping for countries that use it
+        # Filter: Only show PCID mapping for countries that explicitly support it in GUI
         countries_with_pcid = {"Argentina", "Malaysia", "Belarus", "Netherlands", "Taiwan", "tender_chile", "NorthMacedonia"}
-        if country in countries_with_pcid:
-            tables.append(PCID_MAPPING_CONFIG["display"])
+        
+        final_configs = []
+        for cfg in all_configs:
+            if cfg["table"] == "pcid_mapping":
+                if country in countries_with_pcid:
+                    final_configs.append(cfg)
+            else:
+                final_configs.append(cfg)
 
+        # Update dropdown
+        tables = [cfg["display"] for cfg in final_configs]
         self.input_table_combo['values'] = tables
+        
         if tables:
             self.input_table_var.set(tables[0])
             self._preview_input_table()
@@ -3067,9 +3073,7 @@ To view detailed healing logs, check the scraper console output or logs.
             self.input_info_var.set(f"No input tables configured for {country}")
 
         # Store configs for lookup
-        self._input_configs = {cfg["display"]: cfg for cfg in configs}
-        if country in countries_with_pcid:
-            self._input_configs[PCID_MAPPING_CONFIG["display"]] = PCID_MAPPING_CONFIG
+        self._input_configs = {cfg["display"]: cfg for cfg in final_configs}
 
     def _get_selected_table_config(self):
         """Get the config dict for the currently selected table."""
@@ -4095,20 +4099,23 @@ To view detailed healing logs, check the scraper console output or logs.
             if scraper_name == "Netherlands":
                 # Define deletion order for Netherlands tables (child -> parent)
                 nl_deletion_order = [
-                    "nl_costs",              # References nl_details
+                    "nl_costs",              # References nl_details (legacy)
                     "nl_packs",              # References nl_collected_urls
-                    "nl_details",            # Parent of nl_costs
+                    "nl_details",            # Parent of nl_costs (legacy)
                     "nl_collected_urls",     # Parent of nl_packs
-                    "nl_consolidated",       # Standalone
-                    "nl_chrome_instances",   # Standalone
-                    "nl_input_search_terms", # Input table
-                    "nl_step_progress",      # Standalone
-                    "nl_export_reports",  # Standalone
-                    "nl_errors",          # Standalone
-                    "nl_products",        # Legacy
-                    "nl_reimbursement",   # Legacy
+                    "nl_consolidated",       # Standalone (legacy)
+                    "nl_fk_reimbursement",   # References nl_fk_urls (FK child - must come first)
+                    "nl_fk_urls",            # Parent of nl_fk_reimbursement
+                    "nl_fk_dictionary",      # Standalone FK translation table
+                    "nl_search_combinations", # Standalone search helper
+                    "nl_input_search_terms",  # Input table
+                    "nl_step_progress",       # Standalone
+                    "nl_export_reports",      # Standalone
+                    "nl_errors",              # Standalone
+                    "nl_products",            # Legacy
+                    "nl_reimbursement",       # Legacy
                 ]
-                
+                # NOTE: Chrome instances are stored in SHARED 'chrome_instances' table (no nl_chrome_instances).
                 # Delete Netherlands tables in order
                 # NOTE: db.execute() auto-commits each statement, so each
                 # TRUNCATE/DELETE runs in its own transaction. No SAVEPOINTs needed.
@@ -7510,14 +7517,31 @@ Provide a clear, concise explanation suitable for users who want to understand w
                     # Pipeline might be running - read the run_id
                     existing_run_id = run_id_file.read_text(encoding='utf-8').strip()
                     if existing_run_id:
-                        # Check if lock file exists (confirming it's running)
-                        from core.pipeline.pipeline_start_lock import get_lock_paths
-                        lock_file, _ = get_lock_paths(scraper_name, self.repo_root)
-                        if lock_file.exists():
+                        if preserve_existing_log:
+                            # Resume: prefer the last known run_id even if the pipeline isn't currently running.
                             run_id = existing_run_id
-                            print(f"[SYNC] Using existing run_id from running pipeline: {run_id}")
+                            print(f"[SYNC] Resuming with existing run_id from .current_run_id: {run_id}")
+                        else:
+                            # Fresh run: only reuse if it's actually running (lock file exists).
+                            from core.pipeline.pipeline_start_lock import get_lock_paths
+                            lock_file, _ = get_lock_paths(scraper_name, self.repo_root)
+                            if lock_file.exists():
+                                run_id = existing_run_id
+                                print(f"[SYNC] Using existing run_id from running pipeline: {run_id}")
             except Exception:
                 pass  # Fall through to generate new run_id
+
+            if not run_id and preserve_existing_log and existing_log_text:
+                # Fallback: extract the most recent run_id from the existing log buffer.
+                try:
+                    import re
+
+                    matches = re.findall(r"Target Run ID:\\s*([^\\s]+)", existing_log_text)
+                    if matches:
+                        run_id = matches[-1].strip()
+                        print(f"[SYNC] Resuming with run_id parsed from logs: {run_id}")
+                except Exception:
+                    pass
             
             if not run_id:
                 # Generate new run_id

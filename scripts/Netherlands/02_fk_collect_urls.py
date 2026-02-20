@@ -54,8 +54,7 @@ for _m in list(sys.modules.keys()):
         del sys.modules[_m]
 
 from config_loader import getenv, getenv_int, getenv_bool, get_output_dir
-from db.schema import apply_netherlands_schema
-from db.repositories import NetherlandsRepository
+from scripts.Netherlands.db import apply_netherlands_schema, NetherlandsRepository
 
 log = get_logger(__name__, "Netherlands")
 

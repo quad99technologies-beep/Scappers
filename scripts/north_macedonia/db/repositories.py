@@ -31,6 +31,14 @@ class NorthMacedoniaRepository(BaseRepository):
 
     SCRAPER_NAME = "NorthMacedonia"
     TABLE_PREFIX = "nm"
+    _STEP_TABLE_MAP = {
+        0: (),
+        1: ("urls",),
+        2: ("drug_register", "errors"),
+        3: (),  # translation patches drug_register in-place
+        4: ("statistics", "validation_results"),
+        5: ("pcid_mappings", "final_output", "export_reports"),
+    }
 
     def __init__(self, db, run_id: str):
         super().__init__(db, run_id)
@@ -404,7 +412,6 @@ class NorthMacedoniaRepository(BaseRepository):
             record_id = row[0] if row else None
 
         self.db.commit()
-        self._db_log(f"OK | nm_pcid_mappings inserted | id={record_id} pcid={pcid}")
         return record_id
 
     def get_pcid_mapping_stats(self) -> Dict:
@@ -893,17 +900,19 @@ class NorthMacedoniaRepository(BaseRepository):
                     elapsed_ms: float = None, error: str = None) -> None:
         """Log an HTTP request to the shared http_requests table."""
         try:
-            sql = """
-                INSERT INTO http_requests
-                (run_id, url, method, status_code, response_bytes, elapsed_ms, error)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-            """
-            with self.db.cursor() as cur:
-                cur.execute(sql, (
-                    self.run_id, url, method, status_code, response_bytes,
-                    elapsed_ms, error
-                ))
-            self.db.commit()
+            from core.db.tracking import log_http_request
+
+            log_http_request(
+                self.db,
+                self.run_id,
+                self.SCRAPER_NAME,
+                url,
+                method=method,
+                status_code=status_code,
+                response_bytes=response_bytes,
+                elapsed_ms=elapsed_ms,
+                error=error,
+            )
         except Exception:
             pass
 
@@ -932,4 +941,54 @@ class NorthMacedoniaRepository(BaseRepository):
 
         self.db.commit()
         self._db_log(f"CLEAR | Deleted data for run_id={self.run_id}")
+        return deleted
+
+    def clear_step_data(self, step_number: int, include_downstream: bool = True) -> Dict[str, int]:
+        """
+        Clear data for a specific step and optionally all downstream steps.
+
+        Step → tables mapping:
+          0 = (backup/init — nothing to clear)
+          1 = nm_urls
+          2 = nm_drug_register, nm_errors
+          3 = (translation updates in-place on nm_drug_register, nm_translation_cache)
+          4 = nm_statistics, nm_validation_results, nm_step_progress (for step 4)
+          5 = nm_pcid_mappings, nm_final_output, nm_export_reports
+
+        Args:
+            step_number: The step whose data to clear (0-5)
+            include_downstream: If True, also clear all steps > step_number
+        """
+        # Map each step to the table short-names it owns
+        STEP_TABLES: Dict[int, List[str]] = {
+            0: [],
+            1: ["urls"],
+            2: ["drug_register", "errors"],
+            3: [],  # translation modifies drug_register in-place; nothing to wipe separately
+            4: ["statistics", "validation_results"],
+            5: ["pcid_mappings", "final_output", "export_reports"],
+        }
+
+        steps_to_clear = [step_number]
+        if include_downstream:
+            steps_to_clear = [s for s in STEP_TABLES if s >= step_number]
+
+        deleted: Dict[str, int] = {}
+        with self.db.cursor() as cur:
+            for step in steps_to_clear:
+                for short_name in STEP_TABLES.get(step, []):
+                    table = self._table(short_name)
+                    try:
+                        cur.execute(f"DELETE FROM {table} WHERE run_id = %s", (self.run_id,))
+                        deleted[table] = cur.rowcount
+                    except Exception as e:
+                        self._db_log(f"WARN | Could not clear {table} for step {step}: {e}")
+                        deleted[table] = 0
+
+        self.db.commit()
+        self._db_log(
+            f"CLEAR | Cleared step {step_number} "
+            f"({'+ downstream' if include_downstream else 'only'}) "
+            f"for run_id={self.run_id}"
+        )
         return deleted

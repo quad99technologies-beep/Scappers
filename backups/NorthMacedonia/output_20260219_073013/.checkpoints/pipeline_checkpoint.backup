@@ -1,0 +1,66 @@
+{
+  "scraper": "NorthMacedonia",
+  "last_run": "2026-02-19T07:19:47.454693",
+  "completed_steps": [
+    0
+  ],
+  "step_outputs": {
+    "step_0": {
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "completed_at": "2026-02-19T07:19:47.319456",
+      "output_files": [],
+      "duration_seconds": 2.0200283527374268
+    }
+  },
+  "metadata": {
+    "run_id": "20260219_014946_bc5a71ee"
+  },
+  "events": [
+    {
+      "timestamp": "2026-02-19T07:19:47.319473",
+      "event_type": "step_completed",
+      "status": "completed",
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "source": "checkpoint",
+      "details": {
+        "duration_seconds": 2.0200283527374268,
+        "output_count": 0
+      },
+      "sequence": 1
+    },
+    {
+      "timestamp": "2026-02-19T07:19:47.320779",
+      "event_type": "run_id_set",
+      "run_id": "20260219_014946_bc5a71ee",
+      "source": "metadata",
+      "details": {
+        "previous_run_id": null
+      },
+      "sequence": 2
+    },
+    {
+      "timestamp": "2026-02-19T07:19:47.454671",
+      "event_type": "step_status",
+      "run_id": "20260219_014946_bc5a71ee",
+      "status": "completed",
+      "step_number": 0,
+      "step_name": "Backup and Clean",
+      "source": "step_progress",
+      "details": {
+        "progress_key": "pipeline",
+        "duration_seconds": null,
+        "rows_read": 0,
+        "rows_processed": 0,
+        "rows_inserted": 0,
+        "rows_updated": 0,
+        "rows_rejected": 0,
+        "browser_instances_spawned": 0,
+        "log_file_path": null
+      },
+      "sequence": 3
+    }
+  ],
+  "event_seq": 3
+}

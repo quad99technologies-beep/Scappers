@@ -574,7 +574,7 @@ def main():
     import shutil
     try:
         from core.config.config_manager import ConfigManager
-        # Migrated: get_path_manager() -> ConfigManager.get_exports_dir("India")
+        exports_dir = ConfigManager.get_exports_dir("India")
     except Exception:
         exports_dir = _repo_root / "exports" / "India"
     exports_dir.mkdir(parents=True, exist_ok=True)

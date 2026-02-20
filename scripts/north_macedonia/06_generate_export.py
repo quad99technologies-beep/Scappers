@@ -8,25 +8,23 @@ Reads:
   - pcid_mapping (PCID reference, imported via GUI)
 
 Produces (in exports/NorthMacedonia/):
-  - north_macedonia_pcid_mapped_{date}.csv    (products WITH PCID)
-  - north_macedonia_pcid_not_mapped_{date}.csv (products WITHOUT PCID)
+  - north_macedonia_pcid_mapped_{date}.csv    (products WITH valid PCID)
+  - north_macedonia_pcid_missing_{date}.csv   (products WITHOUT PCID match)
+  - north_macedonia_pcid_oos_{date}.csv       (products matched to OOS)
   - north_macedonia_pcid_no_data_{date}.csv   (reference PCIDs with no scraped match)
 
 Matching logic:
-  - Normalize: uppercase, strip non-alphanumeric
-  - Composite key: company + product_name + generic_name + description
-  - LEFT JOIN on composite key
+  - Uses PcidMapper (core.utils.pcid_mapper)
+  - Fallback strategies (configurable via PCID_MAPPING_NORTH_MACEDONIA env var):
+    1. Local Pack Code
+    2. Composite (Product + Generic + ATC + Strength + Fill)
 """
 
-import csv
 import os
-import re
 import sys
-import tempfile
-import unicodedata
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 _repo_root = Path(__file__).resolve().parents[2]
@@ -37,12 +35,18 @@ if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
 # Fix for module shadowing: Remove any conflicting 'db' module from sys.modules
-# to ensure 'from db ...' resolves to the local db directory.
 if "db" in sys.modules:
     del sys.modules["db"]
 
 from config_loader import load_env_file, get_output_dir
 from core.db.connection import CountryDB
+from core.utils.pcid_mapper import PcidMapper
+from core.utils.pcid_export import categorize_products, write_standard_exports
+
+try:
+    from db.repositories import NorthMacedoniaRepository
+except (ImportError, ModuleNotFoundError):
+    from scripts.north_macedonia.db.repositories import NorthMacedoniaRepository
 
 load_env_file()
 OUTPUT_DIR = get_output_dir()
@@ -94,75 +98,55 @@ def _get_run_id() -> str:
     return ""
 
 
-def _normalize_key(text: str) -> str:
-    """Normalize text for composite key matching."""
-    if not text:
-        return ""
-    text = unicodedata.normalize("NFC", text)
-    text = re.sub(r"[^A-Za-z0-9]", "", text)
-    return text.upper()
+NO_DATA_COLUMNS = [
+    "PCID", "Country", "Company", "Local Product Name", "Generic Name",
+    "Local Pack Description", "Local Pack Code", "WHO ATC Code",
+    "Strength Size", "Fill Size",
+]
+
+NO_DATA_FIELD_MAP = {
+    "PCID": "pcid",
+    "Country": "_country",
+    "Company": "company",
+    "Local Product Name": "product_name",
+    "Generic Name": "generic_name",
+    "Local Pack Description": "description",
+    "Local Pack Code": "pack_code",
+    "WHO ATC Code": "atc_code",
+    "Strength Size": "strength",
+    "Fill Size": "fill_size",
+}
 
 
-def _build_composite_key(company: str, product: str, generic: str, description: str) -> str:
-    """Build composite key from product fields."""
-    return _normalize_key(f"{company}{product}{generic}{description}")
-
-
-def _safe_write_csv(path: Path, rows: List[Dict], columns: List[str]) -> int:
-    """Atomic CSV write using tempfile + rename."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    tmp_fd, tmp_path = tempfile.mkstemp(suffix=".csv", dir=str(path.parent))
-    try:
-        with os.fdopen(tmp_fd, "w", newline="", encoding="utf-8-sig") as f:
-            writer = csv.DictWriter(f, fieldnames=columns, extrasaction="ignore")
-            writer.writeheader()
-            for row in rows:
-                writer.writerow(row)
-        os.replace(tmp_path, str(path))
-        return len(rows)
-    except Exception:
-        try:
-            os.unlink(tmp_path)
-        except OSError:
-            pass
-        raise
-
-
-def load_pcid_reference(db: CountryDB) -> Dict[str, Dict]:
-    """Load PCID reference mapping from pcid_mapping table (filtered by source_country).
-
-    Returns dict: composite_key -> {pcid, company, product_name, ...}
-    """
-    reference = {}
+def load_pcid_reference(db: CountryDB) -> List[Dict]:
+    """Load PCID reference mapping rows."""
+    reference_list = []
     try:
         with db.cursor() as cur:
             cur.execute("""
                 SELECT pcid, company, local_product_name, generic_name,
-                       local_pack_description, local_pack_code
+                       local_pack_description, local_pack_code, atc_code, strength, fill_size
                 FROM pcid_mapping
                 WHERE source_country = %s
             """, ("NorthMacedonia",))
             for row in cur.fetchall():
-                pcid = row[0] or ""
-                company = row[1] or ""
-                product = row[2] or ""
-                generic = row[3] or ""
-                desc = row[4] or ""
-
-                key = _build_composite_key(company, product, generic, desc)
-                if key:
-                    reference[key] = {
-                        "pcid": pcid,
-                        "company": company,
-                        "product_name": product,
-                        "generic_name": generic,
-                        "description": desc,
-                        "pack_code": row[5] or "",
-                    }
+                # Clean None -> ""
+                data = {
+                    "pcid": row[0] or "",
+                    "company": row[1] or "",
+                    "product_name": row[2] or "",
+                    "generic_name": row[3] or "",
+                    "description": row[4] or "",
+                    "pack_code": row[5] or "",
+                    "atc_code": row[6] or "",
+                    "strength": row[7] or "",
+                    "fill_size": row[8] or "",
+                }
+                reference_list.append(data)
     except Exception as e:
         print(f"[WARN] Could not load PCID reference: {e}")
 
-    return reference
+    return reference_list
 
 
 def load_drug_register(db: CountryDB, run_id: str) -> List[Dict]:
@@ -178,7 +162,8 @@ def load_drug_register(db: CountryDB, run_id: str) -> List[Dict]:
                 public_with_vat_price, pharmacy_purchase_price,
                 local_pack_description,
                 reimbursable_status, reimbursable_rate, reimbursable_notes,
-                copayment_value, copayment_percent, margin_rule, vat_percent
+                copayment_value, copayment_percent, margin_rule, vat_percent,
+                detail_url
             FROM nm_drug_register
             WHERE run_id = %s
             ORDER BY id
@@ -208,54 +193,49 @@ def load_drug_register(db: CountryDB, run_id: str) -> List[Dict]:
                 "Margin Rule": row[19] or "",
                 "VAT Percent": row[20] or "",
                 "Country": "NORTH MACEDONIA",
+                "detail_url": row[21] or "",  # keep for DB FK linkage
             })
 
     return products
 
 
-def match_pcids(products: List[Dict], reference: Dict[str, Dict]) -> Tuple[List[Dict], List[Dict], List[Dict]]:
-    """Match products against PCID reference.
+def match_pcids(products: List[Dict], reference_list: List[Dict]):
+    """Match products against PCID reference using PcidMapper.
 
-    Returns: (mapped, not_mapped, no_data)
+    Returns:
+        PcidExportResult with mapped, missing, oos, no_data lists.
     """
-    mapped = []
-    not_mapped = []
-    used_keys = set()
+    env_mapping = os.environ.get("PCID_MAPPING_NORTH_MACEDONIA", "")
 
-    for product in products:
-        key = _build_composite_key(
-            product["Company"],
-            product["Local Product Name"],
-            product["Generic Name"],
-            product["Local Pack Description"],
-        )
+    if env_mapping:
+        mapper = PcidMapper.from_env_string(env_mapping)
+        print(f"[INFO] Using PCID mapping from env: {env_mapping}")
+    else:
+        print("[INFO] Using default PCID mapping strategies (PCID_MAPPING_NORTH_MACEDONIA not set)")
+        strategies = [
+            {"Local Pack Code": "pack_code"},
+            {
+                "Local Product Name": "product_name",
+                "Generic Name": "generic_name",
+                "WHO ATC Code": "atc_code",
+                "Strength Size": "strength",
+                "Fill Size": "fill_size",
+            },
+        ]
+        mapper = PcidMapper(strategies)
 
-        ref = reference.get(key)
-        if ref and ref["pcid"] and ref["pcid"].upper() != "OOS":
-            product["PCID"] = ref["pcid"]
-            mapped.append(product)
-            used_keys.add(key)
-        else:
-            product["PCID"] = ""
-            not_mapped.append(product)
-            if ref:
-                used_keys.add(key)
+    mapper.build_reference_store(reference_list)
 
-    # no_data = PCID reference rows that were never matched
-    no_data = []
-    for key, ref in reference.items():
-        if key not in used_keys:
-            no_data.append({
-                "PCID": ref["pcid"],
-                "Country": "NORTH MACEDONIA",
-                "Company": ref["company"],
-                "Local Product Name": ref["product_name"],
-                "Generic Name": ref["generic_name"],
-                "Local Pack Description": ref["description"],
-                "Local Pack Code": ref["pack_code"],
-            })
-
-    return mapped, not_mapped, no_data
+    return categorize_products(
+        products,
+        mapper,
+        enrich_from_match={
+            "WHO ATC Code": "atc_code",
+            "Strength Size": "strength",
+            "Fill Size": "fill_size",
+            "Local Pack Code": "pack_code",
+        },
+    )
 
 
 def main():
@@ -265,6 +245,7 @@ def main():
         sys.exit(1)
 
     db = CountryDB("NorthMacedonia")
+    repo = NorthMacedoniaRepository(db, run_id)
 
     print("=" * 70)
     print("NORTH MACEDONIA - GENERATE PCID-MAPPED EXPORT")
@@ -292,57 +273,133 @@ def main():
 
     # Match
     print("[3/4] Matching products to PCIDs...")
-    mapped, not_mapped, no_data = match_pcids(products, reference)
-    print(f"       Mapped:     {len(mapped)}")
-    print(f"       Not mapped: {len(not_mapped)}")
-    print(f"       No data:    {len(no_data)} (reference PCIDs with no scraped match)")
+    result = match_pcids(products, reference)
+    print(f"       Mapped:     {len(result.mapped)}")
+    print(f"       Missing:    {len(result.missing)}")
+    print(f"       OOS:        {len(result.oos)}")
+    print(f"       No data:    {len(result.no_data)} (reference PCIDs with no scraped match)")
 
-    # Export
+    # Persist PCID & final output to DB
+    print("[3b/4] Saving to nm_pcid_mappings and nm_final_output...")
+    with db.cursor() as cur:
+        cur.execute("""
+            SELECT id, detail_url FROM nm_drug_register WHERE run_id = %s
+        """, (run_id,))
+        url_to_dr_id = {row[1]: row[0] for row in cur.fetchall()}
+
+    def _to_float(s):
+        try:
+            return float(str(s).replace(",", ".").strip()) if s else None
+        except Exception:
+            return None
+
+    saved_pcid = 0
+    saved_final = 0
+    for product in result.mapped + result.missing + result.oos:
+        detail_url = product.get("detail_url") or ""
+        dr_id = url_to_dr_id.get(detail_url)
+        pcid_val = product.get("PCID") or ""
+        match_type = "exact" if pcid_val and pcid_val != "OOS" else "not_found"
+
+        pcid_mapping_id = None
+        try:
+            pcid_mapping_id = repo.insert_pcid_mapping(
+                drug_register_id=dr_id,
+                pcid=pcid_val,
+                match_type=match_type,
+                match_score=1.0 if match_type == "exact" else 0.0,
+                product_data={
+                    "local_product_name": product.get("Local Product Name"),
+                    "generic_name": product.get("Generic Name"),
+                    "manufacturer": product.get("Company"),
+                    "local_pack_code": product.get("Local Pack Code"),
+                    "local_pack_description": product.get("Local Pack Description"),
+                },
+            )
+            saved_pcid += 1
+        except Exception as e:
+            print(f"[DB WARN] Could not insert pcid_mapping for {detail_url[:60]}: {e}")
+
+        try:
+            repo.insert_final_output(
+                drug_register_id=dr_id,
+                pcid_mapping_id=pcid_mapping_id,
+                data={
+                    "pcid": pcid_val,
+                    "country": "NORTH MACEDONIA",
+                    "company": product.get("Company"),
+                    "local_product_name": product.get("Local Product Name"),
+                    "generic_name": product.get("Generic Name"),
+                    "description": product.get("Local Pack Description"),
+                    "strength": product.get("Strength Size"),
+                    "dosage_form": product.get("Formulation"),
+                    "pack_size": product.get("Fill Size"),
+                    "public_price": _to_float(product.get("Public with VAT Price")),
+                    "pharmacy_price": _to_float(product.get("Pharmacy Purchase Price")),
+                    "currency": "MKD",
+                    "effective_start_date": product.get("Effective Start Date"),
+                    "effective_end_date": product.get("Effective End Date"),
+                    "local_pack_code": product.get("Local Pack Code"),
+                    "atc_code": product.get("WHO ATC Code"),
+                    "reimbursable_status": product.get("Reimbursable Status"),
+                    "reimbursable_rate": product.get("Reimbursable Rate"),
+                    "copayment_percent": product.get("Copayment Percent"),
+                    "margin_rule": product.get("Margin Rule"),
+                    "vat_percent": product.get("VAT Percent"),
+                    "marketing_authorisation_holder": product.get("Company"),
+                    "source_url": detail_url,
+                    "source_type": "drug_register",
+                },
+            )
+            saved_final += 1
+        except Exception as e:
+            print(f"[DB WARN] Could not insert final_output for {detail_url[:60]}: {e}")
+
+    print(f"       nm_pcid_mappings: {saved_pcid} rows saved")
+    print(f"       nm_final_output:  {saved_final} rows saved")
+
+    # Export 4 standard CSVs
     print("[4/4] Writing export CSVs...")
 
-    files_written = {}
+    # Add Country field to no_data references for display
+    for ref in result.no_data:
+        ref["_country"] = "NORTH MACEDONIA"
 
-    # Mapped
-    mapped_path = EXPORTS_DIR / f"north_macedonia_pcid_mapped_{DATE_STAMP}.csv"
-    count = _safe_write_csv(mapped_path, mapped, EXPORT_COLUMNS)
-    files_written["pcid_mapped"] = (mapped_path, count)
-    print(f"       {mapped_path.name}: {count} rows")
+    files_written = write_standard_exports(
+        result=result,
+        exports_dir=EXPORTS_DIR,
+        prefix="north_macedonia",
+        date_stamp=DATE_STAMP,
+        product_columns=EXPORT_COLUMNS,
+        no_data_columns=NO_DATA_COLUMNS,
+        no_data_field_map=NO_DATA_FIELD_MAP,
+    )
 
-    # Not mapped
-    not_mapped_path = EXPORTS_DIR / f"north_macedonia_pcid_not_mapped_{DATE_STAMP}.csv"
-    count = _safe_write_csv(not_mapped_path, not_mapped, EXPORT_COLUMNS)
-    files_written["pcid_not_mapped"] = (not_mapped_path, count)
-    print(f"       {not_mapped_path.name}: {count} rows")
-
-    # No data
-    no_data_cols = ["PCID", "Country", "Company", "Local Product Name", "Generic Name", "Local Pack Description", "Local Pack Code"]
-    no_data_path = EXPORTS_DIR / f"north_macedonia_pcid_no_data_{DATE_STAMP}.csv"
-    count = _safe_write_csv(no_data_path, no_data, no_data_cols)
-    files_written["pcid_no_data"] = (no_data_path, count)
-    print(f"       {no_data_path.name}: {count} rows")
-
-    # Log exports to DB
-    try:
-        from db.repositories import NorthMacedoniaRepository
-        repo = NorthMacedoniaRepository(db, run_id)
-        for report_type, (fpath, row_count) in files_written.items():
+    for report_type, (fpath, row_count) in files_written.items():
+        print(f"       {fpath.name}: {row_count} rows")
+        try:
             repo.log_export_report(report_type, row_count, str(fpath))
+        except Exception as e:
+            print(f"[DB WARN] Could not log export '{report_type}': {e}")
+
+    try:
         repo.finish_run("completed", items_scraped=len(products))
     except Exception as e:
-        print(f"[DB WARN] Could not log exports: {e}")
+        print(f"[DB WARN] Could not update run ledger: {e}")
 
     # Summary
     total = len(products)
-    match_pct = round(len(mapped) / total * 100, 1) if total else 0
+    match_pct = round(len(result.mapped) / total * 100, 1) if total else 0
 
     print()
     print("=" * 70)
     print("EXPORT SUMMARY")
     print("=" * 70)
     print(f"  Total products:   {total}")
-    print(f"  PCID mapped:      {len(mapped)} ({match_pct}%)")
-    print(f"  Not mapped:       {len(not_mapped)}")
-    print(f"  No data (ref):    {len(no_data)}")
+    print(f"  PCID mapped:      {len(result.mapped)} ({match_pct}%)")
+    print(f"  Missing:          {len(result.missing)}")
+    print(f"  OOS:              {len(result.oos)}")
+    print(f"  No data (ref):    {len(result.no_data)}")
     print(f"  Export directory:  {EXPORTS_DIR}")
     print("=" * 70)
     print()

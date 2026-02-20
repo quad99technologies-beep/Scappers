@@ -66,6 +66,8 @@ from core.db.connection import CountryDB
 from core.db.models import generate_run_id
 from db.schema import apply_argentina_schema
 from db.repositories import ArgentinaRepository
+from core.utils.pcid_mapper import PcidMapper
+from core.utils.pcid_export import categorize_products, PcidExportResult, safe_write_csv
 
 
 def _atomic_replace(src: Path, dest: Path) -> None:
@@ -157,13 +159,6 @@ def _norm(s: Optional[str]) -> str:
     return re.sub(r"\s+", " ", str(s).strip().lower()) if s is not None else ""
 
 
-def _norm_key(s: Optional[str]) -> str:
-    if s is None:
-        return ""
-    # Remove ALL special characters - keep only alphanumeric
-    return re.sub(r"[^a-z0-9]", "", str(s).strip().lower())
-
-
 def normalize_cell(s: Optional[object]) -> Optional[str]:
     if s is None or pd.isna(s):
         return None
@@ -226,51 +221,34 @@ def compute_ri_fields(row):
     return None, None, None, "No-scheme"
 
 
-def attach_pcid_strict(df: pd.DataFrame, mapping_df: pd.DataFrame) -> pd.DataFrame:
+def run_pcid_categorization(df: pd.DataFrame, mapping_data: List[dict]) -> PcidExportResult:
+    """
+    Categorize products into mapped/missing/oos/no_data using PcidMapper.
+    """
     df = df.copy()
     df = normalize_df_strings(df)
 
-    s_company = df.get("Company", df.get("company"))
-    s_lprod = df.get("Local Product Name", df.get("product_name"))
-    s_generic = df.get("Generic Name", df.get("active_ingredient"))
-    s_desc = df.get("Local Pack Description", df.get("description"))
+    env_mapping = os.environ.get("PCID_MAPPING_ARGENTINA", "")
 
-    df["n_company"] = s_company.map(_norm)
-    df["n_lprod"] = s_lprod.map(_norm)
-    df["n_generic"] = s_generic.map(_norm)
-    df["n_desc"] = s_desc.map(_norm)
-    df["pcid_key"] = (
-        s_company.map(_norm_key)
-        + s_lprod.map(_norm_key)
-        + s_generic.map(_norm_key)
-        + s_desc.map(_norm_key)
-    )
+    if env_mapping:
+        mapper = PcidMapper.from_env_string(env_mapping)
+        print(f"[INFO] Using PCID mapping from env: {env_mapping}")
+    else:
+        print("[INFO] Using default PCID mapping strategies (PCID_MAPPING_ARGENTINA not set)")
+        strategies = [
+            {
+                "Company": "company",
+                "Local Product Name": "local_product_name",
+                "Generic Name": "generic_name",
+                "Local Pack Description": "local_pack_description",
+            }
+        ]
+        mapper = PcidMapper(strategies)
 
-    m = normalize_df_strings(mapping_df)
-    m["n_company"] = m["company"].map(_norm)
-    m["n_lprod"] = m["local_product_name"].map(_norm)
-    m["n_generic"] = m["generic_name"].map(_norm)
-    m["n_desc"] = m["local_pack_description"].map(_norm)
-    m["pcid_key"] = (
-        m["company"].map(_norm_key)
-        + m["local_product_name"].map(_norm_key)
-        + m["generic_name"].map(_norm_key)
-        + m["local_pack_description"].map(_norm_key)
-    )
+    mapper.build_reference_store(mapping_data)
 
-    key_to_pcid = {
-        r.pcid_key: r.pcid
-        for _, r in m.iterrows()
-        if str(r.pcid or "").strip()
-    }
-
-    df["PCID"] = df.apply(
-        lambda r: key_to_pcid.get(r["pcid_key"], ""),
-        axis=1,
-    ).astype("string")
-
-    df.drop(columns=["n_company", "n_lprod", "n_generic", "n_desc", "pcid_key"], inplace=True)
-    return df
+    products = df.to_dict("records")
+    return categorize_products(products, mapper)
 
 
 def mapping_rows_to_output(mapping_df: pd.DataFrame, country_value: str, output_cols: List[str]) -> pd.DataFrame:
@@ -333,6 +311,7 @@ def main() -> None:
     pcid_mapping = PCIDMapping("Argentina", db)
     pcid_rows = pcid_mapping.get_all()
     
+    mapping_data = []
     if pcid_rows:
         mapping_data = [
             {
@@ -406,9 +385,6 @@ def main() -> None:
         df["Reimbursement Amount"] = df["Reimbursement Amount"].apply(parse_money)
         df["Co-Pay Amount"] = df["Co-Pay Amount"].apply(parse_money)
 
-        # Attach PCID (strict 4-key match)
-        df = attach_pcid_strict(df, mapping_df)
-
         for c in output_cols:
             if c not in df.columns:
                 df[c] = pd.NA
@@ -417,56 +393,57 @@ def main() -> None:
 
     print(f"[COUNT] translated_rows={len(df_final)}", flush=True)
 
-    pcid_norm = df_final["PCID"].astype("string").fillna("").str.strip()
-    
-    # Categorize into 4 groups:
-    # 1. pcid_mapping: Has valid PCID (not empty, not OOS)
-    # 2. pcid_missing: No PCID match (empty string)
-    # 3. pcid_oos: PCID is "OOS" (Out of Scope)
-    # 4. pcid_no_data: PCID in mapping file but not used in scraped data
-    
-    is_oos_mask = pcid_norm.str.upper() == "OOS"
-    is_mapped_mask = pcid_norm.ne("") & ~is_oos_mask
-    is_missing_mask = pcid_norm.eq("")
+    # Categorize using shared PcidMapper utility
+    result = run_pcid_categorization(df_final, mapping_data)
 
-    df_mapped = df_final[is_mapped_mask].copy()
-    df_missing = df_final[is_missing_mask].copy()
-    df_oos = df_final[is_oos_mask].copy()
+    print(f"[COUNT] mapped={len(result.mapped)} missing={len(result.missing)} oos={len(result.oos)}", flush=True)
 
     today_str = datetime.now().strftime(DATE_FORMAT)
     out_prefix = f"{OUTPUT_REPORT_PREFIX}{today_str}"
-    
-    # Write directly to exports/ directory (no intermediate output/ files)
+
+    # Convert result lists to DataFrames for consistent float formatting
+    def _write_result_csv(rows, path):
+        if rows:
+            _df = pd.DataFrame(rows)
+            _df = normalize_df_strings(_df.reindex(columns=output_cols))
+        else:
+            _df = pd.DataFrame(columns=output_cols)
+        _atomic_df_to_csv(_df, path, index=False, encoding="utf-8-sig", float_format="%.2f")
+        return len(_df)
+
     out_mapped = exports_dir / f"{out_prefix}_pcid_mapping.csv"
     out_missing = exports_dir / f"{out_prefix}_pcid_missing.csv"
     out_oos = exports_dir / f"{out_prefix}_pcid_oos.csv"
     out_no_data = exports_dir / f"{out_prefix}_pcid_no_data.csv"
 
-    _atomic_df_to_csv(df_mapped, out_mapped, index=False, encoding="utf-8-sig", float_format="%.2f")
-    _atomic_df_to_csv(df_missing, out_missing, index=False, encoding="utf-8-sig", float_format="%.2f")
-    _atomic_df_to_csv(df_oos, out_oos, index=False, encoding="utf-8-sig", float_format="%.2f")
-    print(f"[COUNT] mapped={len(df_mapped)} missing={len(df_missing)} oos={len(df_oos)}", flush=True)
+    _write_result_csv(result.mapped, out_mapped)
+    _write_result_csv(result.missing, out_missing)
+    _write_result_csv(result.oos, out_oos)
 
-    # No-data: reference PCIDs not used in output (strict match)
-    # Exclude OOS from no-data check since OOS is not a real PCID
-    used_pcid = set(pcid_norm[is_mapped_mask].tolist())
-    if not mapping_df.empty:
-        no_data_mask = (
-            mapping_df["pcid"].astype(str).str.strip().ne("") & 
-            ~mapping_df["pcid"].astype(str).str.strip().str.upper().eq("OOS") &
-            ~mapping_df["pcid"].isin(used_pcid)
-        )
-        no_data_df = mapping_rows_to_output(mapping_df[no_data_mask].copy(), "ARGENTINA", output_cols)
-    else:
-        empty = pd.DataFrame(columns=output_cols)
-        no_data_df = empty.copy()
-    _atomic_df_to_csv(no_data_df, out_no_data, index=False, encoding="utf-8-sig", float_format="%.2f")
+    # No-data: reference rows that were never matched (from mapper tracking)
+    no_data_rows = [
+        {
+            "PCID": ref.get("pcid", ""),
+            "Country": "ARGENTINA",
+            "Company": ref.get("company", ""),
+            "Local Product Name": ref.get("local_product_name", ""),
+            "Generic Name": ref.get("generic_name", ""),
+            "Effective Start Date": "",
+            "Public With VAT Price": "",
+            "Reimbursement Category": "",
+            "Reimbursement Amount": "",
+            "Co-Pay Amount": "",
+            "Local Pack Description": ref.get("local_pack_description", ""),
+        }
+        for ref in result.no_data
+    ]
+    _write_result_csv(no_data_rows, out_no_data)
 
-    # Export report tracking (paths now point to exports/ directory)
-    repo.log_export_report("pcid_mapping", str(out_mapped), len(df_mapped))
-    repo.log_export_report("pcid_missing", str(out_missing), len(df_missing))
-    repo.log_export_report("pcid_oos", str(out_oos), len(df_oos))
-    repo.log_export_report("pcid_no_data", str(out_no_data), len(no_data_df))
+    # Export report tracking
+    repo.log_export_report("pcid_mapping", str(out_mapped), len(result.mapped))
+    repo.log_export_report("pcid_missing", str(out_missing), len(result.missing))
+    repo.log_export_report("pcid_oos", str(out_oos), len(result.oos))
+    repo.log_export_report("pcid_no_data", str(out_no_data), len(no_data_rows))
 
     # Finish run in run_ledger
     try:

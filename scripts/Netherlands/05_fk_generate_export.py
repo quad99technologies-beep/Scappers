@@ -4,16 +4,20 @@
 Netherlands FK - Export Generation (Step 5)
 
 Reads translated reimbursement data from nl_fk_reimbursement,
-applies PCID mapping, and generates final CSV export.
+applies PCID mapping, and generates 4 standard export CSVs:
+  - netherlands_pcid_mapped_{date}.csv
+  - netherlands_pcid_missing_{date}.csv
+  - netherlands_pcid_oos_{date}.csv
+  - netherlands_pcid_no_data_{date}.csv
 """
 
 from __future__ import annotations
 
-import csv
 import os
 import sys
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 # Path wiring
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -29,20 +33,22 @@ if hasattr(sys.stdout, "reconfigure"):
 from core.utils.logger import get_logger
 from core.db.postgres_connection import get_db
 from core.pipeline.standalone_checkpoint import run_with_checkpoint
+from core.utils.pcid_mapper import PcidMapper
+from core.utils.pcid_export import categorize_products, write_standard_exports
 
 for _m in list(sys.modules.keys()):
     if _m == "db" or _m.startswith("db."):
         del sys.modules[_m]
 
 from config_loader import get_output_dir, get_central_output_dir
-from db.schema import apply_netherlands_schema
-from db.repositories import NetherlandsRepository
+from scripts.Netherlands.db import apply_netherlands_schema, NetherlandsRepository
 
 log = get_logger(__name__, "Netherlands")
 
 SCRIPT_ID = "Netherlands"
 STEP_NUMBER = 5
 STEP_NAME = "FK Export Generation"
+DATE_STAMP = datetime.now().strftime("%d%m%Y")
 
 OUTPUT_COLUMNS = [
     "PCID",
@@ -63,6 +69,20 @@ OUTPUT_COLUMNS = [
     "REIMBURSEMENT URL",
 ]
 
+NO_DATA_COLUMNS = [
+    "PCID", "COUNTRY", "COMPANY", "BRAND NAME", "GENERIC NAME",
+    "Pack details",
+]
+
+NO_DATA_FIELD_MAP = {
+    "PCID": "pcid",
+    "COUNTRY": "_country",
+    "COMPANY": "company",
+    "BRAND NAME": "local_product_name",
+    "GENERIC NAME": "generic_name",
+    "Pack details": "local_pack_description",
+}
+
 
 def _get_run_id() -> str:
     run_id = os.environ.get("NL_RUN_ID", "").strip()
@@ -77,14 +97,26 @@ def _get_run_id() -> str:
     return ""
 
 
-def _load_pcid_mapping():
-    """Load PCID mapping if available."""
+def _load_pcid_reference(db) -> List[Dict]:
+    """Load PCID reference data as list of dicts for PcidMapper."""
     try:
-        from core.data.pcid_mapping_contract import get_pcid_mapping
-        return get_pcid_mapping("Netherlands")
+        from core.data.pcid_mapping import PCIDMapping
+        pcid_mapping = PCIDMapping("Netherlands", db)
+        pcid_rows = pcid_mapping.get_all()
+        return [
+            {
+                "pcid": r.pcid,
+                "company": r.company,
+                "local_product_name": r.local_product_name,
+                "generic_name": r.generic_name,
+                "local_pack_description": r.local_pack_description,
+                "local_pack_code": r.local_pack_code or "",
+            }
+            for r in pcid_rows
+        ]
     except Exception as e:
         log.warning(f"PCID mapping not available: {e}")
-        return None
+        return []
 
 
 def main() -> None:
@@ -107,29 +139,30 @@ def main() -> None:
 
     log.info(f"Exporting {len(rows)} reimbursement rows")
 
-    # 2. Load PCID mapping
-    pcid = _load_pcid_mapping()
+    # 2. Load PCID reference and build mapper
+    reference_data = _load_pcid_reference(db)
+    log.info(f"Loaded {len(reference_data)} PCID reference entries")
 
-    # 3. Build CSV rows
-    csv_rows: List[Dict[str, str]] = []
+    env_mapping = os.environ.get("PCID_MAPPING_NETHERLANDS", "")
+    if env_mapping:
+        mapper = PcidMapper.from_env_string(env_mapping)
+        log.info(f"Using PCID mapping from env: {env_mapping}")
+    else:
+        log.info("Using default PCID mapping strategies (PCID_MAPPING_NETHERLANDS not set)")
+        mapper = PcidMapper([{
+            "COMPANY": "company",
+            "BRAND NAME": "local_product_name",
+            "GENERIC NAME": "generic_name",
+            "Pack details": "local_pack_description",
+        }])
+
+    mapper.build_reference_store(reference_data)
+
+    # 3. Build product dicts with keys matching strategy columns
+    products: List[Dict] = []
     for row in rows:
-        pcid_value = ""
-        if pcid:
-            try:
-                pcid_value = pcid.lookup(
-                    company=row.get("manufacturer") or "",
-                    product=row.get("brand_name") or "",
-                    generic=row.get("generic_name") or "",
-                    pack_desc=row.get("pack_details") or "",
-                ) or ""
-            except Exception:
-                pcid_value = ""
-
-        # Use translated indication if available, fall back to Dutch
         indication = row.get("indication_en") or row.get("indication_nl") or ""
-
-        csv_rows.append({
-            "PCID": pcid_value,
+        products.append({
             "COUNTRY": "NETHERLANDS",
             "COMPANY": (row.get("manufacturer") or "").upper(),
             "BRAND NAME": (row.get("brand_name") or "").upper(),
@@ -147,30 +180,50 @@ def main() -> None:
             "REIMBURSEMENT URL": row.get("source_url") or "",
         })
 
-    # 4. Write CSV
+    # 4. Categorize products
+    result = categorize_products(products, mapper)
+
+    log.info(
+        f"PCID results: mapped={len(result.mapped)}, missing={len(result.missing)}, "
+        f"oos={len(result.oos)}, no_data={len(result.no_data)}"
+    )
+
+    # 5. Write 4 standard CSVs
     export_dir = get_central_output_dir()
-    export_dir.mkdir(parents=True, exist_ok=True)
-    output_path = export_dir / "fk_reimbursement_export.csv"
 
-    with open(output_path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=OUTPUT_COLUMNS)
-        writer.writeheader()
-        for r in csv_rows:
-            writer.writerow({k: r.get(k, "") for k in OUTPUT_COLUMNS})
+    # Add country to no_data references
+    for ref in result.no_data:
+        ref["_country"] = "NETHERLANDS"
 
-    # 5. Log export
-    repo.log_export_report("fk_reimbursement", len(csv_rows), "csv")
-    log.info(f"Export complete: {len(csv_rows)} rows -> {output_path}")
+    files_written = write_standard_exports(
+        result=result,
+        exports_dir=export_dir,
+        prefix="netherlands",
+        date_stamp=DATE_STAMP,
+        product_columns=OUTPUT_COLUMNS,
+        no_data_columns=NO_DATA_COLUMNS,
+        no_data_field_map=NO_DATA_FIELD_MAP,
+    )
+
+    # 6. Log exports
+    for report_type, (fpath, row_count) in files_written.items():
+        log.info(f"  {fpath.name}: {row_count} rows")
+        try:
+            repo.log_export_report(report_type, row_count, str(fpath))
+        except Exception:
+            pass
+
+    log.info(f"Export complete: {len(products)} total rows")
 
     # Stats summary
-    reimb_counts = {}
-    for r in csv_rows:
+    reimb_counts: Dict[str, int] = {}
+    for r in result.mapped + result.missing + result.oos:
         status = r.get("REIMBURSEMENT STATUS", "UNKNOWN")
         reimb_counts[status] = reimb_counts.get(status, 0) + 1
     log.info(f"Reimbursement status breakdown: {reimb_counts}")
 
-    pop_counts = {}
-    for r in csv_rows:
+    pop_counts: Dict[str, int] = {}
+    for r in result.mapped + result.missing + result.oos:
         pop = r.get("PATIENT POPULATION", "NONE") or "NONE"
         pop_counts[pop] = pop_counts.get(pop, 0) + 1
     log.info(f"Population breakdown: {pop_counts}")

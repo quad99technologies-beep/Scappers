@@ -304,6 +304,13 @@ class RussiaRepository(BaseRepository):
             columns = [desc[0] for desc in cur.description]
             return [dict(zip(columns, row)) for row in cur.fetchall()]
 
+    def delete_ved_products_for_page(self, page_number: int) -> int:
+        """Delete VED products for a specific page (to prevent duplicates on retry)."""
+        sql = "DELETE FROM ru_ved_products WHERE run_id = %s AND page_number = %s"
+        with self.db.cursor() as cur:
+            cur.execute(sql, (self.run_id, page_number))
+            return cur.rowcount
+
     def get_best_ved_run_id(self) -> Optional[str]:
         """Return run_id that has the most VED products (for Process/Translate when current run has 0)."""
         sql = """
@@ -404,6 +411,13 @@ class RussiaRepository(BaseRepository):
             columns = [desc[0] for desc in cur.description]
             return [dict(zip(columns, row)) for row in cur.fetchall()]
 
+    def delete_excluded_products_for_page(self, page_number: int) -> int:
+        """Delete excluded products for a specific page (to prevent duplicates on retry)."""
+        sql = "DELETE FROM ru_excluded_products WHERE run_id = %s AND page_number = %s"
+        with self.db.cursor() as cur:
+            cur.execute(sql, (self.run_id, page_number))
+            return cur.rowcount
+
     def get_best_excluded_run_id(self) -> Optional[str]:
         """Return run_id that has the most excluded products (for Process/Translate when current run has 0)."""
         sql = """
@@ -496,10 +510,7 @@ class RussiaRepository(BaseRepository):
                 error_message = EXCLUDED.error_message,
                 retry_count = ru_failed_pages.retry_count + 1,
                 last_retry_at = CURRENT_TIMESTAMP,
-                status = CASE
-                    WHEN ru_failed_pages.retry_count >= 2 THEN 'failed_permanently'
-                    ELSE 'pending'
-                END
+                status = 'pending'
         """
         with self.db.cursor() as cur:
             cur.execute(sql, (self.run_id, page_number, source_type, error_message))

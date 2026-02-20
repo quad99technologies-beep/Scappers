@@ -43,8 +43,7 @@ for _m in list(sys.modules.keys()):
         del sys.modules[_m]
 
 from config_loader import getenv, getenv_int, getenv_float, get_output_dir
-from db.schema import apply_netherlands_schema
-from db.repositories import NetherlandsRepository
+from scripts.Netherlands.db import apply_netherlands_schema, NetherlandsRepository
 
 log = get_logger(__name__, "Netherlands")
 
@@ -389,14 +388,21 @@ async def scrape_fk_details(repo: NetherlandsRepository) -> int:
                 url = url_rec["url"]
                 url_id = url_rec["id"]
                 result_rows = None
+                t_start = time.monotonic()
+                status_code = None
+                resp_bytes = None
+                req_error = None
 
                 for attempt in range(2):
                     try:
                         resp = await client.get(url)
                         resp.raise_for_status()
+                        status_code = resp.status_code
+                        resp_bytes = len(resp.content)
                         result_rows = await asyncio.to_thread(derive_reimbursement_rows, resp.text, url)
                         break
                     except Exception as e:
+                        req_error = str(e)[:500]
                         if attempt == 0:
                             await asyncio.sleep(2 + random.uniform(0, 1))
                         else:
@@ -404,6 +410,16 @@ async def scrape_fk_details(repo: NetherlandsRepository) -> int:
                             async with stats_lock:
                                 stats["failed"] += 1
                             log.debug(f"Worker {wid}: failed {url}: {e}")
+
+                # Log HTTP request to shared table
+                elapsed_ms = (time.monotonic() - t_start) * 1000
+                try:
+                    await asyncio.to_thread(
+                        repo.log_request,
+                        url, "GET", status_code, resp_bytes, elapsed_ms, req_error
+                    )
+                except Exception:
+                    pass  # HTTP logging is best-effort
 
                 if result_rows is not None:
                     for row in result_rows:
@@ -428,11 +444,12 @@ async def scrape_fk_details(repo: NetherlandsRepository) -> int:
                     if batch:
                         await asyncio.to_thread(repo.insert_fk_reimbursement_batch, batch)
 
-                    # Progress logging
+                    # Progress logging every 10 items
                     async with stats_lock:
                         done = stats["completed"] + stats["failed"]
-                    if done % 50 == 0:
-                        log.info(f"Progress: {done}/{total} URLs, {stats['rows']} rows, {stats['failed']} failed")
+                    if done % 10 == 0 or done == total:
+                        pct = (done / total * 100) if total else 0
+                        print(f"[PROGRESS] FK Scraping: {done}/{total} ({pct:.1f}%) - {stats['rows']} rows", flush=True)
 
                 await asyncio.sleep(sleep_between + random.uniform(0, 0.1))
 

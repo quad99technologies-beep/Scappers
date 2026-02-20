@@ -213,11 +213,12 @@ class ScraperStatsCollector:
         """Persist statistics to DB. Creates table if needed."""
         import json
         try:
+            # Keep schema aligned with core.db.models (FK to run_ledger).
             db.execute("""
                 CREATE TABLE IF NOT EXISTS scraper_run_statistics (
                     id SERIAL PRIMARY KEY,
                     scraper_name TEXT NOT NULL,
-                    run_id TEXT NOT NULL,
+                    run_id TEXT NOT NULL REFERENCES run_ledger(run_id) ON DELETE CASCADE,
                     stats_json JSONB NOT NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     UNIQUE(scraper_name, run_id)

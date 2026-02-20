@@ -75,6 +75,8 @@ def main():
         "005_add_step_tracking_columns.sql",  # Enhanced step tracking
         "006_add_chrome_instances_table.sql",  # Chrome instance tracking
         "007_add_run_ledger_live_fields.sql",  # Optional live tracking fields
+        "008_add_chrome_instances_all_pids.sql",  # chrome_instances.all_pids (PID termination)
+        "009_add_scraper_statistics_tables.sql",  # Shared run/step statistics tables
     ]
     
     print("=" * 60)

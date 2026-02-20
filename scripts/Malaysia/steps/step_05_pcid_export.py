@@ -163,17 +163,19 @@ def main() -> None:
     stats = repo.get_run_stats()
     mapped = stats["pcid_mapped"]
     not_mapped = stats["pcid_not_mapped"]
+    oos = repo.get_oos_count()
     no_data = len(repo.get_pcid_reference_no_data(
         product_key_columns=product_key_columns,
         pcid_key_columns=pcid_key_columns,
     ))
-    total = mapped + not_mapped
+    total = mapped + not_mapped + oos
     pct = (mapped / total * 100) if total else 0
 
     print(f"\n[SUMMARY]", flush=True)
     print(f"   Total records: {total:,}", flush=True)
     print(f"   Mapped: {mapped:,} ({pct:.1f}%)", flush=True)
     print(f"   Not Mapped: {not_mapped:,}", flush=True)
+    print(f"   OOS: {oos:,}", flush=True)
     print(f"   PCID No Data: {no_data:,}", flush=True)
     print(f"\n[DONE] Step 5 complete", flush=True)
 

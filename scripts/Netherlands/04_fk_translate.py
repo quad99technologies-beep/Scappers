@@ -37,8 +37,7 @@ for _m in list(sys.modules.keys()):
         del sys.modules[_m]
 
 from config_loader import getenv_bool, get_output_dir
-from db.schema import apply_netherlands_schema
-from db.repositories import NetherlandsRepository
+from scripts.Netherlands.db import apply_netherlands_schema, NetherlandsRepository
 
 log = get_logger(__name__, "Netherlands")
 
@@ -313,8 +312,9 @@ def main() -> None:
             repo.update_fk_translations_batch(updates)
             updates.clear()
 
-        if (i + 1) % 500 == 0:
-            log.info(f"Progress: {i + 1}/{total} ({(i + 1) * 100 / total:.1f}%) | stats={stats}")
+        if (i + 1) % 500 == 0 or (i + 1) == total:
+            pct = (i + 1) * 100 / total if total else 0
+            print(f"[PROGRESS] FK Translation: {i + 1}/{total} ({pct:.1f}%) - dict={stats['dict_translated']} google={stats.get('google_fallback',0)}", flush=True)
 
     # Flush remaining
     if new_dict_entries:

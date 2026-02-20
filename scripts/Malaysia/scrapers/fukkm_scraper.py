@@ -52,7 +52,19 @@ class FUKKMScraper:
 
         # Fetch first page to detect total pages
         print(f"[FUKKM] Fetching first page to detect pagination...", flush=True)
-        html = self._fetch_html(session, self.base_url)
+        html = None
+        for attempt in range(3):
+            try:
+                html = self._fetch_html(session, self.base_url)
+                if html:
+                    break
+            except Exception as e:
+                print(f"[WARN] Failed to fetch first page (attempt {attempt+1}/3): {e}", flush=True)
+                if attempt < 2:
+                    time.sleep(5)
+                else:
+                    raise RuntimeError(f"Could not fetch first page after 3 attempts: {e}")
+
         max_page = self._detect_max_page(html)
         total_pages = max_page + 1
         print(f"[FUKKM] Detected {total_pages} pages (0..{max_page})", flush=True)
@@ -142,7 +154,7 @@ class FUKKMScraper:
         return s
 
     def _fetch_html(self, session: requests.Session, url: str, retries: int = 3) -> str:
-        """Fetch HTML with SSL retry + fallback to verify=False."""
+        """Fetch HTML with retry on network errors and SSL fallback."""
         last_err = None
         for attempt in range(retries):
             try:
@@ -150,6 +162,7 @@ class FUKKMScraper:
                 r.raise_for_status()
                 return r.text
             except (requests.exceptions.SSLError, ssl.SSLError) as e:
+                # Specific handling for SSL errors
                 last_err = e
                 if attempt < retries - 1:
                     wait = (attempt + 1) * 2
@@ -158,14 +171,33 @@ class FUKKMScraper:
                 else:
                     # Fallback: disable verification
                     try:
+                        print(f"  SSL Verification failed. Retrying with verify=False...", flush=True)
                         r = session.get(url, timeout=self.timeout, verify=False)
                         r.raise_for_status()
                         return r.text
                     except Exception as e2:
                         raise RuntimeError(f"SSL fallback failed: {e2}") from last_err
+            except requests.exceptions.RequestException as e:
+                # Catch connection errors, timeouts, etc.
+                last_err = e
+                if attempt < retries - 1:
+                    wait = (attempt + 1) * 2
+                    print(f"  Network error (attempt {attempt+1}): {e} - retrying in {wait}s", flush=True)
+                    time.sleep(wait)
+                    continue
+                # If we're out of retries, let it raise or handle below
+                
             except Exception as e:
+                # Catch other unforeseen errors
+                last_err = e
+                if attempt < retries - 1:
+                    wait = (attempt + 1) * 2
+                    print(f"  Error (attempt {attempt+1}): {e} - retrying in {wait}s", flush=True)
+                    time.sleep(wait)
+                    continue
                 raise
-        raise RuntimeError(f"fetch_html failed after {retries} retries") from last_err
+        
+        raise RuntimeError(f"fetch_html failed for {url} after {retries} retries: {last_err}") from last_err
 
     def _detect_max_page(self, html: str) -> int:
         """Find highest ?page=N value in the HTML."""

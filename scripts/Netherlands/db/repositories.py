@@ -68,6 +68,31 @@ class NetherlandsRepository(BaseRepository):
 
 
     # ------------------------------------------------------------------
+    # HTTP request logging (shared table)
+    # ------------------------------------------------------------------
+
+    def log_request(self, url: str, method: str = "GET",
+                    status_code: int = None, response_bytes: int = None,
+                    elapsed_ms: float = None, error: str = None) -> None:
+        """Log an HTTP request to the shared http_requests table."""
+        try:
+            from core.db.tracking import log_http_request
+
+            log_http_request(
+                self.db,
+                self.run_id,
+                self.SCRAPER_NAME,
+                url,
+                method=method,
+                status_code=status_code,
+                response_bytes=response_bytes,
+                elapsed_ms=elapsed_ms,
+                error=error,
+            )
+        except Exception:
+            pass  # Best-effort: never block scraping
+
+    # ------------------------------------------------------------------
     # Export report tracking
     # ------------------------------------------------------------------
 

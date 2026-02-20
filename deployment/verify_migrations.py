@@ -55,7 +55,11 @@ def verify_migrations():
         
         # Check tables
         print("Table Verification:")
-        tables = ['my_step_progress', 'ar_step_progress', 'nl_step_progress', 'chrome_instances', 'run_ledger', 'step_retries']
+        tables = [
+            'my_step_progress', 'ar_step_progress', 'nl_step_progress',
+            'chrome_instances', 'run_ledger', 'http_requests', 'step_retries',
+            'scraper_run_statistics', 'scraper_step_statistics',
+        ]
         for table in tables:
             cur.execute("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = %s)", (table,))
             exists = cur.fetchone()[0]
@@ -109,6 +113,9 @@ def verify_migrations():
         if cols:
             for col, dtype in cols:
                 print(f"  {col}: {dtype}")
+            # Explicit check for all_pids (migration 008)
+            has_all_pids = any(col == "all_pids" for col, _ in cols)
+            print(f"  all_pids column: {'[OK]' if has_all_pids else '[MISSING]'}")
         else:
             print("  [WARN] chrome_instances table not found")
         print()

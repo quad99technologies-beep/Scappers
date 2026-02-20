@@ -13,8 +13,11 @@ Usage:
 """
 
 import json
+import logging
 from typing import Optional, List, Dict, Any, Set
 from datetime import datetime, timedelta
+
+logger = logging.getLogger(__name__)
 
 
 class ChromeInstanceTracker:
@@ -36,6 +39,35 @@ class ChromeInstanceTracker:
         self.scraper_name = scraper_name
         self.run_id = run_id
         self.db = db
+
+    _supports_all_pids_cache: Dict[str, bool] = {}
+
+    def _supports_all_pids(self) -> bool:
+        """
+        Return True if chrome_instances has all_pids column (migration 008).
+        Cached per process to avoid repeated information_schema hits.
+        """
+        cache_key = f"{type(self.db).__name__}:{getattr(self.db, 'country', None) or self.scraper_name}"
+        cached = self._supports_all_pids_cache.get(cache_key)
+        if cached is not None:
+            return cached
+        try:
+            with self.db.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT 1
+                    FROM information_schema.columns
+                    WHERE table_name = 'chrome_instances' AND column_name = 'all_pids'
+                    LIMIT 1
+                    """
+                )
+                ok = cur.fetchone() is not None
+                self._supports_all_pids_cache[cache_key] = ok
+                return ok
+        except Exception as e:
+            logger.debug("Could not detect chrome_instances.all_pids support: %s", e)
+            self._supports_all_pids_cache[cache_key] = False
+            return False
     
     def register(
         self,
@@ -62,34 +94,75 @@ class ChromeInstanceTracker:
         Returns:
             Instance ID
         """
+        # Best-effort: make sure FK run_ledger row exists without mutating existing runs.
+        try:
+            from core.db.tracking import ensure_run_ledger_row
+
+            ensure_run_ledger_row(self.db, self.run_id, self.scraper_name, mode="resume")
+        except Exception:
+            pass
+
         all_pids_list = list(child_pids) if child_pids else [pid]
         if pid not in all_pids_list:
             all_pids_list = [pid] + [p for p in all_pids_list if p != pid]
         all_pids_json = json.dumps(all_pids_list)
         try:
             with self.db.cursor() as cur:
-                cur.execute("""
-                    INSERT INTO chrome_instances
-                    (run_id, scraper_name, step_number, thread_id, browser_type, pid, parent_pid, user_data_dir, all_pids)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s::jsonb)
-                    RETURNING id
-                """, (
-                    self.run_id,
-                    self.scraper_name,
-                    step_number,
-                    thread_id,
-                    browser_type,
-                    pid,
-                    parent_pid,
-                    user_data_dir,
-                    all_pids_json
-                ))
+                if self._supports_all_pids():
+                    cur.execute(
+                        """
+                        INSERT INTO chrome_instances
+                        (run_id, scraper_name, step_number, thread_id, browser_type, pid, parent_pid, user_data_dir, all_pids)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s::jsonb)
+                        ON CONFLICT (run_id, scraper_name, step_number, thread_id, pid)
+                        DO UPDATE SET
+                            parent_pid = COALESCE(EXCLUDED.parent_pid, chrome_instances.parent_pid),
+                            user_data_dir = COALESCE(EXCLUDED.user_data_dir, chrome_instances.user_data_dir),
+                            all_pids = EXCLUDED.all_pids
+                        RETURNING id
+                        """,
+                        (
+                            self.run_id,
+                            self.scraper_name,
+                            step_number,
+                            thread_id,
+                            browser_type,
+                            pid,
+                            parent_pid,
+                            user_data_dir,
+                            all_pids_json,
+                        ),
+                    )
+                else:
+                    # Backward compatible with migration 006 schema (no all_pids column).
+                    cur.execute(
+                        """
+                        INSERT INTO chrome_instances
+                        (run_id, scraper_name, step_number, thread_id, browser_type, pid, parent_pid, user_data_dir)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                        ON CONFLICT (run_id, scraper_name, step_number, thread_id, pid)
+                        DO UPDATE SET
+                            parent_pid = COALESCE(EXCLUDED.parent_pid, chrome_instances.parent_pid),
+                            user_data_dir = COALESCE(EXCLUDED.user_data_dir, chrome_instances.user_data_dir)
+                        RETURNING id
+                        """,
+                        (
+                            self.run_id,
+                            self.scraper_name,
+                            step_number,
+                            thread_id,
+                            browser_type,
+                            pid,
+                            parent_pid,
+                            user_data_dir,
+                        ),
+                    )
                 row = cur.fetchone()
                 instance_id = row[0] if row else 0
-                self.db.commit()
                 return instance_id
         except Exception as e:
             # Non-blocking: tracking failure shouldn't break scraping
+            logger.debug("ChromeInstanceTracker.register failed (non-fatal): %s", e)
             return 0
     
     def mark_terminated(self, instance_id: int, reason: str = "cleanup") -> bool:

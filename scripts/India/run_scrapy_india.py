@@ -792,7 +792,12 @@ def main():
             logger.info("Launching %d worker(s) (run_id=%s, mode=%s)", workers, run_id, mode)
             print(f"[STEP 1] Launching {workers} worker(s) to scrape all pending formulations...", flush=True)
             worker_failed = run_workers_once()
-            
+
+            # Post-worker cleanup: reset any in_progress items back to pending.
+            # All worker subprocesses are dead at this point, so in_progress items
+            # are guaranteed orphaned (crashed mid-processing).
+            reset_all_in_progress(db, run_id)
+
             # Show stats after Step 1
             stats = get_completion_stats(db, run_id)
             print(f"\n{'='*60}", flush=True)
@@ -949,7 +954,10 @@ def main():
                         print(f"[STEP 2] This may indicate a database issue. Workers will still be launched...", flush=True)
                     
                     worker_failed = run_workers_once()
-                    
+
+                    # Post-worker cleanup: reset orphaned in_progress items
+                    reset_all_in_progress(db, run_id)
+
                     # Show recovery stats
                     new_failed = get_failed_count(db, run_id)
                     new_zero = get_zero_records_count(db, run_id)

@@ -1,12 +1,13 @@
 # 02_belarus_pcid_mapping.py
 # Belarus PCID Mapping Script
 # Maps scraped RCETH data to PCID template format
-# Reads from by_rceth_data (database), same as step 01 output
+# Produces 4 standard CSVs: mapped, missing, oos, no_data
 # Python 3.10+
-# pip install pandas openpyxl
 
 import sys
 import os
+import re
+from datetime import datetime
 from pathlib import Path
 
 # Add repo root to path for imports
@@ -34,20 +35,20 @@ except ImportError:
         return _repo_root / "output" / "Belarus"
 
 import pandas as pd
-import re
+
+from core.utils.pcid_mapper import PcidMapper
+from core.utils.pcid_export import categorize_products, write_standard_exports
 
 # Use config paths if available
 if USE_CONFIG:
-    INPUT_DIR = get_input_dir()
     OUTPUT_DIR = get_output_dir()
-    OUT_MAPPED = OUTPUT_DIR / "BELARUS_PCID_MAPPED_OUTPUT.csv"
-    OUT_UNMATCHED = OUTPUT_DIR / "unmatched_rows.csv"
-    PCID_MAPPING_CSV = INPUT_DIR / "Belarus PCID Mapping.csv"
 else:
     OUTPUT_DIR = _repo_root / "output" / "Belarus"
-    OUT_MAPPED = OUTPUT_DIR / "BELARUS_PCID_MAPPED_OUTPUT.csv"
-    OUT_UNMATCHED = OUTPUT_DIR / "unmatched_rows.csv"
-    PCID_MAPPING_CSV = _script_dir / "Belarus PCID Mapping.csv"
+
+EXPORTS_DIR = _repo_root / "exports" / "Belarus"
+EXPORTS_DIR.mkdir(parents=True, exist_ok=True)
+
+DATE_STAMP = datetime.now().strftime("%d%m%Y")
 
 # DB imports for reading from by_rceth_data
 try:
@@ -59,35 +60,31 @@ except ImportError:
     HAS_DB = False
 
 
-def norm(s):
-    if s is None:
-        return ""
-    return str(s).strip().lower()
+EXPORT_COLUMNS = [
+    "Country", "Product Group", "Local Product Name", "Generic Name", "Indication",
+    "Pack Size", "Effective Start Date", "Currency", "Ex Factory Wholesale Price",
+    "VAT Percent", "Margin Rule", "Package Notes", "Discontinued", "Region",
+    "WHO ATC Code", "PCID", "Marketing Authority", "Fill Unit", "Fill Size",
+    "Pack Unit", "Strength", "Strength Unit", "Import Type", "Import Price",
+    "Combination Molecule", "Source", "Client", "LOCAL_PACK_CODE",
+]
 
+NO_DATA_COLUMNS = [
+    "PCID", "Country", "WHO ATC Code", "Generic Name",
+]
 
-def build_match_key(row):
-    """Build match key from scraped data"""
-    return "|".join([
-        norm(row.get("Generic Name", "")),
-        norm(row.get("Local Product Name", "")),
-        norm(row.get("dosage_form", row.get("Local Pack Description", ""))),
-    ])
-
-
-def build_scrape_key(row):
-    """Build match key from raw scrape"""
-    return "|".join([
-        norm(row.get("inn", row.get("Generic Name", ""))),
-        norm(row.get("trade_name", row.get("Local Product Name", ""))),
-        norm(row.get("dosage_form", "")),
-    ])
+NO_DATA_FIELD_MAP = {
+    "PCID": "pcid",
+    "Country": "_country",
+    "WHO ATC Code": "atc_code",
+    "Generic Name": "generic_name",
+}
 
 
 def extract_atc_code(who_atc_code: str) -> str:
-    """Extract clean ATC code from WHO ATC Code field"""
+    """Extract clean ATC code from WHO ATC Code field."""
     if not who_atc_code:
         return ""
-    # Remove any extra text, keep only the code
     match = re.search(r"([A-Z]\d{2}[A-Z]{2}\d{2})", str(who_atc_code).upper())
     if match:
         return match.group(1)
@@ -95,7 +92,7 @@ def extract_atc_code(who_atc_code: str) -> str:
 
 
 def _get_run_id() -> str:
-    """Resolve run_id from env, .current_run_id files (unified with extract/format)."""
+    """Resolve run_id from env, .current_run_id files."""
     run_id = os.environ.get("BELARUS_RUN_ID", "").strip()
     if run_id:
         return run_id
@@ -116,8 +113,11 @@ def _get_run_id() -> str:
 
 
 def _rceth_row_to_template(row: dict) -> dict:
-    """Convert by_rceth_data row to template format expected by PCID mapping loop."""
+    """Convert by_rceth_data row to template format expected by PCID mapping."""
     wholesale = row.get("wholesale_price") or row.get("retail_price")
+    # Extract and clean ATC code for matching
+    raw_atc = (row.get("who_atc_code") or row.get("atc_code") or "").strip()
+    clean_atc = extract_atc_code(raw_atc)
     return {
         "Country": "BELARUS",
         "Product Group": (row.get("trade_name") or "").strip().upper(),
@@ -128,70 +128,48 @@ def _rceth_row_to_template(row: dict) -> dict:
         "Effective Start Date": (row.get("registration_date") or "").strip(),
         "Currency": (row.get("currency") or "BYN").strip(),
         "Ex Factory Wholesale Price": str(wholesale).strip() if wholesale is not None else "",
-        "max_selling_price": wholesale,
         "VAT Percent": "0.00",
         "Margin Rule": "65 Manual Entry",
         "Package Notes": "",
         "Discontinued": "NO",
         "Region": "EUROPE",
-        "WHO ATC Code": (row.get("who_atc_code") or row.get("atc_code") or "").strip(),
+        "WHO ATC Code": clean_atc,
         "Marketing Authority": (row.get("manufacturer") or "").strip(),
-        "registration_certificate_number": (row.get("registration_number") or "").strip(),
-        "import_price": row.get("import_price"),
-        "dosage_form": (row.get("dosage_form") or "").strip(),
-        "inn": (row.get("inn") or "").strip(),
-        "trade_name": (row.get("trade_name") or "").strip(),
+        "Fill Unit": "",
+        "Fill Size": "",
+        "Pack Unit": "",
+        "Strength": "",
+        "Strength Unit": "",
+        "Import Type": "NONE",
+        "Import Price": row.get("import_price") or "",
+        "Combination Molecule": "NO",
+        "Source": "PRICENTRIC",
+        "Client": "VALUE NEEDED",
+        "LOCAL_PACK_CODE": (row.get("registration_number") or "").strip(),
     }
 
 
-def load_pcid_mapping_from_db(db):
-    """Load PCID mapping from global 'pcid_mapping' table (Single Source of Truth)."""
-    mapping = {}
+def load_pcid_reference(db) -> list:
+    """Load PCID reference as list of dicts for PcidMapper."""
     try:
-        with db.cursor() as cur:
-            # Query global table for Belarus mappings
-            # We map from 'who_atc_code' (stored in generic_name or custom field if schema allows)
-            # Standard schema: pcid, local_pack_code, presentation, generic_name, local_pack_description
-            # For Belarus, we appear to map via ATC Code.
-            # Let's assume the GUI importer puts ATC Code in 'generic_name' or similar, 
-            # OR we match on multiple fields.
-            #
-            # However, the previous script used a simple CSV with "WHO ATC Code" -> "PCID".
-            # If the global table is used, we need to ensure the columns align.
-            # 
-            # Strategy:
-            # 1. Fetch all rows for 'Belarus'
-            # 2. Construct mapping dictionary based on available columns that represent the ATC code.
-            #    In the global schema, 'generic_name' is often used for the primary match key if not specific.
-            #    Let's check what the standard import does.
-            
+        with db.cursor(dict_cursor=True) as cur:
             cur.execute("""
-                SELECT generic_name, pcid 
-                FROM pcid_mapping 
+                SELECT pcid, generic_name, atc_code, company,
+                       local_product_name, local_pack_description
+                FROM pcid_mapping
                 WHERE source_country = 'Belarus'
             """)
-            
-            rows = cur.fetchall()
-            if not rows:
-                print("[WARN] No PCID mapping data found in DB for 'Belarus'")
-                return {}
-
-            count = 0
+            rows = [dict(r) for r in cur.fetchall()]
+            # For Belarus, the ATC code may be stored in generic_name or atc_code.
+            # Normalize: ensure each row has a clean atc_code field for matching.
             for row in rows:
-                atc_code = str(row[0]).strip().upper() # Assuming generic_name holds ATC for Belarus based on usage
-                pcid = str(row[1]).strip()
-                
-                if atc_code and pcid and pcid.upper() != "DUPLICATE":
-                    if atc_code not in mapping:
-                        mapping[atc_code] = pcid
-                        count += 1
-            
-            print(f"[INFO] Loaded {count} PCID mappings from database")
-            return mapping
-            
+                atc = row.get("atc_code") or row.get("generic_name") or ""
+                row["atc_code"] = extract_atc_code(atc)
+            print(f"[INFO] Loaded {len(rows)} PCID reference entries from database")
+            return rows
     except Exception as e:
-        print(f"[ERROR] Failed to load PCID mapping from DB: {e}")
-        return {}
+        print(f"[ERROR] Failed to load PCID reference from DB: {e}")
+        return []
 
 
 def main():
@@ -226,159 +204,83 @@ def main():
     if not rceth_rows:
         print(f"[WARN] No RCETH data found for run {run_id}. Nothing to map.")
         OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-        column_order = [
-            "Country", "Product Group", "Local Product Name", "Generic Name", "Indication",
-            "Pack Size", "Effective Start Date", "Currency", "Ex Factory Wholesale Price",
-            "VAT Percent", "Margin Rule", "Package Notes", "Discontinued", "Region",
-            "WHO ATC Code", "PCID", "Marketing Authority", "Fill Unit", "Fill Size",
-            "Pack Unit", "Strength", "Strength Unit", "Import Type", "Import Price",
-            "Combination Molecule", "Source", "Client", "LOCAL_PACK_CODE"
-        ]
-        pd.DataFrame(columns=column_order).to_csv(OUT_MAPPED, index=False, encoding="utf-8-sig")
-        pd.DataFrame(columns=column_order).to_csv(OUT_UNMATCHED, index=False, encoding="utf-8-sig")
+        pd.DataFrame(columns=EXPORT_COLUMNS).to_csv(
+            OUTPUT_DIR / "BELARUS_PCID_MAPPED_OUTPUT.csv", index=False, encoding="utf-8-sig"
+        )
         return
 
-    # Convert to DataFrame (same shape as old CSV-based flow)
-    raw = pd.DataFrame([_rceth_row_to_template(r) for r in rceth_rows])
-    print(f"[INFO] Loaded {len(raw)} rows from database (by_rceth_data)")
-    
-    # Load PCID mapping from DB
-    pcid_mapping = load_pcid_mapping_from_db(db)
-    
-    # Create lookup dict from scrape
-    raw["__k"] = raw.apply(build_scrape_key, axis=1)
-    # If multiple rows per key, keep the one with latest scraped time OR first
-    if "scraped_at_utc" in raw.columns:
-        raw_sorted = raw.sort_values(by=["scraped_at_utc"], ascending=False)
+    # Convert to product dicts
+    products = [_rceth_row_to_template(r) for r in rceth_rows]
+    print(f"[INFO] Loaded {len(products)} rows from database (by_rceth_data)")
+
+    # Load PCID reference and build mapper
+    reference_data = load_pcid_reference(db)
+
+    env_mapping = os.environ.get("PCID_MAPPING_BELARUS", "")
+    if env_mapping:
+        mapper = PcidMapper.from_env_string(env_mapping)
+        print(f"[INFO] Using PCID mapping from env: {env_mapping}")
     else:
-        raw_sorted = raw
-    
-    lookup = raw_sorted.drop_duplicates("__k", keep="first").set_index("__k").to_dict(orient="index")
-    
-    # Process each row and create final output
-    output_rows = []
-    unmatched = []
-    
-    for idx, row in raw.iterrows():
-        # Get PCID from WHO ATC Code
-        who_atc = str(row.get("WHO ATC Code", "")).strip()
-        atc_code = extract_atc_code(who_atc)
-        pcid = pcid_mapping.get(atc_code, "")
-        
-        # Build output row in template format
-        output_row = {
-            "Country": row.get("Country", "BELARUS"),
-            "Product Group": row.get("Product Group", ""),
-            "Local Product Name": row.get("Local Product Name", ""),
-            "Generic Name": row.get("Generic Name", ""),
-            "Indication": row.get("Indication", ""),
-            "Pack Size": row.get("Pack Size", "1"),
-            "Effective Start Date": row.get("Effective Start Date", ""),
-            "Currency": row.get("Currency", "BYN"),
-            "Ex Factory Wholesale Price": row.get("Ex Factory Wholesale Price", row.get("max_selling_price", "")),
-            "VAT Percent": row.get("VAT Percent", "0.00"),
-            "Margin Rule": row.get("Margin Rule", "65 Manual Entry"),
-            "Package Notes": row.get("Package Notes", ""),
-            "Discontinued": row.get("Discontinued", "NO"),
-            "Region": row.get("Region", "EUROPE"),
-            "WHO ATC Code": who_atc,
-            "PCID": pcid,
-            "Marketing Authority": row.get("Marketing Authority", row.get("marketing_authorization_holder", "")),
-            "Fill Unit": row.get("Fill Unit", ""),
-            "Fill Size": row.get("Fill Size", ""),
-            "Pack Unit": row.get("Pack Unit", ""),
-            "Strength": row.get("Strength", ""),
-            "Strength Unit": row.get("Strength Unit", ""),
-            "Import Type": row.get("Import Type", "NONE"),
-            "Import Price": row.get("Import Price", row.get("import_price", "")),
-            "Combination Molecule": row.get("Combination Molecule", "NO"),
-            "Source": row.get("Source", "PRICENTRIC"),
-            "Client": row.get("Client", "VALUE NEEDED"),
-            "LOCAL_PACK_CODE": row.get("LOCAL_PACK_CODE", row.get("registration_certificate_number", "")),
-        }
-        
-        output_rows.append(output_row)
-        
-        # Track unmatched rows (no PCID found)
-        if not pcid:
-            unmatched.append(idx)
-    
-    # Create output DataFrame
-    output_df = pd.DataFrame(output_rows)
-    
-    # Reorder columns to match template
-    column_order = [
-        "Country", "Product Group", "Local Product Name", "Generic Name", "Indication",
-        "Pack Size", "Effective Start Date", "Currency", "Ex Factory Wholesale Price",
-        "VAT Percent", "Margin Rule", "Package Notes", "Discontinued", "Region",
-        "WHO ATC Code", "PCID", "Marketing Authority", "Fill Unit", "Fill Size",
-        "Pack Unit", "Strength", "Strength Unit", "Import Type", "Import Price",
-        "Combination Molecule", "Source", "Client", "LOCAL_PACK_CODE"
-    ]
-    
-    # Ensure all columns exist
-    for col in column_order:
-        if col not in output_df.columns:
-            output_df[col] = ""
-    
-    output_df = output_df[column_order]
-    
-    # Save mapped output
-    output_path = Path(OUT_MAPPED)
-    output_df.to_csv(output_path, index=False, encoding="utf-8-sig")
-    print(f"[SUCCESS] Saved mapped output: {output_path} ({len(output_df)} rows)")
-    
-    # Save unmatched rows
-    if unmatched:
-        unmatched_df = output_df.loc[unmatched]
-        unmatched_path = Path(OUT_UNMATCHED)
-        unmatched_df.to_csv(unmatched_path, index=False, encoding="utf-8-sig")
-        print(f"[INFO] Saved unmatched rows: {unmatched_path} ({len(unmatched_df)} rows)")
-    else:
-        # Create empty unmatched file
-        pd.DataFrame(columns=column_order).to_csv(OUT_UNMATCHED, index=False, encoding="utf-8-sig")
-        print(f"[INFO] All rows matched successfully")
-    
-    # -- Data verification: field completeness --
-    _fields_to_check = ["Generic Name", "Local Product Name", "WHO ATC Code", "Ex Factory Wholesale Price", "LOCAL_PACK_CODE"]
-    for field in _fields_to_check:
-        empty_count = output_df[field].isna().sum() + (output_df[field] == "").sum() if field in output_df.columns else len(output_df)
-        if empty_count > 0:
-            print(f"[VERIFY] Field '{field}': {empty_count}/{len(output_df)} rows EMPTY ({empty_count/len(output_df)*100:.1f}%)")
+        print("[INFO] Using default PCID mapping strategy (WHO ATC Code)")
+        mapper = PcidMapper([{"WHO ATC Code": "atc_code"}])
 
-    # -- Data verification: unique ATC codes coverage --
-    unique_atc_in_data = set(output_df["WHO ATC Code"].dropna().unique()) - {""}
-    unique_atc_in_mapping = set(pcid_mapping.keys())
-    atc_not_in_mapping = unique_atc_in_data - unique_atc_in_mapping
-    if atc_not_in_mapping:
-        print(f"[VERIFY] ATC codes in data but NOT in PCID mapping ({len(atc_not_in_mapping)}): {', '.join(sorted(atc_not_in_mapping)[:15])}")
-    atc_in_mapping_not_data = unique_atc_in_mapping - unique_atc_in_data
-    if atc_in_mapping_not_data:
-        print(f"[VERIFY] ATC codes in PCID mapping but NOT in scraped data ({len(atc_in_mapping_not_data)}): {', '.join(sorted(atc_in_mapping_not_data)[:15])}")
+    mapper.build_reference_store(reference_data)
 
-    # -- Data verification: price sanity --
-    price_col = "Ex Factory Wholesale Price"
-    if price_col in output_df.columns:
-        prices = pd.to_numeric(output_df[price_col], errors="coerce")
-        valid_prices = prices.dropna()
-        if not valid_prices.empty:
-            print(f"[VERIFY] Prices: min={valid_prices.min():.2f}, max={valid_prices.max():.2f}, "
-                  f"median={valid_prices.median():.2f}, zero_count={int((valid_prices == 0).sum())}")
-        no_price = prices.isna().sum()
-        if no_price > 0:
-            print(f"[VERIFY] Rows with NO price: {no_price}/{len(output_df)}")
+    # Categorize using shared utility
+    result = categorize_products(products, mapper)
 
-    # Print summary
-    print("\n" + "="*60)
+    # Add country to no_data references
+    for ref in result.no_data:
+        ref["_country"] = "BELARUS"
+
+    # Write 4 standard CSVs
+    files_written = write_standard_exports(
+        result=result,
+        exports_dir=EXPORTS_DIR,
+        prefix="belarus",
+        date_stamp=DATE_STAMP,
+        product_columns=EXPORT_COLUMNS,
+        no_data_columns=NO_DATA_COLUMNS,
+        no_data_field_map=NO_DATA_FIELD_MAP,
+    )
+
+    for report_type, (fpath, row_count) in files_written.items():
+        print(f"  {fpath.name}: {row_count} rows")
+
+    # Data verification
+    all_products = result.mapped + result.missing + result.oos
+    if all_products:
+        output_df = pd.DataFrame(all_products)
+        _fields_to_check = ["Generic Name", "Local Product Name", "WHO ATC Code", "Ex Factory Wholesale Price", "LOCAL_PACK_CODE"]
+        for field in _fields_to_check:
+            if field in output_df.columns:
+                empty_count = output_df[field].isna().sum() + (output_df[field] == "").sum()
+                if empty_count > 0:
+                    print(f"[VERIFY] Field '{field}': {empty_count}/{len(output_df)} rows EMPTY ({empty_count/len(output_df)*100:.1f}%)")
+
+        price_col = "Ex Factory Wholesale Price"
+        if price_col in output_df.columns:
+            prices = pd.to_numeric(output_df[price_col], errors="coerce")
+            valid_prices = prices.dropna()
+            if not valid_prices.empty:
+                print(f"[VERIFY] Prices: min={valid_prices.min():.2f}, max={valid_prices.max():.2f}, "
+                      f"median={valid_prices.median():.2f}, zero_count={int((valid_prices == 0).sum())}")
+
+    # Summary
+    total = len(products)
+    match_pct = round(len(result.mapped) / total * 100, 1) if total else 0
+
+    print()
+    print("=" * 60)
     print("MAPPING SUMMARY")
-    print("="*60)
-    print(f"Total rows processed: {len(output_df)}")
-    print(f"Rows with PCID: {len(output_df) - len(unmatched)}")
-    print(f"Rows without PCID: {len(unmatched)}")
-    print(f"Unique ATC codes in data: {len(unique_atc_in_data)}")
-    print(f"PCID mapping entries: {len(pcid_mapping)}")
-    print(f"Success rate: {((len(output_df) - len(unmatched)) / len(output_df) * 100):.1f}%" if not output_df.empty else "N/A")
-    print("="*60)
+    print("=" * 60)
+    print(f"  Total rows:    {total}")
+    print(f"  Mapped:        {len(result.mapped)} ({match_pct}%)")
+    print(f"  Missing:       {len(result.missing)}")
+    print(f"  OOS:           {len(result.oos)}")
+    print(f"  No data (ref): {len(result.no_data)}")
+    print(f"  Export dir:    {EXPORTS_DIR}")
+    print("=" * 60)
 
 
 if __name__ == "__main__":

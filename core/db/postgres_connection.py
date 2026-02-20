@@ -45,6 +45,7 @@ COUNTRY_PREFIX_MAP: Dict[str, str] = {
     "NorthMacedonia": "nm_",      # Fixed: schema uses nm_ prefix
     "North_Macedonia": "nm_",
     "North Macedonia": "nm_",
+    "Italy": "it_",
 }
 
 # Tables that are shared across all countries (no prefix)
@@ -57,6 +58,8 @@ SHARED_TABLES = frozenset({
     "pcid_mapping",
     "chrome_instances",  # Standardized browser instance tracking
     "step_retries",      # Step retry history tracking
+    "scraper_run_statistics",
+    "scraper_step_statistics",
 })
 
 

@@ -694,8 +694,12 @@ def get_last_page(driver: webdriver.Chrome) -> int:
     return 1
 
 
-def get_resume_page(repo: RussiaRepository, current_run_id: str = None) -> int:
-    """Get page to resume from - finds run with most completed pages"""
+def get_resume_page(repo: RussiaRepository, current_run_id: str = None) -> tuple[int, Optional[str]]:
+    """
+    Get page to resume from and the run_id to use.
+    Finds run with most completed pages.
+    Returns (resume_page, best_run_id).
+    """
     
     # 1. Check current run first (if provided)
     if current_run_id:
@@ -708,14 +712,17 @@ def get_resume_page(repo: RussiaRepository, current_run_id: str = None) -> int:
                 except ValueError:
                     pass
         if pages:
-            return max(pages) + 1
+            return max(pages) + 1, current_run_id
 
     # 2. If current run has no progress, check other runs (find best previous run)
-    # Get all run_ids with their completed page counts for step 2 (excluded)
     run_pages = repo.get_all_run_completed_pages(2, current_run_id)
     
     if not run_pages:
-        return 1
+        # Fallback: Try to find latest run even if 0 pages done
+        latest = repo.get_latest_run_id_excluding(current_run_id)
+        if latest:
+            return 1, latest
+        return 1, current_run_id
     
     # Find run with maximum completed pages
     best_run_id = None
@@ -726,7 +733,7 @@ def get_resume_page(repo: RussiaRepository, current_run_id: str = None) -> int:
             best_run_id = run_id
     
     if not best_run_id or max_pages == 0:
-        return 1
+        return 1, current_run_id
     
     # Get the actual page numbers from the best run
     completed = repo.get_completed_keys_for_run(2, best_run_id)
@@ -738,7 +745,7 @@ def get_resume_page(repo: RussiaRepository, current_run_id: str = None) -> int:
             except ValueError:
                 pass
     
-    return max(pages) + 1 if pages else 1
+    return (max(pages) + 1 if pages else 1), best_run_id
 
 
 # =============================================================================
@@ -773,6 +780,7 @@ def main():
     # Resolve run_id - prefer pipeline/env/.current_run_id so step 2 uses same run as step 1
     run_id_file = get_output_dir() / ".current_run_id"
     _existing = (os.getenv("RUSSIA_RUN_ID") or "").strip() or (run_id_file.read_text(encoding="utf-8").strip() if run_id_file.exists() else None)
+    
     if fresh_run:
         _run_id = _existing or generate_run_id()
         print(f"[INIT] --fresh flag: run_id={_run_id}", flush=True)
@@ -781,8 +789,8 @@ def main():
         _run_id = run_id_arg
         print(f"[INIT] Using specified run_id: {_run_id}", flush=True)
     else:
-        # Default behavior: Use env or generate new
-        _run_id = os.getenv("RUSSIA_RUN_ID") or generate_run_id()
+        # Default behavior: Use env/file or generate new
+        _run_id = _existing or generate_run_id()
         print(f"[INIT] Run ID: {_run_id}", flush=True)
     
     os.environ["RUSSIA_RUN_ID"] = _run_id
@@ -800,7 +808,17 @@ def main():
     # Use ensure_run_exists (INSERT ... ON CONFLICT DO UPDATE) instead of start_run
     # to avoid UniqueViolation when step 2 runs after step 1 (run already in run_ledger)
     _repo.ensure_run_exists(mode="resume" if not fresh_run else "fresh")
-    resume_page = get_resume_page(_repo, _run_id)
+    resume_page, _run_id_resumed = get_resume_page(_repo, _run_id)
+    
+    # If get_resume_page found a better run_id, use it
+    if _run_id_resumed and _run_id_resumed != _run_id:
+        _run_id = _run_id_resumed
+        _repo = RussiaRepository(db, _run_id)
+        os.environ["RUSSIA_RUN_ID"] = _run_id
+        try:
+             run_id_file.write_text(_run_id, encoding="utf-8")
+        except Exception: pass
+        print(f"[INIT] Switched to best run from DB: {_run_id}", flush=True)
     if resume_page > 1:
         print(f"[INIT] Resuming from page {resume_page}", flush=True)
     else:
